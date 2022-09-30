@@ -1,0 +1,142 @@
+{% extends layoutApp %}
+{% block content %}
+
+	{% import '/form_builder.twig' as forms %}
+
+	<form method="POST" action="{{ root }}/plantillas/guardar" id="form-edit" class="form-horizontal" autocomplete="off">
+		{{ hidden_field_tag('id', model.id) }}
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>{{ cmd }} Plantilla</h5>
+
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Nombre</label>
+
+								<div class="col-sm-6">
+									{{ text_field_tag('model.nombre', model.nombre, {class:'required form-control input-sm'}) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label">Tipo</label>
+
+								<div class="col-sm-6">
+									{{ select_tag('model.tipo', tipos, model.tipo, {class:'required form-control input-sm'}) }}
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<br>
+							<p class="text-center">
+								<i class="fa fa-file-code-o big-icon" aria-hidden="true"></i>
+							</p>
+							<div class="form-group text-center">
+								{% if model.id %}
+									<a href="{{ root }}/plantillas/crear" class="btn btn-xs btn-primary"><i class="fa fa-user"></i> Crear nuevo</a>
+								{% endif %}
+								<a href="{{ root }}/plantillas" class="btn btn-xs btn-info"><i class="fa fa-arrow-left"></i> Regresar </a>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<textarea id="contenido" name="contenido">{{ html }}</textarea>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4>Opciones wkhtmltopdf</h4>
+							</div>
+							<div class="panel-body">
+								<div class="col-sm-3">
+									{{ forms.camposBoot(opciones1) }}
+								</div>
+								<div class="col-sm-4">
+									{{ forms.camposBoot(opciones2) }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<button class="btn btn-primary" type="submit">Guardar</button>
+						{% if model.id and model.id != user.id %}
+							<a href="javascript:eliminar();" class="btn btn-danger">
+								<i class="icon-remove-circle"></i>
+								Eliminar</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	{{ bundle('validate') }}
+	{{ script('https://cloud.tinymce.com/stable/tinymce.min.js') }}
+	<script>
+		tinymce.init({
+			selector: '#contenido',
+			height: 500,
+			theme: 'modern',
+			plugins: [
+				'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+				'searchreplace wordcount visualblocks visualchars code fullscreen',
+				'insertdatetime media nonbreaking save table contextmenu directionality',
+				'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
+			],
+			toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+			toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+			image_advtab: true,
+			//forced_root_block: '',
+
+			force_br_newlines: false,
+			force_p_newlines: false,
+			convert_urls: false,
+			protect: [
+				/{\%(.*)%}/g, // Allow TWIG control codes
+				/{\{(.*)}}/g, // Allow TWIG output codes
+				/{\#(.*)#}/g, // Allow TWIG comment codes
+
+
+				/\<\/?(if|endif)\>/g, // Protect <if> & </endif>
+				/\<xsl\:[^>]+\>/g, // Protect <xsl:...>
+				/<\?php.*?\?>/g // Protect php code
+			]
+		});
+
+		$('.integer').numeric("integer");
+		$('.numeric').numeric();
+		$('#form-edit').validate({
+			onfocusout: false,
+			onkeyup: false,
+			onclick: false,
+			submitHandler: function () {
+				return true;
+			}
+		});
+
+		function eliminar() {
+			if (!confirm('Eliminar esta plantilla?')) return;
+			window.location.href = '{{ root }}/plantillas/eliminar?id={{ model.id }}';
+		}
+
+
+	</script>
+
+{% endblock %}

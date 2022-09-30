@@ -1,0 +1,36 @@
+{% macro menuTop(menu) %}
+	{% import _self as menus %}
+
+	{% for item in menu.children %}
+		{% if item.children %}
+			<li class="slide">
+				<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)">
+					<i class="{{ item.icon }}"></i>
+					<span class="side-menu__label">{{ item.text }}</span>
+					<i class="angle fe fe-chevron-right"></i>
+				</a>
+				<ul class="slide-menu">
+					{{ menus.menuCode(item) }}
+				</ul>
+			</li>
+		{% else %}
+			<li class="slide">
+				<a class="side-menu__item has-link" data-bs-toggle="slide" href="{{ item.link }}">
+					{% if item.icon is not empty %}<i class="{{ item.icon }}"></i>{% endif %}
+					<span class="side-menu__label">{{ item.text }}</span>
+				</a>
+			</li>
+		{% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% macro menuCode(menu) %}
+	{% import _self as menus %}
+
+	{% for item in menu.children %}
+		<li><a href="{{ item.link }}" class="slide-item"> {{ item.text }}</a></li>
+	{% endfor %}
+
+{% endmacro %}
+
+

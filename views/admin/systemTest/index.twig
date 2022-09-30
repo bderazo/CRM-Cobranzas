@@ -1,0 +1,79 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<div id="app">
+
+		<div class="panel panel-banco">
+			<div class="panel-heading">
+				Datos del sistema
+			</div>
+			<div class="panel-body">
+				<table class="table table-condensed table-striped small">
+					{% for k,v in datos %}
+						<tr>
+							<th>{{ k }}</th>
+							<td>{{ v }}</td>
+						</tr>
+					{% endfor %}
+				</table>
+				<a href="{{ root }}/admin/systemTest/emailSender">Email sender</a>
+			</div>
+		</div>
+
+		<div class="panel panel-banco">
+			<div class="panel-heading">
+				Pruebas de sistema
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-4">
+						Email: <input type="text" v-model="email" class="form-control input-sm"/>
+						<br>
+						<button type="button" class="btn btn-primary btn-sm" v-on:click="enviarCorreo()">Probar Email</button>
+					</div>
+
+					<div class="col-sm-6">
+						<table class="table table-condensed small">
+							{% for k,v in emailConfig %}
+								<tr>
+									<td>{{ k|raw }}</td>
+									<td>{{ v|raw }}</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<hr>
+						<pre id="raw">Awaiting command...</pre>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				email: ''
+			},
+			methods: {
+				enviarCorreo: function () {
+					$('#raw').text('Enviando correo de pruebas...');
+					$.post('{{ root }}/admin/systemTest/testEmail', {email: this.email}, function (res) {
+						$('#raw').text(res);
+					})
+				}
+			},
+			mounted: function () {
+			}
+		});
+
+	</script>
+{% endblock %}

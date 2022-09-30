@@ -1,0 +1,52 @@
+<div class="ibox float-e-margins">
+	<div class="ibox-title">
+		<h5 class="center-block">{{ titulo }}</h5>
+	</div>
+	<div class="ibox-content">
+		<form id="filtros">
+			<div class="row ">
+				<div class="col-sm-2">
+					<b>Tipo Material</b> <br/>
+					<div class="input-group">
+						<select class="form-control" name="tipo_material" id="tipo_material">
+							<option value=""></option>
+							{% for key, val in tipo_material_materia_prima_arr %}
+								<option value="{{ key }}">{{ val }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+
+				<div class="col-sm-2">
+					<b>Material</b> <br>
+					<div class="input-group">
+						<input type="text" class="form-control" name="material" id="material" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="ibox-footer">
+		<button id="btnFiltro" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+		<button id="btnTodos" class="btn btn-success"><i class="far fa-eye"></i> Ver todos</button>
+		{% include "reportes/loader.twig" %}
+		<script>
+			var appFiltros = new Vue({
+				el: '#filtros',
+				data: {
+                    tipo_material_materia_prima: {{ tipo_material_materia_prima|raw }}
+				},
+				methods: {
+				},
+				updated: function () {
+				}
+			});
+			$(function () {
+				$('.fecha').datepicker({
+					dateFormat: 'yy-mm-dd',
+					showButtonPanel: true
+				});
+			});
+		</script>
+	</div>
+</div>

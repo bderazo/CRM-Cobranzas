@@ -1,0 +1,181 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosBodegaMezclas.twig" %}
+	<div class="ibox float-e-margins" id="app">
+		<div class="ibox-title">
+			<h5>
+				<strong>Datos</strong>
+			</h5>
+
+			<div class="ibox-tools">
+				<a class="btn" id="btnExportarPdf">
+					<i class="far fa-file-pdf"></i> Exportar PDF
+				</a>
+				<a class="btn" id="btnExportar">
+					<i class="far fa-file-excel"></i> Exportar EXCEL
+				</a>
+
+			</div>
+		</div>
+		<div class="ibox-content no-padding">
+			<div class="row">
+				<div class="col-lg-12">
+					<table class="table table-condensed table-bordered table-stripped">
+						<tr>
+							<td width="16%"><strong>Total Ingresos</strong></td>
+							<td width="16%" v-html="total.total_ingresos"></td>
+							<td width="16%"><strong>Total Egresos</strong></td>
+							<td width="16%"  v-html="total.total_egresos"></td>
+							<td width="16%"><strong>Total Saldo</strong></td>
+							<td width="16%" v-html="total.total_saldo"></td>
+						</tr>
+					</table>
+					<table class="table table-condensed table-bordered table-stripped">
+						<thead>
+						<tr>
+							<th>Orden</th>
+							<th>Extrusora</th>
+							<th>Material</th>
+							<th>Ingresos</th>
+							<th>Egresos</th>
+							<th>Saldo</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td>
+								<a :href="'{{ root }}/ordenExtrusion/editar?id=' + d.orden_id" target="_blank">
+									<span v-html="d.orden"></span>
+								</a>
+							</td>
+							<td align="center" v-html="d.extrusora"></td>
+							<td>
+								<table class="table table-condensed table-bordered table-stripped">
+									<thead>
+									<tr>
+										<th>Material</th>
+										<th>Porcentaje</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="mat in d.material">
+										<td v-html="mat.material"></td>
+										<td align="right" v-html="mat.porcentaje"></td>
+									</tr>
+									</tbody>
+								</table>
+							</td>
+							<td align="right" v-html="d.ingresos"></td>
+							<td align="right" v-html="d.egresos"></td>
+							<td align="right">
+								<a v-on:click="mostrarMovimientos(d)">
+									<span v-html="d.saldo"></span>
+								</a>
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="3" align="right"><strong>TOTAL</strong></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_ingresos"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_egresos"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_saldo"></td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal inmodal fade" id="modalPopup" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:70%">
+			<div class="modal-content">
+				<div class="modal-header" style="padding:10px">
+					<div class="modal-title">Detalle</div>
+				</div>
+				<div class="modal-body">
+					<div id="popupContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportMezclas">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+	<form id="exportFormPdf" method="POST" action="{{ root }}/reportes/pdfMezclas">
+		<input type="hidden" id="jsonPdf" name="jsonPdf"/>
+	</form>
+
+	{#<script src="http://d3js.org/d3.v3.min.js"></script>#}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/highcharts/highcharts.js') }}
+	{{ script('js/highcharts/modules/exporting.js') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				datos: [],
+				total: []
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				consultar: function () {
+					var form = $('#filtros');
+					var self = this;
+					var data = form.serializeArray();
+					toggleLoader();
+					$.post('{{ root }}/reportes/bodegaMezclas', data, function (res) {
+						toggleLoader();
+						self.datos = res['data'];
+						self.total = res['total'];
+						console.log(res['data']);
+					})
+				},
+				mostrarMovimientos: function (data) {
+					var self = this;
+					$('#popupContent').load('{{ root }}/reportes/bodegaMezclasDetalle', data, function () {
+						$('#modalPopup').modal('show');
+					});
+				},
+			},
+			mounted: function () {
+				var form = $('#filtros');
+				var self = this;
+				$('#btnExportar').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#json').val(JSON.stringify(data));
+					$('#exportForm').submit();
+				});
+				$('#btnExportarPdf').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#jsonPdf').val(JSON.stringify(data));
+					$('#exportFormPdf').submit();
+				});
+
+				$(document).ready(function () {
+					$('#btnFiltro').click(function () {
+						self.consultar();
+					});
+					$('#btnTodos').click(function () {
+						form[0].reset();
+						self.consultar();
+					});
+					self.consultar();
+				});
+			}
+		});
+	</script>
+{% endblock %}

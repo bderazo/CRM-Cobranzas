@@ -1,0 +1,128 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<form method="post" id="filtro" class="form-horizontal">
+		<div class="col-lg-12">
+
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>Envios Notificaciones</h5>
+
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Para</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("destinatario", model.destinatario, {class:'form-control input-sm'}) }}
+								</div>
+							</div>
+
+
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Status</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("estado", model.estado, {class:'form-control input-sm'}) }}
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Desde</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("desde", model.desde, {class:'form-control input-sm fecha'}) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Hasta</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("hasta", model.hasta, {class:'form-control input-sm fecha'}) }}
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Proceso id</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("caso_id", model.caso_id, {class:'form-control integer input-sm'}) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Destino</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("destino", model.destino, {class:'form-control input-sm'}) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label input-sm">Evento</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("evento", model.evento, {class:'form-control input-sm'}) }}
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="ibox-footer">
+						<button type="submit" class="btn">Filtrar</button>
+						<a class="btn" href="javascript:;" onclick="todos()">Ver todos</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-content">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var form = $('#filtro');
+
+		function todos() {
+			//resetForm('filtro');
+			form[0].reset();
+			cargar(1);
+		}
+
+		function cargar(page) {
+			var data = form.serializeArray();
+			$('#lista').load('{{ root }}/admin/notificaciones/lista?page=' + page, data);
+		}
+
+		form.submit(function () {
+			cargar(1);
+			return false;
+		});
+
+		$(function () {
+			cargar(1);
+			$('.fecha').datepicker({
+				dateFormat: 'yy-mm-dd',
+				showButtonPanel: true
+			});
+		});
+
+
+	</script>
+{% endblock %}

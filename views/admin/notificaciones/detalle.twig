@@ -1,0 +1,56 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Detalle Notificacion
+		</div>
+		<div class="panel-body">
+			<div>
+				{{ textos|raw }}
+			</div>
+			<hr>
+			<div>
+				<a class="btn btn-danger" href="javascript:eliminar()">
+					<i class="fa fa-remove"></i>
+					Eliminar
+				</a>
+				<a class="btn btn-primary" href="javascript:reenviar()">
+					<i class="fa fa-refresh"></i>
+					Reenviar
+				</a>
+			</div>
+			{% if log_error %}
+				<hr>
+				<b>Error</b>
+				<br>
+				<div class="well well-sm">
+					<pre>{{ log_error }}</pre>
+				</div>
+			{% endif %}
+
+			{% if log_data %}
+				<hr>
+				<b>Extra data</b>
+				<br>
+				<div class="well well-sm">
+					<pre>{{ log_data }}</pre>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+	<script>
+		function eliminar() {
+			if (!confirm("Eliminar esta notificacion?"))
+				return;
+			window.location.href = "{{ root }}/admin/notificaciones/eliminar?id={{ id }}";
+		}
+
+		function reenviar() {
+			if (!confirm("Reenviar esta notificacion?"))
+				return;
+			window.location.href = "{{ root }}/admin/notificaciones/reenviar?id={{ id }}";
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,211 @@
+<div class="ibox float-e-margins">
+	<div class="ibox-title">
+		<h5 class="center-block">{{ titulo }}</h5>
+	</div>
+	<div class="ibox-content">
+		<form id="filtros">
+			<div class="row ">
+				<div class="col-sm-2">
+					<b>Fecha Desde</b> <br>
+					<input type="text" id="fecha_desde" name="fecha_desde" class="form-control fecha" v-model="fecha_desde">
+				</div>
+
+				<div class="col-sm-2">
+					<b>Fecha Hasta</b> <br>
+					<input type="text" id="fecha_hasta" name="fecha_hasta" class="form-control fecha" v-model="fecha_hasta">
+				</div>
+
+				<div class="col-sm-3">
+					<b>Tipo de Consulta</b> <br>
+					<select name="tipo_consulta" id="tipo_consulta" class="form-control" v-model="tipo_consulta">
+						<option value="materiales">Materiales e Insumos</option>
+						<option value="producto_terminado">Producto Terminado</option>
+						<option value="percha">Percha</option>
+						<option value="desperdicio">Desperdicio</option>
+						<option value="inconforme">Inconforme</option>
+						<option value="mezclas">Mezclas</option>
+						<option value="respuestos_herramientas">Repuestos y Herramientas</option>
+					</select>
+				</div>
+
+				<div class="col-sm-4" id="div_materiales">
+					<b>Materiales e Insumos</b> <br>
+					<div class="input-group">
+						<input type="text" class="form-control" name="material_nombre" id="material_nombre" readonly/>
+						<input type="hidden" class="form-control" name="material" id="material"/>
+						<div class="input-group-btn">
+							<button class="btn btn-default" type="button" v-on:click="buscarMaterial">
+								<i class="glyphicon glyphicon-search"></i></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4" id="div_mezclas">
+					<b>Mezclas</b> <br>
+					<div class="input-group">
+						<input type="text" class="form-control" name="mezcla_nombre" id="mezcla_nombre" readonly/>
+						<input type="hidden" class="form-control" name="mezcla" id="mezcla"/>
+						<div class="input-group-btn">
+							<button class="btn btn-default" type="button" v-on:click="buscarMaterial">
+								<i class="glyphicon glyphicon-search"></i></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4" id="div_repuestos">
+					<b>Repuestos y Herramientas</b> <br>
+					<div class="input-group">
+						<input type="text" class="form-control" name="repuesto_nombre" id="repuesto_nombre" readonly/>
+						<input type="hidden" class="form-control" name="repuesto" id="repuesto"/>
+						<div class="input-group-btn">
+							<button class="btn btn-default" type="button" v-on:click="buscarMaterial">
+								<i class="glyphicon glyphicon-search"></i></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4" id="div_producto">
+					<b>Producto</b> <br>
+					<div class="input-group">
+						<input type="text" class="form-control" name="producto_nombre" id="producto_nombre" readonly/>
+						<input type="hidden" class="form-control" name="producto" id="producto"/>
+						<div class="input-group-btn">
+						<button class="btn btn-default" type="button" v-on:click="buscarProducto">
+						<i class="glyphicon glyphicon-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="ibox-footer">
+		<button id="btnFiltro" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+		<button id="btnTodos" class="btn btn-success"><i class="far fa-eye"></i> Ver todos</button>
+
+		{% include "reportes/loader.twig" %}
+		<script>
+			var appFiltros = new Vue({
+				el: '#filtros',
+				data: {
+                    tipo_producto: {{ tipo_producto|raw }},
+					fecha_desde:'',
+                    fecha_hasta:'',
+                    tipo_consulta: 'materiales',
+				},
+				watch:{
+                    'tipo_consulta': function (val) {
+                        var self = this;
+                        $('#material_nombre').val('');
+                        $('#material').val('');
+                        $('#mezcla_nombre').val('');
+                        $('#mezcla').val('');
+                        $('#repuesto_nombre').val('');
+                        $('#repuesto').val('');
+                        $('#producto_nombre').val('');
+                        $('#producto').val('');
+                        if (val == 'materiales') {
+                            $('#div_materiales').show();
+                            $('#div_mezclas').hide();
+                            $('#div_repuestos').hide();
+                            $('#div_producto').hide();
+                        }
+                        if ((val == 'producto_terminado')||(val == 'percha') || (val == 'desperdicio') || (val == 'inconforme')) {
+                            $('#div_materiales').hide();
+                            $('#div_mezclas').hide();
+                            $('#div_repuestos').hide();
+                            $('#div_producto').show();
+                        }
+	                    if (val == 'mezclas') {
+                            $('#div_materiales').hide();
+                            $('#div_mezclas').show();
+                            $('#div_repuestos').hide();
+                            $('#div_producto').hide();
+                        }
+                        if (val == 'respuestos_herramientas') {
+                            $('#div_materiales').hide();
+                            $('#div_mezclas').hide();
+                            $('#div_repuestos').show();
+                            $('#div_producto').hide();
+                        }
+                    },
+				},
+				methods: {
+					buscarProducto: function () {
+						var self = this;
+						var data = {};
+						$('#productoContent').load('{{ root }}/producto/buscador', data, function () {
+							callbackProducto = function (pro) {
+								$("#producto").val(pro.id_producto);
+								$("#producto_nombre").val(pro.nombre);
+                                $("#material").val('');
+                                $("#material_nombre").val('');
+								$('#modalProducto').modal('hide');
+							};
+							$('#modalProducto').modal('show');
+						});
+					},
+                    buscarMaterial: function () {
+                        var self = this;
+                        var data = {};
+                        $('#materialContent').load('{{ root }}/material/buscador', data, function () {
+                            callbackMaterial = function (pro) {
+                                $("#material").val(pro.material_id);
+                                $("#material_nombre").val(pro.material);
+                                $("#producto").val('');
+                                $("#producto_nombre").val('');
+                                $('#modalMaterial').modal('hide');
+                            };
+                            $('#modalMaterial').modal('show');
+                        });
+                    },
+				},
+                mounted: function () {
+                    $('#div_materiales').show();
+                    $('#div_mezclas').hide();
+                    $('#div_repuestos').hide();
+                    $('#div_producto').hide();
+                },
+			});
+
+			$(function () {
+				$('.fecha').datepicker({
+					dateFormat: 'yy-mm-dd',
+					showButtonPanel: true
+				});
+
+			});
+		</script>
+	</div>
+
+	<div class="modal inmodal fade" id="modalProducto" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:90%">
+			<div class="modal-content">
+				<div class="modal-header" style="padding:10px">
+					<div class="modal-title">Buscar Producto</div>
+				</div>
+				<div class="modal-body">
+					<div id="productoContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal inmodal fade" id="modalMaterial" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:90%">
+			<div class="modal-content">
+				<div class="modal-header" style="padding:10px">
+					<div class="modal-title">Buscar Materiales e Insumos</div>
+				</div>
+				<div class="modal-body">
+					<div id="materialContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

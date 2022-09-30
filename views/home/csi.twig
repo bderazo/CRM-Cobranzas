@@ -1,0 +1,48 @@
+<br>
+<div class="row">
+	<div class="col-sm-8">
+		<div class="form-group">
+			<label for="" class="control-label col-sm-1" style="text-align: right;">Mes</label>
+			<div class="col-sm-3">
+				{{ select_tag('mes', meses, csiModel.mes, {class:'form-control input-sm'} ) }}
+			</div>
+			<label for="" class="col-sm-1" style="text-align: right;">Año</label>
+			<div class="col-sm-3">
+				{{ select_tag('anio', anios, csiModel.anio, {class:'form-control input-sm'} ) }}
+			</div>
+			<button type="button" id="btnCSI" class="btn btn-sm btn-primary" v-on:click="consultar">Consultar</button>
+		</div>
+	</div>
+</div>
+<hr>
+
+<div class="row">
+	<div class="col-md-5">
+		<div id="medidorCSI" style="width: 500px; height: 300px; margin: 0 auto"></div>
+	</div>
+	<div class="col-md-7" id="tablaCSI">
+		<table class="table table-condensed table-striped table-bordered small">
+			<thead>
+			<tr>
+				<th>Concesionario</th>
+				<th>Muestra</th>
+				<th>Gestionados</th>
+				<th>% Gestionados</th>
+			</tr>
+			</thead>
+			<tr v-if="datos.totales">
+				<th>TOTAL</th>
+				<th v-html="datos.totales.muestras"></th>
+				<th v-html="datos.totales.gestionados"></th>
+				<th v-html="comoPor(datos.totales.por)"></th>
+			</tr>
+			<tr v-for="t in datos.lista">
+				<td v-html="t.concesionario"></td>
+				<td v-html="t.muestras"></td>
+				<td v-html="t.gestionados"></td>
+				<td v-html="comoPor(t.por)"></td>
+			</tr>
+		</table>
+
+	</div>
+</div>

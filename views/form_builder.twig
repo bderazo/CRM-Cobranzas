@@ -1,0 +1,37 @@
+{% macro camposBoot(campos) %}
+	{% for c in campos %}
+		<div class="form-group">
+			<label for="" class="{{ c.labelCss }}">{{ c.label }}</label>
+
+			<div class="{{ c.inputDivCss }}">
+				{% if c.tipo =='string' %}
+					<input type="text" class="{{ c.inputCss|raw }}" {{ c.attr_input|raw }} />
+				{% endif %}
+				{% if c.tipo =='datepicker' or c.tipo =='date' %}
+					<datepicker class="{{ c.inputCss|raw }}" {{ c.attr_input|raw }} ></datepicker>
+				{% endif %}
+				{% if c.tipo =='dinero' %}
+					<input-number type="text" class="{{ c.inputCss|raw }}" {{ c.attr_input|raw }} ></input-number>
+				{% endif %}
+				{% if c.tipo =='area' %}
+					<textarea class="form-control input-sm" rows="{{ c.options.rows }}" {{ c.attr_input|raw }}></textarea>
+				{% endif %}
+
+				{% if c.tipo == 'selectVue' %}
+					<select v-model="{{ c.options.model }}" class="{{ c.inputCss|raw }}" {{ c.attr_input|raw }}>
+						<option v-for="{{ c.options.vfor }}" v-bind:value="{{ c.options.value }}" v-html="{{ c.options.text }}"></option>
+					</select>
+				{% endif %}
+
+				{% if c.tipo == 'select' %}
+					<select class="{{ c.inputCss|raw }}" {{ c.attr_input|raw }}>
+						{% for o in c.options.selectValues %}
+							<option value="{{ o.value }}" {% if o.selected %} selected {% endif %}>{{ o.text }}</option>
+						{% endfor %}
+					</select>
+				{% endif %}
+
+			</div>
+		</div>
+	{% endfor %}
+{% endmacro %}

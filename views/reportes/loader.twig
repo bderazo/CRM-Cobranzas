@@ -1,0 +1,17 @@
+<div style="float:right; display: none" id="loader">
+	<div style="display:inline-block; margin-left: 5px;">
+		<img src="{{ root }}/img/ajax-loader.gif"> &nbsp;
+		<b>Calculando...</b>
+	</div>
+</div>
+
+<script>
+	function toggleLoader() {
+		var l = $('#loader');
+		if (l.is(':visible'))
+			l.hide();
+		else
+			l.show();
+	}
+</script>
+

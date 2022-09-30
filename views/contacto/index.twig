@@ -1,0 +1,97 @@
+{% extends layoutApp %}
+
+{% block content %}
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Filtros de Búsqueda</h4>
+			</div>
+			<div class="card-body">
+				<form method="post" id="filtro" class="form-horizontal">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Apellidos</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" v-model="model.apellidos" placeholder="Apellidos"/>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" v-model="model.nombres" placeholder="Nombres"/>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Institución</label>
+						<div class="col-md-4">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Seleccione una institución" name="institucion_nombre" id="institucion_nombre" readonly>
+								<input type="hidden" class="form-control" v-model="model.institucion_id" name="institucion_id" id="institucion_id"/>
+								<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
+							<a href="{{ root }}/contacto/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
+{#							<a href="{{ root }}/contacto/crear" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Importar</a>#}
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Lista de Contactos</h4>
+			</div>
+			<div class="card-body">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var form = $('#filtro');
+		$('.integer').numeric('integer');
+
+		function todos() {
+			form[0].reset();
+			$("#estado").val('');
+			cargar(1);
+		}
+
+		function cargar(page) {
+			var data = form.serializeArray();
+			console.log(data);
+			$('#lista').load('{{ root }}/contacto/lista?page=' + page, data);
+		}
+
+		form.submit(function () {
+			cargar(1);
+			return false;
+		});
+
+		cargar(1);
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				model: [],
+			},
+			watch: {},
+			methods: {},
+			mounted: function () {
+				$('.integer').numeric("integer");
+				$('.numeric').numeric();
+			}
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<h2>User : {{ model.username }}</h2>
+
+	<table class="table table-bordered table-condensed table-striped">
+		{% for k,v in campos %}
+			<tr>
+				<th style="width:150px;">{{ v }}</th>
+				<td>{{ datos[k] }}</td>
+			</tr>
+		{% endfor %}
+
+
+		<tr>
+			<th>Profiles</th>
+			<td>
+				{% for p in perfiles %}
+					{{ p.name }} <br>
+				{% endfor %}
+			</td>
+		</tr>
+	</table>
+
+	{% if model.admin %}
+		<b>* Administrative permissions</b> <br>
+	{% endif %}
+
+	{% if auth.hasRole('admin') %}
+		<a href="{{ root }}/admin/users/edit/{{ model.id }}" class="btn">Edit</a>
+		{% if model.id != user.id %}
+			<a href="javascript:eliminar();" class="btn">
+				<i class="icon-remove-circle"></i>
+				Delete</a>
+		{% endif %}
+	{% endif %}
+	<script>
+		function eliminar() {
+			if (!confirm('Delete this user?')) return;
+			window.location.href = '{{ root }}/admin/users/delete/{{ model.id }}';
+		}
+	</script>
+
+{% endblock %}

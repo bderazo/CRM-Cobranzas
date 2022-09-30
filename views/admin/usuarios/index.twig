@@ -1,0 +1,91 @@
+{% extends layoutApp %}
+
+{% block content %}
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Filtros de Búsqueda</h4>
+			</div>
+			<div class="card-body">
+				<form method="post" id="filtro" class="form-horizontal">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Username</label>
+						<div class="col-md-4">
+							{{ text_field_tag("username", model.username, {class:'form-control', placeholder:'Username'}) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<div class="col-md-4">
+							{{ text_field_tag("nombres", model.nombres, {class:'form-control', placeholder:'Nombres'}) }}
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Email</label>
+						<div class="col-md-4">
+							{{ text_field_tag("email", model.email, {class:'form-control', placeholder:'Email'}) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Apellidos</label>
+						<div class="col-md-4">
+							{{ text_field_tag("apellidos", model.apellidos, {class:'form-control', placeholder:'Apellidos'}) }}
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Perfil</label>
+						<div class="col-md-4">
+							{{ select_tag('perfil', perfiles, model.perfil, {key:'id',value:'nombre', prompt:'Perfil', class:'form-control form-select select2'} ) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Departamento / Area</label>
+						<div class="col-md-4">
+							{{ select_tag('area', areas, model.area, {prompt:'Departamento / Area', class:'form-control form-select select2'} ) }}
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
+							<a href="{{ root }}/admin/usuarios/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear usuario</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Lista de usuarios</h4>
+			</div>
+			<div class="card-body">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var form = $('#filtro');
+
+		function todos() {
+			//resetForm('filtro');
+			form[0].reset();
+			cargar(1);
+		}
+
+		function cargar(page) {
+			var data = form.serializeArray();
+			$('#lista').load('{{ root }}/admin/usuarios/lista?page=' + page, data);
+		}
+
+		form.submit(function () {
+			cargar(1);
+			return false;
+		});
+
+		cargar(1);
+	</script>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<div id="app">
+
+		<div class="panel panel-banco">
+			<div class="panel-heading">
+				Prueba envio email
+			</div>
+			<div class="panel-body">
+
+				<form id="formEmail">
+
+					<table class="table table-condensed table-striped small">
+						<tr>
+							<th class="col-sm-1">Host</th>
+							<td><input class="form-control input-sm required" v-model="con.host" v-autoname/></td>
+						</tr>
+						<tr>
+							<th>Port</th>
+							<td><input class="form-control input-sm required" v-model="con.port" v-autoname/></td>
+						</tr>
+						<tr>
+							<th>Username</th>
+							<td><input class="form-control input-sm required" v-model="con.username" v-autoname/></td>
+						</tr>
+
+						<tr>
+							<th>Password</th>
+							<td><input type="text" class="form-control input-sm required" v-model="con.password" v-autoname/></td>
+						</tr>
+
+						<tr>
+							<th>Encryption</th>
+							<td><input class="form-control input-sm" v-model="con.encryption" v-autoname/></td>
+						</tr>
+
+						<tr>
+							<th>From Name</th>
+							<td><input class="form-control input-sm required" v-model="con.fromName" v-autoname/></td>
+						</tr>
+
+						<tr>
+							<th>From Address</th>
+							<td><input class="form-control input-sm email" v-model="con.fromAddress" v-autoname/></td>
+						</tr>
+
+						<tr>
+							<th>Options</th>
+							<td>
+								<textarea v-model="opciones" class="form-control" rows="3" style="font-size: small" id="opciones"></textarea>
+							</td>
+						</tr>
+
+					</table>
+
+					<div class="form-group">
+						<label>Email</label>
+						<input class="form-control input-sm email required" v-model="email" name="email"/>
+					</div>
+
+
+					<button class="btn btn-primary">Probar</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="panel panel-banco">
+			<div class="panel-heading">
+				Pruebas de envio
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<hr>
+						<pre id="raw">Awaiting command...</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	{{ bundle('validate') }}
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				email: '',
+				con: {{ config|raw }}
+			},
+			computed: {
+				opciones: function () {
+					if (!this.con.options) return '';
+					return JSON.stringify(this.con.options);
+				}
+			},
+			mounted: function () {
+				var self = this;
+				$('#formEmail').validate({
+					submitHandler: function () {
+						var data = {
+							config: self.con,
+							email: self.email
+						};
+						var opt = $('#opciones').val();
+						data.config.options = opt ? JSON.parse(opt) : {};
+						var post = {json: JSON.stringify(data)};
+						$('#raw').text('Enviando correo de pruebas...');
+						$.post('{{ root }}/admin/systemTest/testEmailConfig', post, function (res) {
+							$('#raw').text(res);
+						});
+						return false;
+					}
+
+				});
+			}
+		});
+
+	</script>
+{% endblock %}

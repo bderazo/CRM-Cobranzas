@@ -1,0 +1,145 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<form method="POST" action="{{ root }}/admin/perfiles/guardar" id="form-edit" class="form-horizontal" autocomplete="off">
+
+		{{ hidden_field_tag('id', model.id) }}
+		<div class="ibox">
+			<div class="ibox-title"><h5>{{ cmd }} Perfil</h5></div>
+			<div class="ibox-content">
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="form-group">
+							<label for="" class="col-sm-3 control-label">Nombre</label>
+							<div class="col-sm-9">
+								{{ text_field_tag('model.nombre', model.nombre, {'class':'required form-control'}) }}
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="" class="col-sm-3 control-label">Identificador</label>
+							<div class="col-sm-9">
+								{{ text_field_tag('model.identificador', model.identificador, {'class':'required form-control'}) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="ibox">
+			<div class="ibox-title"><h5>Permisos Asignados</h5></div>
+			<div class="ibox-content">
+
+				<ul class="nav nav-tabs" id="navTabs">
+					{% for g in grupos %}
+						<li class="">
+							<a data-toggle="tab" id="atab{{ loop.index }}" href="#tab_{{ g.key }}">{{ g.text }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+
+				<div class="tab-content">
+					{% for g in grupos %}
+						<div id="tab_{{ g.key }}" class="tab-pane">
+							<br>
+
+							<table class="table table-condensed table-bordered">
+								<thead>
+								<tr>
+									<th class="col-sm-3">
+										<div class="checkbox input-sm">
+											<label class="">
+												<input type="checkbox" class="todos" id="all_{{ g.key }}" title="Marcar/desmarcar todos">
+												Operación
+											</label>
+										</div>
+									</th>
+									<td>Nombre permiso sistema</td>
+								</tr>
+								</thead>
+								{% for k,o in g.opciones %}
+									<tr>
+										<td>
+											<div class="checkbox input-sm">
+												<label><input type="checkbox" name="permisos[]" class="opcion" value="{{ k }}" {{ o.check }}>{{ o.label }}</label>
+											</div>
+										</td>
+										<td class="small">
+											{{ k }}
+										</td>
+									</tr>
+								{% endfor %}
+							</table>
+
+							{% if g.mensaje %}
+								<div class="alert alert-info">
+									{{ g.mensaje }}
+								</div>
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
+
+				<hr>
+
+				<div class="form-actions">
+					<button class="btn btn-primary" type="submit">Guardar</button>
+					{% if model.id %}
+						<a href="javascript:eliminar();" class="btn btn-danger" id="btnEliminar">
+							<i class="icon-remove-circle"></i>
+							Eliminar</a>
+					{% endif %}
+				</div>
+
+				<hr>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Usuarios asociados
+					</div>
+					<div class="panel-body">
+						<button type="button" id="verUsuarios" class="btn btn-sm btn-primary">Ver Usuarios Asociados</button>
+						<div id="usuarios">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</form>
+
+	{{ bundle('validate') }}
+	<script>
+
+		$('.todos').click(function () {
+			var id = 'tab_' + this.id.replace('all_', '');
+			var marcar = $(this).is(':checked');
+			$('#' + id + ' :input.opcion').prop('checked', marcar);
+		});
+
+		$('#verUsuarios').click(function () {
+			$('#usuarios').load('{{ root }}/admin/perfiles/usuariosAsociados?id={{ model.id }}');
+		});
+
+		$('#form-edit').validate({
+			submitHandler: function () {
+				return true;
+			}
+		});
+
+		$('#btnEliminar').click(function () {
+			if (!confirm('Eliminar este perfil?')) return;
+			window.location.href = '{{ root }}/admin/perfiles/delete?id={{ model.id }}';
+		});
+
+		$(function () {
+			$('#atab1').tab('show');
+		});
+
+
+	</script>
+
+{% endblock %}
+

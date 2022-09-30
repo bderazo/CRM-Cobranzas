@@ -1,0 +1,186 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+		<div class="col-md-12 col-xl-12">
+			<form method="POST" action="{{ root }}/contacto/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Información General</h4>
+					</div>
+					<div class="card-body">
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Institución *</label>
+							<div class="col-md-4">
+								<div class="input-group">
+									<input type="text" class="form-control required" placeholder="Seleccione una institucion" v-model="institucion_nombre" name="institucion_nombre" id="institucion_nombre" readonly>
+									<input type="hidden" class="form-control" v-model="model.institucion_id" name="paleta_id" id="institucion_id"/>
+									<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+									<button class="btn btn-default" type="button" v-on:click="abrirInstitucion">
+										<i class="fa fa-external-link"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.apellidos" placeholder="Apellidos" required v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Nombres *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.nombres" placeholder="Nombres" required v-autoname/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Cargo</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.cargo" placeholder="Cargo" v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Email</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control email" v-model="model.correo" placeholder="Email" v-autoname/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Teléfono oficina</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.telefono_oficina" placeholder="Teléfono oficina" v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Teléfono celular</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.telefono_celular" placeholder="Teléfono celular" v-autoname/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Ciudad</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" v-model="model.ciudad" placeholder="Seleccione una opción">
+									<option></option>
+									<option v-for="(v,k) in cat.ciudades" v-html="v" :value="k"></option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Dirección</label>
+							<div class="col-md-4">
+								<textarea rows="3" v-model="model.direccion" class="form-control" placeholder="Dirección" v-autoname></textarea>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Descripción</label>
+							<div class="col-md-4">
+								<textarea rows="3" v-model="model.descripcion" class="form-control" placeholder="Descripción" v-autoname></textarea>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<input type="hidden" v-model="model.id" id="id" name="id"/>
+								<input type="hidden" name="json" id="json"/>
+
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalInstitucion" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Instituciones</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="institucionContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+		_autonameVueCount = 0;
+		Vue.directive('autoname', {
+			inserted: function (el, binding, vnode) {
+				_autonameVueCount++;
+				$(el).prop('name', '_auto' + _autonameVueCount);
+			}
+		});
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				cat: {{ catalogos|raw }},
+				model: {{ model|raw }},
+				institucion_nombre: '{{ institucion_nombre|raw }}',
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				buscarInstitucion: function () {
+					var self = this;
+					var data = {};
+					$('#institucionContent').load('{{ root }}/institucion/buscador', data, function () {
+						callbackInstitucion = function (res) {
+							self.model.institucion_id = res.id;
+							self.institucion_nombre = res.nombre;
+							$('#modalInstitucion').modal('hide');
+						};
+						$('#modalInstitucion').modal('show');
+					});
+				},
+
+				abrirInstitucion: function () {
+					var self = this;
+					if (self.model.institucion_id > 0) {
+						window.open('{{ root }}/institucion/editar?id=' + self.model.institucion_id, '_blank')
+					} else {
+						alert("Seleccione una institución");
+					}
+				},
+			},
+			mounted: function () {
+				var self = this;
+				$('#form-edit').validate({
+					onfocusout: false,
+					onkeyup: false,
+					onclick: false,
+					submitHandler: function (form) {
+						var data = {
+							model: self.model,
+						};
+						$('#json').val(JSON.stringify(data));
+						$("#btnGuardar").prop("disabled", true);
+						form.submit();
+						return false;
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+	<div class="col-lg-12" id="app">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5>Ingreso de Feriados</h5>
+			</div>
+			<div class="ibox-content">
+
+				<div class="row">
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="" class="col-sm-1" style="text-align: right;">Año</label>
+							<div class="col-sm-2">
+								<select class="form-control" v-model="anio">
+									<option v-for="a in anios" :value="a" v-html="a"></option>
+								</select>
+								{#{{ select_tag('anio', anios, '', {class:'form-control', 'v-model':'anio'} ) }}#}
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<br>
+
+				<button type="button" class="btn btn-sm btn-primary" v-on:click="consultar">Consultar</button>
+
+				<hr>
+				<form id="form-feriados" method="post">
+					<div class="row">
+						<div class="col-sm-8">
+							<table class="table table-bordered table-condensed table-striped small">
+								<tr>
+									<td colspan="5">Año: <span v-html="datos.anio"></span></td>
+								</tr>
+								<tr>
+									<th class="col-sm-1">Dia</th>
+									<th class="col-sm-3">Mes</th>
+									<th class="col-sm-3">Nombre Feriado</th>
+									<th class="col-sm-3">Fecha</th>
+									<th class="col-sm-1"></th>
+								</tr>
+								<tbody>
+
+								<tr v-for="e in datos.feriados">
+									<td>
+										<input type="text" v-autoname v-model="e.dia" class="form-control input-sm required integer" maxlength="2"/>
+									</td>
+									<td>
+										<div class="input-group input-group-sm">
+											<input type="text" v-autoname v-model="e.mes" class="form-control required integer" maxlength="2" style="width:60px"/>
+											<span class="input-group-addon">-</span>
+											<select v-model="e.mes" class="form-control">
+												<option v-for="(mes, i) in meses" :value="i" v-html="mes"></option>
+											</select>
+										</div>
+									</td>
+									<td>
+										<input type="text" v-autoname v-model="e.nombre" class="form-control required input-sm "/>
+									</td>
+									<td>
+										<span v-html="displayFecha(e)"></span>
+									</td>
+									<td>
+										<button class="btn btn-danger btn-xs" v-on:click="deleteFeriado(e)" type="button"><i class="fa fa-minus-square"></i></button>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">
+										<button type="button" class="btn btn-sm btn-primary" v-on:click="add">
+											<i class="fa fa-plus-circle"></i>
+											Añadir
+										</button>
+										{#<button type="button" class="btn btn-sm btn-primary" v-on:click="guardar">#}
+										<button type="submit" class="btn btn-sm btn-primary">
+											<i class="fa fa-save"></i>
+											Guardar
+										</button>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<input id="json" name="json" type="hidden"/>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var app = new Vue({
+			el: "#app",
+			data: {
+				datos: {
+					anio: null,
+					feriados: []
+				},
+				anio: {{ anio }},
+				meses: {{ meses|raw }},
+				anios: {{ anios|raw }},
+				dias: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
+			},
+			watch: {
+				anio: function () {
+					this.consultar();
+				}
+			},
+			methods: {
+				displayFecha: function (e) {
+					// efecto secundario
+					e.fecha = null;
+					if (!e.mes || !e.dia)
+						return '-';
+					var txt = this.anio + '-' + e.mes + '-' + e.dia;
+					try {
+						var ts = Date.parse(txt);
+						if (isNaN(ts))
+							return 'INVALIDO';
+						var f = new Date();
+						f.setTime(ts);
+						var dia = f.getDay();
+						var nombre = this.dias[dia];
+						e.fecha = txt;
+						return nombre + ', ' + e.dia + ' de ' + this.meses[e.mes] + ' de ' + this.datos.anio;
+					} catch (ex) {
+						console.log(ex);
+						return 'ERROR';
+					}
+				},
+				add: function () {
+					var feriado = {
+						dia: null,
+						mes: null,
+						anio: this.datos.anio,
+						nombre: '',
+						fecha: null
+					};
+					this.datos.feriados.push(feriado);
+					Vue.nextTick(function () {
+						$('.integer').numeric('integer');
+					})
+				},
+				deleteFeriado: function (e) {
+					var ix = this.datos.feriados.indexOf(e);
+					this.datos.feriados.splice(ix, 1);
+				},
+				consultar: function () {
+					var self = this;
+					$.post('{{ root }}/catalogos/feriados/consultar', {anio: this.anio}, function (res) {
+						self.datos = res;
+					})
+				}
+			},
+			mounted: function () {
+				jQuery.extend(jQuery.validator.messages, {
+					required: '*'
+				});
+
+				this.consultar();
+				var self = this;
+				$('.integer').numeric('integer');
+				$("#form-feriados").validate({
+//					errorPlacement: function (error, element) {
+//					},
+					submitHandler: function () {
+						var error = '';
+						$.each(self.datos.feriados, function (ix, e) {
+							if (!e.fecha)
+								error = 'Compruebe los datos del Formulario';
+						});
+						if (error) {
+							alert('Compruebe los datos del Formulario');
+							return false;
+						}
+						$.post('{{ root }}/catalogos/feriados/guardar', {json: JSON.stringify(self.datos)}, function (res) {
+							alert('Datos de ' + self.datos.anio + ' guardados');
+						});
+						return false;
+					}
+				});
+			}
+		});
+
+	</script>
+{% endblock %}

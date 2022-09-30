@@ -1,0 +1,166 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosResumenCosteoMaterial.twig" %}
+	<div class="ibox float-e-margins" id="app">
+		<div class="ibox-title">
+			<div class="ibox-tools">
+				<a class="btn" id="btnExportar">
+					<i class="far fa-file-excel"></i>
+					Exportar Excel
+				</a>
+
+				<a class="btn" id="btnExportarPdf">
+					<i class="far fa-file-pdf"></i>
+					Exportar PDF
+				</a>
+
+			</div>
+		</div>
+		<div class="ibox-content no-padding">
+			<div class="row">
+				<div class="col-lg-12">
+					<div v-for="d in datos">
+						<h1><strong><span v-html="d.tipo_material"></span></strong></h1>
+						<h2>PROMEDIO: <span v-html="d.promedio"></span></h2>
+						<table class="table table-condensed table-bordered table-stripped">
+							<thead>
+							<tr>
+								<th>Producto</th>
+								<th>IMP</th>
+								<th>Lote</th>
+								<th>Procedencia</th>
+								<th>Proveedor</th>
+								<th>Densidad</th>
+								<th>MFI</th>
+								<th>Cantidad</th>
+								<th>Última Compra CFR</th>
+								<th>Costo en Fábrica</th>
+								<th>Porcentaje Costo Nacionalizacion</th>
+								<th>Costo en Planta</th>
+								<th>Estado Pago</th>
+								<th>Fecha Pago</th>
+								<th>Valor factura</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-for="detalle in d.detalle">
+								<td>
+									<a :href="'{{ root }}/material/editar?id=' + detalle.id_material" target="_blank">
+										<span v-html="detalle.material"></span><br/>
+									</a>
+								</td>
+								<td>
+									<a :href="'{{ root }}/compra/editar?id=' + detalle.id_compra" target="_blank">
+										<span v-html="detalle.numero_importacion"></span><br/>
+									</a>
+								</td>
+								<td v-html="detalle.lote_principal"></td>
+								<td v-html="detalle.procedencia"></td>
+								<td v-html="detalle.proveedor"></td>
+								<td align="right" v-html="detalle.densidad"></td>
+								<td align="right" v-html="detalle.mfi"></td>
+								<td align="right" v-html="detalle.stock_disponible"></td>
+								<td align="right">
+									$<span v-html="detalle.costo_compra"></span>
+								</td>
+								<td align="right">
+									$<span v-html="detalle.costo_fabrica"></span>
+								</td>
+								<td align="right">
+									<span v-html="detalle.porcentaje_costo_nacionalizacion"></span>%
+								</td>
+								<td align="right">
+									$<span v-html="detalle.costo_planta"></span>
+								</td>
+								<td v-html="detalle.estado_pago" style="text-transform: uppercase;"></td>
+								<td v-html="detalle.fecha_pago"></td>
+								<td align="right" v-html="detalle.total_factura"></td>
+							</tr>
+							</tbody>
+							<tfoot>
+							<tr>
+								<td colspan="7" align="right"><strong>TOTAL</strong></td>
+								<td align="right" style="font-weight: bold;" v-html="d.total_stock"></td>
+								<td colspan="3" align="right"></td>
+								<td align="right" style="font-weight: bold;">
+									$<span v-html="d.total_costo_planta"></span>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioMaterial">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+	<form id="exportFormPdf" method="POST" action="{{ root }}/reportes/pdfInventarioMaterial">
+		<input type="hidden" id="jsonPdf" name="jsonPdf"/>
+	</form>
+
+	{#<script src="http://d3js.org/d3.v3.min.js"></script>#}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/highcharts/highcharts.js') }}
+	{{ script('js/highcharts/modules/exporting.js') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				datos: [],
+				total: []
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				consultar: function () {
+					var form = $('#filtros');
+					var self = this;
+					var data = form.serializeArray();
+					toggleLoader();
+					$.post('{{ root }}/reportes/resumenCosteoMaterial', data, function (res) {
+						toggleLoader();
+						self.datos = res['data'];
+						self.total = res['total'];
+						console.log(res);
+					})
+				}
+			},
+			mounted: function () {
+				var form = $('#filtros');
+				var self = this;
+				$('#btnExportar').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#json').val(JSON.stringify(data));
+					$('#exportForm').submit();
+				});
+				$('#btnExportarPdf').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#jsonPdf').val(JSON.stringify(data));
+					$('#exportFormPdf').submit();
+				});
+
+				$(document).ready(function () {
+					$('#btnFiltro').click(function () {self.consultar();});
+					$('#btnTodos').click(function () {
+						form[0].reset();
+						$("#producto_extrusion").val("");
+						$("#producto").val("");
+						self.consultar();
+					});
+					// self.consultar();
+				});
+			}
+		});
+	</script>
+{% endblock %}

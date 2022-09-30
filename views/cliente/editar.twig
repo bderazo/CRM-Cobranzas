@@ -1,0 +1,346 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+		<div class="col-md-12 col-xl-12">
+			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Información General</h4>
+					</div>
+					<div class="card-body">
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.apellidos" placeholder="Apellidos" required v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Nombres *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.nombres" placeholder="Nombres" v-autoname/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Cédula *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.cedula" placeholder="Cédula" v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Sexo</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" v-autoname v-model="model.sexo" placeholder="Seleccione una opción" v-autoname>
+									<option value=""></option>
+									<option value="masculino">MASCULINO</option>
+									<option value="femenino">FEMENINO</option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Estado civil</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" v-autoname v-model="model.estado_civil" placeholder="Seleccione una opción" v-autoname>
+									<option value=""></option>
+									<option value="soltero">SOLTERO</option>
+									<option value="casado">CASADO</option>
+									<option value="divorciado">DIVORCIADO</option>
+									<option value="viudo">VIUDO</option>
+									<option value="union_libre">UNIÓN LIBRE</option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Teléfonos</label>
+							<div class="col-md-10">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarTelefono">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Número Oro</th>
+										<th>Teléfono</th>
+										<th>Tipo</th>
+										<th>Origen</th>
+										<th>Fecha Ingreso</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="t in telefono">
+										<td>
+											<label class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" name="example-radios" value="option1" checked>
+												<span class="custom-control-label"></span>
+											</label>
+										</td>
+										<td>
+											<div class="input-group">
+											<input type="text" class="form-control form-control-sm required digits" v-model="t.telefono" placeholder="Teléfono" v-autoname/>
+											<button type="button" class="btn btn-icon btn-info btn-sm" v-on:click="delTelefono(t)">
+												<i class="fa fa-phone" aria-hidden="true"></i>
+											</button>
+											</div>
+										</td>
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-autoname v-model="t.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option value="propio">PROPIO</option>
+												<option value="familiar">FAMILIAR</option>
+												<option value="amigo">AMIGO</option>
+												<option value="otros">OTROS</option>
+											</select>
+										</td>
+										<td style="text-transform: uppercase;"><span v-html="t.origen"></span></td>
+										<td><span v-html="t.fecha_ingreso"></span></td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delTelefono(t)">
+												<i class="fe fe-trash"></i>
+											</button>
+
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Emails</label>
+							<div class="col-md-10">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarEmail">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Email</th>
+										<th>Tipo</th>
+										<th>Origen</th>
+										<th>Fecha Ingreso</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="c in email">
+										<td>
+											<input type="text" class="form-control form-control-sm required email" v-model="c.email" placeholder="Email" v-autoname/>
+										</td>
+										<td>
+											<select class="form-control form-select select2" v-autoname v-model="c.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option value="propio">PROPIO</option>
+												<option value="familiar">FAMILIAR</option>
+												<option value="amigo">AMIGO</option>
+												<option value="otros">OTROS</option>
+											</select>
+										</td>
+										<td style="text-transform: uppercase;"><span v-html="c.origen"></span></td>
+										<td><span v-html="c.fecha_ingreso"></span></td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delEmail(c)">
+												<i class="fe fe-trash"></i>
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<input type="hidden" v-model="model.id" id="id" name="id"/>
+								<input type="hidden" name="json" id="json"/>
+
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Productos</h4>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+							<thead>
+							<tr>
+								<th>Institución</th>
+								<th>Agencia</th>
+								<th>Producto</th>
+								<th>Subproducto</th>
+								<th>Tipo de proceso</th>
+								<th>Usuario asignado</th>
+								<th>Último seguimiento</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-for="p in productos">
+								<td>
+									<a :href="'{{ root }}/institucion/editar?id=' + p.institucion_id" target="_blank" style="text-decoration: underline" class="text-primary ms-1">
+										<span v-html="p.institucion_nombre"></span>
+									</a>
+								</td>
+								<td><span v-html="p.agencia"></span></td>
+								<td><span v-html="p.producto"></span></td>
+								<td><span v-html="p.subproducto"></span></td>
+								<td style="text-transform: uppercase;"><span v-html="p.tipo_proceso"></span></td>
+								<td style="text-transform: uppercase;">ADMIN</td>
+								<td>
+									<table class="table border text-nowrap text-md-nowrap  mb-0">
+										<tbody>
+										<tr>
+											<th style="width: 20%;">NIVEL1</th>
+											<td>ACUERDO DE PAGO DOCUMENTADO</td>
+										</tr>
+										<tr>
+											<th style="width: 20%;">NIVEL2</th>
+											<td>ACUERDO DE PAGO DOC. PARCIAL</td>
+										</tr>
+										<tr>
+											<th style="width: 20%;">Observaciones</th>
+											<td>Cliente acuerda el pago parcial de la cuota</td>
+										</tr>
+										<tr>
+											<th style="width: 20%;">Fecha gestión</th>
+											<td>2022-09-15 15:23:16</td>
+										</tr>
+										<tr>
+											<th style="width: 20%;">Usuario</th>
+											<td>ADMIN</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<button class="btn btn-sm btn-secondary" type="button">
+													<i class="fa fa-eye" aria-hidden="true"></i> Ver todos los procesos
+												</button>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalPaleta" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Paletas</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="paletaContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+		_autonameVueCount = 0;
+		Vue.directive('autoname', {
+			inserted: function (el, binding, vnode) {
+				_autonameVueCount++;
+				$(el).prop('name', '_auto' + _autonameVueCount);
+			}
+		});
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				cat: {{ catalogos|raw }},
+				model: {{ model|raw }},
+				telefono: {{ telefono|raw }},
+				del_telefono: [],
+				email: {{ email|raw }},
+				del_email: [],
+				productos: {{ productos|raw }},
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				agregarTelefono: function () {
+					var self = this;
+					var data = {
+						telefono: '',
+						tipo: 'propio',
+						origen: 'SISTEMA',
+					};
+					self.telefono.push(data);
+				},
+
+				delTelefono: function (p) {
+					var self = this;
+					if (confirm("Está seguro que desea eliminar el telefono: " + p.telefono + "?")) {
+						var ix = self.telefono.indexOf(p);
+						self.telefono.splice(ix, 1);
+						if (p.id)
+							self.del_telefono.push(p.id);
+					}
+				},
+
+				agregarEmail: function () {
+					var self = this;
+					var data = {
+						email: '',
+						tipo: 'propio',
+						origen: 'SISTEMA',
+					};
+					self.email.push(data);
+				},
+
+				delEmail: function (p) {
+					var self = this;
+					if (confirm("Está seguro que desea eliminar el email: " + p.email + "?")) {
+						var ix = self.email.indexOf(p);
+						self.email.splice(ix, 1);
+						if (p.id)
+							self.del_email.push(p.id);
+					}
+				},
+			},
+			mounted: function () {
+				var self = this;
+				$('#form-edit').validate({
+					onfocusout: false,
+					onkeyup: false,
+					onclick: false,
+					submitHandler: function (form) {
+						var data = {
+							model: self.model,
+							telefono: self.telefono,
+							del_telefono: self.del_telefono,
+							email: self.email,
+							del_email: self.del_email,
+						};
+						$('#json').val(JSON.stringify(data));
+						$("#btnGuardar").prop("disabled", true);
+						form.submit();
+						return false;
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,144 @@
+<div id="appBuscaPaleta" class="small">
+	<div class="col-md-12 col-xl-12">
+		<div class=" row mb-3">
+			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Nombre</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control form-control-sm" v-model="nombre" placeholder="Nombre"/>
+			</div>
+
+			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Número</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control form-control-sm" v-model="numero" placeholder="Número"/>
+			</div>
+		</div>
+
+		<div class=" row mb-3">
+			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Tipo de gestión</label>
+			<div class="col-sm-4">
+				<select class="form-control form-control-sm form-select select2" v-model="tipo_gestion">
+					<option value=""></option>
+					<option value="cobranza">COBRANZA</option>
+					<option value="venta">VENTA</option>
+				</select>
+			</div>
+
+			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Tipo de perfil</label>
+			<div class="col-sm-4">
+				<select class="form-control form-control-sm form-select select2" v-model="tipo_perfil">
+					<option value=""></option>
+					<option value="telefono">TELÉFONO</option>
+					<option value="campo">CAMPO</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="text-wrap">
+			<div class="d-grid gap-2">
+				<button class="btn btn-secondary mb-1" type="button" v-on:click="buscar()">
+					<i class="glyphicon glyphicon-search"></i> Buscar
+				</button>
+			</div>
+		</div>
+	</div>
+
+
+	<hr>
+	<div style="overflow-y: auto;height:300px">
+			<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+				<thead>
+				<tr>
+					<th>Número</th>
+					<th>Nombre</th>
+					<th>Observaciones</th>
+					<th>T. gestión</th>
+					<th>T. perfil</th>
+					<th>Req. agendamiento</th>
+					<th>Req. ingreso monto</th>
+					<th>Req. ocultar motivo</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for="p in paleta">
+					<td>
+						<a v-on:click="selectPaleta(p)" v-html="p.numero" style="text-decoration: underline" class="text-primary ms-1"></a>
+					</td>
+					<td v-html="p.nombre"></td>
+					<td v-html="p.observaciones"></td>
+					<td style="text-transform: uppercase;"><span v-html="p.tipo_gestion"></span></td>
+					<td style="text-transform: uppercase;"><span v-html="p.tipo_perfil"></span></td>
+					<td style="text-transform: uppercase;"><span v-html="p.requiere_agendamiento"></span></td>
+					<td style="text-transform: uppercase;"><span v-html="p.requiere_ingreso_monto"></span></td>
+					<td style="text-transform: uppercase;"><span v-html="p.requiere_ocultar_motivo"></span></td>
+					<td>
+						<a v-on:click="abrirPaleta(p.id)" class="btn btn-secondary mb-1"><i class="fa fa-external-link"></i></a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+
+
+	</div>
+
+</div>
+
+{{ script('js/lodash.js') }}
+<script>
+
+	var callbackPaleta = null;
+
+	var appBuscaPaleta = new Vue({
+		el: '#appBuscaPaleta',
+		data: {
+			paleta: [],
+			nombre: null,
+			numero: null,
+			tipo_gestion: null,
+			tipo_perfil: null,
+		},
+		watch: {},
+		methods: {
+			selectPaleta: function (p) {
+				if (callbackPaleta) {
+					callbackPaleta(p);
+				} else {
+					alert('No se ha configurado el callback');
+				}
+			},
+			buscar: function () {
+				var self = this;
+				var data = {
+					nombre: self.nombre,
+					numero: self.numero,
+					tipo_gestion: self.tipo_gestion,
+					tipo_perfil: self.tipo_perfil,
+				};
+				$.post("{{ root }}/paleta/buscar", data, function (data, status, xhr) {
+					if (!data)
+						return;
+					if (data.paleta) self.paleta = data.paleta;
+					console.log(data);
+				});
+			},
+
+			abrirPaleta: function (id) {
+				window.open('{{ root }}/paleta/editar?id=' + id, '_blank')
+			},
+		},
+		mounted: function () {
+			var self = this;
+			$("#txtDescripcion").autocomplete({
+				minLength: 2,
+				source: function (request, response) {
+					self.buscar();
+				}
+			});
+			$("#txtCodigo").autocomplete({
+				minLength: 2,
+				source: function (request, response) {
+					self.buscar();
+				}
+			});
+		}
+	})
+</script>

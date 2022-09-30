@@ -1,0 +1,1385 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+		<div class="col-md-12 col-xl-12">
+			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Cliente</h4>
+					</div>
+					<div class="card-body">
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
+							<div class="col-md-4">
+								<input type="text" readonly class="form-control-plaintext" v-model="cliente.apellidos">
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Nombres *</label>
+							<div class="col-md-4">
+								<input type="text" readonly class="form-control-plaintext" v-model="cliente.nombres">
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Cédula *</label>
+							<div class="col-md-4">
+								<input type="text" readonly class="form-control-plaintext" v-model="cliente.cedula">
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Sexo</label>
+							<div class="col-md-4">
+								<input type="text" style="text-transform: uppercase;" readonly class="form-control-plaintext" v-model="cliente.sexo">
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Estado civil</label>
+							<div class="col-md-4">
+								<input type="text" style="text-transform: uppercase;" readonly class="form-control-plaintext" v-model="cliente.estado_civil">
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Teléfonos</label>
+							<div class="col-md-10">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarTelefono">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Número Oro</th>
+										<th>Teléfono</th>
+										<th>Tipo</th>
+										<th>Origen</th>
+										<th>Fecha Ingreso</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="t in telefono">
+										<td>
+											<label class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" name="example-radios" value="option1" checked>
+												<span class="custom-control-label"></span>
+											</label>
+										</td>
+										<td>
+											<div class="input-group">
+												<input type="text" class="form-control form-control-sm required digits" v-model="t.telefono" placeholder="Teléfono" v-autoname/>
+												<button type="button" class="btn btn-icon btn-info btn-sm" v-on:click="delTelefono(t)">
+													<i class="fa fa-phone" aria-hidden="true"></i>
+												</button>
+											</div>
+										</td>
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-autoname v-model="t.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option value="propio">PROPIO</option>
+												<option value="familiar">FAMILIAR</option>
+												<option value="amigo">AMIGO</option>
+												<option value="otros">OTROS</option>
+											</select>
+										</td>
+										<td style="text-transform: uppercase;"><span v-html="t.origen"></span></td>
+										<td><span v-html="t.fecha_ingreso"></span></td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delTelefono(t)">
+												<i class="fe fe-trash"></i>
+											</button>
+
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Emails</label>
+							<div class="col-md-10">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarEmail">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Email</th>
+										<th>Tipo</th>
+										<th>Origen</th>
+										<th>Fecha Ingreso</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="c in email">
+										<td>
+											<input type="text" class="form-control form-control-sm required email" v-model="c.email" placeholder="Email" v-autoname/>
+										</td>
+										<td>
+											<select class="form-control form-select select2" v-autoname v-model="c.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option value="propio">PROPIO</option>
+												<option value="familiar">FAMILIAR</option>
+												<option value="amigo">AMIGO</option>
+												<option value="otros">OTROS</option>
+											</select>
+										</td>
+										<td style="text-transform: uppercase;"><span v-html="c.origen"></span></td>
+										<td><span v-html="c.fecha_ingreso"></span></td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delEmail(c)">
+												<i class="fe fe-trash"></i>
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<input type="hidden" v-model="model.id" id="id" name="id"/>
+								<input type="hidden" name="json" id="json"/>
+
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Producto</h4>
+				</div>
+				<div class="card-body">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Producto</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Subproducto</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.subproducto">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Agencia</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.agencia">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Estado</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.estado">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Estado operación</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.estado_operacion">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Tipo proceso</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.tipo_proceso">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Fecha adquisición</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.fecha_adquisicion">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Sector</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.sector">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Monto crédito</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_credito">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Monto adeudado</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_adeudado">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Monto riesgo</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_riesgo">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Días mora</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.dias_mora">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Número de cuotas</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.numero_cuotas">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Fecha vencimiento</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.fecha_vencimiento">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Valor cuota</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.valor_cuota">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Valor cobrar</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.valor_cobrar">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Seguimiento</h4>
+				</div>
+				<div class="card-body">
+					<h4 class="text-primary">COBRANZA</h4>
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">NIVEL1</label>
+						<div class="col-md-4">
+							<select class="form-control form-select select2 required" v-model="model.tipo_gestion" placeholder="Seleccione una opción">
+								<option value="ACUERDO DE PAGO DOCUMENTADO">ACUERDO DE PAGO DOCUMENTADO</option>
+								<option value="CONTACTO SIN ARREGLO MEDIATO">CONTACTO SIN ARREGLO MEDIATO</option>
+								<option value="MENSAJE A TERCERO">MENSAJE A TERCERO</option>
+								<option value="NO CONTACTADO MAÑANA / TARDE / NOCHE">NO CONTACTADO MAÑANA / TARDE / NOCHE</option>
+								<option value="NOTIFICADO">NOTIFICADO</option>
+								<option value="OFRECIMIENTO AL CORTE">OFRECIMIENTO AL CORTE</option>
+								<option value="REFINANCIA">REFINANCIA</option>
+								<option value="SIN ARREGLO">SIN ARREGLO</option>
+							</select>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">NIVEL2</label>
+						<div class="col-md-4">
+							<select class="form-control form-select select2 required" v-model="model.tipo_perfil" placeholder="Seleccione una opción">
+								<option value="COMPAÑERO DE TRABAJO M">COMPAÑERO DE TRABAJO M</option>
+								<option value="EQUIVOCADO-DESCONOCEN NUM M">EQUIVOCADO-DESCONOCEN NUM M</option>
+								<option value="CONTESTADORA M">CONTESTADORA M</option>
+								<option value="EQUIVOCADO / OTORGAN NÚMERO M">EQUIVOCADO / OTORGAN NÚMERO M</option>
+								<option value="TELÉFONO CON AVERIA M">TELÉFONO CON AVERIA M</option>
+								<option value="EMPLEADA M">EMPLEADA M</option>
+								<option value="FALLECIMIENTO M">FALLECIMIENTO M</option>
+								<option value="SUGERENCIA MANTENIMIENTO M">SUGERENCIA MANTENIMIENTO M</option>
+								<option value="VIAJE M">VIAJE M</option>
+								<option value="CLIENTE CUELGA TELÉFONO M">CLIENTE CUELGA TELÉFONO M</option>
+								<option value="DIRECCIÓN NO CORRESPONDE M">DIRECCIÓN NO CORRESPONDE M</option>
+								<option value="NO CONTESTA M">NO CONTESTA M</option>
+							</select>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Observaciones</label>
+						<div class="col-md-4">
+							<textarea rows="3" class="form-control" placeholder="Observaciones" v-autoname></textarea>
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<input type="hidden" v-model="model.id" id="id" name="id"/>
+							<input type="hidden" name="json" id="json"/>
+
+							<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+								<i class="fa fa-save"></i> Guardar
+							</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">APLICATIVO DINERS</h4>
+				</div>
+				<div class="card-body">
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">CIUDAD DE GESTIÓN</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_gestion">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">FECHA DE ELABORACIÓN</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" value="{{ "now"|date("Y-m-d H:i:s") }}">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">NEGOCIADO POR</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.negociado_por">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">NUMERO DE CEDULA SOCIO</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.cedula_socio">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">NOMBRE DEL SOCIO</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.nombre_socio">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">DIRECCIÓN</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.direccion">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">NÚMEROS DE CONTACTO</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.numero_contactos">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">MAIL DE CONTACTO</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.mail_contacto">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">CIUDAD DE LA CUENTA</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_cuenta">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">CIUDAD DE LA CUENTA</label>
+						<div class="col-md-4">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.zona_cuenta">
+						</div>
+					</div>
+
+
+
+					<div class="panel-group1" id="accordion1">
+
+						<div class="panel panel-default mb-4">
+							<div class="panel-heading1 ">
+								<h4 class="panel-title1">
+									<a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">DINERS</a>
+								</h4>
+							</div>
+							<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">CICLO</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.ciclo">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">EDAD DE CARTERA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.edad_cartera">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-sm-3 form-label">CODIGO DE CANCELACION</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.codigo_cancelacion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">CODIGO DE BOLETIN:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.codigo_boletin">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">DÉBITO AUTOMÁTICO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.debito_automatico">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">PROMEDIO DE PAGO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.promedio_pago">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SCORE</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.score">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">CAMPAÑA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.campana">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">EJECUTIVO ACTUAL A CARGO DE CUENTA:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.ejecutivo_actual_cuenta">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">LUGAR DE TRABAJO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.lugar_trabajo">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">FECHA ÚLTIMA GESTIÓN</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.fecha_ultima_gestion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">MOTIVO DE GESTIÓN</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.motivo_gestion">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">DESCRIPCIÓN DE GESTIÓN:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.descripcion_gestion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">OBSERVACIONES DE GESTIÓN:</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_gestion" class="form-control" placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">FECHA DE COMPROMISO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.fecha_compromiso">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TT/EXIG/PARCIAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.tt_exig_parcial">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">MOTIVO DE NO PAGO ANTERIOR:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.motivo_no_pago_anterior">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">FINANCIAMIENTO VIGENTE:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.financiamiento_vigente">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">N° CUOTAS PENDIENTES:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.numero_cuotas_pendientes">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TT CUOTAS FACT</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.tt_cuotas_fact">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">VALOR CUOTAS PENDIENTES:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.valor_cuotas_pendientes">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">VALOR DE CUOTA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.valor_cuota">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SEGUNDA REESTRUCTURACIÓN:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.segunda_restructuracion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TOTAL RIESGO</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.total_riesgo">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">SALDOS FACTURADOS</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 90 Y MAS 90 DÍAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_90_facturado">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO A 60 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_60_facturado">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 30 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_30_facturado">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO ACTUALES</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_actual_facturado">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">DEUDA ACTUAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.deuda_actual">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">INTERESES FACTURADOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.interes_facturado">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">NUMERO DE DIFERIDOS FACTURADOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.numero_diferidos_facturados">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TOTAL VALOR PRE CANCELACION DIFERIDOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ESPECIALIDAD VENTA VEHICULOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">PAGOS</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ABONO EFECTIVO DEL SISTEMA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.abono_efectivo_sistema">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">ABONO NEGOCIADOR</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_diners.abono_negociador" placeholder="ABONO NEGOCIADOR" required v-autoname/>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ABONO TOTAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.abono_total">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">SALDOS FACTURADOS DESPUÉS DE ABONO</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 90 Y MAS 90 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_90_facturado_despues_abono">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO A 60 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_60_facturado_despues_abono">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 30 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_30_facturado_despues_abono">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO ACTUALES</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.saldo_actual_facturado_despues_abono">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">VALORES POR FACTURAR</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">INTERESES POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.interes_facturar">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">CORRIENTES POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.corrientes_facturar">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ND POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.nd_facturar">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">NC POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.nc_facturar">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">GASTOS DE COBRANZA / OTROS</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_diners.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" required v-autoname/>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">VALOR OTRAS TARJETAS</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_diners.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" required v-autoname/>
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">FINANCIAMIENTO: TIPO DE FINANCIAMIENTO</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">TOTAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.total_financiamiento">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">EXIGIBLE</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.exigible_financiamiento">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">PLAZO DE FINANCIAMIENTO</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_diners.plazo_financiamiento" placeholder="PLAZO DE FINANCIAMIENTO" required v-autoname/>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">MOTIVO DE NO PAGO</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_diners.motivo_no_pago" placeholder="MOTIVO DE NO PAGO" required v-autoname/>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">NÚMERO DE MESES DE GRACIA</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_diners.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" required v-autoname/>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">VALOR A FINANCIAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.valor_financiar">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">TOTAL INTERESES</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.total_intereses">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TOTAL FINANCIAMIENTO</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.total_financiamiento_total">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">VALOR CUOTA MENSUAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_diners.valor_cuota_mensual">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">OBSERVACION UNIFICACIÓN</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_unificacion" class="form-control" placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">OBSERVACION DATOS INFOR. SOCIO</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_datos_socio" class="form-control" placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">EMPRESA QUE REFINANCIA</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.empresa_refinancia" class="form-control" placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default mb-4">
+							<div class="panel-heading1">
+								<h4 class="panel-title1">
+									<a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFive" aria-expanded="false">INTERDIN</a>
+								</h4>
+							</div>
+							<div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+								<div class="panel-body">
+
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default mb-4">
+							<div class="panel-heading1">
+								<h4 class="panel-title1">
+									<a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseSix" aria-expanded="false">DISCOVER</a>
+								</h4>
+							</div>
+							<div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">CICLO</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.ciclo">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">EDAD DE CARTERA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.edad_cartera">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-sm-3 form-label">CODIGO DE CANCELACION</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.codigo_cancelacion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">CODIGO DE BOLETIN:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.codigo_boletin">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">DÉBITO AUTOMÁTICO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.debito_automatico">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">PROMEDIO DE PAGO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.promedio_pago">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SCORE</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.score">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">CAMPAÑA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.campana">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">EJECUTIVO ACTUAL A CARGO DE CUENTA:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.ejecutivo_actual_cuenta">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">LUGAR DE TRABAJO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.lugar_trabajo">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">FECHA ÚLTIMA GESTIÓN</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.fecha_ultima_gestion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">MOTIVO DE GESTIÓN</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.motivo_gestion">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">DESCRIPCIÓN DE GESTIÓN:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.descripcion_gestion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">OBSERVACIONES DE GESTIÓN:</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_gestion" class="form-control" placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">FECHA DE COMPROMISO:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.fecha_compromiso">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TT/EXIG/PARCIAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.tt_exig_parcial">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">MOTIVO DE NO PAGO ANTERIOR:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.motivo_no_pago_anterior">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">FINANCIAMIENTO VIGENTE:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.financiamiento_vigente">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">N° CUOTAS PENDIENTES:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.numero_cuotas_pendientes">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TT CUOTAS FACT</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.tt_cuotas_fact">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">VALOR CUOTAS PENDIENTES:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.valor_cuotas_pendientes">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">VALOR DE CUOTA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.valor_cuota">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SEGUNDA REESTRUCTURACIÓN:</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.segunda_restructuracion">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TOTAL RIESGO</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.total_riesgo">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">SALDOS FACTURADOS</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 90 Y MAS 90 DÍAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_90_facturado">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO A 60 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_60_facturado">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 30 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_30_facturado">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO ACTUALES</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_actual_facturado">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">DEUDA ACTUAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.deuda_actual">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">INTERESES FACTURADOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.interes_facturado">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">NUMERO DE DIFERIDOS FACTURADOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.numero_diferidos_facturados">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TOTAL VALOR PRE CANCELACION DIFERIDOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ESPECIALIDAD VENTA VEHICULOS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.especialidad_venta_vehiculos">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">PAGOS</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ABONO EFECTIVO DEL SISTEMA</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.abono_efectivo_sistema">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">ABONO NEGOCIADOR</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_discover.abono_negociador" placeholder="ABONO NEGOCIADOR" required v-autoname/>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ABONO TOTAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.abono_total">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">SALDOS FACTURADOS DESPUÉS DE ABONO</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 90 Y MAS 90 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_90_facturado_despues_abono">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO A 60 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_60_facturado_despues_abono">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">SALDO A 30 DIAS</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_30_facturado_despues_abono">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">SALDO ACTUALES</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.saldo_actual_facturado_despues_abono">
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">VALORES POR FACTURAR</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">INTERESES POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.interes_facturar">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">CORRIENTES POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.corrientes_facturar">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">ND POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.nd_facturar">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">NC POR FACTURAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.nc_facturar">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">GASTOS DE COBRANZA / OTROS</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_discover.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" required v-autoname/>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">VALOR OTRAS TARJETAS</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_discover.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" required v-autoname/>
+										</div>
+									</div>
+								</div>
+
+								<h1 class="text-primary">FINANCIAMIENTO: TIPO DE FINANCIAMIENTO</h1>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">TOTAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.total_financiamiento">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">EXIGIBLE</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.exigible_financiamiento">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">PLAZO DE FINANCIAMIENTO</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_discover.plazo_financiamiento" placeholder="PLAZO DE FINANCIAMIENTO" required v-autoname/>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">MOTIVO DE NO PAGO</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_discover.motivo_no_pago" placeholder="MOTIVO DE NO PAGO" required v-autoname/>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">NÚMERO DE MESES DE GRACIA</label>
+										<div class="col-md-3">
+											<input type="text" class="form-control" v-model="aplicativo_diners_tarjeta_discover.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" required v-autoname/>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">VALOR A FINANCIAR</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.valor_financiar">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">TOTAL INTERESES</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.total_intereses">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">TOTAL FINANCIAMIENTO</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.total_financiamiento_total">
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">VALOR CUOTA MENSUAL</label>
+										<div class="col-md-3">
+											<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners_tarjeta_discover.valor_cuota_mensual">
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">OBSERVACION UNIFICACIÓN</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_unificacion" class="form-control" placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel-body">
+									<div class=" row mb-4">
+										<label for="inputName" class="col-md-3 form-label">OBSERVACION DATOS INFOR. SOCIO</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_datos_socio" class="form-control" placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
+										</div>
+
+										<label for="inputName" class="col-md-3 form-label">EMPRESA QUE REFINANCIA</label>
+										<div class="col-md-3">
+											<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.empresa_refinancia" class="form-control" placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+
+
+
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalPaleta" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Paletas</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="paletaContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+		_autonameVueCount = 0;
+		Vue.directive('autoname', {
+			inserted: function (el, binding, vnode) {
+				_autonameVueCount++;
+				$(el).prop('name', '_auto' + _autonameVueCount);
+			}
+		});
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				cat: {{ catalogos|raw }},
+				model: {{ model|raw }},
+				telefono: {{ telefono|raw }},
+				del_telefono: [],
+				email: {{ email|raw }},
+				del_email: [],
+				cliente: {{ cliente|raw }},
+				aplicativo_diners: {{ aplicativo_diners|raw }},
+				aplicativo_diners_tarjeta_diners: {{ aplicativo_diners_tarjeta_diners|raw }},
+				aplicativo_diners_tarjeta_discover: {{ aplicativo_diners_tarjeta_discover|raw }},
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				agregarTelefono: function () {
+					var self = this;
+					var data = {
+						telefono: '',
+						tipo: 'propio',
+						origen: 'SISTEMA',
+					};
+					self.telefono.push(data);
+				},
+
+				delTelefono: function (p) {
+					var self = this;
+					if (confirm("Está seguro que desea eliminar el telefono: " + p.telefono + "?")) {
+						var ix = self.telefono.indexOf(p);
+						self.telefono.splice(ix, 1);
+						if (p.id)
+							self.del_telefono.push(p.id);
+					}
+				},
+
+				agregarEmail: function () {
+					var self = this;
+					var data = {
+						email: '',
+						tipo: 'propio',
+						origen: 'SISTEMA',
+					};
+					self.email.push(data);
+				},
+
+				delEmail: function (p) {
+					var self = this;
+					if (confirm("Está seguro que desea eliminar el email: " + p.email + "?")) {
+						var ix = self.email.indexOf(p);
+						self.email.splice(ix, 1);
+						if (p.id)
+							self.del_email.push(p.id);
+					}
+				},
+			},
+			mounted: function () {
+				var self = this;
+				$('#form-edit').validate({
+					onfocusout: false,
+					onkeyup: false,
+					onclick: false,
+					submitHandler: function (form) {
+						var data = {
+							model: self.model,
+							telefono: self.telefono,
+							del_telefono: self.del_telefono,
+							email: self.email,
+							del_email: self.del_email,
+						};
+						$('#json').val(JSON.stringify(data));
+						$("#btnGuardar").prop("disabled", true);
+						form.submit();
+						return false;
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

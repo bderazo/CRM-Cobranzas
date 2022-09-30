@@ -1,0 +1,179 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosProduccionDiaria.twig" %}
+	<div class="ibox float-e-margins" id="app">
+		<div class="ibox-title">
+			<h5>
+				<strong>Datos</strong>
+			</h5>
+
+			<div class="ibox-tools">
+				<a class="btn" id="btnExportar">
+					<i class="far fa-file-excel"></i>
+					Exportar Excel
+				</a>
+
+				<a class="btn" id="btnExportarPdf">
+					<i class="far fa-file-pdf"></i>
+					Exportar PDF
+				</a>
+
+			</div>
+		</div>
+		<div class="ibox-content no-padding">
+			<div class="row">
+				<div class="col-lg-12">
+					<table class="table table-condensed table-bordered table-stripped">
+						<tr>
+							<td width="16%"><strong>Total Cajas Conforme</strong></td>
+							<td width="16%" v-html="total.total_cajas_conforme"></td>
+							<td width="16%"><strong>Total Rollos Conforme</strong></td>
+							<td width="16%"  v-html="total.total_rollos_conforme"></td>
+							<td width="16%"><strong>Total Peso Neto Conforme</strong></td>
+							<td width="16%" v-html="total.total_peso_neto_conforme"></td>
+						</tr>
+						<tr>
+							<td width="16%"><strong>Total Peso Bruto Conforme</strong></td>
+							<td width="16%" v-html="total.total_peso_bruto_conforme"></td>
+						</tr>
+						<tr>
+							<td width="16%"><strong>Rollos Inconforme</strong></td>
+							<td width="16%" v-html="total.total_rollos_inconforme"></td>
+							<td width="16%"><strong>Peso Neto Inconforme</strong></td>
+							<td width="16%" v-html="total.total_peso_neto_inconforme"></td>
+							<td width="16%"><strong>Peso Bruto Inconforme</strong></td>
+							<td width="16%" v-html="total.total_peso_bruto_inconforme"></td>
+						</tr>
+						<tr>
+							<td width="16%"><strong>Peso Neto Desperdicio</strong></td>
+							<td width="16%" v-html="total.total_peso_neto_desperdicio"></td>
+						</tr>
+					</table>
+					<table class="table table-condensed table-bordered table-stripped">
+						<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Orden</th>
+							<th>Cliente</th>
+							<th>Tipo Producto</th>
+							<th>Descripción Producto</th>
+							<th>Cajas Conforme</th>
+							<th>Rollos Conforme</th>
+							<th>Peso Neto Conforme</th>
+							<th>Peso Bruto Conforme</th>
+							<th>Rollos Inconforme</th>
+							<th>Peso Neto Inconforme</th>
+							<th>Peso Bruto Inconforme</th>
+							<th>Peso Neto Desperdicio</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td v-html="d.fecha"></td>
+							<td>
+									<a :href="'{{ root }}/produccionCB/editar?id=' + d.id_orden" target="_blank">
+										<span v-html="d.numero_orden"></span><br/>
+									</a>
+							</td>
+							<td v-html="d.nombre_cliente"></td>
+							<td v-html="d.tipo_producto"></td>
+							<td v-html="d.nombre_producto"></td>
+							<td align="right" v-html="d.cajas_conforme"></td>
+							<td align="right" v-html="d.rollos_conforme"></td>
+							<td align="right" v-html="d.peso_neto_conforme"></td>
+							<td align="right" v-html="d.peso_bruto_conforme"></td>
+							<td align="right" v-html="d.rollos_inconforme"></td>
+							<td align="right" v-html="d.peso_neto_inconforme"></td>
+							<td align="right" v-html="d.peso_bruto_inconforme"></td>
+							<td align="right" v-html="d.peso_neto_desperdicio"></td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="5" align="right"><strong>TOTAL</strong></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_cajas_conforme"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_rollos_conforme"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_peso_neto_conforme"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_peso_bruto_conforme"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_rollos_inconforme"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_peso_neto_inconforme"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_peso_bruto_inconforme"></td>
+							<td align="right" style="font-weight: bold;" v-html="total.total_peso_neto_desperdicio"></td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportProduccionDiariaCB">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+	<form id="exportFormPdf" method="POST" action="{{ root }}/reportes/pdfProduccionDiariaCB">
+		<input type="hidden" id="jsonPdf" name="jsonPdf"/>
+	</form>
+
+	{#<script src="http://d3js.org/d3.v3.min.js"></script>#}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/highcharts/highcharts.js') }}
+	{{ script('js/highcharts/modules/exporting.js') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				datos: [],
+				total: []
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				consultar: function () {
+					var form = $('#filtros');
+					var self = this;
+					var data = form.serializeArray();
+					toggleLoader();
+					$.post('{{ root }}/reportes/produccionDiariaCB', data, function (res) {
+						toggleLoader();
+						self.datos = res['data'];
+						self.total = res['total'];
+						console.log(res['data']);
+					})
+				}
+			},
+			mounted: function () {
+				var form = $('#filtros');
+				var self = this;
+				$('#btnExportar').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#json').val(JSON.stringify(data));
+					$('#exportForm').submit();
+				});
+				$('#btnExportarPdf').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#jsonPdf').val(JSON.stringify(data));
+					$('#exportFormPdf').submit();
+				});
+
+				$(document).ready(function () {
+					$('#btnFiltro').click(function () {self.consultar();});
+					$('#btnTodos').click(function () {
+						form[0].reset();
+						self.consultar();
+					});
+					self.consultar();
+				});
+			}
+		});
+
+
+	</script>
+{% endblock %}

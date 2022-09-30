@@ -1,0 +1,28 @@
+<div class="table-responsive">
+	<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+		<thead>
+		<tr>
+			<th>Apellidos</th>
+			<th>Nombres</th>
+			<th>Cédula</th>
+			<th>Sexo</th>
+			<th>Estado civil</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for l in lista %}
+			<tr>
+				<td>
+					<a href="{{ root }}/cliente/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.apellidos }}</a>
+				</td>
+				<td>{{ l.nombres }} </td>
+				<td>{{ l.cedula }} </td>
+				<td>{{ l.sexo|upper }} </td>
+				<td>{{ l.estado_civil|upper }} </td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{{ pag|raw }}

@@ -1,0 +1,30 @@
+{% set alertaDiario = alertasTop.consultar() %}
+<li class="dropdown">
+	<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+		<i class="fa fa-envelope"></i> <span class="label label-warning">{{ alertaDiario|length }}</span>
+	</a>
+	<ul class="dropdown-menu dropdown-messages">
+		{% for a in alertaDiario %}
+			<li>
+				<div class="dropdown-messages-box">
+
+					<div class="media-body" style="cursor:pointer" onclick="window.location.href='{{ root }}/proceso/detalle?id={{ a.caso_id }}'">
+						<small class="pull-right">hace {{ a.tiempo }}</small>
+						<strong>Caso #{{ a.caso_id }}</strong><br>
+						{{ a.n_tipo }}
+						<br>
+						<small class="text-muted">{{ a.texto }} por {{ a.usuario }}</small>
+					</div>
+				</div>
+			</li>
+			<li class="divider"></li>
+		{% endfor %}
+		<li>
+			<div class="text-center link-block">
+				<a href="{{ root }}/casopqr/diario">
+					<i class="fa fa-envelope"></i> <strong>Ver actividad diaria</strong>
+				</a>
+			</div>
+		</li>
+	</ul>
+</li>

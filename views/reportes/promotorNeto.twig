@@ -1,0 +1,147 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+	{% include "reportesPQR/filtrosUno.twig" %}
+
+	<div class="ibox float-e-margins" id="app">
+		<div class="ibox-title">
+			<h5>Comparación {{ anios }}</span></h5>
+
+			<div class="ibox-tools">
+				<a class="btn btn-xs" id="btnExportar">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<i class="fa fa-wrench"></i>
+				</a>
+			</div>
+		</div>
+		<div class="ibox-content no-padding">
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="cuadro" style="width: 100%;height: 500px; margin: 0 auto"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportesPQR/exportPromotorNeto">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{#<script src="http://d3js.org/d3.v3.min.js"></script>#}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/highcharts/highcharts.js') }}
+	{{ script('js/highcharts/modules/exporting.js') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+		var form = $('#filtros');
+		form.submit(function () { return false });
+		var metas = {{ metas|raw }};
+
+		function serieLinea(anio, color, num) {
+			var n = parseFloat(num);
+			var f = [];
+			for (var i = 0; i < 12; i++)
+				f.push(n);
+
+			return {
+				name: 'Objetivo ' + anio,
+				color: color,
+				type: 'line',
+				data: f,
+				dashStyle: 'dash'
+			}
+		}
+
+		function graficar(datos) {
+			var opciones = {
+				chart: {
+					zoomType: 'none'//'xy'
+				},
+				title: {text: ''},
+				legend: {
+					enabled: true
+				},
+				xAxis: [{
+					categories: datos.meses,
+					crosshair: true
+				}],
+				yAxis: [{ // Primary yAxis
+					labels: {
+						format: '{value}',
+						style: {
+							color: Highcharts.getOptions().colors[1]
+						}
+					},
+					title: {
+						text: '% VN',
+						style: {
+							color: Highcharts.getOptions().colors[1]
+						}
+					}
+				}],
+				tooltip: {
+					shared: true
+				},
+				series: [
+					{
+						name: datos.actual.nombre,
+						type: 'column',
+						data: datos.actual.serie
+					},
+					{
+						name: datos.pasado.nombre,
+						color: 'red',
+						type: 'line', // spline
+						data: datos.pasado.serie
+					}
+				],
+				plotOptions: {
+					column: {
+						dataLabels: {enabled: true, inside: true}
+					},
+					line: {
+						dataLabels: {enabled: true}
+					}
+				}
+			};
+			if (metas.actual.objetivo)
+				opciones.series.push(serieLinea(metas.actual.anio, 'green', metas.actual.objetivo));
+			if (metas.pasado.objetivo)
+				opciones.series.push(serieLinea(metas.pasado.anio, 'brown', metas.pasado.objetivo));
+
+			Highcharts.chart('cuadro', opciones);
+		}
+
+		$('#btnExportar').click(function () {
+			var data = {
+				filtros: form.serializeForm()
+			};
+			$('#json').val(JSON.stringify(data));
+			$('#exportForm').submit();
+		});
+
+		function consultar() {
+			var data = form.serializeArray();
+			toggleLoader();
+			$.post('{{ root }}/reportesPQR/promotorNeto', data, function (res) {
+				toggleLoader();
+				graficar(res);
+			})
+		}
+
+		$(function () {
+			$('#btnFiltro').click(function () {consultar();});
+			consultar();
+		});
+
+
+	</script>
+{% endblock %}

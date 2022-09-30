@@ -1,0 +1,28 @@
+<table class="table table-bordered table-condensed table-striped table-full">
+	<tr>
+		<th>Fecha/Hora</th>
+		<th>Nivel</th>
+		<th>Mensaje</th>
+		<th>Usuario</th>
+		<th>Modulo</th>
+		<th>Ip</th>
+	</tr>
+	<tbody>
+	{% for l in lista %}
+		<tr>
+			<td>
+				{#<a href="users/view/{{ l.id }}">{{ l.username }}</a>#}
+				<a href="eventos/detalle?id={{ l.id }}">{{ l.fecha|date("Y-m-d H:i:s") }}</a>
+			</td>
+			<td>{{ l.nivel }}</td>
+			<td>{{ l.mensaje }}</td>
+			<td>{{ l.usuario }}</td>
+			<td>{{ l.modulo }}</td>
+			<td>{{ l.ipaddress }}</td>
+		
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{{ pag|raw }}

@@ -1,0 +1,32 @@
+<div class="table-responsive">
+	<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+		<thead>
+		<tr>
+			<th>Apellidos</th>
+			<th>Nombres</th>
+			<th>Institución</th>
+			<th>Cargo</th>
+			<th>Email</th>
+			<th>Teléfono celular</th>
+			<th>Ciudad</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for l in lista %}
+			<tr>
+				<td>
+					<a href="{{ root }}/contacto/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.apellidos }}</a>
+				</td>
+				<td>{{ l.nombres }} </td>
+				<td>{{ l.institucion_nombre }} </td>
+				<td>{{ l.cargo }} </td>
+				<td>{{ l.correo }} </td>
+				<td>{{ l.telefono_celular }} </td>
+				<td>{{ l.ciudad|upper }} </td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{{ pag|raw }}

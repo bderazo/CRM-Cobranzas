@@ -1,0 +1,98 @@
+<div id="appBuscaUsuario" class="small">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="" class="col-sm-4">Apellidos</label>
+
+				<div class="input-group add-on col-sm-8">
+					<input id="txtbuscaUsuario" class="form-control input-sm" v-model="termino"/>
+
+					<div class="input-group-btn">
+						<button class="btn btn-default btn-sm" type="button" v-on:click="buscar()">
+							<i class="glyphicon glyphicon-search"></i></button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-md-6">
+			<p>Para buscar, ingrese al menos 3 caracteres.</p>
+		</div>
+	</div>
+
+	<hr>
+	<div style="overflow-y: auto;height:300px">
+		<h4>Usuarios</h4>
+		<table class="table table-condensed table-bordered table-stripped">
+			<thead>
+			<tr>
+				<th>Apellidos</th>
+				<th>Nombres</th>
+				<th>Username</th>
+				<th>Email</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr v-for="u in usuarios">
+				<td>
+					<a v-on:click="selectUsuario(u)" v-html="u.apellidos" style="text-decoration: underline"></a>
+				</td>
+				<td v-html="u.nombres"></td>
+				<td v-html="u.username"></td>
+				<td v-html="u.email"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+{{ script('js/lodash.js') }}
+<script>
+
+	var callbackUsuario = null;
+
+	var appBuscaUsuario = new Vue({
+		el: '#appBuscaUsuario',
+		data: {
+			usuarios: [],
+			termino: '{{ term }}',
+		},
+		watch: {
+			'termino': function (val) {
+				if (!val) {
+					this.usuarios = [];
+				}
+			},
+		},
+		methods: {
+			selectUsuario: function (p) {
+				if (callbackUsuario) {
+					callbackUsuario(p);
+				} else {
+					alert('No se ha configurado el callback de usuario');
+				}
+			},
+			buscar: function () {
+				if (!this.termino || this.termino.length < 3)
+					return;
+				var self = this;
+				$.post("{{ root }}/admin/usuarios/buscar", {term: this.termino}, function (data, status, xhr) {
+					if (!data)
+						return;
+					if (data.usuarios) self.usuarios = data.usuarios;
+					console.log(data);
+				});
+			}
+		},
+		mounted: function () {
+			var self = this;
+			$("#txtbuscaUsuario").autocomplete({
+				minLength: 2,
+				source: function (request, response) {
+					self.buscar();
+				}
+			});
+		}
+	})
+</script>

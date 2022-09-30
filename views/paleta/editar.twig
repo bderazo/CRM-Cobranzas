@@ -1,0 +1,239 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+		<div class="col-md-12 col-xl-12">
+			<form method="POST" action="{{ root }}/paleta/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Información General</h4>
+					</div>
+					<div class="card-body">
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Número</label>
+							<div class="col-md-4">
+								<span v-html="model.numero"></span>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Nombre *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.nombre" placeholder="Nombre" required v-autoname/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Tipo gestión *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.tipo_gestion" placeholder="Seleccione una opción">
+									<option value=""></option>
+									<option value="cobranza">COBRANZA</option>
+									<option value="venta">VENTA</option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Tipo perfil *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.tipo_perfil" placeholder="Seleccione una opción">
+									<option value=""></option>
+									<option value="telefonico">TELEFÓNICO</option>
+									<option value="campo">CAMPO</option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Tipo acción *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.tipo_accion" placeholder="Seleccione una opción">
+									<option value=""></option>
+									<option value="accion">ACCIÓN</option>
+									<option value="respuesta">REPUESTA</option>
+									<option value="motivo_pago">MOTIVO DE PAGO</option>
+									<option value="contacto">CONTACTO</option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Requiere agendamiento *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.requiere_agendamiento" placeholder="Seleccione una opción">
+									<option value=""></option>
+									<option value="si">SI</option>
+									<option value="no">NO</option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Requiere ingreso monto *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.requiere_ingreso_monto" placeholder="Seleccione una opción">
+									<option value=""></option>
+									<option value="si">SI</option>
+									<option value="no">NO</option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Requiere ocultar motivo y submotivo *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.requiere_ocultar_motivo" placeholder="Seleccione una opción">
+									<option value=""></option>
+									<option value="si">SI</option>
+									<option value="no">NO</option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Observaciones</label>
+							<div class="col-md-4">
+								<textarea rows="3" v-model="model.observaciones" class="form-control" placeholder="Observaciones" v-autoname></textarea>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<input type="hidden" v-model="model.id" id="id" name="id"/>
+								<input type="hidden" name="json" id="json"/>
+
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
+
+								<button class="btn btn-success" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-upload" aria-hidden="true"></i> Subir Árbol de Gestión
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+			<div class="card">
+				<div class="card-body">
+					<div class="panel-group1" id="accordion1">
+						<div class="panel panel-default mb-4">
+							<div class="panel-heading1 ">
+								<h4 class="panel-title1">
+									<a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">Árbol de Gestión</a>
+								</h4>
+							</div>
+							<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+								<div class="panel-body">
+									<h1 class="text-primary">COBRANZA</h1>
+									<div class="table-responsive">
+										<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+											<thead>
+											<tr>
+												<th>NIVEL1</th>
+												<th>NIVEL2</th>
+												<th>NIVEL3</th>
+												<th>NIVEL4</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr v-for="pd in paleta_detalle">
+												<td><span v-html="pd.nivel1"></span></td>
+												<td><span v-html="pd.nivel2"></span></td>
+												<td><span v-html="pd.nivel3"></span></td>
+												<td><span v-html="pd.nivel4"></span></td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading1">
+								<h4 class="panel-title1">
+									<a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFive" aria-expanded="false">Instituciones</a>
+								</h4>
+							</div>
+							<div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+											<thead>
+											<tr>
+												<th>Nombre</th>
+												<th>RUC</th>
+												<th>Ciudad</th>
+												<th>Acceso al sistema</th>
+												<th>Paleta propia</th>
+												<th>Descripción</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr v-for="i in instituciones">
+												<td>
+													<a :href="'{{ root }}/institucion/editar?id=' + i.id" target="_blank" style="text-decoration: underline" class="text-primary ms-1">
+														<span v-html="i.nombre"></span>
+													</a>
+												</td>
+												<td><span v-html="i.ruc"></span></td>
+												<td><span v-html="i.ciudad"></span></td>
+												<td style="text-transform: uppercase;"><span v-html="i.acceso_sistema"></span></td>
+												<td style="text-transform: uppercase;"><span v-html="i.paletas_propias"></span></td>
+												<td><span v-html="i.descripcion"></span></td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+		_autonameVueCount = 0;
+		Vue.directive('autoname', {
+			inserted: function (el, binding, vnode) {
+				_autonameVueCount++;
+				$(el).prop('name', '_auto' + _autonameVueCount);
+			}
+		});
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				cat: {{ catalogos|raw }},
+				model: {{ model|raw }},
+				paleta_detalle: {{ paleta_detalle|raw }},
+				instituciones: {{ instituciones|raw }},
+			},
+			watch: {},
+			computed: {},
+			methods: {},
+			mounted: function () {
+				var self = this;
+				$('#form-edit').validate({
+					onfocusout: false,
+					onkeyup: false,
+					onclick: false,
+					submitHandler: function (form) {
+						var data = {
+							model: self.model,
+							telefono: self.telefono,
+							del_telefono: self.del_telefono,
+							email: self.email,
+							del_email: self.del_email,
+						};
+						$('#json').val(JSON.stringify(data));
+						$("#btnGuardar").prop("disabled", true);
+						form.submit();
+						return false;
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+	<div class="col-lg-12" id="app">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5>Parametros para Reportes PQR</h5>
+			</div>
+			<div class="ibox-content">
+				<form id="forma">
+					<div class="row">
+						<div class="col-sm-6">
+							<button type="submit" class="btn btn-primary btn-sm">Guardar Datos</button>
+						</div>
+						<hr>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<h5>Objetivos PQR por año</h5>
+							<table class="table table-condensed small table-bordered table-striped small">
+								<thead>
+								<tr>
+									<th>Año</th>
+									<th>Meta</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr v-for="r in metasAnios">
+									<td>
+										<input v-model="r.anio" class="form-control required digits input-xs" v-autoname/>
+									</td>
+									<td>
+										<input v-model="r.meta" class="form-control required number input-xs" v-autoname/>
+									</td>
+								</tr>
+								</tbody>
+								<tr>
+									<td colspan="2">
+										<button type="button" v-on:click="addAnio()">Adicionar Año</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="col-sm-6">
+							<h5>Intervalos Promotor/Detractor</h5>
+
+							<table class="table table-condensed table-bordered table-striped">
+								<thead>
+								<tr>
+									<th>Grupo</th>
+									<th>Desde</th>
+									<th>Hasta</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr v-for="r in gruposPromo">
+									<td v-html="r.nombre"></td>
+									<td>
+										<input v-model="r.desde" class="form-control required digits input-xs" v-autoname/>
+									</td>
+									<td>
+										<input v-model="r.hasta" class="form-control required digits input-xs" v-autoname/>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+
+
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+
+		var app = new Vue({
+			el: "#app",
+			data: {
+				metasAnios: {{ metasAnios|raw }},
+				gruposPromo: {{ intervalosPromotor|raw }}
+			},
+			methods: {
+				addAnio: function () {
+					this.metasAnios.push({anio: null, meta: null});
+				},
+				guardar: function () {
+					var data = {
+						json: JSON.stringify({
+							metasAnios: this.metasAnios,
+							intervalosPromotor: this.gruposPromo
+						})
+					};
+					$.post('{{ root }}/catalogos/paramsReportes/guardar', data, function (r) {
+						if (r === 'OK')
+							window.location.reload();
+						console.log(r);
+					});
+
+				}
+			},
+			mounted: function () {
+				var self = this;
+				$('#forma').validate({
+					submitHandler: function () {
+						self.guardar();
+						return false;
+					}
+				});
+			}
+		});
+
+	</script>
+{% endblock %}

@@ -1,0 +1,44 @@
+<div class="table-responsive">
+	<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+		<thead>
+		<tr>
+			<th>Institución</th>
+			<th>Cliente</th>
+			<th>Agencia</th>
+			<th>Producto</th>
+			<th>Subproducto</th>
+			<th>Tipo de proceso</th>
+			<th>Asignado</th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for l in lista %}
+			<tr>
+				<td>
+					<a href="{{ root }}/institucion/editar?id={{ l.institucion_id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.institucion_nombre }}</a>
+				</td>
+				<td>
+					<a href="{{ root }}/cliente/editar?id={{ l.cliente_id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.cliente_apellidos }}&nbsp;{{ l.cliente_nombres }}</a>
+				</td>
+				<td>{{ l.agencia }} </td>
+				<td>{{ l.producto }} </td>
+				<td>{{ l.subproducto }} </td>
+				<td>{{ l.tipo_proceso|upper }} </td>
+				<td>ADMIN</td>
+				<td>
+					<a href="{{ root }}/producto/editar?id={{ l.id }}" target="_blank" class="btn btn-icon btn-info btn-sm">
+						<i class="fa fa-plus"></i> Ingresar Seguimiento
+					</a>
+					<button type="button" class="btn btn-icon btn-info btn-sm" v-on:click="delTelefono(t)">
+						<i class="fa fa-eye"></i> Ver Seguimientos
+					</button>
+
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{{ pag|raw }}

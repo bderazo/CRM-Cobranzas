@@ -1,0 +1,32 @@
+<table class="table table-bordered table-condensed table-striped small">
+	<tr>
+		<th>Fecha creacion</th>
+		<th>Fecha envío</th>
+		<th>Id Proceso</th>
+		<th>Destino</th>
+		<th>Evento</th>
+		<th>Estado</th>
+		<th>Emails</th>
+	</tr>
+	<tbody>
+	{% for l in lista %}
+		<tr>
+			<td>
+				<a href="{{ root }}/admin/notificaciones/detalle?id={{ l.id }}">
+					{{ l.fecha_creacion|date('Y-m-d H:i:s') }}
+				</a>
+			</td>
+			<td>
+				{{ l.fecha_envio|date('Y-m-d H:i:s') }}
+			</td>
+			<td>{{ l.caso_id }}</td>
+			<td>{{ l.destino }}</td>
+			<td>{{ l.evento }}</td>
+			<td>{{ l.estado }}</td>
+			<td>{{ l.emails }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{{ pag|raw }}

@@ -1,0 +1,17 @@
+<table class="table table-bordered table-condensed table-striped table-full">
+	<tr>
+		<th>Nombre</th>
+		<th>Identificador</th>
+	</tr>
+	<tbody>
+	{% for l in lista %}
+		<tr>
+			<td>
+				<a href="{{ root }}/admin/perfiles/editar?id={{ l.id }}">{{ l.nombre }}</a>
+			</td>
+			<td>{{ l.identificador }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{{ pag|raw }}

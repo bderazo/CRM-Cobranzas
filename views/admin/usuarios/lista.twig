@@ -1,0 +1,37 @@
+<table class="table border text-nowrap text-md-nowrap table-striped mb-0">
+	<thead>
+	<tr>
+		<th>Username</th>
+		<th>Nombre Completo</th>
+		<th>Email</th>
+		<th>Activo</th>
+		<th>Fecha creacion</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for l in lista %}
+		<tr>
+			<td>
+				<a href="usuarios/editar?id={{ l.id }}">{{ l.username }}</a>
+			</td>
+			<td>{{ l.apellidos }}&nbsp;{{ l.nombres }}</td>
+			<td>{{ l.email }}</td>
+			<td>
+				{% if l.activo == 1 %}
+					SI
+				{% else %}
+					NO
+				{% endif %}
+			</td>
+			<td>{{ l.fecha_creacion|date("Y-m-d") }}</td>
+
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{{ pag|raw }}
+
+
+
+

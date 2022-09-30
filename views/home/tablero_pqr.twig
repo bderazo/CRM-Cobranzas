@@ -1,0 +1,68 @@
+<div class="row">
+	<div class="col-md-6">
+		<div class="">
+			<h4>Petitions, Claims & Complaints</h4>
+
+			<div class="embudo">
+
+				<table class="table">
+					<thead>
+					<tr>
+						<th class="text-center embudoth"># Casos</th>
+						<th class="text-center">Días abierto</th>
+						<th>Diferencia</th>
+						<th>Semana pasada</th>
+					</tr>
+					</thead>
+					<tbody class="gradiente-embudo">
+					{% for c in petitions %}
+						<tr>
+							<td class="text-center" style="font-size: 14px;color:#000">
+								<b>{{ c.total }}</b>
+							</td>
+							<td class="text-center">{{ c.rango }}</td>
+							<td>
+								<img src="{{ root }}/img/{{ c.comp }}.png" height="12px"/>
+							</td>
+							<td>{{ c.pasado }}</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="3">&nbsp</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div id="cuadroModelo" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<h4>Top 10 Fallas técnicas por familia y detalle falla</h4>
+		<table class="table table-condensed table-striped table-bordered small">
+			<thead>
+			<tr>
+				<th>Familia</th>
+				<th>Sistema</th>
+				<th>Componente</th>
+				<th>Falla</th>
+				<th>Total</th>
+			</tr>
+			</thead>
+			{% for c in top10fallas %}
+				<tr>
+					<td>{{ c.familia }}</td>
+					<td>{{ c.falla_sistema }}</td>
+					<td>{{ c.falla_componente }}</td>
+					<td>{{ c.falla_detalle }}</td>
+					<td>{{ c.total }}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>

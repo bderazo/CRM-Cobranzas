@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{% if title %}{{ title }}{% else %}Polipack{% endif %}</title>
+
+	{{ bundle('site') }}
+	{{ bundle('extraPlugins') }}
+	{{ bundle('jqueryui') }}
+</head>
+<body class="skin-3 banco">
+{# Con esto sale el menu izquierdo pequeno #}
+{#<body class="skin-3 banco mini-navbar">#}
+
+{% import "menu_top.twig" as menus %}
+
+<div id="wrapper">
+	<nav class="navbar-default navbar-static-side" role="navigation">
+		<div class="sidebar-collapse">
+			<ul class="nav metismenu" id="side-menu">
+				<li class="nav-header">
+					<div class="dropdown profile-element">
+						{#<span>#}
+						<a href="{{ root }}" title="Inicio">
+							<i class="fa fa-home fa-5x"></i>
+							<span style="font-size: large;display:inline-block">POLIPACK</span>
+
+							<span class="clear"></span>
+							<span class="block m-t-xs"> <strong class="font-bold">{{ user.nombres }} {{ user.apellidos }}</strong>
+						</span>
+						</a>
+						{#</span>#}
+
+
+
+						{#<a data-toggle="dropdown" class="dropdown-toggle" href="#">#}
+						{#<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ user.nombres }} {{ user.apellidos }}</strong>#}
+						{#</span> <span class="text-muted text-xs block">Acceso <b class="caret"></b></span> </span> </a>#}
+						{#<ul class="dropdown-menu animated fadeInRight m-t-xs">#}
+						{#<li><a href="{{ root }}/account">Mi cuenta</a></li>#}
+						{#<li class="divider"></li>#}
+						{#<li><a href="{{ root }}/logout">Logout</a></li>#}
+						{#</ul>#}
+					</div>
+					<div class="logo-element">
+						<a href="{{ root }}">
+							<i class="fa fa-home fa-2x" title="Inicio Polipack"></i>
+						</a>
+					</div>
+				</li>
+				{% include 'menu_left.twig' %}
+			</ul>
+
+		</div>
+	</nav>
+
+	<div id="page-wrapper" class="gray-bg">
+		<div class="row border-bottom">
+			<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+				<div class="navbar-header">
+					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+				</div>
+
+				<div class="navbar-left" style="padding: 5px">
+					<img src="{{ root }}/img/find_new_roads.png">
+				</div>
+
+
+				<ul class="nav navbar-top-links navbar-right">
+					<li>
+						<span class="m-r-sm text-muted welcome-message">Polipack.</span>
+					</li>
+					<li>
+						<a href="javascript:void(0);"><i class="fa fa-user"></i>{{ user.nombres }}&nbsp;{{ user.apellidos }}</a>
+					</li>
+
+					<li>
+						<a href="{{ root }}/account"><i class="fa fa-address-card-o"></i> Mi cuenta</a>
+					</li>
+
+
+					<li>
+						<a href="{{ root }}/logout"><i class="fa fa-sign-out"></i> Salir</a>
+					</li>
+
+				</ul>
+
+			</nav>
+		</div>
+
+		{#{% if breadcrumbs.hasContent() %}#}
+		<div class="row wrapper border-bottom white-bg" style="padding-top: 5px; padding-bottom: 5px">
+			<ul class="breadcrumb">
+				<li><a href="{{ root }}">Inicio</a></li>
+				{% for item in breadcrumbs.links %}
+					<li>
+						<a href="{{ item.link }}">{{ item.name }}</a>
+					</li>
+				{% endfor %}
+				{% if breadcrumbs.active %}
+					<li class="active">
+						<strong>{{ breadcrumbs.active.name }}</strong>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+		{#{% endif %}#}
+
+
+		<div class="wrapper wrapper-content">
+			<div class="notificaciones">
+				{% if flash.confirma or confirma %}
+					<div class="alert alert-success" role="alert">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+						{{ flash.confirma }} {{ confirma }}
+					</div>
+				{% endif %}
+
+				{% if flash.alert or alert %}
+					<div class="alert alert-info" role="alert">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+						{{ flash.alert }} {{ alert }}
+					</div>
+				{% endif %}
+
+				{% if flash.error or error %}
+					<div class="alert alert-danger" role="alert">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						{{ flash.error }} {{ error }}
+					</div>
+				{% endif %}
+			</div>
+			<div class="container-fluid">
+				{% block content %}{% endblock %}
+			</div>
+
+		</div>
+
+
+		<div class="footer">
+			<div class="pull-right">
+				Versión <strong>Pruebas</strong>
+			</div>
+			<div>
+				<strong>Copyright</strong> API &copy; {{ now|date('Y') }}
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+{% for item in mainMenu.children %}
+	<li>
+		<a href="{{ item.link }}" title="{{ item.text }}">
+			{% if item.icon %}
+				<i class="{{ item.icon }}"></i>
+			{% else %}
+				<i class="fa fa-circle"></i>
+			{% endif %}
+			<span class="nav-label">{{ item.text }}</span>
+			{% if item.children %}
+				<span class="fa arrow"></span>
+			{% endif %}
+		</a>
+		{% if item.children %}
+			<ul class="nav nav-second-level">
+				{% for sec in item.children %}
+					<li><a href="{{ sec.link }}"><i class="{{ sec.icon }}"></i>
+							{{ sec.text }}</a></li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+
+		{#{% if item.children|length %}#}
+
+		{#<a href="{{ item.link }}" class="dropdown-toggle" data-toggle="dropdown">#}
+		{#{% if item.icon is not empty %}#}
+		{#<i class="{{ item.icon }}"></i>#}
+		{#{% endif %}#}
+		{#{{ item.text }}<span class="fa arrow"></span></a>#}
+		{#<ul class="nav nav-second-level collapse">#}
+		{#{{ _self.menuCode(item) }}#}
+		{#</ul>#}
+
+		{#{% else %}#}
+		{#<a href="{{ item.link }}">#}
+
+		{#{% if item.icon is not empty %}<i class="{{ item.icon }}"></i>#}
+		{#{% endif %}#}
+		{#{{ item.text }}</a>#}
+		{#{% endif %}#}
+	</li>
+{% endfor %}
+
+
+
+
+

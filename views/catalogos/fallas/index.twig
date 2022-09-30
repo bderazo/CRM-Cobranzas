@@ -1,0 +1,124 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+	<div class="col-lg-12" id="app">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5>Lista de fallas técnicas</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="row">
+					<div class="col-md-3">
+						<table class="table table-condensed small table-bordered table-striped" id="tabla_sistemas">
+							<thead>
+							<tr>
+								<th>Sistema</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-on:click="selectRow(r, index)" v-for="(r, index) in sistemas" v-bind:class="claseFila(r, index)">
+								<td v-html="r.texto">
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="col-md-3">
+						<table class="table table-condensed small table-bordered table-striped" id="tabla_componentes">
+							<thead>
+							<tr>
+								<th>Componentes
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-on:click="selectRow(r, index)" v-for="(r, index) in componentes" v-bind:class="claseFila(r, index)">
+								<td v-html="r.texto">
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="col-md-3">
+						<table class="table table-condensed small table-bordered table-striped" id="tabla_fallas">
+							<thead>
+							<tr>
+								<th>Fallas</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-on:click="selectRow(r, index)" v-for="(r, index) in fallas" v-bind:class="claseFila(r, index)">
+								<td v-html="r.texto">
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var arbol = {
+			sistema: 'componente',
+			componente: 'falla',
+			falla: null
+		};
+		var app = new Vue({
+			el: "#app",
+			data: {
+				sistemas: {{ sistemas|raw }},
+				componentes: [],
+				fallas: [],
+				selected: {
+					sistema: null,
+					componente: null,
+					falla: null
+				}
+			},
+			methods: {
+				claseFila: function (r, ix) {
+					var css = 'selectable';
+					if (ix === this.selected[r.tipo])
+						css += ' selectedRow';
+					return css;
+				},
+				selectRow: function (r, ix) {
+					var destino = null;
+					if (r.tipo === 'sistema') {
+						destino = 'componentes';
+						this.fallas = [];
+						this.selected['componente'] = null;
+						this.selected['falla'] = null;
+					}
+					if (r.tipo === 'componente') {
+						destino = 'fallas';
+						this.selected['falla'] = null;
+					}
+					// TODO cambiar el seleccionado
+
+					this.selected[r.tipo] = ix;
+
+					if (!destino) return;
+
+					var data = {
+						tipo: arbol[r.tipo],
+						padre: r.id
+					};
+					var self = this;
+					$.post('{{ root }}/catalogos/fallas/lista', data, function (r) {
+						self[destino] = r;
+					});
+				}
+			},
+			mounted: function () {
+			}
+		});
+
+	</script>
+{% endblock %}

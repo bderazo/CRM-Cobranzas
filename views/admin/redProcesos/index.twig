@@ -1,0 +1,150 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<div id="app">
+		<form method="post" id="subir" class="form-horizontal">
+
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>Procesos Red PQR</h5>
+				</div>
+				<div class="ibox-content">
+					<fieldset id="campos">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									{#<label for="" class="col-sm-2 control-label" style="margin-right: 15px;">Archivo</label>#}
+									<label for="" class="col-sm-2 control-label">Archivo</label>
+
+									{#<div style="width:200%;">#}
+									<div class="col-md-10">
+
+										<div class="fileinput fileinput-new input-group input-group-sm" data-provides="fileinput">
+											<div class="form-control" data-trigger="fileinput">
+												<i class="glyphicon glyphicon-file fileinput-exists"></i>
+												<span class="fileinput-filename"></span>
+											</div>
+											<div class="input-group-addon btn btn-default btn-file">
+												<span class="fileinput-new"><i class="fa fa-search"></i> Seleccione</span>
+												<span class="fileinput-exists"><i class="fa fa-refresh"></i> Cambiar</span>
+												<input type="file" name="archivo" id="archivo" class="required"
+													   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+											</div>
+											<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">
+												<i class="fa fa-close"></i>
+												Quitar</a>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Creación</label>
+									<div class="col-sm-8">
+
+										<div class="checkbox">
+											<label><input type="checkbox" value="1" name="insert" id="chkInsert">Realizar inserción de datos</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="" class="col-sm-2 control-label"></label>
+
+									<div class="col-sm-4">
+										<button type="submit" class="btn btn-success">Cargar Red desde Excel</button>
+									</div>
+									<div class="col-sm-4">
+										<button type="button" class="btn btn-primary" id="btnUsuarios">Crear Usuarios desde Red</button>
+										<br>
+										<span class="small"> Clave sera '12345'</span>
+									</div>
+									<div class="col-sm-2">
+										<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalFormato">Ver mapeo Excel</button>
+									</div>
+								</div>
+
+							</div>
+							<div class="col-sm-6">
+							</div>
+						</div>
+
+					</fieldset>
+				</div>
+			</div>
+		</form>
+
+		<div class="ibox">
+			<div class="ibox-heading">
+				<div class="ibox-title">Resultado</div>
+			</div>
+			<div class="ibox-content">
+				<pre id="resultado">
+				</pre>
+			</div>
+		</div>
+	</div>
+
+	<div id="modalFormato" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">Mapeo columnas Excel</div>
+				<div class="modal-body">
+					<pre>{{ mapeoExcel }}</pre>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('jasny') }}
+	<script>
+		var form = $('#subir');
+		var campos = $('#campos');
+		var resDiv = $('#resultado');
+
+		form.validate({
+			submitHandler: function (f) {
+				var url = '{{ root }}/admin/redProcesos/cargar';
+				var formData = new FormData(form[0]);
+				campos.prop('disabled', 'disabled');
+				self.mostrar = true;
+				resDiv.html('Procesando...');
+				//console.log(app.$data.mostrar);
+
+				$.ajax({
+					url: url,
+					data: formData,
+					type: 'POST',
+					// THIS MUST BE DONE FOR FILE UPLOADING
+					contentType: false,
+					processData: false,
+					success: function (data) {
+						campos.removeAttr('disabled');
+						// aca formatear los resultados
+						//resDiv.html('<pre>' + data + '</pre>');
+						resDiv.html(data);
+//						form[0].reset();
+					},
+					error: function () {
+						campos.removeAttr('disabled');
+					}
+
+				});
+				return false;
+			}
+		});
+
+		$('#btnUsuarios').click(function () {
+			resDiv.html('Procesando...');
+			var data = {insert: $('#chkInsert').is(':checked') ? 1 : 0};
+			$.post('{{ root }}/admin/redProcesos/generarUsuarios', data, function (data) {
+				resDiv.html(data);
+			})
+		})
+
+
+	</script>
+{% endblock %}

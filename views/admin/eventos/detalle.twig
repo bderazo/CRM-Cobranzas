@@ -1,0 +1,70 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5>Detalle del Evento</h5>
+
+			</div>
+			<div class="ibox-content">
+				<div class="row">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<th>Fecha/Hora</th>
+							<td>{{ e.fecha }}</td>
+						</tr>
+						<tr>
+							<th>Nivel</th>
+							<td>{{ e.nivel }}</td>
+						</tr>
+						<tr>
+							<th>Mensaje</th>
+							<td>{{ e.mensaje }}</td>
+						</tr>
+						<tr>
+							<th>Usuario</th>
+							<td>{{ e.usuario }}</td>
+						</tr>
+						<tr>
+							<th>Modulo</th>
+							<td>{{ e.modulo }}</td>
+						</tr>
+						<tr>
+							<th>Ip Address</th>
+							<td>{{ e.ipaddress }}</td>
+						</tr>
+						<tr>
+							<th>Datos</th>
+							<td>
+								<pre id="datos" style="width:100%;white-space: pre-wrap">{{ e.datos }}</pre>
+								{% if hayDatos %}
+									<button type="button" class="btn btn-sm btn-primary" id="btnDecode">Decodificar</button>
+								{% endif %}
+
+								<div id="divDecoded" style="display:none;width:80%">
+									<pre id="decoded" style="width:100%;white-space: pre-wrap"></pre>
+								</div>
+
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		$('#btnDecode').click(function () {
+			var data = $('#datos').text();
+			$('#decoded').load('{{ root }}/admin/eventos/decode', {json: data}, function(){
+				$('#divDecoded').show();
+			});
+		});
+	</script>
+
+
+{% endblock %}

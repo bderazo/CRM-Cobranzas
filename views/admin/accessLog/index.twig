@@ -1,0 +1,101 @@
+{% extends layoutApp %}
+
+{% block content %}
+	
+	<form method="post" id="filtro" class="form-horizontal">
+		<div class="col-lg-12">
+
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>Accesos al sistema</h5>
+
+				</div>
+				<div class="ibox-content">
+				    <div class="row">
+						<div class="col-md-6">
+
+							<div class="form-group">
+								<label for="" class="col-sm-4 control-label">Username</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("username", model.username, {class:'form-control'}) }}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="" class="col-sm-4 control-label">Desde</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("desde", model.desde, {class:'form-control fecha'}) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="" class="col-sm-4 control-label">Hasta</label>
+
+								<div class="col-sm-8">
+									{{ text_field_tag("hasta", model.hasta, {class:'form-control fecha'}) }}
+								</div>
+							</div>
+
+						</div>
+
+					    <div class="col-md-6">
+						    <p class="text-info text-center"><span style="font-size: 20px;">Módulo de eventos sistema</span></p>
+						    <p class="text-center">
+							    <i class="fa fa-tasks big-icon" aria-hidden="true"></i>
+						    </p>
+
+
+					    </div>
+					</div>
+					<div class="ibox-footer">
+						<button type="submit" class="btn">Filtrar</button>
+						<a class="btn" href="javascript:;" onclick="todos()">Ver todos</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	</form>
+
+
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5>Lista de accesos al sistema</h5>
+
+			</div>
+			<div class="ibox-content">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		var form = $('#filtro');
+		function todos() {
+			//resetForm('filtro');
+			form[0].reset();
+			cargar(1);
+		}
+		
+		function cargar(page) {
+			var data = form.serializeArray();
+			$('#lista').load('{{ root }}/admin/accessLog/lista?page=' + page, data);
+		}
+		form.submit(function () {
+			cargar(1);
+			return false;
+		});
+		
+		$(function () {
+			cargar(1);
+			$('.fecha').datepicker({
+				dateFormat: 'yy-mm-dd',
+				showButtonPanel: true
+			});
+		});
+	
+	
+	</script>
+{% endblock %}

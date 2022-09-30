@@ -1,0 +1,179 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosProduccionDiariaExtrusionConsolidado.twig" %}
+	<div class="ibox float-e-margins" id="app">
+		<div class="ibox-title">
+			<h5>
+				<strong>Datos</strong>
+			</h5>
+
+			<div class="ibox-tools">
+				<a class="btn btn-xs" id="btnExportar">
+					<i class="far fa-file-excel"></i>
+					Exportar
+				</a>
+
+			</div>
+		</div>
+		<div class="ibox-content no-padding">
+			<div class="row">
+				<div class="col-lg-12">
+					<table class="table table-condensed table-bordered table-stripped">
+						<tr>
+							<td width="16%"><strong>Total Conformes Neto</strong></td>
+							<td width="16%" v-html="total.total_neto_conforme"></td>
+							<td width="16%"><strong>Total Inconformes Neto</strong></td>
+							<td width="16%"  v-html="total.total_neto_inconforme"></td>
+							<td width="16%"><strong>Total Desperdicio Neto</strong></td>
+							<td width="16%" v-html="total.total_neto_desperdicio"></td>
+						</tr>
+						<tr>
+							<td width="16%"><strong>Total Conformes Bruto</strong></td>
+							<td width="16%" v-html="total.total_bruto_conforme"></td>
+							<td width="16%"><strong>Total Inconformes Bruto</strong></td>
+							<td width="16%"  v-html="total.total_bruto_inconforme"></td>
+							<td width="16%"><strong>Total Desperdicio Bruto</strong></td>
+							<td width="16%" v-html="total.total_bruto_desperdicio"></td>
+						</tr>
+						<tr>
+							<td width="16%"><strong>Total Bruto</strong></td>
+							<td width="16%" v-html="total.total_final_bruto"></td>
+							<td width="16%"><strong>Total Neto</strong></td>
+							<td width="16%" v-html="total.total_final_neto"></td>
+						</tr>
+					</table>
+					<table class="table table-condensed table-bordered table-stripped">
+						<thead>
+						<tr>
+							<th style="font-size: 10px;">Orden</th>
+							<th style="font-size: 10px;">Fecha</th>
+							<th style="font-size: 10px;">Descripción Producto</th>
+							<th style="font-size: 10px;">Ancho</th>
+							<th style="font-size: 10px;">Espesor</th>
+							<th style="font-size: 10px;">Cantidad Solicitada</th>
+							<th style="font-size: 10px;">Unidad</th>
+							<th style="font-size: 10px;">Rollos Conformes</th>
+							<th style="font-size: 10px;">Peso Bruto Conforme (Kg)</th>
+							<th style="font-size: 10px;">Peso Neto conforme (Kg)</th>
+							<th style="font-size: 10px;">Rollos Inconformes</th>
+							<th style="font-size: 10px;">Peso Brtuo Inconforme (Kg)</th>
+							<th style="font-size: 10px;">Peso Neto Inconforme (Kg)</th>
+							<th style="font-size: 10px;">Peso Bruto Desperdicio (Kg)</th>
+							<th style="font-size: 10px;">Peso Neto Desperdicio (Kg)</th>
+							<th style="font-size: 10px;">Total Peso Bruto (Kg)</th>
+							<th style="font-size: 10px;">Total Peso Neto (Kg)</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td style="font-size: 10px;">
+								<a :href="'{{ root }}/produccionExtrusion/editar?id=' + d.id_orden" target="_blank">
+									<span v-html="d.numero_orden"></span><br/>
+								</a>
+							</td>
+							<td style="font-size: 10px;" >
+								<strong>Inicio:</strong><br/> <span v-html="d.fecha_minima"></span><br/>
+								<strong>Fin:</strong><br/> <span v-html="d.fecha_maxima"></span>
+							</td>
+							<td style="font-size: 10px;" v-html="d.nombre_producto"></td>
+							<td style="font-size: 10px;" v-html="d.ancho"></td>
+							<td style="font-size: 10px;" v-html="d.espesor"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.cantidad_solicitada"></td>
+							<td style="font-size: 10px; text-transform: uppercase;" v-html="d.unidad"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.conforme_rollos"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.conforme_bruto"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.conforme_neto"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.inconforme_rollos"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.inconforme_bruto"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.inconforme_neto"></td>
+
+							<td style="font-size: 10px;" align="right" v-html="d.desperdicio_bruto"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.desperdicio_neto"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.total_bruto"></td>
+							<td style="font-size: 10px;" align="right" v-html="d.total_neto"></td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td style="font-size: 10px;" colspan="7" align="right"><strong>TOTAL</strong></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_rollo_conforme"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_bruto_conforme"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_neto_conforme"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_rollo_inconforme"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_bruto_inconforme"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_neto_inconforme"></td>
+
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_bruto_desperdicio"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_neto_desperdicio"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_final_bruto"></td>
+							<td style="font-size: 10px;" align="right" style="font-weight: bold;" v-html="total.total_final_neto"></td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportProduccionDiariaExtrusionConsolidado">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{#<script src="http://d3js.org/d3.v3.min.js"></script>#}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/highcharts/highcharts.js') }}
+	{{ script('js/highcharts/modules/exporting.js') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				datos: [],
+				total: []
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				consultar: function () {
+					var form = $('#filtros');
+					var self = this;
+					var data = form.serializeArray();
+					toggleLoader();
+					$.post('{{ root }}/reportes/produccionDiariaExtrusionConsolidado', data, function (res) {
+						toggleLoader();
+						self.datos = res['data'];
+						self.total = res['total'];
+						console.log(res);
+					})
+				}
+			},
+			mounted: function () {
+				var form = $('#filtros');
+				var self = this;
+				$('#btnExportar').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#json').val(JSON.stringify(data));
+					$('#exportForm').submit();
+				});
+
+				$(document).ready(function () {
+					$('#btnFiltro').click(function () {self.consultar();});
+					$('#btnTodos').click(function () {
+						form[0].reset();
+						$("#producto_extrusion").val("");
+						$("#producto").val("");
+						self.consultar();
+					});
+					// self.consultar();
+				});
+			}
+		});
+
+
+	</script>
+{% endblock %}

@@ -1,0 +1,32 @@
+<div class="table-responsive">
+	<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+		<thead>
+		<tr>
+			<th>Nombre</th>
+			<th>RUC</th>
+			<th>Paleta</th>
+			<th>Ciudad</th>
+			<th>Acceso al sistema</th>
+			<th>Paleta propia</th>
+			<th>Descripción</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for l in lista %}
+			<tr>
+				<td>
+					<a href="{{ root }}/institucion/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.nombre }}</a>
+				</td>
+				<td>{{ l.ruc }} </td>
+				<td>{{ l.paleta_nombre }} </td>
+				<td>{{ l.ciudad|upper }} </td>
+				<td>{{ l.acceso_sistema|upper }} </td>
+				<td>{{ l.paletas_propias|upper }} </td>
+				<td>{{ l.descripcion }} </td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{{ pag|raw }}

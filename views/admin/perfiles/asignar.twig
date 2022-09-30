@@ -1,0 +1,189 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<div class="col-lg-12" id="app">
+		<form method="post" id="wut" class="form-horizontal">
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>Asignacion en Masa de Perfiles</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-3">
+							<div>
+								{#<label style="width:120px">Tipo</label>#}
+								{#<select v-model="filtros.tipo">#}
+								{#<option></option>#}
+								{#<option v-for="(v,k) in tipos" :value="k" v-html="v"></option>#}
+								{#</select>#}
+								{#<br>#}
+								<label style="width:120px">Username</label>
+								<input type="text" v-model="filtros.username"/>
+								<br>
+								<label style="width:120px">Email</label>
+								<input type="text" v-model="filtros.email"/>
+								<br>
+								<label style="width:120px">Nombres</label>
+								<input type="text" v-model="filtros.nombres"/>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div>
+								<label style="width:120px">Perfil</label>
+								<select v-model="filtros.perfil">
+									<option></option>
+									<option v-for="p in perfiles" :value="p.id" v-html="p.nombre"></option>
+								</select>
+								<br>
+							</div>
+						</div>
+						<div class="col-md-6">
+
+							<div class="form-group">
+								<label for="" class="col-sm-4 control-label">Seleccionar Perfil</label>
+
+								<div class="col-sm-8">
+									{#{{ select_tag('perfil', perfiles, model.perfil, {text:'nombre', key:'id', class:'form-control'} ) }}#}
+									<select v-model="idper" id="perfil" class="form-control">
+										<option></option>
+										<option v-for="p in perfiles" :value="p.id" v-html="p.nombre"></option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="" class="col-sm-4 control-label"></label>
+
+								<div class="col-sm-8">
+									<button type="button" v-on:click="asignar('asigna')" class="btn btn-primary">Asignar</button>
+									<button type="button" v-on:click="asignar('deasigna')" class="btn btn-success">De-asignar</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<br>
+					<table class="table table-condensed table-bordered table-hover small">
+						<thead>
+						<tr>
+							<th>
+								<input type="checkbox" title="Seleccionar/Deseleccionar Todos" v-model="todos"/>
+							</th>
+							<th>Username</th>
+							<th>Email</th>
+							<th>Nombres</th>
+							<th>Perfiles</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="(u, $index) in usuariosFiltrados" v-bind:class="{proyectoSelect:u.checked}">
+							<td>
+								<input type="checkbox" v-model="u.checked"/>
+								<span v-html="($index + 1)"></span>
+							</td>
+							<td v-on:click="toggle(u)" style="cursor:pointer">
+								<div v-html="u.username"></div>
+							</td>
+							<td v-html="u.email"></td>
+							<td v-html="u.nombres"></td>
+							<td v-html="u.perfiles"></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				usuarios: {{ usuarios|raw }},
+				perfiles: {{ perfilesJson|raw }},
+				tipos: {},
+				filtros: {
+					nombres: null,
+					perfil: null,
+					username: null,
+					email: null
+				},
+				todos: false,
+				idper: null
+			},
+			watch: {
+				'todos': function (val) {
+					$.each(this.usuariosFiltrados, function (ix, u) {
+						u.checked = val;
+					});
+				}
+			},
+			computed: {
+				usuariosFiltrados: function () {
+					if (!this.hayFiltros())
+						return this.usuarios;
+					var f = this.filtros;
+					return this.usuarios.filter(function (u) {
+						if (f['tipo'] && u.tipo !== f['tipo'])
+							return false;
+						if (f['username']) {
+							return u.username.toUpperCase()
+								.startsWith(f['username'].toUpperCase());
+						}
+						if (f['email']) {
+							return u.email.toUpperCase()
+								.includes(f['email'].toUpperCase());
+						}
+						if (f['nombres']) {
+							return u.nombres.toUpperCase()
+								.includes(f['nombres'].toUpperCase());
+						}
+						if (f['perfil']) {
+							return u.idsPerfiles.indexOf(f['perfil']) !== -1;
+						}
+						return true;
+					});
+				}
+			},
+			methods: {
+				hayFiltros: function () {
+					for (var k in this.filtros) {
+						if (this.filtros[k])
+							return true;
+					}
+					return false;
+				},
+				selected: function () {
+					var idper = $('#perfil').val();
+					var lista = [];
+					$.each(this.usuarios, function (ix, u) {
+						if (u.checked)
+							lista.push(u.id);
+					});
+					return {perfil: idper, usuarios: lista};
+				},
+				asignar: function (op) {
+					var data = this.selected();
+					if (!data.perfil || data.usuarios.length === 0) {
+						alert('Nada que hacer');
+						return;
+					}
+					data.op = op;
+					var self = this;
+					$.post('{{ root }}/admin/perfiles/runAsignar', {json: JSON.stringify(data)}, function (lista) {
+						$.each(lista, function (id, u) {
+							self.usuarios[id].perfiles = u.perfiles;
+							self.usuarios[id].idsPerfiles = u.idsPerfiles;
+						});
+					});
+					this.todos = false;
+				},
+				toggle: function (u) {
+					u.checked = !u.checked;
+				}
+			}
+		});
+	</script>
+{% endblock %}

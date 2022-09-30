@@ -1,0 +1,51 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+	<div class="col-lg-12" id="app">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5>Estructura general PQR</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table table-condensed small table-bordered table-striped">
+							<thead>
+							<tr>
+								<th>Categoria</th>
+								<th>Subcategoria</th>
+								{% for k,v in tipos %}
+									<th>{{ v }}</th>
+								{% endfor %}
+								<th>Caso Especial</th>
+								<th>Escalamiento</th>
+								<th>Aliadas</th>
+							</tr>
+							</thead>
+							<tbody>
+							{% for l in lista %}
+								<tr>
+									<td>{{ l.categoria }}</td>
+									<td>{{ l.subcategoria }}</td>
+									{% for v in l.listaTipos %}
+										<td>{{ v }}</td>
+									{% endfor %}
+									<td>{{ l.especial }}</td>
+									<td>{{ l.escalamiento }}</td>
+									<td>{% if l.aliado %}X{% endif %}</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+
+	</script>
+{% endblock %}

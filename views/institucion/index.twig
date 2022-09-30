@@ -1,0 +1,106 @@
+{% extends layoutApp %}
+
+{% block content %}
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Filtros de Búsqueda</h4>
+			</div>
+			<div class="card-body">
+				<form method="post" id="filtro" class="form-horizontal">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Nombre</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" v-model="model.nombre" placeholder="Nombre"/>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">RUC</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" v-model="model.ruc" placeholder="RUC"/>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Paleta</label>
+						<div class="col-md-4">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Seleccione una paleta" name="paleta_nombre" id="paleta_nombre" readonly>
+								<input type="hidden" class="form-control" v-model="model.paleta_id" name="paleta_id" id="paleta_id"/>
+								<button class="btn btn-default" type="button" v-on:click="buscarPaleta">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Paleta propia</label>
+						<div class="col-md-4">
+							<select class="form-control form-select select2" v-model="model.paletas_propias" placeholder="Seleccione una opción">
+								<option value=""></option>
+								<option value="si">SI</option>
+								<option value="no">NO</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
+							<a href="{{ root }}/institucion/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
+{#							<a href="{{ root }}/institucion/crear" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Importar</a>#}
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Lista de Instituciones</h4>
+			</div>
+			<div class="card-body">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var form = $('#filtro');
+		$('.integer').numeric('integer');
+
+		function todos() {
+			form[0].reset();
+			$("#estado").val('');
+			cargar(1);
+		}
+
+		function cargar(page) {
+			var data = form.serializeArray();
+			console.log(data);
+			$('#lista').load('{{ root }}/institucion/lista?page=' + page, data);
+		}
+
+		form.submit(function () {
+			cargar(1);
+			return false;
+		});
+
+		cargar(1);
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				model: [],
+			},
+			watch: {},
+			methods: {},
+			mounted: function () {
+				$('.integer').numeric("integer");
+				$('.numeric').numeric();
+			}
+		});
+	</script>
+{% endblock %}

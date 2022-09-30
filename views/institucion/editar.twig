@@ -1,0 +1,318 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+		<div class="col-md-12 col-xl-12">
+			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Información General</h4>
+					</div>
+					<div class="card-body">
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Nombre *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.nombre" placeholder="Nombre" required v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">RUC *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required digits" v-model="model.ruc" placeholder="RUC" v-autoname/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Ciudad *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.ciudad" placeholder="Seleccione una opción">
+									<option></option>
+									<option v-for="(v,k) in cat.ciudades" v-html="v" :value="k"></option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Dirección</label>
+							<div class="col-md-4">
+								<textarea rows="3" v-model="model.direccion" class="form-control" placeholder="Dirección" v-autoname></textarea>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Paleta *</label>
+							<div class="col-md-4">
+								<div class="input-group">
+									<input type="text" class="form-control required" placeholder="Seleccione una paleta" v-model="paleta_nombre" name="paleta_nombre" id="paleta_nombre" readonly>
+									<input type="hidden" class="form-control" v-model="model.paleta_id" name="paleta_id" id="paleta_id"/>
+									<button class="btn btn-default" type="button" v-on:click="buscarPaleta">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+									<button class="btn btn-default" type="button" v-on:click="abrirPaleta">
+										<i class="fa fa-external-link"></i>
+									</button>
+								</div>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Paleta propia *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-autoname v-model="model.paletas_propias" placeholder="Seleccione una opción" v-autoname>
+									<option value="si">SI</option>
+									<option value="no">NO</option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Acceso al sistema *</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" v-model="model.acceso_sistema" placeholder="Acceso al sistema" required v-autoname>
+									<option value="si">SI</option>
+									<option value="no">NO</option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Descripción</label>
+							<div class="col-md-4">
+								<textarea rows="3" v-model="model.descripcion" class="form-control" placeholder="Descripción" v-autoname></textarea>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Teléfonos</label>
+							<div class="col-md-4">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarTelefono">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Teléfono</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="t in telefono">
+										<td>
+											<input type="text" class="form-control form-control-sm required digits" v-model="t.telefono" placeholder="Teléfono" v-autoname/>
+										</td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delTelefono(t)">
+												<i class="fe fe-trash"></i>
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Emails</label>
+							<div class="col-md-4">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarEmail">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Email</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="c in email">
+										<td>
+											<input type="text" class="form-control form-control-sm required email" v-model="c.email" placeholder="Email" v-autoname/>
+										</td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delEmail(c)">
+												<i class="fe fe-trash"></i>
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<input type="hidden" v-model="model.id" id="id" name="id"/>
+								<input type="hidden" name="json" id="json"/>
+
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Contactos</h4>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+							<thead>
+							<tr>
+								<th>Apellidos</th>
+								<th>Nombres</th>
+								<th>Cargo</th>
+								<th>Email</th>
+								<th>Tel oficina</th>
+								<th>Tel celular</th>
+								<th>Descripción</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-for="c in contactos">
+								<td>
+									<a :href="'{{ root }}/contacto/editar?id=' + c.id" target="_blank" style="text-decoration: underline" class="text-primary ms-1">
+										<span v-html="c.apellidos"></span>
+									</a>
+								</td>
+								<td><span v-html="c.nombres"></span></td>
+								<td><span v-html="c.cargo"></span></td>
+								<td><span v-html="c.correo"></span></td>
+								<td><span v-html="c.telefono_oficina"></span></td>
+								<td><span v-html="c.telefono_celular"></span></td>
+								<td><span v-html="c.descripcion"></span></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalPaleta" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Paletas</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="paletaContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+		_autonameVueCount = 0;
+		Vue.directive('autoname', {
+			inserted: function (el, binding, vnode) {
+				_autonameVueCount++;
+				$(el).prop('name', '_auto' + _autonameVueCount);
+			}
+		});
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				cat: {{ catalogos|raw }},
+				model: {{ model|raw }},
+				paleta_nombre: '{{ paleta_nombre|raw }}',
+				telefono: {{ telefono|raw }},
+				del_telefono: [],
+				email: {{ email|raw }},
+				del_email: [],
+				contactos: {{ contactos|raw }},
+			},
+			watch: {},
+			computed: {},
+			methods: {
+				buscarPaleta: function () {
+					var self = this;
+					var data = {};
+					$('#paletaContent').load('{{ root }}/paleta/buscador', data, function () {
+						callbackPaleta = function (res) {
+							self.model.paleta_id = res.id;
+							self.paleta_nombre = res.nombre;
+							$('#modalPaleta').modal('hide');
+						};
+						$('#modalPaleta').modal('show');
+					});
+				},
+
+				abrirPaleta: function () {
+					var self = this;
+					if (self.model.paleta_id > 0) {
+						window.open('{{ root }}/paleta/editar?id=' + self.model.paleta_id, '_blank')
+					} else {
+						alert("Seleccione una paleta");
+					}
+				},
+
+				agregarTelefono: function () {
+					var self = this;
+					var data = {
+						telefono: '',
+					};
+					self.telefono.push(data);
+				},
+
+				delTelefono: function (p) {
+					var self = this;
+					if (confirm("Está seguro que desea eliminar el telefono: " + p.telefono + "?")) {
+						var ix = self.telefono.indexOf(p);
+						self.telefono.splice(ix, 1);
+						if (p.id)
+							self.del_telefono.push(p.id);
+					}
+				},
+
+				agregarEmail: function () {
+					var self = this;
+					var data = {
+						email: '',
+					};
+					self.email.push(data);
+				},
+
+				delEmail: function (p) {
+					var self = this;
+					if (confirm("Está seguro que desea eliminar el email: " + p.email + "?")) {
+						var ix = self.email.indexOf(p);
+						self.email.splice(ix, 1);
+						if (p.id)
+							self.del_email.push(p.id);
+					}
+				},
+			},
+			mounted: function () {
+				var self = this;
+				$('#form-edit').validate({
+					onfocusout: false,
+					onkeyup: false,
+					onclick: false,
+					submitHandler: function (form) {
+						var data = {
+							model: self.model,
+							telefono: self.telefono,
+							del_telefono: self.del_telefono,
+							email: self.email,
+							del_email: self.del_email,
+						};
+						$('#json').val(JSON.stringify(data));
+						$("#btnGuardar").prop("disabled", true);
+						form.submit();
+						return false;
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

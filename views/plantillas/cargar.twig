@@ -1,0 +1,85 @@
+{% extends layoutApp %}
+{% block content %}
+
+	<form method="POST" action="{{ root }}/plantillas/cargarImagenes" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+		{{ hidden_field_tag('id', model.id) }}
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>Cargar imágenes</h5>
+
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="" class="col-sm-3 control-label">Nombre</label>
+
+								<div class="col-sm-6">
+									<input type="file" name="imagen" id="imagen" class="required">
+								</div>
+
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+
+						</div>
+					</div>
+					<div class="form-actions">
+						<!--<button  type="submit">Cargar</button>-->
+						<input type="submit" class="btn btn-primary" value="Cargar">
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5>Lista de imagenes</h5>
+
+			</div>
+			<div class="ibox-content">
+				<table class="table table-bordered table-condensed table-striped">
+					<tr>
+						<th class="col-sm-10">Nombre</th>
+						<th></th>
+					</tr>
+					<tbody>
+					{% for l in files %}
+						{% if l !='.' and l !='..' %}
+							<tr>
+								<td>
+									<a href="download?nombre={{ l }}">{{ l }}</a>
+								</td>
+								<td><a href="delete?nombre={{ l }}"> Eliminar</a></td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		$('#form-edit').validate({
+			onfocusout: false,
+			onkeyup: false,
+			onclick: false,
+			submitHandler: function () {
+				return true;
+			}
+		});
+		function eliminar(nombre) {
+			if (!confirm('Eliminar esta imagen?')) return;
+			window.location.href = '{{ root }}/plantillas/deleteFile?nombre=' + nombre;
+		}
+
+
+	</script>
+
+{% endblock %}

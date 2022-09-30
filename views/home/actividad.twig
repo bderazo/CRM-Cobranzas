@@ -1,0 +1,55 @@
+<div class="ibox float-e-margins">
+	<div class="ibox-title">
+		<h5>Actividad reciente Casos <span class="small"> - Últimos 10 eventos</span></h5>
+
+		<div class="ibox-tools">
+			<a class="collapse-link">
+				<i class="fa fa-chevron-up"></i>
+			</a>
+			{#<a class="dropdown-toggle" data-toggle="dropdown" href="#">#}
+			{#<i class="fa fa-wrench"></i>#}
+			{#</a>#}
+			{#<ul class="dropdown-menu dropdown-user">#}
+			{#<li><a href="#">Config option 1</a>#}
+			{#</li>#}
+			{#<li><a href="#">Config option 2</a>#}
+			{#</li>#}
+			{#</ul>#}
+		</div>
+	</div>
+	{#<div class="ibox-content ibox-heading">#}
+	{#<h3>You have meeting today!</h3>#}
+	{#<small><i class="fa fa-map-marker"></i> Meeting is on 6:00am. Check your schedule to see detail.</small>#}
+	{#</div>#}
+	<div class="ibox-content inspinia-timeline">
+
+		{% for a in actividades %}
+			<div class="timeline-item">
+				<div class="row">
+					<div class="col-xs-3 date">
+						<i class="fa fa-briefcase"></i>
+						{{ a.fecha_evento|date('H:i a') }}
+						<br/>
+						<small class="text-navy">
+							hace {{ a.hace }}
+						</small>
+					</div>
+					<div class="col-xs-7 content no-top-border small">
+						<p class="m-b-xs">
+							<strong>Num. {{ a.numero_servicio }} - Caso #{{ a.caso_id }}</strong>
+						</p>
+
+						<div data-id="{{ a.caso_id }}" style="cursor: pointer" class="rowcaso" title="Abrir el detalle del caso">
+							{#{{ a.n_tipo }} <br>#}
+							{{ a.texto }} <br>
+							por {{ a.usuario }}
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+
+	</div>
+</div>

@@ -1,0 +1,172 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Información General</h4>
+			</div>
+			<div class="card-body">
+				<form method="POST" action="{{ root }}/admin/usuarios/guardar" id="form-edit" class="form-horizontal" autocomplete="off">
+					{{ hidden_field_tag('id', model.id) }}
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Username</label>
+						<div class="col-md-4">
+							{{ text_field_tag('model.username', model.username, {class:'required form-control', placeholder:'Username'}) }}
+						</div>
+
+						{% if not model.id %}
+							<label for="inputName" class="col-md-2 form-label">Password</label>
+							<div class="col-md-4">
+								{{ password_tag('password', '', {'class':'required form-control'}) }}
+							</div>
+						{% endif %}
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Perfiles</label>
+						<div class="col-md-4">
+							{{ select_tag('perfiles', perfiles, perfilesUsuario,
+								{key:'id',value:'nombre','multiple':'multiple', style:'width:100%', 'name':'perfiles[]', 'class':'selectpicker form-control'}) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<div class="col-md-4">
+							{{ text_field_tag("nombres", model.nombres, {class:'form-control', placeholder:'Nombres'}) }}
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Apellidos</label>
+						<div class="col-md-4">
+							{{ text_field_tag('model.apellidos', model.apellidos, {'class':'required form-control', placeholder:'Username'}) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Email</label>
+						<div class="col-md-4">
+							{{ text_field_tag('model.email', model.email, {'class':'required email form-control', placeholder:'Email'}) }}
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Departamento/Area</label>
+						<div class="col-md-4">
+							{{ select_tag('model.area', areas, model.area, {prompt:'Departamento/Area', class:'form-control form-select select2'} ) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Opciones</label>
+						<div class="col-sm-4 checkbox checkbox-success ">
+							<label class="custom-control custom-checkbox">
+								{{ check_box_tag('model.activo', 'true', model.activo, {class:'custom-control-input'}) }}
+								<span class="custom-control-label">Activo</span>
+							</label>
+							{% if esAdmin %}
+								<label class="custom-control custom-checkbox">
+									{{ check_box_tag('model.es_admin', 'true', model.es_admin, {class:'custom-control-input'}) }}
+									<span class="custom-control-label">Es admin</span>
+								</label>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<input type="hidden" name="json" id="json"/>
+							<button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar</button>
+							<a href="javascript:cambioPass();" class="btn btn-secondary"><i class="fa fa-unlock"></i> Cambiar password</a>
+							{% if esAdmin == 1 %}
+								<a href="javascript:eliminar();" class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+									Eliminar</a>
+							{% endif %}
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div id="dlgPassword" title="Asignar password a usuario" style="display:none">
+		Nuevo password
+		{{ password_tag('cambioPassword','') }}
+		<br>
+		<button class="btn btn-primary" id="btnPassword">Cambiar</button>
+	</div>
+
+	{{ bundle('boot_select') }}
+	{{ bundle('validate') }}
+	{{ script('js/validador_cedula.js') }}
+	<script>
+
+		var vm = new Vue({
+			el: '#form-edit',
+			data: {
+				deleted: []
+			},
+			methods: {
+				addCon: function () {
+					this.empresasUsuario.push({
+						concesionario_id: null, id: null
+					});
+				},
+				delCon: function (c) {
+					var ix = this.empresas.indexOf(c);
+					this.empresas.splice(ix, 1);
+					if (c.id)
+						this.deleted.push(c.id);
+				}
+			}
+		});
+
+		//		$('form label').addClass('pull-left').css('width', '120px');
+		var dlg = $('#dlgPassword').dialog({autoOpen: false, modal: true, width: 300, height: 200});
+
+		function cambioPass() {
+			dlg.dialog('open');
+		}
+
+		$('#btnPassword').click(function () {
+			var pass = $('#cambioPassword').val();
+			if (!pass) return;
+			var data = {'pass': pass, id: '{{ model.id }}'};
+			$.post('{{ root }}/admin/usuarios/cambioPass', data, function (res) {
+				alert('Password cambiado');
+				$('#cambioPassword').val('');
+				dlg.dialog('close');
+			});
+		});
+
+		ValidadorCedula.withJqueryValidate();
+
+		$('#form-edit').validate({
+			onfocusout: false,
+			onkeyup: false,
+			onclick: false,
+			rules: {
+				'model_cedula': {cedulaRuc: 'soloCedula'}
+			},
+			submitHandler: function () {
+				var data = {
+					deleted: vm.$data.deleted,
+					empresas: vm.$data.empresasUsuario
+				};
+				$('#json').val(JSON.stringify(data));
+				return true;
+			}
+		});
+
+		function eliminar() {
+			if (!confirm('Eliminar este usuario?')) return;
+			window.location.href = '{{ root }}/admin/usuarios/delete?id={{ model.id }}';
+		}
+
+
+	</script>
+
+{% endblock %}
+

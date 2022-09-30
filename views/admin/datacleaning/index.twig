@@ -1,0 +1,62 @@
+{% extends layoutApp %}
+
+{% block content %}
+
+	<div id="app">
+
+		<div class="panel panel-banco">
+			<div class="panel-heading">
+				Prueba API Datacleaning
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="" class="col-sm-1 control-label">Cedula/RUC</label>
+							<div class="col-sm-6">
+								<input class="form-control" id="cedula" placeholder="" v-model="cedula">
+								<button type="button" v-on:click="consultarCedula()" class="btn btn-primary">Consultar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="col-sm-6">
+
+					<b>Resultado</b>
+					<div class="well well-sm">
+						<pre id="resultado"></pre>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				cedula: ''
+			},
+			methods: {
+				consultarCedula: function () {
+					var $res = $('#resultado');
+					if (!this.cedula) {
+						$res.text('Ingrese la cedula');
+						return;
+					}
+					$res.text('Consultando...');
+
+					$.post('{{ root }}/admin/datacleaning/consultarCedula', {cedula: this.cedula}, function (res) {
+						$res.text(res);
+					})
+				}
+			},
+			mounted: function () {
+			}
+		});
+
+	</script>
+{% endblock %}

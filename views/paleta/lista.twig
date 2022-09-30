@@ -1,0 +1,49 @@
+<div class="table-responsive">
+	<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+		<thead>
+		<tr>
+			<th>Número</th>
+			<th>Nombre</th>
+			<th>Tipo gestión</th>
+			<th>Tipo perfil</th>
+			<th>observaciones</th>
+			<th>Instituciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for l in lista %}
+			<tr>
+				<td>{{ l.numero }} </td>
+				<td>
+					<a href="{{ root }}/paleta/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.nombre }}</a>
+				</td>
+				<td>{{ l.tipo_gestion|upper }} </td>
+				<td>{{ l.tipo_perfil|upper }} </td>
+				<td>{{ l.observaciones }} </td>
+				<td>
+					<table class="table border text-nowrap text-md-nowrap  mb-0">
+						<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>RUC</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for d in l.instituciones %}
+							<tr>
+								<td>
+									<a href="{{ root }}/institucion/editar?id={{ d.id }}" target="_blank" style="text-decoration: underline" class="text-primary ms-1">{{ d.nombre }}</a>
+								</td>
+								<td>{{ d.ruc }}</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{{ pag|raw }}
