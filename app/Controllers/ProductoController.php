@@ -5,6 +5,8 @@ namespace Controllers;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
 use JasonGrimes\Paginator;
+use Models\AplicativoDiners;
+use Models\AplicativoDinersDetalle;
 use Models\Archivo;
 use Models\Catalogo;
 use Models\Cliente;
@@ -59,11 +61,11 @@ class ProductoController extends BaseController {
 		$telefono = Telefono::porModulo('cliente', $model->cliente_id);
 		$email = Email::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
-		$aplicativo_diners = Producto::getAplicativoDiners($model->cliente_id);
-		$aplicativo_diners_tarjeta_diners = Producto::getAplicativoDinersDetalle('DINERS',$aplicativo_diners['id']);
-		$aplicativo_diners_tarjeta_discover = Producto::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners['id']);
-		$aplicativo_diners_tarjeta_interdin = Producto::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners['id']);
-		$aplicativo_diners_porcentaje_interes = Producto::getAplicativoDinersPorcentajeInteres();
+		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->cliente_id);
+		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners['id']);
+		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 
 		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
 		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
@@ -158,6 +160,46 @@ class ProductoController extends BaseController {
 		\Auditor::info("Producto $con->producto actualizado", 'Producto');
 		return $this->redirectToAction('editar', ['id' => $con->id]);
 
+	}
+
+	function guardarAplicativoDiners() {
+		\WebSecurity::secure('producto.modificar');
+
+		$aplicativo_diners_tarjeta_diners = isset($_REQUEST['aplicativo_diners_tarjeta_diners']) ? $_REQUEST['aplicativo_diners_tarjeta_diners'] : [];
+		$aplicativo_diners_tarjeta_interdin = isset($_REQUEST['aplicativo_diners_tarjeta_interdin']) ? $_REQUEST['aplicativo_diners_tarjeta_interdin'] : [];
+		$aplicativo_diners_tarjeta_discover = isset($_REQUEST['aplicativo_diners_tarjeta_discover']) ? $_REQUEST['aplicativo_diners_tarjeta_discover'] : [];
+
+		if(count($aplicativo_diners_tarjeta_diners) > 0){
+			$obj_diners = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_diners['id']);
+			$obj_diners->fill($aplicativo_diners_tarjeta_diners);
+			$obj_diners->usuario_modificacion = \WebSecurity::getUserData('id');
+			$obj_diners->fecha_modificacion = date("Y-m-d H:i:s");
+			$obj_diners->usuario_asignado = \WebSecurity::getUserData('id');
+			$obj_diners->save();
+			\Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle',$aplicativo_diners_tarjeta_diners);
+		}
+
+		if(count($aplicativo_diners_tarjeta_interdin) > 0){
+			$obj_interdin = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_interdin['id']);
+			$obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
+			$obj_interdin->usuario_modificacion = \WebSecurity::getUserData('id');
+			$obj_interdin->fecha_modificacion = date("Y-m-d H:i:s");
+			$obj_interdin->usuario_asignado = \WebSecurity::getUserData('id');
+			$obj_interdin->save();
+			\Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle',$aplicativo_diners_tarjeta_interdin);
+		}
+
+		if(count($aplicativo_diners_tarjeta_discover) > 0){
+			$obj_discover = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_discover['id']);
+			$obj_discover->fill($aplicativo_diners_tarjeta_discover);
+			$obj_discover->usuario_modificacion = \WebSecurity::getUserData('id');
+			$obj_discover->fecha_modificacion = date("Y-m-d H:i:s");
+			$obj_discover->usuario_asignado = \WebSecurity::getUserData('id');
+			$obj_discover->save();
+			\Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle',$aplicativo_diners_tarjeta_discover);
+		}
+
+		return true;
 	}
 
 	function eliminar($id) {

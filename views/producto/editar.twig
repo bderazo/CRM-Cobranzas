@@ -2,7 +2,7 @@
 {% block content %}
 	<div id="app">
 		<div class="col-md-12 col-xl-12">
-			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit-cliente" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
 				<div class="card">
 					<div class="card-header">
 						<h4 class="card-title">CLIENTE</h4>
@@ -42,9 +42,6 @@
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Teléfonos</label>
 							<div class="col-md-10">
-								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarTelefono">
-									<i class="fa fa-plus"></i> Agregar
-								</button>
 								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
 									<thead>
 									<tr>
@@ -53,7 +50,6 @@
 										<th>Tipo</th>
 										<th>Origen</th>
 										<th>Fecha Ingreso</th>
-										<th></th>
 									</tr>
 									</thead>
 									<tbody>
@@ -82,12 +78,6 @@
 										</td>
 										<td style="text-transform: uppercase;"><span v-html="t.origen"></span></td>
 										<td><span v-html="t.fecha_ingreso"></span></td>
-										<td style="text-align: center;">
-											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delTelefono(t)">
-												<i class="fe fe-trash"></i>
-											</button>
-
-										</td>
 									</tr>
 									</tbody>
 								</table>
@@ -95,9 +85,6 @@
 
 							<label for="inputName" class="col-md-2 form-label">Emails</label>
 							<div class="col-md-10">
-								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarEmail">
-									<i class="fa fa-plus"></i> Agregar
-								</button>
 								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
 									<thead>
 									<tr>
@@ -105,7 +92,6 @@
 										<th>Tipo</th>
 										<th>Origen</th>
 										<th>Fecha Ingreso</th>
-										<th></th>
 									</tr>
 									</thead>
 									<tbody>
@@ -123,11 +109,6 @@
 										</td>
 										<td style="text-transform: uppercase;"><span v-html="c.origen"></span></td>
 										<td><span v-html="c.fecha_ingreso"></span></td>
-										<td style="text-align: center;">
-											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delEmail(c)">
-												<i class="fe fe-trash"></i>
-											</button>
-										</td>
 									</tr>
 									</tbody>
 								</table>
@@ -138,10 +119,6 @@
 							<div class="col-md-12">
 								<input type="hidden" v-model="model.id" id="id" name="id"/>
 								<input type="hidden" name="json" id="json"/>
-
-								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
-									<i class="fa fa-save"></i> Guardar
-								</button>
 							</div>
 						</div>
 					</div>
@@ -252,66 +229,68 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">SEGUIMIENTO</h4>
+			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit-seguimiento" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">SEGUIMIENTO</h4>
+					</div>
+					<div class="card-body">
+						<h4 class="text-primary">COBRANZA</h4>
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">NIVEL1</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.tipo_gestion" placeholder="Seleccione una opción">
+									<option value="ACUERDO DE PAGO DOCUMENTADO">ACUERDO DE PAGO DOCUMENTADO</option>
+									<option value="CONTACTO SIN ARREGLO MEDIATO">CONTACTO SIN ARREGLO MEDIATO</option>
+									<option value="MENSAJE A TERCERO">MENSAJE A TERCERO</option>
+									<option value="NO CONTACTADO MAÑANA / TARDE / NOCHE">NO CONTACTADO MAÑANA / TARDE / NOCHE</option>
+									<option value="NOTIFICADO">NOTIFICADO</option>
+									<option value="OFRECIMIENTO AL CORTE">OFRECIMIENTO AL CORTE</option>
+									<option value="REFINANCIA">REFINANCIA</option>
+									<option value="SIN ARREGLO">SIN ARREGLO</option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">NIVEL2</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2 required" v-model="model.tipo_perfil" placeholder="Seleccione una opción">
+									<option value="COMPAÑERO DE TRABAJO M">COMPAÑERO DE TRABAJO M</option>
+									<option value="EQUIVOCADO-DESCONOCEN NUM M">EQUIVOCADO-DESCONOCEN NUM M</option>
+									<option value="CONTESTADORA M">CONTESTADORA M</option>
+									<option value="EQUIVOCADO / OTORGAN NÚMERO M">EQUIVOCADO / OTORGAN NÚMERO M</option>
+									<option value="TELÉFONO CON AVERIA M">TELÉFONO CON AVERIA M</option>
+									<option value="EMPLEADA M">EMPLEADA M</option>
+									<option value="FALLECIMIENTO M">FALLECIMIENTO M</option>
+									<option value="SUGERENCIA MANTENIMIENTO M">SUGERENCIA MANTENIMIENTO M</option>
+									<option value="VIAJE M">VIAJE M</option>
+									<option value="CLIENTE CUELGA TELÉFONO M">CLIENTE CUELGA TELÉFONO M</option>
+									<option value="DIRECCIÓN NO CORRESPONDE M">DIRECCIÓN NO CORRESPONDE M</option>
+									<option value="NO CONTESTA M">NO CONTESTA M</option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Observaciones</label>
+							<div class="col-md-4">
+								<textarea rows="3" class="form-control" placeholder="Observaciones" v-autoname></textarea>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<input type="hidden" v-model="model.id" id="id" name="id"/>
+								<input type="hidden" name="json" id="json"/>
+
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
+							</div>
+						</div>
+
+					</div>
 				</div>
-				<div class="card-body">
-					<h4 class="text-primary">COBRANZA</h4>
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">NIVEL1</label>
-						<div class="col-md-4">
-							<select class="form-control form-select select2 required" v-model="model.tipo_gestion" placeholder="Seleccione una opción">
-								<option value="ACUERDO DE PAGO DOCUMENTADO">ACUERDO DE PAGO DOCUMENTADO</option>
-								<option value="CONTACTO SIN ARREGLO MEDIATO">CONTACTO SIN ARREGLO MEDIATO</option>
-								<option value="MENSAJE A TERCERO">MENSAJE A TERCERO</option>
-								<option value="NO CONTACTADO MAÑANA / TARDE / NOCHE">NO CONTACTADO MAÑANA / TARDE / NOCHE</option>
-								<option value="NOTIFICADO">NOTIFICADO</option>
-								<option value="OFRECIMIENTO AL CORTE">OFRECIMIENTO AL CORTE</option>
-								<option value="REFINANCIA">REFINANCIA</option>
-								<option value="SIN ARREGLO">SIN ARREGLO</option>
-							</select>
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">NIVEL2</label>
-						<div class="col-md-4">
-							<select class="form-control form-select select2 required" v-model="model.tipo_perfil" placeholder="Seleccione una opción">
-								<option value="COMPAÑERO DE TRABAJO M">COMPAÑERO DE TRABAJO M</option>
-								<option value="EQUIVOCADO-DESCONOCEN NUM M">EQUIVOCADO-DESCONOCEN NUM M</option>
-								<option value="CONTESTADORA M">CONTESTADORA M</option>
-								<option value="EQUIVOCADO / OTORGAN NÚMERO M">EQUIVOCADO / OTORGAN NÚMERO M</option>
-								<option value="TELÉFONO CON AVERIA M">TELÉFONO CON AVERIA M</option>
-								<option value="EMPLEADA M">EMPLEADA M</option>
-								<option value="FALLECIMIENTO M">FALLECIMIENTO M</option>
-								<option value="SUGERENCIA MANTENIMIENTO M">SUGERENCIA MANTENIMIENTO M</option>
-								<option value="VIAJE M">VIAJE M</option>
-								<option value="CLIENTE CUELGA TELÉFONO M">CLIENTE CUELGA TELÉFONO M</option>
-								<option value="DIRECCIÓN NO CORRESPONDE M">DIRECCIÓN NO CORRESPONDE M</option>
-								<option value="NO CONTESTA M">NO CONTESTA M</option>
-							</select>
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Observaciones</label>
-						<div class="col-md-4">
-							<textarea rows="3" class="form-control" placeholder="Observaciones" v-autoname></textarea>
-						</div>
-					</div>
-
-					<div class="mb-0 mt-4 ">
-						<div class="col-md-12">
-							<input type="hidden" v-model="model.id" id="id" name="id"/>
-							<input type="hidden" name="json" id="json"/>
-
-							<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
-								<i class="fa fa-save"></i> Guardar
-							</button>
-						</div>
-					</div>
-
-				</div>
-			</div>
+			</form>
 
 			<div class="card">
 				<div class="card-header">
@@ -378,15 +357,14 @@
 						</div>
 					</div>
 
-
 					<div class=" row mb-4">
 						<div style="overflow-x:auto;">
 							<table style="font-size: 12px;">
 								<thead>
 								<tr>
-									<th style="width: 33%; text-align: center; background-color: #0066A8; color: white;">DINERS</th>
-									<th style="width: 33%; text-align: center; background-color: #404040; color: white;">INTERDIN</th>
-									<th style="width: 33%; text-align: center; background-color: #E66929; color: white;">DISCOVER</th>
+									<th style="width: 33.33%; text-align: center; background-color: #0066A8; color: white;">DINERS</th>
+									<th style="width: 33.33%; text-align: center; background-color: #404040; color: white;">INTERDIN</th>
+									<th style="width: 33.33%; text-align: center; background-color: #E66929; color: white;">DISCOVER</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -454,7 +432,8 @@
 											<tr>
 												<td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
 												<td colspan="3">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_gestion" class="form-control form-control-sm" placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_gestion" class="form-control form-control-sm"
+															  placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
@@ -553,7 +532,8 @@
 												<td style="width: 20%; background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_diners.abono_efectivo_sistema"></span></td>
 												<td style="width: 15%;"><strong>ABONO SISTEMA</strong></td>
 												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.abono_sistema"  placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.abono_sistema"
+															placeholder="Seleccione una opción" v-autoname>
 														<option value="SI">SI</option>
 														<option value="NO">NO</option>
 													</select>
@@ -562,7 +542,8 @@
 											<tr>
 												<td><strong>ABONO NEGOCIADOR</strong></td>
 												<td style="background-color: #c3c3c3;" colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners" v-model="aplicativo_diners_tarjeta_diners.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners"
+														   v-model="aplicativo_diners_tarjeta_diners.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
 												</td>
 											</tr>
 											<tr>
@@ -609,7 +590,8 @@
 												<td><span v-html="aplicativo_diners_tarjeta_diners.corrientes_facturar"></span></td>
 												<td style="width: 15%;"><strong>INCLUIR EN NEGOCIACIÓN</strong></td>
 												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.incluir_negociacion" placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.incluir_negociacion"
+															placeholder="Seleccione una opción" v-autoname>
 														<option value="SI">SI</option>
 														<option value="NO">NO</option>
 													</select>
@@ -626,13 +608,15 @@
 											<tr>
 												<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
 												<td colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners" v-model="aplicativo_diners_tarjeta_diners.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners"
+														   v-model="aplicativo_diners_tarjeta_diners.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>VALOR OTRAS TARJETAS</strong></td>
 												<td colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners" v-model="aplicativo_diners_tarjeta_diners.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners"
+														   v-model="aplicativo_diners_tarjeta_diners.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
 												</td>
 											</tr>
 											</tbody>
@@ -668,7 +652,8 @@
 											<tr>
 												<td style="width: 60%;"><strong>PLAZO DE FINANCIAMIENTO</strong></td>
 												<td style="width: 40%;">
-													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners" v-model="aplicativo_diners_tarjeta_diners.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+															v-model="aplicativo_diners_tarjeta_diners.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
 														<option value=""></option>
 														<option value="3">3</option>
 														<option value="4">4</option>
@@ -686,13 +671,16 @@
 											<tr>
 												<td><strong>MOTIVO DE NO PAGO</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-model="aplicativo_diners_tarjeta_diners.motivo_no_pago" placeholder="MOTIVO DE NO PAGO" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-model="aplicativo_diners_tarjeta_diners.motivo_no_pago"
+														   placeholder="MOTIVO DE NO PAGO"
+														   v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresDiners" v-model="aplicativo_diners_tarjeta_diners.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresDiners"
+														   v-model="aplicativo_diners_tarjeta_diners.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
 												</td>
 											</tr>
 											<tr style="background-color: #0066A8; color: white;">
@@ -719,19 +707,22 @@
 											<tr>
 												<td style="width: 30%; text-align: center; font-style: italic;"><strong>OBSERVACION UNIFICACIÓN</strong></td>
 												<td style="width: 70%;">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_unificacion" class="form-control form-control-sm" placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_unificacion" class="form-control form-control-sm"
+															  placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
 												<td style="text-align: center; font-style: italic;"><strong>OBSERVACION DATOS INFOR. SOCIO</strong></td>
 												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_datos_socio" class="form-control form-control-sm" placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_datos_socio" class="form-control form-control-sm"
+															  placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
 												<td style="text-align: center; font-style: italic;"><strong>EMPRESA QUE REFINANCIA</strong></td>
 												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.empresa_refinancia" class="form-control form-control-sm" placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.empresa_refinancia" class="form-control form-control-sm"
+															  placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
 												</td>
 											</tr>
 											</tbody>
@@ -800,7 +791,8 @@
 											<tr>
 												<td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
 												<td colspan="3">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_gestion" class="form-control form-control-sm" placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_gestion" class="form-control form-control-sm"
+															  placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
@@ -899,7 +891,8 @@
 												<td style="width: 20%; background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_interdin.abono_efectivo_sistema"></span></td>
 												<td style="width: 15%;"><strong>ABONO SISTEMA</strong></td>
 												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.abono_sistema"  placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.abono_sistema"
+															placeholder="Seleccione una opción" v-autoname>
 														<option value="SI">SI</option>
 														<option value="NO">NO</option>
 													</select>
@@ -908,7 +901,8 @@
 											<tr>
 												<td><strong>ABONO NEGOCIADOR</strong></td>
 												<td style="background-color: #c3c3c3;" colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin" v-model="aplicativo_diners_tarjeta_interdin.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin"
+														   v-model="aplicativo_diners_tarjeta_interdin.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
 												</td>
 											</tr>
 											<tr>
@@ -955,7 +949,8 @@
 												<td><span v-html="aplicativo_diners_tarjeta_interdin.corrientes_facturar"></span></td>
 												<td style="width: 15%;"><strong>INCLUIR EN NEGOCIACIÓN</strong></td>
 												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.incluir_negociacion" placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.incluir_negociacion"
+															placeholder="Seleccione una opción" v-autoname>
 														<option value="SI">SI</option>
 														<option value="NO">NO</option>
 													</select>
@@ -972,13 +967,15 @@
 											<tr>
 												<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
 												<td colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin" v-model="aplicativo_diners_tarjeta_interdin.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin"
+														   v-model="aplicativo_diners_tarjeta_interdin.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>VALOR OTRAS TARJETAS</strong></td>
 												<td colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin" v-model="aplicativo_diners_tarjeta_interdin.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin"
+														   v-model="aplicativo_diners_tarjeta_interdin.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
 												</td>
 											</tr>
 											</tbody>
@@ -1014,7 +1011,8 @@
 											<tr>
 												<td style="width: 60%;"><strong>PLAZO DE FINANCIAMIENTO</strong></td>
 												<td style="width: 40%;">
-													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresInterdin" v-model="aplicativo_diners_tarjeta_interdin.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresInterdin"
+															v-model="aplicativo_diners_tarjeta_interdin.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
 														<option value=""></option>
 														<option value="3">3</option>
 														<option value="4">4</option>
@@ -1032,13 +1030,16 @@
 											<tr>
 												<td><strong>MOTIVO DE NO PAGO</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-model="aplicativo_diners_tarjeta_interdin.motivo_no_pago" placeholder="MOTIVO DE NO PAGO" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-model="aplicativo_diners_tarjeta_interdin.motivo_no_pago"
+														   placeholder="MOTIVO DE NO PAGO"
+														   v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresInterdin" v-model="aplicativo_diners_tarjeta_interdin.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresInterdin"
+														   v-model="aplicativo_diners_tarjeta_interdin.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
 												</td>
 											</tr>
 											<tr style="background-color: #404040; color: white;">
@@ -1065,19 +1066,22 @@
 											<tr>
 												<td style="width: 30%; text-align: center; font-style: italic;"><strong>OBSERVACION UNIFICACIÓN</strong></td>
 												<td style="width: 70%;">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_unificacion" class="form-control form-control-sm" placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_unificacion" class="form-control form-control-sm"
+															  placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
 												<td style="text-align: center; font-style: italic;"><strong>OBSERVACION DATOS INFOR. SOCIO</strong></td>
 												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_datos_socio" class="form-control form-control-sm" placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_datos_socio" class="form-control form-control-sm"
+															  placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
 												<td style="text-align: center; font-style: italic;"><strong>EMPRESA QUE REFINANCIA</strong></td>
 												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.empresa_refinancia" class="form-control form-control-sm" placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.empresa_refinancia" class="form-control form-control-sm"
+															  placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
 												</td>
 											</tr>
 											</tbody>
@@ -1146,7 +1150,8 @@
 											<tr>
 												<td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
 												<td colspan="3">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_gestion" class="form-control form-control-sm" placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_gestion" class="form-control form-control-sm"
+															  placeholder="OBSERVACIONES DE GESTIÓN" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
@@ -1245,7 +1250,8 @@
 												<td style="width: 20%; background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_discover.abono_efectivo_sistema"></span></td>
 												<td style="width: 15%;"><strong>ABONO SISTEMA</strong></td>
 												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.abono_sistema"  placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.abono_sistema"
+															placeholder="Seleccione una opción" v-autoname>
 														<option value="SI">SI</option>
 														<option value="NO">NO</option>
 													</select>
@@ -1254,7 +1260,8 @@
 											<tr>
 												<td><strong>ABONO NEGOCIADOR</strong></td>
 												<td style="background-color: #c3c3c3;" colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover" v-model="aplicativo_diners_tarjeta_discover.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover"
+														   v-model="aplicativo_diners_tarjeta_discover.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
 												</td>
 											</tr>
 											<tr>
@@ -1301,7 +1308,8 @@
 												<td><span v-html="aplicativo_diners_tarjeta_discover.corrientes_facturar"></span></td>
 												<td style="width: 15%;"><strong>INCLUIR EN NEGOCIACIÓN</strong></td>
 												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.incluir_negociacion" placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.incluir_negociacion"
+															placeholder="Seleccione una opción" v-autoname>
 														<option value="SI">SI</option>
 														<option value="NO">NO</option>
 													</select>
@@ -1318,13 +1326,15 @@
 											<tr>
 												<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
 												<td colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover" v-model="aplicativo_diners_tarjeta_discover.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover"
+														   v-model="aplicativo_diners_tarjeta_discover.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>VALOR OTRAS TARJETAS</strong></td>
 												<td colspan="3">
-													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover" v-model="aplicativo_diners_tarjeta_discover.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover"
+														   v-model="aplicativo_diners_tarjeta_discover.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
 												</td>
 											</tr>
 											</tbody>
@@ -1360,7 +1370,8 @@
 											<tr>
 												<td style="width: 60%;"><strong>PLAZO DE FINANCIAMIENTO</strong></td>
 												<td style="width: 40%;">
-													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiscover" v-model="aplicativo_diners_tarjeta_discover.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiscover"
+															v-model="aplicativo_diners_tarjeta_discover.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
 														<option value=""></option>
 														<option value="3">3</option>
 														<option value="4">4</option>
@@ -1378,13 +1389,16 @@
 											<tr>
 												<td><strong>MOTIVO DE NO PAGO</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-model="aplicativo_diners_tarjeta_discover.motivo_no_pago" placeholder="MOTIVO DE NO PAGO" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-model="aplicativo_diners_tarjeta_discover.motivo_no_pago"
+														   placeholder="MOTIVO DE NO PAGO"
+														   v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresDiscover" v-model="aplicativo_diners_tarjeta_discover.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
+													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresDiscover"
+														   v-model="aplicativo_diners_tarjeta_discover.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
 												</td>
 											</tr>
 											<tr style="background-color: #E66929; color: white;">
@@ -1411,19 +1425,22 @@
 											<tr>
 												<td style="width: 30%; text-align: center; font-style: italic;"><strong>OBSERVACION UNIFICACIÓN</strong></td>
 												<td style="width: 70%;">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_unificacion" class="form-control form-control-sm" placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_unificacion" class="form-control form-control-sm"
+															  placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
 												<td style="text-align: center; font-style: italic;"><strong>OBSERVACION DATOS INFOR. SOCIO</strong></td>
 												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_datos_socio" class="form-control form-control-sm" placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_datos_socio" class="form-control form-control-sm"
+															  placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
 												</td>
 											</tr>
 											<tr>
 												<td style="text-align: center; font-style: italic;"><strong>EMPRESA QUE REFINANCIA</strong></td>
 												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.empresa_refinancia" class="form-control form-control-sm" placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
+													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.empresa_refinancia" class="form-control form-control-sm"
+															  placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
 												</td>
 											</tr>
 											</tbody>
@@ -1432,6 +1449,14 @@
 								</tr>
 								</tbody>
 							</table>
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<button class="btn btn-primary" type="submit" id="btnGuardarDiners" name="btnGuardarDiners" v-on:click="guardarAplicativoDiners">
+								<i class="fa fa-save"></i> Guardar
+							</button>
 						</div>
 					</div>
 				</div>
@@ -1458,9 +1483,7 @@
 				cat: {{ catalogos|raw }},
 				model: {{ model|raw }},
 				telefono: {{ telefono|raw }},
-				del_telefono: [],
 				email: {{ email|raw }},
-				del_email: [],
 				cliente: {{ cliente|raw }},
 				aplicativo_diners: {{ aplicativo_diners|raw }},
 				aplicativo_diners_tarjeta_diners: {{ aplicativo_diners_tarjeta_diners|raw }},
@@ -1480,9 +1503,9 @@
 
 					//VALOR A FINANCIAR
 					var valor_financiar_diners = parseFloat(self.aplicativo_diners_tarjeta_diners.deuda_actual) + parseFloat(self.aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos) +
-												 parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturar) + parseFloat(self.aplicativo_diners_tarjeta_diners.corrientes_facturar) +
-												 parseFloat(self.aplicativo_diners_tarjeta_diners.gastos_cobranza) + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_otras_tarjetas) -
-												 parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total);
+						parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturar) + parseFloat(self.aplicativo_diners_tarjeta_diners.corrientes_facturar) +
+						parseFloat(self.aplicativo_diners_tarjeta_diners.gastos_cobranza) + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_otras_tarjetas) -
+						parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total);
 					self.aplicativo_diners_tarjeta_diners.valor_financiar = valor_financiar_diners.toFixed(2);
 
 					//TOTAL INTERES
@@ -1492,7 +1515,7 @@
 					});
 					var porcentaje_interes = 0.00;
 					var meses_plazo = parseInt(self.aplicativo_diners_tarjeta_diners.plazo_financiamiento) + parseInt(self.aplicativo_diners_tarjeta_diners.numero_meses_gracia);
-					if(typeof(porcentaje_interes_arr[meses_plazo]) != "undefined" && porcentaje_interes_arr[meses_plazo] !== null) {
+					if (typeof (porcentaje_interes_arr[meses_plazo]) != "undefined" && porcentaje_interes_arr[meses_plazo] !== null) {
 						porcentaje_interes = porcentaje_interes_arr[meses_plazo];
 					}
 					var total_interes = parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar) * (porcentaje_interes / 100);
@@ -1504,7 +1527,7 @@
 
 					//VALOR CUOTA MENSUAL
 					var cuota_mensual = 0;
-					if(parseInt(self.aplicativo_diners_tarjeta_diners.plazo_financiamiento) > 0){
+					if (parseInt(self.aplicativo_diners_tarjeta_diners.plazo_financiamiento) > 0) {
 						cuota_mensual = parseFloat(self.aplicativo_diners_tarjeta_diners.total_financiamiento_total) / parseInt(self.aplicativo_diners_tarjeta_diners.plazo_financiamiento);
 					}
 					self.aplicativo_diners_tarjeta_diners.valor_cuota_mensual = cuota_mensual.toFixed(2);
@@ -1531,7 +1554,7 @@
 					});
 					var porcentaje_interes = 0.00;
 					var meses_plazo = parseInt(self.aplicativo_diners_tarjeta_interdin.plazo_financiamiento) + parseInt(self.aplicativo_diners_tarjeta_interdin.numero_meses_gracia);
-					if(typeof(porcentaje_interes_arr[meses_plazo]) != "undefined" && porcentaje_interes_arr[meses_plazo] !== null) {
+					if (typeof (porcentaje_interes_arr[meses_plazo]) != "undefined" && porcentaje_interes_arr[meses_plazo] !== null) {
 						porcentaje_interes = porcentaje_interes_arr[meses_plazo];
 					}
 					var total_interes = parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar) * (porcentaje_interes / 100);
@@ -1543,7 +1566,7 @@
 
 					//VALOR CUOTA MENSUAL
 					var cuota_mensual = 0;
-					if(parseInt(self.aplicativo_diners_tarjeta_interdin.plazo_financiamiento) > 0){
+					if (parseInt(self.aplicativo_diners_tarjeta_interdin.plazo_financiamiento) > 0) {
 						cuota_mensual = parseFloat(self.aplicativo_diners_tarjeta_interdin.total_financiamiento_total) / parseInt(self.aplicativo_diners_tarjeta_interdin.plazo_financiamiento);
 					}
 					self.aplicativo_diners_tarjeta_interdin.valor_cuota_mensual = cuota_mensual.toFixed(2);
@@ -1570,7 +1593,7 @@
 					});
 					var porcentaje_interes = 0.00;
 					var meses_plazo = parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento) + parseInt(self.aplicativo_diners_tarjeta_discover.numero_meses_gracia);
-					if(typeof(porcentaje_interes_arr[meses_plazo]) != "undefined" && porcentaje_interes_arr[meses_plazo] !== null) {
+					if (typeof (porcentaje_interes_arr[meses_plazo]) != "undefined" && porcentaje_interes_arr[meses_plazo] !== null) {
 						porcentaje_interes = porcentaje_interes_arr[meses_plazo];
 					}
 					var total_interes = parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar) * (porcentaje_interes / 100);
@@ -1582,51 +1605,25 @@
 
 					//VALOR CUOTA MENSUAL
 					var cuota_mensual = 0;
-					if(parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento) > 0){
+					if (parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento) > 0) {
 						cuota_mensual = parseFloat(self.aplicativo_diners_tarjeta_discover.total_financiamiento_total) / parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento);
 					}
 					self.aplicativo_diners_tarjeta_discover.valor_cuota_mensual = cuota_mensual.toFixed(2);
 				},
 
-				agregarTelefono: function () {
+				guardarAplicativoDiners: function () {
 					var self = this;
 					var data = {
-						telefono: '',
-						tipo: 'titular',
-						origen: 'SISTEMA',
+						model: self.model,
+						aplicativo_diners: self.aplicativo_diners,
+						aplicativo_diners_tarjeta_diners: self.aplicativo_diners_tarjeta_diners,
+						aplicativo_diners_tarjeta_discover: self.aplicativo_diners_tarjeta_discover,
+						aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
 					};
-					self.telefono.push(data);
-				},
-
-				delTelefono: function (p) {
-					var self = this;
-					if (confirm("Está seguro que desea eliminar el telefono: " + p.telefono + "?")) {
-						var ix = self.telefono.indexOf(p);
-						self.telefono.splice(ix, 1);
-						if (p.id)
-							self.del_telefono.push(p.id);
-					}
-				},
-
-				agregarEmail: function () {
-					var self = this;
-					var data = {
-						email: '',
-						tipo: 'titular',
-						origen: 'SISTEMA',
-					};
-					self.email.push(data);
-				},
-
-				delEmail: function (p) {
-					var self = this;
-					if (confirm("Está seguro que desea eliminar el email: " + p.email + "?")) {
-						var ix = self.email.indexOf(p);
-						self.email.splice(ix, 1);
-						if (p.id)
-							self.del_email.push(p.id);
-					}
-				},
+					$.post('{{ root }}/producto/guardarAplicativoDiners', data, function (res) {
+						alert("APLICATIVO DINERS GUARDADO");
+					})
+				}
 			},
 			mounted: function () {
 				var self = this;
@@ -1655,6 +1652,7 @@
 		table, th, td {
 			border: 1px solid;
 		}
+
 		table {
 			width: 100%;
 			border-collapse: collapse;

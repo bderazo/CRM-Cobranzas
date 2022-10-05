@@ -112,48 +112,4 @@ class Producto extends Model
 		}
 		return $retorno;
 	}
-
-	static function getAplicativoDiners($cliente_id) {
-		$pdo = self::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('aplicativo_diners ad')
-			->select(null)
-			->select('ad.*')
-			->where('ad.eliminado',0)
-			->where('ad.cliente_id',$cliente_id);
-		$lista = $q->fetch();
-		if(!$lista)
-			return [];
-		return $lista;
-	}
-
-	static function getAplicativoDinersPorcentajeInteres() {
-		$pdo = self::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('aplicativo_diners_porcentaje_interes')
-			->select(null)
-			->select('*');
-		$lista = $q->fetchAll();
-		if(!$lista)
-			return [];
-		return $lista;
-	}
-
-	static function getAplicativoDinersDetalle($tarjeta, $aplicativo_diners_id) {
-		$pdo = self::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('aplicativo_diners_detalle addet')
-			->select(null)
-			->select('addet.*')
-			->where('addet.eliminado',0)
-			->where('addet.aplicativo_diners_id',$aplicativo_diners_id)
-			->where('addet.nombre_tarjeta',$tarjeta);
-		$lista = $q->fetch();
-		if(!$lista)
-			return [];
-		return $lista;
-	}
 }
