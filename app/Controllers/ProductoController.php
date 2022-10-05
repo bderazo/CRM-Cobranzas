@@ -62,10 +62,14 @@ class ProductoController extends BaseController {
 		$aplicativo_diners = Producto::getAplicativoDiners($model->cliente_id);
 		$aplicativo_diners_tarjeta_diners = Producto::getAplicativoDinersDetalle('DINERS',$aplicativo_diners['id']);
 		$aplicativo_diners_tarjeta_discover = Producto::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_interdin = Producto::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners['id']);
+		$aplicativo_diners_porcentaje_interes = Producto::getAplicativoDinersPorcentajeInteres();
 
+		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
 		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
 		$data['aplicativo_diners_tarjeta_diners'] = json_encode($aplicativo_diners_tarjeta_diners);
 		$data['aplicativo_diners_tarjeta_discover'] = json_encode($aplicativo_diners_tarjeta_discover);
+		$data['aplicativo_diners_tarjeta_interdin'] = json_encode($aplicativo_diners_tarjeta_interdin);
 		$data['cliente'] = json_encode($cliente);
 		$data['email'] = json_encode($email);
 		$data['telefono'] = json_encode($telefono);

@@ -128,6 +128,19 @@ class Producto extends Model
 		return $lista;
 	}
 
+	static function getAplicativoDinersPorcentajeInteres() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('aplicativo_diners_porcentaje_interes')
+			->select(null)
+			->select('*');
+		$lista = $q->fetchAll();
+		if(!$lista)
+			return [];
+		return $lista;
+	}
+
 	static function getAplicativoDinersDetalle($tarjeta, $aplicativo_diners_id) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
