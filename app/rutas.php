@@ -14,20 +14,9 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/login', $api->createDispatch(\WebApi\LoginApi::class, 'login', $p));
 	$app->any('/logout', $api->createDispatch(\WebApi\LoginApi::class, 'logout', $p));
 
-	$app->any('/usuario/get_form_usuario_abogado', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_form_usuario_abogado', $p));
-	$app->any('/usuario/get_form_usuario_cliente', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_form_usuario_cliente', $p));
-	$app->any('/usuario/get_especialidad', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_especialidad', $p));
-	$app->any('/usuario/save_form_usuario', $api->createDispatch(\WebApi\UsuariosApi::class, 'save_form_usuario', $p));
 	$app->any('/usuario/set_user_token_push_notifications', $api->createDispatch(\WebApi\UsuariosApi::class, 'set_user_token_push_notifications', $p));
-	$app->any('/usuario/get_membresias_disponibles', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_membresias_disponibles', $p));
 	$app->any('/usuario/get_usuario_detalle', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_usuario_detalle', $p));
-	$app->any('/usuario/home_abogado', $api->createDispatch(\WebApi\UsuariosApi::class, 'home_abogado', $p));
-	$app->any('/usuario/home_cliente', $api->createDispatch(\WebApi\UsuariosApi::class, 'home_cliente', $p));
-	$app->any('/usuario/recuperar_contrasena', $api->createDispatch(\WebApi\UsuariosApi::class, 'recuperar_contrasena', $p));
-	$app->any('/usuario/get_abogados_suscripcion', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_abogados_suscripcion', $p));
-	$app->any('/usuario/get_abogados_disponibles', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_abogados_disponibles', $p));
-	$app->any('/usuario/get_ciudades', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_ciudades', $p));
-	$app->any('/usuario/get_especialidad_select2', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_especialidad_select2', $p));
+
 
 	$app->any('/suscripcion/get_lista_suscripciones', $api->createDispatch(\WebApi\SuscripcionApi::class, 'get_lista_suscripciones', $p));
 	$app->any('/suscripcion/validar_codigo_promocional', $api->createDispatch(\WebApi\SuscripcionApi::class, 'validar_codigo_promocional', $p));

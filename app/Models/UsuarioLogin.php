@@ -60,4 +60,19 @@ class UsuarioLogin extends Model {
 			$u->update();
 		}
 	}
+
+	static function getUserBySession($session_id) {
+		$pdo = UsuarioLogin::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+		$q = $db->from('usuario_login ul')
+			->innerJoin('usuario u ON u.id = ul.usuario_id')
+			->select(null)
+			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombre_completo")
+			->where('u.activo',1)
+			->where('ul.session_id', $session_id)
+			->where('ul.logged_in',1);
+		$lista = $q->fetch();
+		if (!$lista) return [];
+		return $lista;
+	}
 }
