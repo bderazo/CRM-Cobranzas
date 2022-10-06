@@ -18,6 +18,7 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/usuario/get_usuario_detalle', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_usuario_detalle', $p));
 
 	$app->any('/producto/get_form_busqueda_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_busqueda_producto', $p));
+	$app->any('/producto/get_preguntas_list', $api->createDispatch(\WebApi\ProductoApi::class, 'get_preguntas_list', $p));
 
 
 	$app->any('/suscripcion/get_lista_suscripciones', $api->createDispatch(\WebApi\SuscripcionApi::class, 'get_lista_suscripciones', $p));

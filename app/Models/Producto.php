@@ -112,4 +112,38 @@ class Producto extends Model
 		}
 		return $retorno;
 	}
+
+	static function getProductoList($query, $page, $user, $config) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+		$q = $db->from('producto p')
+			->innerJoin('cliente cl ON cl.id = p.cliente_id')
+			->innerJoin('institucion i ON i.id = p.institucion_id')
+			->select(null)
+			->select("p.*, cl.apellidos AS cliente_apellidos, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre")
+			->where('p.eliminado', 0);
+		if(count($query) > 0) {
+			foreach($query as $qu) {
+				if($qu['type'] == 'text') {
+					$q->where('UPPER(' . $qu['field'] . ') LIKE "%' . strtoupper($qu['value']) . '%"');
+				} elseif($qu['type'] == 'date_init') {
+					$q->where('DATE('.$qu['field'] . ') >= "' . $qu['value'].'"');
+				}elseif($qu['type'] == 'date_end') {
+					$q->where('DATE('.$qu['field'] . ') <= "' . $qu['value'].'"');
+				}else{
+					$q->where($qu['field'], $qu['value']);
+				}
+			}
+		}
+		$q->orderBy('p.fecha_ingreso DESC')
+			->limit(10)
+			->offset($page * 10);
+		\Auditor::error("Error API: " . $q->getQuery(), 'Preguntas', []);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
 }
