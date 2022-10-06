@@ -33,27 +33,27 @@ $container['view'] = function ($container) {
 		'auto_reload' => true,
 		'debug' => true
 	]);
-	
+
 	// Instantiate and add Slim specific extension
 	$basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
 	$ext = new Slim\Views\TwigExtension($container['router'], $basePath);
 	$view->addExtension($ext);
-	
+
 	//extensiones adicionales
-	
+
 	$bundleFile = @$container['config']['bundleFile'] ?? 'bundles.php';
 	$assetManager = new \Util\SimpleBundles($basePath);
 	$assetManager->loadBundlesFile($bundleFile);
-	
+
 	$extras = new TwigExtras();
 	$extras->assetsManager = $assetManager;
 	$view->addExtension($extras);
-	
+
 	$html = new Util\Twig_Extension_HTMLHelpers();
 	$view->addExtension($html);
-	
+
 	$layout = @$container['config']['layout'] ?? 'layout.twig';
-	
+
 	// variable root para todas las rutas, etc.
 	$view->offsetSet('layoutApp', $layout);
 	$view->offsetSet('root', $basePath);
@@ -61,6 +61,7 @@ $container['view'] = function ($container) {
 	$container['root'] = $basePath;
 	return $view;
 };
+
 $convention = new Util\ConventionHelper($container);
 $convention->namespace = 'Controllers'; // OJO! case sensitive para linux!!!
 
@@ -103,6 +104,11 @@ $container['menuBuilder'] = function ($c) {
 	return $builder;
 };
 
+$container['menuHome'] = function () {
+	$menu = include('menu_home.php');
+	return $menu;
+};
+
 $container['menuReportes'] = function () {
 	$menu = include('menu_reportes.php');
 	return $menu;
@@ -116,12 +122,12 @@ $container['listaPermisos'] = include('permisos.php');
 
 $container['errorLogger'] = function ($c) {
 	$tmp = $c['config']['tempPath'];
-	
+
 	$lineFormatter = new LineFormatter();
 	$lineFormatter->includeStacktraces();
 	$handler = new StreamHandler($tmp . '/errorLog.log');
 	$handler->setFormatter($lineFormatter);
-	$log = new Logger('polipack');
+	$log = new Logger('solvit');
 	//$log->pushHandler(new StreamHandler($tmp . '/errorLog.log', Logger::DEBUG));
 	$log->pushHandler($handler);
 	return $log;
@@ -136,7 +142,7 @@ if (empty($container['config']['useDebugger'])) {
 			$uri = @$_SERVER['REQUEST_URI'] ?: 'no_page';
 			$log->error('ERROR en ' . $uri);
 			$log->error($exception);
-			
+
 			$response->getBody()->rewind();
 			$txt = "Oops, algo salió mal! " . $exception->getMessage();
 			if (!$request->isXhr()) {
@@ -161,7 +167,7 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 	if (@$container['config']['ambiente'] == 'pruebas') {
 		$v->offsetSet('ambientePruebas', true);
 	}
-	
+
 	$user = WebSecurity::getUser();
 	if (!$user) {
 		/** @var \Slim\Route $route */
@@ -182,11 +188,11 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 		$menu = $builder->init();
 		// process breadcrumbs based on menu
 		$v->offsetSet('mainMenu', $menu);
-		
+
 		/** @var Breadcrumbs $crumbs */
 		$crumbs = $container['breadcrumbs'];
 		$v->offsetSet('breadcrumbs', $crumbs);
-		
+
 		/** @var \General\Seguridad\IPermissionCheck $per */
 		$per = $container['permisosCheck'];
 		if ($per->hasRole('pqr.lista')) {
@@ -195,7 +201,7 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 			$v->offsetSet('alertasTop', $alertas);
 		}
 	}
-	
+
 	/** @var Response $response */
 	$response = $next($request, $response); // primero para que corra el otro, por algun motivo
 	return $response;
@@ -204,7 +210,7 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 // session middleware
 
 $app->add(new \Slim\Middleware\Session([
-	'name' => 'polipack',
+	'name' => 'solvit',
 	'autorefresh' => true,
 	'lifetime' => '5 hour'
 ]));
