@@ -4,9 +4,10 @@ return [
 	['text' => 'Instituciones', 'link' => '#', 'roles' => 'institucion', 'icon' => 'side-menu__icon fa fa-building', 'children' => [
 		['text' => 'Instituciones', 'link' => '/institucion', 'roles' => 'institucion.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
 		['text' => 'Contactos', 'link' => '/contacto', 'roles' => 'contacto.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
-		['text' => 'Paletas', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'fas fa-undo warm-gray'],
 		['text' => 'Catálogos', 'link' => '/catalogo_institucion', 'roles' => 'producto_terminado.lista_devolucion_producto_terminado', 'icon' => 'fas fa-undo warm-gray'],
 	]],
+
+	['text' => 'Paletas', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'side-menu__icon fa fa-sitemap'],
 
 	['text' => 'Clientes', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
 
