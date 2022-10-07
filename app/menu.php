@@ -10,6 +10,8 @@ return [
 
 	['text' => 'Clientes', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
 
+	['text' => 'Campañas', 'link' => '#', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fa fa-cube'],
+
 	['text' => 'Productos y Seguimientos', 'link' => '/producto', 'roles' => 'producto.lista', 'icon' => 'side-menu__icon fe fe-cpu'],
 
 	['text' => 'Reportes', 'link' => '#', 'roles' => 'reportes', 'icon' => 'side-menu__icon glyphicon glyphicon-print', 'children' => [
