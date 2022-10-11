@@ -57,6 +57,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double nc_facturar
  * @property double gastos_cobranza
  * @property double valor_otras_tarjetas
+ * @property string tipo_financiamiento
  * @property string total_financiamiento
  * @property string exigible_financiamiento
  * @property integer plazo_financiamiento

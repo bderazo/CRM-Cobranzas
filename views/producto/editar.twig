@@ -614,25 +614,17 @@
 											<tr>
 												<td style="width: 40%;"><strong>ABONO EFECTIVO DEL SISTEMA</strong></td>
 												<td style="width: 20%; background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_diners.abono_efectivo_sistema"></span></td>
-												<td style="width: 15%;"><strong>ABONO SISTEMA</strong></td>
-												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.abono_sistema"
-															placeholder="Seleccione una opción" v-autoname>
-														<option value="SI">SI</option>
-														<option value="NO">NO</option>
-													</select>
-												</td>
 											</tr>
 											<tr>
 												<td><strong>ABONO NEGOCIADOR</strong></td>
-												<td style="background-color: #c3c3c3;" colspan="3">
+												<td style="background-color: #c3c3c3;">
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners"
 														   v-model="aplicativo_diners_tarjeta_diners.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>ABONO TOTAL</strong></td>
-												<td style="background-color: #c3c3c3;" colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.abono_total"></span></td>
+												<td style="background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_diners.abono_total"></span></td>
 											</tr>
 											</tbody>
 										</table>
@@ -666,39 +658,31 @@
 												<td colspan="4" style="text-align: center; background-color: #0066A8; color: white;"><strong>VALORES POR FACTURAR</strong></td>
 											</tr>
 											<tr>
-												<td style="width: 35%;"><strong>INTERESES POR FACTURAR</strong></td>
-												<td style="width: 65%;" colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.interes_facturar"></span></td>
+												<td style="width: 65%;"><strong>INTERESES POR FACTURAR</strong></td>
+												<td style="width: 35%;" colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.interes_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>CORRIENTES POR FACTURAR</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_diners.corrientes_facturar"></span></td>
-												<td style="width: 15%;"><strong>INCLUIR EN NEGOCIACIÓN</strong></td>
-												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.incluir_negociacion"
-															placeholder="Seleccione una opción" v-autoname>
-														<option value="SI">SI</option>
-														<option value="NO">NO</option>
-													</select>
-												</td>
 											</tr>
 											<tr>
 												<td><strong>ND POR FACTURAR</strong></td>
-												<td colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.nd_facturar"></span></td>
+												<td><span v-html="aplicativo_diners_tarjeta_diners.nd_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>NC POR FACTURAR</strong></td>
-												<td colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.nc_facturar"></span></td>
+												<td><span v-html="aplicativo_diners_tarjeta_diners.nc_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
-												<td colspan="3">
+												<td>
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners"
 														   v-model="aplicativo_diners_tarjeta_diners.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>VALOR OTRAS TARJETAS</strong></td>
-												<td colspan="3">
+												<td>
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners"
 														   v-model="aplicativo_diners_tarjeta_diners.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
 												</td>
@@ -718,7 +702,7 @@
 											<tbody>
 											<tr>
 												<td style="width: 50%; text-align: center; background-color: #0066A8; color: white;"><strong>TIPO DE FINANCIAMIENTO</strong></td>
-												<td style="width: 50%; text-align: center; background-color: #0066A8; color: white;"><strong>NOVACION</strong></td>
+												<td style="width: 50%; text-align: center; background-color: #0066A8; color: white;"><strong><span v-html="aplicativo_diners_tarjeta_diners.tipo_financiamiento"></span></strong></td>
 											</tr>
 											<tr>
 												<td><strong>TOTAL</strong></td>
@@ -726,7 +710,18 @@
 											</tr>
 											<tr>
 												<td><strong>EXIGIBLE</strong></td>
-												<td><span v-html="aplicativo_diners_tarjeta_diners.exigible_financiamiento"></span></td>
+												<td>
+													<div v-if="aplicativo_diners_tarjeta_diners.financiamiento_vigente == 'refinanciamiento SD cobranzas matriz'">
+														<span v-html="aplicativo_diners_tarjeta_diners.exigible_financiamiento"></span>
+													</div>
+													<div v-else>
+														<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+																v-model="aplicativo_diners_tarjeta_diners.exigible_financiamiento" v-autoname>
+															<option value="SI">SI</option>
+															<option value="NO">NO</option>
+														</select>
+													</div>
+												</td>
 											</tr>
 											</tbody>
 										</table>
@@ -739,6 +734,7 @@
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
 															v-model="aplicativo_diners_tarjeta_diners.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
 														<option value=""></option>
+														<option value="2">2</option>
 														<option value="3">3</option>
 														<option value="4">4</option>
 														<option value="5">5</option>
@@ -747,8 +743,23 @@
 														<option value="8">8</option>
 														<option value="9">9</option>
 														<option value="12">12</option>
+														<option value="13">13</option>
+														<option value="14">14</option>
+														<option value="15">15</option>
+														<option value="16">16</option>
+														<option value="17">17</option>
+														<option value="18">18</option>
+														<option value="19">19</option>
+														<option value="20">20</option>
+														<option value="21">21</option>
+														<option value="22">22</option>
+														<option value="23">23</option>
 														<option value="24">24</option>
+														<option value="30">30</option>
 														<option value="36">36</option>
+														<option value="48">48</option>
+														<option value="60">60</option>
+														<option value="72">72</option>
 													</select>
 												</td>
 											</tr>
@@ -973,25 +984,17 @@
 											<tr>
 												<td style="width: 40%;"><strong>ABONO EFECTIVO DEL SISTEMA</strong></td>
 												<td style="width: 20%; background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_interdin.abono_efectivo_sistema"></span></td>
-												<td style="width: 15%;"><strong>ABONO SISTEMA</strong></td>
-												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.abono_sistema"
-															placeholder="Seleccione una opción" v-autoname>
-														<option value="SI">SI</option>
-														<option value="NO">NO</option>
-													</select>
-												</td>
 											</tr>
 											<tr>
 												<td><strong>ABONO NEGOCIADOR</strong></td>
-												<td style="background-color: #c3c3c3;" colspan="3">
+												<td style="background-color: #c3c3c3;">
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin"
 														   v-model="aplicativo_diners_tarjeta_interdin.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>ABONO TOTAL</strong></td>
-												<td style="background-color: #c3c3c3;" colspan="3"><span v-html="aplicativo_diners_tarjeta_interdin.abono_total"></span></td>
+												<td style="background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_interdin.abono_total"></span></td>
 											</tr>
 											</tbody>
 										</table>
@@ -1025,39 +1028,31 @@
 												<td colspan="4" style="text-align: center; background-color: #404040; color: white;"><strong>VALORES POR FACTURAR</strong></td>
 											</tr>
 											<tr>
-												<td style="width: 35%;"><strong>INTERESES POR FACTURAR</strong></td>
-												<td style="width: 65%;" colspan="3"><span v-html="aplicativo_diners_tarjeta_interdin.interes_facturar"></span></td>
+												<td style="width: 65%;"><strong>INTERESES POR FACTURAR</strong></td>
+												<td style="width: 35%;" colspan="3"><span v-html="aplicativo_diners_tarjeta_interdin.interes_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>CORRIENTES POR FACTURAR</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_interdin.corrientes_facturar"></span></td>
-												<td style="width: 15%;"><strong>INCLUIR EN NEGOCIACIÓN</strong></td>
-												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.incluir_negociacion"
-															placeholder="Seleccione una opción" v-autoname>
-														<option value="SI">SI</option>
-														<option value="NO">NO</option>
-													</select>
-												</td>
 											</tr>
 											<tr>
 												<td><strong>ND POR FACTURAR</strong></td>
-												<td colspan="3"><span v-html="aplicativo_diners_tarjeta_interdin.nd_facturar"></span></td>
+												<td><span v-html="aplicativo_diners_tarjeta_interdin.nd_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>NC POR FACTURAR</strong></td>
-												<td colspan="3"><span v-html="aplicativo_diners_tarjeta_interdin.nc_facturar"></span></td>
+												<td><span v-html="aplicativo_diners_tarjeta_interdin.nc_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
-												<td colspan="3">
+												<td>
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin"
 														   v-model="aplicativo_diners_tarjeta_interdin.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>VALOR OTRAS TARJETAS</strong></td>
-												<td colspan="3">
+												<td>
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin"
 														   v-model="aplicativo_diners_tarjeta_interdin.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
 												</td>
@@ -1077,7 +1072,7 @@
 											<tbody>
 											<tr>
 												<td style="width: 50%; text-align: center; background-color: #404040; color: white;"><strong>TIPO DE FINANCIAMIENTO</strong></td>
-												<td style="width: 50%; text-align: center; background-color: #404040; color: white;"><strong>NOVACION</strong></td>
+												<td style="width: 50%; text-align: center; background-color: #404040; color: white;"><strong><span v-html="aplicativo_diners_tarjeta_interdin.tipo_financiamiento"></span></strong></td>
 											</tr>
 											<tr>
 												<td><strong>TOTAL</strong></td>
@@ -1332,25 +1327,17 @@
 											<tr>
 												<td style="width: 40%;"><strong>ABONO EFECTIVO DEL SISTEMA</strong></td>
 												<td style="width: 20%; background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_discover.abono_efectivo_sistema"></span></td>
-												<td style="width: 15%;"><strong>ABONO SISTEMA</strong></td>
-												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.abono_sistema"
-															placeholder="Seleccione una opción" v-autoname>
-														<option value="SI">SI</option>
-														<option value="NO">NO</option>
-													</select>
-												</td>
 											</tr>
 											<tr>
 												<td><strong>ABONO NEGOCIADOR</strong></td>
-												<td style="background-color: #c3c3c3;" colspan="3">
+												<td style="background-color: #c3c3c3;">
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover"
 														   v-model="aplicativo_diners_tarjeta_discover.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>ABONO TOTAL</strong></td>
-												<td style="background-color: #c3c3c3;" colspan="3"><span v-html="aplicativo_diners_tarjeta_discover.abono_total"></span></td>
+												<td style="background-color: #c3c3c3;"><span v-html="aplicativo_diners_tarjeta_discover.abono_total"></span></td>
 											</tr>
 											</tbody>
 										</table>
@@ -1384,39 +1371,31 @@
 												<td colspan="4" style="text-align: center; background-color: #E66929; color: white;"><strong>VALORES POR FACTURAR</strong></td>
 											</tr>
 											<tr>
-												<td style="width: 35%;"><strong>INTERESES POR FACTURAR</strong></td>
-												<td style="width: 65%;" colspan="3"><span v-html="aplicativo_diners_tarjeta_discover.interes_facturar"></span></td>
+												<td style="width: 65%;"><strong>INTERESES POR FACTURAR</strong></td>
+												<td style="width: 35%;" colspan="3"><span v-html="aplicativo_diners_tarjeta_discover.interes_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>CORRIENTES POR FACTURAR</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_discover.corrientes_facturar"></span></td>
-												<td style="width: 15%;"><strong>INCLUIR EN NEGOCIACIÓN</strong></td>
-												<td style="width: 25%;">
-													<select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.incluir_negociacion"
-															placeholder="Seleccione una opción" v-autoname>
-														<option value="SI">SI</option>
-														<option value="NO">NO</option>
-													</select>
-												</td>
 											</tr>
 											<tr>
 												<td><strong>ND POR FACTURAR</strong></td>
-												<td colspan="3"><span v-html="aplicativo_diners_tarjeta_discover.nd_facturar"></span></td>
+												<td><span v-html="aplicativo_diners_tarjeta_discover.nd_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>NC POR FACTURAR</strong></td>
-												<td colspan="3"><span v-html="aplicativo_diners_tarjeta_discover.nc_facturar"></span></td>
+												<td><span v-html="aplicativo_diners_tarjeta_discover.nc_facturar"></span></td>
 											</tr>
 											<tr>
 												<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
-												<td colspan="3">
+												<td>
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover"
 														   v-model="aplicativo_diners_tarjeta_discover.gastos_cobranza" placeholder="GASTOS DE COBRANZA / OTROS" v-autoname/>
 												</td>
 											</tr>
 											<tr>
 												<td><strong>VALOR OTRAS TARJETAS</strong></td>
-												<td colspan="3">
+												<td>
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover"
 														   v-model="aplicativo_diners_tarjeta_discover.valor_otras_tarjetas" placeholder="VALOR OTRAS TARJETAS" v-autoname/>
 												</td>
@@ -1436,7 +1415,7 @@
 											<tbody>
 											<tr>
 												<td style="width: 50%; text-align: center; background-color: #E66929; color: white;"><strong>TIPO DE FINANCIAMIENTO</strong></td>
-												<td style="width: 50%; text-align: center; background-color: #E66929; color: white;"><strong>NOVACION</strong></td>
+												<td style="width: 50%; text-align: center; background-color: #E66929; color: white;"><strong><span v-html="aplicativo_diners_tarjeta_discover.tipo_financiamiento"></span></strong></td>
 											</tr>
 											<tr>
 												<td><strong>TOTAL</strong></td>
@@ -1587,12 +1566,68 @@
 					var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_diners.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_diners.abono_negociador);
 					self.aplicativo_diners_tarjeta_diners.abono_total = abono_total_diners.toFixed(2);
 
+					//SALDOS FACTURADOS DESPUÉS DE ABONO
+					var saldo_90_facturado = parseFloat(self.aplicativo_diners_tarjeta_diners.saldo_90_facturado);
+					var saldo_60_facturado = parseFloat(self.aplicativo_diners_tarjeta_diners.saldo_60_facturado);
+					var saldo_30_facturado = parseFloat(self.aplicativo_diners_tarjeta_diners.saldo_30_facturado);
+					var saldo_actual_facturado = parseFloat(self.aplicativo_diners_tarjeta_diners.saldo_actual_facturado);
+					var abono_total = parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total);
+					var saldo_pasa = 0;
+					var saldo_90_facturado_despues_abono = saldo_90_facturado - abono_total;
+					if(saldo_90_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_diners.saldo_90_facturado_despues_abono = saldo_90_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_diners.saldo_90_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_90_facturado_despues_abono * (-1);
+					}
+					var saldo_60_facturado_despues_abono = saldo_60_facturado - saldo_pasa;
+					if(saldo_60_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_diners.saldo_60_facturado_despues_abono = saldo_60_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_diners.saldo_60_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_60_facturado_despues_abono * (-1);
+					}
+					var saldo_30_facturado_despues_abono = saldo_30_facturado - saldo_pasa;
+					if(saldo_30_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_diners.saldo_30_facturado_despues_abono = saldo_30_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_diners.saldo_30_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_30_facturado_despues_abono * (-1);
+					}
+					var saldo_actual_facturado_despues_abono = saldo_actual_facturado - saldo_pasa;
+					if(saldo_actual_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_diners.saldo_actual_facturado_despues_abono = saldo_actual_facturado_despues_abono.toFixed(2);
+					}else{
+						self.aplicativo_diners_tarjeta_diners.saldo_actual_facturado_despues_abono = 0.00;
+					}
+
+					//VALOR A TIPO DE FINANCIAMIENTO
+					if(saldo_90_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_diners.tipo_financiamiento = 'REESTRUCTURACIÓN';
+					}else{
+						if((saldo_60_facturado_despues_abono > 0) || (saldo_30_facturado_despues_abono > 0)){
+							self.aplicativo_diners_tarjeta_diners.tipo_financiamiento = 'REFINANCIACIÓN';
+						}else{
+							self.aplicativo_diners_tarjeta_diners.tipo_financiamiento = 'NOVACIÓN';
+						}
+					}
+
 					//VALOR A FINANCIAR
-					var valor_financiar_diners = parseFloat(self.aplicativo_diners_tarjeta_diners.deuda_actual) + parseFloat(self.aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos) +
-						parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturar) + parseFloat(self.aplicativo_diners_tarjeta_diners.corrientes_facturar) +
-						parseFloat(self.aplicativo_diners_tarjeta_diners.gastos_cobranza) + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_otras_tarjetas) -
-						parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total);
-					self.aplicativo_diners_tarjeta_diners.valor_financiar = valor_financiar_diners.toFixed(2);
+					if(self.aplicativo_diners_tarjeta_diners.exigible_financiamiento == 'SI'){
+						self.aplicativo_diners_tarjeta_diners.total_financiamiento = 'NO';
+						self.aplicativo_diners_tarjeta_diners.valor_financiar = self.aplicativo_diners_tarjeta_diners.deuda_actual;
+					}else{
+						self.aplicativo_diners_tarjeta_diners.total_financiamiento = 'SI';
+						var valor_financiar_diners = parseFloat(self.aplicativo_diners_tarjeta_diners.deuda_actual) + parseFloat(self.aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos) +
+							parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturar) + parseFloat(self.aplicativo_diners_tarjeta_diners.corrientes_facturar) +
+							parseFloat(self.aplicativo_diners_tarjeta_diners.gastos_cobranza) + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_otras_tarjetas) -
+							parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total) + parseFloat(self.aplicativo_diners_tarjeta_diners.nd_facturar) -
+							parseFloat(self.aplicativo_diners_tarjeta_diners.nc_facturar);
+						self.aplicativo_diners_tarjeta_diners.valor_financiar = valor_financiar_diners.toFixed(2);
+					}
 
 					//TOTAL INTERES
 					var porcentaje_interes_arr = [];
@@ -1625,6 +1660,55 @@
 					//ABONO TOTAL
 					var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_negociador);
 					self.aplicativo_diners_tarjeta_interdin.abono_total = abono_total_diners.toFixed(2);
+
+					//SALDOS FACTURADOS DESPUÉS DE ABONO
+					var saldo_90_facturado = parseFloat(self.aplicativo_diners_tarjeta_interdin.saldo_90_facturado);
+					var saldo_60_facturado = parseFloat(self.aplicativo_diners_tarjeta_interdin.saldo_60_facturado);
+					var saldo_30_facturado = parseFloat(self.aplicativo_diners_tarjeta_interdin.saldo_30_facturado);
+					var saldo_actual_facturado = parseFloat(self.aplicativo_diners_tarjeta_interdin.saldo_actual_facturado);
+					var abono_total = parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_total);
+					var saldo_pasa = 0;
+					var saldo_90_facturado_despues_abono = saldo_90_facturado - abono_total;
+					if(saldo_90_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_interdin.saldo_90_facturado_despues_abono = saldo_90_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_interdin.saldo_90_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_90_facturado_despues_abono * (-1);
+					}
+					var saldo_60_facturado_despues_abono = saldo_60_facturado - saldo_pasa;
+					if(saldo_60_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_interdin.saldo_60_facturado_despues_abono = saldo_60_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_interdin.saldo_60_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_60_facturado_despues_abono * (-1);
+					}
+					var saldo_30_facturado_despues_abono = saldo_30_facturado - saldo_pasa;
+					if(saldo_30_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_interdin.saldo_30_facturado_despues_abono = saldo_30_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_interdin.saldo_30_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_30_facturado_despues_abono * (-1);
+					}
+					var saldo_actual_facturado_despues_abono = saldo_actual_facturado - saldo_pasa;
+					if(saldo_actual_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_interdin.saldo_actual_facturado_despues_abono = saldo_actual_facturado_despues_abono.toFixed(2);
+					}else{
+						self.aplicativo_diners_tarjeta_interdin.saldo_actual_facturado_despues_abono = 0.00;
+					}
+
+					//VALOR A TIPO DE FINANCIAMIENTO
+					if(saldo_90_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_interdin.tipo_financiamiento = 'REESTRUCTURACIÓN';
+					}else{
+						if((saldo_60_facturado_despues_abono > 0) || (saldo_30_facturado_despues_abono > 0)){
+							self.aplicativo_diners_tarjeta_interdin.tipo_financiamiento = 'REFINANCIACIÓN';
+						}else{
+							self.aplicativo_diners_tarjeta_interdin.tipo_financiamiento = 'NOVACIÓN';
+						}
+					}
 
 					//VALOR A FINANCIAR
 					var valor_financiar_diners = parseFloat(self.aplicativo_diners_tarjeta_interdin.deuda_actual) + parseFloat(self.aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos) +
@@ -1664,6 +1748,55 @@
 					//ABONO TOTAL
 					var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_discover.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_discover.abono_negociador);
 					self.aplicativo_diners_tarjeta_discover.abono_total = abono_total_diners.toFixed(2);
+
+					//SALDOS FACTURADOS DESPUÉS DE ABONO
+					var saldo_90_facturado = parseFloat(self.aplicativo_diners_tarjeta_discover.saldo_90_facturado);
+					var saldo_60_facturado = parseFloat(self.aplicativo_diners_tarjeta_discover.saldo_60_facturado);
+					var saldo_30_facturado = parseFloat(self.aplicativo_diners_tarjeta_discover.saldo_30_facturado);
+					var saldo_actual_facturado = parseFloat(self.aplicativo_diners_tarjeta_discover.saldo_actual_facturado);
+					var abono_total = parseFloat(self.aplicativo_diners_tarjeta_discover.abono_total);
+					var saldo_pasa = 0;
+					var saldo_90_facturado_despues_abono = saldo_90_facturado - abono_total;
+					if(saldo_90_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_discover.saldo_90_facturado_despues_abono = saldo_90_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_discover.saldo_90_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_90_facturado_despues_abono * (-1);
+					}
+					var saldo_60_facturado_despues_abono = saldo_60_facturado - saldo_pasa;
+					if(saldo_60_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_discover.saldo_60_facturado_despues_abono = saldo_60_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_discover.saldo_60_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_60_facturado_despues_abono * (-1);
+					}
+					var saldo_30_facturado_despues_abono = saldo_30_facturado - saldo_pasa;
+					if(saldo_30_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_discover.saldo_30_facturado_despues_abono = saldo_30_facturado_despues_abono.toFixed(2);
+						saldo_pasa = 0;
+					}else{
+						self.aplicativo_diners_tarjeta_discover.saldo_30_facturado_despues_abono = 0.00;
+						saldo_pasa = saldo_30_facturado_despues_abono * (-1);
+					}
+					var saldo_actual_facturado_despues_abono = saldo_actual_facturado - saldo_pasa;
+					if(saldo_actual_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_discover.saldo_actual_facturado_despues_abono = saldo_actual_facturado_despues_abono.toFixed(2);
+					}else{
+						self.aplicativo_diners_tarjeta_discover.saldo_actual_facturado_despues_abono = 0.00;
+					}
+
+					//VALOR A TIPO DE FINANCIAMIENTO
+					if(saldo_90_facturado_despues_abono > 0){
+						self.aplicativo_diners_tarjeta_discover.tipo_financiamiento = 'REESTRUCTURACIÓN';
+					}else{
+						if((saldo_60_facturado_despues_abono > 0) || (saldo_30_facturado_despues_abono > 0)){
+							self.aplicativo_diners_tarjeta_discover.tipo_financiamiento = 'REFINANCIACIÓN';
+						}else{
+							self.aplicativo_diners_tarjeta_discover.tipo_financiamiento = 'NOVACIÓN';
+						}
+					}
 
 					//VALOR A FINANCIAR
 					var valor_financiar_diners = parseFloat(self.aplicativo_diners_tarjeta_discover.deuda_actual) + parseFloat(self.aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos) +
