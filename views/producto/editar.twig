@@ -620,6 +620,12 @@
 												<td style="background-color: #c3c3c3;">
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiners"
 														   v-model="aplicativo_diners_tarjeta_diners.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
+													<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert" id="alerta_abono_diners">
+														<span class="alert-inner--text">ABONO NO CUBRE INTERES</span>
+														<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+															<span aria-hidden="true">×</span>
+														</button>
+													</div>
 												</td>
 											</tr>
 											<tr>
@@ -990,6 +996,12 @@
 												<td style="background-color: #c3c3c3;">
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresInterdin"
 														   v-model="aplicativo_diners_tarjeta_interdin.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
+													<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert" id="alerta_abono_interdin">
+														<span class="alert-inner--text">ABONO NO CUBRE INTERES</span>
+														<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+															<span aria-hidden="true">×</span>
+														</button>
+													</div>
 												</td>
 											</tr>
 											<tr>
@@ -1333,6 +1345,12 @@
 												<td style="background-color: #c3c3c3;">
 													<input type="text" class="form-control form-control-sm" v-on:keyup="calcularValoresDiscover"
 														   v-model="aplicativo_diners_tarjeta_discover.abono_negociador" placeholder="ABONO NEGOCIADOR" v-autoname/>
+													<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert" id="alerta_abono_discover">
+														<span class="alert-inner--text">ABONO NO CUBRE INTERES</span>
+														<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+															<span aria-hidden="true">×</span>
+														</button>
+													</div>
 												</td>
 											</tr>
 											<tr>
@@ -1652,6 +1670,13 @@
 						cuota_mensual = parseFloat(self.aplicativo_diners_tarjeta_diners.total_financiamiento_total) / parseInt(self.aplicativo_diners_tarjeta_diners.plazo_financiamiento);
 					}
 					self.aplicativo_diners_tarjeta_diners.valor_cuota_mensual = cuota_mensual.toFixed(2);
+
+					//ALERTAS
+					if(parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturado)){
+						$("#alerta_abono_diners").show();
+					}else{
+						$("#alerta_abono_diners").hide();
+					}
 				},
 
 				calcularValoresInterdin: function () {
@@ -1740,6 +1765,13 @@
 						cuota_mensual = parseFloat(self.aplicativo_diners_tarjeta_interdin.total_financiamiento_total) / parseInt(self.aplicativo_diners_tarjeta_interdin.plazo_financiamiento);
 					}
 					self.aplicativo_diners_tarjeta_interdin.valor_cuota_mensual = cuota_mensual.toFixed(2);
+
+					//ALERTAS
+					if(parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_interdin.interes_facturado)){
+						$("#alerta_abono_interdin").show();
+					}else{
+						$("#alerta_abono_interdin").hide();
+					}
 				},
 
 				calcularValoresDiscover: function () {
@@ -1828,6 +1860,13 @@
 						cuota_mensual = parseFloat(self.aplicativo_diners_tarjeta_discover.total_financiamiento_total) / parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento);
 					}
 					self.aplicativo_diners_tarjeta_discover.valor_cuota_mensual = cuota_mensual.toFixed(2);
+
+					//ALERTAS
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_discover.interes_facturado)){
+						$("#alerta_abono_discover").show();
+					}else{
+						$("#alerta_abono_discover").hide();
+					}
 				},
 
 				guardarAplicativoDiners: function () {
@@ -1846,6 +1885,9 @@
 			},
 			mounted: function () {
 				var self = this;
+				$("#alerta_abono_diners").hide();
+				$("#alerta_abono_interdin").hide();
+				$("#alerta_abono_discover").hide();
 				$('#form-edit').validate({
 					onfocusout: false,
 					onkeyup: false,
