@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Catalogos\CatalogoCliente;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
 use JasonGrimes\Paginator;
@@ -11,10 +12,12 @@ use Models\Archivo;
 use Models\Catalogo;
 use Models\Cliente;
 use Models\Contacto;
+use Models\Direccion;
 use Models\Egreso;
 use Models\Email;
 use Models\Paleta;
 use Models\Producto;
+use Models\Referencia;
 use Models\Telefono;
 use upload;
 
@@ -52,15 +55,26 @@ class ProductoController extends BaseController {
 	function editar($id) {
 		\WebSecurity::secure('producto.lista');
 
+		$cat = new CatalogoCliente();
 		$catalogos = [
+			'sexo' => $cat->getByKey('sexo'),
+			'estado_civil' => $cat->getByKey('estado_civil'),
+			'tipo_telefono' => $cat->getByKey('tipo_telefono'),
+			'descripcion_telefono' => $cat->getByKey('descripcion_telefono'),
+			'origen_telefono' => $cat->getByKey('origen_telefono'),
+			'tipo_direccion' => $cat->getByKey('tipo_direccion'),
+			'tipo_referencia' => $cat->getByKey('tipo_referencia'),
+			'descripcion_referencia' => $cat->getByKey('descripcion_referencia'),
 			'ciudades' => Catalogo::ciudades(),
 		];
 
 		$model = Producto::porId($id);
 		\Breadcrumbs::active('Registrar Seguimiento');
 		$telefono = Telefono::porModulo('cliente', $model->cliente_id);
-		$email = Email::porModulo('cliente', $model->cliente_id);
+		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
+		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
+		$pagos = [];
 		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->cliente_id);
 		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners['id']);
 		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners['id']);
@@ -72,8 +86,10 @@ class ProductoController extends BaseController {
 		$data['aplicativo_diners_tarjeta_diners'] = json_encode($aplicativo_diners_tarjeta_diners);
 		$data['aplicativo_diners_tarjeta_discover'] = json_encode($aplicativo_diners_tarjeta_discover);
 		$data['aplicativo_diners_tarjeta_interdin'] = json_encode($aplicativo_diners_tarjeta_interdin);
+		$data['pagos'] = json_encode($pagos);
 		$data['cliente'] = json_encode($cliente);
-		$data['email'] = json_encode($email);
+		$data['direccion'] = json_encode($direccion);
+		$data['referencia'] = json_encode($referencia);
 		$data['telefono'] = json_encode($telefono);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		$data['model'] = json_encode($model);

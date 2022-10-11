@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Catalogos\CatalogoPaleta;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
 use JasonGrimes\Paginator;
@@ -61,8 +62,11 @@ class PaletaController extends BaseController {
 	function editar($id) {
 		\WebSecurity::secure('paleta.lista');
 
+		$cat = new CatalogoPaleta();
 		$catalogos = [
-			'ciudades' => Catalogo::ciudades(),
+			'tipo_gestion' => $cat->getByKey('tipo_gestion'),
+			'tipo_perfil' => $cat->getByKey('tipo_perfil'),
+			'tipo_accion' => $cat->getByKey('tipo_accion'),
 		];
 
 		if ($id == 0) {

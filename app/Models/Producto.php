@@ -80,13 +80,23 @@ class Producto extends Model
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->select(['producto.*','cliente.apellidos AS cliente_apellidos','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre']);
-//		if(!empty($post['nombre'])) {
-//			$q->whereRaw("upper(institucion.nombre) LIKE '%" . strtoupper($post['nombre']) . "%'");
-//		}
-//		if(!empty($post['paleta_id'])) $q->where('institucion.paleta_id', '=', $post['paleta_id']);
-//		if(!empty($post['ciudad'])) $q->where('institucion.ciudad', '=', $post['ciudad']);
-//		if(!empty($post['acceso_sistema'])) $q->where('institucion.acceso_sistema', '=', $post['acceso_sistema']);
-//		if(!empty($post['paletas_propias'])) $q->where('institucion.paletas_propias', '=', $post['paletas_propias']);
+
+		if(!empty($post['institucion'])) {
+			$q->whereRaw("upper(institucion.nombre) LIKE '%" . strtoupper($post['institucion']) . "%'");
+		}
+		if(!empty($post['cedula'])) {
+			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
+		}
+		if(!empty($post['apellidos'])) {
+			$q->whereRaw("upper(cliente.apellidos) LIKE '%" . strtoupper($post['apellidos']) . "%'");
+		}
+		if(!empty($post['nombres'])) {
+			$q->whereRaw("upper(cliente.nombres) LIKE '%" . strtoupper($post['nombres']) . "%'");
+		}
+		if(!empty($post['producto'])) {
+			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
+		}
+
 		$q->where('producto.eliminado', '=', 0);
 		$q->orderBy($order, 'asc');
 		if($pagina > 0 && $records > 0)

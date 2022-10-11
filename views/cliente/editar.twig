@@ -2,7 +2,7 @@
 {% block content %}
 	<div id="app">
 		<div class="col-md-12 col-xl-12">
-			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+			<form method="POST" action="{{ root }}/cliente/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
 				<div class="card">
 					<div class="card-header">
 						<h4 class="card-title">Información General</h4>
@@ -31,8 +31,7 @@
 							<div class="col-md-4">
 								<select class="form-control form-select select2" v-autoname v-model="model.sexo" placeholder="Seleccione una opción" v-autoname>
 									<option value=""></option>
-									<option value="masculino">MASCULINO</option>
-									<option value="femenino">FEMENINO</option>
+									<option v-for="(v,k) in cat.sexo" v-html="v" :value="k"></option>
 								</select>
 							</div>
 						</div>
@@ -42,11 +41,7 @@
 							<div class="col-md-4">
 								<select class="form-control form-select select2" v-autoname v-model="model.estado_civil" placeholder="Seleccione una opción" v-autoname>
 									<option value=""></option>
-									<option value="soltero">SOLTERO</option>
-									<option value="casado">CASADO</option>
-									<option value="divorciado">DIVORCIADO</option>
-									<option value="viudo">VIUDO</option>
-									<option value="union_libre">UNIÓN LIBRE</option>
+									<option v-for="(v,k) in cat.estado_civil" v-html="v" :value="k"></option>
 								</select>
 							</div>
 						</div>
@@ -61,10 +56,10 @@
 									<thead>
 									<tr>
 										<th>Número Oro</th>
-										<th>Teléfono</th>
 										<th>Tipo</th>
+										<th>Descripción</th>
+										<th>Teléfono</th>
 										<th>Origen</th>
-										<th>Fecha Ingreso</th>
 										<th></th>
 									</tr>
 									</thead>
@@ -77,6 +72,16 @@
 											</label>
 										</td>
 										<td>
+											<select class="form-control form-control-sm form-select select2" v-autoname v-model="t.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.tipo_telefono" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-autoname v-model="t.descripcion" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.descripcion_telefono" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
 											<div class="input-group">
 											<input type="text" class="form-control form-control-sm required digits" v-model="t.telefono" placeholder="Teléfono" v-autoname/>
 											<button type="button" class="btn btn-icon btn-info btn-sm" v-on:click="delTelefono(t)">
@@ -84,16 +89,7 @@
 											</button>
 											</div>
 										</td>
-										<td>
-											<select class="form-control form-control-sm form-select select2" v-autoname v-model="t.tipo" placeholder="Seleccione una opción" v-autoname>
-												<option value="propio">PROPIO</option>
-												<option value="familiar">FAMILIAR</option>
-												<option value="amigo">AMIGO</option>
-												<option value="otros">OTROS</option>
-											</select>
-										</td>
 										<td style="text-transform: uppercase;"><span v-html="t.origen"></span></td>
-										<td><span v-html="t.fecha_ingreso"></span></td>
 										<td style="text-align: center;">
 											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delTelefono(t)">
 												<i class="fe fe-trash"></i>
@@ -104,39 +100,95 @@
 									</tbody>
 								</table>
 							</div>
+						</div>
 
-							<label for="inputName" class="col-md-2 form-label">Emails</label>
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Direcciones</label>
 							<div class="col-md-10">
-								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarEmail">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarDireccion">
 									<i class="fa fa-plus"></i> Agregar
 								</button>
 								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
 									<thead>
 									<tr>
-										<th>Email</th>
 										<th>Tipo</th>
-										<th>Origen</th>
-										<th>Fecha Ingreso</th>
+										<th>Ciudad</th>
+										<th>Dirección</th>
 										<th></th>
 									</tr>
 									</thead>
 									<tbody>
-									<tr v-for="c in email">
+									<tr v-for="d in direccion">
 										<td>
-											<input type="text" class="form-control form-control-sm required email" v-model="c.email" placeholder="Email" v-autoname/>
-										</td>
-										<td>
-											<select class="form-control form-select select2" v-autoname v-model="c.tipo" placeholder="Seleccione una opción" v-autoname>
-												<option value="propio">PROPIO</option>
-												<option value="familiar">FAMILIAR</option>
-												<option value="amigo">AMIGO</option>
-												<option value="otros">OTROS</option>
+											<select class="form-control form-control-sm form-select select2" v-model="d.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.tipo_direccion" v-html="v" :value="k"></option>
 											</select>
 										</td>
-										<td style="text-transform: uppercase;"><span v-html="c.origen"></span></td>
-										<td><span v-html="c.fecha_ingreso"></span></td>
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-model="d.ciudad" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.ciudades" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
+											<textarea rows="3" v-model="d.direccion" class="form-control form-control-sm" placeholder="Dirección" v-autoname></textarea>
+										</td>
 										<td style="text-align: center;">
-											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delEmail(c)">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delDireccion(d)">
+												<i class="fe fe-trash"></i>
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Referencias</label>
+							<div class="col-md-10">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarReferencia">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Tipo</th>
+										<th>Descripción</th>
+										<th>Nombre</th>
+										<th>Teléfono</th>
+										<th>Ciudad</th>
+										<th>Dirección</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="r in referencia">
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-model="r.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.tipo_referencia" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-model="r.descripcion" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.descripcion_referencia" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
+											<input type="text" class="form-control form-control-sm required" v-model="r.nombre" placeholder="Nombre" v-autoname/>
+										</td>
+										<td>
+											<input type="text" class="form-control form-control-sm required digits" v-model="r.telefono" placeholder="Teléfono" v-autoname/>
+										</td>
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-model="r.ciudad" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.ciudades" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
+											<textarea rows="3" v-model="r.direccion" class="form-control form-control-sm" placeholder="Dirección" v-autoname></textarea>
+										</td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delReferencia(r)">
 												<i class="fe fe-trash"></i>
 											</button>
 										</td>
@@ -187,7 +239,11 @@
 									</a>
 								</td>
 								<td><span v-html="p.agencia"></span></td>
-								<td><span v-html="p.producto"></span></td>
+								<td>
+									<a :href="'{{ root }}/producto/editar?id=' + p.id" target="_blank" style="text-decoration: underline" class="text-primary ms-1">
+										<span v-html="p.producto"></span>
+									</a>
+								</td>
 								<td><span v-html="p.subproducto"></span></td>
 								<td style="text-transform: uppercase;"><span v-html="p.tipo_proceso"></span></td>
 								<td style="text-transform: uppercase;">ADMIN</td>
@@ -273,8 +329,10 @@
 				model: {{ model|raw }},
 				telefono: {{ telefono|raw }},
 				del_telefono: [],
-				email: {{ email|raw }},
-				del_email: [],
+				direccion: {{ direccion|raw }},
+				del_direccion: [],
+				referencia: {{ referencia|raw }},
+				del_referencia: [],
 				productos: {{ productos|raw }},
 			},
 			watch: {},
@@ -284,7 +342,8 @@
 					var self = this;
 					var data = {
 						telefono: '',
-						tipo: 'propio',
+						tipo: '',
+						descripcion: '',
 						origen: 'SISTEMA',
 					};
 					self.telefono.push(data);
@@ -300,23 +359,46 @@
 					}
 				},
 
-				agregarEmail: function () {
+				agregarDireccion: function () {
 					var self = this;
 					var data = {
-						email: '',
-						tipo: 'propio',
-						origen: 'SISTEMA',
+						tipo: '',
+						ciudad: '',
+						direccion: '',
 					};
-					self.email.push(data);
+					self.direccion.push(data);
 				},
 
-				delEmail: function (p) {
+				delDireccion: function (p) {
 					var self = this;
-					if (confirm("Está seguro que desea eliminar el email: " + p.email + "?")) {
-						var ix = self.email.indexOf(p);
-						self.email.splice(ix, 1);
+					if (confirm("Está seguro que desea eliminar la dirección: " + p.direccion + "?")) {
+						var ix = self.direccion.indexOf(p);
+						self.direccion.splice(ix, 1);
 						if (p.id)
-							self.del_email.push(p.id);
+							self.del_direccion.push(p.id);
+					}
+				},
+
+				agregarReferencia: function () {
+					var self = this;
+					var data = {
+						tipo: '',
+						descripcion: '',
+						nombre: '',
+						telefono: '',
+						ciudad: '',
+						direccion: '',
+					};
+					self.referencia.push(data);
+				},
+
+				delReferencia: function (p) {
+					var self = this;
+					if (confirm("Está seguro que desea eliminar la referencia: " + p.nombre + "?")) {
+						var ix = self.referencia.indexOf(p);
+						self.referencia.splice(ix, 1);
+						if (p.id)
+							self.del_referencia.push(p.id);
 					}
 				},
 			},
@@ -331,8 +413,10 @@
 							model: self.model,
 							telefono: self.telefono,
 							del_telefono: self.del_telefono,
-							email: self.email,
-							del_email: self.del_email,
+							direccion: self.direccion,
+							del_direccion: self.del_direccion,
+							referencia: self.referencia,
+							del_referencia: self.del_referencia,
 						};
 						$('#json').val(JSON.stringify(data));
 						$("#btnGuardar").prop("disabled", true);

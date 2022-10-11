@@ -9,11 +9,12 @@ use JasonGrimes\Paginator;
 use Models\Archivo;
 use Models\Catalogo;
 use Models\Contacto;
+use Models\Direccion;
 use Models\Egreso;
-use Models\Email;
 use Models\Cliente;
 use Models\Paleta;
 use Models\Producto;
+use Models\Referencia;
 use Models\Telefono;
 use upload;
 
@@ -37,7 +38,7 @@ class ClienteController extends BaseController {
 		$pag = new Paginator($lista->total(), 50, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {
-			$retorno[] = $listas;
+			$retorno[$listas['id']] = $listas;
 		}
 		$data['lista'] = $retorno;
 		$data['pag'] = $pag;
@@ -53,6 +54,14 @@ class ClienteController extends BaseController {
 
 		$cat = new CatalogoCliente();
 		$catalogos = [
+			'sexo' => $cat->getByKey('sexo'),
+			'estado_civil' => $cat->getByKey('estado_civil'),
+			'tipo_telefono' => $cat->getByKey('tipo_telefono'),
+			'descripcion_telefono' => $cat->getByKey('descripcion_telefono'),
+			'origen_telefono' => $cat->getByKey('origen_telefono'),
+			'tipo_direccion' => $cat->getByKey('tipo_direccion'),
+			'tipo_referencia' => $cat->getByKey('tipo_referencia'),
+			'descripcion_referencia' => $cat->getByKey('descripcion_referencia'),
 			'ciudades' => Catalogo::ciudades(),
 		];
 
@@ -60,17 +69,21 @@ class ClienteController extends BaseController {
 			\Breadcrumbs::active('Crear Cliente');
 			$model = new ViewCliente();
 			$telefono = [];
+			$direccion = [];
+			$referencia = [];
 			$productos = [];
 		} else {
 			$model = Cliente::porId($id);
 			\Breadcrumbs::active('Editar Cliente');
 			$telefono = Telefono::porModulo('cliente', $model->id);
-			$email = Email::porModulo('cliente', $model->id);
+			$direccion = Direccion::porModulo('cliente', $model->id);
+			$referencia = Referencia::porModulo('cliente', $model->id);
 			$productos = Producto::porCliente($model->id);
 		}
 
 		$data['productos'] = json_encode($productos);
-		$data['email'] = json_encode($email);
+		$data['referencia'] = json_encode($referencia);
+		$data['direccion'] = json_encode($direccion);
 		$data['telefono'] = json_encode($telefono);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		$data['model'] = json_encode($model);
@@ -132,26 +145,62 @@ class ClienteController extends BaseController {
 			$del = Telefono::eliminar($d);
 		}
 
-		//GUARDAR EMAIL
-		foreach ($data['email'] as $e) {
-			if (isset($e['id'])) {
-				$ema = Email::porId($e['id']);
-				$ema->email = $e['email'];
+		//GUARDAR DIRECCION
+		foreach ($data['direccion'] as $d) {
+			if (isset($d['id'])) {
+				$dir = Direccion::porId($d['id']);
+				$dir->tipo = $d['tipo'];
+				$dir->ciudad = $d['ciudad'];
+				$dir->direccion = $d['direccion'];
 			} else {
-				$ema = new Email();
-				$ema->email = $e['email'];
-				$ema->modulo_id = $con->id;
-				$ema->modulo_relacionado = 'cliente';
-				$ema->usuario_ingreso = \WebSecurity::getUserData('id');
-				$ema->eliminado = 0;
-				$ema->fecha_ingreso = date("Y-m-d H:i:s");
+				$dir = new Direccion();
+				$dir->tipo = $d['tipo'];
+				$dir->ciudad = $d['ciudad'];
+				$dir->direccion = $d['direccion'];
+				$dir->modulo_id = $con->id;
+				$dir->modulo_relacionado = 'cliente';
+				$dir->usuario_ingreso = \WebSecurity::getUserData('id');
+				$dir->eliminado = 0;
+				$dir->fecha_ingreso = date("Y-m-d H:i:s");
 			}
-			$ema->usuario_modificacion = \WebSecurity::getUserData('id');
-			$ema->fecha_modificacion = date("Y-m-d H:i:s");
-			$ema->save();
+			$dir->usuario_modificacion = \WebSecurity::getUserData('id');
+			$dir->fecha_modificacion = date("Y-m-d H:i:s");
+			$dir->save();
 		}
-		foreach ($data['del_email'] as $d) {
-			$del = Email::eliminar($d);
+		foreach ($data['del_direccion'] as $d) {
+			$del = Direccion::eliminar($d);
+		}
+
+		//GUARDAR REFERENCIA
+		foreach ($data['referencia'] as $r) {
+			if (isset($r['id'])) {
+				$ref = Referencia::porId($r['id']);
+				$ref->tipo = $r['tipo'];
+				$ref->descripcion = $r['descripcion'];
+				$ref->nombre = $r['nombre'];
+				$ref->telefono = $r['telefono'];
+				$ref->ciudad = $r['ciudad'];
+				$ref->direccion = $r['direccion'];
+			} else {
+				$ref = new Referencia();
+				$ref->tipo = $r['tipo'];
+				$ref->descripcion = $r['descripcion'];
+				$ref->nombre = $r['nombre'];
+				$ref->telefono = $r['telefono'];
+				$ref->ciudad = $r['ciudad'];
+				$ref->direccion = $r['direccion'];
+				$ref->modulo_id = $con->id;
+				$ref->modulo_relacionado = 'cliente';
+				$ref->usuario_ingreso = \WebSecurity::getUserData('id');
+				$ref->eliminado = 0;
+				$ref->fecha_ingreso = date("Y-m-d H:i:s");
+			}
+			$ref->usuario_modificacion = \WebSecurity::getUserData('id');
+			$ref->fecha_modificacion = date("Y-m-d H:i:s");
+			$ref->save();
+		}
+		foreach ($data['del_referencia'] as $d) {
+			$del = Referencia::eliminar($d);
 		}
 
 		\Auditor::info("Cliente $con->apellidos actualizado", 'Cliente');

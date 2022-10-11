@@ -4,8 +4,8 @@ namespace Catalogos;
 
 use General\ListasSistema;
 
-class CatalogoInstitucion extends CatalogoArrayBase {
-	var $nombre = 'catalogo_institucion';
+class CatalogoPaleta extends CatalogoArrayBase {
+	var $nombre = 'catalogo_paleta';
 	
 	function labelsAcciones($transiciones) {
 		$nombres = $this->getByKey('transiciones');

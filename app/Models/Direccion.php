@@ -8,21 +8,20 @@ use Illuminate\Database\Eloquent\Model;
  * @package Models
  *
  * @property integer id
- * @property string email
  * @property string tipo
- * @property string origen
+ * @property string ciudad
+ * @property string direccion
  * @property integer modulo_id
  * @property string modulo_relacionado
- * @property integer bandera
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso
  * @property integer usuario_modificacion
  * @property boolean eliminado
  */
-class Email extends Model
+class Direccion extends Model
 {
-	protected $table = 'email';
+	protected $table = 'direccion';
 	const CREATED_AT = 'fecha_ingreso';
 	const UPDATED_AT = 'fecha_modificacion';
 	protected $guarded = [];
@@ -54,12 +53,12 @@ class Email extends Model
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
-		$q=$db->from('email e')
+		$q=$db->from('direccion d')
 			->select(null)
-			->select('e.*')
-			->where('e.eliminado',0)
-			->where('e.modulo_relacionado',$modulo_relacionado)
-			->where('e.modulo_id',$modulo_id);
+			->select('d.*')
+			->where('d.eliminado',0)
+			->where('d.modulo_relacionado',$modulo_relacionado)
+			->where('d.modulo_id',$modulo_id);
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){

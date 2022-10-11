@@ -40,17 +40,27 @@ class Cliente extends Model {
 	public static function buscar($post, $order = 'nombre', $pagina = null, $records = 25)
 	{
 		$q = self::query();
+
+		$q->join('producto', 'producto.cliente_id', '=', 'cliente.id');
+		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->select(['cliente.*']);
+
+		if(!empty($post['institucion'])) {
+			$q->whereRaw("upper(institucion.nombre) LIKE '%" . strtoupper($post['institucion']) . "%'");
+		}
+		if(!empty($post['cedula'])) {
+			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
+		}
 		if(!empty($post['apellidos'])) {
 			$q->whereRaw("upper(cliente.apellidos) LIKE '%" . strtoupper($post['apellidos']) . "%'");
 		}
 		if(!empty($post['nombres'])) {
 			$q->whereRaw("upper(cliente.nombres) LIKE '%" . strtoupper($post['nombres']) . "%'");
 		}
-		if(!empty($post['cedula'])) {
-			$q->whereRaw("upper(cliente.cedula) LIKE '%" . strtoupper($post['cedula']) . "%'");
+		if(!empty($post['producto'])) {
+			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
 		}
-		if(!empty($post['sexo'])) $q->where('cliente.sexo', '=', $post['sexo']);
+
 		$q->where('cliente.eliminado', '=', false);
 		$q->orderBy($order, 'asc');
 		if($pagina > 0 && $records > 0)

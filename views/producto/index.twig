@@ -11,37 +11,36 @@
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Institución</label>
 						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Seleccione una institución" name="institucion_nombre" id="institucion_nombre" readonly>
-								<input type="hidden" class="form-control" v-model="model.institucion_id" name="institucion_id" id="institucion_id"/>
-								<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
-									<i class="glyphicon glyphicon-search"></i>
-								</button>
-							</div>
+							<input type="text" class="form-control" v-model="model.institucion" name="institucion" placeholder="Institución"/>
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Cliente</label>
+						<label for="inputName" class="col-md-2 form-label">Cédula</label>
 						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Seleccione un cliente" name="institucion_nombre" id="institucion_nombre" readonly>
-								<input type="hidden" class="form-control" v-model="model.institucion_id" name="institucion_id" id="institucion_id"/>
-								<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
-									<i class="glyphicon glyphicon-search"></i>
-								</button>
-							</div>
+							<input type="text" class="form-control" v-model="model.cedula" name="cedula" placeholder="Cédula"/>
 						</div>
 					</div>
 
 					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Usuario asignado</label>
+						<label for="inputName" class="col-md-2 form-label">Apellidos</label>
 						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Seleccione un usuario" name="institucion_nombre" id="institucion_nombre" readonly>
-								<input type="hidden" class="form-control" v-model="model.institucion_id" name="institucion_id" id="institucion_id"/>
-								<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
-									<i class="glyphicon glyphicon-search"></i>
-								</button>
-							</div>
+							<input type="text" class="form-control" v-model="model.apellidos" name="apellidos" placeholder="Apellidos"/>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" v-model="model.nombres" name="nombres" placeholder="Nombres"/>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Producto</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" v-model="model.producto" name="producto" placeholder="Producto"/>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Teléfono</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" v-model="model.telefono" name="telefono" placeholder="Teléfono"/>
 						</div>
 					</div>
 
