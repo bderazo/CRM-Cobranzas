@@ -75,7 +75,7 @@ class ProductoController extends BaseController {
 		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
 		$pagos = [];
-		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->cliente_id);
+		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
 		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners['id']);
 		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners['id']);
 		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners['id']);

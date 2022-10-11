@@ -59,7 +59,7 @@ class AplicativoDiners extends Model
 		return $q;
 	}
 
-	static function getAplicativoDiners($cliente_id) {
+	static function getAplicativoDiners($producto_id) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
@@ -67,7 +67,7 @@ class AplicativoDiners extends Model
 			->select(null)
 			->select('ad.*')
 			->where('ad.eliminado',0)
-			->where('ad.cliente_id',$cliente_id);
+			->where('ad.producto_id',$producto_id);
 		$lista = $q->fetch();
 		if(!$lista)
 			return [];
