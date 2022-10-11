@@ -19,39 +19,11 @@ function mapApiCalls(\Slim\App $app, $test = false)
 
 	$app->any('/producto/get_form_busqueda_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_busqueda_producto', $p));
 	$app->any('/producto/get_preguntas_list', $api->createDispatch(\WebApi\ProductoApi::class, 'get_preguntas_list', $p));
+	$app->any('/producto/get_producto_cliente', $api->createDispatch(\WebApi\ProductoApi::class, 'get_producto_cliente', $p));
+	$app->any('/producto/get_producto_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_producto_producto', $p));
 
 
-	$app->any('/suscripcion/get_lista_suscripciones', $api->createDispatch(\WebApi\SuscripcionApi::class, 'get_lista_suscripciones', $p));
-	$app->any('/suscripcion/validar_codigo_promocional', $api->createDispatch(\WebApi\SuscripcionApi::class, 'validar_codigo_promocional', $p));
-	$app->any('/suscripcion/save_compra_suscripcion', $api->createDispatch(\WebApi\SuscripcionApi::class, 'save_compra_suscripcion', $p));
-	$app->any('/suscripcion/caducar_suscripcion_vencida', $api->createDispatch(\WebApi\SuscripcionApi::class, 'caducar_suscripcion_vencida', $p));
 
-	$app->any('/membresia/get_lista_membresias', $api->createDispatch(\WebApi\MembresiaApi::class, 'get_lista_membresias', $p));
-	$app->any('/membresia/validar_codigo_promocional', $api->createDispatch(\WebApi\MembresiaApi::class, 'validar_codigo_promocional', $p));
-	$app->any('/membresia/save_compra_membresia', $api->createDispatch(\WebApi\MembresiaApi::class, 'save_compra_membresia', $p));
-	$app->any('/membresia/caducar_membresia_vencida', $api->createDispatch(\WebApi\MembresiaApi::class, 'caducar_membresia_vencida', $p));
-	$app->any('/membresia/asignar_membresia_gratis', $api->createDispatch(\WebApi\MembresiaApi::class, 'asignar_membresia_gratis', $p));
-
-	$app->any('/preguntas/get_preguntas_abogado_list', $api->createDispatch(\WebApi\PreguntasApi::class, 'get_preguntas_abogado_list', $p));
-	$app->any('/preguntas/get_preguntas_cliente_list', $api->createDispatch(\WebApi\PreguntasApi::class, 'get_preguntas_cliente_list', $p));
-	$app->any('/preguntas/get_preguntas_detalle', $api->createDispatch(\WebApi\PreguntasApi::class, 'get_preguntas_detalle', $p));
-	$app->any('/preguntas/save_form_pregunta', $api->createDispatch(\WebApi\PreguntasApi::class, 'save_form_pregunta', $p));
-	$app->any('/preguntas/aceptar_pregunta', $api->createDispatch(\WebApi\PreguntasApi::class, 'aceptar_pregunta', $p));
-	$app->any('/preguntas/get_form_pregunta', $api->createDispatch(\WebApi\PreguntasApi::class, 'get_form_pregunta', $p));
-	$app->any('/preguntas/reenviar_preguntas_no_contestadas', $api->createDispatch(\WebApi\PreguntasApi::class, 'reenviar_preguntas_no_contestadas', $p));
-
-	$app->any('/respuestas/get_form_respuesta', $api->createDispatch(\WebApi\RespuestasApi::class, 'get_form_respuesta', $p));
-	$app->any('/respuestas/save_form_respuesta', $api->createDispatch(\WebApi\RespuestasApi::class, 'save_form_respuesta', $p));
-
-	$app->any('/casos/get_casos_abogado_list', $api->createDispatch(\WebApi\CasosApi::class, 'get_casos_abogado_list', $p));
-	$app->any('/casos/get_casos_cliente_list', $api->createDispatch(\WebApi\CasosApi::class, 'get_casos_cliente_list', $p));
-	$app->any('/casos/get_casos_detalle', $api->createDispatch(\WebApi\CasosApi::class, 'get_casos_detalle', $p));
-	$app->any('/casos/save_form_caso', $api->createDispatch(\WebApi\CasosApi::class, 'save_form_caso', $p));
-	$app->any('/casos/get_form_aceptar_caso', $api->createDispatch(\WebApi\CasosApi::class, 'get_form_aceptar_caso', $p));
-	$app->any('/casos/get_form_rechazar_caso', $api->createDispatch(\WebApi\CasosApi::class, 'get_form_rechazar_caso', $p));
-	$app->any('/casos/get_form_caso', $api->createDispatch(\WebApi\CasosApi::class, 'get_form_caso', $p));
-	$app->any('/casos/get_productos_disponibles', $api->createDispatch(\WebApi\CasosApi::class, 'get_productos_disponibles', $p));
-	$app->any('/casos/save_form_nuevo_caso', $api->createDispatch(\WebApi\CasosApi::class, 'save_form_nuevo_caso', $p));
 
 	$app->any('/boton_pago/get_token', $api->createDispatch(\WebApi\BotonPagoApi::class, 'get_token', $p));
 }
