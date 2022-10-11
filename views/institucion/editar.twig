@@ -103,32 +103,6 @@
 								</table>
 							</div>
 
-							<label for="inputName" class="col-md-2 form-label">Emails</label>
-							<div class="col-md-4">
-								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarEmail">
-									<i class="fa fa-plus"></i> Agregar
-								</button>
-								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
-									<thead>
-									<tr>
-										<th>Email</th>
-										<th></th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr v-for="c in email">
-										<td>
-											<input type="text" class="form-control form-control-sm required email" v-model="c.email" placeholder="Email" v-autoname/>
-										</td>
-										<td style="text-align: center;">
-											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delEmail(c)">
-												<i class="fe fe-trash"></i>
-											</button>
-										</td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
 						</div>
 
 						<div class="mb-0 mt-4 ">
@@ -227,8 +201,6 @@
 				paleta_nombre: '{{ paleta_nombre|raw }}',
 				telefono: {{ telefono|raw }},
 				del_telefono: [],
-				email: {{ email|raw }},
-				del_email: [],
 				contactos: {{ contactos|raw }},
 			},
 			watch: {},
@@ -273,24 +245,6 @@
 							self.del_telefono.push(p.id);
 					}
 				},
-
-				agregarEmail: function () {
-					var self = this;
-					var data = {
-						email: '',
-					};
-					self.email.push(data);
-				},
-
-				delEmail: function (p) {
-					var self = this;
-					if (confirm("Está seguro que desea eliminar el email: " + p.email + "?")) {
-						var ix = self.email.indexOf(p);
-						self.email.splice(ix, 1);
-						if (p.id)
-							self.del_email.push(p.id);
-					}
-				},
 			},
 			mounted: function () {
 				var self = this;
@@ -303,8 +257,6 @@
 							model: self.model,
 							telefono: self.telefono,
 							del_telefono: self.del_telefono,
-							email: self.email,
-							del_email: self.del_email,
 						};
 						$('#json').val(JSON.stringify(data));
 						$("#btnGuardar").prop("disabled", true);

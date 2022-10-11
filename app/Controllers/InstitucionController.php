@@ -62,7 +62,6 @@ class InstitucionController extends BaseController {
 			$model = new ViewInstitucion();
 			$paleta_nombre = '';
 			$telefono = [];
-			$email = [];
 			$contactos = [];
 		} else {
 			$model = Institucion::porId($id);
@@ -70,12 +69,10 @@ class InstitucionController extends BaseController {
 			$paleta = Paleta::porId($model->paleta_id);
 			$paleta_nombre = $paleta->nombre;
 			$telefono = Telefono::porModulo('institucion',$model->id);
-			$email = Email::porModulo('institucion',$model->id);
 			$contactos = Contacto::porInstitucion($model->id);
 		}
 
 		$data['contactos'] = json_encode($contactos);
-		$data['email'] = json_encode($email);
 		$data['telefono'] = json_encode($telefono);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		$data['model'] = json_encode($model);
@@ -136,28 +133,6 @@ class InstitucionController extends BaseController {
 		}
 		foreach ($data['del_telefono'] as $d){
 			$del = Telefono::eliminar($d);
-		}
-
-		//GUARDAR EMAIL
-		foreach ($data['email'] as $e){
-			if(isset($e['id'])){
-				$ema = Email::porId($e['id']);
-				$ema->email = $e['email'];
-			}else{
-				$ema = new Email();
-				$ema->email = $e['email'];
-				$ema->modulo_id = $con->id;
-				$ema->modulo_relacionado = 'institucion';
-				$ema->usuario_ingreso = \WebSecurity::getUserData('id');
-				$ema->eliminado = 0;
-				$ema->fecha_ingreso = date("Y-m-d H:i:s");
-			}
-			$ema->usuario_modificacion = \WebSecurity::getUserData('id');
-			$ema->fecha_modificacion = date("Y-m-d H:i:s");
-			$ema->save();
-		}
-		foreach ($data['del_email'] as $d){
-			$del = Email::eliminar($d);
 		}
 
 		\Auditor::info("Institucion $con->nombre actualizada", 'Institucion');
