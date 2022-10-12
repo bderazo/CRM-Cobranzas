@@ -1305,402 +1305,61 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * calculos_tarjeta_diners
-	 * @param $producto_id
+	 * @param $data
 	 * @param $session
 	 */
 	function calculos_tarjeta_diners() {
 		if(!$this->isPost()) return "calculos_tarjeta_diners";
 		$res = new RespuestaConsulta();
-		$producto_id = $this->request->getParam('producto_id');
+		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$producto_id);
+		//ABONO TOTAL
+		$abono_total_diners = $data['abono_efectivo_sistema'] + $data['abono_negociador'];
+		$data['abono_total'] = number_format($abono_total_diners,2,'.','');
 
-		$seccion1['nombre'] = 'DINERS';
-		$seccion1['colorFondo'] = '#0066A8';
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'CICLO',
-			'valor' => $tarjeta_diners['ciclo'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'EDAD DE CARTERA',
-			'valor' => $tarjeta_diners['edad_cartera'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'CODIGO DE CANCELACION',
-			'valor' => $tarjeta_diners['codigo_cancelacion'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'CODIGO DE BOLETIN',
-			'valor' => $tarjeta_diners['codigo_boletin'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'DÉBITO AUTOMÁTICO',
-			'valor' => $tarjeta_diners['debito_automatico'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'PROMEDIO DE PAGO',
-			'valor' => $tarjeta_diners['promedio_pago'],
-			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'SCORE',
-			'valor' => $tarjeta_diners['score'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'CAMPAÑA',
-			'valor' => $tarjeta_diners['campana'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'EJECUTIVO ACTUAL A CARGO DE CUENTA',
-			'valor' => $tarjeta_diners['ejecutivo_actual_cuenta'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'LUGAR DE TRABAJO',
-			'valor' => $tarjeta_diners['lugar_trabajo'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'FECHA ÚLTIMA GESTIÓN',
-			'valor' => $tarjeta_diners['fecha_ultima_gestion'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'MOTIVO DE GESTIÓN',
-			'valor' => $tarjeta_diners['motivo_gestion'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'DESCRIPCIÓN DE GESTIÓN',
-			'valor' => $tarjeta_diners['descripcion_gestion'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'OBSERVACIONES DE GESTIÓN',
-			'valor' => $tarjeta_diners['observacion_gestion'],
-			'tipo' => 'text',
-			'name' => 'observacion_gestion'
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'FECHA DE COMPROMISO',
-			'valor' => $tarjeta_diners['fecha_compromiso'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'TT/EXIG/PARCIAL',
-			'valor' => $tarjeta_diners['tt_exig_parcial'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
-			'valor' => $tarjeta_diners['motivo_no_pago_anterior'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'FINANCIAMIENTO VIGENTE',
-			'valor' => $tarjeta_diners['financiamiento_vigente'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'N° CUOTAS PENDIENTES',
-			'valor' => $tarjeta_diners['numero_cuotas_pendientes'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'TT CUOTAS FACT',
-			'valor' => $tarjeta_diners['tt_cuotas_fact'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'VALOR CUOTAS PENDIENTES',
-			'valor' => $tarjeta_diners['valor_cuotas_pendientes'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'VALOR DE CUOTA',
-			'valor' => $tarjeta_diners['valor_cuota'],
-			'tipo' => 'label',
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'SEGUNDA REESTRUCTURACIÓN',
-			'valor' => $tarjeta_diners['segunda_restructuracion'],
-			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
-		];
-		$seccion1['contenido'][] = [
-			'etiqueta' => 'TOTAL RIESGO',
-			'valor' => $tarjeta_diners['total_riesgo'],
-			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
-		];
-
-		$seccion2['nombre'] = 'SALDOS FACTURADOS';
-		$seccion2['colorFondo'] = '#0066A8';
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
-			'valor' => $tarjeta_diners['saldo_90_facturado'],
-			'tipo' => 'label',
-			'name' => 'saldo_90_facturado',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'SALDO A 60 DIAS',
-			'valor' => $tarjeta_diners['saldo_60_facturado'],
-			'tipo' => 'label',
-			'name' => 'saldo_60_facturado',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'SALDO A 30 DIAS',
-			'valor' => $tarjeta_diners['saldo_30_facturado'],
-			'tipo' => 'label',
-			'name' => 'saldo_30_facturado',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'SALDO ACTUALES',
-			'valor' => $tarjeta_diners['saldo_actual_facturado'],
-			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'DEUDA ACTUAL',
-			'valor' => $tarjeta_diners['deuda_actual'],
-			'tipo' => 'label',
-			'name' => 'deuda_actual',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'INTERESES FACTURADOS',
-			'valor' => $tarjeta_diners['interes_facturado'],
-			'tipo' => 'label',
-			'name' => 'interes_facturado',
-			'colorFondo' => '#c3c3c3',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
-			'valor' => $tarjeta_diners['numero_diferidos_facturados'],
-			'tipo' => 'label',
-			'name' => 'numero_diferidos_facturados',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
-			'valor' => $tarjeta_diners['total_precancelacion_diferidos'],
-			'tipo' => 'label',
-			'name' => 'total_precancelacion_diferidos',
-		];
-		$seccion2['contenido'][] = [
-			'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
-			'valor' => $tarjeta_diners['especialidad_venta_vehiculos'],
-			'tipo' => 'label',
-			'name' => 'especialidad_venta_vehiculos',
-		];
-
-		$seccion3['nombre'] = 'PAGOS';
-		$seccion3['colorFondo'] = '#0066A8';
-		$seccion3['contenido'][] = [
-			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
-			'valor' => $tarjeta_diners['abono_efectivo_sistema'],
-			'tipo' => 'label',
-			'name' => 'abono_efectivo_sistema',
-			'colorFondo' => '#c3c3c3',
-		];
-		$seccion3['contenido'][] = [
-			'etiqueta' => 'ABONO NEGOCIADOR',
-			'valor' => $tarjeta_diners['abono_negociador'],
-			'tipo' => 'number',
-			'name' => 'abono_negociador',
-			'colorFondo' => '#c3c3c3',
-		];
-		$seccion3['contenido'][] = [
-			'etiqueta' => 'ABONO TOTAL',
-			'valor' => $tarjeta_diners['abono_total'],
-			'tipo' => 'label',
-			'name' => 'abono_total',
-			'colorFondo' => '#c3c3c3',
-		];
-
-		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
-		$seccion4['colorFondo'] = '#0066A8';
-		$seccion4['contenido'][] = [
-			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
-			'valor' => $tarjeta_diners['saldo_90_facturado_despues_abono'],
-			'tipo' => 'label',
-			'name' => 'saldo_90_facturado_despues_abono',
-		];
-		$seccion4['contenido'][] = [
-			'etiqueta' => 'SALDO A 60 DIAS',
-			'valor' => $tarjeta_diners['saldo_60_facturado_despues_abono'],
-			'tipo' => 'label',
-			'name' => 'saldo_60_facturado_despues_abono',
-		];
-		$seccion4['contenido'][] = [
-			'etiqueta' => 'SALDO A 30 DIAS',
-			'valor' => $tarjeta_diners['saldo_30_facturado_despues_abono'],
-			'tipo' => 'label',
-			'name' => 'saldo_30_facturado_despues_abono',
-		];
-		$seccion4['contenido'][] = [
-			'etiqueta' => 'SALDO ACTUALES',
-			'valor' => $tarjeta_diners['saldo_actual_facturado_despues_abono'],
-			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado_despues_abono',
-		];
-
-		$seccion5['nombre'] = 'VALORES POR FACTURAR';
-		$seccion5['colorFondo'] = '#0066A8';
-		$seccion5['contenido'][] = [
-			'etiqueta' => 'INTERESES POR FACTURAR',
-			'valor' => $tarjeta_diners['interes_facturar'],
-			'tipo' => 'label',
-			'name' => 'interes_facturar',
-		];
-		$seccion5['contenido'][] = [
-			'etiqueta' => 'CORRIENTES POR FACTURAR',
-			'valor' => $tarjeta_diners['corrientes_facturar'],
-			'tipo' => 'label',
-			'name' => 'corrientes_facturar',
-		];
-		$seccion5['contenido'][] = [
-			'etiqueta' => 'ND POR FACTURAR',
-			'valor' => $tarjeta_diners['nd_facturar'],
-			'tipo' => 'label',
-			'name' => 'nd_facturar',
-		];
-		$seccion5['contenido'][] = [
-			'etiqueta' => 'NC POR FACTURAR',
-			'valor' => $tarjeta_diners['nc_facturar'],
-			'tipo' => 'label',
-			'name' => 'nc_facturar',
-		];
-		$seccion5['contenido'][] = [
-			'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
-			'valor' => $tarjeta_diners['gastos_cobranza'],
-			'tipo' => 'number',
-			'name' => 'gastos_cobranza',
-		];
-		$seccion5['contenido'][] = [
-			'etiqueta' => 'VALOR OTRAS TARJETAS',
-			'valor' => $tarjeta_diners['valor_otras_tarjetas'],
-			'tipo' => 'number',
-			'name' => 'valor_otras_tarjetas',
-		];
-
-		$seccion6['nombre'] = 'FINANCIAMIENTO';
-		$seccion6['colorFondo'] = '#0066A8';
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
-			'valor' => $tarjeta_diners['tipo_financiamiento'],
-			'tipo' => 'label',
-			'name' => 'tipo_financiamiento',
-			'colorFondo' => '#0066A8',
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'TOTAL',
-			'valor' => $tarjeta_diners['total_financiamiento'],
-			'tipo' => 'label',
-			'name' => 'total_financiamiento',
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'EXIGIBLE',
-			'valor' => $tarjeta_diners['exigible_financiamiento'],
-			'tipo' => 'choice',
-			'name' => 'exigible_financiamiento',
-			'choices' => [['id' => 'SI','label' => 'SI'],['id' => 'NO','label' => 'NO']],
-		];
-		$plazo_financiamiento = [
-			['id' => '','label' => ''],
-			['id' => '2','label' => '2'],
-			['id' => '3','label' => '3'],
-			['id' => '4','label' => '4'],
-			['id' => '5','label' => '5'],
-			['id' => '6','label' => '6'],
-			['id' => '7','label' => '7'],
-			['id' => '8','label' => '8'],
-			['id' => '9','label' => '9'],
-			['id' => '12','label' => '12'],
-			['id' => '13','label' => '13'],
-			['id' => '14','label' => '14'],
-			['id' => '15','label' => '15'],
-			['id' => '16','label' => '16'],
-			['id' => '17','label' => '17'],
-			['id' => '18','label' => '18'],
-			['id' => '19','label' => '19'],
-			['id' => '20','label' => '20'],
-			['id' => '21','label' => '21'],
-			['id' => '22','label' => '22'],
-			['id' => '23','label' => '23'],
-			['id' => '24','label' => '24'],
-			['id' => '30','label' => '30'],
-			['id' => '36','label' => '36'],
-			['id' => '48','label' => '48'],
-			['id' => '60','label' => '60'],
-			['id' => '72','label' => '72'],
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
-			'valor' => $tarjeta_diners['plazo_financiamiento'],
-			'tipo' => 'choice',
-			'name' => 'plazo_financiamiento',
-			'choices' => $plazo_financiamiento,
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'MOTIVO DE NO PAGO',
-			'valor' => $tarjeta_diners['motivo_no_pago'],
-			'tipo' => 'text',
-			'name' => 'motivo_no_pago',
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
-			'valor' => $tarjeta_diners['numero_meses_gracia'],
-			'tipo' => 'number',
-			'name' => 'numero_meses_gracia',
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'VALOR A FINANCIAR',
-			'valor' => $tarjeta_diners['valor_financiar'],
-			'tipo' => 'label',
-			'name' => 'valor_financiar',
-			'colorFondo' => '#0066A8',
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'TOTAL INTERESES',
-			'valor' => $tarjeta_diners['total_intereses'],
-			'tipo' => 'label',
-			'name' => 'total_intereses',
-			'colorFondo' => '#0066A8',
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'TOTAL FINANCIAMIENTO',
-			'valor' => $tarjeta_diners['total_financiamiento_total'],
-			'tipo' => 'label',
-			'name' => 'total_financiamiento_total',
-			'colorFondo' => '#0066A8',
-		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'VALOR CUOTA MENSUAL',
-			'valor' => $tarjeta_diners['valor_cuota_mensual'],
-			'tipo' => 'label',
-			'name' => 'valor_cuota_mensual',
-			'colorFondo' => '#0066A8',
-		];
-
-		$retorno['secciones'][] = $seccion1;
-		$retorno['secciones'][] = $seccion2;
-		$retorno['secciones'][] = $seccion3;
-		$retorno['secciones'][] = $seccion4;
-		$retorno['secciones'][] = $seccion5;
-		$retorno['secciones'][] = $seccion6;
+		//SALDOS FACTURADOS DESPUÉS DE ABONO
+		$saldo_90_facturado = $data['saldo_90_facturado'];
+		$saldo_60_facturado = $data['saldo_60_facturado'];
+		$saldo_30_facturado = $data['saldo_30_facturado'];
+		$saldo_actual_facturado = $data['saldo_actual_facturado'];
+		$abono_total = $data['abono_total'];
+		$saldo_pasa = 0;
+		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
+		if($saldo_90_facturado_despues_abono > 0){
+			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else{
+			$data['saldo_90_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
+		}
+		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
+		if($saldo_60_facturado_despues_abono > 0){
+			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else{
+			$data['saldo_60_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
+		}
+		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
+		if($saldo_30_facturado_despues_abono > 0){
+			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else {
+			$data['saldo_30_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
+		}
+		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
+		if($saldo_actual_facturado_despues_abono > 0){
+			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono,2,'.','');
+		}else{
+			$data['saldo_actual_facturado_despues_abono'] = 0.00;
+		}
 
 //		printDie(json_encode($retorno,JSON_PRETTY_PRINT));
 
-		return $this->json($res->conDatos($retorno));
+		return $this->json($res->conDatos($data));
 	}
 
 }
