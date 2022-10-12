@@ -1418,7 +1418,7 @@ class AplicativoDinersApi extends BaseController {
 
 		$retorno['data'] = $data;
 
-		return $this->json($res->conDatos($data));
+		return $this->json($res->conDatos($retorno));
 	}
 
 	/**
