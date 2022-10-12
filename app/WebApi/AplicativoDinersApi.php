@@ -1671,4 +1671,82 @@ class AplicativoDinersApi extends BaseController {
 			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 		}
 	}
+
+	/**
+	 * save_tarjeta_interdin
+	 * @param $aplicativo_diners_id
+	 * @param $data
+	 * @param $session
+	 */
+	function save_tarjeta_interdin() {
+		if (!$this->isPost()) return "save_tarjeta_interdin";
+		$res = new RespuestaConsulta();
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners_id);
+
+		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		foreach ($data as $key => $val){
+			$aplicativo_diners_tarjeta[$key] = $val;
+		}
+		unset($aplicativo_diners_tarjeta['id']);
+
+		$aplicativo_detalle = new AplicativoDinersDetalle();
+		foreach ($aplicativo_diners_tarjeta as $key => $val){
+			$aplicativo_detalle->$key = $val;
+		}
+		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+		$aplicativo_detalle->usuario_ingreso = $user['id'];
+		$aplicativo_detalle->usuario_modificacion = $user['id'];
+		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+		$aplicativo_detalle->eliminado = 0;
+		if($aplicativo_detalle->save()){
+			return $this->json($res->conMensaje('OK'));
+		} else {
+			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
+		}
+	}
+
+	/**
+	 * save_tarjeta_discover
+	 * @param $aplicativo_diners_id
+	 * @param $data
+	 * @param $session
+	 */
+	function save_tarjeta_discover() {
+		if (!$this->isPost()) return "save_tarjeta_discover";
+		$res = new RespuestaConsulta();
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners_id);
+
+		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		foreach ($data as $key => $val){
+			$aplicativo_diners_tarjeta[$key] = $val;
+		}
+		unset($aplicativo_diners_tarjeta['id']);
+
+		$aplicativo_detalle = new AplicativoDinersDetalle();
+		foreach ($aplicativo_diners_tarjeta as $key => $val){
+			$aplicativo_detalle->$key = $val;
+		}
+		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+		$aplicativo_detalle->usuario_ingreso = $user['id'];
+		$aplicativo_detalle->usuario_modificacion = $user['id'];
+		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+		$aplicativo_detalle->eliminado = 0;
+		if($aplicativo_detalle->save()){
+			return $this->json($res->conMensaje('OK'));
+		} else {
+			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
+		}
+	}
 }
