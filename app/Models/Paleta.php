@@ -80,4 +80,46 @@ class Paleta extends Model
 			return $q->paginate($records, ['*'], 'page', $pagina);
 		return $q->get();
 	}
+
+	static function getNivel1() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('paleta_detalle pd')
+			->select(null)
+			->select('DISTINCT(pd.nivel1) AS nivel1')
+			->where('pd.eliminado',0)
+			->orderBy('pd.nivel1');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
+	static function getNivel2($query, $page, $data) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('paleta_detalle pd')
+			->select(null)
+			->select('pd.nivel2 AS nivel2')
+			->where('pd.eliminado',0)
+			->where('pd.nivel1', $data['nivel1']);
+		if($query != '') {
+			$q->where('UPPER(pd.nivel2) LIKE "%' . strtoupper($query) . '%"');
+		}
+		$q->orderBy('pd.nivel2')
+			->limit(10)
+			->offset($page * 10);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach($lista as $c) {
+			$aux['id'] = $c['nivel2'];
+			$aux['text'] = $c['nivel2'];
+			$retorno[] = $aux;
+		}
+		return $retorno;
+	}
 }

@@ -15,6 +15,7 @@ use Models\Cliente;
 use Models\Direccion;
 use Models\Especialidad;
 use Models\Membresia;
+use Models\Paleta;
 use Models\Pregunta;
 use Models\Producto;
 use Models\Referencia;
@@ -314,6 +315,114 @@ class ProductoApi extends BaseController {
 		$retorno['campos'] = $campos;
 		$retorno['pagos'] = $pagos_array;
 
+		return $this->json($res->conDatos($retorno));
+	}
+
+	/**
+	 * buscar_listas
+	 * @param $session
+	 * @param $list
+	 * @param $q
+	 * @param $page
+	 * @param $data
+	 */
+	function buscar_listas() {
+		if(!$this->isPost()) return "buscar_listas";
+		$res = new RespuestaConsulta();
+		$list = $this->request->getParam('list');
+		$q = $this->request->getParam('q');
+		$page = $this->request->getParam('page');
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		if($list == 'nivel2') {
+			$data = Paleta::getNivel2($q, $page, $data);
+		} else {
+			$data = [];
+		}
+
+		return $this->json($res->conDatos($data));
+	}
+
+	/**
+	 * get_form_paleta
+	 * @param $session
+	 * @param $institucion_id
+	 */
+	function get_form_paleta() {
+		if (!$this->isPost()) return "get_form_paleta";
+		$res = new RespuestaConsulta();
+		$institucion_id = $this->request->getParam('institucion_id');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		$retorno = [];
+
+		$retorno['form']['title'] = 'form';
+		$retorno['form']['type'] = 'object';
+
+		$paleta = Paleta::getNivel1();
+		$nivel = [];
+		foreach ($paleta as $p){
+			$nivel[] = ['id' => $p['nivel1'], 'label' => $p['nivel1']];
+		}
+
+		$retorno['form']['properties']['Nivel1'] = [
+			'type' => 'string',
+			'title' => 'Nivel1',
+			'widget' => 'choice',
+			'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+			'full_name' => 'nivel1',
+			'constraints' => [
+				[
+					'name' => 'NotBlank',
+					'message' => 'Este campo no puede estar vacío'
+				]
+			],
+			'required' => 1,
+			'disabled' => 0,
+			'property_order' => 1,
+			'choices' => $nivel,
+		];
+		$retorno['form']['properties']['Nivel2'] = [
+			'type' => 'string',
+			'title' => 'Nivel2',
+			'widget' => 'picker-select2',
+			'empty_data' => null,
+			'full_name' => 'nivel2',
+			'constraints' => [
+				[
+					'name' => 'Count',
+					'Min' => 1,
+					'MinMessage' => "Debe seleccionar por lo menos una opción."
+				],
+			],
+			'required' => 1,
+			'disabled' => 0,
+			'property_order' => 2,
+			'choices' => [],
+			"multiple" => false,
+			'remote_path' => 'http://54.148.132.147/megacob/api/producto/buscar_listas',
+			'remote_params' => [
+				"list" => "nivel2"
+			],
+			'req_params' => [
+				"nivel1" => "nivel1"
+			],
+		];
+		$retorno['form']['properties']['Observaciones'] = [
+			'type' => 'string',
+			'title' => 'Observaciones',
+			'widget' => 'textarea',
+			'empty_data' => '',
+			'full_name' => 'description',
+			'constraints' => [],
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 3,
+			'choices' => [],
+		];
 		return $this->json($res->conDatos($retorno));
 	}
 }

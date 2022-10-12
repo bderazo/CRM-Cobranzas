@@ -21,6 +21,8 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/producto/get_preguntas_list', $api->createDispatch(\WebApi\ProductoApi::class, 'get_preguntas_list', $p));
 	$app->any('/producto/get_producto_cliente', $api->createDispatch(\WebApi\ProductoApi::class, 'get_producto_cliente', $p));
 	$app->any('/producto/get_producto_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_producto_producto', $p));
+	$app->any('/producto/buscar_listas', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas', $p));
+	$app->any('/producto/get_form_paleta', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_paleta', $p));
 
 	$app->any('/aplicativo_diners/campos_aplicativo_diners', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_aplicativo_diners', $p));
 	$app->any('/aplicativo_diners/campos_tarjeta_diners', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_tarjeta_diners', $p));
