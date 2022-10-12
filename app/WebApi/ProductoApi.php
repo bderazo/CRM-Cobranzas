@@ -416,7 +416,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Observaciones',
 			'widget' => 'textarea',
 			'empty_data' => '',
-			'full_name' => 'description',
+			'full_name' => 'observaciones',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
