@@ -57,33 +57,63 @@ class ProductoApi extends BaseController {
 		$retorno['form']['type'] = 'object';
 
 		$form['institucion'] = [
-			'type' => 'integer',
+			'type' => 'string',
 			'title' => 'Institución',
-			'widget' => 'choice',
-			'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-			'full_name' => 'data[i.id]',
+			'widget' => 'text',
+			'empty_data' => '',
+			'full_name' => 'data[i.nombre]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
 			'property_order' => 1,
-			'choices' => [
-				[
-					'id' => '1',
-					'label' => 'DINERS'
-				],
-			],
+			'choices' => [],
 		];
-
 		$form['cedula'] = [
 			'type' => 'string',
 			'title' => 'Cédula',
 			'widget' => 'text',
 			'empty_data' => '',
-			'full_name' => 'data[cedula]',
+			'full_name' => 'data[cl.cedula]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
 			'property_order' => 2,
+			'choices' => [],
+		];
+		$form['apellidos'] = [
+			'type' => 'string',
+			'title' => 'Apellidos',
+			'widget' => 'text',
+			'empty_data' => '',
+			'full_name' => 'data[cl.apellidos]',
+			'constraints' => [],
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 3,
+			'choices' => [],
+		];
+		$form['nombres'] = [
+			'type' => 'string',
+			'title' => 'Nombres',
+			'widget' => 'text',
+			'empty_data' => '',
+			'full_name' => 'data[cl.nombres]',
+			'constraints' => [],
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 4,
+			'choices' => [],
+		];
+		$form['producto'] = [
+			'type' => 'string',
+			'title' => 'Producto',
+			'widget' => 'text',
+			'empty_data' => '',
+			'full_name' => 'data[p.producto]',
+			'constraints' => [],
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 5,
 			'choices' => [],
 		];
 
