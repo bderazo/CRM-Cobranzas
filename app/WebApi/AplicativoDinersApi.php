@@ -1525,7 +1525,9 @@ class AplicativoDinersApi extends BaseController {
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		return $this->json($res->conDatos($data));
+		$retorno['data'] = $data;
+
+		return $this->json($res->conDatos($retorno));
 	}
 
 	/**
@@ -1632,7 +1634,9 @@ class AplicativoDinersApi extends BaseController {
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		return $this->json($res->conDatos($data));
+		$retorno['data'] = $data;
+
+		return $this->json($res->conDatos($retorno));
 	}
 
 	/**
