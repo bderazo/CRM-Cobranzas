@@ -1357,7 +1357,55 @@ class AplicativoDinersApi extends BaseController {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
-//		printDie(json_encode($retorno,JSON_PRETTY_PRINT));
+		//VALOR A TIPO DE FINANCIAMIENTO
+		if($saldo_90_facturado_despues_abono > 0){
+			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
+		}else{
+			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
+			}else{
+				$data['tipo_financiamiento'] = 'NOVACIÓN';
+			}
+		}
+
+		//VALOR A FINANCIAR
+		if($data['exigible_financiamiento'] == 'SI'){
+			$data['total_financiamiento'] = 'NO';
+			$data['valor_financiar'] = $data['deuda_actual'];
+		}else{
+			$data['total_financiamiento'] = 'SI';
+			$valor_financiar_diners = $data['deuda_actual'] + $data['total_precancelacion_diferidos'] +
+				$data['interes_facturar'] + $data['corrientes_facturar'] +
+				$data['gastos_cobranza'] + $data['valor_otras_tarjetas'] -
+				$data['abono_total'] + $data['nd_facturar'] -
+				$data['nc_facturar'];
+			$data['valor_financiar'] = number_format($valor_financiar_diners,2,'.','');
+		}
+
+		//TOTAL INTERES
+		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
+		$porcentaje_interes_arr = [];
+		foreach ($aplicativo_diners_porcentaje_interes as $pi){
+			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
+		};
+		$porcentaje_interes = 0.00;
+		$meses_plazo = $data['plazo_financiamiento'] + $data['numero_meses_gracia'];
+		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
+		}
+		$total_interes = $data['valor_financiar'] * ($porcentaje_interes / 100);
+		$data['total_intereses'] = number_format($total_interes,2,'.','');
+
+		//TOTAL FINANCIAMIENTO
+		$total_financiamiento = $data['valor_financiar'] + $data['total_intereses'];
+		$data['total_financiamiento_total'] = number_format($total_financiamiento,2,'.','');
+
+		//VALOR CUOTA MENSUAL
+		$cuota_mensual = 0;
+		if ($data['plazo_financiamiento'] > 0) {
+			$cuota_mensual = $data['plazo_financiamiento'] > 0 ? $data['total_financiamiento_total'] / $data['plazo_financiamiento'] : 0;
+		}
+		$data['valor_cuota_mensual'] = number_format($cuota_mensual,2,'.','');
 
 		return $this->json($res->conDatos($data));
 	}
