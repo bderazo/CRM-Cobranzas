@@ -9,6 +9,7 @@ use General\Seguridad\PermisosSession;
 use Models\Actividad;
 use Models\ApiUserTokenPushNotifications;
 use Models\AplicativoDiners;
+use Models\AplicativoDinersDetalle;
 use Models\Archivo;
 use Models\Banco;
 use Models\Caso;
@@ -48,7 +49,7 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function campos_aplicativo_diners() {
-		if(!$this->isPost()) return "campos_aplicativo_diners";
+		if (!$this->isPost()) return "campos_aplicativo_diners";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
 		$session = $this->request->getParam('session');
@@ -99,7 +100,15 @@ class AplicativoDinersApi extends BaseController {
 			],
 		];
 
+		$keys = [
+			'aplicativo_diners_id' => $aplicativo_diners['id'],
+			'cliente_id' => $aplicativo_diners['cliente_id'],
+			'institucion_id' => $aplicativo_diners['institucion_id'],
+			'producto_id' => $aplicativo_diners['producto_id'],
+		];
+
 		$retorno['campos'] = $campos;
+		$retorno['keys'] = $keys;
 		return $this->json($res->conDatos($retorno));
 	}
 
@@ -109,13 +118,13 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function campos_tarjeta_diners() {
-		if(!$this->isPost()) return "campos_tarjeta_diners";
+		if (!$this->isPost()) return "campos_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$producto_id);
+		$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $producto_id);
 
 		$seccion1['nombre'] = 'DINERS';
 		$seccion1['colorFondo'] = '#0066A8';
@@ -412,36 +421,36 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_diners['exigible_financiamiento'],
 			'tipo' => 'choice',
 			'name' => 'exigible_financiamiento',
-			'choices' => [['id' => 'SI','label' => 'SI'],['id' => 'NO','label' => 'NO']],
+			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
 		];
 		$plazo_financiamiento = [
-			['id' => '','label' => ''],
-			['id' => '2','label' => '2'],
-			['id' => '3','label' => '3'],
-			['id' => '4','label' => '4'],
-			['id' => '5','label' => '5'],
-			['id' => '6','label' => '6'],
-			['id' => '7','label' => '7'],
-			['id' => '8','label' => '8'],
-			['id' => '9','label' => '9'],
-			['id' => '12','label' => '12'],
-			['id' => '13','label' => '13'],
-			['id' => '14','label' => '14'],
-			['id' => '15','label' => '15'],
-			['id' => '16','label' => '16'],
-			['id' => '17','label' => '17'],
-			['id' => '18','label' => '18'],
-			['id' => '19','label' => '19'],
-			['id' => '20','label' => '20'],
-			['id' => '21','label' => '21'],
-			['id' => '22','label' => '22'],
-			['id' => '23','label' => '23'],
-			['id' => '24','label' => '24'],
-			['id' => '30','label' => '30'],
-			['id' => '36','label' => '36'],
-			['id' => '48','label' => '48'],
-			['id' => '60','label' => '60'],
-			['id' => '72','label' => '72'],
+			['id' => '', 'label' => ''],
+			['id' => '2', 'label' => '2'],
+			['id' => '3', 'label' => '3'],
+			['id' => '4', 'label' => '4'],
+			['id' => '5', 'label' => '5'],
+			['id' => '6', 'label' => '6'],
+			['id' => '7', 'label' => '7'],
+			['id' => '8', 'label' => '8'],
+			['id' => '9', 'label' => '9'],
+			['id' => '12', 'label' => '12'],
+			['id' => '13', 'label' => '13'],
+			['id' => '14', 'label' => '14'],
+			['id' => '15', 'label' => '15'],
+			['id' => '16', 'label' => '16'],
+			['id' => '17', 'label' => '17'],
+			['id' => '18', 'label' => '18'],
+			['id' => '19', 'label' => '19'],
+			['id' => '20', 'label' => '20'],
+			['id' => '21', 'label' => '21'],
+			['id' => '22', 'label' => '22'],
+			['id' => '23', 'label' => '23'],
+			['id' => '24', 'label' => '24'],
+			['id' => '30', 'label' => '30'],
+			['id' => '36', 'label' => '36'],
+			['id' => '48', 'label' => '48'],
+			['id' => '60', 'label' => '60'],
+			['id' => '72', 'label' => '72'],
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
@@ -509,13 +518,13 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function campos_tarjeta_interdin() {
-		if(!$this->isPost()) return "campos_tarjeta_interdin";
+		if (!$this->isPost()) return "campos_tarjeta_interdin";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$producto_id);
+		$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $producto_id);
 
 		$seccion1['nombre'] = 'INTERDIN';
 		$seccion1['colorFondo'] = '#404040';
@@ -812,36 +821,36 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_interdin['exigible_financiamiento'],
 			'tipo' => 'choice',
 			'name' => 'exigible_financiamiento',
-			'choices' => [['id' => 'SI','label' => 'SI'],['id' => 'NO','label' => 'NO']],
+			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
 		];
 		$plazo_financiamiento = [
-			['id' => '','label' => ''],
-			['id' => '2','label' => '2'],
-			['id' => '3','label' => '3'],
-			['id' => '4','label' => '4'],
-			['id' => '5','label' => '5'],
-			['id' => '6','label' => '6'],
-			['id' => '7','label' => '7'],
-			['id' => '8','label' => '8'],
-			['id' => '9','label' => '9'],
-			['id' => '12','label' => '12'],
-			['id' => '13','label' => '13'],
-			['id' => '14','label' => '14'],
-			['id' => '15','label' => '15'],
-			['id' => '16','label' => '16'],
-			['id' => '17','label' => '17'],
-			['id' => '18','label' => '18'],
-			['id' => '19','label' => '19'],
-			['id' => '20','label' => '20'],
-			['id' => '21','label' => '21'],
-			['id' => '22','label' => '22'],
-			['id' => '23','label' => '23'],
-			['id' => '24','label' => '24'],
-			['id' => '30','label' => '30'],
-			['id' => '36','label' => '36'],
-			['id' => '48','label' => '48'],
-			['id' => '60','label' => '60'],
-			['id' => '72','label' => '72'],
+			['id' => '', 'label' => ''],
+			['id' => '2', 'label' => '2'],
+			['id' => '3', 'label' => '3'],
+			['id' => '4', 'label' => '4'],
+			['id' => '5', 'label' => '5'],
+			['id' => '6', 'label' => '6'],
+			['id' => '7', 'label' => '7'],
+			['id' => '8', 'label' => '8'],
+			['id' => '9', 'label' => '9'],
+			['id' => '12', 'label' => '12'],
+			['id' => '13', 'label' => '13'],
+			['id' => '14', 'label' => '14'],
+			['id' => '15', 'label' => '15'],
+			['id' => '16', 'label' => '16'],
+			['id' => '17', 'label' => '17'],
+			['id' => '18', 'label' => '18'],
+			['id' => '19', 'label' => '19'],
+			['id' => '20', 'label' => '20'],
+			['id' => '21', 'label' => '21'],
+			['id' => '22', 'label' => '22'],
+			['id' => '23', 'label' => '23'],
+			['id' => '24', 'label' => '24'],
+			['id' => '30', 'label' => '30'],
+			['id' => '36', 'label' => '36'],
+			['id' => '48', 'label' => '48'],
+			['id' => '60', 'label' => '60'],
+			['id' => '72', 'label' => '72'],
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
@@ -909,13 +918,13 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function campos_tarjeta_discover() {
-		if(!$this->isPost()) return "campos_tarjeta_discover";
+		if (!$this->isPost()) return "campos_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$producto_id);
+		$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $producto_id);
 
 		$seccion1['nombre'] = 'DISCOVER';
 		$seccion1['colorFondo'] = '#E66929';
@@ -1212,36 +1221,36 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_discover['exigible_financiamiento'],
 			'tipo' => 'choice',
 			'name' => 'exigible_financiamiento',
-			'choices' => [['id' => 'SI','label' => 'SI'],['id' => 'NO','label' => 'NO']],
+			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
 		];
 		$plazo_financiamiento = [
-			['id' => '','label' => ''],
-			['id' => '2','label' => '2'],
-			['id' => '3','label' => '3'],
-			['id' => '4','label' => '4'],
-			['id' => '5','label' => '5'],
-			['id' => '6','label' => '6'],
-			['id' => '7','label' => '7'],
-			['id' => '8','label' => '8'],
-			['id' => '9','label' => '9'],
-			['id' => '12','label' => '12'],
-			['id' => '13','label' => '13'],
-			['id' => '14','label' => '14'],
-			['id' => '15','label' => '15'],
-			['id' => '16','label' => '16'],
-			['id' => '17','label' => '17'],
-			['id' => '18','label' => '18'],
-			['id' => '19','label' => '19'],
-			['id' => '20','label' => '20'],
-			['id' => '21','label' => '21'],
-			['id' => '22','label' => '22'],
-			['id' => '23','label' => '23'],
-			['id' => '24','label' => '24'],
-			['id' => '30','label' => '30'],
-			['id' => '36','label' => '36'],
-			['id' => '48','label' => '48'],
-			['id' => '60','label' => '60'],
-			['id' => '72','label' => '72'],
+			['id' => '', 'label' => ''],
+			['id' => '2', 'label' => '2'],
+			['id' => '3', 'label' => '3'],
+			['id' => '4', 'label' => '4'],
+			['id' => '5', 'label' => '5'],
+			['id' => '6', 'label' => '6'],
+			['id' => '7', 'label' => '7'],
+			['id' => '8', 'label' => '8'],
+			['id' => '9', 'label' => '9'],
+			['id' => '12', 'label' => '12'],
+			['id' => '13', 'label' => '13'],
+			['id' => '14', 'label' => '14'],
+			['id' => '15', 'label' => '15'],
+			['id' => '16', 'label' => '16'],
+			['id' => '17', 'label' => '17'],
+			['id' => '18', 'label' => '18'],
+			['id' => '19', 'label' => '19'],
+			['id' => '20', 'label' => '20'],
+			['id' => '21', 'label' => '21'],
+			['id' => '22', 'label' => '22'],
+			['id' => '23', 'label' => '23'],
+			['id' => '24', 'label' => '24'],
+			['id' => '30', 'label' => '30'],
+			['id' => '36', 'label' => '36'],
+			['id' => '48', 'label' => '48'],
+			['id' => '60', 'label' => '60'],
+			['id' => '72', 'label' => '72'],
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
@@ -1309,7 +1318,7 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function calculos_tarjeta_diners() {
-		if(!$this->isPost()) return "calculos_tarjeta_diners";
+		if (!$this->isPost()) return "calculos_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
@@ -1317,7 +1326,7 @@ class AplicativoDinersApi extends BaseController {
 
 		//ABONO TOTAL
 		$abono_total_diners = $data['abono_efectivo_sistema'] + $data['abono_negociador'];
-		$data['abono_total'] = number_format($abono_total_diners,2,'.','');
+		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
 
 		//SALDOS FACTURADOS DESPUÉS DE ABONO
 		$saldo_90_facturado = $data['saldo_90_facturado'];
@@ -1327,65 +1336,65 @@ class AplicativoDinersApi extends BaseController {
 		$abono_total = $data['abono_total'];
 		$saldo_pasa = 0;
 		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
-		if($saldo_90_facturado_despues_abono > 0){
-			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono,2,'.','');
+		if ($saldo_90_facturado_despues_abono > 0) {
+			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_90_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
 		}
 		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
-		if($saldo_60_facturado_despues_abono > 0){
-			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono,2,'.','');
+		if ($saldo_60_facturado_despues_abono > 0) {
+			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_60_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
 		}
 		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
-		if($saldo_30_facturado_despues_abono > 0){
-			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono,2,'.','');
+		if ($saldo_30_facturado_despues_abono > 0) {
+			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else {
+		} else {
 			$data['saldo_30_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
 		}
 		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
-		if($saldo_actual_facturado_despues_abono > 0){
-			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono,2,'.','');
-		}else{
+		if ($saldo_actual_facturado_despues_abono > 0) {
+			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
+		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
 		//VALOR A TIPO DE FINANCIAMIENTO
-		if($saldo_90_facturado_despues_abono > 0){
+		if ($saldo_90_facturado_despues_abono > 0) {
 			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
-		}else{
-			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+		} else {
+			if (($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
 				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
-			}else{
+			} else {
 				$data['tipo_financiamiento'] = 'NOVACIÓN';
 			}
 		}
 
 		//VALOR A FINANCIAR
-		if($data['exigible_financiamiento'] == 'SI'){
+		if ($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = $data['deuda_actual'];
-		}else{
+		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $data['deuda_actual'] + $data['total_precancelacion_diferidos'] +
 				$data['interes_facturar'] + $data['corrientes_facturar'] +
 				$data['gastos_cobranza'] + $data['valor_otras_tarjetas'] -
 				$data['abono_total'] + $data['nd_facturar'] -
 				$data['nc_facturar'];
-			$data['valor_financiar'] = number_format($valor_financiar_diners,2,'.','');
+			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
 		//TOTAL INTERES
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 		$porcentaje_interes_arr = [];
-		foreach ($aplicativo_diners_porcentaje_interes as $pi){
+		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
 			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
 		};
 		$porcentaje_interes = 0.00;
@@ -1394,18 +1403,18 @@ class AplicativoDinersApi extends BaseController {
 			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
 		}
 		$total_interes = $data['valor_financiar'] * ($porcentaje_interes / 100);
-		$data['total_intereses'] = number_format($total_interes,2,'.','');
+		$data['total_intereses'] = number_format($total_interes, 2, '.', '');
 
 		//TOTAL FINANCIAMIENTO
 		$total_financiamiento = $data['valor_financiar'] + $data['total_intereses'];
-		$data['total_financiamiento_total'] = number_format($total_financiamiento,2,'.','');
+		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
 
 		//VALOR CUOTA MENSUAL
 		$cuota_mensual = 0;
 		if ($data['plazo_financiamiento'] > 0) {
 			$cuota_mensual = $data['plazo_financiamiento'] > 0 ? $data['total_financiamiento_total'] / $data['plazo_financiamiento'] : 0;
 		}
-		$data['valor_cuota_mensual'] = number_format($cuota_mensual,2,'.','');
+		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
 		return $this->json($res->conDatos($data));
 	}
@@ -1416,7 +1425,7 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function calculos_tarjeta_interdin() {
-		if(!$this->isPost()) return "calculos_tarjeta_interdin";
+		if (!$this->isPost()) return "calculos_tarjeta_interdin";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
@@ -1424,7 +1433,7 @@ class AplicativoDinersApi extends BaseController {
 
 		//ABONO TOTAL
 		$abono_total_diners = $data['abono_efectivo_sistema'] + $data['abono_negociador'];
-		$data['abono_total'] = number_format($abono_total_diners,2,'.','');
+		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
 
 		//SALDOS FACTURADOS DESPUÉS DE ABONO
 		$saldo_90_facturado = $data['saldo_90_facturado'];
@@ -1434,65 +1443,65 @@ class AplicativoDinersApi extends BaseController {
 		$abono_total = $data['abono_total'];
 		$saldo_pasa = 0;
 		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
-		if($saldo_90_facturado_despues_abono > 0){
-			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono,2,'.','');
+		if ($saldo_90_facturado_despues_abono > 0) {
+			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_90_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
 		}
 		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
-		if($saldo_60_facturado_despues_abono > 0){
-			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono,2,'.','');
+		if ($saldo_60_facturado_despues_abono > 0) {
+			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_60_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
 		}
 		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
-		if($saldo_30_facturado_despues_abono > 0){
-			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono,2,'.','');
+		if ($saldo_30_facturado_despues_abono > 0) {
+			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else {
+		} else {
 			$data['saldo_30_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
 		}
 		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
-		if($saldo_actual_facturado_despues_abono > 0){
-			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono,2,'.','');
-		}else{
+		if ($saldo_actual_facturado_despues_abono > 0) {
+			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
+		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
 		//VALOR A TIPO DE FINANCIAMIENTO
-		if($saldo_90_facturado_despues_abono > 0){
+		if ($saldo_90_facturado_despues_abono > 0) {
 			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
-		}else{
-			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+		} else {
+			if (($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
 				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
-			}else{
+			} else {
 				$data['tipo_financiamiento'] = 'NOVACIÓN';
 			}
 		}
 
 		//VALOR A FINANCIAR
-		if($data['exigible_financiamiento'] == 'SI'){
+		if ($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = $data['deuda_actual'];
-		}else{
+		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $data['deuda_actual'] + $data['total_precancelacion_diferidos'] +
 				$data['interes_facturar'] + $data['corrientes_facturar'] +
 				$data['gastos_cobranza'] + $data['valor_otras_tarjetas'] -
 				$data['abono_total'] + $data['nd_facturar'] -
 				$data['nc_facturar'];
-			$data['valor_financiar'] = number_format($valor_financiar_diners,2,'.','');
+			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
 		//TOTAL INTERES
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 		$porcentaje_interes_arr = [];
-		foreach ($aplicativo_diners_porcentaje_interes as $pi){
+		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
 			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
 		};
 		$porcentaje_interes = 0.00;
@@ -1501,18 +1510,18 @@ class AplicativoDinersApi extends BaseController {
 			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
 		}
 		$total_interes = $data['valor_financiar'] * ($porcentaje_interes / 100);
-		$data['total_intereses'] = number_format($total_interes,2,'.','');
+		$data['total_intereses'] = number_format($total_interes, 2, '.', '');
 
 		//TOTAL FINANCIAMIENTO
 		$total_financiamiento = $data['valor_financiar'] + $data['total_intereses'];
-		$data['total_financiamiento_total'] = number_format($total_financiamiento,2,'.','');
+		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
 
 		//VALOR CUOTA MENSUAL
 		$cuota_mensual = 0;
 		if ($data['plazo_financiamiento'] > 0) {
 			$cuota_mensual = $data['plazo_financiamiento'] > 0 ? $data['total_financiamiento_total'] / $data['plazo_financiamiento'] : 0;
 		}
-		$data['valor_cuota_mensual'] = number_format($cuota_mensual,2,'.','');
+		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
 		return $this->json($res->conDatos($data));
 	}
@@ -1523,7 +1532,7 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function calculos_tarjeta_discover() {
-		if(!$this->isPost()) return "calculos_tarjeta_discover";
+		if (!$this->isPost()) return "calculos_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
@@ -1531,7 +1540,7 @@ class AplicativoDinersApi extends BaseController {
 
 		//ABONO TOTAL
 		$abono_total_diners = $data['abono_efectivo_sistema'] + $data['abono_negociador'];
-		$data['abono_total'] = number_format($abono_total_diners,2,'.','');
+		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
 
 		//SALDOS FACTURADOS DESPUÉS DE ABONO
 		$saldo_90_facturado = $data['saldo_90_facturado'];
@@ -1541,65 +1550,65 @@ class AplicativoDinersApi extends BaseController {
 		$abono_total = $data['abono_total'];
 		$saldo_pasa = 0;
 		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
-		if($saldo_90_facturado_despues_abono > 0){
-			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono,2,'.','');
+		if ($saldo_90_facturado_despues_abono > 0) {
+			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_90_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
 		}
 		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
-		if($saldo_60_facturado_despues_abono > 0){
-			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono,2,'.','');
+		if ($saldo_60_facturado_despues_abono > 0) {
+			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_60_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
 		}
 		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
-		if($saldo_30_facturado_despues_abono > 0){
-			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono,2,'.','');
+		if ($saldo_30_facturado_despues_abono > 0) {
+			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else {
+		} else {
 			$data['saldo_30_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
 		}
 		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
-		if($saldo_actual_facturado_despues_abono > 0){
-			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono,2,'.','');
-		}else{
+		if ($saldo_actual_facturado_despues_abono > 0) {
+			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
+		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
 		//VALOR A TIPO DE FINANCIAMIENTO
-		if($saldo_90_facturado_despues_abono > 0){
+		if ($saldo_90_facturado_despues_abono > 0) {
 			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
-		}else{
-			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+		} else {
+			if (($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
 				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
-			}else{
+			} else {
 				$data['tipo_financiamiento'] = 'NOVACIÓN';
 			}
 		}
 
 		//VALOR A FINANCIAR
-		if($data['exigible_financiamiento'] == 'SI'){
+		if ($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = $data['deuda_actual'];
-		}else{
+		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $data['deuda_actual'] + $data['total_precancelacion_diferidos'] +
 				$data['interes_facturar'] + $data['corrientes_facturar'] +
 				$data['gastos_cobranza'] + $data['valor_otras_tarjetas'] -
 				$data['abono_total'] + $data['nd_facturar'] -
 				$data['nc_facturar'];
-			$data['valor_financiar'] = number_format($valor_financiar_diners,2,'.','');
+			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
 		//TOTAL INTERES
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 		$porcentaje_interes_arr = [];
-		foreach ($aplicativo_diners_porcentaje_interes as $pi){
+		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
 			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
 		};
 		$porcentaje_interes = 0.00;
@@ -1608,20 +1617,58 @@ class AplicativoDinersApi extends BaseController {
 			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
 		}
 		$total_interes = $data['valor_financiar'] * ($porcentaje_interes / 100);
-		$data['total_intereses'] = number_format($total_interes,2,'.','');
+		$data['total_intereses'] = number_format($total_interes, 2, '.', '');
 
 		//TOTAL FINANCIAMIENTO
 		$total_financiamiento = $data['valor_financiar'] + $data['total_intereses'];
-		$data['total_financiamiento_total'] = number_format($total_financiamiento,2,'.','');
+		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
 
 		//VALOR CUOTA MENSUAL
 		$cuota_mensual = 0;
 		if ($data['plazo_financiamiento'] > 0) {
 			$cuota_mensual = $data['plazo_financiamiento'] > 0 ? $data['total_financiamiento_total'] / $data['plazo_financiamiento'] : 0;
 		}
-		$data['valor_cuota_mensual'] = number_format($cuota_mensual,2,'.','');
+		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
 		return $this->json($res->conDatos($data));
 	}
 
+	/**
+	 * save_tarjeta_diners
+	 * @param $aplicativo_diners_id
+	 * @param $data
+	 * @param $session
+	 */
+	function save_tarjeta_diners() {
+		if (!$this->isPost()) return "save_tarjeta_diners";
+		$res = new RespuestaConsulta();
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners_id);
+
+		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		foreach ($data as $key => $val){
+			$aplicativo_diners_tarjeta[$key] = $val;
+		}
+		unset($aplicativo_diners_tarjeta['id']);
+
+		$aplicativo_detalle = new AplicativoDinersDetalle();
+		foreach ($aplicativo_diners_tarjeta as $key => $val){
+			$aplicativo_detalle->$key = $val;
+		}
+		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+		$aplicativo_detalle->usuario_ingreso = $user['id'];
+		$aplicativo_detalle->usuario_modificacion = $user['id'];
+		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+		$aplicativo_detalle->eliminado = 0;
+		if($aplicativo_detalle->save()){
+			return $this->json($res->conMensaje('OK'));
+		} else {
+			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
+		}
+	}
 }
