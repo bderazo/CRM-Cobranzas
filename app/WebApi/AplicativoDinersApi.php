@@ -1410,4 +1410,218 @@ class AplicativoDinersApi extends BaseController {
 		return $this->json($res->conDatos($data));
 	}
 
+	/**
+	 * calculos_tarjeta_interdin
+	 * @param $data
+	 * @param $session
+	 */
+	function calculos_tarjeta_interdin() {
+		if(!$this->isPost()) return "calculos_tarjeta_interdin";
+		$res = new RespuestaConsulta();
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		//ABONO TOTAL
+		$abono_total_diners = $data['abono_efectivo_sistema'] + $data['abono_negociador'];
+		$data['abono_total'] = number_format($abono_total_diners,2,'.','');
+
+		//SALDOS FACTURADOS DESPUÉS DE ABONO
+		$saldo_90_facturado = $data['saldo_90_facturado'];
+		$saldo_60_facturado = $data['saldo_60_facturado'];
+		$saldo_30_facturado = $data['saldo_30_facturado'];
+		$saldo_actual_facturado = $data['saldo_actual_facturado'];
+		$abono_total = $data['abono_total'];
+		$saldo_pasa = 0;
+		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
+		if($saldo_90_facturado_despues_abono > 0){
+			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else{
+			$data['saldo_90_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
+		}
+		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
+		if($saldo_60_facturado_despues_abono > 0){
+			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else{
+			$data['saldo_60_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
+		}
+		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
+		if($saldo_30_facturado_despues_abono > 0){
+			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else {
+			$data['saldo_30_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
+		}
+		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
+		if($saldo_actual_facturado_despues_abono > 0){
+			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono,2,'.','');
+		}else{
+			$data['saldo_actual_facturado_despues_abono'] = 0.00;
+		}
+
+		//VALOR A TIPO DE FINANCIAMIENTO
+		if($saldo_90_facturado_despues_abono > 0){
+			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
+		}else{
+			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
+			}else{
+				$data['tipo_financiamiento'] = 'NOVACIÓN';
+			}
+		}
+
+		//VALOR A FINANCIAR
+		if($data['exigible_financiamiento'] == 'SI'){
+			$data['total_financiamiento'] = 'NO';
+			$data['valor_financiar'] = $data['deuda_actual'];
+		}else{
+			$data['total_financiamiento'] = 'SI';
+			$valor_financiar_diners = $data['deuda_actual'] + $data['total_precancelacion_diferidos'] +
+				$data['interes_facturar'] + $data['corrientes_facturar'] +
+				$data['gastos_cobranza'] + $data['valor_otras_tarjetas'] -
+				$data['abono_total'] + $data['nd_facturar'] -
+				$data['nc_facturar'];
+			$data['valor_financiar'] = number_format($valor_financiar_diners,2,'.','');
+		}
+
+		//TOTAL INTERES
+		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
+		$porcentaje_interes_arr = [];
+		foreach ($aplicativo_diners_porcentaje_interes as $pi){
+			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
+		};
+		$porcentaje_interes = 0.00;
+		$meses_plazo = $data['plazo_financiamiento'] + $data['numero_meses_gracia'];
+		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
+		}
+		$total_interes = $data['valor_financiar'] * ($porcentaje_interes / 100);
+		$data['total_intereses'] = number_format($total_interes,2,'.','');
+
+		//TOTAL FINANCIAMIENTO
+		$total_financiamiento = $data['valor_financiar'] + $data['total_intereses'];
+		$data['total_financiamiento_total'] = number_format($total_financiamiento,2,'.','');
+
+		//VALOR CUOTA MENSUAL
+		$cuota_mensual = 0;
+		if ($data['plazo_financiamiento'] > 0) {
+			$cuota_mensual = $data['plazo_financiamiento'] > 0 ? $data['total_financiamiento_total'] / $data['plazo_financiamiento'] : 0;
+		}
+		$data['valor_cuota_mensual'] = number_format($cuota_mensual,2,'.','');
+
+		return $this->json($res->conDatos($data));
+	}
+
+	/**
+	 * calculos_tarjeta_discover
+	 * @param $data
+	 * @param $session
+	 */
+	function calculos_tarjeta_discover() {
+		if(!$this->isPost()) return "calculos_tarjeta_discover";
+		$res = new RespuestaConsulta();
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		//ABONO TOTAL
+		$abono_total_diners = $data['abono_efectivo_sistema'] + $data['abono_negociador'];
+		$data['abono_total'] = number_format($abono_total_diners,2,'.','');
+
+		//SALDOS FACTURADOS DESPUÉS DE ABONO
+		$saldo_90_facturado = $data['saldo_90_facturado'];
+		$saldo_60_facturado = $data['saldo_60_facturado'];
+		$saldo_30_facturado = $data['saldo_30_facturado'];
+		$saldo_actual_facturado = $data['saldo_actual_facturado'];
+		$abono_total = $data['abono_total'];
+		$saldo_pasa = 0;
+		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
+		if($saldo_90_facturado_despues_abono > 0){
+			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else{
+			$data['saldo_90_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
+		}
+		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
+		if($saldo_60_facturado_despues_abono > 0){
+			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else{
+			$data['saldo_60_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
+		}
+		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
+		if($saldo_30_facturado_despues_abono > 0){
+			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono,2,'.','');
+			$saldo_pasa = 0;
+		}else {
+			$data['saldo_30_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
+		}
+		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
+		if($saldo_actual_facturado_despues_abono > 0){
+			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono,2,'.','');
+		}else{
+			$data['saldo_actual_facturado_despues_abono'] = 0.00;
+		}
+
+		//VALOR A TIPO DE FINANCIAMIENTO
+		if($saldo_90_facturado_despues_abono > 0){
+			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
+		}else{
+			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
+			}else{
+				$data['tipo_financiamiento'] = 'NOVACIÓN';
+			}
+		}
+
+		//VALOR A FINANCIAR
+		if($data['exigible_financiamiento'] == 'SI'){
+			$data['total_financiamiento'] = 'NO';
+			$data['valor_financiar'] = $data['deuda_actual'];
+		}else{
+			$data['total_financiamiento'] = 'SI';
+			$valor_financiar_diners = $data['deuda_actual'] + $data['total_precancelacion_diferidos'] +
+				$data['interes_facturar'] + $data['corrientes_facturar'] +
+				$data['gastos_cobranza'] + $data['valor_otras_tarjetas'] -
+				$data['abono_total'] + $data['nd_facturar'] -
+				$data['nc_facturar'];
+			$data['valor_financiar'] = number_format($valor_financiar_diners,2,'.','');
+		}
+
+		//TOTAL INTERES
+		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
+		$porcentaje_interes_arr = [];
+		foreach ($aplicativo_diners_porcentaje_interes as $pi){
+			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
+		};
+		$porcentaje_interes = 0.00;
+		$meses_plazo = $data['plazo_financiamiento'] + $data['numero_meses_gracia'];
+		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
+		}
+		$total_interes = $data['valor_financiar'] * ($porcentaje_interes / 100);
+		$data['total_intereses'] = number_format($total_interes,2,'.','');
+
+		//TOTAL FINANCIAMIENTO
+		$total_financiamiento = $data['valor_financiar'] + $data['total_intereses'];
+		$data['total_financiamiento_total'] = number_format($total_financiamiento,2,'.','');
+
+		//VALOR CUOTA MENSUAL
+		$cuota_mensual = 0;
+		if ($data['plazo_financiamiento'] > 0) {
+			$cuota_mensual = $data['plazo_financiamiento'] > 0 ? $data['total_financiamiento_total'] / $data['plazo_financiamiento'] : 0;
+		}
+		$data['valor_cuota_mensual'] = number_format($cuota_mensual,2,'.','');
+
+		return $this->json($res->conDatos($data));
+	}
+
 }
