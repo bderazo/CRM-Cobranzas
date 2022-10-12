@@ -423,62 +423,21 @@ class ProductoApi extends BaseController {
 			'property_order' => 3,
 			'choices' => [],
 		];
-		$retorno['form']['properties']['imagen1'] = [
+		$retorno['form']['properties']['imagenes'] = [
 			'type' => 'string',
 			'title' => 'Imagen1',
 			'widget' => 'file_widget',
 			'empty_data' => '',
-			'full_name' => 'imagen1',
+			'full_name' => 'imagenes',
 			'constraints' => [],
 			'mode' => 'IMAGEN',
-			'crop_imagen_mode' => 'OVAL',
+			'multiple' => true,
 			'required' => 0,
 			'disabled' => 0,
 			'property_order' => 4,
 			'choices' => [],
 		];
-		$retorno['form']['properties']['imagen2'] = [
-			'type' => 'string',
-			'title' => 'Imagen2',
-			'widget' => 'file_widget',
-			'empty_data' => '',
-			'full_name' => 'imagen2',
-			'constraints' => [],
-			'mode' => 'IMAGEN',
-			'crop_imagen_mode' => 'OVAL',
-			'required' => 0,
-			'disabled' => 0,
-			'property_order' => 5,
-			'choices' => [],
-		];
-		$retorno['form']['properties']['imagen3'] = [
-			'type' => 'string',
-			'title' => 'Imagen3',
-			'widget' => 'file_widget',
-			'empty_data' => '',
-			'full_name' => 'imagen3',
-			'constraints' => [],
-			'mode' => 'IMAGEN',
-			'crop_imagen_mode' => 'OVAL',
-			'required' => 0,
-			'disabled' => 0,
-			'property_order' => 6,
-			'choices' => [],
-		];
-		$retorno['form']['properties']['imagen4'] = [
-			'type' => 'string',
-			'title' => 'Imagen4',
-			'widget' => 'file_widget',
-			'empty_data' => '',
-			'full_name' => 'imagen4',
-			'constraints' => [],
-			'mode' => 'IMAGEN',
-			'crop_imagen_mode' => 'OVAL',
-			'required' => 0,
-			'disabled' => 0,
-			'property_order' => 7,
-			'choices' => [],
-		];
+		
 		return $this->json($res->conDatos($retorno));
 	}
 
