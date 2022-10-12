@@ -114,17 +114,17 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * campos_tarjeta_diners
-	 * @param $producto_id
+	 * @param $aplicativo_diners_id
 	 * @param $session
 	 */
 	function campos_tarjeta_diners() {
 		if (!$this->isPost()) return "campos_tarjeta_diners";
 		$res = new RespuestaConsulta();
-		$producto_id = $this->request->getParam('producto_id');
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $producto_id);
+		$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'DINERS';
 		$seccion1['colorFondo'] = '#0066A8';
@@ -514,17 +514,17 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * campos_tarjeta_interdin
-	 * @param $producto_id
+	 * @param $aplicativo_diners_id
 	 * @param $session
 	 */
 	function campos_tarjeta_interdin() {
 		if (!$this->isPost()) return "campos_tarjeta_interdin";
 		$res = new RespuestaConsulta();
-		$producto_id = $this->request->getParam('producto_id');
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $producto_id);
+		$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'INTERDIN';
 		$seccion1['colorFondo'] = '#404040';
@@ -914,17 +914,17 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * campos_tarjeta_discover
-	 * @param $producto_id
+	 * @param $aplicativo_diners_id
 	 * @param $session
 	 */
 	function campos_tarjeta_discover() {
 		if (!$this->isPost()) return "campos_tarjeta_discover";
 		$res = new RespuestaConsulta();
-		$producto_id = $this->request->getParam('producto_id');
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $producto_id);
+		$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'DISCOVER';
 		$seccion1['colorFondo'] = '#E66929';
