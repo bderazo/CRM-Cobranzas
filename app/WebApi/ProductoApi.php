@@ -423,6 +423,86 @@ class ProductoApi extends BaseController {
 			'property_order' => 3,
 			'choices' => [],
 		];
+		$retorno['form']['properties']['imagen1'] = [
+			'type' => 'string',
+			'title' => 'Imagen1',
+			'widget' => 'file_widget',
+			'empty_data' => '',
+			'full_name' => 'imagen1',
+			'constraints' => [],
+			'mode' => 'IMAGEN',
+			'crop_imagen_mode' => 'OVAL',
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 4,
+			'choices' => [],
+		];
+		$retorno['form']['properties']['imagen2'] = [
+			'type' => 'string',
+			'title' => 'Imagen2',
+			'widget' => 'file_widget',
+			'empty_data' => '',
+			'full_name' => 'imagen2',
+			'constraints' => [],
+			'mode' => 'IMAGEN',
+			'crop_imagen_mode' => 'OVAL',
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 5,
+			'choices' => [],
+		];
+		$retorno['form']['properties']['imagen3'] = [
+			'type' => 'string',
+			'title' => 'Imagen3',
+			'widget' => 'file_widget',
+			'empty_data' => '',
+			'full_name' => 'imagen3',
+			'constraints' => [],
+			'mode' => 'IMAGEN',
+			'crop_imagen_mode' => 'OVAL',
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 6,
+			'choices' => [],
+		];
+		$retorno['form']['properties']['imagen4'] = [
+			'type' => 'string',
+			'title' => 'Imagen4',
+			'widget' => 'file_widget',
+			'empty_data' => '',
+			'full_name' => 'imagen4',
+			'constraints' => [],
+			'mode' => 'IMAGEN',
+			'crop_imagen_mode' => 'OVAL',
+			'required' => 0,
+			'disabled' => 0,
+			'property_order' => 7,
+			'choices' => [],
+		];
 		return $this->json($res->conDatos($retorno));
+	}
+
+	/**
+	 * save_form_paleta
+	 * @param $session
+	 * @param $institucion_id
+	 * @param $producto_id
+	 * @param $data
+	 * @param $_FILE
+	 */
+	function save_form_paleta() {
+		if (!$this->isPost()) return "save_form_paleta";
+		$res = new RespuestaConsulta();
+		$institucion_id = $this->request->getParam('institucion_id');
+		$producto_id = $this->request->getParam('producto_id');
+		$data = $this->request->getParam('data');
+		$files = $_FILES;
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		$retorno = [];
+
+
+		return $this->json($res->conMensaje('OK'));
 	}
 }
