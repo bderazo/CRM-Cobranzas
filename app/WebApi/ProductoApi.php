@@ -437,7 +437,7 @@ class ProductoApi extends BaseController {
 			'property_order' => 4,
 			'choices' => [],
 		];
-		
+
 		return $this->json($res->conDatos($retorno));
 	}
 
