@@ -331,7 +331,7 @@ class ProductoApi extends BaseController {
 		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
 		$list = $this->request->getParam('list');
-		\Auditor::info('buscar_listas API', 'API', $list);
+		\Auditor::info('buscar_listas API: '.$list, 'API', $list);
 		$q = $this->request->getParam('q');
 		$page = $this->request->getParam('page');
 		$data = $this->request->getParam('data');
