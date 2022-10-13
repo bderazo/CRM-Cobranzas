@@ -62,7 +62,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Institución',
 			'widget' => 'text',
 			'empty_data' => '',
-			'full_name' => 'i.nombre',
+			'full_name' => 'data[i.nombre]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
@@ -74,7 +74,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Cédula',
 			'widget' => 'text',
 			'empty_data' => '',
-			'full_name' => 'cl.cedula',
+			'full_name' => 'data[cl.cedula]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
@@ -86,7 +86,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Apellidos',
 			'widget' => 'text',
 			'empty_data' => '',
-			'full_name' => 'cl.apellidos',
+			'full_name' => 'data[cl.apellidos]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
@@ -98,7 +98,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Nombres',
 			'widget' => 'text',
 			'empty_data' => '',
-			'full_name' => 'cl.nombres',
+			'full_name' => 'data[cl.nombres]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
@@ -110,7 +110,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Producto',
 			'widget' => 'text',
 			'empty_data' => '',
-			'full_name' => 'p.producto',
+			'full_name' => 'data[p.producto]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
@@ -133,8 +133,11 @@ class ProductoApi extends BaseController {
 		if (!$this->isPost()) return "get_preguntas_list";
 		$res = new RespuestaConsulta();
 		$query = $this->request->getParam('query');
+		\Auditor::info('get_preguntas_list query', 'API', $query);
 		$page = $this->request->getParam('page');
-		\Auditor::info('get_preguntas_list API', 'API', $query);
+		\Auditor::info('get_preguntas_list page', 'API', $page);
+		$data = $this->request->getParam('data');
+		\Auditor::info('get_preguntas_list data', 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		$config = $this->get('config');
@@ -331,13 +334,13 @@ class ProductoApi extends BaseController {
 		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
 		$list = $this->request->getParam('list');
-		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
+//		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
 		$q = $this->request->getParam('q');
-		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
+//		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
-		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
+//		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
 		$data = $this->request->getParam('data');
-		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
+//		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
