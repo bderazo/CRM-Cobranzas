@@ -134,7 +134,7 @@ class ProductoApi extends BaseController {
 		$res = new RespuestaConsulta();
 		$query = $this->request->getParam('query');
 		$page = $this->request->getParam('page');
-		\Auditor::info(json_encode($query,JSON_PRETTY_PRINT), 'API', $query);
+		\Auditor::info('get_preguntas_list API', 'API', $query);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		$config = $this->get('config');
@@ -331,6 +331,7 @@ class ProductoApi extends BaseController {
 		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
 		$list = $this->request->getParam('list');
+		\Auditor::info('buscar_listas API', 'API', $list);
 		$q = $this->request->getParam('q');
 		$page = $this->request->getParam('page');
 		$data = $this->request->getParam('data');
