@@ -135,7 +135,9 @@ class Producto extends Model
 			->where('p.usuario_asignado', $user['id']);
 		if(count($data) > 0) {
 			foreach($data as $key => $val) {
-				$q->where('UPPER(' . $key . ') LIKE "%' . strtoupper($val) . '%"');
+				if($val != '') {
+					$q->where('UPPER(' . $key . ') LIKE "%' . strtoupper($val) . '%"');
+				}
 			}
 		}
 		$q->orderBy('p.fecha_ingreso DESC')
