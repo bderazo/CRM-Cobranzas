@@ -148,7 +148,7 @@ class Producto extends Model
 		$q->orderBy('p.fecha_ingreso DESC')
 			->limit(10)
 			->offset($page * 10);
-		\Auditor::error("Error API: " . $q->getQuery(), 'Preguntas', []);
+//		\Auditor::error("Error API: " . $q->getQuery(), 'Preguntas', []);
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach($lista as $l){
