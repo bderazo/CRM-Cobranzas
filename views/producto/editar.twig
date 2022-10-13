@@ -739,33 +739,7 @@
 												<td style="width: 40%;">
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
 															v-model="aplicativo_diners_tarjeta_diners.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
-														<option value=""></option>
-														<option value="2">2</option>
-														<option value="3">3</option>
-														<option value="4">4</option>
-														<option value="5">5</option>
-														<option value="6">6</option>
-														<option value="7">7</option>
-														<option value="8">8</option>
-														<option value="9">9</option>
-														<option value="12">12</option>
-														<option value="13">13</option>
-														<option value="14">14</option>
-														<option value="15">15</option>
-														<option value="16">16</option>
-														<option value="17">17</option>
-														<option value="18">18</option>
-														<option value="19">19</option>
-														<option value="20">20</option>
-														<option value="21">21</option>
-														<option value="22">22</option>
-														<option value="23">23</option>
-														<option value="24">24</option>
-														<option value="30">30</option>
-														<option value="36">36</option>
-														<option value="48">48</option>
-														<option value="60">60</option>
-														<option value="72">72</option>
+														<option v-for="(v,k) in cat.plazo_financiamiento" v-html="v" :value="k"></option>
 													</select>
 												</td>
 											</tr>
@@ -799,32 +773,6 @@
 											<tr style="background-color: #0066A8; color: white;">
 												<td><strong>VALOR CUOTA MENSUAL</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_diners.valor_cuota_mensual"></span></td>
-											</tr>
-											</tbody>
-										</table>
-										<br/>
-										<table>
-											<tbody>
-											<tr>
-												<td style="width: 30%; text-align: center; font-style: italic;"><strong>OBSERVACION UNIFICACIÓN</strong></td>
-												<td style="width: 70%;">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_unificacion" class="form-control form-control-sm"
-															  placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
-												</td>
-											</tr>
-											<tr>
-												<td style="text-align: center; font-style: italic;"><strong>OBSERVACION DATOS INFOR. SOCIO</strong></td>
-												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.observacion_datos_socio" class="form-control form-control-sm"
-															  placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
-												</td>
-											</tr>
-											<tr>
-												<td style="text-align: center; font-style: italic;"><strong>EMPRESA QUE REFINANCIA</strong></td>
-												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_diners.empresa_refinancia" class="form-control form-control-sm"
-															  placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
-												</td>
 											</tr>
 											</tbody>
 										</table>
@@ -1104,17 +1052,7 @@
 												<td style="width: 40%;">
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresInterdin"
 															v-model="aplicativo_diners_tarjeta_interdin.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
-														<option value=""></option>
-														<option value="3">3</option>
-														<option value="4">4</option>
-														<option value="5">5</option>
-														<option value="6">6</option>
-														<option value="7">7</option>
-														<option value="8">8</option>
-														<option value="9">9</option>
-														<option value="12">12</option>
-														<option value="24">24</option>
-														<option value="36">36</option>
+														<option v-for="(v,k) in cat.plazo_financiamiento" v-html="v" :value="k"></option>
 													</select>
 												</td>
 											</tr>
@@ -1148,32 +1086,6 @@
 											<tr style="background-color: #404040; color: white;">
 												<td><strong>VALOR CUOTA MENSUAL</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_interdin.valor_cuota_mensual"></span></td>
-											</tr>
-											</tbody>
-										</table>
-										<br/>
-										<table>
-											<tbody>
-											<tr>
-												<td style="width: 30%; text-align: center; font-style: italic;"><strong>OBSERVACION UNIFICACIÓN</strong></td>
-												<td style="width: 70%;">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_unificacion" class="form-control form-control-sm"
-															  placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
-												</td>
-											</tr>
-											<tr>
-												<td style="text-align: center; font-style: italic;"><strong>OBSERVACION DATOS INFOR. SOCIO</strong></td>
-												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.observacion_datos_socio" class="form-control form-control-sm"
-															  placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
-												</td>
-											</tr>
-											<tr>
-												<td style="text-align: center; font-style: italic;"><strong>EMPRESA QUE REFINANCIA</strong></td>
-												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_interdin.empresa_refinancia" class="form-control form-control-sm"
-															  placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
-												</td>
 											</tr>
 											</tbody>
 										</table>
@@ -1453,17 +1365,7 @@
 												<td style="width: 40%;">
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiscover"
 															v-model="aplicativo_diners_tarjeta_discover.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
-														<option value=""></option>
-														<option value="3">3</option>
-														<option value="4">4</option>
-														<option value="5">5</option>
-														<option value="6">6</option>
-														<option value="7">7</option>
-														<option value="8">8</option>
-														<option value="9">9</option>
-														<option value="12">12</option>
-														<option value="24">24</option>
-														<option value="36">36</option>
+														<option v-for="(v,k) in cat.plazo_financiamiento" v-html="v" :value="k"></option>
 													</select>
 												</td>
 											</tr>
@@ -1497,32 +1399,6 @@
 											<tr style="background-color: #E66929; color: white;">
 												<td><strong>VALOR CUOTA MENSUAL</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_discover.valor_cuota_mensual"></span></td>
-											</tr>
-											</tbody>
-										</table>
-										<br/>
-										<table>
-											<tbody>
-											<tr>
-												<td style="width: 30%; text-align: center; font-style: italic;"><strong>OBSERVACION UNIFICACIÓN</strong></td>
-												<td style="width: 70%;">
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_unificacion" class="form-control form-control-sm"
-															  placeholder="OBSERVACION UNIFICACIÓN" v-autoname></textarea>
-												</td>
-											</tr>
-											<tr>
-												<td style="text-align: center; font-style: italic;"><strong>OBSERVACION DATOS INFOR. SOCIO</strong></td>
-												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.observacion_datos_socio" class="form-control form-control-sm"
-															  placeholder="OBSERVACION DATOS INFOR. SOCIO" v-autoname></textarea>
-												</td>
-											</tr>
-											<tr>
-												<td style="text-align: center; font-style: italic;"><strong>EMPRESA QUE REFINANCIA</strong></td>
-												<td>
-													<textarea rows="3" v-model="aplicativo_diners_tarjeta_discover.empresa_refinancia" class="form-control form-control-sm"
-															  placeholder="EMPRESA QUE REFINANCIA" v-autoname></textarea>
-												</td>
 											</tr>
 											</tbody>
 										</table>

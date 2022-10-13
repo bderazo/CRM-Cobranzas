@@ -55,6 +55,10 @@ class ProductoController extends BaseController {
 	function editar($id) {
 		\WebSecurity::secure('producto.lista');
 
+		$plazo_financiamiento = [];
+		for($i = 1; $i <= 72; $i++){
+			$plazo_financiamiento[$i] = $i;
+		}
 		$cat = new CatalogoCliente();
 		$catalogos = [
 			'sexo' => $cat->getByKey('sexo'),
@@ -66,6 +70,7 @@ class ProductoController extends BaseController {
 			'tipo_referencia' => $cat->getByKey('tipo_referencia'),
 			'descripcion_referencia' => $cat->getByKey('descripcion_referencia'),
 			'ciudades' => Catalogo::ciudades(),
+			'plazo_financiamiento' => $plazo_financiamiento,
 		];
 
 		$model = Producto::porId($id);

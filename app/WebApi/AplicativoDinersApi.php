@@ -423,35 +423,10 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'exigible_financiamiento',
 			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
 		];
-		$plazo_financiamiento = [
-			['id' => '', 'label' => ''],
-			['id' => '2', 'label' => '2'],
-			['id' => '3', 'label' => '3'],
-			['id' => '4', 'label' => '4'],
-			['id' => '5', 'label' => '5'],
-			['id' => '6', 'label' => '6'],
-			['id' => '7', 'label' => '7'],
-			['id' => '8', 'label' => '8'],
-			['id' => '9', 'label' => '9'],
-			['id' => '12', 'label' => '12'],
-			['id' => '13', 'label' => '13'],
-			['id' => '14', 'label' => '14'],
-			['id' => '15', 'label' => '15'],
-			['id' => '16', 'label' => '16'],
-			['id' => '17', 'label' => '17'],
-			['id' => '18', 'label' => '18'],
-			['id' => '19', 'label' => '19'],
-			['id' => '20', 'label' => '20'],
-			['id' => '21', 'label' => '21'],
-			['id' => '22', 'label' => '22'],
-			['id' => '23', 'label' => '23'],
-			['id' => '24', 'label' => '24'],
-			['id' => '30', 'label' => '30'],
-			['id' => '36', 'label' => '36'],
-			['id' => '48', 'label' => '48'],
-			['id' => '60', 'label' => '60'],
-			['id' => '72', 'label' => '72'],
-		];
+		$plazo_financiamiento = [];
+		for($i = 1; $i <= 72; $i++){
+			$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+		}
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_diners['plazo_financiamiento'],
