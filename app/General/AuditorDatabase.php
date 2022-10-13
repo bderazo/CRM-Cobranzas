@@ -33,7 +33,7 @@ class AuditorDatabase implements IAuditoriaRepository {
 			$data = [
 				'fecha' => date('Y-m-d H:i:s'), // new \FluentLiteral('now()'),
 				'nivel' => $nivel,
-				'mensaje' => trim(substr($mensaje, 0, 200)),
+				'mensaje' => $mensaje,
 			];
 			$data['usuario'] = !$usuario ? \WebSecurity::currentUsername() : $usuario;
 			if ($modulo) $data['modulo'] = trim(substr($modulo, 0, 100));

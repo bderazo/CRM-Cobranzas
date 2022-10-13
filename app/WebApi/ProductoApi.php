@@ -134,7 +134,7 @@ class ProductoApi extends BaseController {
 		$res = new RespuestaConsulta();
 		$query = $this->request->getParam('query');
 		$page = $this->request->getParam('page');
-//		\Auditor::info(json_encode($query,JSON_PRETTY_PRINT), 'API', $query);
+		\Auditor::info(json_encode($query,JSON_PRETTY_PRINT), 'API', $query);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		$config = $this->get('config');
