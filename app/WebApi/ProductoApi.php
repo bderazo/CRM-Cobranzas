@@ -134,9 +134,7 @@ class ProductoApi extends BaseController {
 		$res = new RespuestaConsulta();
 
 		$page = $this->request->getParam('page');
-		\Auditor::info('get_preguntas_list page', 'API', $page);
 		$data = $this->request->getParam('data');
-		\Auditor::info('get_preguntas_list data', 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		$config = $this->get('config');
