@@ -131,7 +131,8 @@ class Producto extends Model
 			->innerJoin('institucion i ON i.id = p.institucion_id')
 			->select(null)
 			->select("p.*, cl.apellidos AS cliente_apellidos, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre")
-			->where('p.eliminado', 0);
+			->where('p.eliminado', 0)
+			->where('p.usuario_asignado', $user['id']);
 		if(count($query) > 0) {
 			foreach($query as $qu) {
 				if($qu['type'] == 'text') {
