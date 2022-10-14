@@ -145,6 +145,7 @@ class Producto extends Model
 			->offset($page * 10);
 		\Auditor::error("getProductoList Query " . $q->getQuery(), 'Producto', []);
 		$lista = $q->fetchAll();
+		\Auditor::error("getProductoList DATA " . $q->getQuery(), 'Producto', $lista);
 		$retorno = [];
 		foreach($lista as $l){
 			$retorno[] = $l;
