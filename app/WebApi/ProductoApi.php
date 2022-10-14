@@ -139,6 +139,7 @@ class ProductoApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 		$config = $this->get('config');
 		$producto = Producto::getProductoList($data, $page, $user, $config);
+		\Auditor::error("get_preguntas_list API ", 'Producto', $producto);
 		return $this->json($res->conDatos($producto));
 	}
 
