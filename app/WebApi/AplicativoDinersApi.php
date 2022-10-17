@@ -1418,10 +1418,10 @@ class AplicativoDinersApi extends BaseController {
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		$respuesta['data'] = $data;
-//		foreach ($data as $key => $val){
-//			$respuesta['data['.$key.']'] = $val;
-//		}
+		$respuesta = [];
+		foreach ($data as $key => $val){
+			$respuesta['data['.$key.']'] = $val;
+		}
 
 
 		\Auditor::info('calculos_tarjeta_diners RESPUESTA: ', 'API', $respuesta);
