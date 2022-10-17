@@ -224,7 +224,7 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'OBSERVACIONES DE GESTIÓN',
 			'valor' => $tarjeta_diners['observacion_gestion'],
 			'tipo' => 'text',
-			'name' => 'observacion_gestion'
+			'name' => 'data[observacion_gestion]'
 		];
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'FECHA DE COMPROMISO',
@@ -285,56 +285,56 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_diners['saldo_90_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_90_facturado',
+			'name' => 'data[saldo_90_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_diners['saldo_60_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_60_facturado',
+			'name' => 'data[saldo_60_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_diners['saldo_30_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_30_facturado',
+			'name' => 'data[saldo_30_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_diners['saldo_actual_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado',
+			'name' => 'data[saldo_actual_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',
 			'valor' => $tarjeta_diners['deuda_actual'],
 			'tipo' => 'label',
-			'name' => 'deuda_actual',
+			'name' => 'data[deuda_actual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'INTERESES FACTURADOS',
 			'valor' => $tarjeta_diners['interes_facturado'],
 			'tipo' => 'label',
-			'name' => 'interes_facturado',
+			'name' => 'data[interes_facturado]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
 			'valor' => $tarjeta_diners['numero_diferidos_facturados'],
 			'tipo' => 'label',
-			'name' => 'numero_diferidos_facturados',
+			'name' => 'data[numero_diferidos_facturados]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
 			'valor' => $tarjeta_diners['total_precancelacion_diferidos'],
 			'tipo' => 'label',
-			'name' => 'total_precancelacion_diferidos',
+			'name' => 'data[total_precancelacion_diferidos]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
 			'valor' => $tarjeta_diners['especialidad_venta_vehiculos'],
 			'tipo' => 'label',
-			'name' => 'especialidad_venta_vehiculos',
+			'name' => 'data[especialidad_venta_vehiculos]',
 		];
 
 		$seccion3['nombre'] = 'PAGOS';
@@ -343,21 +343,21 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
 			'valor' => $tarjeta_diners['abono_efectivo_sistema'],
 			'tipo' => 'label',
-			'name' => 'abono_efectivo_sistema',
+			'name' => 'data[abono_efectivo_sistema]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO NEGOCIADOR',
 			'valor' => $tarjeta_diners['abono_negociador'],
 			'tipo' => 'number',
-			'name' => 'abono_negociador',
+			'name' => 'data[abono_negociador]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
 			'valor' => $tarjeta_diners['abono_total'],
 			'tipo' => 'label',
-			'name' => 'abono_total',
+			'name' => 'data[abono_total]',
 			'colorFondo' => '#c3c3c3',
 		];
 
@@ -367,25 +367,25 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
 			'valor' => $tarjeta_diners['saldo_90_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_90_facturado_despues_abono',
+			'name' => 'data[saldo_90_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_diners['saldo_60_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_60_facturado_despues_abono',
+			'name' => 'data[saldo_60_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_diners['saldo_30_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_30_facturado_despues_abono',
+			'name' => 'data[saldo_30_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_diners['saldo_actual_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado_despues_abono',
+			'name' => 'data[saldo_actual_facturado_despues_abono]',
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
@@ -394,37 +394,37 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'INTERESES POR FACTURAR',
 			'valor' => $tarjeta_diners['interes_facturar'],
 			'tipo' => 'label',
-			'name' => 'interes_facturar',
+			'name' => 'data[interes_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'CORRIENTES POR FACTURAR',
 			'valor' => $tarjeta_diners['corrientes_facturar'],
 			'tipo' => 'label',
-			'name' => 'corrientes_facturar',
+			'name' => 'data[corrientes_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'ND POR FACTURAR',
 			'valor' => $tarjeta_diners['nd_facturar'],
 			'tipo' => 'label',
-			'name' => 'nd_facturar',
+			'name' => 'data[nd_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'NC POR FACTURAR',
 			'valor' => $tarjeta_diners['nc_facturar'],
 			'tipo' => 'label',
-			'name' => 'nc_facturar',
+			'name' => 'data[nc_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
 			'valor' => $tarjeta_diners['gastos_cobranza'],
 			'tipo' => 'number',
-			'name' => 'gastos_cobranza',
+			'name' => 'data[gastos_cobranza]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'VALOR OTRAS TARJETAS',
 			'valor' => $tarjeta_diners['valor_otras_tarjetas'],
 			'tipo' => 'number',
-			'name' => 'valor_otras_tarjetas',
+			'name' => 'data[valor_otras_tarjetas]',
 		];
 
 		$seccion6['nombre'] = 'FINANCIAMIENTO';
@@ -433,20 +433,20 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_diners['tipo_financiamiento'],
 			'tipo' => 'label',
-			'name' => 'tipo_financiamiento',
+			'name' => 'data[tipo_financiamiento]',
 			'colorFondo' => '#0066A8',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL',
 			'valor' => $tarjeta_diners['total_financiamiento'],
 			'tipo' => 'label',
-			'name' => 'total_financiamiento',
+			'name' => 'data[total_financiamiento]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'EXIGIBLE',
 			'valor' => $tarjeta_diners['exigible_financiamiento'],
 			'tipo' => 'choice',
-			'name' => 'exigible_financiamiento',
+			'name' => 'data[exigible_financiamiento]',
 			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
 		];
 		$plazo_financiamiento = [];
@@ -457,47 +457,47 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_diners['plazo_financiamiento'],
 			'tipo' => 'choice',
-			'name' => 'plazo_financiamiento',
+			'name' => 'data[plazo_financiamiento]',
 			'choices' => $plazo_financiamiento,
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'MOTIVO DE NO PAGO',
 			'valor' => $tarjeta_diners['motivo_no_pago'],
 			'tipo' => 'text',
-			'name' => 'motivo_no_pago',
+			'name' => 'data[motivo_no_pago]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
 			'valor' => $tarjeta_diners['numero_meses_gracia'],
 			'tipo' => 'number',
-			'name' => 'numero_meses_gracia',
+			'name' => 'data[numero_meses_gracia]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR A FINANCIAR',
 			'valor' => $tarjeta_diners['valor_financiar'],
 			'tipo' => 'label',
-			'name' => 'valor_financiar',
+			'name' => 'data[valor_financiar]',
 			'colorFondo' => '#0066A8',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_diners['total_intereses'],
 			'tipo' => 'label',
-			'name' => 'total_intereses',
+			'name' => 'data[total_intereses]',
 			'colorFondo' => '#0066A8',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL FINANCIAMIENTO',
 			'valor' => $tarjeta_diners['total_financiamiento_total'],
 			'tipo' => 'label',
-			'name' => 'total_financiamiento_total',
+			'name' => 'data[total_financiamiento_total]',
 			'colorFondo' => '#0066A8',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR CUOTA MENSUAL',
 			'valor' => $tarjeta_diners['valor_cuota_mensual'],
 			'tipo' => 'label',
-			'name' => 'valor_cuota_mensual',
+			'name' => 'data[valor_cuota_mensual]',
 			'colorFondo' => '#0066A8',
 		];
 
@@ -660,56 +660,56 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_interdin['saldo_90_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_90_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_interdin['saldo_60_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_60_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_interdin['saldo_30_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_30_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_interdin['saldo_actual_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',
 			'valor' => $tarjeta_interdin['deuda_actual'],
 			'tipo' => 'label',
-			'name' => 'deuda_actual',
+			'name' => 'data[deuda_actual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'INTERESES FACTURADOS',
 			'valor' => $tarjeta_interdin['interes_facturado'],
 			'tipo' => 'label',
-			'name' => 'interes_facturado',
+			'name' => 'data[interes_facturado]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
 			'valor' => $tarjeta_interdin['numero_diferidos_facturados'],
 			'tipo' => 'label',
-			'name' => 'numero_diferidos_facturados',
+			'name' => 'data[numero_diferidos_facturados]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
 			'valor' => $tarjeta_interdin['total_precancelacion_diferidos'],
 			'tipo' => 'label',
-			'name' => 'total_precancelacion_diferidos',
+			'name' => 'data[total_precancelacion_diferidos]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
 			'valor' => $tarjeta_interdin['especialidad_venta_vehiculos'],
 			'tipo' => 'label',
-			'name' => 'especialidad_venta_vehiculos',
+			'name' => 'data[especialidad_venta_vehiculos]',
 		];
 
 		$seccion3['nombre'] = 'PAGOS';
@@ -718,21 +718,21 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
 			'valor' => $tarjeta_interdin['abono_efectivo_sistema'],
 			'tipo' => 'label',
-			'name' => 'abono_efectivo_sistema',
+			'name' => 'data[abono_efectivo_sistema]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO NEGOCIADOR',
 			'valor' => $tarjeta_interdin['abono_negociador'],
 			'tipo' => 'number',
-			'name' => 'abono_negociador',
+			'name' => 'data[abono_negociador]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
 			'valor' => $tarjeta_interdin['abono_total'],
 			'tipo' => 'label',
-			'name' => 'abono_total',
+			'name' => 'data[abono_total]',
 			'colorFondo' => '#c3c3c3',
 		];
 
@@ -742,25 +742,25 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
 			'valor' => $tarjeta_interdin['saldo_90_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_90_facturado_despues_abono',
+			'name' => 'data[saldo_90_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_interdin['saldo_60_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_60_facturado_despues_abono',
+			'name' => 'data[saldo_60_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_interdin['saldo_30_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_30_facturado_despues_abono',
+			'name' => 'data[saldo_30_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_interdin['saldo_actual_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado_despues_abono',
+			'name' => 'data[saldo_actual_facturado_despues_abono]',
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
@@ -769,37 +769,37 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'INTERESES POR FACTURAR',
 			'valor' => $tarjeta_interdin['interes_facturar'],
 			'tipo' => 'label',
-			'name' => 'interes_facturar',
+			'name' => 'data[interes_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'CORRIENTES POR FACTURAR',
 			'valor' => $tarjeta_interdin['corrientes_facturar'],
 			'tipo' => 'label',
-			'name' => 'corrientes_facturar',
+			'name' => 'data[corrientes_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'ND POR FACTURAR',
 			'valor' => $tarjeta_interdin['nd_facturar'],
 			'tipo' => 'label',
-			'name' => 'nd_facturar',
+			'name' => 'data[nd_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'NC POR FACTURAR',
 			'valor' => $tarjeta_interdin['nc_facturar'],
 			'tipo' => 'label',
-			'name' => 'nc_facturar',
+			'name' => 'data[nc_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
 			'valor' => $tarjeta_interdin['gastos_cobranza'],
 			'tipo' => 'number',
-			'name' => 'gastos_cobranza',
+			'name' => 'data[gastos_cobranza]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'VALOR OTRAS TARJETAS',
 			'valor' => $tarjeta_interdin['valor_otras_tarjetas'],
 			'tipo' => 'number',
-			'name' => 'valor_otras_tarjetas',
+			'name' => 'data[valor_otras_tarjetas]',
 		];
 
 		$seccion6['nombre'] = 'FINANCIAMIENTO';
@@ -808,20 +808,20 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_interdin['tipo_financiamiento'],
 			'tipo' => 'label',
-			'name' => 'tipo_financiamiento',
+			'name' => 'data[tipo_financiamiento]',
 			'colorFondo' => '#404040',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL',
 			'valor' => $tarjeta_interdin['total_financiamiento'],
 			'tipo' => 'label',
-			'name' => 'total_financiamiento',
+			'name' => 'data[total_financiamiento]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'EXIGIBLE',
 			'valor' => $tarjeta_interdin['exigible_financiamiento'],
 			'tipo' => 'choice',
-			'name' => 'exigible_financiamiento',
+			'name' => 'data[exigible_financiamiento]',
 			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
 		];
 		$plazo_financiamiento = [
@@ -857,47 +857,47 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_interdin['plazo_financiamiento'],
 			'tipo' => 'choice',
-			'name' => 'plazo_financiamiento',
+			'name' => 'data[plazo_financiamiento]',
 			'choices' => $plazo_financiamiento,
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'MOTIVO DE NO PAGO',
 			'valor' => $tarjeta_interdin['motivo_no_pago'],
 			'tipo' => 'text',
-			'name' => 'motivo_no_pago',
+			'name' => 'data[motivo_no_pago]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
 			'valor' => $tarjeta_interdin['numero_meses_gracia'],
 			'tipo' => 'number',
-			'name' => 'numero_meses_gracia',
+			'name' => 'data[numero_meses_gracia]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR A FINANCIAR',
 			'valor' => $tarjeta_interdin['valor_financiar'],
 			'tipo' => 'label',
-			'name' => 'valor_financiar',
+			'name' => 'data[valor_financiar]',
 			'colorFondo' => '#404040',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_interdin['total_intereses'],
 			'tipo' => 'label',
-			'name' => 'total_intereses',
+			'name' => 'data[total_intereses]',
 			'colorFondo' => '#404040',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL FINANCIAMIENTO',
 			'valor' => $tarjeta_interdin['total_financiamiento_total'],
 			'tipo' => 'label',
-			'name' => 'total_financiamiento_total',
+			'name' => 'data[total_financiamiento_total]',
 			'colorFondo' => '#404040',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR CUOTA MENSUAL',
 			'valor' => $tarjeta_interdin['valor_cuota_mensual'],
 			'tipo' => 'label',
-			'name' => 'valor_cuota_mensual',
+			'name' => 'data[valor_cuota_mensual]',
 			'colorFondo' => '#404040',
 		];
 
@@ -1060,56 +1060,56 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_discover['saldo_90_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_90_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_discover['saldo_60_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_60_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_discover['saldo_30_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_30_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_discover['saldo_actual_facturado'],
 			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado',
+			'name' => 'data[valor_cuota_mensual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',
 			'valor' => $tarjeta_discover['deuda_actual'],
 			'tipo' => 'label',
-			'name' => 'deuda_actual',
+			'name' => 'data[deuda_actual]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'INTERESES FACTURADOS',
 			'valor' => $tarjeta_discover['interes_facturado'],
 			'tipo' => 'label',
-			'name' => 'interes_facturado',
+			'name' => 'data[interes_facturado]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
 			'valor' => $tarjeta_discover['numero_diferidos_facturados'],
 			'tipo' => 'label',
-			'name' => 'numero_diferidos_facturados',
+			'name' => 'data[numero_diferidos_facturados]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
 			'valor' => $tarjeta_discover['total_precancelacion_diferidos'],
 			'tipo' => 'label',
-			'name' => 'total_precancelacion_diferidos',
+			'name' => 'data[total_precancelacion_diferidos]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
 			'valor' => $tarjeta_discover['especialidad_venta_vehiculos'],
 			'tipo' => 'label',
-			'name' => 'especialidad_venta_vehiculos',
+			'name' => 'data[especialidad_venta_vehiculos]',
 		];
 
 		$seccion3['nombre'] = 'PAGOS';
@@ -1118,21 +1118,21 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
 			'valor' => $tarjeta_discover['abono_efectivo_sistema'],
 			'tipo' => 'label',
-			'name' => 'abono_efectivo_sistema',
+			'name' => 'data[abono_efectivo_sistema]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO NEGOCIADOR',
 			'valor' => $tarjeta_discover['abono_negociador'],
 			'tipo' => 'number',
-			'name' => 'abono_negociador',
+			'name' => 'data[abono_negociador]',
 			'colorFondo' => '#c3c3c3',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
 			'valor' => $tarjeta_discover['abono_total'],
 			'tipo' => 'label',
-			'name' => 'abono_total',
+			'name' => 'data[abono_total]',
 			'colorFondo' => '#c3c3c3',
 		];
 
@@ -1142,25 +1142,25 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
 			'valor' => $tarjeta_discover['saldo_90_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_90_facturado_despues_abono',
+			'name' => 'data[saldo_90_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_discover['saldo_60_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_60_facturado_despues_abono',
+			'name' => 'data[saldo_60_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_discover['saldo_30_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_30_facturado_despues_abono',
+			'name' => 'data[saldo_30_facturado_despues_abono]',
 		];
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_discover['saldo_actual_facturado_despues_abono'],
 			'tipo' => 'label',
-			'name' => 'saldo_actual_facturado_despues_abono',
+			'name' => 'data[saldo_actual_facturado_despues_abono]',
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
@@ -1169,37 +1169,37 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'INTERESES POR FACTURAR',
 			'valor' => $tarjeta_discover['interes_facturar'],
 			'tipo' => 'label',
-			'name' => 'interes_facturar',
+			'name' => 'data[interes_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'CORRIENTES POR FACTURAR',
 			'valor' => $tarjeta_discover['corrientes_facturar'],
 			'tipo' => 'label',
-			'name' => 'corrientes_facturar',
+			'name' => 'data[corrientes_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'ND POR FACTURAR',
 			'valor' => $tarjeta_discover['nd_facturar'],
 			'tipo' => 'label',
-			'name' => 'nd_facturar',
+			'name' => 'data[nd_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'NC POR FACTURAR',
 			'valor' => $tarjeta_discover['nc_facturar'],
 			'tipo' => 'label',
-			'name' => 'nc_facturar',
+			'name' => 'data[nc_facturar]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
 			'valor' => $tarjeta_discover['gastos_cobranza'],
 			'tipo' => 'number',
-			'name' => 'gastos_cobranza',
+			'name' => 'data[gastos_cobranza]',
 		];
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'VALOR OTRAS TARJETAS',
 			'valor' => $tarjeta_discover['valor_otras_tarjetas'],
 			'tipo' => 'number',
-			'name' => 'valor_otras_tarjetas',
+			'name' => 'data[valor_otras_tarjetas]',
 		];
 
 		$seccion6['nombre'] = 'FINANCIAMIENTO';
@@ -1208,20 +1208,20 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_discover['tipo_financiamiento'],
 			'tipo' => 'label',
-			'name' => 'tipo_financiamiento',
+			'name' => 'data[tipo_financiamiento]',
 			'colorFondo' => '#E66929',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL',
 			'valor' => $tarjeta_discover['total_financiamiento'],
 			'tipo' => 'label',
-			'name' => 'total_financiamiento',
+			'name' => 'data[total_financiamiento]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'EXIGIBLE',
 			'valor' => $tarjeta_discover['exigible_financiamiento'],
 			'tipo' => 'choice',
-			'name' => 'exigible_financiamiento',
+			'name' => 'data[exigible_financiamiento]',
 			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
 		];
 		$plazo_financiamiento = [
@@ -1257,47 +1257,47 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_discover['plazo_financiamiento'],
 			'tipo' => 'choice',
-			'name' => 'plazo_financiamiento',
+			'name' => 'data[plazo_financiamiento]',
 			'choices' => $plazo_financiamiento,
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'MOTIVO DE NO PAGO',
 			'valor' => $tarjeta_discover['motivo_no_pago'],
 			'tipo' => 'text',
-			'name' => 'motivo_no_pago',
+			'name' => 'data[motivo_no_pago]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
 			'valor' => $tarjeta_discover['numero_meses_gracia'],
 			'tipo' => 'number',
-			'name' => 'numero_meses_gracia',
+			'name' => 'data[numero_meses_gracia]',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR A FINANCIAR',
 			'valor' => $tarjeta_discover['valor_financiar'],
 			'tipo' => 'label',
-			'name' => 'valor_financiar',
+			'name' => 'data[valor_financiar]',
 			'colorFondo' => '#E66929',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_discover['total_intereses'],
 			'tipo' => 'label',
-			'name' => 'total_intereses',
+			'name' => 'data[total_intereses]',
 			'colorFondo' => '#E66929',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL FINANCIAMIENTO',
 			'valor' => $tarjeta_discover['total_financiamiento_total'],
 			'tipo' => 'label',
-			'name' => 'total_financiamiento_total',
+			'name' => 'data[total_financiamiento_total]',
 			'colorFondo' => '#E66929',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR CUOTA MENSUAL',
 			'valor' => $tarjeta_discover['valor_cuota_mensual'],
 			'tipo' => 'label',
-			'name' => 'valor_cuota_mensual',
+			'name' => 'data[valor_cuota_mensual]',
 			'colorFondo' => '#E66929',
 		];
 

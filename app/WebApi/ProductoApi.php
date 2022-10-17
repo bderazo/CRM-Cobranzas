@@ -139,7 +139,7 @@ class ProductoApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 		$config = $this->get('config');
 		$producto = Producto::getProductoList($data, $page, $user, $config);
-		\Auditor::error("get_preguntas_list API ", 'Producto', $producto);
+//		\Auditor::error("get_preguntas_list API ", 'Producto', $producto);
 		return $this->json($res->conDatos($producto));
 	}
 
@@ -332,13 +332,13 @@ class ProductoApi extends BaseController {
 		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
 		$list = $this->request->getParam('list');
-//		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
+		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
 		$q = $this->request->getParam('q');
-//		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
+		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
-//		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
+		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
 		$data = $this->request->getParam('data');
-//		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
+		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
@@ -379,7 +379,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Nivel1',
 			'widget' => 'choice',
 			'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-			'full_name' => 'nivel1',
+			'full_name' => 'data[nivel1]',
 			'constraints' => [
 				[
 					'name' => 'NotBlank',
@@ -396,7 +396,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Nivel2',
 			'widget' => 'picker-select2',
 			'empty_data' => null,
-			'full_name' => 'nivel2',
+			'full_name' => 'data[nivel2]',
 			'constraints' => [
 				[
 					'name' => 'Count',
@@ -414,7 +414,7 @@ class ProductoApi extends BaseController {
 				"list" => "nivel2"
 			],
 			'req_params' => [
-				"nivel1" => "nivel1"
+				"data[nivel1]" => "data[nivel1]"
 			],
 		];
 		$retorno['form']['properties']['Observaciones'] = [
@@ -422,7 +422,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Observaciones',
 			'widget' => 'textarea',
 			'empty_data' => '',
-			'full_name' => 'observaciones',
+			'full_name' => 'data[observaciones]',
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
@@ -434,7 +434,7 @@ class ProductoApi extends BaseController {
 			'title' => 'Imagen1',
 			'widget' => 'file_widget',
 			'empty_data' => '',
-			'full_name' => 'imagenes',
+			'full_name' => 'data[imagenes]',
 			'constraints' => [],
 			'mode' => 'IMAGEN',
 			'multiple' => true,
