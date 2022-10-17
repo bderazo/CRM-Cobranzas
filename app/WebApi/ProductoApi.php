@@ -409,7 +409,7 @@ class ProductoApi extends BaseController {
 			'property_order' => 2,
 			'choices' => [],
 			"multiple" => false,
-			'remote_path' => 'http://54.148.132.147/megacob/api/producto/buscar_listas',
+			'remote_path' => 'api/producto/buscar_listas',
 			'remote_params' => [
 				"list" => "nivel2"
 			],
