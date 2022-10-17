@@ -406,9 +406,9 @@ class ProductoApi extends BaseController {
 			'choices' => [],
 			"multiple" => false,
 			'remote_path' => 'api/producto/buscar_listas_paleta_nivel2',
-//			'remote_params' => [
-//				"list" => "nivel2"
-//			],
+			'remote_params' => [
+				"list" => "nivel2"
+			],
 			'req_params' => [
 				"data[nivel1]" => "data[nivel1]"
 			],
