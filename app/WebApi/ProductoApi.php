@@ -347,7 +347,7 @@ class ProductoApi extends BaseController {
 
 		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $respuesta);
 
-		return $this->json($res->conDatos($data));
+		return $this->json($res->conDatos($respuesta));
 	}
 
 	/**
