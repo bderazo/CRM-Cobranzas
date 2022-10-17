@@ -334,11 +334,11 @@ class ProductoApi extends BaseController {
 //		$list = $this->request->getParam('list');
 //		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
 		$q = $this->request->getParam('q');
-		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
+//		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
-		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
+//		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
 		$data = $this->request->getParam('data');
-		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
+//		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 

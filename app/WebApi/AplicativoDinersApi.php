@@ -1322,6 +1322,7 @@ class AplicativoDinersApi extends BaseController {
 		if (!$this->isPost()) return "calculos_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
+		\Auditor::info('calculos_tarjeta_diners data: ', 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
