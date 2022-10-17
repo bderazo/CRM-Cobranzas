@@ -331,8 +331,8 @@ class ProductoApi extends BaseController {
 	function buscar_listas() {
 		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
-		$list = $this->request->getParam('list');
-		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
+//		$list = $this->request->getParam('list');
+//		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
 		$q = $this->request->getParam('q');
 		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
@@ -342,11 +342,7 @@ class ProductoApi extends BaseController {
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		if($list == 'nivel2') {
-			$data = Paleta::getNivel2($q, $page, $data);
-		} else {
-			$data = [];
-		}
+		$data = Paleta::getNivel2($q, $page, $data);
 
 		return $this->json($res->conDatos($data));
 	}
