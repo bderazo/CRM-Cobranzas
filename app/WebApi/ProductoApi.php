@@ -344,7 +344,7 @@ class ProductoApi extends BaseController {
 
 		$respuesta = Paleta::getNivel2($q, $page, $data);
 
-		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $respuesta);
+//		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $respuesta);
 
 		return $this->json($res->conDatos($respuesta));
 	}
