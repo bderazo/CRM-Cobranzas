@@ -117,7 +117,7 @@ class Paleta extends Model
 		$retorno = [];
 		foreach($lista as $c) {
 			$aux['id'] = $c['nivel2'];
-			$aux['text'] = $c['nivel2'];
+			$aux['label'] = $c['nivel2'];
 			$retorno[] = $aux;
 		}
 		return $retorno;
