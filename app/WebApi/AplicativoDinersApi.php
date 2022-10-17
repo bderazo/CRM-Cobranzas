@@ -1423,8 +1423,7 @@ class AplicativoDinersApi extends BaseController {
 			$respuesta['data['.$key.']'] = $val;
 		}
 
-
-		\Auditor::info('calculos_tarjeta_diners RESPUESTA: ', 'API', $respuesta);
+//		\Auditor::info('calculos_tarjeta_diners RESPUESTA: ', 'API', $respuesta);
 
 		return $this->json($res->conDatos($respuesta));
 	}
@@ -1533,7 +1532,12 @@ class AplicativoDinersApi extends BaseController {
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		return $this->json($res->conDatos($data));
+		$respuesta = [];
+		foreach ($data as $key => $val){
+			$respuesta['data['.$key.']'] = $val;
+		}
+
+		return $this->json($res->conDatos($respuesta));
 	}
 
 	/**
@@ -1640,7 +1644,12 @@ class AplicativoDinersApi extends BaseController {
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		return $this->json($res->conDatos($data));
+		$respuesta = [];
+		foreach ($data as $key => $val){
+			$respuesta['data['.$key.']'] = $val;
+		}
+
+		return $this->json($res->conDatos($respuesta));
 	}
 
 	/**
