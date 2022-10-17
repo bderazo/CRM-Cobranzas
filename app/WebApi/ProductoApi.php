@@ -342,8 +342,7 @@ class ProductoApi extends BaseController {
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$data = Paleta::getNivel2($q, $page, $data);
-		$respuesta['data'] = $data;
+		$respuesta = Paleta::getNivel2($q, $page, $data);
 
 		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $respuesta);
 
