@@ -343,8 +343,9 @@ class ProductoApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 
 		$data = Paleta::getNivel2($q, $page, $data);
+		$respuesta['data'] = $data;
 
-		\Auditor::info('buscar_listas RESPUESTA: '.$data, 'API', $data);
+		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $respuesta);
 
 		return $this->json($res->conDatos($data));
 	}
