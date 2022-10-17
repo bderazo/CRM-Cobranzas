@@ -321,18 +321,18 @@ class ProductoApi extends BaseController {
 	}
 
 	/**
-	 * buscar_listas_paleta_nivel2
+	 * buscar_listas
 	 * @param $session
 	 * @param $list
 	 * @param $q
 	 * @param $page
 	 * @param $data
 	 */
-	function buscar_listas_paleta_nivel2() {
-		if(!$this->isPost()) return "buscar_listas_paleta_nivel2";
+	function buscar_listas() {
+		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
-//		$list = $this->request->getParam('list');
-//		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
+		$list = $this->request->getParam('list');
+		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
 		$q = $this->request->getParam('q');
 		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
@@ -342,7 +342,11 @@ class ProductoApi extends BaseController {
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$data = Paleta::getNivel2($q, $page, $data);
+		if($list == 'nivel2') {
+			$data = Paleta::getNivel2($q, $page, $data);
+		} else {
+			$data = [];
+		}
 
 		return $this->json($res->conDatos($data));
 	}
@@ -405,7 +409,7 @@ class ProductoApi extends BaseController {
 			'property_order' => 2,
 			'choices' => [],
 			"multiple" => false,
-			'remote_path' => 'api/producto/buscar_listas_paleta_nivel2',
+			'remote_path' => 'api/producto/buscar_listas',
 			'remote_params' => [
 				"list" => "nivel2"
 			],
