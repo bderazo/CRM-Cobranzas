@@ -348,7 +348,7 @@ class ProductoApi extends BaseController {
 		$retorno['pagination'] = ['more' => true];
 
 
-		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $retorno);
+//		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $retorno);
 
 		return $this->json($retorno);
 	}

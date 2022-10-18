@@ -660,25 +660,25 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_interdin['saldo_90_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_90_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_interdin['saldo_60_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_60_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_interdin['saldo_30_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_30_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_interdin['saldo_actual_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_actual_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',
@@ -1060,25 +1060,25 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_discover['saldo_90_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_90_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 60 DIAS',
 			'valor' => $tarjeta_discover['saldo_60_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_60_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 30 DIAS',
 			'valor' => $tarjeta_discover['saldo_30_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_30_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO ACTUALES',
 			'valor' => $tarjeta_discover['saldo_actual_facturado'],
 			'tipo' => 'label',
-			'name' => 'data[valor_cuota_mensual]',
+			'name' => 'data[saldo_actual_facturado]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',
@@ -1322,7 +1322,7 @@ class AplicativoDinersApi extends BaseController {
 		if (!$this->isPost()) return "calculos_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
-		\Auditor::info('calculos_tarjeta_diners data: ', 'API', $data);
+//		\Auditor::info('calculos_tarjeta_diners data: ', 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
