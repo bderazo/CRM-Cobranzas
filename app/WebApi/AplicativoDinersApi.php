@@ -1314,6 +1314,406 @@ class AplicativoDinersApi extends BaseController {
 	}
 
 	/**
+	 * campos_tarjeta_mastercard
+	 * @param $aplicativo_diners_id
+	 * @param $session
+	 */
+	function campos_tarjeta_mastercard() {
+		if (!$this->isPost()) return "campos_tarjeta_mastercard";
+		$res = new RespuestaConsulta();
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		$tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
+
+		$seccion1['nombre'] = 'MASTERCARD';
+		$seccion1['colorFondo'] = '#EB001B';
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'CICLO',
+			'valor' => $tarjeta_mastercard['ciclo'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'EDAD DE CARTERA',
+			'valor' => $tarjeta_mastercard['edad_cartera'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'CODIGO DE CANCELACION',
+			'valor' => $tarjeta_mastercard['codigo_cancelacion'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'CODIGO DE BOLETIN',
+			'valor' => $tarjeta_mastercard['codigo_boletin'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'DÉBITO AUTOMÁTICO',
+			'valor' => $tarjeta_mastercard['debito_automatico'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'PROMEDIO DE PAGO',
+			'valor' => $tarjeta_mastercard['promedio_pago'],
+			'tipo' => 'label',
+			'colorFondo' => '#c3c3c3'
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'SCORE',
+			'valor' => $tarjeta_mastercard['score'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'CAMPAÑA',
+			'valor' => $tarjeta_mastercard['campana'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'EJECUTIVO ACTUAL A CARGO DE CUENTA',
+			'valor' => $tarjeta_mastercard['ejecutivo_actual_cuenta'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'LUGAR DE TRABAJO',
+			'valor' => $tarjeta_mastercard['lugar_trabajo'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'FECHA ÚLTIMA GESTIÓN',
+			'valor' => $tarjeta_mastercard['fecha_ultima_gestion'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'MOTIVO DE GESTIÓN',
+			'valor' => $tarjeta_mastercard['motivo_gestion'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'DESCRIPCIÓN DE GESTIÓN',
+			'valor' => $tarjeta_mastercard['descripcion_gestion'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'OBSERVACIONES DE GESTIÓN',
+			'valor' => $tarjeta_mastercard['observacion_gestion'],
+			'tipo' => 'text',
+			'name' => 'observacion_gestion'
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'FECHA DE COMPROMISO',
+			'valor' => $tarjeta_mastercard['fecha_compromiso'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'TT/EXIG/PARCIAL',
+			'valor' => $tarjeta_mastercard['tt_exig_parcial'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
+			'valor' => $tarjeta_mastercard['motivo_no_pago_anterior'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'FINANCIAMIENTO VIGENTE',
+			'valor' => $tarjeta_mastercard['financiamiento_vigente'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'N° CUOTAS PENDIENTES',
+			'valor' => $tarjeta_mastercard['numero_cuotas_pendientes'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'TT CUOTAS FACT',
+			'valor' => $tarjeta_mastercard['tt_cuotas_fact'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'VALOR CUOTAS PENDIENTES',
+			'valor' => $tarjeta_mastercard['valor_cuotas_pendientes'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'VALOR DE CUOTA',
+			'valor' => $tarjeta_mastercard['valor_cuota'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'SEGUNDA REESTRUCTURACIÓN',
+			'valor' => $tarjeta_mastercard['segunda_restructuracion'],
+			'tipo' => 'label',
+			'colorFondo' => '#c3c3c3'
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'TOTAL RIESGO',
+			'valor' => $tarjeta_mastercard['total_riesgo'],
+			'tipo' => 'label',
+			'colorFondo' => '#c3c3c3'
+		];
+
+		$seccion2['nombre'] = 'SALDOS FACTURADOS';
+		$seccion2['colorFondo'] = '#EB001B';
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
+			'valor' => $tarjeta_mastercard['saldo_90_facturado'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_90_facturado]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'SALDO A 60 DIAS',
+			'valor' => $tarjeta_mastercard['saldo_60_facturado'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_60_facturado]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'SALDO A 30 DIAS',
+			'valor' => $tarjeta_mastercard['saldo_30_facturado'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_30_facturado]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'SALDO ACTUALES',
+			'valor' => $tarjeta_mastercard['saldo_actual_facturado'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_actual_facturado]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'DEUDA ACTUAL',
+			'valor' => $tarjeta_mastercard['deuda_actual'],
+			'tipo' => 'label',
+			'name' => 'data[deuda_actual]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'INTERESES FACTURADOS',
+			'valor' => $tarjeta_mastercard['interes_facturado'],
+			'tipo' => 'label',
+			'name' => 'data[interes_facturado]',
+			'colorFondo' => '#c3c3c3',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
+			'valor' => $tarjeta_mastercard['numero_diferidos_facturados'],
+			'tipo' => 'label',
+			'name' => 'data[numero_diferidos_facturados]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
+			'valor' => $tarjeta_mastercard['total_precancelacion_diferidos'],
+			'tipo' => 'label',
+			'name' => 'data[total_precancelacion_diferidos]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
+			'valor' => $tarjeta_mastercard['especialidad_venta_vehiculos'],
+			'tipo' => 'label',
+			'name' => 'data[especialidad_venta_vehiculos]',
+		];
+
+		$seccion3['nombre'] = 'PAGOS';
+		$seccion3['colorFondo'] = '#EB001B';
+		$seccion3['contenido'][] = [
+			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
+			'valor' => $tarjeta_mastercard['abono_efectivo_sistema'],
+			'tipo' => 'label',
+			'name' => 'data[abono_efectivo_sistema]',
+			'colorFondo' => '#c3c3c3',
+		];
+		$seccion3['contenido'][] = [
+			'etiqueta' => 'ABONO NEGOCIADOR',
+			'valor' => $tarjeta_mastercard['abono_negociador'],
+			'tipo' => 'number',
+			'name' => 'data[abono_negociador]',
+			'colorFondo' => '#c3c3c3',
+		];
+		$seccion3['contenido'][] = [
+			'etiqueta' => 'ABONO TOTAL',
+			'valor' => $tarjeta_mastercard['abono_total'],
+			'tipo' => 'label',
+			'name' => 'data[abono_total]',
+			'colorFondo' => '#c3c3c3',
+		];
+
+		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
+		$seccion4['colorFondo'] = '#EB001B';
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
+			'valor' => $tarjeta_mastercard['saldo_90_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_90_facturado_despues_abono]',
+		];
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'SALDO A 60 DIAS',
+			'valor' => $tarjeta_mastercard['saldo_60_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_60_facturado_despues_abono]',
+		];
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'SALDO A 30 DIAS',
+			'valor' => $tarjeta_mastercard['saldo_30_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_30_facturado_despues_abono]',
+		];
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'SALDO ACTUALES',
+			'valor' => $tarjeta_mastercard['saldo_actual_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[saldo_actual_facturado_despues_abono]',
+		];
+
+		$seccion5['nombre'] = 'VALORES POR FACTURAR';
+		$seccion5['colorFondo'] = '#EB001B';
+		$seccion5['contenido'][] = [
+			'etiqueta' => 'INTERESES POR FACTURAR',
+			'valor' => $tarjeta_mastercard['interes_facturar'],
+			'tipo' => 'label',
+			'name' => 'data[interes_facturar]',
+		];
+		$seccion5['contenido'][] = [
+			'etiqueta' => 'CORRIENTES POR FACTURAR',
+			'valor' => $tarjeta_mastercard['corrientes_facturar'],
+			'tipo' => 'label',
+			'name' => 'data[corrientes_facturar]',
+		];
+		$seccion5['contenido'][] = [
+			'etiqueta' => 'ND POR FACTURAR',
+			'valor' => $tarjeta_mastercard['nd_facturar'],
+			'tipo' => 'label',
+			'name' => 'data[nd_facturar]',
+		];
+		$seccion5['contenido'][] = [
+			'etiqueta' => 'NC POR FACTURAR',
+			'valor' => $tarjeta_mastercard['nc_facturar'],
+			'tipo' => 'label',
+			'name' => 'data[nc_facturar]',
+		];
+		$seccion5['contenido'][] = [
+			'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
+			'valor' => $tarjeta_mastercard['gastos_cobranza'],
+			'tipo' => 'number',
+			'name' => 'data[gastos_cobranza]',
+		];
+		$seccion5['contenido'][] = [
+			'etiqueta' => 'VALOR OTRAS TARJETAS',
+			'valor' => $tarjeta_mastercard['valor_otras_tarjetas'],
+			'tipo' => 'number',
+			'name' => 'data[valor_otras_tarjetas]',
+		];
+
+		$seccion6['nombre'] = 'FINANCIAMIENTO';
+		$seccion6['colorFondo'] = '#EB001B';
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
+			'valor' => $tarjeta_mastercard['tipo_financiamiento'],
+			'tipo' => 'label',
+			'name' => 'data[tipo_financiamiento]',
+			'colorFondo' => '#EB001B',
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'TOTAL',
+			'valor' => $tarjeta_mastercard['total_financiamiento'],
+			'tipo' => 'label',
+			'name' => 'data[total_financiamiento]',
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'EXIGIBLE',
+			'valor' => $tarjeta_mastercard['exigible_financiamiento'],
+			'tipo' => 'choice',
+			'name' => 'data[exigible_financiamiento]',
+			'choices' => [['id' => 'SI', 'label' => 'SI'], ['id' => 'NO', 'label' => 'NO']],
+		];
+		$plazo_financiamiento = [
+			['id' => '', 'label' => ''],
+			['id' => '2', 'label' => '2'],
+			['id' => '3', 'label' => '3'],
+			['id' => '4', 'label' => '4'],
+			['id' => '5', 'label' => '5'],
+			['id' => '6', 'label' => '6'],
+			['id' => '7', 'label' => '7'],
+			['id' => '8', 'label' => '8'],
+			['id' => '9', 'label' => '9'],
+			['id' => '12', 'label' => '12'],
+			['id' => '13', 'label' => '13'],
+			['id' => '14', 'label' => '14'],
+			['id' => '15', 'label' => '15'],
+			['id' => '16', 'label' => '16'],
+			['id' => '17', 'label' => '17'],
+			['id' => '18', 'label' => '18'],
+			['id' => '19', 'label' => '19'],
+			['id' => '20', 'label' => '20'],
+			['id' => '21', 'label' => '21'],
+			['id' => '22', 'label' => '22'],
+			['id' => '23', 'label' => '23'],
+			['id' => '24', 'label' => '24'],
+			['id' => '30', 'label' => '30'],
+			['id' => '36', 'label' => '36'],
+			['id' => '48', 'label' => '48'],
+			['id' => '60', 'label' => '60'],
+			['id' => '72', 'label' => '72'],
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'PLAZO DE FINANCIAMIENTO',
+			'valor' => $tarjeta_mastercard['plazo_financiamiento'],
+			'tipo' => 'choice',
+			'name' => 'data[plazo_financiamiento]',
+			'choices' => $plazo_financiamiento,
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'MOTIVO DE NO PAGO',
+			'valor' => $tarjeta_mastercard['motivo_no_pago'],
+			'tipo' => 'text',
+			'name' => 'data[motivo_no_pago]',
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
+			'valor' => $tarjeta_mastercard['numero_meses_gracia'],
+			'tipo' => 'number',
+			'name' => 'data[numero_meses_gracia]',
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'VALOR A FINANCIAR',
+			'valor' => $tarjeta_mastercard['valor_financiar'],
+			'tipo' => 'label',
+			'name' => 'data[valor_financiar]',
+			'colorFondo' => '#EB001B',
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'TOTAL INTERESES',
+			'valor' => $tarjeta_mastercard['total_intereses'],
+			'tipo' => 'label',
+			'name' => 'data[total_intereses]',
+			'colorFondo' => '#EB001B',
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'TOTAL FINANCIAMIENTO',
+			'valor' => $tarjeta_mastercard['total_financiamiento_total'],
+			'tipo' => 'label',
+			'name' => 'data[total_financiamiento_total]',
+			'colorFondo' => '#EB001B',
+		];
+		$seccion6['contenido'][] = [
+			'etiqueta' => 'VALOR CUOTA MENSUAL',
+			'valor' => $tarjeta_mastercard['valor_cuota_mensual'],
+			'tipo' => 'label',
+			'name' => 'data[valor_cuota_mensual]',
+			'colorFondo' => '#EB001B',
+		];
+
+		$retorno['secciones'][] = $seccion1;
+		$retorno['secciones'][] = $seccion2;
+		$retorno['secciones'][] = $seccion3;
+		$retorno['secciones'][] = $seccion4;
+		$retorno['secciones'][] = $seccion5;
+		$retorno['secciones'][] = $seccion6;
+
+//		printDie(json_encode($retorno,JSON_PRETTY_PRINT));
+
+		return $this->json($res->conDatos($retorno));
+	}
+
+	/**
 	 * calculos_tarjeta_diners
 	 * @param $data
 	 * @param $session
@@ -1653,6 +2053,118 @@ class AplicativoDinersApi extends BaseController {
 	}
 
 	/**
+	 * calculos_tarjeta_mastercard
+	 * @param $data
+	 * @param $session
+	 */
+	function calculos_tarjeta_mastercard() {
+		if (!$this->isPost()) return "calculos_tarjeta_mastercard";
+		$res = new RespuestaConsulta();
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		//ABONO TOTAL
+		$abono_total_diners = $data['abono_efectivo_sistema'] + $data['abono_negociador'];
+		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
+
+		//SALDOS FACTURADOS DESPUÉS DE ABONO
+		$saldo_90_facturado = $data['saldo_90_facturado'];
+		$saldo_60_facturado = $data['saldo_60_facturado'];
+		$saldo_30_facturado = $data['saldo_30_facturado'];
+		$saldo_actual_facturado = $data['saldo_actual_facturado'];
+		$abono_total = $data['abono_total'];
+		$saldo_pasa = 0;
+		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
+		if ($saldo_90_facturado_despues_abono > 0) {
+			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
+			$saldo_pasa = 0;
+		} else {
+			$data['saldo_90_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
+		}
+		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
+		if ($saldo_60_facturado_despues_abono > 0) {
+			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
+			$saldo_pasa = 0;
+		} else {
+			$data['saldo_60_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
+		}
+		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
+		if ($saldo_30_facturado_despues_abono > 0) {
+			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
+			$saldo_pasa = 0;
+		} else {
+			$data['saldo_30_facturado_despues_abono'] = 0.00;
+			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
+		}
+		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
+		if ($saldo_actual_facturado_despues_abono > 0) {
+			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
+		} else {
+			$data['saldo_actual_facturado_despues_abono'] = 0.00;
+		}
+
+		//VALOR A TIPO DE FINANCIAMIENTO
+		if ($saldo_90_facturado_despues_abono > 0) {
+			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
+		} else {
+			if (($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
+				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
+			} else {
+				$data['tipo_financiamiento'] = 'NOVACIÓN';
+			}
+		}
+
+		//VALOR A FINANCIAR
+		if ($data['exigible_financiamiento'] == 'SI') {
+			$data['total_financiamiento'] = 'NO';
+			$data['valor_financiar'] = $data['deuda_actual'];
+		} else {
+			$data['total_financiamiento'] = 'SI';
+			$valor_financiar_diners = $data['deuda_actual'] + $data['total_precancelacion_diferidos'] +
+				$data['interes_facturar'] + $data['corrientes_facturar'] +
+				$data['gastos_cobranza'] + $data['valor_otras_tarjetas'] -
+				$data['abono_total'] + $data['nd_facturar'] -
+				$data['nc_facturar'];
+			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
+		}
+
+		//TOTAL INTERES
+		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
+		$porcentaje_interes_arr = [];
+		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
+			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
+		};
+		$porcentaje_interes = 0.00;
+		$meses_plazo = $data['plazo_financiamiento'] + $data['numero_meses_gracia'];
+		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
+		}
+		$total_interes = $data['valor_financiar'] * ($porcentaje_interes / 100);
+		$data['total_intereses'] = number_format($total_interes, 2, '.', '');
+
+		//TOTAL FINANCIAMIENTO
+		$total_financiamiento = $data['valor_financiar'] + $data['total_intereses'];
+		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
+
+		//VALOR CUOTA MENSUAL
+		$cuota_mensual = 0;
+		if ($data['plazo_financiamiento'] > 0) {
+			$cuota_mensual = $data['plazo_financiamiento'] > 0 ? $data['total_financiamiento_total'] / $data['plazo_financiamiento'] : 0;
+		}
+		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
+
+		$respuesta = [];
+		foreach ($data as $key => $val){
+			$respuesta['data['.$key.']'] = $val;
+		}
+
+		return $this->json($res->conDatos($respuesta));
+	}
+
+	/**
 	 * save_tarjeta_diners
 	 * @param $aplicativo_diners_id
 	 * @param $data
@@ -1746,6 +2258,45 @@ class AplicativoDinersApi extends BaseController {
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners_id);
+
+		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		foreach ($data as $key => $val){
+			$aplicativo_diners_tarjeta[$key] = $val;
+		}
+		unset($aplicativo_diners_tarjeta['id']);
+
+		$aplicativo_detalle = new AplicativoDinersDetalle();
+		foreach ($aplicativo_diners_tarjeta as $key => $val){
+			$aplicativo_detalle->$key = $val;
+		}
+		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+		$aplicativo_detalle->usuario_ingreso = $user['id'];
+		$aplicativo_detalle->usuario_modificacion = $user['id'];
+		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+		$aplicativo_detalle->eliminado = 0;
+		if($aplicativo_detalle->save()){
+			return $this->json($res->conMensaje('OK'));
+		} else {
+			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
+		}
+	}
+
+	/**
+	 * save_tarjeta_mastercard
+	 * @param $aplicativo_diners_id
+	 * @param $data
+	 * @param $session
+	 */
+	function save_tarjeta_mastercard() {
+		if (!$this->isPost()) return "save_tarjeta_mastercard";
+		$res = new RespuestaConsulta();
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD',$aplicativo_diners_id);
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
 		foreach ($data as $key => $val){
