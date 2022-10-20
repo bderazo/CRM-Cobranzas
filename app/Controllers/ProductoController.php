@@ -20,6 +20,7 @@ use Models\Producto;
 use Models\Referencia;
 use Models\Telefono;
 use upload;
+use Akeneo\Component\SpreadsheetParser\SpreadsheetParser;
 
 class ProductoController extends BaseController {
 
