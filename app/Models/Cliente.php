@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string cedula
  * @property string sexo
  * @property string estado_civil
+ * @property string lugar_trabajo
+ * @property string ciudad
+ * @property string zona
  * @property integer profesion_id
  * @property integer tipo_referencia_id
  * @property string fecha_ingreso

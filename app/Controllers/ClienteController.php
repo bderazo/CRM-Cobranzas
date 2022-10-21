@@ -225,6 +225,9 @@ class ViewCliente {
 	var $cedula;
 	var $sexo;
 	var $estado_civil;
+	var $lugar_trabajo;
+	var $ciudad;
+	var $zona;
 	var $profesion_id;
 	var $tipo_referencia_id;
 	var $fecha_ingreso;

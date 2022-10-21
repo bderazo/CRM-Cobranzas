@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string tipo
  * @property string descripcion
  * @property string origen
- * @property string telefono
- * @property string extension
+ * @property string email
  * @property integer modulo_id
  * @property string modulo_relacionado
  * @property integer bandera
@@ -22,9 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer usuario_modificacion
  * @property boolean eliminado
  */
-class Telefono extends Model
+class Email extends Model
 {
-	protected $table = 'telefono';
+	protected $table = 'email';
 	const CREATED_AT = 'fecha_ingreso';
 	const UPDATED_AT = 'fecha_modificacion';
 	protected $guarded = [];
@@ -57,7 +56,7 @@ class Telefono extends Model
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
-		$q=$db->from('telefono t')
+		$q=$db->from('email t')
 			->select(null)
 			->select('t.*')
 			->where('t.eliminado',0)

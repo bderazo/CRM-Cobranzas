@@ -1772,7 +1772,11 @@
 					var self = this;
 
 					//ABONO TOTAL
-					var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_diners.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_diners.abono_negociador);
+					if(parseFloat(self.aplicativo_diners_tarjeta_diners.abono_efectivo_sistema) > 0){
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_diners.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_diners.abono_negociador);
+					}else{
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_diners.abono_negociador);
+					}
 					self.aplicativo_diners_tarjeta_diners.abono_total = abono_total_diners.toFixed(2);
 
 					//SALDOS FACTURADOS DESPUÉS DE ABONO
@@ -1874,7 +1878,11 @@
 					var self = this;
 
 					//ABONO TOTAL
-					var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_negociador);
+					if(parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_efectivo_sistema) > 0){
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_negociador);
+					}else{
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_negociador);
+					}
 					self.aplicativo_diners_tarjeta_interdin.abono_total = abono_total_diners.toFixed(2);
 
 					//SALDOS FACTURADOS DESPUÉS DE ABONO
@@ -1969,7 +1977,11 @@
 					var self = this;
 
 					//ABONO TOTAL
-					var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_discover.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_discover.abono_negociador);
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.abono_efectivo_sistema) > 0){
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_discover.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_discover.abono_negociador);
+					}else{
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_discover.abono_negociador);
+					}
 					self.aplicativo_diners_tarjeta_discover.abono_total = abono_total_diners.toFixed(2);
 
 					//SALDOS FACTURADOS DESPUÉS DE ABONO
@@ -2022,9 +2034,33 @@
 					}
 
 					//VALOR A FINANCIAR
-					var valor_financiar_diners = parseFloat(self.aplicativo_diners_tarjeta_discover.deuda_actual) + parseFloat(self.aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos) +
-						parseFloat(self.aplicativo_diners_tarjeta_discover.interes_facturar) + parseFloat(self.aplicativo_diners_tarjeta_discover.corrientes_facturar) +
-						parseFloat(self.aplicativo_diners_tarjeta_discover.gastos_cobranza) + parseFloat(self.aplicativo_diners_tarjeta_discover.valor_otras_tarjetas) -
+					var deuda_actual = 0;
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.deuda_actual) > 0){
+						deuda_actual = parseFloat(self.aplicativo_diners_tarjeta_discover.deuda_actual);
+					}
+					var total_precancelacion_diferidos = 0;
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos) > 0){
+						total_precancelacion_diferidos = parseFloat(self.aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos);
+					}
+					var interes_facturar = 0;
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.interes_facturar) > 0){
+						interes_facturar = parseFloat(self.aplicativo_diners_tarjeta_discover.interes_facturar);
+					}
+					var corrientes_facturar = 0;
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.corrientes_facturar) > 0){
+						corrientes_facturar = parseFloat(self.aplicativo_diners_tarjeta_discover.corrientes_facturar);
+					}
+					var gastos_cobranza = 0;
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.gastos_cobranza) > 0){
+						gastos_cobranza = parseFloat(self.aplicativo_diners_tarjeta_discover.gastos_cobranza);
+					}
+					var valor_otras_tarjetas = 0;
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.valor_otras_tarjetas) > 0){
+						valor_otras_tarjetas = parseFloat(self.aplicativo_diners_tarjeta_discover.valor_otras_tarjetas);
+					}
+					var valor_financiar_diners = deuda_actual + total_precancelacion_diferidos +
+						interes_facturar + corrientes_facturar +
+						gastos_cobranza + valor_otras_tarjetas -
 						parseFloat(self.aplicativo_diners_tarjeta_discover.abono_total);
 					self.aplicativo_diners_tarjeta_discover.valor_financiar = valor_financiar_diners.toFixed(2);
 
@@ -2034,10 +2070,15 @@
 						porcentaje_interes_arr[value.meses_plazo] = value.interes;
 					});
 					var porcentaje_interes = 0.00;
-					var meses_plazo = parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento) + parseInt(self.aplicativo_diners_tarjeta_discover.numero_meses_gracia);
+					var numero_meses_gracia = 0;
+					if(parseFloat(self.aplicativo_diners_tarjeta_discover.numero_meses_gracia) > 0){
+						numero_meses_gracia = parseInt(self.aplicativo_diners_tarjeta_discover.numero_meses_gracia);
+					}
+					var meses_plazo = parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento) + numero_meses_gracia;
 					if (typeof (porcentaje_interes_arr[meses_plazo]) != "undefined" && porcentaje_interes_arr[meses_plazo] !== null) {
 						porcentaje_interes = porcentaje_interes_arr[meses_plazo];
 					}
+					console.log(porcentaje_interes_arr);
 					var total_interes = parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar) * (porcentaje_interes / 100);
 					self.aplicativo_diners_tarjeta_discover.total_intereses = total_interes.toFixed(2);
 
@@ -2064,7 +2105,11 @@
 					var self = this;
 
 					//ABONO TOTAL
-					var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_mastercard.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_mastercard.abono_negociador);
+					if(parseFloat(self.aplicativo_diners_tarjeta_mastercard.abono_efectivo_sistema) > 0){
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_mastercard.abono_efectivo_sistema) + parseFloat(self.aplicativo_diners_tarjeta_mastercard.abono_negociador);
+					}else{
+						var abono_total_diners = parseFloat(self.aplicativo_diners_tarjeta_mastercard.abono_negociador);
+					}
 					self.aplicativo_diners_tarjeta_mastercard.abono_total = abono_total_diners.toFixed(2);
 
 					//SALDOS FACTURADOS DESPUÉS DE ABONO

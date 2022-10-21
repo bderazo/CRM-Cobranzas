@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double valor_cuota
  * @property double segunda_restructuracion
  * @property double total_riesgo
+ * @property double saldo_90_mas_90_facturado
  * @property double saldo_90_facturado
  * @property double saldo_60_facturado
  * @property double saldo_30_facturado
@@ -72,6 +73,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string empresa_refinancia
  * @property string abono_sistema
  * @property string incluir_negociacion
+ * @property string oferta_valor
+ * @property integer refinanciaciones_anteriores
+ * @property string cardia
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso
