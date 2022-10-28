@@ -42,6 +42,7 @@ class ClienteController extends BaseController {
 		}
 		$data['lista'] = $retorno;
 		$data['pag'] = $pag;
+//		printDie($pag);
 		return $this->render('lista', $data);
 	}
 
