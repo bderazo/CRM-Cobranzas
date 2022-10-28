@@ -180,12 +180,6 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'PROMEDIO DE PAGO',
-			'valor' => $tarjeta_diners['promedio_pago'],
-			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
-		];
-		$seccion1['contenido'][] = [
 			'etiqueta' => 'SCORE',
 			'valor' => $tarjeta_diners['score'],
 			'tipo' => 'label',
@@ -232,7 +226,7 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'TT/EXIG/PARCIAL',
+			'etiqueta' => 'No FIN HISTÓRICOS',
 			'valor' => $tarjeta_diners['tt_exig_parcial'],
 			'tipo' => 'label',
 		];
@@ -555,12 +549,6 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'PROMEDIO DE PAGO',
-			'valor' => $tarjeta_interdin['promedio_pago'],
-			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
-		];
-		$seccion1['contenido'][] = [
 			'etiqueta' => 'SCORE',
 			'valor' => $tarjeta_interdin['score'],
 			'tipo' => 'label',
@@ -607,7 +595,7 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'TT/EXIG/PARCIAL',
+			'etiqueta' => 'No FIN HISTÓRICOS',
 			'valor' => $tarjeta_interdin['tt_exig_parcial'],
 			'tipo' => 'label',
 		];
@@ -955,12 +943,6 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'PROMEDIO DE PAGO',
-			'valor' => $tarjeta_discover['promedio_pago'],
-			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
-		];
-		$seccion1['contenido'][] = [
 			'etiqueta' => 'SCORE',
 			'valor' => $tarjeta_discover['score'],
 			'tipo' => 'label',
@@ -1007,7 +989,7 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'TT/EXIG/PARCIAL',
+			'etiqueta' => 'No FIN HISTÓRICOS',
 			'valor' => $tarjeta_discover['tt_exig_parcial'],
 			'tipo' => 'label',
 		];
@@ -1355,12 +1337,6 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'PROMEDIO DE PAGO',
-			'valor' => $tarjeta_mastercard['promedio_pago'],
-			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
-		];
-		$seccion1['contenido'][] = [
 			'etiqueta' => 'SCORE',
 			'valor' => $tarjeta_mastercard['score'],
 			'tipo' => 'label',
@@ -1407,7 +1383,7 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
-			'etiqueta' => 'TT/EXIG/PARCIAL',
+			'etiqueta' => 'No FIN HISTÓRICOS',
 			'valor' => $tarjeta_mastercard['tt_exig_parcial'],
 			'tipo' => 'label',
 		];
