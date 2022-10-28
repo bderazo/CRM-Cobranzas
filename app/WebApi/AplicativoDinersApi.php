@@ -679,6 +679,12 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[saldo_actual_facturado]',
 		];
 		$seccion2['contenido'][] = [
+			'etiqueta' => 'MÍNIMO A PAGAR',
+			'valor' => $tarjeta_interdin['minimo_pagar'],
+			'tipo' => 'label',
+			'name' => 'data[minimo_pagar]',
+		];
+		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',
 			'valor' => $tarjeta_interdin['deuda_actual'],
 			'tipo' => 'label',
@@ -1078,6 +1084,12 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[saldo_actual_facturado]',
 		];
 		$seccion2['contenido'][] = [
+			'etiqueta' => 'MÍNIMO A PAGAR',
+			'valor' => $tarjeta_discover['minimo_pagar'],
+			'tipo' => 'label',
+			'name' => 'data[minimo_pagar]',
+		];
+		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',
 			'valor' => $tarjeta_discover['deuda_actual'],
 			'tipo' => 'label',
@@ -1475,6 +1487,12 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_mastercard['saldo_actual_facturado'],
 			'tipo' => 'label',
 			'name' => 'data[saldo_actual_facturado]',
+		];
+		$seccion2['contenido'][] = [
+			'etiqueta' => 'MÍNIMO A PAGAR',
+			'valor' => $tarjeta_mastercard['minimo_pagar'],
+			'tipo' => 'label',
+			'name' => 'data[minimo_pagar]',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'DEUDA ACTUAL',

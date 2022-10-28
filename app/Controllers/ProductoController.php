@@ -434,8 +434,20 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->saldo_actual_facturado = $values[18];
 				$aplicativo_diners_detalle->saldo_30_facturado = $values[19];
 				$aplicativo_diners_detalle->saldo_60_facturado = $values[20];
-				$aplicativo_diners_detalle->saldo_90_facturado = $values[21];
-				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $values[22];
+//				$aplicativo_diners_detalle->saldo_90_facturado = $values[21];
+//				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $values[22];
+				$mas_90 = 0;
+				if($values[21] > 0){
+					$mas_90 = $values[21];
+				}
+				if($values[22] > 0){
+					$mas_90 = $mas_90 + $values[22];
+				}
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
+
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+
 				if($values[23] != ''){
 					$aplicativo_diners_detalle->fecha_compromiso = substr($values[23],0,4).'-'.substr($values[23],4,2).'-'.substr($values[23],6,2);
 				}
@@ -489,7 +501,16 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->saldo_actual_facturado = $values[55];
 				$aplicativo_diners_detalle->saldo_30_facturado = $values[56];
 				$aplicativo_diners_detalle->saldo_60_facturado = $values[57];
-				$aplicativo_diners_detalle->saldo_90_facturado = $values[58];
+//				$aplicativo_diners_detalle->saldo_90_facturado = $values[58];
+//				$mas_90 = 0;
+//				if($values[58] > 0){
+//					$mas_90 = $values[58];
+//				}
+//				if($values[59] > 0){
+//					$mas_90 = $mas_90 + $values[59];
+//				}
+//
+//				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
 				if($values[58] > 0){
 					$mas_90 = $values[58];
@@ -497,8 +518,11 @@ class ProductoController extends BaseController {
 				if($values[59] > 0){
 					$mas_90 = $mas_90 + $values[59];
 				}
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
 
-				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+
 				$aplicativo_diners_detalle->minimo_pagar = $values[60];
 				if($values[61] != ''){
 					$aplicativo_diners_detalle->fecha_compromiso = substr($values[61],0,4).'-'.substr($values[61],4,2).'-'.substr($values[61],6,2);
@@ -553,7 +577,16 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->saldo_actual_facturado = $values[93];
 				$aplicativo_diners_detalle->saldo_30_facturado = $values[94];
 				$aplicativo_diners_detalle->saldo_60_facturado = $values[95];
-				$aplicativo_diners_detalle->saldo_90_facturado = $values[96];
+//				$aplicativo_diners_detalle->saldo_90_facturado = $values[96];
+//				$mas_90 = 0;
+//				if($values[96] > 0){
+//					$mas_90 = $values[96];
+//				}
+//				if($values[97] > 0){
+//					$mas_90 = $mas_90 + $values[97];
+//				}
+//
+//				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
 				if($values[96] > 0){
 					$mas_90 = $values[96];
@@ -561,8 +594,11 @@ class ProductoController extends BaseController {
 				if($values[97] > 0){
 					$mas_90 = $mas_90 + $values[97];
 				}
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
 
-				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+
 				$aplicativo_diners_detalle->minimo_pagar = $values[98];
 				if($values[99] != ''){
 					$aplicativo_diners_detalle->fecha_compromiso = substr($values[99],0,4).'-'.substr($values[99],4,2).'-'.substr($values[99],6,2);
@@ -617,7 +653,15 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->saldo_actual_facturado = $values[140];
 				$aplicativo_diners_detalle->saldo_30_facturado = $values[141];
 				$aplicativo_diners_detalle->saldo_60_facturado = $values[142];
-				$aplicativo_diners_detalle->saldo_90_facturado = $values[143];
+//				$aplicativo_diners_detalle->saldo_90_facturado = $values[143];
+//				$mas_90 = 0;
+//				if($values[143] > 0){
+//					$mas_90 = $values[143];
+//				}
+//				if($values[144] > 0){
+//					$mas_90 = $mas_90 + $values[144];
+//				}
+//				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
 				if($values[143] > 0){
 					$mas_90 = $values[143];
@@ -625,7 +669,11 @@ class ProductoController extends BaseController {
 				if($values[144] > 0){
 					$mas_90 = $mas_90 + $values[144];
 				}
-				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
+
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+
 				$aplicativo_diners_detalle->minimo_pagar = $values[145];
 				if($values[146] != ''){
 					$aplicativo_diners_detalle->fecha_compromiso = substr($values[146],0,4).'-'.substr($values[146],4,2).'-'.substr($values[146],6,2);
