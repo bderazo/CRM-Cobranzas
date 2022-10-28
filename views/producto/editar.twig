@@ -755,8 +755,10 @@
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresDiners"
-														   v-model="aplicativo_diners_tarjeta_diners.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+															v-model="aplicativo_diners_tarjeta_diners.numero_meses_gracia" placeholder="Seleccione una opción" v-autoname>
+														<option v-for="(v,k) in cat.meses_gracia" v-html="v" :value="k"></option>
+													</select>
 												</td>
 											</tr>
 											<tr style="background-color: #0066A8; color: white;">
@@ -1072,8 +1074,10 @@
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresInterdin"
-														   v-model="aplicativo_diners_tarjeta_interdin.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+															v-model="aplicativo_diners_tarjeta_interdin.numero_meses_gracia" placeholder="Seleccione una opción" v-autoname>
+														<option v-for="(v,k) in cat.meses_gracia" v-html="v" :value="k"></option>
+													</select>
 												</td>
 											</tr>
 											<tr style="background-color: #404040; color: white;">
@@ -1389,8 +1393,10 @@
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresDiscover"
-														   v-model="aplicativo_diners_tarjeta_discover.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+															v-model="aplicativo_diners_tarjeta_discover.numero_meses_gracia" placeholder="Seleccione una opción" v-autoname>
+														<option v-for="(v,k) in cat.meses_gracia" v-html="v" :value="k"></option>
+													</select>
 												</td>
 											</tr>
 											<tr style="background-color: #E66929; color: white;">
@@ -1706,8 +1712,10 @@
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<input type="text" class="form-control form-control-sm" v-on:change="calcularValoresMastercard"
-														   v-model="aplicativo_diners_tarjeta_mastercard.numero_meses_gracia" placeholder="NÚMERO DE MESES DE GRACIA" v-autoname/>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+															v-model="aplicativo_diners_tarjeta_mastercard.numero_meses_gracia" placeholder="Seleccione una opción" v-autoname>
+														<option v-for="(v,k) in cat.meses_gracia" v-html="v" :value="k"></option>
+													</select>
 												</td>
 											</tr>
 											<tr style="background-color: #A4B706; color: white;">

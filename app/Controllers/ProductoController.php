@@ -60,6 +60,7 @@ class ProductoController extends BaseController {
 		for($i = 1; $i <= 72; $i++){
 			$plazo_financiamiento[$i] = $i;
 		}
+		$meses_gracia = [0=>'',1=>1, 6=>6];
 		$cat = new CatalogoCliente();
 		$catalogos = [
 			'sexo' => $cat->getByKey('sexo'),
@@ -72,6 +73,7 @@ class ProductoController extends BaseController {
 			'descripcion_referencia' => $cat->getByKey('descripcion_referencia'),
 			'ciudades' => Catalogo::ciudades(),
 			'plazo_financiamiento' => $plazo_financiamiento,
+			'meses_gracia' => $meses_gracia,
 		];
 
 		$model = Producto::porId($id);

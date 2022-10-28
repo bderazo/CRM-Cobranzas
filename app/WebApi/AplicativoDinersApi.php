@@ -465,11 +465,16 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'text',
 			'name' => 'data[motivo_no_pago]',
 		];
+		$meses_gracia = [];
+		$meses_gracia[] = ['id' => 0, 'label' => ''];
+		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
 			'valor' => $tarjeta_diners['numero_meses_gracia'],
-			'tipo' => 'number',
+			'tipo' => 'choice',
 			'name' => 'data[numero_meses_gracia]',
+			'choices' => $meses_gracia,
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR A FINANCIAR',
@@ -870,11 +875,16 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'text',
 			'name' => 'data[motivo_no_pago]',
 		];
+		$meses_gracia = [];
+		$meses_gracia[] = ['id' => 0, 'label' => ''];
+		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
 			'valor' => $tarjeta_interdin['numero_meses_gracia'],
-			'tipo' => 'number',
+			'tipo' => 'choice',
 			'name' => 'data[numero_meses_gracia]',
+			'choices' => $meses_gracia,
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR A FINANCIAR',
@@ -1275,11 +1285,16 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'text',
 			'name' => 'data[motivo_no_pago]',
 		];
+		$meses_gracia = [];
+		$meses_gracia[] = ['id' => 0, 'label' => ''];
+		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
 			'valor' => $tarjeta_discover['numero_meses_gracia'],
-			'tipo' => 'number',
+			'tipo' => 'choice',
 			'name' => 'data[numero_meses_gracia]',
+			'choices' => $meses_gracia,
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR A FINANCIAR',
@@ -1680,11 +1695,16 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'text',
 			'name' => 'data[motivo_no_pago]',
 		];
+		$meses_gracia = [];
+		$meses_gracia[] = ['id' => 0, 'label' => ''];
+		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
 			'valor' => $tarjeta_mastercard['numero_meses_gracia'],
-			'tipo' => 'number',
+			'tipo' => 'choice',
 			'name' => 'data[numero_meses_gracia]',
+			'choices' => $meses_gracia,
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR A FINANCIAR',
