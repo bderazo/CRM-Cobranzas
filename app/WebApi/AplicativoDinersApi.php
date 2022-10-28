@@ -1337,7 +1337,7 @@ class AplicativoDinersApi extends BaseController {
 		$tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'MASTERCARD';
-		$seccion1['colorFondo'] = '#EB001B';
+		$seccion1['colorFondo'] = '#A4B706';
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_mastercard['ciclo'],
@@ -1463,7 +1463,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion2['nombre'] = 'SALDOS FACTURADOS';
-		$seccion2['colorFondo'] = '#EB001B';
+		$seccion2['colorFondo'] = '#A4B706';
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_mastercard['saldo_90_facturado'],
@@ -1527,7 +1527,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion3['nombre'] = 'PAGOS';
-		$seccion3['colorFondo'] = '#EB001B';
+		$seccion3['colorFondo'] = '#A4B706';
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
 			'valor' => $tarjeta_mastercard['abono_efectivo_sistema'],
@@ -1551,7 +1551,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
-		$seccion4['colorFondo'] = '#EB001B';
+		$seccion4['colorFondo'] = '#A4B706';
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
 			'valor' => $tarjeta_mastercard['saldo_90_facturado_despues_abono'],
@@ -1578,7 +1578,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
-		$seccion5['colorFondo'] = '#EB001B';
+		$seccion5['colorFondo'] = '#A4B706';
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'INTERESES POR FACTURAR',
 			'valor' => $tarjeta_mastercard['interes_facturar'],
@@ -1617,13 +1617,13 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion6['nombre'] = 'FINANCIAMIENTO';
-		$seccion6['colorFondo'] = '#EB001B';
+		$seccion6['colorFondo'] = '#A4B706';
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_mastercard['tipo_financiamiento'],
 			'tipo' => 'label',
 			'name' => 'data[tipo_financiamiento]',
-			'colorFondo' => '#EB001B',
+			'colorFondo' => '#A4B706',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL',
@@ -1691,28 +1691,28 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_mastercard['valor_financiar'],
 			'tipo' => 'label',
 			'name' => 'data[valor_financiar]',
-			'colorFondo' => '#EB001B',
+			'colorFondo' => '#A4B706',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_mastercard['total_intereses'],
 			'tipo' => 'label',
 			'name' => 'data[total_intereses]',
-			'colorFondo' => '#EB001B',
+			'colorFondo' => '#A4B706',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL FINANCIAMIENTO',
 			'valor' => $tarjeta_mastercard['total_financiamiento_total'],
 			'tipo' => 'label',
 			'name' => 'data[total_financiamiento_total]',
-			'colorFondo' => '#EB001B',
+			'colorFondo' => '#A4B706',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR CUOTA MENSUAL',
 			'valor' => $tarjeta_mastercard['valor_cuota_mensual'],
 			'tipo' => 'label',
 			'name' => 'data[valor_cuota_mensual]',
-			'colorFondo' => '#EB001B',
+			'colorFondo' => '#A4B706',
 		];
 
 		$retorno['secciones'][] = $seccion1;
