@@ -468,6 +468,10 @@ class AplicativoDinersApi extends BaseController {
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 2, 'label' => 2];
+		$meses_gracia[] = ['id' => 3, 'label' => 3];
+		$meses_gracia[] = ['id' => 4, 'label' => 4];
+		$meses_gracia[] = ['id' => 5, 'label' => 5];
 		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
@@ -878,6 +882,10 @@ class AplicativoDinersApi extends BaseController {
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 2, 'label' => 2];
+		$meses_gracia[] = ['id' => 3, 'label' => 3];
+		$meses_gracia[] = ['id' => 4, 'label' => 4];
+		$meses_gracia[] = ['id' => 5, 'label' => 5];
 		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
@@ -1288,6 +1296,10 @@ class AplicativoDinersApi extends BaseController {
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 2, 'label' => 2];
+		$meses_gracia[] = ['id' => 3, 'label' => 3];
+		$meses_gracia[] = ['id' => 4, 'label' => 4];
+		$meses_gracia[] = ['id' => 5, 'label' => 5];
 		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
@@ -1698,6 +1710,10 @@ class AplicativoDinersApi extends BaseController {
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];
+		$meses_gracia[] = ['id' => 2, 'label' => 2];
+		$meses_gracia[] = ['id' => 3, 'label' => 3];
+		$meses_gracia[] = ['id' => 4, 'label' => 4];
+		$meses_gracia[] = ['id' => 5, 'label' => 5];
 		$meses_gracia[] = ['id' => 6, 'label' => 6];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'NÚMERO DE MESES DE GRACIA',
