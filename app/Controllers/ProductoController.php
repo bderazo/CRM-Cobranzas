@@ -60,7 +60,11 @@ class ProductoController extends BaseController {
 		for($i = 1; $i <= 72; $i++){
 			$plazo_financiamiento[$i] = $i;
 		}
-		$meses_gracia = [0=>'',1=>1, 6=>6];
+
+		$meses_gracia = [];
+		for($i = 1; $i <= 6; $i++){
+			$meses_gracia[$i] = $i;
+		}
 		$cat = new CatalogoCliente();
 		$catalogos = [
 			'sexo' => $cat->getByKey('sexo'),
