@@ -1078,7 +1078,7 @@
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresInterdin"
 															v-model="aplicativo_diners_tarjeta_interdin.numero_meses_gracia" placeholder="Seleccione una opción" v-autoname>
 														<option v-for="(v,k) in cat.meses_gracia" v-html="v" :value="k"></option>
 													</select>
@@ -1397,7 +1397,7 @@
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiscover"
 															v-model="aplicativo_diners_tarjeta_discover.numero_meses_gracia" placeholder="Seleccione una opción" v-autoname>
 														<option v-for="(v,k) in cat.meses_gracia" v-html="v" :value="k"></option>
 													</select>
@@ -1716,7 +1716,7 @@
 											<tr>
 												<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
 												<td>
-													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresMastercard"
 															v-model="aplicativo_diners_tarjeta_mastercard.numero_meses_gracia" placeholder="Seleccione una opción" v-autoname>
 														<option v-for="(v,k) in cat.meses_gracia" v-html="v" :value="k"></option>
 													</select>
