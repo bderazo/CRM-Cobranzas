@@ -293,7 +293,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion2['nombre'] = 'SALDOS FACTURADOS';
-		$seccion2['colorFondo'] = '#0066A8';
+		$seccion2['colorFondo'] = '#afccfc';
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_diners['saldo_90_facturado'],
@@ -351,7 +351,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion3['nombre'] = 'PAGOS';
-		$seccion3['colorFondo'] = '#0066A8';
+		$seccion3['colorFondo'] = '#afccfc';
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
 			'valor' => $tarjeta_diners['abono_efectivo_sistema'],
@@ -375,7 +375,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
-		$seccion4['colorFondo'] = '#0066A8';
+		$seccion4['colorFondo'] = '#afccfc';
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
 			'valor' => $tarjeta_diners['saldo_90_facturado_despues_abono'],
@@ -402,7 +402,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
-		$seccion5['colorFondo'] = '#0066A8';
+		$seccion5['colorFondo'] = '#afccfc';
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'INTERESES POR FACTURAR',
 			'valor' => $tarjeta_diners['interes_facturar'],
@@ -441,13 +441,13 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion6['nombre'] = 'FINANCIAMIENTO';
-		$seccion6['colorFondo'] = '#0066A8';
+		$seccion6['colorFondo'] = '#afccfc';
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_diners['tipo_financiamiento'],
 			'tipo' => 'label',
 			'name' => 'data[tipo_financiamiento]',
-			'colorFondo' => '#0066A8',
+			'colorFondo' => '#afccfc',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL',
@@ -503,28 +503,28 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_diners['valor_financiar'],
 			'tipo' => 'label',
 			'name' => 'data[valor_financiar]',
-			'colorFondo' => '#0066A8',
+			'colorFondo' => '#afccfc',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_diners['total_intereses'],
 			'tipo' => 'label',
 			'name' => 'data[total_intereses]',
-			'colorFondo' => '#0066A8',
+			'colorFondo' => '#afccfc',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL FINANCIAMIENTO',
 			'valor' => $tarjeta_diners['total_financiamiento_total'],
 			'tipo' => 'label',
 			'name' => 'data[total_financiamiento_total]',
-			'colorFondo' => '#0066A8',
+			'colorFondo' => '#afccfc',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR CUOTA MENSUAL',
 			'valor' => $tarjeta_diners['valor_cuota_mensual'],
 			'tipo' => 'label',
 			'name' => 'data[valor_cuota_mensual]',
-			'colorFondo' => '#0066A8',
+			'colorFondo' => '#afccfc',
 		];
 
 		$retorno['secciones'][] = $seccion1;
