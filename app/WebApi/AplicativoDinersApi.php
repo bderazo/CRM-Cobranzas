@@ -1359,7 +1359,7 @@ class AplicativoDinersApi extends BaseController {
 		$tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'MASTERCARD';
-		$seccion1['colorFondo'] = '#A4B706';
+		$seccion1['colorFondo'] = '#deffb8';
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_mastercard['ciclo'],
