@@ -157,7 +157,7 @@ class AplicativoDinersApi extends BaseController {
 		$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'DINERS';
-		$seccion1['colorFondo'] = '#0066A8';
+		$seccion1['colorFondo'] = '#afccfc';
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_diners['ciclo'],
