@@ -554,7 +554,7 @@ class AplicativoDinersApi extends BaseController {
 		$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'INTERDIN';
-		$seccion1['colorFondo'] = '#ededed';
+		$seccion1['colorFondo'] = '#e6e6e6';
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_interdin['ciclo'],
@@ -690,7 +690,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion2['nombre'] = 'SALDOS FACTURADOS';
-		$seccion2['colorFondo'] = '#ededed';
+		$seccion2['colorFondo'] = '#e6e6e6';
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DÍAS',
 			'valor' => $tarjeta_interdin['saldo_90_facturado'],
@@ -754,7 +754,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion3['nombre'] = 'PAGOS';
-		$seccion3['colorFondo'] = '#ededed';
+		$seccion3['colorFondo'] = '#e6e6e6';
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO EFECTIVO DEL SISTEMA',
 			'valor' => $tarjeta_interdin['abono_efectivo_sistema'],
@@ -778,7 +778,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
-		$seccion4['colorFondo'] = '#ededed';
+		$seccion4['colorFondo'] = '#e6e6e6';
 		$seccion4['contenido'][] = [
 			'etiqueta' => 'SALDO A 90 Y MAS 90 DIAS',
 			'valor' => $tarjeta_interdin['saldo_90_facturado_despues_abono'],
@@ -805,7 +805,7 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
-		$seccion5['colorFondo'] = '#ededed';
+		$seccion5['colorFondo'] = '#e6e6e6';
 		$seccion5['contenido'][] = [
 			'etiqueta' => 'INTERESES POR FACTURAR',
 			'valor' => $tarjeta_interdin['interes_facturar'],
@@ -844,13 +844,13 @@ class AplicativoDinersApi extends BaseController {
 		];
 
 		$seccion6['nombre'] = 'FINANCIAMIENTO';
-		$seccion6['colorFondo'] = '#ededed';
+		$seccion6['colorFondo'] = '#e6e6e6';
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TIPO DE FINANCIAMIENTO',
 			'valor' => $tarjeta_interdin['tipo_financiamiento'],
 			'tipo' => 'label',
 			'name' => 'data[tipo_financiamiento]',
-			'colorFondo' => '#ededed',
+			'colorFondo' => '#e6e6e6',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL',
@@ -906,28 +906,28 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_interdin['valor_financiar'],
 			'tipo' => 'label',
 			'name' => 'data[valor_financiar]',
-			'colorFondo' => '#ededed',
+			'colorFondo' => '#e6e6e6',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_interdin['total_intereses'],
 			'tipo' => 'label',
 			'name' => 'data[total_intereses]',
-			'colorFondo' => '#ededed',
+			'colorFondo' => '#e6e6e6',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL FINANCIAMIENTO',
 			'valor' => $tarjeta_interdin['total_financiamiento_total'],
 			'tipo' => 'label',
 			'name' => 'data[total_financiamiento_total]',
-			'colorFondo' => '#ededed',
+			'colorFondo' => '#e6e6e6',
 		];
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'VALOR CUOTA MENSUAL',
 			'valor' => $tarjeta_interdin['valor_cuota_mensual'],
 			'tipo' => 'label',
 			'name' => 'data[valor_cuota_mensual]',
-			'colorFondo' => '#ededed',
+			'colorFondo' => '#e6e6e6',
 		];
 
 		$retorno['secciones'][] = $seccion1;
