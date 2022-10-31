@@ -30,7 +30,7 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/aplicativo_diners/campos_tarjeta_diners', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_tarjeta_diners', $p));
 	$app->any('/aplicativo_diners/campos_tarjeta_interdin', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_tarjeta_interdin', $p));
 	$app->any('/aplicativo_diners/campos_tarjeta_discover', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_tarjeta_discover', $p));
-	$app->any('/aplicativo_diners/campos_tarjeta_mastercard', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_tarjeta_discover', $p));
+	$app->any('/aplicativo_diners/campos_tarjeta_mastercard', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_tarjeta_mastercard', $p));
 
 	$app->any('/aplicativo_diners/calculos_tarjeta_diners', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'calculos_tarjeta_diners', $p));
 	$app->any('/aplicativo_diners/calculos_tarjeta_interdin', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'calculos_tarjeta_interdin', $p));
