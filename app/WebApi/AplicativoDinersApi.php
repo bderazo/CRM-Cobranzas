@@ -957,7 +957,7 @@ class AplicativoDinersApi extends BaseController {
 		$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'DISCOVER';
-		$seccion1['colorFondo'] = '#E66929';
+		$seccion1['colorFondo'] = '#ffd09e';
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_discover['ciclo'],
