@@ -56,11 +56,6 @@ class ProductoController extends BaseController {
 	function editar($id) {
 		\WebSecurity::secure('producto.lista');
 
-		$plazo_financiamiento = [];
-		for($i = 1; $i <= 72; $i++){
-			$plazo_financiamiento[$i] = $i;
-		}
-
 		$meses_gracia = [];
 		for($i = 1; $i <= 6; $i++){
 			$meses_gracia[$i] = $i;
@@ -76,7 +71,6 @@ class ProductoController extends BaseController {
 			'tipo_referencia' => $cat->getByKey('tipo_referencia'),
 			'descripcion_referencia' => $cat->getByKey('descripcion_referencia'),
 			'ciudades' => Catalogo::ciudades(),
-			'plazo_financiamiento' => $plazo_financiamiento,
 			'meses_gracia' => $meses_gracia,
 		];
 
@@ -89,9 +83,45 @@ class ProductoController extends BaseController {
 		$pagos = [];
 		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
 		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners['id']);
+		$cuotas_pendientes = $aplicativo_diners_tarjeta_diners['numero_cuotas_pendientes'];
+		$plazo_financiamiento_diners = [];
+		if($cuotas_pendientes > 0) {
+			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
+				$plazo_financiamiento_diners[$i] = $i;
+			}
+		}
+		$catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
+
 		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners['id']);
+		$cuotas_pendientes = $aplicativo_diners_tarjeta_discover['numero_cuotas_pendientes'];
+		$plazo_financiamiento_discover = [];
+		if($cuotas_pendientes > 0) {
+			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
+				$plazo_financiamiento_discover[$i] = $i;
+			}
+		}
+		$catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
+
 		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners['id']);
+		$cuotas_pendientes = $aplicativo_diners_tarjeta_interdin['numero_cuotas_pendientes'];
+		$plazo_financiamiento_interdin = [];
+		if($cuotas_pendientes > 0) {
+			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
+				$plazo_financiamiento_interdin[$i] = $i;
+			}
+		}
+		$catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
+
 		$aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD',$aplicativo_diners['id']);
+		$cuotas_pendientes = $aplicativo_diners_tarjeta_mastercard['numero_cuotas_pendientes'];
+		$plazo_financiamiento_mastercard = [];
+		if($cuotas_pendientes > 0) {
+			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
+				$plazo_financiamiento_mastercard[$i] = $i;
+			}
+		}
+		$catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
+
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 
 //		printDie($aplicativo_diners_tarjeta_interdin);

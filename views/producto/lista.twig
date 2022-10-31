@@ -27,11 +27,11 @@
 				<td>{{ l.tipo_proceso|upper }} </td>
 				<td>ADMIN</td>
 				<td>
-					<a href="{{ root }}/producto/editar?id={{ l.id }}" target="_blank" class="btn btn-icon btn-info btn-sm">
-						<i class="fa fa-plus"></i> Ingresar Seguimiento
+					<a href="{{ root }}/producto/editar?id={{ l.id }}" target="_blank" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
+						<i class="fa fa-plus"></i>
 					</a>
-					<button type="button" class="btn btn-icon btn-info btn-sm" v-on:click="delTelefono(t)">
-						<i class="fa fa-eye"></i> Ver Seguimientos
+					<button type="button" class="btn btn-icon btn-info" v-on:click="delTelefono(t)" title="Ver Seguimientos">
+						<i class="fa fa-eye"></i>
 					</button>
 
 				</td>

@@ -744,7 +744,7 @@
 												<td style="width: 40%;">
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
 															v-model="aplicativo_diners_tarjeta_diners.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
-														<option v-for="(v,k) in cat.plazo_financiamiento" v-html="v" :value="k"></option>
+														<option v-for="(v,k) in cat.plazo_financiamiento_diners" v-html="v" :value="k"></option>
 													</select>
 												</td>
 											</tr>
@@ -1063,7 +1063,7 @@
 												<td style="width: 40%;">
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresInterdin"
 															v-model="aplicativo_diners_tarjeta_interdin.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
-														<option v-for="(v,k) in cat.plazo_financiamiento" v-html="v" :value="k"></option>
+														<option v-for="(v,k) in cat.plazo_financiamiento_interdin" v-html="v" :value="k"></option>
 													</select>
 												</td>
 											</tr>
@@ -1382,7 +1382,7 @@
 												<td style="width: 40%;">
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiscover"
 															v-model="aplicativo_diners_tarjeta_discover.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
-														<option v-for="(v,k) in cat.plazo_financiamiento" v-html="v" :value="k"></option>
+														<option v-for="(v,k) in cat.plazo_financiamiento_discover" v-html="v" :value="k"></option>
 													</select>
 												</td>
 											</tr>
@@ -1701,7 +1701,7 @@
 												<td style="width: 40%;">
 													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresMastercard"
 															v-model="aplicativo_diners_tarjeta_mastercard.plazo_financiamiento" placeholder="Seleccione una opción" v-autoname>
-														<option v-for="(v,k) in cat.plazo_financiamiento" v-html="v" :value="k"></option>
+														<option v-for="(v,k) in cat.plazo_financiamiento_mastercard" v-html="v" :value="k"></option>
 													</select>
 												</td>
 											</tr>
