@@ -289,7 +289,7 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'TOTAL RIESGO',
 			'valor' => $tarjeta_diners['total_riesgo'],
 			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
+			'colorFondo' => '#f0f0f0'
 		];
 
 		$seccion2['nombre'] = 'SALDOS FACTURADOS';
@@ -329,7 +329,7 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_diners['interes_facturado'],
 			'tipo' => 'label',
 			'name' => 'data[interes_facturado]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
@@ -357,21 +357,21 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_diners['abono_efectivo_sistema'],
 			'tipo' => 'label',
 			'name' => 'data[abono_efectivo_sistema]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO NEGOCIADOR',
 			'valor' => $tarjeta_diners['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
 			'valor' => $tarjeta_diners['abono_total'],
 			'tipo' => 'label',
 			'name' => 'data[abono_total]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 
 		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
@@ -680,13 +680,13 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SEGUNDA REESTRUCTURACIÓN',
 			'valor' => $tarjeta_interdin['segunda_restructuracion'],
 			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
+			'colorFondo' => '#f0f0f0'
 		];
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'TOTAL RIESGO',
 			'valor' => $tarjeta_interdin['total_riesgo'],
 			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
+			'colorFondo' => '#f0f0f0'
 		];
 
 		$seccion2['nombre'] = 'SALDOS FACTURADOS';
@@ -732,7 +732,7 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_interdin['interes_facturado'],
 			'tipo' => 'label',
 			'name' => 'data[interes_facturado]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
@@ -760,21 +760,21 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_interdin['abono_efectivo_sistema'],
 			'tipo' => 'label',
 			'name' => 'data[abono_efectivo_sistema]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO NEGOCIADOR',
 			'valor' => $tarjeta_interdin['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
 			'valor' => $tarjeta_interdin['abono_total'],
 			'tipo' => 'label',
 			'name' => 'data[abono_total]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 
 		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
@@ -1083,13 +1083,13 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SEGUNDA REESTRUCTURACIÓN',
 			'valor' => $tarjeta_discover['segunda_restructuracion'],
 			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
+			'colorFondo' => '#f0f0f0'
 		];
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'TOTAL RIESGO',
 			'valor' => $tarjeta_discover['total_riesgo'],
 			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
+			'colorFondo' => '#f0f0f0'
 		];
 
 		$seccion2['nombre'] = 'SALDOS FACTURADOS';
@@ -1135,7 +1135,7 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_discover['interes_facturado'],
 			'tipo' => 'label',
 			'name' => 'data[interes_facturado]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
@@ -1163,21 +1163,21 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_discover['abono_efectivo_sistema'],
 			'tipo' => 'label',
 			'name' => 'data[abono_efectivo_sistema]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO NEGOCIADOR',
 			'valor' => $tarjeta_discover['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
 			'valor' => $tarjeta_discover['abono_total'],
 			'tipo' => 'label',
 			'name' => 'data[abono_total]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 
 		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
@@ -1485,13 +1485,13 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SEGUNDA REESTRUCTURACIÓN',
 			'valor' => $tarjeta_mastercard['segunda_restructuracion'],
 			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
+			'colorFondo' => '#f0f0f0'
 		];
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'TOTAL RIESGO',
 			'valor' => $tarjeta_mastercard['total_riesgo'],
 			'tipo' => 'label',
-			'colorFondo' => '#c3c3c3'
+			'colorFondo' => '#f0f0f0'
 		];
 
 		$seccion2['nombre'] = 'SALDOS FACTURADOS';
@@ -1537,7 +1537,7 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_mastercard['interes_facturado'],
 			'tipo' => 'label',
 			'name' => 'data[interes_facturado]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion2['contenido'][] = [
 			'etiqueta' => 'NUMERO DE DIFERIDOS FACTURADOS',
@@ -1565,21 +1565,21 @@ class AplicativoDinersApi extends BaseController {
 			'valor' => $tarjeta_mastercard['abono_efectivo_sistema'],
 			'tipo' => 'label',
 			'name' => 'data[abono_efectivo_sistema]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO NEGOCIADOR',
 			'valor' => $tarjeta_mastercard['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
 			'valor' => $tarjeta_mastercard['abono_total'],
 			'tipo' => 'label',
 			'name' => 'data[abono_total]',
-			'colorFondo' => '#c3c3c3',
+			'colorFondo' => '#f0f0f0',
 		];
 
 		$seccion4['nombre'] = 'SALDOS FACTURADOS DESPUÉS DE ABONO';
