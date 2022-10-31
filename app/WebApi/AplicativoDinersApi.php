@@ -554,7 +554,7 @@ class AplicativoDinersApi extends BaseController {
 		$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 
 		$seccion1['nombre'] = 'INTERDIN';
-		$seccion1['colorFondo'] = '#f9f9f9';
+		$seccion1['colorFondo'] = '#efefef';
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_interdin['ciclo'],
