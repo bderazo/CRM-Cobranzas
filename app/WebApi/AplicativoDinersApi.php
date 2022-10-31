@@ -283,7 +283,7 @@ class AplicativoDinersApi extends BaseController {
 			'etiqueta' => 'SEGUNDA REESTRUCTURACIÓN',
 			'valor' => $tarjeta_diners['segunda_restructuracion'],
 			'tipo' => 'label',
-			'colorFondo' => '#f9f9f9'
+			'colorFondo' => '#f0f0f0'
 		];
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'TOTAL RIESGO',
