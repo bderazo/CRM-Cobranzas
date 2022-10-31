@@ -83,6 +83,10 @@ class AplicativoDinersApi extends BaseController {
 				'value' => $aplicativo_diners['direccion'],
 			],
 			[
+				'label' => 'SEGURO',
+				'value' => $aplicativo_diners['seguro_desgravamen'],
+			],
+			[
 				'label' => 'NÚMEROS DE CONTACTO',
 				'value' => $aplicativo_diners['numero_contactos'],
 			],
