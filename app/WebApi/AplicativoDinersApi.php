@@ -236,6 +236,11 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
+			'etiqueta' => 'REFINANCIACIONES ANTERIORES',
+			'valor' => $tarjeta_diners['refinanciaciones_anteriores'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
 			'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
 			'valor' => $tarjeta_diners['motivo_no_pago_anterior'],
 			'tipo' => 'label',
@@ -620,6 +625,11 @@ class AplicativoDinersApi extends BaseController {
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'OFERTA VALOR',
 			'valor' => $tarjeta_interdin['oferta_valor'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'REFINANCIACIONES ANTERIORES',
+			'valor' => $tarjeta_interdin['refinanciaciones_anteriores'],
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
@@ -1016,6 +1026,11 @@ class AplicativoDinersApi extends BaseController {
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
+			'etiqueta' => 'REFINANCIACIONES ANTERIORES',
+			'valor' => $tarjeta_discover['refinanciaciones_anteriores'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
 			'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
 			'valor' => $tarjeta_discover['motivo_no_pago_anterior'],
 			'tipo' => 'label',
@@ -1405,6 +1420,11 @@ class AplicativoDinersApi extends BaseController {
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'OFERTA VALOR',
 			'valor' => $tarjeta_mastercard['oferta_valor'],
+			'tipo' => 'label',
+		];
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'REFINANCIACIONES ANTERIORES',
+			'valor' => $tarjeta_mastercard['refinanciaciones_anteriores'],
 			'tipo' => 'label',
 		];
 		$seccion1['contenido'][] = [
