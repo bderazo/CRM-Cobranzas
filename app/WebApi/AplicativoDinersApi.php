@@ -477,12 +477,12 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[plazo_financiamiento]',
 			'choices' => $plazo_financiamiento,
 		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'MOTIVO DE NO PAGO',
-			'valor' => $tarjeta_diners['motivo_no_pago'],
-			'tipo' => 'text',
-			'name' => 'data[motivo_no_pago]',
-		];
+//		$seccion6['contenido'][] = [
+//			'etiqueta' => 'MOTIVO DE NO PAGO',
+//			'valor' => $tarjeta_diners['motivo_no_pago'],
+//			'tipo' => 'text',
+//			'name' => 'data[motivo_no_pago]',
+//		];
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];
@@ -880,12 +880,12 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[plazo_financiamiento]',
 			'choices' => $plazo_financiamiento,
 		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'MOTIVO DE NO PAGO',
-			'valor' => $tarjeta_interdin['motivo_no_pago'],
-			'tipo' => 'text',
-			'name' => 'data[motivo_no_pago]',
-		];
+//		$seccion6['contenido'][] = [
+//			'etiqueta' => 'MOTIVO DE NO PAGO',
+//			'valor' => $tarjeta_interdin['motivo_no_pago'],
+//			'tipo' => 'text',
+//			'name' => 'data[motivo_no_pago]',
+//		];
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];
@@ -1282,12 +1282,12 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[plazo_financiamiento]',
 			'choices' => $plazo_financiamiento,
 		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'MOTIVO DE NO PAGO',
-			'valor' => $tarjeta_discover['motivo_no_pago'],
-			'tipo' => 'text',
-			'name' => 'data[motivo_no_pago]',
-		];
+//		$seccion6['contenido'][] = [
+//			'etiqueta' => 'MOTIVO DE NO PAGO',
+//			'valor' => $tarjeta_discover['motivo_no_pago'],
+//			'tipo' => 'text',
+//			'name' => 'data[motivo_no_pago]',
+//		];
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];
@@ -1684,12 +1684,12 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[plazo_financiamiento]',
 			'choices' => $plazo_financiamiento,
 		];
-		$seccion6['contenido'][] = [
-			'etiqueta' => 'MOTIVO DE NO PAGO',
-			'valor' => $tarjeta_mastercard['motivo_no_pago'],
-			'tipo' => 'text',
-			'name' => 'data[motivo_no_pago]',
-		];
+//		$seccion6['contenido'][] = [
+//			'etiqueta' => 'MOTIVO DE NO PAGO',
+//			'valor' => $tarjeta_mastercard['motivo_no_pago'],
+//			'tipo' => 'text',
+//			'name' => 'data[motivo_no_pago]',
+//		];
 		$meses_gracia = [];
 		$meses_gracia[] = ['id' => 0, 'label' => ''];
 		$meses_gracia[] = ['id' => 1, 'label' => 1];

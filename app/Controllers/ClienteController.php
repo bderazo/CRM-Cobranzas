@@ -221,7 +221,6 @@ class ClienteController extends BaseController {
 
 class ViewCliente {
 	var $id;
-	var $apellidos;
 	var $nombres;
 	var $cedula;
 	var $sexo;
