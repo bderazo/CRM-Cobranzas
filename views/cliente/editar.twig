@@ -11,24 +11,24 @@
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control" v-model="model.apellidos" placeholder="Apellidos" required v-autoname/>
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Nombres *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control required" v-model="model.nombres" placeholder="Nombres" v-autoname/>
 							</div>
 						</div>
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Cédula *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control required" v-model="model.cedula" placeholder="Cédula" v-autoname/>
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Sexo</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<select class="form-control form-select select2" v-autoname v-model="model.sexo" placeholder="Seleccione una opción" v-autoname>
 									<option value=""></option>
 									<option v-for="(v,k) in cat.sexo" v-html="v" :value="k"></option>
@@ -38,7 +38,7 @@
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Estado civil</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<select class="form-control form-select select2" v-autoname v-model="model.estado_civil" placeholder="Seleccione una opción" v-autoname>
 									<option value=""></option>
 									<option v-for="(v,k) in cat.estado_civil" v-html="v" :value="k"></option>

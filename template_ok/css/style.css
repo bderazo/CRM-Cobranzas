@@ -11322,6 +11322,10 @@ a.tag-addon:hover {
     padding-left: 0.75rem;
 }
 
+.col-informacion{
+	background-color: #F5F5F5;
+}
+
 .col {
     -ms-flex-preferred-size: 0;
     flex-basis: 0;
