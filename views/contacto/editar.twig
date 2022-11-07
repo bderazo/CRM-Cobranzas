@@ -11,7 +11,7 @@
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Institución *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<div class="input-group">
 									<input type="text" class="form-control required" placeholder="Seleccione una institucion" v-model="institucion_nombre" name="institucion_nombre" id="institucion_nombre" readonly>
 									<input type="hidden" class="form-control" v-model="model.institucion_id" name="paleta_id" id="institucion_id"/>
@@ -27,43 +27,43 @@
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control" v-model="model.apellidos" placeholder="Apellidos" required v-autoname/>
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Nombres *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control" v-model="model.nombres" placeholder="Nombres" required v-autoname/>
 							</div>
 						</div>
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Cargo</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control" v-model="model.cargo" placeholder="Cargo" v-autoname/>
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Email</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control email" v-model="model.correo" placeholder="Email" v-autoname/>
 							</div>
 						</div>
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Teléfono oficina</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control" v-model="model.telefono_oficina" placeholder="Teléfono oficina" v-autoname/>
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Teléfono celular</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" class="form-control" v-model="model.telefono_celular" placeholder="Teléfono celular" v-autoname/>
 							</div>
 						</div>
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Ciudad</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<select class="form-control form-select select2" v-model="model.ciudad" placeholder="Seleccione una opción">
 									<option></option>
 									<option v-for="(v,k) in cat.ciudades" v-html="v" :value="k"></option>
@@ -71,14 +71,14 @@
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Dirección</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<textarea rows="3" v-model="model.direccion" class="form-control" placeholder="Dirección" v-autoname></textarea>
 							</div>
 						</div>
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Descripción</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<textarea rows="3" v-model="model.descripcion" class="form-control" placeholder="Descripción" v-autoname></textarea>
 							</div>
 						</div>

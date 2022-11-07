@@ -10,31 +10,31 @@
 					<div class="card-body">
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" readonly class="form-control-plaintext" v-model="cliente.apellidos">
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Nombres *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" readonly class="form-control-plaintext" v-model="cliente.nombres">
 							</div>
 						</div>
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Cédula *</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" readonly class="form-control-plaintext" v-model="cliente.cedula">
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Sexo</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" style="text-transform: uppercase;" readonly class="form-control-plaintext" v-model="cliente.sexo">
 							</div>
 						</div>
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Estado civil</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<input type="text" style="text-transform: uppercase;" readonly class="form-control-plaintext" v-model="cliente.estado_civil">
 							</div>
 						</div>
@@ -166,115 +166,115 @@
 				<div class="card-body">
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Producto adquirido </label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Subproducto</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.subproducto">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Agencia</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.agencia">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Estado</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.estado">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Estado operación</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.estado_operacion">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Tipo proceso</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.tipo_proceso">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Fecha adquisición</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.fecha_adquisicion">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Sector</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.sector">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Monto crédito</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_credito">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Monto adeudado</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_adeudado">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Monto riesgo</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_riesgo">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Días mora</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.dias_mora">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Número de cuotas</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.numero_cuotas">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Fecha vencimiento</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.fecha_vencimiento">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Valor cuota</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.valor_cuota">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Valor cobrar</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.valor_cobrar">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Abono/pago</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.abono">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Nombre Garante</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.nombre_garante">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Cédula Garante</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="model.cedula_garante">
 						</div>
 					</div>
@@ -322,7 +322,7 @@
 						<h4 class="text-primary">COBRANZA</h4>
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">NIVEL1</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<select class="form-control form-select select2 required" v-model="model.tipo_gestion" placeholder="Seleccione una opción">
 									<option value="ACUERDO DE PAGO DOCUMENTADO">ACUERDO DE PAGO DOCUMENTADO</option>
 									<option value="CONTACTO SIN ARREGLO MEDIATO">CONTACTO SIN ARREGLO MEDIATO</option>
@@ -336,7 +336,7 @@
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">NIVEL2</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<select class="form-control form-select select2 required" v-model="model.tipo_perfil" placeholder="Seleccione una opción">
 									<option value="COMPAÑERO DE TRABAJO M">COMPAÑERO DE TRABAJO M</option>
 									<option value="EQUIVOCADO-DESCONOCEN NUM M">EQUIVOCADO-DESCONOCEN NUM M</option>
@@ -356,7 +356,7 @@
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Observaciones</label>
-							<div class="col-md-4">
+							<div class="col-md-4 col-informacion">
 								<textarea rows="3" class="form-control" placeholder="Observaciones" v-autoname></textarea>
 							</div>
 						</div>
@@ -383,67 +383,67 @@
 				<div class="card-body">
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">CIUDAD DE GESTIÓN</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_gestion">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">FECHA DE ELABORACIÓN</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" value="{{ "now"|date("Y-m-d H:i:s") }}">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">NEGOCIADO POR</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.negociado_por">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">NUMERO DE CEDULA SOCIO</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.cedula_socio">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">NOMBRE DEL SOCIO</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.nombre_socio">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">DIRECCIÓN</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.direccion">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">SEGURO</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.seguro_desgravamen">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">NÚMEROS DE CONTACTO</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.numero_contactos">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">MAIL DE CONTACTO</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.mail_contacto">
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">CIUDAD DE LA CUENTA</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_cuenta">
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">ZONA DE LA CUENTA</label>
-						<div class="col-md-4">
+						<div class="col-md-4 col-informacion">
 							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.zona_cuenta">
 						</div>
 					</div>
