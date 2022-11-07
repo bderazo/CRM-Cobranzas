@@ -48,9 +48,8 @@ class Cliente extends Model {
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->select(['cliente.*']);
 
-		if(!empty($post['institucion'])) {
-			$q->whereRaw("upper(institucion.nombre) LIKE '%" . strtoupper($post['institucion']) . "%'");
-		}
+		if (!empty($post['institucion_id'])) $q->where('institucion.id', '=', $post['institucion_id']);
+		
 		if(!empty($post['cedula'])) {
 			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
 		}

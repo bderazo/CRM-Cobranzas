@@ -1,55 +1,62 @@
 {% extends layoutApp %}
-
 {% block content %}
-	<div class="col-md-12 col-xl-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Filtros de Búsqueda</h4>
-			</div>
-			<div class="card-body">
-				<form method="post" id="filtro" class="form-horizontal">
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Institución</label>
-						<div class="col-md-4">
-							<input type="text" class="form-control" v-model="model.institucion" name="institucion" placeholder="Institución"/>
+	<form method="post" id="filtro" class="form-horizontal">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Filtros de Búsqueda</h4>
+				</div>
+				<div id="app">
+					<div class="card-body">
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Institución</label>
+							<div class="col-md-4">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Seleccione una institución" name="institucion_nombre" id="institucion_nombre" readonly>
+									<input type="hidden" class="form-control" v-model="model.institucion_id" name="institucion_id" id="institucion_id"/>
+									<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</div>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Cédula</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.cedula" name="cedula" placeholder="Cédula"/>
+							</div>
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Cédula</label>
-						<div class="col-md-4">
-							<input type="text" class="form-control" v-model="model.cedula" name="cedula" placeholder="Cédula"/>
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Nombres</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.nombres" name="nombres" placeholder="Nombres"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Producto</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.producto" name="producto" placeholder="Producto"/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Teléfono</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" v-model="model.telefono" name="telefono" placeholder="Teléfono"/>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+								<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
+								<a href="{{ root }}/cliente/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
+							</div>
 						</div>
 					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Nombres</label>
-						<div class="col-md-4">
-							<input type="text" class="form-control" v-model="model.nombres" name="nombres" placeholder="Nombres"/>
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">Producto</label>
-						<div class="col-md-4">
-							<input type="text" class="form-control" v-model="model.producto" name="producto" placeholder="Producto"/>
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Teléfono</label>
-						<div class="col-md-4">
-							<input type="text" class="form-control" v-model="model.telefono" name="telefono" placeholder="Teléfono"/>
-						</div>
-					</div>
-
-					<div class="mb-0 mt-4 ">
-						<div class="col-md-12">
-							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
-							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
-							<a href="{{ root }}/cliente/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
-						</div>
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
 	<div class="col-md-12 col-xl-12">
 		<div class="card">
@@ -62,6 +69,26 @@
 		</div>
 	</div>
 
+	<!-- MODAL -->
+	<div class="modal fade" id="modalInstitucion" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Instituciones</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="institucionContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	{{ bundle('validate') }}
 	<script>
 		var form = $('#filtro');
@@ -69,7 +96,7 @@
 
 		function todos() {
 			form[0].reset();
-			$("#estado").val('');
+			$("#institucion_id").val('');
 			cargar(1);
 		}
 
@@ -92,7 +119,20 @@
 				model: [],
 			},
 			watch: {},
-			methods: {},
+			methods: {
+				buscarInstitucion: function () {
+					var self = this;
+					var data = {};
+					$('#institucionContent').load('{{ root }}/institucion/buscador', data, function () {
+						callbackInstitucion = function (res) {
+							$("#institucion_id").val(res.id);
+							$("#institucion_nombre").val(res.nombre);
+							$('#modalInstitucion').modal('hide');
+						};
+						$('#modalInstitucion').modal('show');
+					});
+				},
+			},
 			mounted: function () {
 				$('.integer').numeric("integer");
 				$('.numeric').numeric();
