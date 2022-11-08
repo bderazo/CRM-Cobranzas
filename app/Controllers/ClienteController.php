@@ -217,6 +217,39 @@ class ClienteController extends BaseController {
 		$this->flash->addMessage('confirma', 'Cliente eliminado');
 		return $this->redirectToAction('index');
 	}
+
+	//BUSCADORES
+	function buscador() {
+//		$db = new \FluentPDO($this->get('pdo'));
+		$data = [];
+		return $this->render('buscador', $data);
+	}
+
+	function buscar($nombres, $cedula) {
+		/** @var \PDO $pdo */
+		$pdo = $this->get('pdo');
+		$likeNombres = $pdo->quote('%' . strtoupper($nombres) . '%');
+		$likeCedula = $pdo->quote('%' . strtoupper($cedula) . '%');
+		$db = new \FluentPDO($pdo);
+
+		$qpro = $db->from('cliente c')
+			->select(null)
+			->select('c.*')
+			->where('c.eliminado', 0);
+		if ($nombres != '') {
+			$qpro->where("(upper(c.nombres) like $likeNombres )");
+		}
+		if ($cedula != '') {
+			$qpro->where("(c.cedula like $likeCedula )");
+		}
+		$qpro->orderBy('c.nombres')->limit(50);
+		$lista = $qpro->fetchAll();
+		$cliente = [];
+		foreach ($lista as $l) {
+			$cliente[] = $l;
+		}
+		return $this->json(compact('cliente'));
+	}
 }
 
 class ViewCliente {

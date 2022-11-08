@@ -1,59 +1,59 @@
 {% extends layoutApp %}
-
 {% block content %}
-	<div class="col-md-12 col-xl-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Filtros de Búsqueda</h4>
-			</div>
-			<div class="card-body">
-				<form method="post" id="filtro" class="form-horizontal">
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Nombre</label>
-						<div class="col-md-4">
-							<input type="text" class="form-control" v-model="model.nombre" placeholder="Nombre"/>
-						</div>
+	<form method="post" id="filtro" class="form-horizontal">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Filtros de Búsqueda</h4>
+				</div>
+				<div id="app">
+					<div class="card-body">
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Nombre</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="nombre" placeholder="Nombre"/>
+							</div>
 
-						<label for="inputName" class="col-md-2 form-label">RUC</label>
-						<div class="col-md-4">
-							<input type="text" class="form-control" v-model="model.ruc" placeholder="RUC"/>
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Paleta</label>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Seleccione una paleta" name="paleta_nombre" id="paleta_nombre" readonly>
-								<input type="hidden" class="form-control" v-model="model.paleta_id" name="paleta_id" id="paleta_id"/>
-								<button class="btn btn-default" type="button" v-on:click="buscarPaleta">
-									<i class="glyphicon glyphicon-search"></i>
-								</button>
+							<label for="inputName" class="col-md-2 form-label">RUC</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="ruc" placeholder="RUC"/>
 							</div>
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Paleta propia</label>
-						<div class="col-md-4">
-							<select class="form-control form-select select2" v-model="model.paletas_propias" placeholder="Seleccione una opción">
-								<option value=""></option>
-								<option value="si">SI</option>
-								<option value="no">NO</option>
-							</select>
-						</div>
-					</div>
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Paleta</label>
+							<div class="col-md-4">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Seleccione una paleta" name="paleta_nombre" id="paleta_nombre" readonly>
+									<input type="hidden" class="form-control" v-model="model.paleta_id" name="paleta_id" id="paleta_id"/>
+									<button class="btn btn-default" type="button" v-on:click="buscarPaleta">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</div>
+							</div>
 
-					<div class="mb-0 mt-4 ">
-						<div class="col-md-12">
-							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
-							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
-							<a href="{{ root }}/institucion/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
-{#							<a href="{{ root }}/institucion/crear" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Importar</a>#}
+							<label for="inputName" class="col-md-2 form-label">Paleta propia</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" name="paletas_propias" placeholder="Seleccione una opción">
+									<option value=""></option>
+									<option value="si">SI</option>
+									<option value="no">NO</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+								<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
+								<a href="{{ root }}/institucion/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
+							</div>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
 	<div class="col-md-12 col-xl-12">
 		<div class="card">
@@ -66,6 +66,26 @@
 		</div>
 	</div>
 
+	<!-- MODAL -->
+	<div class="modal fade" id="modalPaleta" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Paletas</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="paletaContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	{{ bundle('validate') }}
 	<script>
 		var form = $('#filtro');
@@ -73,7 +93,7 @@
 
 		function todos() {
 			form[0].reset();
-			$("#estado").val('');
+			$("#paleta_id").val('');
 			cargar(1);
 		}
 
@@ -96,7 +116,20 @@
 				model: [],
 			},
 			watch: {},
-			methods: {},
+			methods: {
+				buscarPaleta: function () {
+					var self = this;
+					var data = {};
+					$('#paletaContent').load('{{ root }}/paleta/buscador', data, function () {
+						callbackPaleta = function (res) {
+							$("#paleta_id").val(res.id);
+							$("#paleta_nombre").val(res.nombre);
+							$('#modalPaleta').modal('hide');
+						};
+						$('#modalPaleta').modal('show');
+					});
+				},
+			},
 			mounted: function () {
 				$('.integer').numeric("integer");
 				$('.numeric').numeric();

@@ -85,13 +85,16 @@ class Contacto extends Model
 		$q = self::query();
 		$q->join('institucion', 'institucion.id', '=', 'contacto.institucion_id');
 		$q->select(['contacto.*','institucion.nombre AS institucion_nombre']);
+
+		if (!empty($post['institucion_id'])) $q->where('institucion.id', '=', $post['institucion_id']);
+
 		if(!empty($post['apellidos'])) {
 			$q->whereRaw("upper(contacto.apellidos) LIKE '%" . strtoupper($post['apellidos']) . "%'");
 		}
 		if(!empty($post['nombres'])) {
 			$q->whereRaw("upper(contacto.nombres) LIKE '%" . strtoupper($post['nombres']) . "%'");
 		}
-		if(!empty($post['institucion_id'])) $q->where('contacto.institucion_id', '=', $post['institucion']);
+//		if(!empty($post['institucion_id'])) $q->where('contacto.institucion_id', '=', $post['institucion']);
 		$q->where('contacto.eliminado', '=', false);
 		$q->orderBy($order, 'asc');
 		if($pagina > 0 && $records > 0)
