@@ -81,18 +81,6 @@ class ProductoApi extends BaseController {
 			'property_order' => 2,
 			'choices' => [],
 		];
-		$form['apellidos'] = [
-			'type' => 'string',
-			'title' => 'Apellidos',
-			'widget' => 'text',
-			'empty_data' => '',
-			'full_name' => 'data[cl.apellidos]',
-			'constraints' => [],
-			'required' => 0,
-			'disabled' => 0,
-			'property_order' => 3,
-			'choices' => [],
-		];
 		$form['nombres'] = [
 			'type' => 'string',
 			'title' => 'Nombres',
@@ -159,10 +147,6 @@ class ProductoApi extends BaseController {
 		//DATA DE CLIENTES
 		$cliente = Cliente::porId($producto['cliente_id']);
 		$campos = [
-			[
-				'label' => 'Apellidos',
-				'value' => $cliente['apellidos'],
-			],
 			[
 				'label' => 'Nombres',
 				'value' => $cliente['nombres'],
