@@ -38,8 +38,8 @@ class ProductoController extends BaseController {
 	function lista($page) {
 		\WebSecurity::secure('producto.lista');
 		$params = $this->request->getParsedBody();
-		$lista = Producto::buscar($params, 'producto.fecha_ingreso', $page, 50);
-		$pag = new Paginator($lista->total(), 50, $page, "javascript:cargar((:num));");
+		$lista = Producto::buscar($params, 'producto.fecha_ingreso', $page, 20);
+		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {
 			$retorno[] = $listas;

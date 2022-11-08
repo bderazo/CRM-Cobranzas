@@ -30,9 +30,9 @@ class ContactoController extends BaseController {
 	function lista($page) {
 		\WebSecurity::secure('contacto.lista');
 		$params = $this->request->getParsedBody();
-		$lista = Contacto::buscar($params, 'contacto.nombres', $page, 50);
+		$lista = Contacto::buscar($params, 'contacto.nombres', $page, 20);
 //		printDie($lista);
-		$pag = new Paginator($lista->total(), 50, $page, "javascript:cargar((:num));");
+		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {
 			$retorno[] = $listas;

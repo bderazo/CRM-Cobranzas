@@ -34,8 +34,8 @@ class ClienteController extends BaseController {
 	function lista($page) {
 		\WebSecurity::secure('cliente.lista');
 		$params = $this->request->getParsedBody();
-		$lista = Cliente::buscar($params, 'cliente.apellidos', $page, 50);
-		$pag = new Paginator($lista->total(), 50, $page, "javascript:cargar((:num));");
+		$lista = Cliente::buscar($params, 'cliente.apellidos', $page, 20);
+		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {
 			$retorno[$listas['id']] = $listas;

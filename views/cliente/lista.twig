@@ -12,9 +12,8 @@
 		{% for l in lista %}
 			<tr>
 				<td>
-					<a href="{{ root }}/cliente/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.apellidos }}</a>
+					<a href="{{ root }}/cliente/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.nombres }}</a>
 				</td>
-				<td>{{ l.nombres }} </td>
 				<td>{{ l.cedula }} </td>
 				<td>{{ l.sexo|upper }} </td>
 				<td>{{ l.estado_civil|upper }} </td>

@@ -32,9 +32,9 @@ class InstitucionController extends BaseController {
 	function lista($page) {
 		\WebSecurity::secure('institucion.lista');
 		$params = $this->request->getParsedBody();
-		$lista = Institucion::buscar($params, 'institucion.nombre', $page, 50);
+		$lista = Institucion::buscar($params, 'institucion.nombre', $page, 20);
 //		printDie($lista);
-		$pag = new Paginator($lista->total(), 50, $page, "javascript:cargar((:num));");
+		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {
 			$retorno[] = $listas;

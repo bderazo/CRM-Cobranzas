@@ -33,8 +33,8 @@ class PaletaController extends BaseController {
 		$pdo = $this->get('pdo');
 		$db = new \FluentPDO($pdo);
 		$params = $this->request->getParsedBody();
-		$lista = Paleta::buscar($params, 'paleta.nombre', $page, 50);
-		$pag = new Paginator($lista->total(), 50, $page, "javascript:cargar((:num));");
+		$lista = Paleta::buscar($params, 'paleta.nombre', $page, 20);
+		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $l){
 			$q = $db->from('institucion i')
