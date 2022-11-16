@@ -275,7 +275,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatos() {
 		$config = $this->get('config');
-		$archivo =  $config['folder_temp'].'/APLICATIVO_ERE_16_OCT_22.xlsx';
+		$archivo =  $config['folder_temp'].'/APLICATIVO_ERE_16_NOV_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
@@ -284,8 +284,6 @@ class ProductoController extends BaseController {
 			if(($rowIndex === 2))
 				continue;
 			if(($rowIndex === 3))
-				continue;
-			if(($rowIndex === 4))
 				continue;
 			if($values[0] == '')
 				continue;
@@ -498,14 +496,16 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[32];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[33];
 				$aplicativo_diners_detalle->nd_facturar = $values[34];
-				$nc_facturar = 0;
-				if($values[35] > 0){
-					$nc_facturar = $values[35];
-				}
-				if($values[43] > 0){
-					$nc_facturar = $nc_facturar + $values[43];
-				}
-				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+//				$nc_facturar = 0;
+//				if($values[35] > 0){
+//					$nc_facturar = $values[35];
+//				}
+//				if($values[43] > 0){
+//					$nc_facturar = $nc_facturar + $values[43];
+//				}
+//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+				$aplicativo_diners_detalle->nc_facturar = $values[35];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[43];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[38];
 				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[40];
 				$aplicativo_diners_detalle->interes_facturar = $values[41];
@@ -574,14 +574,16 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[70];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[71];
 				$aplicativo_diners_detalle->nd_facturar = $values[72];
-				$nc_facturar = 0;
-				if($values[73] > 0){
-					$nc_facturar = $values[73];
-				}
-				if($values[81] > 0){
-					$nc_facturar = $nc_facturar + $values[81];
-				}
-				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+//				$nc_facturar = 0;
+//				if($values[73] > 0){
+//					$nc_facturar = $values[73];
+//				}
+//				if($values[81] > 0){
+//					$nc_facturar = $nc_facturar + $values[81];
+//				}
+//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+				$aplicativo_diners_detalle->nc_facturar = $values[73];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[81];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[76];
 				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[78];
 				$aplicativo_diners_detalle->interes_facturar = $values[79];
@@ -650,14 +652,16 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[108];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[109];
 				$aplicativo_diners_detalle->nd_facturar = $values[110];
-				$nc_facturar = 0;
-				if($values[111] > 0){
-					$nc_facturar = $values[111];
-				}
-				if($values[119] > 0){
-					$nc_facturar = $nc_facturar + $values[119];
-				}
-				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+//				$nc_facturar = 0;
+//				if($values[111] > 0){
+//					$nc_facturar = $values[111];
+//				}
+//				if($values[119] > 0){
+//					$nc_facturar = $nc_facturar + $values[119];
+//				}
+//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+				$aplicativo_diners_detalle->nc_facturar = $values[111];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[119];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[114];
 				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[116];
 				$aplicativo_diners_detalle->interes_facturar = $values[117];
@@ -725,14 +729,16 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[155];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[156];
 				$aplicativo_diners_detalle->nd_facturar = $values[157];
-				$nc_facturar = 0;
-				if($values[158] > 0){
-					$nc_facturar = $values[158];
-				}
-				if($values[166] > 0){
-					$nc_facturar = $nc_facturar + $values[166];
-				}
-				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+//				$nc_facturar = 0;
+//				if($values[158] > 0){
+//					$nc_facturar = $values[158];
+//				}
+//				if($values[166] > 0){
+//					$nc_facturar = $nc_facturar + $values[166];
+//				}
+//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
+				$aplicativo_diners_detalle->nc_facturar = $values[158];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[166];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[161];
 				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[163];
 				$aplicativo_diners_detalle->interes_facturar = $values[164];
