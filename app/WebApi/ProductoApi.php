@@ -409,7 +409,7 @@ class ProductoApi extends BaseController {
 			'type' => 'string',
 			'title' => 'Observaciones',
 			'widget' => 'textarea',
-			'empty_data' => 'MEGACOB ' . date("Ymd"),
+			'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
 			'full_name' => 'data[observaciones]',
 			'constraints' => [],
 			'required' => 0,
