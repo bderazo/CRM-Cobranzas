@@ -4,6 +4,7 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
+use Negocio\EnvioNotificacionesPush;
 
 /**
  * Guarda la informacion de cuando ingresa y cuando sale un usuario
@@ -46,6 +47,20 @@ class Usuario extends Model {
 	
 	function nombreCompleto() {
 		return trim($this->apellidos . ' ' . $this->nombres);
+	}
+
+	public function getAllColumnsNames()
+	{
+		$pdo = self::query()->getConnection()->getPdo();
+		$query = 'SHOW COLUMNS FROM usuario';
+		$qpro = $pdo->query($query);
+		$column_name = 'Field';
+		$columns = [];
+		$d = $qpro->fetchAll();
+		foreach($d as $column){
+			$columns[$column['Field']] = $column['Field']; // setting the column name as key too
+		}
+		return $columns;
 	}
 	
 	/**
@@ -163,9 +178,11 @@ class Usuario extends Model {
 			return $q->paginate($records, ['*'], 'page', $pagina);
 		return $q->get();
 	}
-	
-	public function save(array $options = []) {
+
+	public function save($change_password = false, $options = []) {
 		if (!$this->exists && $this->password) {
+			$this->password = password_hash($this->password, PASSWORD_BCRYPT);
+		}elseif($change_password){
 			$this->password = password_hash($this->password, PASSWORD_BCRYPT);
 		}
 		return parent::save($options);
@@ -190,6 +207,47 @@ class Usuario extends Model {
 			$q->with($relaciones);
 		}
 		return $q->findOrFail($id);
+	}
+
+	static function getUsuarios() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+		$q=$db->from('usuario')
+			->select(null)
+			->select("id, CONCAT(apellidos,' ',nombres) AS nombres")
+			->where('activo',1)
+			->orderBy('apellidos');
+		$lista = $q->fetchAll();
+		if (!$lista) return [];
+		return array_column($lista, 'nombres','id');
+	}
+
+	static function getUsuarioDetalle($usuario_id, $config) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+		$q = $db->from('usuario u')
+			->select(null)
+			->select("u.username, u.nombres, u.apellidos")
+			->where('u.id', $usuario_id);
+		$lista = $q->fetch();
+		if (!$lista) return [];
+
+		//OBTENER LA FOTO DE PERFIL
+		$dir = $config['url_images_usuario'];
+		$q = $db->from('archivo')
+			->select(null)
+			->select("nombre_sistema")
+			->where('parent_id', $usuario_id)
+			->where('parent_type', 'usuario')
+			->where('eliminado', 0);
+		$imagen = $q->fetch();
+		if(!$imagen){
+			$lista['imagen'] = '';
+		}else{
+			$lista['imagen'] = $dir.'/'.$imagen['nombre_sistema'];
+		}
+
+		return $lista;
 	}
 }
 

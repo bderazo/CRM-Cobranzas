@@ -50,37 +50,6 @@ class Archivo extends Model {
 		return $q;
 	}
 
-
-	static function porOrdenExtrusion($orden_id) {
-		$pdo = Archivo::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('archivo')
-			->where('eliminado',0)
-			->where('parent_id',$orden_id)
-			->where('parent_type','OrdenExtrusion')
-			->orderBy('fecha_ingreso DESC');
-		$lista = $q->fetchAll();
-		if (!$lista) return [];
-
-		return $lista;
-	}
-
-	static function porOrdenCB($orden_id) {
-		$pdo = Archivo::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('archivo')
-			->where('eliminado',0)
-			->where('parent_id',$orden_id)
-			->where('parent_type','OrdenCB')
-			->orderBy('fecha_ingreso DESC');
-		$lista = $q->fetchAll();
-		if (!$lista) return [];
-
-		return $lista;
-	}
-
 	static function porInstitucion($institucion_id) {
 		$pdo = Archivo::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
@@ -89,48 +58,6 @@ class Archivo extends Model {
 			->where('eliminado',0)
 			->where('parent_id',$institucion_id)
 			->where('parent_type','Institucion')
-			->orderBy('fecha_ingreso DESC');
-		$lista = $q->fetchAll();
-		if (!$lista) return [];
-		return $lista;
-	}
-
-	static function porHerramienta($herramienta_id) {
-		$pdo = Archivo::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('archivo')
-			->where('eliminado',0)
-			->where('parent_id',$herramienta_id)
-			->where('parent_type','Herramienta')
-			->orderBy('fecha_ingreso DESC');
-		$lista = $q->fetchAll();
-		if (!$lista) return [];
-		return $lista;
-	}
-
-	static function porRepuesto($repuesto_id) {
-		$pdo = Archivo::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('archivo')
-			->where('eliminado',0)
-			->where('parent_id',$repuesto_id)
-			->where('parent_type','Repuesto')
-			->orderBy('fecha_ingreso DESC');
-		$lista = $q->fetchAll();
-		if (!$lista) return [];
-		return $lista;
-	}
-
-	static function porSolicitudCompra($solicitud_id) {
-		$pdo = Archivo::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q=$db->from('archivo')
-			->where('eliminado',0)
-			->where('parent_id',$solicitud_id)
-			->where('parent_type','SolicitudCompra')
 			->orderBy('fecha_ingreso DESC');
 		$lista = $q->fetchAll();
 		if (!$lista) return [];
@@ -162,5 +89,21 @@ class Archivo extends Model {
 			$retorno[] = $l;
 		}
 		return $retorno;
+	}
+
+	static function delImagenPerfil($usuario_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+		$set = [
+			'eliminado' => 1,
+			'fecha_modificacion' => date("Y-m-d H:i:s"),
+			'usuario_modificacion' => $usuario_id
+		];
+		$query = $db->update('archivo')
+			->set($set)
+			->where('parent_id', $usuario_id)
+			->where('parent_type', 'usuario')
+			->execute();
+		return $query;
 	}
 }

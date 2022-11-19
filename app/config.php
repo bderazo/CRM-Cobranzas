@@ -63,16 +63,6 @@ return [
 		'urlKue' => 'http://localhost:3000/job',
 	],
 	
-	'configuracion_email' => [
-		'Username' => 'produccion@polipack.com.ec',
-		'Password' => 'Produccion1',
-		'Host' => 'smtp.gmail.com',
-		'Port' => '587',
-		'SMTPSecure' => 'tls',
-		'SMTPAuth' => true,
-		'nombre_app' => 'Polipack'
-	],
-	
 	'servicioDatacleaning' => [
 		'url' => 'http://localhost/GM/datacleaning3/',
 		'user' => 'wsPichinchaVivienda',
