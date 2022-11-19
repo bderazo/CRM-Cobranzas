@@ -111,40 +111,57 @@ class AplicativoDinersApi extends BaseController {
 			'producto_id' => $aplicativo_diners['producto_id'],
 		];
 
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 		$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners['id']);
 		foreach ($aplicativo_diners_detalle as $add){
 			if($add['nombre_tarjeta'] == 'DINERS'){
-				$tarjetas[] = [
+				$dat = [
 					'nombre' => 'DINERS',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners',
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
 					'background-color' => '#4C5EF7',
 				];
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS'){
+					$dat['background-color'] = '#499B70';
+				}
+				$tarjetas[] = $dat;
 			}elseif($add['nombre_tarjeta'] == 'INTERDIN'){
-				$tarjetas[] = [
-					'nombre' => 'Interdin',
+				$dat = [
+					'nombre' => 'INTERDIN',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin',
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
 					'background-color' => '#4C5EF7',
 				];
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN'){
+					$dat['background-color'] = '#499B70';
+				}
+				$tarjetas[] = $dat;
 			}elseif($add['nombre_tarjeta'] == 'DISCOVER'){
-				$tarjetas[] = [
-					'nombre' => 'Discover',
+				$dat = [
+					'nombre' => 'DISCOVER',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover',
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
 					'background-color' => '#4C5EF7',
 				];
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER'){
+					$dat['background-color'] = '#499B70';
+				}
+				$tarjetas[] = $dat;
 			}elseif($add['nombre_tarjeta'] == 'MASTERCARD'){
-				$tarjetas[] = [
-					'nombre' => 'Mastercard',
+				$dat = [
+					'nombre' => 'MASTERCARD',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard',
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
 					'background-color' => '#4C5EF7',
 				];
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD'){
+					$dat['background-color'] = '#499B70';
+				}
+				$tarjetas[] = $dat;
 			}
 		}
 
