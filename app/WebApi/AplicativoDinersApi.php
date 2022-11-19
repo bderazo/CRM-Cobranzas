@@ -122,7 +122,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS'){
+				if($aplicativo_diners_detalle_mayor_deuda[2] == 'DINERS'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -134,7 +134,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN'){
+				if($aplicativo_diners_detalle_mayor_deuda[2] == 'INTERDIN'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -146,7 +146,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER'){
+				if($aplicativo_diners_detalle_mayor_deuda[2] == 'DISCOVER'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -158,7 +158,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD'){
+				if($aplicativo_diners_detalle_mayor_deuda[2] == 'MASTERCARD'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
