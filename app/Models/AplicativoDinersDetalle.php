@@ -113,4 +113,21 @@ class AplicativoDinersDetalle extends Model
 		$q->save();
 		return $q;
 	}
+
+	static function porAplicativoDiners($aplicativo_diners_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('aplicativo_diners_detalle')
+			->select(null)
+			->select('*')
+			->where('eliminado',0)
+			->where('aplicativo_diners_id',$aplicativo_diners_id);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
 }
