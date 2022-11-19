@@ -174,7 +174,7 @@ class ProductoApi extends BaseController {
 		$dir_array = [];
 		foreach ($direccion as $dir){
 			$aux = [];
-			$aux['tipo'] = substr($dir['tipo'],0,4);
+			$aux['tipo'] = substr($dir['tipo'],0,3);
 			$aux['ciudad'] = $dir['ciudad'];
 			$aux['direccion'] = $dir['direccion'];
 			$aux['latitud'] = null;
@@ -364,7 +364,7 @@ class ProductoApi extends BaseController {
 
 		$retorno['form']['properties']['Nivel1'] = [
 			'type' => 'string',
-			'title' => 'Nivel1',
+			'title' => 'Resultado Gestión',
 			'widget' => 'choice',
 			'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
 			'full_name' => 'data[nivel1]',
@@ -381,7 +381,7 @@ class ProductoApi extends BaseController {
 		];
 		$retorno['form']['properties']['Nivel2'] = [
 			'type' => 'string',
-			'title' => 'Nivel2',
+			'title' => 'Descripción',
 			'widget' => 'picker-select2',
 			'empty_data' => null,
 			'full_name' => 'data[nivel2]',
@@ -409,7 +409,7 @@ class ProductoApi extends BaseController {
 			'type' => 'string',
 			'title' => 'Observaciones',
 			'widget' => 'textarea',
-			'empty_data' => '',
+			'empty_data' => 'MEGACOB ' . date("Ymd"),
 			'full_name' => 'data[observaciones]',
 			'constraints' => [],
 			'required' => 0,
