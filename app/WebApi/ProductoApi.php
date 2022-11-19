@@ -174,9 +174,11 @@ class ProductoApi extends BaseController {
 		$dir_array = [];
 		foreach ($direccion as $dir){
 			$aux = [];
-			$aux['tipo'] = $dir['tipo'];
+			$aux['tipo'] = substr($dir['tipo'],0,4);
 			$aux['ciudad'] = $dir['ciudad'];
 			$aux['direccion'] = $dir['direccion'];
+			$aux['latitud'] = null;
+			$aux['longitud'] = null;
 			$dir_array[] = $aux;
 		}
 

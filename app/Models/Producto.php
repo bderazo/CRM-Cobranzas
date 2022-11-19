@@ -147,6 +147,20 @@ class Producto extends Model
 //		\Auditor::error("getProductoList DATA " . $q->getQuery(), 'Producto', $lista);
 		$retorno = [];
 		foreach($lista as $l){
+			//DATA DE DIRECCIONES
+			$direccion = Direccion::porModulo('cliente', $l['cliente_id']);
+			$dir_array = [];
+			foreach ($direccion as $dir){
+				$aux = [];
+				$aux['tipo'] = substr($dir['tipo'],0,4);
+				$aux['ciudad'] = $dir['ciudad'];
+				$aux['direccion'] = $dir['direccion'];
+				$aux['latitud'] = null;
+				$aux['longitud'] = null;
+				$dir_array[] = $aux;
+			}
+			$l['direcciones'] = $dir_array;
+
 			$retorno[] = $l;
 		}
 		return $retorno;
