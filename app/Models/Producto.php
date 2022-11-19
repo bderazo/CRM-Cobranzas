@@ -129,7 +129,7 @@ class Producto extends Model
 			->innerJoin('cliente cl ON cl.id = p.cliente_id')
 			->innerJoin('institucion i ON i.id = p.institucion_id')
 			->select(null)
-			->select("p.*, cl.apellidos AS cliente_apellidos, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre")
+			->select("p.*, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre")
 			->where('p.eliminado', 0)
 			->where('p.usuario_asignado', 1);
 		if(count($data) > 0) {
