@@ -75,6 +75,8 @@ class UsuariosApi extends BaseController
 		$data = $this->request->getParam('data');
 		$files = $_FILES;
 
+		\Auditor::error("save_form_usuario API ", 'Files', $files);
+
 		// limpieza
 		$keys = array_keys($data);
 		foreach($keys as $key) {
