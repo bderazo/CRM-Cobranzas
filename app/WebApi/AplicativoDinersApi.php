@@ -118,7 +118,7 @@ class AplicativoDinersApi extends BaseController {
 				$dat = [
 					'nombre' => 'DINERS',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners',
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id='.$aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
 					'background-color' => '#4C5EF7',
 				];
@@ -130,7 +130,7 @@ class AplicativoDinersApi extends BaseController {
 				$dat = [
 					'nombre' => 'INTERDIN',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin',
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id='.$aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
 					'background-color' => '#4C5EF7',
 				];
@@ -142,7 +142,7 @@ class AplicativoDinersApi extends BaseController {
 				$dat = [
 					'nombre' => 'DISCOVER',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover',
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id='.$aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
 					'background-color' => '#4C5EF7',
 				];
@@ -154,7 +154,7 @@ class AplicativoDinersApi extends BaseController {
 				$dat = [
 					'nombre' => 'MASTERCARD',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard',
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id='.$aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
 					'background-color' => '#4C5EF7',
 				];
