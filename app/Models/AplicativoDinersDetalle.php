@@ -76,6 +76,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string oferta_valor
  * @property integer refinanciaciones_anteriores
  * @property string cardia
+ * @property string unificar_deudas
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso
@@ -137,14 +138,14 @@ class AplicativoDinersDetalle extends Model
 
 		$q=$db->from('aplicativo_diners_detalle')
 			->select(null)
-			->select('*, MAX(total_riesgo)')
+			->select('*, MAX(total_riesgo) AS max_total_riesgo')
 			->where('eliminado',0)
 			->where('aplicativo_diners_id',$aplicativo_diners_id);
 		$lista = $q->fetch();
-		$retorno = [];
-		foreach ($lista as $l){
-			$retorno[] = $l;
-		}
-		return $retorno;
+//		$retorno = [];
+//		foreach ($lista as $l){
+//			$retorno[] = $l;
+//		}
+		return $lista;
 	}
 }

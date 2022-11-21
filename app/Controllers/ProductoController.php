@@ -516,6 +516,7 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->oferta_valor = $values[174];
 				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[178];
 				$aplicativo_diners_detalle->cardia = $values[182];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
 				$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');
@@ -594,6 +595,7 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->oferta_valor = $values[175];
 				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[179];
 				$aplicativo_diners_detalle->cardia = $values[183];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
 				$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');
@@ -672,6 +674,7 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->oferta_valor = $values[176];
 				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[180];
 				$aplicativo_diners_detalle->cardia = $values[184];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
 				$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');
@@ -749,6 +752,7 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->oferta_valor = $values[177];
 				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[181];
 				$aplicativo_diners_detalle->cardia = $values[185];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
 				$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 				$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');

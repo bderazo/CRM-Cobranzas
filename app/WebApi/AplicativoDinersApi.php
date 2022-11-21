@@ -122,7 +122,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda[2] == 'DINERS'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -134,7 +134,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda[2] == 'INTERDIN'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -146,7 +146,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda[2] == 'DISCOVER'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -158,7 +158,7 @@ class AplicativoDinersApi extends BaseController {
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda[2] == 'MASTERCARD'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD'){
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -534,6 +534,17 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[valor_financiar]',
 			'colorFondo' => '#afccfc',
 		];
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS'){
+			$seccion6['contenido'][] = [
+				'etiqueta' => 'UNIFICAR DEUDAS',
+				'valor' => $tarjeta_diners['unificar_deudas'],
+				'tipo' => 'choice',
+				'name' => 'data[unificar_deudas]',
+				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'colorFondo' => '#afccfc',
+			];
+		}
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_diners['total_intereses'],
@@ -937,6 +948,17 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[valor_financiar]',
 			'colorFondo' => '#e3e3e3',
 		];
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN'){
+			$seccion6['contenido'][] = [
+				'etiqueta' => 'UNIFICAR DEUDAS',
+				'valor' => $tarjeta_interdin['unificar_deudas'],
+				'tipo' => 'choice',
+				'name' => 'data[unificar_deudas]',
+				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'colorFondo' => '#afccfc',
+			];
+		}
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_interdin['total_intereses'],
@@ -1339,6 +1361,17 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[valor_financiar]',
 			'colorFondo' => '#ffd09e',
 		];
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER'){
+			$seccion6['contenido'][] = [
+				'etiqueta' => 'UNIFICAR DEUDAS',
+				'valor' => $tarjeta_discover['unificar_deudas'],
+				'tipo' => 'choice',
+				'name' => 'data[unificar_deudas]',
+				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'colorFondo' => '#afccfc',
+			];
+		}
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_discover['total_intereses'],
@@ -1741,6 +1774,17 @@ class AplicativoDinersApi extends BaseController {
 			'name' => 'data[valor_financiar]',
 			'colorFondo' => '#deffb8',
 		];
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD'){
+			$seccion6['contenido'][] = [
+				'etiqueta' => 'UNIFICAR DEUDAS',
+				'valor' => $tarjeta_mastercard['unificar_deudas'],
+				'tipo' => 'choice',
+				'name' => 'data[unificar_deudas]',
+				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'colorFondo' => '#afccfc',
+			];
+		}
 		$seccion6['contenido'][] = [
 			'etiqueta' => 'TOTAL INTERESES',
 			'valor' => $tarjeta_mastercard['total_intereses'],
@@ -1777,6 +1821,7 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * calculos_tarjeta_diners
+	 * @param $aplicativo_diners_id
 	 * @param $data
 	 * @param $session
 	 */
@@ -1784,6 +1829,7 @@ class AplicativoDinersApi extends BaseController {
 		if (!$this->isPost()) return "calculos_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 //		\Auditor::info('calculos_tarjeta_diners data: ', 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
@@ -1913,6 +1959,17 @@ class AplicativoDinersApi extends BaseController {
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
+		if($data['unificar_deudas'] == 'SI'){
+			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
+			$suma_valor_financiar = 0;
+			foreach ($aplicativo_diners_detalle as $add){
+				if($add['nombre_tarjeta'] != 'DINERS'){
+					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+				}
+			}
+			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+		}
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
@@ -1997,6 +2054,7 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * calculos_tarjeta_interdin
+	 * @param $aplicativo_diners_id
 	 * @param $data
 	 * @param $session
 	 */
@@ -2004,6 +2062,7 @@ class AplicativoDinersApi extends BaseController {
 		if (!$this->isPost()) return "calculos_tarjeta_interdin";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
@@ -2131,6 +2190,17 @@ class AplicativoDinersApi extends BaseController {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
+		}
+		if($data['unificar_deudas'] == 'SI'){
+			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
+			$suma_valor_financiar = 0;
+			foreach ($aplicativo_diners_detalle as $add){
+				if($add['nombre_tarjeta'] != 'INTERDIN'){
+					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+				}
+			}
+			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
 		}
 
 		//TOTAL INTERES
@@ -2214,6 +2284,7 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * calculos_tarjeta_discover
+	 * @param $aplicativo_diners_id
 	 * @param $data
 	 * @param $session
 	 */
@@ -2221,6 +2292,7 @@ class AplicativoDinersApi extends BaseController {
 		if (!$this->isPost()) return "calculos_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
@@ -2348,6 +2420,17 @@ class AplicativoDinersApi extends BaseController {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
+		}
+		if($data['unificar_deudas'] == 'SI'){
+			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
+			$suma_valor_financiar = 0;
+			foreach ($aplicativo_diners_detalle as $add){
+				if($add['nombre_tarjeta'] != 'DISCOVER'){
+					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+				}
+			}
+			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
 		}
 
 		//TOTAL INTERES
@@ -2431,6 +2514,7 @@ class AplicativoDinersApi extends BaseController {
 
 	/**
 	 * calculos_tarjeta_mastercard
+	 * @param $aplicativo_diners_id
 	 * @param $data
 	 * @param $session
 	 */
@@ -2438,6 +2522,7 @@ class AplicativoDinersApi extends BaseController {
 		if (!$this->isPost()) return "calculos_tarjeta_mastercard";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
+		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
@@ -2565,6 +2650,17 @@ class AplicativoDinersApi extends BaseController {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
+		}
+		if($data['unificar_deudas'] == 'SI'){
+			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
+			$suma_valor_financiar = 0;
+			foreach ($aplicativo_diners_detalle as $add){
+				if($add['nombre_tarjeta'] != 'MASTERCARD'){
+					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+				}
+			}
+			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
 		}
 
 		//TOTAL INTERES
@@ -2662,6 +2758,7 @@ class AplicativoDinersApi extends BaseController {
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners_id);
+		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
 		foreach ($data as $key => $val){
@@ -2669,15 +2766,16 @@ class AplicativoDinersApi extends BaseController {
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
-		$aplicativo_detalle = new AplicativoDinersDetalle();
+//		$aplicativo_detalle = new AplicativoDinersDetalle();
+		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
 		foreach ($aplicativo_diners_tarjeta as $key => $val){
 			$aplicativo_detalle->$key = $val;
 		}
-		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
-		$aplicativo_detalle->usuario_ingreso = $user['id'];
+//		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+//		$aplicativo_detalle->usuario_ingreso = $user['id'];
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-		$aplicativo_detalle->eliminado = 0;
+//		$aplicativo_detalle->eliminado = 0;
 		if($aplicativo_detalle->save()){
 			return $this->json($res->conMensaje('OK'));
 		} else {
@@ -2701,6 +2799,7 @@ class AplicativoDinersApi extends BaseController {
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners_id);
+		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
 		foreach ($data as $key => $val){
@@ -2708,15 +2807,16 @@ class AplicativoDinersApi extends BaseController {
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
-		$aplicativo_detalle = new AplicativoDinersDetalle();
+//		$aplicativo_detalle = new AplicativoDinersDetalle();
+		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
 		foreach ($aplicativo_diners_tarjeta as $key => $val){
 			$aplicativo_detalle->$key = $val;
 		}
-		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
-		$aplicativo_detalle->usuario_ingreso = $user['id'];
+//		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+//		$aplicativo_detalle->usuario_ingreso = $user['id'];
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-		$aplicativo_detalle->eliminado = 0;
+//		$aplicativo_detalle->eliminado = 0;
 		if($aplicativo_detalle->save()){
 			return $this->json($res->conMensaje('OK'));
 		} else {
@@ -2740,6 +2840,7 @@ class AplicativoDinersApi extends BaseController {
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners_id);
+		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
 		foreach ($data as $key => $val){
@@ -2747,15 +2848,16 @@ class AplicativoDinersApi extends BaseController {
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
-		$aplicativo_detalle = new AplicativoDinersDetalle();
+//		$aplicativo_detalle = new AplicativoDinersDetalle();
+		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
 		foreach ($aplicativo_diners_tarjeta as $key => $val){
 			$aplicativo_detalle->$key = $val;
 		}
-		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
-		$aplicativo_detalle->usuario_ingreso = $user['id'];
+//		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+//		$aplicativo_detalle->usuario_ingreso = $user['id'];
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-		$aplicativo_detalle->eliminado = 0;
+//		$aplicativo_detalle->eliminado = 0;
 		if($aplicativo_detalle->save()){
 			return $this->json($res->conMensaje('OK'));
 		} else {
@@ -2779,6 +2881,7 @@ class AplicativoDinersApi extends BaseController {
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD',$aplicativo_diners_id);
+		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
 		foreach ($data as $key => $val){
@@ -2786,15 +2889,16 @@ class AplicativoDinersApi extends BaseController {
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
-		$aplicativo_detalle = new AplicativoDinersDetalle();
+//		$aplicativo_detalle = new AplicativoDinersDetalle();
+		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
 		foreach ($aplicativo_diners_tarjeta as $key => $val){
 			$aplicativo_detalle->$key = $val;
 		}
-		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
-		$aplicativo_detalle->usuario_ingreso = $user['id'];
+//		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+//		$aplicativo_detalle->usuario_ingreso = $user['id'];
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-		$aplicativo_detalle->eliminado = 0;
+//		$aplicativo_detalle->eliminado = 0;
 		if($aplicativo_detalle->save()){
 			return $this->json($res->conMensaje('OK'));
 		} else {
