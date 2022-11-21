@@ -140,7 +140,8 @@ class AplicativoDinersDetalle extends Model
 			->select(null)
 			->select('*, MAX(total_riesgo) AS max_total_riesgo')
 			->where('eliminado',0)
-			->where('aplicativo_diners_id',$aplicativo_diners_id);
+			->where('aplicativo_diners_id',$aplicativo_diners_id)
+			->groupBy('id');
 		$lista = $q->fetch();
 //		$retorno = [];
 //		foreach ($lista as $l){
