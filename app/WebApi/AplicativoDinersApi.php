@@ -49,11 +49,13 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $session
 	 */
 	function campos_aplicativo_diners() {
-		if (!$this->isPost()) return "campos_aplicativo_diners";
+//		if (!$this->isPost()) return "campos_aplicativo_diners";
 		$res = new RespuestaConsulta();
-		$producto_id = $this->request->getParam('producto_id');
-		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$producto_id = $this->request->getParam('producto_id');
+//		$session = $this->request->getParam('session');
+//		$user = UsuarioLogin::getUserBySession($session);
+
+		$producto_id = 26614;
 
 		//DATA APLICATIVO DINERS
 		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
