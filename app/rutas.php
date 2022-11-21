@@ -17,6 +17,7 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/usuario/set_user_token_push_notifications', $api->createDispatch(\WebApi\UsuariosApi::class, 'set_user_token_push_notifications', $p));
 	$app->any('/usuario/get_usuario_detalle', $api->createDispatch(\WebApi\UsuariosApi::class, 'get_usuario_detalle', $p));
 	$app->any('/usuario/save_form_usuario', $api->createDispatch(\WebApi\UsuariosApi::class, 'save_form_usuario', $p));
+	$app->any('/usuario/recuperar_contrasena', $api->createDispatch(\WebApi\UsuariosApi::class, 'recuperar_contrasena', $p));
 
 	$app->any('/producto/get_form_busqueda_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_busqueda_producto', $p));
 	$app->any('/producto/get_preguntas_list', $api->createDispatch(\WebApi\ProductoApi::class, 'get_preguntas_list', $p));
