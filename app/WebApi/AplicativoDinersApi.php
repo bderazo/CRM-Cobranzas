@@ -111,8 +111,8 @@ class AplicativoDinersApi extends BaseController {
 			'producto_id' => $aplicativo_diners['producto_id'],
 		];
 
-//		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
-//		$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners['id']);
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
+		$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners['id']);
 //		foreach ($aplicativo_diners_detalle as $add){
 //			if($add['nombre_tarjeta'] == 'DINERS'){
 //				$dat = [
