@@ -155,8 +155,8 @@ class Producto extends Model
 				$aux['tipo'] = substr($dir['tipo'],0,3);
 				$aux['ciudad'] = $dir['ciudad'];
 				$aux['direccion'] = $dir['direccion'];
-				$aux['latitud'] = null;
-				$aux['longitud'] = null;
+				$aux['latitud'] = 0;
+				$aux['longitud'] = 0;
 				$dir_array[] = $aux;
 			}
 			$l['direcciones'] = $dir_array;
