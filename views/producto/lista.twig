@@ -4,10 +4,8 @@
 		<tr>
 			<th>Institución</th>
 			<th>Cliente</th>
-			<th>Agencia</th>
 			<th>Producto</th>
-			<th>Subproducto</th>
-			<th>Tipo de proceso</th>
+			<th>Estado</th>
 			<th>Asignado</th>
 			<th></th>
 		</tr>
@@ -21,11 +19,9 @@
 				<td>
 					<a href="{{ root }}/cliente/editar?id={{ l.cliente_id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.cliente_nombres }}</a>
 				</td>
-				<td>{{ l.agencia }} </td>
 				<td>{{ l.producto }} </td>
-				<td>{{ l.subproducto }} </td>
-				<td>{{ l.tipo_proceso|upper }} </td>
-				<td>ADMIN</td>
+				<td>{{ l.estado|upper }} </td>
+				<td>{{ l.apellidos_usuario_asignado }}&nbsp;{{ l.nombres_usuario_asignado }}</td>
 				<td>
 					<a href="{{ root }}/producto/editar?id={{ l.id }}" target="_blank" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
 						<i class="fa fa-plus"></i>

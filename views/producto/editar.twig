@@ -153,159 +153,42 @@
 
 
 
-{#			<div class="card">#}
-{#				<div class="card-header">#}
-{#					<h4 class="card-title">PRODUCTO</h4>#}
-{#				</div>#}
-{#				<div class="card-body">#}
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Código operación</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">#}
-{#						</div>#}
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">PRODUCTO</h4>
+				</div>
+				<div class="card-body">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Código operación</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
+						</div>
 
-{#						<label for="inputName" class="col-md-2 form-label">Subproducto</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.subproducto">#}
-{#						</div>#}
-{#					</div>#}
+						<label for="inputName" class="col-md-2 form-label">Estado</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.estado">
+						</div>
+					</div>
 
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Agencia</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.agencia">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Estado</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.estado">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Estado operación</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.estado_operacion">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Tipo proceso</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.tipo_proceso">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Fecha adquisición</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.fecha_adquisicion">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Sector</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.sector">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Monto crédito</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_credito">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Monto adeudado</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_adeudado">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Monto riesgo</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.monto_riesgo">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Días mora</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.dias_mora">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Número de cuotas</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.numero_cuotas">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Fecha vencimiento</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.fecha_vencimiento">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Valor cuota</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.valor_cuota">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Valor cobrar</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.valor_cobrar">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Abono/pago</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.abono">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Nombre Garante</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.nombre_garante">#}
-{#						</div>#}
-
-{#						<label for="inputName" class="col-md-2 form-label">Cédula Garante</label>#}
-{#						<div class="col-md-4 col-informacion">#}
-{#							<input type="text" readonly class="form-control-plaintext" v-model="model.cedula_garante">#}
-{#						</div>#}
-{#					</div>#}
-
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">PAGOS</label>#}
-{#						<div class="col-md-10">#}
-{#							<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">#}
-{#								<thead>#}
-{#								<tr>#}
-{#									<th>Número de cuota</th>#}
-{#									<th>Pago Total</th>#}
-{#									<th>Fecha de pago</th>#}
-{#									<th>Fecha de vencimiento</th>#}
-{#								</tr>#}
-{#								</thead>#}
-{#								<tbody>#}
-{#								<tr v-for="p in pagos">#}
-{#									<td>#}
-
-{#									</td>#}
-{#									<td>#}
-
-{#									</td>#}
-{#									<td>#}
-
-{#									</td>#}
-{#									<td style="text-transform: uppercase;">#}
-
-{#									</td>#}
-{#								</tr>#}
-{#								</tbody>#}
-{#							</table>#}
-{#						</div>#}
-{#					</div>#}
-{#				</div>#}
-{#			</div>#}
+					{% set residuo_final = 1 %}
+					{% for key, pc in producto_campos %}
+						{% if((key % 2) == 0) %}
+							<div class=" row mb-4">
+						{% endif %}
+								<label for="inputName" class="col-md-2 form-label">{{ pc.campo }}</label>
+								<div class="col-md-4 col-informacion">
+									{{ pc.valor }}
+								</div>
+						{% if((key % 2) == 1) %}
+							</div>
+						{% endif %}
+						{% set residuo_final = (key % 2) %}
+					{% endfor %}
+					{% if(residuo_final == 0) %}
+						</div>
+					{% endif %}
+				</div>
+			</div>
 
 			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit-seguimiento" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
 				<div class="card">

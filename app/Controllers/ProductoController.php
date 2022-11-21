@@ -17,6 +17,7 @@ use Models\Egreso;
 use Models\Email;
 use Models\Paleta;
 use Models\Producto;
+use Models\ProductoCampos;
 use Models\Referencia;
 use Models\Telefono;
 use upload;
@@ -126,6 +127,10 @@ class ProductoController extends BaseController {
 
 //		printDie($aplicativo_diners_tarjeta_interdin);
 
+		$producto_campos = ProductoCampos::porProductoId($model->id);
+//		printDie($producto_campos);
+
+		$data['producto_campos'] = $producto_campos;
 		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
 		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
 		$data['aplicativo_diners_tarjeta_diners'] = json_encode($aplicativo_diners_tarjeta_diners);

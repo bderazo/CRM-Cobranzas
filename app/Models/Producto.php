@@ -11,24 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer institucion_id
  * @property integer cliente_id
  * @property string producto
- * @property string subproducto
- * @property string agencia
  * @property string estado
- * @property string estado_operacion
- * @property string tipo_proceso
- * @property string fecha_adquisicion
- * @property string sector
- * @property double monto_credito
- * @property double monto_adeudado
- * @property double monto_riesgo
- * @property integer dias_mora
- * @property integer numero_cuotas
- * @property string fecha_vencimiento
- * @property double valor_cuota
- * @property double valor_cobrar
- * @property double abono
- * @property string nombre_garante
- * @property string cedula_garante
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso
@@ -79,7 +62,9 @@ class Producto extends Model
 		$q = self::query();
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
-		$q->select(['producto.*','cliente.apellidos AS cliente_apellidos','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre']);
+		$q->join('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
+		$q->select(['producto.*','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre','usuario.apellidos AS apellidos_usuario_asignado',
+					'usuario.nombres AS nombres_usuario_asignado']);
 
 		if (!empty($post['institucion_id'])) $q->where('institucion.id', '=', $post['institucion_id']);
 
