@@ -224,76 +224,8 @@ class ProductoApi extends BaseController {
 				'value' => $producto['producto'],
 			],
 			[
-				'label' => 'Subproducto',
-				'value' => $producto['subproducto'],
-			],
-			[
-				'label' => 'Agencia',
-				'value' => $producto['agencia'],
-			],
-			[
 				'label' => 'Estado',
-				'value' => $producto['estado'],
-			],
-			[
-				'label' => 'Estado operación',
-				'value' => $producto['estado_operacion'],
-			],
-			[
-				'label' => 'Tipo proceso',
-				'value' => $producto['tipo_proceso'],
-			],
-			[
-				'label' => 'Fecha adquisición',
-				'value' => $producto['fecha_adquisicion'],
-			],
-			[
-				'label' => 'Sector',
-				'value' => $producto['sector'],
-			],
-			[
-				'label' => 'Monto crédito',
-				'value' => $producto['monto_credito'],
-			],
-			[
-				'label' => 'Monto adeudado',
-				'value' => $producto['monto_adeudado'],
-			],
-			[
-				'label' => 'Monto riesgo',
-				'value' => $producto['monto_riesgo'],
-			],
-			[
-				'label' => 'Días mora',
-				'value' => $producto['dias_mora'],
-			],
-			[
-				'label' => 'Número de cuotas',
-				'value' => $producto['numero_cuotas'],
-			],
-			[
-				'label' => 'Fecha vencimiento',
-				'value' => $producto['fecha_vencimiento'],
-			],
-			[
-				'label' => 'Valor cuota',
-				'value' => $producto['valor_cuota'],
-			],
-			[
-				'label' => 'Valor cobrar',
-				'value' => $producto['valor_cobrar'],
-			],
-			[
-				'label' => 'Abono/pago',
-				'value' => $producto['abono'],
-			],
-			[
-				'label' => 'Nombre Garante',
-				'value' => $producto['nombre_garante'],
-			],
-			[
-				'label' => 'Cédula Garante',
-				'value' => $producto['cedula_garante'],
+				'value' => strtoupper($producto['estado']),
 			],
 		];
 
