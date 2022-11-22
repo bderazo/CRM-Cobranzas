@@ -11,6 +11,7 @@ use Models\Catalogo;
 use Models\Contacto;
 use Models\Institucion;
 use Models\Paleta;
+use Models\PaletaArbol;
 use Models\PaletaDetalle;
 use upload;
 
@@ -74,12 +75,15 @@ class PaletaController extends BaseController {
 			$model = new ViewPaleta();
 			$paleta_detalle = [];
 			$instituciones = [];
+			$paleta_arbol = [];
 		} else {
 			$model = Paleta::porId($id);
 			\Breadcrumbs::active('Editar Paleta');
 			$paleta_detalle = PaletaDetalle::porPaleta($model->id);
 			$instituciones = Institucion::porPaleta($model->id);
+			$paleta_arbol = PaletaArbol::porPaleta($model->id);
 		}
+		$data['paleta_arbol'] = json_encode($paleta_arbol);
 		$data['instituciones'] = json_encode($instituciones);
 		$data['paleta_detalle'] = json_encode($paleta_detalle);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
