@@ -278,7 +278,7 @@ class ProductoController extends BaseController {
 		return $this->redirectToAction('index');
 	}
 
-	function cargarDatos() {
+	function cargarDatosDiners() {
 		$config = $this->get('config');
 		$archivo =  $config['folder_temp'].'/APLICATIVO_ERE_16_NOV_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
@@ -767,6 +767,268 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->save();
 			}
 
+		}
+
+	}
+
+	function cargarDatosJep() {
+		$config = $this->get('config');
+		$archivo =  $config['folder_temp'].'/carga_jep_tarjetas.xlsx';
+		$workbook = SpreadsheetParser::open($archivo);
+		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
+		$cabecera = [];
+		$clientes_todos = Cliente::getTodos();
+		$telefonos_todos = Telefono::getTodos();
+		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
+			if($rowIndex === 1){
+				$ultima_posicion_columna = array_key_last($values);
+				for($i = 5; $i <= $ultima_posicion_columna; $i++){
+					$cabecera[] = $values[$i];
+				}
+				continue;
+			}
+//			printDie($cabecera);
+
+			$cliente_id = 0;
+			foreach ($clientes_todos as $cl){
+				$existe_cedula = array_search($values[1], $cl);
+				if($existe_cedula){
+					$cliente_id = $cl['id'];
+					break;
+				}
+			}
+
+			if($cliente_id == 0){
+				$cliente = new Cliente();
+				$cliente->cedula = $values[1];
+				$cliente->nombres = $values[2];
+				$cliente->fecha_ingreso = date("Y-m-d H:i:s");
+				$cliente->fecha_modificacion = date("Y-m-d H:i:s");
+				$cliente->usuario_ingreso = \WebSecurity::getUserData('id');
+				$cliente->usuario_modificacion = \WebSecurity::getUserData('id');
+				$cliente->usuario_asignado = \WebSecurity::getUserData('id');
+				$cliente->eliminado = 0;
+				$cliente->save();
+				$cliente_id = $cliente->id;
+			}
+
+			if($values[4] != '') {
+				$direccion = new Direccion();
+				$direccion->tipo = 'DOMICILIO';
+//				$direccion->ciudad = $values[10];
+				$direccion->direccion = $values[4];
+				$direccion->modulo_id = $cliente_id;
+				$direccion->modulo_relacionado = 'cliente';
+				$direccion->fecha_ingreso = date("Y-m-d H:i:s");
+				$direccion->fecha_modificacion = date("Y-m-d H:i:s");
+				$direccion->usuario_ingreso = \WebSecurity::getUserData('id');
+				$direccion->usuario_modificacion = \WebSecurity::getUserData('id');
+				$direccion->eliminado = 0;
+				$direccion->save();
+			}
+
+			if($values[3] != '') {
+				$telefono_id = 0;
+				foreach ($telefonos_todos as $tel){
+					$existe = array_search($values[3], $tel);
+					if($existe){
+						$telefono_id = $tel['id'];
+						break;
+					}
+				}
+				if($telefono_id == 0) {
+					$telefono = new Telefono();
+//					$telefono->tipo = 'CELULAR';
+					$telefono->descripcion = 'TITULAR';
+					$telefono->origen = 'JEP';
+					$telefono->telefono = $values[3];
+					$telefono->bandera = 0;
+					$telefono->modulo_id = $cliente_id;
+					$telefono->modulo_relacionado = 'cliente';
+					$telefono->fecha_ingreso = date("Y-m-d H:i:s");
+					$telefono->fecha_modificacion = date("Y-m-d H:i:s");
+					$telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+					$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+					$telefono->eliminado = 0;
+					$telefono->save();
+				}
+			}
+
+//			if($values[12] != '') {
+//				$mail = new Email();
+//				$mail->tipo = 'PERSONAL';
+//				$mail->descripcion = 'TITULAR';
+//				$mail->origen = 'DINERS';
+//				$mail->email = $values[12];
+//				$mail->bandera = 0;
+//				$mail->modulo_id = $cliente->id;
+//				$mail->modulo_relacionado = 'cliente';
+//				$mail->fecha_ingreso = date("Y-m-d H:i:s");
+//				$mail->fecha_modificacion = date("Y-m-d H:i:s");
+//				$mail->usuario_ingreso = \WebSecurity::getUserData('id');
+//				$mail->usuario_modificacion = \WebSecurity::getUserData('id');
+//				$mail->eliminado = 0;
+//				$mail->save();
+//			}
+
+			$producto = new Producto();
+			$producto->institucion_id = 2;
+			$producto->cliente_id = $cliente_id;
+			$producto->producto = $values[0];
+			$producto->estado = 'activo';
+			$producto->fecha_ingreso = date("Y-m-d H:i:s");
+			$producto->fecha_modificacion = date("Y-m-d H:i:s");
+			$producto->usuario_ingreso = \WebSecurity::getUserData('id');
+			$producto->usuario_modificacion = \WebSecurity::getUserData('id');
+			$producto->usuario_asignado = \WebSecurity::getUserData('id');
+			$producto->eliminado = 0;
+			$producto->save();
+
+			$cont = 0;
+			for($i = 5; $i<= $ultima_posicion_columna; $i++){
+				$producto_campos = new ProductoCampos();
+				$producto_campos->producto_id = $producto->id;
+				$producto_campos->campo = $cabecera[$cont];
+				$producto_campos->valor = $values[$i];
+				$producto_campos->fecha_ingreso = date("Y-m-d H:i:s");
+				$producto_campos->fecha_modificacion = date("Y-m-d H:i:s");
+				$producto_campos->usuario_ingreso = \WebSecurity::getUserData('id');
+				$producto_campos->usuario_modificacion = \WebSecurity::getUserData('id');
+				$producto_campos->eliminado = 0;
+				$producto_campos->save();
+				$cont++;
+			}
+		}
+
+	}
+
+	function cargarDatosHuaicana() {
+		$config = $this->get('config');
+		$archivo =  $config['folder_temp'].'/carga_huicana_creditos.xlsx';
+		$workbook = SpreadsheetParser::open($archivo);
+		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
+		$cabecera = [];
+		$clientes_todos = Cliente::getTodos();
+		$telefonos_todos = Telefono::getTodos();
+		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
+			if($rowIndex === 1){
+				$ultima_posicion_columna = array_key_last($values);
+				for($i = 5; $i <= $ultima_posicion_columna; $i++){
+					$cabecera[] = $values[$i];
+				}
+				continue;
+			}
+//			printDie($cabecera);
+
+			$cliente_id = 0;
+			foreach ($clientes_todos as $cl){
+				$existe_cedula = array_search($values[1], $cl);
+				if($existe_cedula){
+					$cliente_id = $cl['id'];
+					break;
+				}
+			}
+
+			if($cliente_id == 0){
+				$cliente = new Cliente();
+				$cliente->cedula = $values[1];
+				$cliente->nombres = $values[2];
+				$cliente->fecha_ingreso = date("Y-m-d H:i:s");
+				$cliente->fecha_modificacion = date("Y-m-d H:i:s");
+				$cliente->usuario_ingreso = \WebSecurity::getUserData('id');
+				$cliente->usuario_modificacion = \WebSecurity::getUserData('id');
+				$cliente->usuario_asignado = \WebSecurity::getUserData('id');
+				$cliente->eliminado = 0;
+				$cliente->save();
+				$cliente_id = $cliente->id;
+			}
+
+			if($values[4] != '') {
+				$direccion = new Direccion();
+//				$direccion->tipo = 'DOMICILIO';
+//				$direccion->ciudad = $values[10];
+				$direccion->direccion = $values[4];
+				$direccion->modulo_id = $cliente_id;
+				$direccion->modulo_relacionado = 'cliente';
+				$direccion->fecha_ingreso = date("Y-m-d H:i:s");
+				$direccion->fecha_modificacion = date("Y-m-d H:i:s");
+				$direccion->usuario_ingreso = \WebSecurity::getUserData('id');
+				$direccion->usuario_modificacion = \WebSecurity::getUserData('id');
+				$direccion->eliminado = 0;
+				$direccion->save();
+			}
+
+			if($values[3] != '') {
+				$telefono_id = 0;
+				foreach ($telefonos_todos as $tel){
+					$existe = array_search($values[3], $tel);
+					if($existe){
+						$telefono_id = $tel['id'];
+						break;
+					}
+				}
+				if($telefono_id == 0) {
+					$telefono = new Telefono();
+//					$telefono->tipo = 'CELULAR';
+					$telefono->descripcion = 'TITULAR';
+					$telefono->origen = 'JEP';
+					$telefono->telefono = $values[3];
+					$telefono->bandera = 0;
+					$telefono->modulo_id = $cliente_id;
+					$telefono->modulo_relacionado = 'cliente';
+					$telefono->fecha_ingreso = date("Y-m-d H:i:s");
+					$telefono->fecha_modificacion = date("Y-m-d H:i:s");
+					$telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+					$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+					$telefono->eliminado = 0;
+					$telefono->save();
+				}
+			}
+
+//			if($values[12] != '') {
+//				$mail = new Email();
+//				$mail->tipo = 'PERSONAL';
+//				$mail->descripcion = 'TITULAR';
+//				$mail->origen = 'DINERS';
+//				$mail->email = $values[12];
+//				$mail->bandera = 0;
+//				$mail->modulo_id = $cliente->id;
+//				$mail->modulo_relacionado = 'cliente';
+//				$mail->fecha_ingreso = date("Y-m-d H:i:s");
+//				$mail->fecha_modificacion = date("Y-m-d H:i:s");
+//				$mail->usuario_ingreso = \WebSecurity::getUserData('id');
+//				$mail->usuario_modificacion = \WebSecurity::getUserData('id');
+//				$mail->eliminado = 0;
+//				$mail->save();
+//			}
+
+			$producto = new Producto();
+			$producto->institucion_id = 3;
+			$producto->cliente_id = $cliente_id;
+			$producto->producto = $values[0];
+			$producto->estado = 'activo';
+			$producto->fecha_ingreso = date("Y-m-d H:i:s");
+			$producto->fecha_modificacion = date("Y-m-d H:i:s");
+			$producto->usuario_ingreso = \WebSecurity::getUserData('id');
+			$producto->usuario_modificacion = \WebSecurity::getUserData('id');
+			$producto->usuario_asignado = \WebSecurity::getUserData('id');
+			$producto->eliminado = 0;
+			$producto->save();
+
+			$cont = 0;
+			for($i = 5; $i<= $ultima_posicion_columna; $i++){
+				$producto_campos = new ProductoCampos();
+				$producto_campos->producto_id = $producto->id;
+				$producto_campos->campo = $cabecera[$cont];
+				$producto_campos->valor = $values[$i];
+				$producto_campos->fecha_ingreso = date("Y-m-d H:i:s");
+				$producto_campos->fecha_modificacion = date("Y-m-d H:i:s");
+				$producto_campos->usuario_ingreso = \WebSecurity::getUserData('id');
+				$producto_campos->usuario_modificacion = \WebSecurity::getUserData('id');
+				$producto_campos->eliminado = 0;
+				$producto_campos->save();
+				$cont++;
+			}
 		}
 
 	}

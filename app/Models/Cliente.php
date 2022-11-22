@@ -95,4 +95,20 @@ class Cliente extends Model {
 		return $q;
 	}
 
+	static function getTodos() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('cliente')
+			->select(null)
+			->select('*')
+			->where('eliminado',0);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
 }

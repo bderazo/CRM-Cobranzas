@@ -57,7 +57,7 @@ class ProductoCampos extends Model
 			->select('p.*')
 			->where('p.eliminado',0)
 			->where('p.producto_id',$producto_id)
-			->orderBy('p.campo ASC');
+			->orderBy('p.id ASC');
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){

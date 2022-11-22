@@ -71,4 +71,21 @@ class Telefono extends Model
 		return $retorno;
 	}
 
+	static function getTodos() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('telefono')
+			->select(null)
+			->select('*')
+			->where('modulo_relacionado','cliente')
+			->where('eliminado',0);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
 }
