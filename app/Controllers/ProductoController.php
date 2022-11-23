@@ -81,7 +81,7 @@ class ProductoController extends BaseController {
 		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
 		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
-		$paleta = Paleta::porId();
+//		$paleta = Paleta::porId();
 
 		$pagos = [];
 		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
