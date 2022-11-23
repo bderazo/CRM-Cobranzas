@@ -85,6 +85,24 @@ class Paleta extends Model
 		return $q->get();
 	}
 
+	static function porInstitucion() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta p')
+			->innerJoin('')
+			->select(null)
+			->select('DISTINCT(pd.nivel1) AS nivel1')
+			->where('pd.eliminado',0)
+			->orderBy('pd.nivel1');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
 	static function getNivel1() {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

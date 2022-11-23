@@ -98,7 +98,7 @@ class Producto extends Model
 			->select('p.*, i.nombre AS institucion_nombre')
 			->where('p.eliminado',0)
 			->where('p.cliente_id',$cliente_id)
-			->orderBy('p.fecha_adquisicion DESC');
+			->orderBy('p.fecha_ingreso DESC');
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
