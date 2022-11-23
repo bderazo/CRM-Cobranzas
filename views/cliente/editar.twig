@@ -216,10 +216,8 @@
 							<thead>
 							<tr>
 								<th>Institución</th>
-								<th>Agencia</th>
 								<th>Producto</th>
-								<th>Subproducto</th>
-								<th>Tipo de proceso</th>
+								<th>Estado</th>
 								<th>Usuario asignado</th>
 								<th>Último seguimiento</th>
 							</tr>
@@ -231,14 +229,12 @@
 										<span v-html="p.institucion_nombre"></span>
 									</a>
 								</td>
-								<td><span v-html="p.agencia"></span></td>
 								<td>
 									<a :href="'{{ root }}/producto/editar?id=' + p.id" target="_blank" style="text-decoration: underline" class="text-primary ms-1">
 										<span v-html="p.producto"></span>
 									</a>
 								</td>
-								<td><span v-html="p.subproducto"></span></td>
-								<td style="text-transform: uppercase;"><span v-html="p.tipo_proceso"></span></td>
+								<td style="text-transform: uppercase;"><span v-html="p.estado"></span></td>
 								<td style="text-transform: uppercase;">ADMIN</td>
 								<td>
 									<table class="table border text-nowrap text-md-nowrap  mb-0">
