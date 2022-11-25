@@ -15,11 +15,16 @@ use Models\Contacto;
 use Models\Direccion;
 use Models\Egreso;
 use Models\Email;
+use Models\Institucion;
 use Models\Paleta;
+use Models\PaletaArbol;
 use Models\Producto;
 use Models\ProductoCampos;
+use Models\ProductoSeguimiento;
 use Models\Referencia;
 use Models\Telefono;
+use Models\Usuario;
+use Models\UsuarioPerfil;
 use upload;
 use Akeneo\Component\SpreadsheetParser\SpreadsheetParser;
 
@@ -58,7 +63,7 @@ class ProductoController extends BaseController {
 		\WebSecurity::secure('producto.lista');
 
 		$meses_gracia = [];
-		for($i = 1; $i <= 6; $i++){
+		for ($i = 1; $i <= 6; $i++) {
 			$meses_gracia[$i] = $i;
 		}
 		$cat = new CatalogoCliente();
@@ -81,44 +86,48 @@ class ProductoController extends BaseController {
 		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
 		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
-//		$paleta = Paleta::porId();
+		$institucion = Institucion::porId($model->institucion_id);
+		$catalogos['paleta_nivel_1'] = PaletaArbol::getNivel1($institucion->paleta_id);
+		$catalogos['paleta_nivel_2'] = [];
+		$paleta = Paleta::porId($institucion->paleta_id);
+//		printDie($paleta_nivel_1);
 
 		$pagos = [];
 		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
-		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id']);
 		$cuotas_pendientes = $aplicativo_diners_tarjeta_diners['numero_cuotas_pendientes'];
 		$plazo_financiamiento_diners = [];
-		if($cuotas_pendientes > 0) {
+		if ($cuotas_pendientes > 0) {
 			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
 				$plazo_financiamiento_diners[$i] = $i;
 			}
 		}
 		$catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
 
-		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners['id']);
 		$cuotas_pendientes = $aplicativo_diners_tarjeta_discover['numero_cuotas_pendientes'];
 		$plazo_financiamiento_discover = [];
-		if($cuotas_pendientes > 0) {
+		if ($cuotas_pendientes > 0) {
 			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
 				$plazo_financiamiento_discover[$i] = $i;
 			}
 		}
 		$catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
 
-		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners['id']);
 		$cuotas_pendientes = $aplicativo_diners_tarjeta_interdin['numero_cuotas_pendientes'];
 		$plazo_financiamiento_interdin = [];
-		if($cuotas_pendientes > 0) {
+		if ($cuotas_pendientes > 0) {
 			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
 				$plazo_financiamiento_interdin[$i] = $i;
 			}
 		}
 		$catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
 
-		$aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD',$aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners['id']);
 		$cuotas_pendientes = $aplicativo_diners_tarjeta_mastercard['numero_cuotas_pendientes'];
 		$plazo_financiamiento_mastercard = [];
-		if($cuotas_pendientes > 0) {
+		if ($cuotas_pendientes > 0) {
 			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
 				$plazo_financiamiento_mastercard[$i] = $i;
 			}
@@ -132,6 +141,10 @@ class ProductoController extends BaseController {
 		$producto_campos = ProductoCampos::porProductoId($model->id);
 //		printDie($producto_campos);
 
+		$seguimiento = new ViewProductoSeguimiento();
+		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+
+		$data['paleta'] = $paleta;
 		$data['producto_campos'] = $producto_campos;
 		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
 		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
@@ -139,6 +152,7 @@ class ProductoController extends BaseController {
 		$data['aplicativo_diners_tarjeta_discover'] = json_encode($aplicativo_diners_tarjeta_discover);
 		$data['aplicativo_diners_tarjeta_interdin'] = json_encode($aplicativo_diners_tarjeta_interdin);
 		$data['aplicativo_diners_tarjeta_mastercard'] = json_encode($aplicativo_diners_tarjeta_mastercard);
+		$data['seguimiento'] = json_encode($seguimiento);
 		$data['pagos'] = json_encode($pagos);
 		$data['cliente'] = json_encode($cliente);
 		$data['direccion'] = json_encode($direccion);
@@ -231,6 +245,32 @@ class ProductoController extends BaseController {
 
 	}
 
+	function guardarSeguimiento($jsonSeguimiento) {
+		$data = json_decode($jsonSeguimiento, true);
+		$producto = $data['model'];
+		$seguimiento = $data['seguimiento'];
+
+		$con = new ProductoSeguimiento();
+		$con->institucion_id = $producto['institucion_id'];
+		$con->cliente_id = $producto['cliente_id'];
+		$con->producto_id = $producto['id'];
+		$con->nivel_1_id = $seguimiento['nivel_1_id'];
+		$con->nivel_2_id = $seguimiento['nivel_2_id'];
+		$con->observaciones = $seguimiento['observaciones'];
+		$con->usuario_ingreso = \WebSecurity::getUserData('id');
+		$con->eliminado = 0;
+		$con->fecha_ingreso = date("Y-m-d H:i:s");
+		$con->usuario_modificacion = \WebSecurity::getUserData('id');
+		$con->fecha_modificacion = date("Y-m-d H:i:s");
+		$con->save();
+
+		$this->flash->addMessage('confirma', 'Seguimiento Registrado');
+
+		\Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
+		return $this->redirectToAction('editar', ['id' => $producto['id']]);
+
+	}
+
 	function guardarAplicativoDiners() {
 		\WebSecurity::secure('producto.modificar');
 
@@ -238,34 +278,34 @@ class ProductoController extends BaseController {
 		$aplicativo_diners_tarjeta_interdin = isset($_REQUEST['aplicativo_diners_tarjeta_interdin']) ? $_REQUEST['aplicativo_diners_tarjeta_interdin'] : [];
 		$aplicativo_diners_tarjeta_discover = isset($_REQUEST['aplicativo_diners_tarjeta_discover']) ? $_REQUEST['aplicativo_diners_tarjeta_discover'] : [];
 
-		if(count($aplicativo_diners_tarjeta_diners) > 0){
+		if (count($aplicativo_diners_tarjeta_diners) > 0) {
 			$obj_diners = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_diners['id']);
 			$obj_diners->fill($aplicativo_diners_tarjeta_diners);
 			$obj_diners->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_diners->fecha_modificacion = date("Y-m-d H:i:s");
 			$obj_diners->usuario_asignado = \WebSecurity::getUserData('id');
 			$obj_diners->save();
-			\Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle',$aplicativo_diners_tarjeta_diners);
+			\Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
 		}
 
-		if(count($aplicativo_diners_tarjeta_interdin) > 0){
+		if (count($aplicativo_diners_tarjeta_interdin) > 0) {
 			$obj_interdin = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_interdin['id']);
 			$obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
 			$obj_interdin->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_interdin->fecha_modificacion = date("Y-m-d H:i:s");
 			$obj_interdin->usuario_asignado = \WebSecurity::getUserData('id');
 			$obj_interdin->save();
-			\Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle',$aplicativo_diners_tarjeta_interdin);
+			\Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
 		}
 
-		if(count($aplicativo_diners_tarjeta_discover) > 0){
+		if (count($aplicativo_diners_tarjeta_discover) > 0) {
 			$obj_discover = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_discover['id']);
 			$obj_discover->fill($aplicativo_diners_tarjeta_discover);
 			$obj_discover->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_discover->fecha_modificacion = date("Y-m-d H:i:s");
 			$obj_discover->usuario_asignado = \WebSecurity::getUserData('id');
 			$obj_discover->save();
-			\Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle',$aplicativo_diners_tarjeta_discover);
+			\Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
 		}
 
 		return true;
@@ -282,17 +322,17 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo =  $config['folder_temp'].'/APLICATIVO_ERE_16_NOV_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_24_NOV_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
-		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
-			if(($rowIndex === 1))
+		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
+			if (($rowIndex === 1))
 				continue;
-			if(($rowIndex === 2))
+			if (($rowIndex === 2))
 				continue;
-			if(($rowIndex === 3))
+			if (($rowIndex === 3))
 				continue;
-			if($values[0] == '')
+			if ($values[0] == '')
 				continue;
 
 			$cliente = new Cliente();
@@ -310,7 +350,7 @@ class ProductoController extends BaseController {
 			$cliente->eliminado = 0;
 			$cliente->save();
 
-			if($values[16] > 0){
+			if ($values[16] > 0) {
 				$producto = new Producto();
 				$producto->institucion_id = 1;
 				$producto->cliente_id = $cliente->id;
@@ -323,7 +363,7 @@ class ProductoController extends BaseController {
 				$producto->usuario_asignado = \WebSecurity::getUserData('id');
 				$producto->eliminado = 0;
 				$producto->save();
-			}elseif($values[53] > 0){
+			} elseif ($values[53] > 0) {
 				$producto = new Producto();
 				$producto->institucion_id = 1;
 				$producto->cliente_id = $cliente->id;
@@ -336,7 +376,7 @@ class ProductoController extends BaseController {
 				$producto->usuario_asignado = \WebSecurity::getUserData('id');
 				$producto->eliminado = 0;
 				$producto->save();
-			}elseif($values[91] > 0){
+			} elseif ($values[91] > 0) {
 				$producto = new Producto();
 				$producto->institucion_id = 1;
 				$producto->cliente_id = $cliente->id;
@@ -349,7 +389,7 @@ class ProductoController extends BaseController {
 				$producto->usuario_asignado = \WebSecurity::getUserData('id');
 				$producto->eliminado = 0;
 				$producto->save();
-			}elseif($values[138] > 0){
+			} elseif ($values[138] > 0) {
 				$producto = new Producto();
 				$producto->institucion_id = 1;
 				$producto->cliente_id = $cliente->id;
@@ -377,7 +417,7 @@ class ProductoController extends BaseController {
 			$direccion->eliminado = 0;
 			$direccion->save();
 
-			if($values[5] != 'NANA') {
+			if ($values[5] != 'NANA') {
 				$telefono = new Telefono();
 				$telefono->tipo = 'CELULAR';
 				$telefono->descripcion = 'TITULAR';
@@ -393,7 +433,7 @@ class ProductoController extends BaseController {
 				$telefono->eliminado = 0;
 				$telefono->save();
 			}
-			if($values[7] != 'NANA') {
+			if ($values[7] != 'NANA') {
 				$telefono = new Telefono();
 				$telefono->tipo = 'CELULAR';
 				$telefono->descripcion = 'TITULAR';
@@ -409,7 +449,7 @@ class ProductoController extends BaseController {
 				$telefono->eliminado = 0;
 				$telefono->save();
 			}
-			if($values[9] != 'NANA') {
+			if ($values[9] != 'NANA') {
 				$telefono = new Telefono();
 				$telefono->tipo = 'CELULAR';
 				$telefono->descripcion = 'TITULAR';
@@ -425,7 +465,7 @@ class ProductoController extends BaseController {
 				$telefono->eliminado = 0;
 				$telefono->save();
 			}
-			if($values[12] != '') {
+			if ($values[12] != '') {
 				$mail = new Email();
 				$mail->tipo = 'PERSONAL';
 				$mail->descripcion = 'TITULAR';
@@ -464,7 +504,7 @@ class ProductoController extends BaseController {
 			$aplicativo_diners->save();
 
 			//TARJETA DINERS
-			if($values[16] > 0){
+			if ($values[16] > 0) {
 				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners->id;
 				$aplicativo_diners_detalle->nombre_tarjeta = 'DINERS';
@@ -478,22 +518,22 @@ class ProductoController extends BaseController {
 //				$aplicativo_diners_detalle->saldo_90_facturado = $values[21];
 //				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $values[22];
 				$mas_90 = 0;
-				if($values[21] > 0){
+				if ($values[21] > 0) {
 					$mas_90 = $values[21];
 				}
-				if($values[22] > 0){
+				if ($values[22] > 0) {
 					$mas_90 = $mas_90 + $values[22];
 				}
 				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
 
 				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
-				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
 
-				if($values[23] != ''){
-					$aplicativo_diners_detalle->fecha_compromiso = substr($values[23],0,4).'-'.substr($values[23],4,2).'-'.substr($values[23],6,2);
+				if ($values[23] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[23], 0, 4) . '-' . substr($values[23], 4, 2) . '-' . substr($values[23], 6, 2);
 				}
-				if($values[24] != ''){
-					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[24],0,4).'-'.substr($values[24],4,2).'-'.substr($values[24],6,2);
+				if ($values[24] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[24], 0, 4) . '-' . substr($values[24], 4, 2) . '-' . substr($values[24], 6, 2);
 				}
 				$aplicativo_diners_detalle->observacion_gestion = $values[26];
 				$aplicativo_diners_detalle->motivo_gestion = $values[27];
@@ -534,7 +574,7 @@ class ProductoController extends BaseController {
 			}
 
 			//TARJETA INTERDIN
-			if($values[53] > 0){
+			if ($values[53] > 0) {
 				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners->id;
 				$aplicativo_diners_detalle->nombre_tarjeta = 'INTERDIN';
@@ -556,23 +596,23 @@ class ProductoController extends BaseController {
 //
 //				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
-				if($values[58] > 0){
+				if ($values[58] > 0) {
 					$mas_90 = $values[58];
 				}
-				if($values[59] > 0){
+				if ($values[59] > 0) {
 					$mas_90 = $mas_90 + $values[59];
 				}
 				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
 
 				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
-				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
 
 				$aplicativo_diners_detalle->minimo_pagar = $values[60];
-				if($values[61] != ''){
-					$aplicativo_diners_detalle->fecha_compromiso = substr($values[61],0,4).'-'.substr($values[61],4,2).'-'.substr($values[61],6,2);
+				if ($values[61] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[61], 0, 4) . '-' . substr($values[61], 4, 2) . '-' . substr($values[61], 6, 2);
 				}
-				if($values[62] != ''){
-					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[62],0,4).'-'.substr($values[62],4,2).'-'.substr($values[62],6,2);
+				if ($values[62] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[62], 0, 4) . '-' . substr($values[62], 4, 2) . '-' . substr($values[62], 6, 2);
 				}
 				$aplicativo_diners_detalle->observacion_gestion = $values[64];
 				$aplicativo_diners_detalle->motivo_gestion = $values[65];
@@ -613,7 +653,7 @@ class ProductoController extends BaseController {
 			}
 
 			//TARJETA DISCOVER
-			if($values[91] > 0){
+			if ($values[91] > 0) {
 				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners->id;
 				$aplicativo_diners_detalle->nombre_tarjeta = 'DISCOVER';
@@ -635,23 +675,23 @@ class ProductoController extends BaseController {
 //
 //				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
-				if($values[96] > 0){
+				if ($values[96] > 0) {
 					$mas_90 = $values[96];
 				}
-				if($values[97] > 0){
+				if ($values[97] > 0) {
 					$mas_90 = $mas_90 + $values[97];
 				}
 				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
 
 				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
-				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
 
 				$aplicativo_diners_detalle->minimo_pagar = $values[98];
-				if($values[99] != ''){
-					$aplicativo_diners_detalle->fecha_compromiso = substr($values[99],0,4).'-'.substr($values[99],4,2).'-'.substr($values[99],6,2);
+				if ($values[99] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[99], 0, 4) . '-' . substr($values[99], 4, 2) . '-' . substr($values[99], 6, 2);
 				}
-				if($values[100] != ''){
-					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[100],0,4).'-'.substr($values[100],4,2).'-'.substr($values[100],6,2);
+				if ($values[100] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[100], 0, 4) . '-' . substr($values[100], 4, 2) . '-' . substr($values[100], 6, 2);
 				}
 				$aplicativo_diners_detalle->observacion_gestion = $values[102];
 				$aplicativo_diners_detalle->motivo_gestion = $values[103];
@@ -692,7 +732,7 @@ class ProductoController extends BaseController {
 			}
 
 			//TARJETA MASTERCARD
-			if($values[138] > 0){
+			if ($values[138] > 0) {
 				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners->id;
 				$aplicativo_diners_detalle->nombre_tarjeta = 'MASTERCARD';
@@ -713,23 +753,23 @@ class ProductoController extends BaseController {
 //				}
 //				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
-				if($values[143] > 0){
+				if ($values[143] > 0) {
 					$mas_90 = $values[143];
 				}
-				if($values[144] > 0){
+				if ($values[144] > 0) {
 					$mas_90 = $mas_90 + $values[144];
 				}
 				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
 
 				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
-				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual,2,'.','');
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
 
 				$aplicativo_diners_detalle->minimo_pagar = $values[145];
-				if($values[146] != ''){
-					$aplicativo_diners_detalle->fecha_compromiso = substr($values[146],0,4).'-'.substr($values[146],4,2).'-'.substr($values[146],6,2);
+				if ($values[146] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[146], 0, 4) . '-' . substr($values[146], 4, 2) . '-' . substr($values[146], 6, 2);
 				}
-				if($values[147] != ''){
-					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[147],0,4).'-'.substr($values[147],4,2).'-'.substr($values[147],6,2);
+				if ($values[147] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[147], 0, 4) . '-' . substr($values[147], 4, 2) . '-' . substr($values[147], 6, 2);
 				}
 				$aplicativo_diners_detalle->observacion_gestion = $values[149];
 				$aplicativo_diners_detalle->motivo_gestion = $values[150];
@@ -775,16 +815,16 @@ class ProductoController extends BaseController {
 
 	function cargarDatosJep() {
 		$config = $this->get('config');
-		$archivo =  $config['folder_temp'].'/carga_jep_tarjetas.xlsx';
+		$archivo = $config['folder_temp'] . '/carga_jep_tarjetas.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		$cabecera = [];
 		$clientes_todos = Cliente::getTodos();
 		$telefonos_todos = Telefono::getTodos();
-		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
-			if($rowIndex === 1){
+		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
+			if ($rowIndex === 1) {
 				$ultima_posicion_columna = array_key_last($values);
-				for($i = 5; $i <= $ultima_posicion_columna; $i++){
+				for ($i = 5; $i <= $ultima_posicion_columna; $i++) {
 					$cabecera[] = $values[$i];
 				}
 				continue;
@@ -792,15 +832,15 @@ class ProductoController extends BaseController {
 //			printDie($cabecera);
 
 			$cliente_id = 0;
-			foreach ($clientes_todos as $cl){
+			foreach ($clientes_todos as $cl) {
 				$existe_cedula = array_search($values[1], $cl);
-				if($existe_cedula){
+				if ($existe_cedula) {
 					$cliente_id = $cl['id'];
 					break;
 				}
 			}
 
-			if($cliente_id == 0){
+			if ($cliente_id == 0) {
 				$cliente = new Cliente();
 				$cliente->cedula = $values[1];
 				$cliente->nombres = $values[2];
@@ -814,7 +854,7 @@ class ProductoController extends BaseController {
 				$cliente_id = $cliente->id;
 			}
 
-			if($values[4] != '') {
+			if ($values[4] != '') {
 				$direccion = new Direccion();
 				$direccion->tipo = 'DOMICILIO';
 //				$direccion->ciudad = $values[10];
@@ -829,16 +869,16 @@ class ProductoController extends BaseController {
 				$direccion->save();
 			}
 
-			if($values[3] != '') {
+			if ($values[3] != '') {
 				$telefono_id = 0;
-				foreach ($telefonos_todos as $tel){
+				foreach ($telefonos_todos as $tel) {
 					$existe = array_search($values[3], $tel);
-					if($existe){
+					if ($existe) {
 						$telefono_id = $tel['id'];
 						break;
 					}
 				}
-				if($telefono_id == 0) {
+				if ($telefono_id == 0) {
 					$telefono = new Telefono();
 //					$telefono->tipo = 'CELULAR';
 					$telefono->descripcion = 'TITULAR';
@@ -887,7 +927,7 @@ class ProductoController extends BaseController {
 			$producto->save();
 
 			$cont = 0;
-			for($i = 5; $i<= $ultima_posicion_columna; $i++){
+			for ($i = 5; $i <= $ultima_posicion_columna; $i++) {
 				$producto_campos = new ProductoCampos();
 				$producto_campos->producto_id = $producto->id;
 				$producto_campos->campo = $cabecera[$cont];
@@ -906,16 +946,16 @@ class ProductoController extends BaseController {
 
 	function cargarDatosHuaicana() {
 		$config = $this->get('config');
-		$archivo =  $config['folder_temp'].'/carga_huicana_creditos.xlsx';
+		$archivo = $config['folder_temp'] . '/carga_huicana_creditos.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		$cabecera = [];
 		$clientes_todos = Cliente::getTodos();
 		$telefonos_todos = Telefono::getTodos();
-		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
-			if($rowIndex === 1){
+		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
+			if ($rowIndex === 1) {
 				$ultima_posicion_columna = array_key_last($values);
-				for($i = 5; $i <= $ultima_posicion_columna; $i++){
+				for ($i = 5; $i <= $ultima_posicion_columna; $i++) {
 					$cabecera[] = $values[$i];
 				}
 				continue;
@@ -923,15 +963,15 @@ class ProductoController extends BaseController {
 //			printDie($cabecera);
 
 			$cliente_id = 0;
-			foreach ($clientes_todos as $cl){
+			foreach ($clientes_todos as $cl) {
 				$existe_cedula = array_search($values[1], $cl);
-				if($existe_cedula){
+				if ($existe_cedula) {
 					$cliente_id = $cl['id'];
 					break;
 				}
 			}
 
-			if($cliente_id == 0){
+			if ($cliente_id == 0) {
 				$cliente = new Cliente();
 				$cliente->cedula = $values[1];
 				$cliente->nombres = $values[2];
@@ -945,7 +985,7 @@ class ProductoController extends BaseController {
 				$cliente_id = $cliente->id;
 			}
 
-			if($values[4] != '') {
+			if ($values[4] != '') {
 				$direccion = new Direccion();
 //				$direccion->tipo = 'DOMICILIO';
 //				$direccion->ciudad = $values[10];
@@ -960,16 +1000,16 @@ class ProductoController extends BaseController {
 				$direccion->save();
 			}
 
-			if($values[3] != '') {
+			if ($values[3] != '') {
 				$telefono_id = 0;
-				foreach ($telefonos_todos as $tel){
+				foreach ($telefonos_todos as $tel) {
 					$existe = array_search($values[3], $tel);
-					if($existe){
+					if ($existe) {
 						$telefono_id = $tel['id'];
 						break;
 					}
 				}
-				if($telefono_id == 0) {
+				if ($telefono_id == 0) {
 					$telefono = new Telefono();
 //					$telefono->tipo = 'CELULAR';
 					$telefono->descripcion = 'TITULAR';
@@ -1018,7 +1058,7 @@ class ProductoController extends BaseController {
 			$producto->save();
 
 			$cont = 0;
-			for($i = 5; $i<= $ultima_posicion_columna; $i++){
+			for ($i = 5; $i <= $ultima_posicion_columna; $i++) {
 				$producto_campos = new ProductoCampos();
 				$producto_campos->producto_id = $producto->id;
 				$producto_campos->campo = $cabecera[$cont];
@@ -1031,6 +1071,38 @@ class ProductoController extends BaseController {
 				$producto_campos->save();
 				$cont++;
 			}
+		}
+
+	}
+
+	function cargarDatosUsuario() {
+		$config = $this->get('config');
+		$archivo = $config['folder_temp'] . '/Usuarios_diners_20_oct_22.xlsx';
+		$workbook = SpreadsheetParser::open($archivo);
+		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
+		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
+			if ($rowIndex === 1) {
+				continue;
+			}
+
+			$usuario = new Usuario();
+			$usuario->username = $values[2];
+			$usuario->password = \WebSecurity::getHash($values[3]);
+			$usuario->fecha_creacion = date("Y-m-d");
+			$usuario->nombres = $values[0];
+			$usuario->apellidos = $values[1];
+			$usuario->email = 'soporte@saes.tech';
+			$usuario->fecha_ultimo_cambio = date("Y-m-d");
+			$usuario->es_admin = 1;
+			$usuario->activo = 1;
+			$usuario->cambiar_password = 0;
+			$usuario->save();
+
+			$usuario_perfil = new UsuarioPerfil();
+			$usuario_perfil->usuario_id = $usuario->id;
+			$usuario_perfil->perfil_id = 15;
+			$usuario_perfil->save();
+
 		}
 
 	}
@@ -1050,5 +1122,23 @@ class ViewProducto {
 	var $usuario_ingreso;
 	var $usuario_modificacion;
 	var $usuario_asignado;
+	var $eliminado;
+}
+
+class ViewProductoSeguimiento {
+	var $id;
+	var $institucion_id;
+	var $cliente_id;
+	var $producto_id;
+	var $nivel_1_id;
+	var $nivel_2_id;
+	var $nivel_3_id;
+	var $nivel_4_id;
+	var $nivel_5_id;
+	var $observaciones;
+	var $fecha_ingreso;
+	var $fecha_modificacion;
+	var $usuario_ingreso;
+	var $usuario_modificacion;
 	var $eliminado;
 }

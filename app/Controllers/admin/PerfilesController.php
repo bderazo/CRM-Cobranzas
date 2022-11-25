@@ -18,6 +18,7 @@ class PerfilesController extends BaseController {
 	}
 	
 	function index() {
+		\Breadcrumbs::active('Administración de Perfiles');
 		$identificadores = Perfil::getCodigos();
 		$codigos = [];
 		
@@ -56,6 +57,7 @@ class PerfilesController extends BaseController {
 	}
 	
 	function editar($id) {
+		\Breadcrumbs::active('Perfiles');
 		$data['cmd'] = $id ? 'Editar' : 'Crear';
 		$model = $id ? Perfil::query()->findOrFail($id) : new Perfil();
 		$actuales = empty($model->permisos) ? [] : json_decode($model->permisos);

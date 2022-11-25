@@ -123,9 +123,10 @@
 									<i class="fa fa-save"></i> Guardar
 								</button>
 
-								<button class="btn btn-success" type="submit" id="btnGuardar" name="btnGuardar">
-									<i class="fa fa-upload" aria-hidden="true"></i> Subir Árbol de Gestión
-								</button>
+								{% if es_nuevo == false %}
+									<a href="{{ root }}/paleta/subir_arbol?id={{ modelArr.id }}" class="btn btn-success"><i class="fa fa-upload" aria-hidden="true"></i> Subir Árbol de Gestión</a>
+								{% endif %}
+
 							</div>
 						</div>
 					</div>

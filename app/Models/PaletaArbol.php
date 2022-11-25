@@ -73,4 +73,40 @@ class PaletaArbol extends Model
 		}
 		return $retorno;
 	}
+
+	static function getNivel1($paleta_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel1')
+			->select(null)
+			->select('nivel1.valor AS nivel1, nivel1.id AS nivel1_id')
+			->where('nivel1.nivel',1)
+			->where('nivel1.paleta_id',$paleta_id)
+			->orderBy('nivel1.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['nivel1_id']] = $l['nivel1'];
+		}
+		return $retorno;
+	}
+
+	static function getNivel2($nivel_1_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel2')
+			->select(null)
+			->select('nivel2.valor AS nivel2, nivel2.id AS nivel2_id')
+			->where('nivel2.nivel',2)
+			->where('nivel2.padre_id',$nivel_1_id)
+			->orderBy('nivel2.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['nivel2_id']] = $l['nivel2'];
+		}
+		return $retorno;
+	}
 }

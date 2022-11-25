@@ -191,7 +191,7 @@
 			</div>
 			{% endif %}
 
-			<form method="POST" action="{{ root }}/institucion/guardar" id="form-edit-seguimiento" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+			<form method="POST" action="{{ root }}/producto/guardarSeguimiento" id="form-edit-seguimiento" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
 				<div class="card">
 					<div class="card-header">
 						<h4 class="card-title">SEGUIMIENTO</h4>
@@ -199,35 +199,19 @@
 					<div class="card-body">
 						<h4 class="text-primary">COBRANZA</h4>
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Resultado Gestión</label>
+							<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel1 }}</label>
 							<div class="col-md-4 col-informacion">
-								<select class="form-control form-select select2 required" v-model="model.tipo_gestion" placeholder="Seleccione una opción">
-									<option value="ACUERDO DE PAGO DOCUMENTADO">ACUERDO DE PAGO DOCUMENTADO</option>
-									<option value="CONTACTO SIN ARREGLO MEDIATO">CONTACTO SIN ARREGLO MEDIATO</option>
-									<option value="MENSAJE A TERCERO">MENSAJE A TERCERO</option>
-									<option value="NO CONTACTADO MAÑANA / TARDE / NOCHE">NO CONTACTADO MAÑANA / TARDE / NOCHE</option>
-									<option value="NOTIFICADO">NOTIFICADO</option>
-									<option value="OFRECIMIENTO AL CORTE">OFRECIMIENTO AL CORTE</option>
-									<option value="REFINANCIA">REFINANCIA</option>
-									<option value="SIN ARREGLO">SIN ARREGLO</option>
+								<select class="form-control form-select select2" v-on:change="cargarNivel2"
+										v-model="seguimiento.nivel_1_id" placeholder="Seleccione una opción" required v-autoname>
+									<option v-for="(v,k) in cat.paleta_nivel_1" v-html="v" :value="k"></option>
 								</select>
 							</div>
 
-							<label for="inputName" class="col-md-2 form-label">Descripción</label>
+							<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel2 }}</label>
 							<div class="col-md-4 col-informacion">
-								<select class="form-control form-select select2 required" v-model="model.tipo_perfil" placeholder="Seleccione una opción">
-									<option value="COMPAÑERO DE TRABAJO M">COMPAÑERO DE TRABAJO M</option>
-									<option value="EQUIVOCADO-DESCONOCEN NUM M">EQUIVOCADO-DESCONOCEN NUM M</option>
-									<option value="CONTESTADORA M">CONTESTADORA M</option>
-									<option value="EQUIVOCADO / OTORGAN NÚMERO M">EQUIVOCADO / OTORGAN NÚMERO M</option>
-									<option value="TELÉFONO CON AVERIA M">TELÉFONO CON AVERIA M</option>
-									<option value="EMPLEADA M">EMPLEADA M</option>
-									<option value="FALLECIMIENTO M">FALLECIMIENTO M</option>
-									<option value="SUGERENCIA MANTENIMIENTO M">SUGERENCIA MANTENIMIENTO M</option>
-									<option value="VIAJE M">VIAJE M</option>
-									<option value="CLIENTE CUELGA TELÉFONO M">CLIENTE CUELGA TELÉFONO M</option>
-									<option value="DIRECCIÓN NO CORRESPONDE M">DIRECCIÓN NO CORRESPONDE M</option>
-									<option value="NO CONTESTA M">NO CONTESTA M</option>
+								<select class="form-control form-select select2"
+										v-model="seguimiento.nivel_2_id" placeholder="Seleccione una opción" required v-autoname>
+									<option v-for="(v,k) in cat.paleta_nivel_2" v-html="v" :value="k"></option>
 								</select>
 							</div>
 						</div>
@@ -235,18 +219,17 @@
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Observaciones</label>
 							<div class="col-md-4 col-informacion">
-								<textarea rows="3" class="form-control" placeholder="Observaciones" v-autoname>MEGACOB&nbsp;{{ "now"|date("Y") }}{{ "now"|date("m") }}{{ "now"|date("d") }}</textarea>
+								<textarea rows="3" class="form-control" placeholder="Observaciones" v-model="seguimiento.observaciones" v-autoname></textarea>
 							</div>
 						</div>
 
 						<div class="mb-0 mt-4 ">
 							<div class="col-md-12">
-								<input type="hidden" v-model="model.id" id="id" name="id"/>
-								<input type="hidden" name="json" id="json"/>
+								<input type="hidden" name="jsonSeguimiento" id="jsonSeguimiento"/>
 
-{#								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">#}
-{#									<i class="fa fa-save"></i> Guardar#}
-{#								</button>#}
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
 							</div>
 						</div>
 
@@ -1713,10 +1696,22 @@
 				aplicativo_diners_tarjeta_interdin: {{ aplicativo_diners_tarjeta_interdin|raw }},
 				aplicativo_diners_tarjeta_mastercard: {{ aplicativo_diners_tarjeta_mastercard|raw }},
 				aplicativo_diners_porcentaje_interes: {{ aplicativo_diners_porcentaje_interes|raw }},
+				seguimiento: {{ seguimiento|raw }},
 			},
 			watch: {},
 			computed: {},
 			methods: {
+				cargarNivel2: function () {
+					var self = this;
+					var data = {
+						nivel_1_id: self.seguimiento.nivel_1_id,
+					};
+					$.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
+						self.cat.paleta_nivel_2 = res;
+						console.log(res);
+					});
+				},
+
 				calcularValoresDiners: function () {
 					var self = this;
 
@@ -2469,6 +2464,21 @@
 							del_email: self.del_email,
 						};
 						$('#json').val(JSON.stringify(data));
+						$("#btnGuardar").prop("disabled", true);
+						form.submit();
+						return false;
+					}
+				});
+				$('#form-edit-seguimiento').validate({
+					onfocusout: false,
+					onkeyup: false,
+					onclick: false,
+					submitHandler: function (form) {
+						var data = {
+							model: self.model,
+							seguimiento: self.seguimiento,
+						};
+						$('#jsonSeguimiento').val(JSON.stringify(data));
 						$("#btnGuardar").prop("disabled", true);
 						form.submit();
 						return false;

@@ -21,15 +21,8 @@ use Negocio\EnvioNotificacionesPush;
  * @property string fecha_ultimo_cambio
  * @property string es_admin
  * @property string activo
- * @property string celular
- * @property string telefono
- * @property string extension
- * @property string ubicacion
- * @property string producto
- * @property string direccion
- * @property string region
- * @property string zona
- * @property string tipo_usuario
+ * @property string cambiar_password
+ * @property string estado
  * @property string area
  * @property Perfil[] perfiles
  * @property Concesionario[] concesionarios

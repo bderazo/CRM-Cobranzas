@@ -37,12 +37,12 @@ class PaletaController extends BaseController {
 		$lista = Paleta::buscar($params, 'paleta.nombre', $page, 20);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
-		foreach ($lista as $l){
+		foreach ($lista as $l) {
 			$q = $db->from('institucion i')
 				->select(null)
 				->select('i.*')
 				->where('i.paleta_id', $l->id)
-				->where('i.eliminado',0);
+				->where('i.eliminado', 0);
 			$list = $q->fetchAll();
 			$l->instituciones = [];
 			if ($list) {
@@ -76,12 +76,14 @@ class PaletaController extends BaseController {
 			$paleta_detalle = [];
 			$instituciones = [];
 			$paleta_arbol = [];
+			$es_nuevo = true;
 		} else {
 			$model = Paleta::porId($id);
 			\Breadcrumbs::active('Editar Paleta');
 			$paleta_detalle = PaletaDetalle::porPaleta($model->id);
 			$instituciones = Institucion::porPaleta($model->id);
 			$paleta_arbol = PaletaArbol::porPaleta($model->id);
+			$es_nuevo = false;
 		}
 		$data['paleta_arbol'] = json_encode($paleta_arbol);
 		$data['instituciones'] = json_encode($instituciones);
@@ -89,6 +91,7 @@ class PaletaController extends BaseController {
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		$data['model'] = json_encode($model);
 		$data['modelArr'] = $model;
+		$data['es_nuevo'] = $es_nuevo;
 		$data['permisoModificar'] = $this->permisos->hasRole('paleta.modificar');
 		$data['cargar_archivos'] = $this->permisos->hasRole('paleta.cargar_archivos');
 		return $this->render('editar', $data);
@@ -135,6 +138,67 @@ class PaletaController extends BaseController {
 		\Auditor::info("Paleta $eliminar->nombre eliminada", 'Paleta');
 		$this->flash->addMessage('confirma', 'Paleta eliminada');
 		return $this->redirectToAction('index');
+	}
+
+	function subir_arbol($id) {
+		\WebSecurity::secure('paleta.subir_arbol');
+
+		$cat = new CatalogoPaleta();
+		$catalogos = [
+			'tipo_gestion' => $cat->getByKey('tipo_gestion'),
+			'tipo_perfil' => $cat->getByKey('tipo_perfil'),
+			'tipo_accion' => $cat->getByKey('tipo_accion'),
+		];
+
+
+		$model = Paleta::porId($id);
+		\Breadcrumbs::active('Subir Árbol');
+
+
+
+
+		$data['model'] = json_encode($model);
+		$data['modelArr'] = $model;
+		return $this->render('subir_arbol', $data);
+	}
+
+	function subirArchivo() {
+		$config = $this->get('config');
+		$file = $_FILES;
+		$id_modulo = $_REQUEST['id'];
+
+		printDie($_FILES['archivo_arbol_paleta']);
+
+//		$modulo = 'Material';
+//		$dir = $config['folder_archivos_material'];
+//		$path = $config['path_archivos_material'];
+//		if($file['archivo']['name'] != '') {
+//			//ARREGLAR ARCHIVOS
+//			$archivo['name'] = date("Y_m_d_H_i_s") . '_' . $file["archivo"]["name"];
+//			$archivo['type'] = $file["archivo"]["type"];
+//			$archivo['tmp_name'] = $file["archivo"]["tmp_name"];
+//			$archivo['error'] = $file["archivo"]["error"];
+//			$archivo['size'] = $file["archivo"]["size"];
+//			$mensaje = GeneralHelper::uploadFiles($id_modulo, $modulo, $archivo, $descripcion_archivo, $file["archivo"]["name"], $dir);
+//			$lista_archivos = Archivo::porModulo($modulo, $id_modulo, $path);
+//			$retorno = [
+//				'mensaje' => $mensaje,
+//				'lista_archivos' => $lista_archivos,
+//			];
+//		}else{
+//			$lista_archivos = Archivo::porModulo($modulo, $id_modulo,$path);
+//			$retorno = [
+//				'mensaje' => 'Seleccione un archivo',
+//				'lista_archivos' => $lista_archivos,
+//			];
+//		}
+//		return $this->json($retorno);
+	}
+
+	function cargarNivel2() {
+		$nivel_1_id = $_REQUEST['nivel_1_id'];
+		$nivel2 = PaletaArbol::getNivel2($nivel_1_id);
+		return $this->json($nivel2);
 	}
 
 	//BUSCADORES
