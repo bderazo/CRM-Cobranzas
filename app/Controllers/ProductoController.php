@@ -264,6 +264,10 @@ class ProductoController extends BaseController {
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
 		$con->save();
 
+		$producto_obj = Producto::porId($producto['id']);
+		$producto_obj->estado = 'procesado';
+		$producto_obj->save();
+
 		$this->flash->addMessage('confirma', 'Seguimiento Registrado');
 
 		\Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
