@@ -878,6 +878,194 @@ class ProductoController extends BaseController {
 
 	}
 
+	function exportNegociacionAutomatica() {
+
+		$data = json_decode($_REQUEST['jsonNegociacionAutomatica'], true);
+
+		$aplicativo_diners_tarjeta_diners = isset($data['aplicativo_diners_tarjeta_diners']) ? $data['aplicativo_diners_tarjeta_diners'] : [];
+		$aplicativo_diners_tarjeta_interdin = isset($data['aplicativo_diners_tarjeta_interdin']) ? $data['aplicativo_diners_tarjeta_interdin'] : [];
+		$aplicativo_diners_tarjeta_discover = isset($data['aplicativo_diners_tarjeta_discover']) ? $data['aplicativo_diners_tarjeta_discover'] : [];
+		$aplicativo_diners_tarjeta_mastercard = isset($data['aplicativo_diners_tarjeta_mastercard']) ? $data['aplicativo_diners_tarjeta_mastercard'] : [];
+
+		$producto = $data['model'];
+		$aplicativo_diners = $data['aplicativo_diners'];
+		$cliente = Cliente::porId($producto['cliente_id']);
+
+		//VERIFICAR SI UNIFICADO DEUDA
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
+		$unificar_deudas = 'no';
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS'){
+			if($aplicativo_diners_tarjeta_diners['unificar_deudas'] == 'SI'){
+				$unificar_deudas = 'si';
+				$marca = 'DINERS';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_diners['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_diners['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_diners['numero_meses_gracia'];
+				$consolidacion_deudas = 'SI';
+				$observaciones = $aplicativo_diners_tarjeta_diners['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_diners['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_diners['abono_negociador'];
+			}
+		}elseif($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN'){
+			if($aplicativo_diners_tarjeta_interdin['unificar_deudas'] == 'SI'){
+				$unificar_deudas = 'si';
+				$marca = 'INTERDIN';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_interdin['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_interdin['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_interdin['numero_meses_gracia'];
+				$consolidacion_deudas = 'SI';
+				$observaciones = $aplicativo_diners_tarjeta_interdin['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_interdin['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_interdin['abono_negociador'];
+			}
+		}elseif($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER'){
+			if($aplicativo_diners_tarjeta_discover['unificar_deudas'] == 'SI'){
+				$unificar_deudas = 'si';
+				$marca = 'DISCOVER';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_discover['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_discover['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_discover['numero_meses_gracia'];
+				$consolidacion_deudas = 'SI';
+				$observaciones = $aplicativo_diners_tarjeta_discover['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_discover['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_discover['abono_negociador'];
+			}
+		}elseif($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD'){
+			if($aplicativo_diners_tarjeta_mastercard['unificar_deudas'] == 'SI'){
+				$unificar_deudas = 'si';
+				$marca = 'MASTERCARD';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_mastercard['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_mastercard['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_mastercard['numero_meses_gracia'];
+				$consolidacion_deudas = 'SI';
+				$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners['id']);
+				$observaciones = $aplicativo_diners_tarjeta_mastercard['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_mastercard['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_mastercard['abono_negociador'];
+			}
+		}
+		if($unificar_deudas == 'no') {
+			if (count($aplicativo_diners_tarjeta_diners) > 0) {
+				$marca = 'DINERS';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_diners['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_diners['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_diners['numero_meses_gracia'];
+				$observaciones = $aplicativo_diners_tarjeta_diners['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_diners['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_diners['abono_negociador'];
+			} elseif (count($aplicativo_diners_tarjeta_interdin) > 0) {
+				$marca = 'INTERDIN';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_interdin['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_interdin['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_interdin['numero_meses_gracia'];
+				$observaciones = $aplicativo_diners_tarjeta_interdin['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_interdin['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_interdin['abono_negociador'];
+			} elseif (count($aplicativo_diners_tarjeta_discover) > 0) {
+				$marca = 'DISCOVER';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_discover['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_discover['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_discover['numero_meses_gracia'];
+				$observaciones = $aplicativo_diners_tarjeta_discover['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_discover['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_discover['abono_negociador'];
+			} elseif (count($aplicativo_diners_tarjeta_mastercard) > 0) {
+				$marca = 'MASTERCARD';
+				$motivo_no_pago = $aplicativo_diners_tarjeta_mastercard['motivo_no_pago'];
+				$plazo_financiamiento = $aplicativo_diners_tarjeta_mastercard['plazo_financiamiento'];
+				$numero_meses_gracia = $aplicativo_diners_tarjeta_mastercard['numero_meses_gracia'];
+				$observaciones = $aplicativo_diners_tarjeta_mastercard['observacion_gestion'];
+				$usuario = Usuario::porId($aplicativo_diners_tarjeta_mastercard['usuario_modificacion']);
+				$abono_negociador = $aplicativo_diners_tarjeta_mastercard['abono_negociador'];
+			}
+			$consolidacion_deudas = 'NO';
+		}
+
+		$lista = [];
+		$aux['FECHA'] = [
+			'valor' => date("Y-m-d"),
+			'formato' => 'text',
+		];
+		$aux['CORTE'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+		$aux['MARCA DONDE SE PROCESA'] = [
+			'valor' => $marca,
+			'formato' => 'text',
+		];
+		$aux['CÉDULA'] = [
+			'valor' => $cliente['cedula'],
+			'formato' => 'text',
+		];
+		$aux['COD. NEGOCIADOR'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+		$aux['NOMBRE DEL SOCIO'] = [
+			'valor' => $cliente['nombres'],
+			'formato' => 'text',
+		];
+		$aux['TIPO NEGOCIACIÓN'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+		$aux['PLAZO'] = [
+			'valor' => $plazo_financiamiento,
+			'formato' => 'number',
+		];
+		$aux['MESES DE GRACIA'] = [
+			'valor' => $numero_meses_gracia,
+			'formato' => 'number',
+		];
+		$aux['OBSERVACION CORTA'] = [
+			'valor' => $observaciones,
+			'formato' => 'text',
+		];
+		$aux['ABONO AL CORTE'] = [
+			'valor' => $abono_negociador,
+			'formato' => 'number',
+		];
+		$aux['Nº MOT DE NO PAGO'] = [
+			'valor' => $motivo_no_pago,
+			'formato' => 'text',
+		];
+		$aux['SOCIO CON ACTIVIDAD ACTUAL'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+		$aux['GESTION DETALLADA MESES DE GRACIA'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+		$aux['INGRESOS'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+		$aux['GASTOS'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+		$formatter = new NumeroALetras();
+		$aux['CONFIRMACION PLAZO EN LETRAS'] = [
+			'valor' => $formatter->toWords($plazo_financiamiento,0),
+			'formato' => 'text',
+		];
+		$aux['GESTOR'] = [
+			'valor' => trim($usuario['apellidos'] . ' ' . $usuario['nombres']),
+			'formato' => 'text',
+		];
+		$aux['SUSTENTO'] = [
+			'valor' => '',
+			'formato' => 'text',
+		];
+
+		$lista[] = $aux;
+
+		$this->exportSimple($lista, 'NEGOCIACIÓN AUTOMÁTICA', 'negociacion_automatica.xlsx');
+
+	}
+
 	function eliminar($id) {
 		\WebSecurity::secure('producto.eliminar');
 
@@ -898,15 +1086,11 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_24_NOV_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_28_NOV_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
 			if (($rowIndex === 1))
-				continue;
-			if (($rowIndex === 2))
-				continue;
-			if (($rowIndex === 3))
 				continue;
 			if ($values[0] == '')
 				continue;
