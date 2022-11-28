@@ -249,6 +249,7 @@
 							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
 						</div>
 					</div>
+
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">CIUDAD DE GESTIÓN</label>
 						<div class="col-md-4 col-informacion">
@@ -652,6 +653,18 @@
 												<td><strong>VALOR A FINANCIAR</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_diners.valor_financiar"></span></td>
 											</tr>
+											{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'DINERS' %}
+											<tr style="background-color: #0066A8; color: white;">
+												<td><strong>UNIFICAR DEUDAS</strong></td>
+												<td>
+													<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiners"
+															v-model="aplicativo_diners_tarjeta_diners.unificar_deudas" placeholder="Seleccione una opción" v-autoname>
+														<option value="NO">NO</option>
+														<option value="SI">SI</option>
+													</select>
+												</td>
+											</tr>
+											{% endif %}
 											<tr style="background-color: #0066A8; color: white;">
 												<td><strong>TOTAL INTERESES</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_diners.total_intereses"></span></td>
@@ -979,6 +992,18 @@
 												<td><strong>VALOR A FINANCIAR</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_interdin.valor_financiar"></span></td>
 											</tr>
+											{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'INTERDIN' %}
+												<tr style="background-color: #404040; color: white;">
+													<td><strong>UNIFICAR DEUDAS</strong></td>
+													<td>
+														<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresInterdin"
+																v-model="aplicativo_diners_tarjeta_interdin.unificar_deudas" placeholder="Seleccione una opción" v-autoname>
+															<option value="NO">NO</option>
+															<option value="SI">SI</option>
+														</select>
+													</td>
+												</tr>
+											{% endif %}
 											<tr style="background-color: #404040; color: white;">
 												<td><strong>TOTAL INTERESES</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_interdin.total_intereses"></span></td>
@@ -1306,6 +1331,18 @@
 												<td><strong>VALOR A FINANCIAR</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_discover.valor_financiar"></span></td>
 											</tr>
+											{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'DISCOVER' %}
+												<tr style="background-color: #E66929; color: white;">
+													<td><strong>UNIFICAR DEUDAS</strong></td>
+													<td>
+														<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresDiscover"
+																v-model="aplicativo_diners_tarjeta_discover.unificar_deudas" placeholder="Seleccione una opción" v-autoname>
+															<option value="NO">NO</option>
+															<option value="SI">SI</option>
+														</select>
+													</td>
+												</tr>
+											{% endif %}
 											<tr style="background-color: #E66929; color: white;">
 												<td><strong>TOTAL INTERESES</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_discover.total_intereses"></span></td>
@@ -1633,6 +1670,18 @@
 												<td><strong>VALOR A FINANCIAR</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_mastercard.valor_financiar"></span></td>
 											</tr>
+											{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'MASTERCARD' %}
+												<tr style="background-color: #A4B706; color: white;">
+													<td><strong>UNIFICAR DEUDAS</strong></td>
+													<td>
+														<select class="form-control form-control-sm form-select select2" v-on:change="calcularValoresMastercard"
+																v-model="aplicativo_diners_tarjeta_mastercard.unificar_deudas" placeholder="Seleccione una opción" v-autoname>
+															<option value="NO">NO</option>
+															<option value="SI">SI</option>
+														</select>
+													</td>
+												</tr>
+											{% endif %}
 											<tr style="background-color: #A4B706; color: white;">
 												<td><strong>TOTAL INTERESES</strong></td>
 												<td><span v-html="aplicativo_diners_tarjeta_mastercard.total_intereses"></span></td>
@@ -1656,9 +1705,17 @@
 
 					<div class="mb-0 mt-4 ">
 						<div class="col-md-12">
-							<button class="btn btn-primary" type="submit" id="btnGuardarDiners" name="btnGuardarDiners" v-on:click="guardarAplicativoDiners">
-								<i class="fa fa-save"></i> Guardar
+							<button class="btn btn-primary" type="button" id="btnGuardarDiners" name="btnGuardarDiners" v-on:click="guardarAplicativoDiners">
+								<i class="fa fa-save"></i> GUARDAR
 							</button>
+							<button class="btn btn-success" type="button" name="btnExportarNegociacionManual" id="btnExportarNegociacionManual">
+								<i class="far fa-file-excel"></i> NEGOCIACIÓN MANUAL
+							</button>
+
+							<form id="exportFormNegociacionManual" method="POST" action="{{ root }}/producto/exportNegociacionManual">
+								<input type="hidden" id="jsonNegociacionManual" name="jsonNegociacionManual"/>
+							</form>
+
 						</div>
 					</div>
 				</div>
@@ -1841,6 +1898,22 @@
 						self.aplicativo_diners_tarjeta_diners.valor_financiar = valor_financiar_diners.toFixed(2);
 					}
 
+					//UNIFICAR DEUDAS
+					if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI'){
+						var suma_valor_financiar = 0;
+						if(parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar);
+						}
+						suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar);
+						self.aplicativo_diners_tarjeta_diners.valor_financiar = suma_valor_financiar.toFixed(2);
+					}
+
 					//TOTAL INTERES
 					var plazo_financiamiento = 0;
 					if(parseInt(self.aplicativo_diners_tarjeta_diners.plazo_financiamiento) > 0){
@@ -2016,6 +2089,22 @@
 					}
 					var valor_financiar_diners = deuda_actual + total_precancelacion_diferidos + interes_facturar + corrientes_facturar + gastos_cobranza + valor_otras_tarjetas - abono_total;
 					self.aplicativo_diners_tarjeta_interdin.valor_financiar = valor_financiar_diners.toFixed(2);
+
+					//UNIFICAR DEUDAS
+					if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI'){
+						var suma_valor_financiar = 0;
+						if(parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar);
+						}
+						suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar);
+						self.aplicativo_diners_tarjeta_interdin.valor_financiar = suma_valor_financiar.toFixed(2);
+					}
 
 					//TOTAL INTERES
 					var plazo_financiamiento = 0;
@@ -2193,6 +2282,22 @@
 					var valor_financiar_diners = deuda_actual + total_precancelacion_diferidos + interes_facturar + corrientes_facturar + gastos_cobranza + valor_otras_tarjetas - abono_total;
 					self.aplicativo_diners_tarjeta_discover.valor_financiar = valor_financiar_diners.toFixed(2);
 
+					//UNIFICAR DEUDAS
+					if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI'){
+						var suma_valor_financiar = 0;
+						if(parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar);
+						}
+						suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar);
+						self.aplicativo_diners_tarjeta_discover.valor_financiar = suma_valor_financiar.toFixed(2);
+					}
+
 					//TOTAL INTERES
 					var plazo_financiamiento = 0;
 					if(parseInt(self.aplicativo_diners_tarjeta_discover.plazo_financiamiento) > 0){
@@ -2369,6 +2474,22 @@
 					var valor_financiar_diners = deuda_actual + total_precancelacion_diferidos + interes_facturar + corrientes_facturar + gastos_cobranza + valor_otras_tarjetas - abono_total;
 					self.aplicativo_diners_tarjeta_mastercard.valor_financiar = valor_financiar_diners.toFixed(2);
 
+					//UNIFICAR DEUDAS
+					if(self.aplicativo_diners_tarjeta_mastercard.unificar_deudas == 'SI'){
+						var suma_valor_financiar = 0;
+						if(parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar);
+						}
+						if(parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar) > 0){
+							suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar);
+						}
+						suma_valor_financiar = suma_valor_financiar + parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar);
+						self.aplicativo_diners_tarjeta_mastercard.valor_financiar = suma_valor_financiar.toFixed(2);
+					}
+
 					//TOTAL INTERES
 					var plazo_financiamiento = 0;
 					if(parseInt(self.aplicativo_diners_tarjeta_mastercard.plazo_financiamiento) > 0){
@@ -2483,6 +2604,18 @@
 						form.submit();
 						return false;
 					}
+				});
+				$('#btnExportarNegociacionManual').click(function () {
+					var data = {
+						model: self.model,
+						aplicativo_diners: self.aplicativo_diners,
+						aplicativo_diners_tarjeta_diners: self.aplicativo_diners_tarjeta_diners,
+						aplicativo_diners_tarjeta_discover: self.aplicativo_diners_tarjeta_discover,
+						aplicativo_diners_tarjeta_mastercard: self.aplicativo_diners_tarjeta_mastercard,
+						aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
+					};
+					$('#jsonNegociacionManual').val(JSON.stringify(data));
+					$('#exportFormNegociacionManual').submit();
 				});
 			}
 		});

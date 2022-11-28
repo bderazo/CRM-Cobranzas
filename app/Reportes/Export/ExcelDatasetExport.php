@@ -3,6 +3,9 @@
 namespace Reportes\Export;
 
 use Box\Spout\Common\Type;
+use Box\Spout\Writer\Style\BorderBuilder;
+use Box\Spout\Writer\Style\Color;
+use Box\Spout\Writer\Style\StyleBuilder;
 use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Writer\XLSX\Writer;
 
@@ -50,8 +53,12 @@ class ExcelDatasetExport {
 			foreach ($data as $ix => $row) {
 				if (!$head) {
 					$head = array_keys($row); // format, etc
-					$writer->addRow($head);
+//					$writer->addRow($head);
+					$border = (new BorderBuilder())->setBorderBottom("000000")->build();
+					$styles = (new StyleBuilder())->setBackgroundColor("2B74B3")->setBorder($border)->setFontBold()->setFontColor("FFFFFF")->build();
+					$writer->addRowWithStyle($head,$styles);
 				}
+
 				// formateo
 				$rowData = [];
 				foreach ($row as $key => $value){
@@ -61,11 +68,8 @@ class ExcelDatasetExport {
 					}
 				}
 
-
-//				$rowData = $row['valor'];
-//				if ($row['formato'] == 'number') {
-//					$rowData = $formatNum($row['valor']);
-//				}
+//				$styles = (new StyleBuilder())->setBackgroundColor(Color::RED)->build();
+//				$writer->addRowWithStyle($rowData,$styles);
 				
 				$writer->addRow($rowData);
 			}

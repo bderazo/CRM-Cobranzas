@@ -67,4 +67,23 @@ class Direccion extends Model
 		return $retorno;
 	}
 
+	static function porModuloUltimoRegistro($modulo_relacionado, $modulo_id, $tipo = '') {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('direccion d')
+			->select(null)
+			->select('d.*')
+			->where('d.eliminado',0)
+			->where('d.modulo_relacionado',$modulo_relacionado)
+			->where('d.modulo_id',$modulo_id);
+		if($tipo != ''){
+			$q->where('d.tipo',$tipo);
+		}
+		$q->orderBy('d.id DESC');
+		$lista = $q->fetch();
+		if(!$lista) return [];
+		return $lista;
+	}
+
 }

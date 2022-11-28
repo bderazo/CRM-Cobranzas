@@ -88,4 +88,23 @@ class Telefono extends Model
 		return $retorno;
 	}
 
+	static function porModuloUltimoRegistro($modulo_relacionado, $modulo_id, $tipo = '') {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('telefono t')
+			->select(null)
+			->select('t.*')
+			->where('t.eliminado',0)
+			->where('t.modulo_relacionado',$modulo_relacionado)
+			->where('t.modulo_id',$modulo_id);
+		if($tipo != ''){
+			$q->where('t.tipo',$tipo);
+		}
+		$q->orderBy('t.id DESC');
+		$lista = $q->fetch();
+		if(!$lista) return [];
+		return $lista;
+	}
+
 }
