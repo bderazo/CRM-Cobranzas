@@ -101,6 +101,10 @@ class ProductoController extends BaseController {
 			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
 				$plazo_financiamiento_diners[$i] = $i;
 			}
+		}else{
+			for ($i = 1; $i <= 72; $i++) {
+				$plazo_financiamiento_diners[$i] = $i;
+			}
 		}
 		$catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
 
