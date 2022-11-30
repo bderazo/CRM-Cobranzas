@@ -340,7 +340,7 @@ class ProductoApi extends BaseController {
 		$direcciones = Direccion::porModulo('cliente',$producto['cliente_id']);
 		$dir = [];
 		foreach ($direcciones as $d){
-			$dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'],0,20)];
+			$dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'],0,40)];
 		}
 		$retorno['form']['properties']['Direccion'] = [
 			'type' => 'string',
