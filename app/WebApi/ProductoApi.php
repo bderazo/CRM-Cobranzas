@@ -20,6 +20,7 @@ use Models\Paleta;
 use Models\PaletaArbol;
 use Models\Pregunta;
 use Models\Producto;
+use Models\ProductoSeguimiento;
 use Models\Referencia;
 use Models\Suscripcion;
 use Models\Telefono;
@@ -408,12 +409,41 @@ class ProductoApi extends BaseController {
 		$data = $this->request->getParam('data');
 		\Auditor::info('save_form_paleta data: ', 'API', $data);
 		$files = $_FILES[$data['imagenes']];
-		\Auditor::info('save_form_paleta files: ', 'API', $files);
+		\Auditor::info('save_form_paleta files: ', 'API', $_REQUEST);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$retorno = [];
+		$institucion = Institucion::porId($institucion_id);
+		$producto = Producto::porId($producto_id);
 
+		$con = new ProductoSeguimiento();
+		$con->institucion_id = $institucion_id;
+		$con->cliente_id = $producto['cliente_id'];
+		$con->producto_id = $producto['id'];
+		$con->paleta_id = $institucion['paleta_id'];
+
+		if(isset($data['nivel1'])){
+			$con->nivel_1_id = $data['nivel1'];
+		}
+		if(isset($data['nivel2'])){
+			$con->nivel_2_id = $data['nivel2'];
+		}
+		if(isset($data['nivel3'])){
+			$con->nivel_3_id = $data['nivel3'];
+		}
+		if(isset($data['nivel4'])){
+			$con->nivel_4_id = $data['nivel4'];
+		}
+		$con->observaciones = $data['observaciones'];
+		$con->usuario_ingreso = $user['id'];
+		$con->eliminado = 0;
+		$con->fecha_ingreso = date("Y-m-d H:i:s");
+		$con->usuario_modificacion = $user['id'];
+		$con->fecha_modificacion = date("Y-m-d H:i:s");
+		$con->save();
+
+		$producto->estado = 'procesado';
+		$producto->save();
 
 		return $this->json($res->conMensaje('OK'));
 	}
