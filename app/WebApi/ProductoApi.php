@@ -253,22 +253,17 @@ class ProductoApi extends BaseController {
 		$res = new RespuestaConsulta();
 
 		$q = $this->request->getParam('q');
-		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
+//		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
-		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
+//		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
 		$data = $this->request->getParam('data');
-		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
+//		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-//		$respuesta = Paleta::getNivel2($q, $page, $data);
 		$respuesta = PaletaArbol::getNivel2ApiQuery($q, $page, $data);
-
 		$retorno['results'] = $respuesta;
 		$retorno['pagination'] = ['more' => true];
-
-
-//		\Auditor::info('buscar_listas RESPUESTA: ', 'API', $retorno);
 
 		return $this->json($retorno);
 	}
@@ -277,11 +272,14 @@ class ProductoApi extends BaseController {
 	 * get_form_paleta
 	 * @param $session
 	 * @param $institucion_id
+	 * @param $producto_id
 	 */
 	function get_form_paleta() {
 		if (!$this->isPost()) return "get_form_paleta";
 		$res = new RespuestaConsulta();
 		$institucion_id = $this->request->getParam('institucion_id');
+		$producto_id = $this->request->getParam('producto_id');
+		\Auditor::info('get_form_paleta $producto_id: '.$producto_id, 'API', []);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
@@ -292,12 +290,10 @@ class ProductoApi extends BaseController {
 
 		$institucion = Institucion::porId($institucion_id);
 		$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
-
 		$nivel = [];
 		foreach ($paleta_nivel1 as $key => $val){
 			$nivel[] = ['id' => $key, 'label' => $val];
 		}
-
 		$retorno['form']['properties']['Nivel1'] = [
 			'type' => 'string',
 			'title' => 'Resultado Gestión',
@@ -340,6 +336,28 @@ class ProductoApi extends BaseController {
 			'req_params' => [
 				"data[nivel1]" => "data[nivel1]"
 			],
+		];
+		$direcciones = Direccion::porModulo('cliente',$institucion->paleta_id);
+		$nivel = [];
+		foreach ($paleta_nivel1 as $key => $val){
+			$nivel[] = ['id' => $key, 'label' => $val];
+		}
+		$retorno['form']['properties']['Nivel1'] = [
+			'type' => 'string',
+			'title' => 'Resultado Gestión',
+			'widget' => 'choice',
+			'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+			'full_name' => 'data[nivel1]',
+			'constraints' => [
+				[
+					'name' => 'NotBlank',
+					'message' => 'Este campo no puede estar vacío'
+				]
+			],
+			'required' => 1,
+			'disabled' => 0,
+			'property_order' => 1,
+			'choices' => $nivel,
 		];
 		$retorno['form']['properties']['Observaciones'] = [
 			'type' => 'string',
