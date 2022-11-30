@@ -279,7 +279,6 @@ class ProductoApi extends BaseController {
 		$res = new RespuestaConsulta();
 		$institucion_id = $this->request->getParam('institucion_id');
 		$producto_id = $this->request->getParam('producto_id');
-		\Auditor::info('get_form_paleta $producto_id: '.$producto_id, 'API', []);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
@@ -337,27 +336,23 @@ class ProductoApi extends BaseController {
 				"data[nivel1]" => "data[nivel1]"
 			],
 		];
-		$direcciones = Direccion::porModulo('cliente',$institucion->paleta_id);
-		$nivel = [];
-		foreach ($paleta_nivel1 as $key => $val){
-			$nivel[] = ['id' => $key, 'label' => $val];
+		$producto = Producto::porId($producto_id);
+		$direcciones = Direccion::porModulo('cliente',$producto['cliente_id']);
+		$dir = [];
+		foreach ($direcciones as $d){
+			$dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'],0,20)];
 		}
-		$retorno['form']['properties']['Nivel1'] = [
+		$retorno['form']['properties']['Direccion'] = [
 			'type' => 'string',
-			'title' => 'Resultado Gestión',
+			'title' => 'Dirección Visita',
 			'widget' => 'choice',
 			'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-			'full_name' => 'data[nivel1]',
-			'constraints' => [
-				[
-					'name' => 'NotBlank',
-					'message' => 'Este campo no puede estar vacío'
-				]
-			],
-			'required' => 1,
+			'full_name' => 'data[direccion_visita]',
+			'constraints' => [],
+			'required' => 0,
 			'disabled' => 0,
-			'property_order' => 1,
-			'choices' => $nivel,
+			'property_order' => 3,
+			'choices' => $dir,
 		];
 		$retorno['form']['properties']['Observaciones'] = [
 			'type' => 'string',
@@ -368,7 +363,7 @@ class ProductoApi extends BaseController {
 			'constraints' => [],
 			'required' => 0,
 			'disabled' => 0,
-			'property_order' => 3,
+			'property_order' => 4,
 			'choices' => [],
 		];
 		$retorno['form']['properties']['imagenes'] = [
@@ -382,7 +377,7 @@ class ProductoApi extends BaseController {
 			'multiple' => true,
 			'required' => 0,
 			'disabled' => 0,
-			'property_order' => 4,
+			'property_order' => 5,
 			'choices' => [],
 		];
 
