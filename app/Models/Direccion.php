@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer id
  * @property string tipo
+ * @property string origen
  * @property string ciudad
  * @property string direccion
  * @property integer modulo_id
@@ -84,6 +85,23 @@ class Direccion extends Model
 		$lista = $q->fetch();
 		if(!$lista) return [];
 		return $lista;
+	}
+
+	static function getTodos() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('direccion')
+			->select(null)
+			->select('*')
+			->where('modulo_relacionado','cliente')
+			->where('eliminado',0);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['modulo_id']][] = $l;
+		}
+		return $retorno;
 	}
 
 }

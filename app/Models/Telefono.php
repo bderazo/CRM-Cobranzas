@@ -83,7 +83,7 @@ class Telefono extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
-			$retorno[] = $l;
+			$retorno[$l['modulo_id']][] = $l;
 		}
 		return $retorno;
 	}

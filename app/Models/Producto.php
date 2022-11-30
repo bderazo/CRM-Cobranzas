@@ -81,6 +81,8 @@ class Producto extends Model
 			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
 		}
 
+		$q->where('producto.estado', '<>', 'inactivo');
+
 		$q->where('producto.eliminado', '=', 0);
 		$q->orderBy($order, 'asc');
 		if($pagina > 0 && $records > 0)
@@ -92,7 +94,7 @@ class Producto extends Model
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
-		$q=$db->from('producto p')
+		$q = $db->from('producto p')
 			->innerJoin('institucion i ON i.id = p.institucion_id')
 			->select(null)
 			->select('p.*, i.nombre AS institucion_nombre')
@@ -147,6 +149,23 @@ class Producto extends Model
 			$l['direcciones'] = $dir_array;
 
 			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
+	static function porInstitucioVerificar($institucion_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('producto p')
+			->select(null)
+			->select('p.*')
+			->where('p.eliminado',0)
+			->where('p.institucion_id',$institucion_id);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['institucion_id'].','.$l['cliente_id'].','.$l['producto']] = $l;
 		}
 		return $retorno;
 	}

@@ -1135,7 +1135,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_29_NOV_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_30_NOV_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
@@ -1352,14 +1352,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[32];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[33];
 				$aplicativo_diners_detalle->nd_facturar = $values[34];
-//				$nc_facturar = 0;
-//				if($values[35] > 0){
-//					$nc_facturar = $values[35];
-//				}
-//				if($values[43] > 0){
-//					$nc_facturar = $nc_facturar + $values[43];
-//				}
-//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
 				$aplicativo_diners_detalle->nc_facturar = $values[35];
 				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[43];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[38];
@@ -1394,16 +1386,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->saldo_actual_facturado = $values[55];
 				$aplicativo_diners_detalle->saldo_30_facturado = $values[56];
 				$aplicativo_diners_detalle->saldo_60_facturado = $values[57];
-//				$aplicativo_diners_detalle->saldo_90_facturado = $values[58];
-//				$mas_90 = 0;
-//				if($values[58] > 0){
-//					$mas_90 = $values[58];
-//				}
-//				if($values[59] > 0){
-//					$mas_90 = $mas_90 + $values[59];
-//				}
-//
-//				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
 				if ($values[58] > 0) {
 					$mas_90 = $values[58];
@@ -1431,14 +1413,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[70];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[71];
 				$aplicativo_diners_detalle->nd_facturar = $values[72];
-//				$nc_facturar = 0;
-//				if($values[73] > 0){
-//					$nc_facturar = $values[73];
-//				}
-//				if($values[81] > 0){
-//					$nc_facturar = $nc_facturar + $values[81];
-//				}
-//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
 				$aplicativo_diners_detalle->nc_facturar = $values[73];
 				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[81];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[76];
@@ -1473,16 +1447,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->saldo_actual_facturado = $values[93];
 				$aplicativo_diners_detalle->saldo_30_facturado = $values[94];
 				$aplicativo_diners_detalle->saldo_60_facturado = $values[95];
-//				$aplicativo_diners_detalle->saldo_90_facturado = $values[96];
-//				$mas_90 = 0;
-//				if($values[96] > 0){
-//					$mas_90 = $values[96];
-//				}
-//				if($values[97] > 0){
-//					$mas_90 = $mas_90 + $values[97];
-//				}
-//
-//				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
 				if ($values[96] > 0) {
 					$mas_90 = $values[96];
@@ -1510,14 +1474,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[108];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[109];
 				$aplicativo_diners_detalle->nd_facturar = $values[110];
-//				$nc_facturar = 0;
-//				if($values[111] > 0){
-//					$nc_facturar = $values[111];
-//				}
-//				if($values[119] > 0){
-//					$nc_facturar = $nc_facturar + $values[119];
-//				}
-//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
 				$aplicativo_diners_detalle->nc_facturar = $values[111];
 				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[119];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[114];
@@ -1552,15 +1508,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->saldo_actual_facturado = $values[140];
 				$aplicativo_diners_detalle->saldo_30_facturado = $values[141];
 				$aplicativo_diners_detalle->saldo_60_facturado = $values[142];
-//				$aplicativo_diners_detalle->saldo_90_facturado = $values[143];
-//				$mas_90 = 0;
-//				if($values[143] > 0){
-//					$mas_90 = $values[143];
-//				}
-//				if($values[144] > 0){
-//					$mas_90 = $mas_90 + $values[144];
-//				}
-//				$aplicativo_diners_detalle->saldo_90_mas_90_facturado = $mas_90;
 				$mas_90 = 0;
 				if ($values[143] > 0) {
 					$mas_90 = $values[143];
@@ -1588,14 +1535,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[155];
 				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[156];
 				$aplicativo_diners_detalle->nd_facturar = $values[157];
-//				$nc_facturar = 0;
-//				if($values[158] > 0){
-//					$nc_facturar = $values[158];
-//				}
-//				if($values[166] > 0){
-//					$nc_facturar = $nc_facturar + $values[166];
-//				}
-//				$aplicativo_diners_detalle->nc_facturar = $nc_facturar;
 				$aplicativo_diners_detalle->nc_facturar = $values[158];
 				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[166];
 				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[161];
@@ -1620,6 +1559,580 @@ class ProductoController extends BaseController {
 
 		}
 
+	}
+
+	function cargarDatosDinersModificar() {
+		$config = $this->get('config');
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_29_NOV_22.xlsx';
+		$workbook = SpreadsheetParser::open($archivo);
+		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
+		$clientes_todos = Cliente::getTodos();
+		$telefonos_todos = Telefono::getTodos();
+		$direccion_todos = Direccion::getTodos();
+		$email_todos = Email::getTodos();
+		$productos_todos = Producto::porInstitucioVerificar(1);
+//		printDie($productos_todos);
+		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
+			if (($rowIndex === 1))
+				continue;
+			if ($values[0] == '')
+				continue;
+
+			//PROCESO DE CLIENTES
+			$cliente_id = 0;
+			foreach ($clientes_todos as $cl) {
+				$existe_cedula = array_search($values[0], $cl);
+				if ($existe_cedula) {
+					$cliente_id = $cl['id'];
+					break;
+				}
+			}
+
+			if ($cliente_id == 0) {
+				$cliente = new Cliente();
+				$cliente->cedula = $values[0];
+				$cliente->fecha_ingreso = date("Y-m-d H:i:s");
+				$cliente->usuario_ingreso = \WebSecurity::getUserData('id');
+				$cliente->eliminado = 0;
+				$cliente->nombres = $values[1];
+				$cliente->lugar_trabajo = $values[2];
+				$cliente->ciudad = $values[10];
+				$cliente->zona = $values[11];
+				$cliente->fecha_modificacion = date("Y-m-d H:i:s");
+				$cliente->usuario_modificacion = \WebSecurity::getUserData('id');
+				$cliente->usuario_asignado = \WebSecurity::getUserData('id');
+				$cliente->save();
+				$cliente_id = $cliente->id;
+			}
+
+
+			//PROCESO DE PRODUCTOS
+			$productos_cargados = [];
+			if ($values[16] > 0) {
+				if(isset($productos_todos["1,".$cliente_id.",DINERS"])){
+					$producto_id = $productos_todos["1,".$cliente_id.",DINERS"]['id'];
+//					unset($productos_todos["1,".$cliente_id.",DINERS"]);
+					$productos_todos["1,".$cliente_id.",DINERS"]['cargado'] = 'si';
+				}else{
+					echo "1,".$cliente_id.",DINERS";
+					printDie($productos_todos);
+					$producto = new Producto();
+					$producto->institucion_id = 1;
+					$producto->cliente_id = $cliente_id;
+					$producto->producto = 'DINERS';
+					$producto->fecha_ingreso = date("Y-m-d H:i:s");
+					$producto->usuario_ingreso = \WebSecurity::getUserData('id');
+					$producto->eliminado = 0;
+					$producto->estado = 'activo';
+					$producto->fecha_modificacion = date("Y-m-d H:i:s");
+					$producto->usuario_modificacion = \WebSecurity::getUserData('id');
+					$producto->usuario_asignado = \WebSecurity::getUserData('id');
+					$producto->save();
+					$producto_id = $producto->id;
+				}
+				$productos_cargados[] = $producto_id;
+			} elseif ($values[53] > 0) {
+				if(isset($productos_todos["1,".$cliente_id.",INTERDIN"])){
+					$producto_id = $productos_todos["1,".$cliente_id.",INTERDIN"]['id'];
+//					unset($productos_todos["1,".$cliente_id.",INTERDIN"]);
+					$productos_todos["1,".$cliente_id.",INTERDIN"]['cargado'] = 'si';
+				}else{
+					$producto = new Producto();
+					$producto->institucion_id = 1;
+					$producto->cliente_id = $cliente_id;
+					$producto->producto = 'INTERDIN';
+					$producto->fecha_ingreso = date("Y-m-d H:i:s");
+					$producto->usuario_ingreso = \WebSecurity::getUserData('id');
+					$producto->eliminado = 0;
+					$producto->estado = 'activo';
+					$producto->fecha_modificacion = date("Y-m-d H:i:s");
+					$producto->usuario_modificacion = \WebSecurity::getUserData('id');
+					$producto->usuario_asignado = \WebSecurity::getUserData('id');
+					$producto->save();
+					$producto_id = $producto->id;
+				}
+				$productos_cargados[] = $producto_id;
+			} elseif ($values[91] > 0) {
+				if(isset($productos_todos["1,".$cliente_id.",DISCOVER"])){
+					$producto_id = $productos_todos["1,".$cliente_id.",DISCOVER"]['id'];
+//					unset($productos_todos["1,".$cliente_id.",DISCOVER"]);
+					$productos_todos["1,".$cliente_id.",DISCOVER"]['cargado'] = 'si';
+				}else{
+					$producto = new Producto();
+					$producto->institucion_id = 1;
+					$producto->cliente_id = $cliente_id;
+					$producto->producto = 'DISCOVER';
+					$producto->fecha_ingreso = date("Y-m-d H:i:s");
+					$producto->usuario_ingreso = \WebSecurity::getUserData('id');
+					$producto->eliminado = 0;
+					$producto->estado = 'activo';
+					$producto->fecha_modificacion = date("Y-m-d H:i:s");
+					$producto->usuario_modificacion = \WebSecurity::getUserData('id');
+					$producto->usuario_asignado = \WebSecurity::getUserData('id');
+					$producto->save();
+					$producto_id = $producto->id;
+				}
+				$productos_cargados[] = $producto_id;
+			} elseif ($values[138] > 0) {
+				if(isset($productos_todos["1,".$cliente_id.",MASTERCARD"])){
+					$producto_id = $productos_todos["1,".$cliente_id.",MASTERCARD"]['id'];
+//					unset($productos_todos["1,".$cliente_id.",MASTERCARD"]);
+					$productos_todos["1,".$cliente_id.",MASTERCARD"]['cargado'] = 'si';
+				}else{
+					$producto = new Producto();
+					$producto->institucion_id = 1;
+					$producto->cliente_id = $cliente_id;
+					$producto->producto = 'MASTERCARD';
+					$producto->fecha_ingreso = date("Y-m-d H:i:s");
+					$producto->usuario_ingreso = \WebSecurity::getUserData('id');
+					$producto->eliminado = 0;
+					$producto->estado = 'activo';
+					$producto->fecha_modificacion = date("Y-m-d H:i:s");
+					$producto->usuario_modificacion = \WebSecurity::getUserData('id');
+					$producto->usuario_asignado = \WebSecurity::getUserData('id');
+					$producto->save();
+					$producto_id = $producto->id;
+				}
+				$productos_cargados[] = $producto_id;
+			}
+
+			//PROCESO DE DIRECCIONES
+			$direccion_id = 0;
+			if(isset($direccion_todos[$cliente_id])){
+				foreach ($direccion_todos[$cliente_id] as $dir) {
+					$existe_direccion = array_search($values[3], $dir);
+					if ($existe_direccion) {
+						$direccion_id = $dir['id'];
+						break;
+					}
+				}
+			}
+			if($direccion_id == 0) {
+				$direccion = new Direccion();
+				$direccion->tipo = 'DOMICILIO';
+				$direccion->origen = 'DINERS';
+				$direccion->ciudad = $values[10];
+				$direccion->direccion = $values[3];
+				$direccion->modulo_id = $cliente_id;
+				$direccion->modulo_relacionado = 'cliente';
+				$direccion->fecha_ingreso = date("Y-m-d H:i:s");
+				$direccion->fecha_modificacion = date("Y-m-d H:i:s");
+				$direccion->usuario_ingreso = \WebSecurity::getUserData('id');
+				$direccion->usuario_modificacion = \WebSecurity::getUserData('id');
+				$direccion->eliminado = 0;
+				$direccion->save();
+			}
+
+			//PROCESO DE TELEFONOS
+			if ($values[5] != 'NANA') {
+				$telefono_id = 0;
+				if(isset($telefonos_todos[$cliente_id])){
+					foreach ($telefonos_todos[$cliente_id] as $tel) {
+						$existe_telefono = array_search($values[5], $tel);
+						if ($existe_telefono) {
+							$telefono_id = $tel['id'];
+							break;
+						}
+					}
+				}
+				if($telefono_id == 0) {
+					$telefono = new Telefono();
+					$telefono->tipo = 'CELULAR';
+					$telefono->descripcion = 'TITULAR';
+					$telefono->origen = 'DINERS';
+					$telefono->telefono = $values[5];
+					$telefono->bandera = 0;
+					$telefono->modulo_id = $cliente_id;
+					$telefono->modulo_relacionado = 'cliente';
+					$telefono->fecha_ingreso = date("Y-m-d H:i:s");
+					$telefono->fecha_modificacion = date("Y-m-d H:i:s");
+					$telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+					$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+					$telefono->eliminado = 0;
+					$telefono->save();
+				}
+			}
+			if ($values[7] != 'NANA') {
+				$telefono_id = 0;
+				if(isset($telefonos_todos[$cliente_id])){
+					foreach ($telefonos_todos[$cliente_id] as $tel) {
+						$existe_telefono = array_search($values[7], $tel);
+						if ($existe_telefono) {
+							$telefono_id = $tel['id'];
+							break;
+						}
+					}
+				}
+				if($telefono_id == 0) {
+					$telefono = new Telefono();
+					$telefono->tipo = 'CELULAR';
+					$telefono->descripcion = 'TITULAR';
+					$telefono->origen = 'DINERS';
+					$telefono->telefono = $values[7];
+					$telefono->bandera = 0;
+					$telefono->modulo_id = $cliente_id;
+					$telefono->modulo_relacionado = 'cliente';
+					$telefono->fecha_ingreso = date("Y-m-d H:i:s");
+					$telefono->fecha_modificacion = date("Y-m-d H:i:s");
+					$telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+					$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+					$telefono->eliminado = 0;
+					$telefono->save();
+				}
+			}
+			if ($values[9] != 'NANA') {
+				$telefono_id = 0;
+				if(isset($telefonos_todos[$cliente_id])){
+					foreach ($telefonos_todos[$cliente_id] as $tel) {
+						$existe_telefono = array_search($values[9], $tel);
+						if ($existe_telefono) {
+							$telefono_id = $tel['id'];
+							break;
+						}
+					}
+				}
+				if($telefono_id == 0) {
+					$telefono = new Telefono();
+					$telefono->tipo = 'CELULAR';
+					$telefono->descripcion = 'TITULAR';
+					$telefono->origen = 'DINERS';
+					$telefono->telefono = $values[9];
+					$telefono->bandera = 0;
+					$telefono->modulo_id = $cliente_id;
+					$telefono->modulo_relacionado = 'cliente';
+					$telefono->fecha_ingreso = date("Y-m-d H:i:s");
+					$telefono->fecha_modificacion = date("Y-m-d H:i:s");
+					$telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+					$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+					$telefono->eliminado = 0;
+					$telefono->save();
+				}
+			}
+
+			//PROCESO DE EMAILS
+			if ($values[12] != '') {
+				$email_id = 0;
+				if(isset($email_todos[$cliente_id])){
+					foreach ($email_todos[$cliente_id] as $ema) {
+						$existe_email = array_search($values[12], $ema);
+						if ($existe_email) {
+							$email_id = $ema['id'];
+							break;
+						}
+					}
+				}
+				if($email_id == 0) {
+					$mail = new Email();
+					$mail->tipo = 'PERSONAL';
+					$mail->descripcion = 'TITULAR';
+					$mail->origen = 'DINERS';
+					$mail->email = $values[12];
+					$mail->bandera = 0;
+					$mail->modulo_id = $cliente_id;
+					$mail->modulo_relacionado = 'cliente';
+					$mail->fecha_ingreso = date("Y-m-d H:i:s");
+					$mail->fecha_modificacion = date("Y-m-d H:i:s");
+					$mail->usuario_ingreso = \WebSecurity::getUserData('id');
+					$mail->usuario_modificacion = \WebSecurity::getUserData('id');
+					$mail->eliminado = 0;
+					$mail->save();
+				}
+			}
+
+			//PROCESO DE APLICATIVO DINERS
+			$verificar_aplicativo_diners = AplicativoDiners::verificarDatosAplicativoDiners($cliente_id,$producto_id);
+			if(count($verificar_aplicativo_diners) == 0) {
+				$aplicativo_diners = new AplicativoDiners();
+				$aplicativo_diners->cliente_id = $cliente_id;
+				$aplicativo_diners->institucion_id = 1;
+				$aplicativo_diners->producto_id = $producto_id;
+				$aplicativo_diners->fecha_ingreso = date("Y-m-d H:i:s");
+				$aplicativo_diners->usuario_ingreso = \WebSecurity::getUserData('id');
+				$aplicativo_diners->eliminado = 0;
+				$aplicativo_diners->ciudad_gestion = $values[10];
+				$aplicativo_diners->fecha_elaboracion = date("Y-m-d H:i:s");
+				$aplicativo_diners->cedula_socio = $values[0];
+				$aplicativo_diners->nombre_socio = $values[1];
+				$aplicativo_diners->direccion = $values[3];
+				$aplicativo_diners->mail_contacto = $values[12];
+				$aplicativo_diners->ciudad_cuenta = $values[10];
+				$aplicativo_diners->zona_cuenta = $values[11];
+				$aplicativo_diners->seguro_desgravamen = $values[132];
+				$aplicativo_diners->fecha_modificacion = date("Y-m-d H:i:s");
+				$aplicativo_diners->usuario_modificacion = \WebSecurity::getUserData('id');
+				$aplicativo_diners->usuario_asignado = \WebSecurity::getUserData('id');
+				$aplicativo_diners->save();
+				$aplicativo_diners_id = $aplicativo_diners->id;
+			}else{
+				$aplicativo_diners_id = $verificar_aplicativo_diners['id'];
+			}
+
+
+			//PROCESO DE APLICATIVO DINERS DETALLE
+			//TARJETA DINERS
+			if ($values[16] > 0) {
+				$verificar_aplicativo_diners_detalle = AplicativoDinersDetalle::verificarDatosAplicativoDinersDetalle($aplicativo_diners_id,'DINERS');
+				if(count($verificar_aplicativo_diners_detalle) == 0) {
+					$aplicativo_diners_detalle = new AplicativoDinersDetalle();
+					$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners_id;
+					$aplicativo_diners_detalle->nombre_tarjeta = 'DINERS';
+					$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+					$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');
+					$aplicativo_diners_detalle->eliminado = 0;
+				}else{
+					$aplicativo_diners_detalle = AplicativoDinersDetalle::porId($verificar_aplicativo_diners_detalle['id']);
+				}
+				$aplicativo_diners_detalle->corrientes_facturar = $values[14];
+				$aplicativo_diners_detalle->total_riesgo = $values[15];
+				$aplicativo_diners_detalle->ciclo = $values[16];
+				$aplicativo_diners_detalle->edad_cartera = $values[17];
+				$aplicativo_diners_detalle->saldo_actual_facturado = $values[18];
+				$aplicativo_diners_detalle->saldo_30_facturado = $values[19];
+				$aplicativo_diners_detalle->saldo_60_facturado = $values[20];
+				$mas_90 = 0;
+				if ($values[21] > 0) {
+					$mas_90 = $values[21];
+				}
+				if ($values[22] > 0) {
+					$mas_90 = $mas_90 + $values[22];
+				}
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
+
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
+
+				if ($values[23] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[23], 0, 4) . '-' . substr($values[23], 4, 2) . '-' . substr($values[23], 6, 2);
+				}
+				if ($values[24] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[24], 0, 4) . '-' . substr($values[24], 4, 2) . '-' . substr($values[24], 6, 2);
+				}
+				$aplicativo_diners_detalle->observacion_gestion = $values[26];
+				$aplicativo_diners_detalle->motivo_gestion = $values[27];
+				$aplicativo_diners_detalle->interes_facturado = $values[28];
+				$aplicativo_diners_detalle->debito_automatico = $values[30];
+				$aplicativo_diners_detalle->financiamiento_vigente = $values[31];
+				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[32];
+				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[33];
+				$aplicativo_diners_detalle->nd_facturar = $values[34];
+				$aplicativo_diners_detalle->nc_facturar = $values[35];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[43];
+				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[38];
+				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[40];
+				$aplicativo_diners_detalle->interes_facturar = $values[41];
+				$aplicativo_diners_detalle->segunda_restructuracion = $values[44];
+				$aplicativo_diners_detalle->codigo_cancelacion = $values[46];
+				$aplicativo_diners_detalle->codigo_boletin = $values[47];
+				$aplicativo_diners_detalle->tt_cuotas_fact = $values[126];
+				$aplicativo_diners_detalle->oferta_valor = $values[174];
+				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[178];
+				$aplicativo_diners_detalle->cardia = $values[182];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
+				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+				$aplicativo_diners_detalle->usuario_modificacion = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->usuario_asignado = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->save();
+			}
+
+			//TARJETA INTERDIN
+			if ($values[53] > 0) {
+				$verificar_aplicativo_diners_detalle = AplicativoDinersDetalle::verificarDatosAplicativoDinersDetalle($aplicativo_diners_id,'INTERDIN');
+				if(count($verificar_aplicativo_diners_detalle) == 0) {
+					$aplicativo_diners_detalle = new AplicativoDinersDetalle();
+					$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners_id;
+					$aplicativo_diners_detalle->nombre_tarjeta = 'INTERDIN';
+					$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+					$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');
+					$aplicativo_diners_detalle->eliminado = 0;
+				}else{
+					$aplicativo_diners_detalle = AplicativoDinersDetalle::porId($verificar_aplicativo_diners_detalle['id']);
+				}
+				$aplicativo_diners_detalle->corrientes_facturar = $values[51];
+				$aplicativo_diners_detalle->total_riesgo = $values[52];
+				$aplicativo_diners_detalle->ciclo = $values[53];
+				$aplicativo_diners_detalle->edad_cartera = $values[54];
+				$aplicativo_diners_detalle->saldo_actual_facturado = $values[55];
+				$aplicativo_diners_detalle->saldo_30_facturado = $values[56];
+				$aplicativo_diners_detalle->saldo_60_facturado = $values[57];
+				$mas_90 = 0;
+				if ($values[58] > 0) {
+					$mas_90 = $values[58];
+				}
+				if ($values[59] > 0) {
+					$mas_90 = $mas_90 + $values[59];
+				}
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
+
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
+
+				$aplicativo_diners_detalle->minimo_pagar = $values[60];
+				if ($values[61] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[61], 0, 4) . '-' . substr($values[61], 4, 2) . '-' . substr($values[61], 6, 2);
+				}
+				if ($values[62] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[62], 0, 4) . '-' . substr($values[62], 4, 2) . '-' . substr($values[62], 6, 2);
+				}
+				$aplicativo_diners_detalle->observacion_gestion = $values[64];
+				$aplicativo_diners_detalle->motivo_gestion = $values[65];
+				$aplicativo_diners_detalle->interes_facturado = $values[66];
+				$aplicativo_diners_detalle->debito_automatico = $values[68];
+				$aplicativo_diners_detalle->financiamiento_vigente = $values[69];
+				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[70];
+				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[71];
+				$aplicativo_diners_detalle->nd_facturar = $values[72];
+				$aplicativo_diners_detalle->nc_facturar = $values[73];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[81];
+				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[76];
+				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[78];
+				$aplicativo_diners_detalle->interes_facturar = $values[79];
+				$aplicativo_diners_detalle->segunda_restructuracion = $values[82];
+				$aplicativo_diners_detalle->codigo_cancelacion = $values[84];
+				$aplicativo_diners_detalle->codigo_boletin = $values[85];
+				$aplicativo_diners_detalle->tt_cuotas_fact = $values[127];
+				$aplicativo_diners_detalle->oferta_valor = $values[175];
+				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[179];
+				$aplicativo_diners_detalle->cardia = $values[183];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
+				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+				$aplicativo_diners_detalle->usuario_modificacion = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->usuario_asignado = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->save();
+			}
+
+			//TARJETA DISCOVER
+			if ($values[91] > 0) {
+				$verificar_aplicativo_diners_detalle = AplicativoDinersDetalle::verificarDatosAplicativoDinersDetalle($aplicativo_diners_id,'DISCOVER');
+				if(count($verificar_aplicativo_diners_detalle) == 0) {
+					$aplicativo_diners_detalle = new AplicativoDinersDetalle();
+					$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners_id;
+					$aplicativo_diners_detalle->nombre_tarjeta = 'DISCOVER';
+					$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+					$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');
+					$aplicativo_diners_detalle->eliminado = 0;
+				}else{
+					$aplicativo_diners_detalle = AplicativoDinersDetalle::porId($verificar_aplicativo_diners_detalle['id']);
+				}
+				$aplicativo_diners_detalle->corrientes_facturar = $values[89];
+				$aplicativo_diners_detalle->total_riesgo = $values[90];
+				$aplicativo_diners_detalle->ciclo = $values[91];
+				$aplicativo_diners_detalle->edad_cartera = $values[92];
+				$aplicativo_diners_detalle->saldo_actual_facturado = $values[93];
+				$aplicativo_diners_detalle->saldo_30_facturado = $values[94];
+				$aplicativo_diners_detalle->saldo_60_facturado = $values[95];
+				$mas_90 = 0;
+				if ($values[96] > 0) {
+					$mas_90 = $values[96];
+				}
+				if ($values[97] > 0) {
+					$mas_90 = $mas_90 + $values[97];
+				}
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
+
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
+
+				$aplicativo_diners_detalle->minimo_pagar = $values[98];
+				if ($values[99] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[99], 0, 4) . '-' . substr($values[99], 4, 2) . '-' . substr($values[99], 6, 2);
+				}
+				if ($values[100] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[100], 0, 4) . '-' . substr($values[100], 4, 2) . '-' . substr($values[100], 6, 2);
+				}
+				$aplicativo_diners_detalle->observacion_gestion = $values[102];
+				$aplicativo_diners_detalle->motivo_gestion = $values[103];
+				$aplicativo_diners_detalle->interes_facturado = $values[104];
+				$aplicativo_diners_detalle->debito_automatico = $values[106];
+				$aplicativo_diners_detalle->financiamiento_vigente = $values[107];
+				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[108];
+				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[109];
+				$aplicativo_diners_detalle->nd_facturar = $values[110];
+				$aplicativo_diners_detalle->nc_facturar = $values[111];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[119];
+				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[114];
+				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[116];
+				$aplicativo_diners_detalle->interes_facturar = $values[117];
+				$aplicativo_diners_detalle->segunda_restructuracion = $values[120];
+				$aplicativo_diners_detalle->codigo_cancelacion = $values[122];
+				$aplicativo_diners_detalle->codigo_boletin = $values[123];
+				$aplicativo_diners_detalle->tt_cuotas_fact = $values[128];
+				$aplicativo_diners_detalle->oferta_valor = $values[176];
+				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[180];
+				$aplicativo_diners_detalle->cardia = $values[184];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
+				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+				$aplicativo_diners_detalle->usuario_modificacion = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->usuario_asignado = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->save();
+			}
+
+			//TARJETA MASTERCARD
+			if ($values[138] > 0) {
+				$verificar_aplicativo_diners_detalle = AplicativoDinersDetalle::verificarDatosAplicativoDinersDetalle($aplicativo_diners_id,'MASTERCARD');
+				if(count($verificar_aplicativo_diners_detalle) == 0) {
+					$aplicativo_diners_detalle = new AplicativoDinersDetalle();
+					$aplicativo_diners_detalle->aplicativo_diners_id = $aplicativo_diners_id;
+					$aplicativo_diners_detalle->nombre_tarjeta = 'MASTERCARD';
+					$aplicativo_diners_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+					$aplicativo_diners_detalle->usuario_ingreso = \WebSecurity::getUserData('id');
+					$aplicativo_diners_detalle->eliminado = 0;
+				}else{
+					$aplicativo_diners_detalle = AplicativoDinersDetalle::porId($verificar_aplicativo_diners_detalle['id']);
+				}
+				$aplicativo_diners_detalle->corrientes_facturar = $values[136];
+				$aplicativo_diners_detalle->total_riesgo = $values[137];
+				$aplicativo_diners_detalle->ciclo = $values[138];
+				$aplicativo_diners_detalle->edad_cartera = $values[139];
+				$aplicativo_diners_detalle->saldo_actual_facturado = $values[140];
+				$aplicativo_diners_detalle->saldo_30_facturado = $values[141];
+				$aplicativo_diners_detalle->saldo_60_facturado = $values[142];
+				$mas_90 = 0;
+				if ($values[143] > 0) {
+					$mas_90 = $values[143];
+				}
+				if ($values[144] > 0) {
+					$mas_90 = $mas_90 + $values[144];
+				}
+				$aplicativo_diners_detalle->saldo_90_facturado = $mas_90;
+
+				$deuda_actual = $aplicativo_diners_detalle->saldo_90_facturado + $aplicativo_diners_detalle->saldo_60_facturado + $aplicativo_diners_detalle->saldo_30_facturado + $aplicativo_diners_detalle->saldo_actual_facturado;
+				$aplicativo_diners_detalle->deuda_actual = number_format($deuda_actual, 2, '.', '');
+
+				$aplicativo_diners_detalle->minimo_pagar = $values[145];
+				if ($values[146] != '') {
+					$aplicativo_diners_detalle->fecha_compromiso = substr($values[146], 0, 4) . '-' . substr($values[146], 4, 2) . '-' . substr($values[146], 6, 2);
+				}
+				if ($values[147] != '') {
+					$aplicativo_diners_detalle->fecha_ultima_gestion = substr($values[147], 0, 4) . '-' . substr($values[147], 4, 2) . '-' . substr($values[147], 6, 2);
+				}
+				$aplicativo_diners_detalle->observacion_gestion = $values[149];
+				$aplicativo_diners_detalle->motivo_gestion = $values[150];
+				$aplicativo_diners_detalle->interes_facturado = $values[151];
+				$aplicativo_diners_detalle->debito_automatico = $values[153];
+				$aplicativo_diners_detalle->financiamiento_vigente = $values[154];
+				$aplicativo_diners_detalle->total_precancelacion_diferidos = $values[155];
+				$aplicativo_diners_detalle->numero_diferidos_facturados = $values[156];
+				$aplicativo_diners_detalle->nd_facturar = $values[157];
+				$aplicativo_diners_detalle->nc_facturar = $values[158];
+				$aplicativo_diners_detalle->abono_efectivo_sistema = $values[166];
+				$aplicativo_diners_detalle->numero_cuotas_pendientes = $values[161];
+				$aplicativo_diners_detalle->valor_cuotas_pendientes = $values[163];
+				$aplicativo_diners_detalle->interes_facturar = $values[164];
+				$aplicativo_diners_detalle->segunda_restructuracion = $values[167];
+				$aplicativo_diners_detalle->codigo_cancelacion = $values[169];
+				$aplicativo_diners_detalle->codigo_boletin = $values[170];
+				$aplicativo_diners_detalle->tt_cuotas_fact = $values[173];
+				$aplicativo_diners_detalle->oferta_valor = $values[177];
+				$aplicativo_diners_detalle->refinanciaciones_anteriores = $values[181];
+				$aplicativo_diners_detalle->cardia = $values[185];
+				$aplicativo_diners_detalle->unificar_deudas = 'NO';
+				$aplicativo_diners_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+				$aplicativo_diners_detalle->usuario_modificacion = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->usuario_asignado = \WebSecurity::getUserData('id');
+				$aplicativo_diners_detalle->save();
+			}
+		}
+		printDie($productos_todos);
 	}
 
 	function cargarDatosJep() {

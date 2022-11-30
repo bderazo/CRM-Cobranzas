@@ -70,4 +70,21 @@ class Email extends Model
 		return $retorno;
 	}
 
+	static function getTodos() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('email')
+			->select(null)
+			->select('*')
+			->where('modulo_relacionado','cliente')
+			->where('eliminado',0);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['modulo_id']][] = $l;
+		}
+		return $retorno;
+	}
+
 }

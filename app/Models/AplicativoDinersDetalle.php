@@ -149,4 +149,20 @@ class AplicativoDinersDetalle extends Model
 //		}
 		return $lista;
 	}
+
+	static function verificarDatosAplicativoDinersDetalle($aplicativo_diners_id, $nombre_tarjeta) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('aplicativo_diners_detalle')
+			->select(null)
+			->select('*')
+			->where('eliminado',0)
+			->where('aplicativo_diners_id',$aplicativo_diners_id)
+			->where('nombre_tarjeta',$nombre_tarjeta);
+		$lista = $q->fetch();
+		if(!$lista)
+			return [];
+		return $lista;
+	}
 }

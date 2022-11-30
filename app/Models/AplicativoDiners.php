@@ -104,4 +104,20 @@ class AplicativoDiners extends Model
 			return [];
 		return $lista;
 	}
+
+	static function verificarDatosAplicativoDiners($cliente_id, $producto_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('aplicativo_diners ad')
+			->select(null)
+			->select('ad.*')
+			->where('ad.eliminado',0)
+			->where('ad.cliente_id',$cliente_id)
+			->where('ad.producto_id',$producto_id);
+		$lista = $q->fetch();
+		if(!$lista)
+			return [];
+		return $lista;
+	}
 }
