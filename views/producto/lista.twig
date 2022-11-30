@@ -2,34 +2,48 @@
 	<table class="table border text-nowrap text-md-nowrap table-striped table-bordered table-sm mb-0">
 		<thead>
 		<tr>
+			<th></th>
 			<th>Institución</th>
 			<th>Cliente</th>
 			<th>Producto</th>
 			<th>Estado</th>
 			<th>Asignado</th>
-			<th></th>
+			<th>Último seguimiento</th>
 		</tr>
 		</thead>
 		<tbody>
 		{% for l in lista %}
 			<tr>
 				<td>
-					<a href="{{ root }}/institucion/editar?id={{ l.institucion_id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.institucion_nombre }}</a>
+					<a href="{{ root }}/producto/editar?id={{ l.id }}" target="_blank" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
+						<i class="fa fa-plus"></i>
+					</a>
+					<a href="{{ root }}/producto/verSeguimientos?id={{ l.id }}" target="_blank" class="btn btn-icon btn-success" title="Ver Seguimiento">
+						<i class="fa fa-eye"></i>
+					</a>
 				</td>
-				<td>
-					<a href="{{ root }}/cliente/editar?id={{ l.cliente_id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.cliente_nombres }}</a>
-				</td>
+				<td>{{ l.institucion_nombre }}</td>
+				<td>{{ l.cliente_nombres }}</td>
 				<td>{{ l.producto }} </td>
 				<td>{{ l.estado|upper }} </td>
 				<td>{{ l.apellidos_usuario_asignado }}&nbsp;{{ l.nombres_usuario_asignado }}</td>
 				<td>
-					<a href="{{ root }}/producto/editar?id={{ l.id }}" target="_blank" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
-						<i class="fa fa-plus"></i>
-					</a>
-					<button type="button" class="btn btn-icon btn-info" v-on:click="delTelefono(t)" title="Ver Seguimientos">
-						<i class="fa fa-eye"></i>
-					</button>
-
+					{% if l.ultimo_seguimiento.fecha_ingreso != '' %}
+						<strong>Fecha de seguimiento: </strong>{{ l.ultimo_seguimiento.fecha_ingreso }}<br/>
+						{% if l.ultimo_seguimiento.nivel1 != '' %}
+							<strong>{{ l.ultimo_seguimiento.nivel1_titulo }}: </strong>{{ l.ultimo_seguimiento.nivel1 }}<br/>
+						{% endif %}
+						{% if l.ultimo_seguimiento.nivel2 != '' %}
+							<strong>{{ l.ultimo_seguimiento.nivel2_titulo }}: </strong>{{ l.ultimo_seguimiento.nivel2 }}<br/>
+						{% endif %}
+						{% if l.ultimo_seguimiento.nivel3 != '' %}
+							<strong>{{ l.ultimo_seguimiento.nivel3_titulo }}: </strong>{{ l.ultimo_seguimiento.nivel3 }}<br/>
+						{% endif %}
+						{% if l.ultimo_seguimiento.nivel4 != '' %}
+							<strong>{{ l.ultimo_seguimiento.nivel4_titulo }}: </strong>{{ l.ultimo_seguimiento.nivel4 }}<br/>
+						{% endif %}
+						<strong>Usuario: </strong>{{ l.ultimo_seguimiento.usuario }}
+					{% endif %}
 				</td>
 			</tr>
 		{% endfor %}

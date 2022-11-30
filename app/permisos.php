@@ -9,6 +9,7 @@ return [
 			'modificar' => 'Modificar producto',
 			'eliminar' => 'Eliminar producto',
 			'cargar_archivos' => 'Permitir la carga de archivos',
+			'ver_seguimientos' => 'Ver Seguimientos',
 		],
 		'mensaje' => 'Operaciones posibles para productos'
 	],

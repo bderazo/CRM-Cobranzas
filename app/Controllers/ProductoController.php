@@ -1,7 +1,5 @@
 <?php
-
 namespace Controllers;
-
 use Catalogos\CatalogoCliente;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
@@ -28,9 +26,7 @@ use Models\UsuarioPerfil;
 use Reportes\Export\ExcelDatasetExport;
 use upload;
 use Akeneo\Component\SpreadsheetParser\SpreadsheetParser;
-
 require_once 'vendor/php-numero-a-letras-master/src/NumeroALetras.php';
-
 use Luecano\NumeroALetras\NumeroALetras;
 
 class ProductoController extends BaseController {
@@ -52,9 +48,16 @@ class ProductoController extends BaseController {
 		$lista = Producto::buscar($params, 'producto.fecha_ingreso', $page, 20);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
+		$seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
 		foreach ($lista as $listas) {
+			if(isset($seguimiento_ultimos_todos[$listas['id']])){
+				$listas['ultimo_seguimiento'] = $seguimiento_ultimos_todos[$listas['id']];
+			}else{
+				$listas['ultimo_seguimiento'] = [];
+			}
 			$retorno[] = $listas;
 		}
+//		printDie($retorno);
 		$data['lista'] = $retorno;
 		$data['pag'] = $pag;
 		return $this->render('lista', $data);
@@ -274,10 +277,13 @@ class ProductoController extends BaseController {
 		$producto = $data['model'];
 		$seguimiento = $data['seguimiento'];
 
+		$institucion = Institucion::porId($producto['institucion_id']);
+
 		$con = new ProductoSeguimiento();
 		$con->institucion_id = $producto['institucion_id'];
 		$con->cliente_id = $producto['cliente_id'];
 		$con->producto_id = $producto['id'];
+		$con->paleta_id = $institucion['paleta_id'];
 		$con->nivel_1_id = $seguimiento['nivel_1_id'];
 		$con->nivel_2_id = $seguimiento['nivel_2_id'];
 		$con->observaciones = $seguimiento['observaciones'];
@@ -1075,6 +1081,49 @@ class ProductoController extends BaseController {
 		return $this->redirectToAction('index');
 	}
 
+	function verSeguimientos($id) {
+		\WebSecurity::secure('producto.ver_seguimientos');
+
+		$model = Producto::porId($id);
+		\Breadcrumbs::active('Registrar Seguimiento');
+		$telefono = Telefono::porModulo('cliente', $model->cliente_id);
+		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
+		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
+		$cliente = Cliente::porId($model->cliente_id);
+
+		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
+		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners['id']);
+		$aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners['id']);
+
+		$producto_campos = ProductoCampos::porProductoId($model->id);
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
+		$institucion = Institucion::porId($model->institucion_id);
+		$paleta = Paleta::porId($institucion->paleta_id);
+
+		$seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id);
+//		printDie($seguimientos);
+
+		$data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
+		$data['producto_campos'] = $producto_campos;
+		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
+		$data['aplicativo_diners_tarjeta_diners'] = json_encode($aplicativo_diners_tarjeta_diners);
+		$data['aplicativo_diners_tarjeta_discover'] = json_encode($aplicativo_diners_tarjeta_discover);
+		$data['aplicativo_diners_tarjeta_interdin'] = json_encode($aplicativo_diners_tarjeta_interdin);
+		$data['aplicativo_diners_tarjeta_mastercard'] = json_encode($aplicativo_diners_tarjeta_mastercard);
+		$data['paleta'] = $paleta;
+		$data['seguimientos'] = $seguimientos;
+		$data['cliente'] = json_encode($cliente);
+		$data['direccion'] = json_encode($direccion);
+		$data['referencia'] = json_encode($referencia);
+		$data['telefono'] = json_encode($telefono);
+		$data['model'] = json_encode($model);
+		$data['modelArr'] = $model;
+		$data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
+		return $this->render('verSeguimientos', $data);
+	}
+
 	protected function exportSimple($data, $nombre, $archivo) {
 		$export = new ExcelDatasetExport();
 		$set = [
@@ -1086,7 +1135,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_28_NOV_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_29_NOV_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
