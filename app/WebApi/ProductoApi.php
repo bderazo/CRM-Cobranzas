@@ -407,7 +407,7 @@ class ProductoApi extends BaseController {
 		\Auditor::info('save_form_paleta long: '.$long, 'API', []);
 		$data = $this->request->getParam('data');
 		\Auditor::info('save_form_paleta data: ', 'API', $data);
-		$files = $_FILES;
+		$files = $_FILES[$data['imagenes']];
 		\Auditor::info('save_form_paleta files: ', 'API', $files);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
