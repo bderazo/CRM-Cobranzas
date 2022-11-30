@@ -18,6 +18,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer nivel_4_id
  * @property integer nivel_5_id
  * @property string observaciones
+ * @property integer direccion_id
+ * @property double lat
+ * @property double long
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso

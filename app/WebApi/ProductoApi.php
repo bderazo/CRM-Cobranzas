@@ -415,13 +415,14 @@ class ProductoApi extends BaseController {
 
 		$institucion = Institucion::porId($institucion_id);
 		$producto = Producto::porId($producto_id);
+		$producto->estado = 'procesado';
+		$producto->save();
 
 		$con = new ProductoSeguimiento();
 		$con->institucion_id = $institucion_id;
-		$con->cliente_id = $producto['cliente_id'];
-		$con->producto_id = $producto['id'];
+		$con->cliente_id = $producto->cliente_id;
+		$con->producto_id = $producto->id;
 		$con->paleta_id = $institucion['paleta_id'];
-
 		if(isset($data['nivel1'])){
 			$con->nivel_1_id = $data['nivel1'];
 		}
@@ -435,15 +436,22 @@ class ProductoApi extends BaseController {
 			$con->nivel_4_id = $data['nivel4'];
 		}
 		$con->observaciones = $data['observaciones'];
+		if($data['direccion_visita'] > 0){
+			$con->direccion_id = $data['direccion_visita'];
+			$direccion_update = Direccion::porId($data['direccion_visita']);
+			$direccion_update->lat = $lat;
+			$direccion_update->long = $long;
+			$direccion_update->save();
+		}
+		$con->lat = $lat;
+		$con->long = $long;
+		$con->observaciones = $data['observaciones'];
 		$con->usuario_ingreso = $user['id'];
 		$con->eliminado = 0;
 		$con->fecha_ingreso = date("Y-m-d H:i:s");
 		$con->usuario_modificacion = $user['id'];
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
 		$con->save();
-
-		$producto->estado = 'procesado';
-		$producto->save();
 
 		return $this->json($res->conMensaje('OK'));
 	}

@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string direccion
  * @property integer modulo_id
  * @property string modulo_relacionado
+ * @property double lat
+ * @property double long
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso
