@@ -126,7 +126,7 @@ class Producto extends Model
 				}
 			}
 		}
-		$q->orderBy('p.fecha_ingreso DESC')
+		$q->orderBy('cl.nombres DESC')
 			->limit(10)
 			->offset($page * 10);
 //		\Auditor::error("getProductoList Query " . $q->getQuery(), 'Producto', []);
