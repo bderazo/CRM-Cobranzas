@@ -109,4 +109,30 @@ class PaletaArbol extends Model
 		}
 		return $retorno;
 	}
+
+	static function getNivel2ApiQuery($query, $page, $data) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel2')
+			->select(null)
+			->select('nivel2.valor AS nivel2, nivel2.id AS nivel2_id')
+			->where('nivel2.nivel',2)
+			->where('nivel2.padre_id',$data['nivel1']);
+		if($query != '') {
+			$q->where('UPPER(nivel2.valor) LIKE "%' . strtoupper($query) . '%"');
+		}
+		$q->orderBy('nivel2.valor')
+			->limit(10)
+			->offset($page * 10);
+
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$aux['id'] = $l['nivel2_id'];
+			$aux['text'] = $l['nivel2'];
+			$retorno[] = $aux;
+		}
+		return $retorno;
+	}
 }

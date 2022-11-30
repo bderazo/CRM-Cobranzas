@@ -261,7 +261,8 @@ class ProductoApi extends BaseController {
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$respuesta = Paleta::getNivel2($q, $page, $data);
+//		$respuesta = Paleta::getNivel2($q, $page, $data);
+		$respuesta = PaletaArbol::getNivel2ApiQuery($q, $page, $data);
 
 		$retorno['results'] = $respuesta;
 		$retorno['pagination'] = ['more' => true];
@@ -292,7 +293,6 @@ class ProductoApi extends BaseController {
 		$institucion = Institucion::porId($institucion_id);
 		$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
 
-//		$paleta = Paleta::getNivel1();
 		$nivel = [];
 		foreach ($paleta_nivel1 as $key => $val){
 			$nivel[] = ['id' => $key, 'label' => $val];
