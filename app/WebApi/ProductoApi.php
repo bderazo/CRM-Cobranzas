@@ -389,6 +389,8 @@ class ProductoApi extends BaseController {
 	 * @param $session
 	 * @param $institucion_id
 	 * @param $producto_id
+	 * @param $lat
+	 * @param $long
 	 * @param $data
 	 * @param $_FILE
 	 */
@@ -396,9 +398,17 @@ class ProductoApi extends BaseController {
 		if (!$this->isPost()) return "save_form_paleta";
 		$res = new RespuestaConsulta();
 		$institucion_id = $this->request->getParam('institucion_id');
+		\Auditor::info('save_form_paleta institucion_id: '.$institucion_id, 'API', []);
 		$producto_id = $this->request->getParam('producto_id');
+		\Auditor::info('save_form_paleta producto_id: '.$producto_id, 'API', []);
+		$lat = $this->request->getParam('lat');
+		\Auditor::info('save_form_paleta lat: '.$lat, 'API', []);
+		$long = $this->request->getParam('long');
+		\Auditor::info('save_form_paleta long: '.$long, 'API', []);
 		$data = $this->request->getParam('data');
+		\Auditor::info('save_form_paleta data: ', 'API', $data);
 		$files = $_FILES;
+		\Auditor::info('save_form_paleta files: ', 'API', $files);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
