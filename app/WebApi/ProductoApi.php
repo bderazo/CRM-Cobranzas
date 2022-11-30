@@ -14,8 +14,10 @@ use Models\Caso;
 use Models\Cliente;
 use Models\Direccion;
 use Models\Especialidad;
+use Models\Institucion;
 use Models\Membresia;
 use Models\Paleta;
+use Models\PaletaArbol;
 use Models\Pregunta;
 use Models\Producto;
 use Models\Referencia;
@@ -249,8 +251,7 @@ class ProductoApi extends BaseController {
 	function buscar_listas() {
 		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
-		$list = $this->request->getParam('list');
-		\Auditor::info('buscar_listas LIST: '.$list, 'API', $list);
+
 		$q = $this->request->getParam('q');
 		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
@@ -288,10 +289,13 @@ class ProductoApi extends BaseController {
 		$retorno['form']['title'] = 'form';
 		$retorno['form']['type'] = 'object';
 
-		$paleta = Paleta::getNivel1();
+		$institucion = Institucion::porId($institucion_id);
+		$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
+
+//		$paleta = Paleta::getNivel1();
 		$nivel = [];
-		foreach ($paleta as $p){
-			$nivel[] = ['id' => $p['nivel1'], 'label' => $p['nivel1']];
+		foreach ($paleta_nivel1 as $key => $val){
+			$nivel[] = ['id' => $key, 'label' => $val];
 		}
 
 		$retorno['form']['properties']['Nivel1'] = [
