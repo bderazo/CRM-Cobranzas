@@ -1102,7 +1102,8 @@ class ProductoController extends BaseController {
 		$institucion = Institucion::porId($model->institucion_id);
 		$paleta = Paleta::porId($institucion->paleta_id);
 
-		$seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id);
+		$config = $this->get('config');
+		$seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id,$config);
 //		printDie($seguimientos);
 
 		$data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;

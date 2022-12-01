@@ -58,9 +58,10 @@ class ProductoSeguimiento extends Model
 		return $q;
 	}
 
-	static function getSeguimientoPorProducto($producto_id) {
+	static function getSeguimientoPorProducto($producto_id, $config) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
+
 
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
@@ -75,7 +76,22 @@ class ProductoSeguimiento extends Model
 			->orderBy('ps.fecha_ingreso DESC');
 		$lista = $q->fetchAll();
 		$retorno = [];
+		$dir = $config['url_images_seguimiento'];
 		foreach ($lista as $l){
+			//OBTENER LA FOTO DE PERFIL
+
+			$q = $db->from('archivo')
+				->select(null)
+				->select("nombre_sistema")
+				->where('parent_id', $l['id'])
+				->where('parent_type', 'seguimiento')
+				->where('eliminado', 0);
+			$imagen = $q->fetchAll();
+			$imagenes = [];
+			foreach ($imagen as $i){
+				$imagenes[] = $dir.'/'.$i['nombre_sistema'];
+			}
+			$l['imagenes'] = $imagenes;
 			$retorno[] = $l;
 		}
 		return $retorno;

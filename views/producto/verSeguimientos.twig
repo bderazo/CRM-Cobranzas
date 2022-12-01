@@ -21,7 +21,6 @@
 							<tbody>
 							{% for seg in seguimientos %}
 								<tr>
-									<td>{{ seg.observaciones }}</td>
 									<td>
 										{% if seg.nivel1 != '' %}
 											<strong>{{ paleta.titulo_nivel1 }}: </strong> {{ seg.nivel1 }}<br/>
@@ -35,7 +34,11 @@
 										{% if seg.nivel4 != '' %}
 											<strong>{{ paleta.titulo_nivel4 }}: </strong> {{ seg.nivel4 }}<br/>
 										{% endif %}
+										{% for img in seg.imagenes %}
+											<img style="width: auto; max-height: 200px; " src="{{ img }}" />
+										{% endfor %}
 									</td>
+									<td>{{ seg.observaciones }}</td>
 									<td>{{ seg.usuario }}</td>
 									<td>{{ seg.fecha_ingreso }}</td>
 								</tr>

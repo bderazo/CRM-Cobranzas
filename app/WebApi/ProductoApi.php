@@ -453,6 +453,81 @@ class ProductoApi extends BaseController {
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
 		$con->save();
 
+		if(isset($files["data"])) {
+			//ARREGLAR ARCHIVOS
+			$archivo = [];
+			$i = 0;
+			foreach($files['data']['name']['imagenes'] as $f) {
+				$archivo[$i]['name'] = date("Y_m_d_H_i_s") . '_' . $f;
+				$i++;
+			}
+			$i = 0;
+			foreach($files['data']['type']['imagenes'] as $f) {
+				$archivo[$i]['type'] = 'image/jpeg';
+				$i++;
+			}
+			$i = 0;
+			foreach($files['data']['tmp_name'] as $f) {
+				$archivo[$i]['tmp_name']['imagenes'] = $f;
+				$i++;
+			}
+			$i = 0;
+			foreach($files['data']['error'] as $f) {
+				$archivo[$i]['error']['imagenes'] = $f;
+				$i++;
+			}
+			$i = 0;
+			foreach($files['data']['size']['imagenes'] as $f) {
+				$archivo[$i]['size'] = $f;
+				$i++;
+			}
+
+			foreach($archivo as $f) {
+				$this->uploadFiles($con, $f);
+			}
+		}
+
 		return $this->json($res->conMensaje('OK'));
+	}
+
+	public function uploadFiles($seguimiento, $archivo)
+	{
+		$config = $this->get('config');
+
+		//INSERTAR EN BASE EL ARCHIVO
+		$arch = new Archivo();
+		$arch->parent_id = $seguimiento->id;
+		$arch->parent_type = 'seguimiento';
+		$arch->nombre = $archivo['name'];
+		$arch->nombre_sistema = $archivo['name'];
+		$arch->longitud = $archivo['size'];
+		$arch->tipo_mime = $archivo['type'];
+		$arch->descripcion = 'imagen ingresada desde la app';
+		$arch->fecha_ingreso = date("Y-m-d H:i:s");
+		$arch->fecha_modificacion = date("Y-m-d H:i:s");
+		$arch->usuario_ingreso = 1;
+		$arch->usuario_modificacion = 1;
+		$arch->eliminado = 0;
+		$arch->save();
+
+		$dir = $config['url_images_seguimiento'];
+		if(!is_dir($dir)) {
+			\Auditor::error("Error API Carga Archivo: El directorio $dir de imagenes no existe", 'ProductoApi', []);
+			return false;
+		}
+		$upload = new Upload($archivo);
+		if(!$upload->uploaded) {
+			\Auditor::error("Error API Carga Archivo: " . $upload->error, 'ProductoApi', []);
+			return false;
+		}
+		// save uploaded image with no changes
+		$upload->Process($dir);
+		if($upload->processed) {
+			\Auditor::info("API Carga Archivo " . $archivo['name'] . " cargada", 'ProductoApi');
+			return true;
+		} else {
+			\Auditor::error("Error API Carga Archivo: " . $upload->error, 'ProductoApi', []);
+			return false;
+		}
 	}
 }
