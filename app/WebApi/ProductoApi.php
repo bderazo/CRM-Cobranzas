@@ -458,7 +458,7 @@ class ProductoApi extends BaseController {
 			$archivo = [];
 			$i = 0;
 			foreach($files['data']['name']['imagenes'] as $f) {
-				$archivo[$i]['name'] = date("Y_m_d_H_i_s") . '_' . $f;
+				$archivo[$i]['name'] = $f;
 				$i++;
 			}
 			$i = 0;
