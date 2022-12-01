@@ -35,7 +35,7 @@
 											<strong>{{ paleta.titulo_nivel4 }}: </strong> {{ seg.nivel4 }}<br/>
 										{% endif %}
 										{% for img in seg.imagenes %}
-											<img style="width: auto; max-height: 200px; " src="{{ img }}" />
+											<a href="{{ img }}" target="_blank"><img style="width: auto; max-height: 80px; " src="{{ img }}" /></a>
 										{% endfor %}
 									</td>
 									<td>{{ seg.observaciones }}</td>
