@@ -8,6 +8,7 @@
 			<th>Producto</th>
 			<th>Estado</th>
 			<th>Asignado</th>
+			<th>Fecha carga</th>
 			<th>Último seguimiento</th>
 		</tr>
 		</thead>
@@ -27,6 +28,7 @@
 				<td>{{ l.producto }} </td>
 				<td>{{ l.estado|upper }} </td>
 				<td>{{ l.apellidos_usuario_asignado }}&nbsp;{{ l.nombres_usuario_asignado }}</td>
+				<td>{{ l.fecha_ingreso|date("Y-m-d") }} </td>
 				<td>
 					{% if l.ultimo_seguimiento.fecha_ingreso != '' %}
 						<strong>Fecha de seguimiento: </strong>{{ l.ultimo_seguimiento.fecha_ingreso }}<br/>
