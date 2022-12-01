@@ -37,6 +37,9 @@
 										{% for img in seg.imagenes %}
 											<a href="{{ img }}" target="_blank"><img style="width: auto; max-height: 80px; " src="{{ img }}" /></a>
 										{% endfor %}
+										{% if seg.lat != '' %}
+											<strong>Lat: </strong> {{ seg.lat }}<br/>
+										{% endif %}
 									</td>
 									<td>{{ seg.observaciones }}</td>
 									<td>{{ seg.usuario }}</td>
