@@ -12,15 +12,16 @@
 						<table class="table border text-nowrap text-md-nowrap table-striped table-bordered table-sm mb-0">
 							<thead>
 							<tr>
-								<th>Fecha de seguimiento</th>
 								<th>Seguimiento</th>
+								<th>Observaciones</th>
 								<th>Usuario</th>
+								<th>Fecha de seguimiento</th>
 							</tr>
 							</thead>
 							<tbody>
 							{% for seg in seguimientos %}
 								<tr>
-									<td>{{ seg.fecha_ingreso }}</td>
+									<td>{{ seg.observaciones }}</td>
 									<td>
 										{% if seg.nivel1 != '' %}
 											<strong>{{ paleta.titulo_nivel1 }}: </strong> {{ seg.nivel1 }}<br/>
@@ -36,6 +37,7 @@
 										{% endif %}
 									</td>
 									<td>{{ seg.usuario }}</td>
+									<td>{{ seg.fecha_ingreso }}</td>
 								</tr>
 							{% endfor %}
 							</tbody>
