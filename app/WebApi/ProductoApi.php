@@ -482,6 +482,7 @@ class ProductoApi extends BaseController {
 				$i++;
 			}
 
+			\Auditor::info('save_form_paleta archivo: ', 'API', $archivo);
 			foreach($archivo as $f) {
 				$this->uploadFiles($con, $f);
 			}
