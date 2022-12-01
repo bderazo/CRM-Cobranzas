@@ -510,7 +510,7 @@ class ProductoApi extends BaseController {
 		$arch->eliminado = 0;
 		$arch->save();
 
-		$dir = $config['url_images_seguimiento'];
+		$dir = $config['folder_images_seguimiento'];
 		if(!is_dir($dir)) {
 			\Auditor::error("Error API Carga Archivo: El directorio $dir de imagenes no existe", 'ProductoApi', []);
 			return false;
