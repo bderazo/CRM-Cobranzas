@@ -467,13 +467,13 @@ class ProductoApi extends BaseController {
 				$i++;
 			}
 			$i = 0;
-			foreach($files['data']['tmp_name'] as $f) {
-				$archivo[$i]['tmp_name']['imagenes'] = $f;
+			foreach($files['data']['tmp_name']['imagenes'] as $f) {
+				$archivo[$i]['tmp_name'] = $f;
 				$i++;
 			}
 			$i = 0;
-			foreach($files['data']['error'] as $f) {
-				$archivo[$i]['error']['imagenes'] = $f;
+			foreach($files['data']['error']['imagenes'] as $f) {
+				$archivo[$i]['error'] = $f;
 				$i++;
 			}
 			$i = 0;
