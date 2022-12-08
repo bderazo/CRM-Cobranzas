@@ -1136,7 +1136,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_30_NOV_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_08_DIC_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
@@ -1147,7 +1147,6 @@ class ProductoController extends BaseController {
 
 			$cliente = new Cliente();
 			$cliente->cedula = $values[0];
-			$cliente->apellidos = $values[1];
 			$cliente->nombres = $values[1];
 			$cliente->lugar_trabajo = $values[2];
 			$cliente->ciudad = $values[10];

@@ -1959,6 +1959,15 @@ class AplicativoDinersApi extends BaseController {
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
+
+		//CALCULO DE GASTOS DE COBRANZA
+		if($data['total_precancelacion_diferidos'] > 0){
+			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
+			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+		}
+
 		if($data['unificar_deudas'] == 'SI'){
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;
@@ -2191,6 +2200,15 @@ class AplicativoDinersApi extends BaseController {
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
+
+		//CALCULO DE GASTOS DE COBRANZA
+		if($data['total_precancelacion_diferidos'] > 0){
+			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
+			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+		}
+
 		if($data['unificar_deudas'] == 'SI'){
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;
@@ -2421,6 +2439,15 @@ class AplicativoDinersApi extends BaseController {
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
+
+		//CALCULO DE GASTOS DE COBRANZA
+		if($data['total_precancelacion_diferidos'] > 0){
+			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
+			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+		}
+
 		if($data['unificar_deudas'] == 'SI'){
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;
@@ -2651,6 +2678,15 @@ class AplicativoDinersApi extends BaseController {
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
+
+		//CALCULO DE GASTOS DE COBRANZA
+		if($data['total_precancelacion_diferidos'] > 0){
+			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
+			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+		}
+
 		if($data['unificar_deudas'] == 'SI'){
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;

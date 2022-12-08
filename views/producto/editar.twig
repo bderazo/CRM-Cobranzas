@@ -322,23 +322,14 @@
 							<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0 font-size: 10px;">
 								<thead>
 								<tr>
-									<template v-if="aplicativo_diners_tarjeta_diners.id > 0">
 									<th style="width: 25%; text-align: center; background-color: #0066A8; color: white;">DINERS</th>
-									</template>
-									<template v-if="aplicativo_diners_tarjeta_interdin.id > 0">
 									<th style="width: 25%; text-align: center; background-color: #404040; color: white;">INTERDIN</th>
-									</template>
-									<template v-if="aplicativo_diners_tarjeta_discover.id > 0">
 									<th style="width: 25%; text-align: center; background-color: #E66929; color: white;">DISCOVER</th>
-									</template>
-									<template v-if="aplicativo_diners_tarjeta_mastercard.id > 0">
 									<th style="width: 25%; text-align: center; background-color: #A4B706; color: white;">MASTERCARD</th>
-									</template>
 								</tr>
 								</thead>
 								<tbody>
 								<tr>
-									<template v-if="aplicativo_diners_tarjeta_diners.id > 0">
 									<td style="vertical-align: top;">
 										<table>
 											<tbody>
@@ -689,8 +680,6 @@
 											</tbody>
 										</table>
 									</td>
-									</template>
-									<template v-if="aplicativo_diners_tarjeta_interdin.id > 0">
 									<td style="vertical-align: top;">
 										<table>
 											<tbody>
@@ -1030,8 +1019,6 @@
 											</tbody>
 										</table>
 									</td>
-									</template>
-									<template v-if="aplicativo_diners_tarjeta_discover.id > 0">
 									<td style="vertical-align: top;">
 										<table>
 											<tbody>
@@ -1371,8 +1358,6 @@
 											</tbody>
 										</table>
 									</td>
-									</template>
-									<template v-if="aplicativo_diners_tarjeta_mastercard.id > 0">
 									<td style="vertical-align: top;">
 										<table>
 											<tbody>
@@ -1712,7 +1697,6 @@
 											</tbody>
 										</table>
 									</td>
-									</template>
 								</tr>
 								</tbody>
 							</table>
@@ -1920,6 +1904,15 @@
 						self.aplicativo_diners_tarjeta_diners.valor_financiar = valor_financiar_diners.toFixed(2);
 					}
 
+                    //CALCULO DE GASTOS DE COBRANZA
+                    if(parseFloat(self.aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos) > 0){
+                        var valor_financiar =  parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar);
+                        var calculo_gastos_cobranza = ((250 * valor_financiar) / 5000) + 50;
+                        var suma_gastos_cobranza = (parseFloat(self.aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos) * 1.0) + (calculo_gastos_cobranza.toFixed(2) * 1.0);
+                        self.aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos = suma_gastos_cobranza.toFixed(2);
+                        self.aplicativo_diners_tarjeta_diners.valor_financiar = (parseFloat(self.aplicativo_diners_tarjeta_diners.valor_financiar) * 1) + (calculo_gastos_cobranza.toFixed(2) * 1);
+                    }
+
 					//UNIFICAR DEUDAS
 					if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI'){
 						var suma_valor_financiar = 0;
@@ -2111,6 +2104,15 @@
 					}
 					var valor_financiar_diners = deuda_actual + total_precancelacion_diferidos + interes_facturar + corrientes_facturar + gastos_cobranza + valor_otras_tarjetas - abono_total;
 					self.aplicativo_diners_tarjeta_interdin.valor_financiar = valor_financiar_diners.toFixed(2);
+
+                    //CALCULO DE GASTOS DE COBRANZA
+                    if(parseFloat(self.aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos) > 0){
+                        var valor_financiar =  parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar);
+                        var calculo_gastos_cobranza = ((250 * valor_financiar) / 5000) + 50;
+                        var suma_gastos_cobranza = (parseFloat(self.aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos) * 1.0) + (calculo_gastos_cobranza.toFixed(2) * 1.0);
+                        self.aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos = suma_gastos_cobranza.toFixed(2);
+                        self.aplicativo_diners_tarjeta_interdin.valor_financiar = (parseFloat(self.aplicativo_diners_tarjeta_interdin.valor_financiar) * 1) + (calculo_gastos_cobranza.toFixed(2) * 1);
+                    }
 
 					//UNIFICAR DEUDAS
 					if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI'){
@@ -2304,6 +2306,15 @@
 					var valor_financiar_diners = deuda_actual + total_precancelacion_diferidos + interes_facturar + corrientes_facturar + gastos_cobranza + valor_otras_tarjetas - abono_total;
 					self.aplicativo_diners_tarjeta_discover.valor_financiar = valor_financiar_diners.toFixed(2);
 
+                    //CALCULO DE GASTOS DE COBRANZA
+                    if(parseFloat(self.aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos) > 0){
+                        var valor_financiar =  parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar);
+                        var calculo_gastos_cobranza = ((250 * valor_financiar) / 5000) + 50;
+                        var suma_gastos_cobranza = (parseFloat(self.aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos) * 1.0) + (calculo_gastos_cobranza.toFixed(2) * 1.0);
+                        self.aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos = suma_gastos_cobranza.toFixed(2);
+                        self.aplicativo_diners_tarjeta_discover.valor_financiar = (parseFloat(self.aplicativo_diners_tarjeta_discover.valor_financiar) * 1) + (calculo_gastos_cobranza.toFixed(2) * 1);
+                    }
+
 					//UNIFICAR DEUDAS
 					if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI'){
 						var suma_valor_financiar = 0;
@@ -2496,6 +2507,15 @@
 					var valor_financiar_diners = deuda_actual + total_precancelacion_diferidos + interes_facturar + corrientes_facturar + gastos_cobranza + valor_otras_tarjetas - abono_total;
 					self.aplicativo_diners_tarjeta_mastercard.valor_financiar = valor_financiar_diners.toFixed(2);
 
+                    //CALCULO DE GASTOS DE COBRANZA
+                    if(parseFloat(self.aplicativo_diners_tarjeta_mastercard.total_precancelacion_diferidos) > 0){
+                        var valor_financiar =  parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar);
+                        var calculo_gastos_cobranza = ((250 * valor_financiar) / 5000) + 50;
+                        var suma_gastos_cobranza = (parseFloat(self.aplicativo_diners_tarjeta_mastercard.total_precancelacion_diferidos) * 1.0) + (calculo_gastos_cobranza.toFixed(2) * 1.0);
+                        self.aplicativo_diners_tarjeta_mastercard.total_precancelacion_diferidos = suma_gastos_cobranza.toFixed(2);
+                        self.aplicativo_diners_tarjeta_mastercard.valor_financiar = (parseFloat(self.aplicativo_diners_tarjeta_mastercard.valor_financiar) * 1) + (calculo_gastos_cobranza.toFixed(2) * 1);
+                    }
+
 					//UNIFICAR DEUDAS
 					if(self.aplicativo_diners_tarjeta_mastercard.unificar_deudas == 'SI'){
 						var suma_valor_financiar = 0;
@@ -2590,6 +2610,12 @@
 			},
 			mounted: function () {
 				var self = this;
+
+                self.calcularValoresDiners();
+                self.calcularValoresInterdin();
+                self.calcularValoresDiscover();
+                self.calcularValoresMastercard();
+
 				$("#alerta_abono_diners").hide();
 				$("#alerta_abono_interdin").hide();
 				$("#alerta_abono_discover").hide();
