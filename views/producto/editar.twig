@@ -21,18 +21,6 @@
 						</div>
 
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Estado civil</label>
-							<div class="col-md-4 col-informacion">
-								<input type="text" style="text-transform: uppercase;" readonly class="form-control-plaintext" v-model="cliente.estado_civil">
-							</div>
-
-							<label for="inputName" class="col-md-2 form-label">Sexo</label>
-							<div class="col-md-4 col-informacion">
-								<input type="text" style="text-transform: uppercase;" readonly class="form-control-plaintext" v-model="cliente.sexo">
-							</div>
-						</div>
-
-						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Teléfonos</label>
 							<div class="col-md-10">
 								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
@@ -209,12 +197,32 @@
 
 							<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel2 }}</label>
 							<div class="col-md-4 col-informacion">
-								<select class="form-control form-select select2"
+								<select class="form-control form-select select2" v-on:change="cargarNivel3"
 										v-model="seguimiento.nivel_2_id" placeholder="Seleccione una opción" required v-autoname>
 									<option v-for="(v,k) in cat.paleta_nivel_2" v-html="v" :value="k"></option>
 								</select>
 							</div>
 						</div>
+
+						{% if modelArr.institucion_id != 1 %}
+							<div class=" row mb-4">
+								<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
+								<div class="col-md-4 col-informacion">
+									<select class="form-control form-select select2" v-on:change="cargarNivel4"
+									        v-model="seguimiento.nivel_3_id" placeholder="Seleccione una opción" required v-autoname>
+										<option v-for="(v,k) in cat.paleta_nivel_3" v-html="v" :value="k"></option>
+									</select>
+								</div>
+
+								<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel4 }}</label>
+								<div class="col-md-4 col-informacion">
+									<select class="form-control form-select select2"
+									        v-model="seguimiento.nivel_4_id" placeholder="Seleccione una opción" required v-autoname>
+										<option v-for="(v,k) in cat.paleta_nivel_4" v-html="v" :value="k"></option>
+									</select>
+								</div>
+							</div>
+						{% endif %}
 
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Observaciones</label>
@@ -1774,6 +1782,27 @@
 						console.log(res);
 					});
 				},
+				cargarNivel3: function () {
+                    var self = this;
+                    var data = {
+                        nivel_2_id: self.seguimiento.nivel_2_id,
+                    };
+                    $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
+                        self.cat.paleta_nivel_3 = res;
+                        console.log(res);
+                    });
+                },
+
+				cargarNivel4: function () {
+                    var self = this;
+                    var data = {
+                        nivel_3_id: self.seguimiento.nivel_3_id,
+                    };
+                    $.post('{{ root }}/paleta/cargarNivel4', data, function (res) {
+                        self.cat.paleta_nivel_4 = res;
+                        console.log(res);
+                    });
+                },
 
 				calcularValoresDiners: function () {
 					var self = this;

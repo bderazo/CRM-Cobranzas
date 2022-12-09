@@ -134,6 +134,20 @@ class ProductoApi extends BaseController {
 		return $this->json($res->conDatos($producto));
 	}
 
+	function get_preguntas_list() {
+		if (!$this->isPost()) return "get_productos_list";
+		$res = new RespuestaConsulta();
+
+		$page = $this->request->getParam('page');
+		$data = $this->request->getParam('data');
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+		$config = $this->get('config');
+		$producto = Producto::getProductoList($data, $page, $user, $config);
+//		\Auditor::error("get_preguntas_list API ", 'Producto', $producto);
+		return $this->json($res->conDatos($producto));
+	}
+
 	/**
 	 * get_producto_cliente
 	 * @param $producto_id

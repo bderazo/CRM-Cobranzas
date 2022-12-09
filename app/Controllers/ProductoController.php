@@ -97,6 +97,8 @@ class ProductoController extends BaseController {
 		$institucion = Institucion::porId($model->institucion_id);
 		$catalogos['paleta_nivel_1'] = PaletaArbol::getNivel1($institucion->paleta_id);
 		$catalogos['paleta_nivel_2'] = [];
+		$catalogos['paleta_nivel_3'] = [];
+		$catalogos['paleta_nivel_4'] = [];
 		$paleta = Paleta::porId($institucion->paleta_id);
 //		printDie($paleta_nivel_1);
 
@@ -286,6 +288,12 @@ class ProductoController extends BaseController {
 		$con->paleta_id = $institucion['paleta_id'];
 		$con->nivel_1_id = $seguimiento['nivel_1_id'];
 		$con->nivel_2_id = $seguimiento['nivel_2_id'];
+		if(isset($seguimiento['nivel_3_id'])){
+			$con->nivel_3_id = $seguimiento['nivel_3_id'];
+		}
+		if(isset($seguimiento['nivel_4_id'])){
+			$con->nivel_4_id = $seguimiento['nivel_4_id'];
+		}
 		$con->observaciones = $seguimiento['observaciones'];
 		$con->usuario_ingreso = \WebSecurity::getUserData('id');
 		$con->eliminado = 0;

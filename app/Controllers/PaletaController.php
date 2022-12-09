@@ -209,7 +209,7 @@ class PaletaController extends BaseController {
 
 	function cargarNivel4() {
 		$nivel_3_id = $_REQUEST['nivel_3_id'];
-		$nivel4 = PaletaArbol::getNivel2($nivel_3_id);
+		$nivel4 = PaletaArbol::getNivel4($nivel_3_id);
 		return $this->json($nivel4);
 	}
 
