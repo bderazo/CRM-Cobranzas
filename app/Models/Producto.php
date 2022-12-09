@@ -186,6 +186,8 @@ class Producto extends Model
 			}
 			$l['campos'] = $campos;
 
+			$l['tarjeta_fondo'] = '#000000';
+
 			$retorno[] = $l;
 		}
 		return $retorno;
