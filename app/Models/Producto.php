@@ -148,6 +148,44 @@ class Producto extends Model
 			}
 			$l['direcciones'] = $dir_array;
 
+			$campos = [];
+			foreach($l as $key => $val){
+				if($key == 'institucion_nombre'){
+					$campos[] = [
+						'titulo' => 'Institución',
+						'contenido' => $val,
+						'titulo_color_texto' => '#000000',
+						'titulo_color_fondo' => '#FFFFFF',
+						'contenido_color_texto' => '#000000',
+						'contenido_color_fondo' => '#FFFFFF',
+						'order' => 1,
+					];
+				}
+				if($key == 'cliente_nombres'){
+					$campos[] = [
+						'titulo' => 'Cliente',
+						'contenido' => $val,
+						'titulo_color_texto' => '#000000',
+						'titulo_color_fondo' => '#FFFFFF',
+						'contenido_color_texto' => '#000000',
+						'contenido_color_fondo' => '#FFFFFF',
+						'order' => 2,
+					];
+				}
+				if($key == 'producto'){
+					$campos[] = [
+						'titulo' => 'Producto',
+						'contenido' => $val,
+						'titulo_color_texto' => '#000000',
+						'titulo_color_fondo' => '#FFFFFF',
+						'contenido_color_texto' => '#000000',
+						'contenido_color_fondo' => '#FFFFFF',
+						'order' => 3,
+					];
+				}
+			}
+			$l['campos'] = $campos;
+
 			$retorno[] = $l;
 		}
 		return $retorno;

@@ -120,8 +120,8 @@ class ProductoApi extends BaseController {
 	 * @param $page
 	 * @param $session
 	 */
-	function get_preguntas_list() {
-		if (!$this->isPost()) return "get_preguntas_list";
+	function get_productos_list() {
+		if (!$this->isPost()) return "get_productos_list";
 		$res = new RespuestaConsulta();
 
 		$page = $this->request->getParam('page');

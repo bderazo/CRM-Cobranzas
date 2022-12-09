@@ -20,7 +20,7 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/usuario/recuperar_contrasena', $api->createDispatch(\WebApi\UsuariosApi::class, 'recuperar_contrasena', $p));
 
 	$app->any('/producto/get_form_busqueda_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_busqueda_producto', $p));
-	$app->any('/producto/get_preguntas_list', $api->createDispatch(\WebApi\ProductoApi::class, 'get_preguntas_list', $p));
+	$app->any('/producto/get_productos_list', $api->createDispatch(\WebApi\ProductoApi::class, 'get_productos_list', $p));
 	$app->any('/producto/get_producto_cliente', $api->createDispatch(\WebApi\ProductoApi::class, 'get_producto_cliente', $p));
 	$app->any('/producto/get_producto_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_producto_producto', $p));
 	$app->any('/producto/buscar_listas', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas', $p));
