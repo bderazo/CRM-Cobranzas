@@ -110,6 +110,42 @@ class PaletaArbol extends Model
 		return $retorno;
 	}
 
+	static function getNivel3($nivel_2_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel3')
+			->select(null)
+			->select('nivel3.valor AS nivel3, nivel3.id AS nivel3_id')
+			->where('nivel3.nivel',3)
+			->where('nivel3.padre_id',$nivel_2_id)
+			->orderBy('nivel3.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['nivel3_id']] = $l['nivel3'];
+		}
+		return $retorno;
+	}
+
+	static function getNivel4($nivel_3_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel4')
+			->select(null)
+			->select('nivel4.valor AS nivel4, nivel4.id AS nivel4_id')
+			->where('nivel4.nivel',4)
+			->where('nivel4.padre_id',$nivel_3_id)
+			->orderBy('nivel4.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['nivel4_id']] = $l['nivel4'];
+		}
+		return $retorno;
+	}
+
 	static function getNivel2ApiQuery($query, $page, $data) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

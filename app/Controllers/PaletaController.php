@@ -201,6 +201,18 @@ class PaletaController extends BaseController {
 		return $this->json($nivel2);
 	}
 
+	function cargarNivel3() {
+		$nivel_2_id = $_REQUEST['nivel_2_id'];
+		$nivel3 = PaletaArbol::getNivel3($nivel_2_id);
+		return $this->json($nivel3);
+	}
+
+	function cargarNivel4() {
+		$nivel_3_id = $_REQUEST['nivel_3_id'];
+		$nivel4 = PaletaArbol::getNivel2($nivel_3_id);
+		return $this->json($nivel4);
+	}
+
 	//BUSCADORES
 	function buscador() {
 //		$db = new \FluentPDO($this->get('pdo'));
