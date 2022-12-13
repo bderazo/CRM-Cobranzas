@@ -1144,7 +1144,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_08_DIC_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_13_DIC_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
@@ -2145,7 +2145,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatosJep() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/carga_jep_tarjetas.xlsx';
+		$archivo = $config['folder_temp'] . '/carga_jep_creditos.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		$cabecera = [];

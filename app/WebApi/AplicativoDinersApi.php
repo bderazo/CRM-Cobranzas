@@ -36,11 +36,13 @@ use upload;
  * @package Controllers\api
  * Aqui se ejecuta la logica de AplicativoDiners
  */
-class AplicativoDinersApi extends BaseController {
+class AplicativoDinersApi extends BaseController
+{
 	var $test = false;
 
-	function init($p = []) {
-		if (@$p['test']) $this->test = true;
+	function init($p = [])
+	{
+		if(@$p['test']) $this->test = true;
 	}
 
 	/**
@@ -48,8 +50,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $producto_id
 	 * @param $session
 	 */
-	function campos_aplicativo_diners() {
-		if (!$this->isPost()) return "campos_aplicativo_diners";
+	function campos_aplicativo_diners()
+	{
+		if(!$this->isPost()) return "campos_aplicativo_diners";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
 		$session = $this->request->getParam('session');
@@ -113,52 +116,52 @@ class AplicativoDinersApi extends BaseController {
 
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 		$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners['id']);
-		foreach ($aplicativo_diners_detalle as $add){
-			if($add['nombre_tarjeta'] == 'DINERS'){
+		foreach($aplicativo_diners_detalle as $add) {
+			if($add['nombre_tarjeta'] == 'DINERS') {
 				$dat = [
 					'nombre' => 'DINERS',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id='.$aplicativo_diners['id'],
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS') {
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
-			}elseif($add['nombre_tarjeta'] == 'INTERDIN'){
+			} elseif($add['nombre_tarjeta'] == 'INTERDIN') {
 				$dat = [
 					'nombre' => 'INTERDIN',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id='.$aplicativo_diners['id'],
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN') {
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
-			}elseif($add['nombre_tarjeta'] == 'DISCOVER'){
+			} elseif($add['nombre_tarjeta'] == 'DISCOVER') {
 				$dat = [
 					'nombre' => 'DISCOVER',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id='.$aplicativo_diners['id'],
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER') {
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
-			}elseif($add['nombre_tarjeta'] == 'MASTERCARD'){
+			} elseif($add['nombre_tarjeta'] == 'MASTERCARD') {
 				$dat = [
 					'nombre' => 'MASTERCARD',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
-					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id='.$aplicativo_diners['id'],
+					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
 					'background-color' => '#4C5EF7',
 				];
-				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD'){
+				if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD') {
 					$dat['background-color'] = '#499B70';
 				}
 				$tarjetas[] = $dat;
@@ -176,8 +179,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $aplicativo_diners_id
 	 * @param $session
 	 */
-	function campos_tarjeta_diners() {
-		if (!$this->isPost()) return "campos_tarjeta_diners";
+	function campos_tarjeta_diners()
+	{
+		if(!$this->isPost()) return "campos_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
@@ -494,9 +498,15 @@ class AplicativoDinersApi extends BaseController {
 
 		$cuotas_pendientes = $tarjeta_diners['numero_cuotas_pendientes'];
 		$plazo_financiamiento = [['id' => '', 'label' => '']];
-		if($cuotas_pendientes > 0) {
-			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
-				$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+		if($cuotas_pendientes >= 0) {
+			if($cuotas_pendientes == 0) {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
+			} else {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
 			}
 		}
 		$seccion6['contenido'][] = [
@@ -535,13 +545,13 @@ class AplicativoDinersApi extends BaseController {
 			'colorFondo' => '#afccfc',
 		];
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
-		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS'){
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS') {
 			$seccion6['contenido'][] = [
 				'etiqueta' => 'UNIFICAR DEUDAS',
 				'valor' => $tarjeta_diners['unificar_deudas'],
 				'tipo' => 'choice',
 				'name' => 'data[unificar_deudas]',
-				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'choices' => [['id' => 'NO', 'label' => 'NO'], ['id' => 'SI', 'label' => 'SI']],
 				'colorFondo' => '#afccfc',
 			];
 		}
@@ -584,8 +594,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $aplicativo_diners_id
 	 * @param $session
 	 */
-	function campos_tarjeta_interdin() {
-		if (!$this->isPost()) return "campos_tarjeta_interdin";
+	function campos_tarjeta_interdin()
+	{
+		if(!$this->isPost()) return "campos_tarjeta_interdin";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
@@ -908,9 +919,15 @@ class AplicativoDinersApi extends BaseController {
 
 		$cuotas_pendientes = $tarjeta_interdin['numero_cuotas_pendientes'];
 		$plazo_financiamiento = [['id' => '', 'label' => '']];
-		if($cuotas_pendientes > 0) {
-			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
-				$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+		if($cuotas_pendientes >= 0) {
+			if($cuotas_pendientes == 0) {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
+			} else {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
 			}
 		}
 		$seccion6['contenido'][] = [
@@ -949,13 +966,13 @@ class AplicativoDinersApi extends BaseController {
 			'colorFondo' => '#e3e3e3',
 		];
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
-		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN'){
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN') {
 			$seccion6['contenido'][] = [
 				'etiqueta' => 'UNIFICAR DEUDAS',
 				'valor' => $tarjeta_interdin['unificar_deudas'],
 				'tipo' => 'choice',
 				'name' => 'data[unificar_deudas]',
-				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'choices' => [['id' => 'NO', 'label' => 'NO'], ['id' => 'SI', 'label' => 'SI']],
 				'colorFondo' => '#afccfc',
 			];
 		}
@@ -998,8 +1015,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $aplicativo_diners_id
 	 * @param $session
 	 */
-	function campos_tarjeta_discover() {
-		if (!$this->isPost()) return "campos_tarjeta_discover";
+	function campos_tarjeta_discover()
+	{
+		if(!$this->isPost()) return "campos_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
@@ -1321,9 +1339,15 @@ class AplicativoDinersApi extends BaseController {
 		];
 		$cuotas_pendientes = $tarjeta_discover['numero_cuotas_pendientes'];
 		$plazo_financiamiento = [['id' => '', 'label' => '']];
-		if($cuotas_pendientes > 0) {
-			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
-				$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+		if($cuotas_pendientes >= 0) {
+			if($cuotas_pendientes == 0) {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
+			} else {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
 			}
 		}
 		$seccion6['contenido'][] = [
@@ -1362,13 +1386,13 @@ class AplicativoDinersApi extends BaseController {
 			'colorFondo' => '#ffd09e',
 		];
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
-		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER'){
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER') {
 			$seccion6['contenido'][] = [
 				'etiqueta' => 'UNIFICAR DEUDAS',
 				'valor' => $tarjeta_discover['unificar_deudas'],
 				'tipo' => 'choice',
 				'name' => 'data[unificar_deudas]',
-				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'choices' => [['id' => 'NO', 'label' => 'NO'], ['id' => 'SI', 'label' => 'SI']],
 				'colorFondo' => '#afccfc',
 			];
 		}
@@ -1411,8 +1435,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $aplicativo_diners_id
 	 * @param $session
 	 */
-	function campos_tarjeta_mastercard() {
-		if (!$this->isPost()) return "campos_tarjeta_mastercard";
+	function campos_tarjeta_mastercard()
+	{
+		if(!$this->isPost()) return "campos_tarjeta_mastercard";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
@@ -1734,9 +1759,15 @@ class AplicativoDinersApi extends BaseController {
 		];
 		$cuotas_pendientes = $tarjeta_mastercard['numero_cuotas_pendientes'];
 		$plazo_financiamiento = [['id' => '', 'label' => '']];
-		if($cuotas_pendientes > 0) {
-			for ($i = $cuotas_pendientes; $i <= 72; $i++) {
-				$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+		if($cuotas_pendientes >= 0) {
+			if($cuotas_pendientes == 0) {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
+			} else {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento[] = ['id' => $i, 'label' => $i];
+				}
 			}
 		}
 		$seccion6['contenido'][] = [
@@ -1775,13 +1806,13 @@ class AplicativoDinersApi extends BaseController {
 			'colorFondo' => '#deffb8',
 		];
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id);
-		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD'){
+		if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD') {
 			$seccion6['contenido'][] = [
 				'etiqueta' => 'UNIFICAR DEUDAS',
 				'valor' => $tarjeta_mastercard['unificar_deudas'],
 				'tipo' => 'choice',
 				'name' => 'data[unificar_deudas]',
-				'choices' => [['id' => 'NO', 'label' => 'NO'],['id' => 'SI', 'label' => 'SI']],
+				'choices' => [['id' => 'NO', 'label' => 'NO'], ['id' => 'SI', 'label' => 'SI']],
 				'colorFondo' => '#afccfc',
 			];
 		}
@@ -1825,8 +1856,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function calculos_tarjeta_diners() {
-		if (!$this->isPost()) return "calculos_tarjeta_diners";
+	function calculos_tarjeta_diners()
+	{
+		if(!$this->isPost()) return "calculos_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
@@ -1836,143 +1868,143 @@ class AplicativoDinersApi extends BaseController {
 
 		//ABONO TOTAL
 		$abono_efectivo_sistema = 0;
-		if($data['abono_efectivo_sistema'] > 0){
-			$abono_efectivo_sistema =  $data['abono_efectivo_sistema'];
+		if($data['abono_efectivo_sistema'] > 0) {
+			$abono_efectivo_sistema = $data['abono_efectivo_sistema'];
 		}
 		$abono_negociador = 0;
-		if($data['abono_negociador'] > 0){
-			$abono_negociador =  $data['abono_negociador'];
+		if($data['abono_negociador'] > 0) {
+			$abono_negociador = $data['abono_negociador'];
 		}
-		if($abono_efectivo_sistema > 0){
+		if($abono_efectivo_sistema > 0) {
 			$abono_total_diners = $abono_efectivo_sistema + $abono_negociador;
-		}else{
+		} else {
 			$abono_total_diners = $abono_negociador;
 		}
 		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
 
 		//SALDOS FACTURADOS DESPUÉS DE ABONO
 		$saldo_90_facturado = 0;
-		if($data['saldo_90_facturado'] > 0){
-			$saldo_90_facturado =  $data['saldo_90_facturado'];
+		if($data['saldo_90_facturado'] > 0) {
+			$saldo_90_facturado = $data['saldo_90_facturado'];
 		}
 		$saldo_60_facturado = 0;
-		if($data['saldo_60_facturado'] > 0){
-			$saldo_60_facturado =  $data['saldo_60_facturado'];
+		if($data['saldo_60_facturado'] > 0) {
+			$saldo_60_facturado = $data['saldo_60_facturado'];
 		}
 		$saldo_30_facturado = 0;
-		if($data['saldo_30_facturado'] > 0){
-			$saldo_30_facturado =  $data['saldo_30_facturado'];
+		if($data['saldo_30_facturado'] > 0) {
+			$saldo_30_facturado = $data['saldo_30_facturado'];
 		}
 		$saldo_actual_facturado = 0;
-		if($data['saldo_actual_facturado'] > 0){
-			$saldo_actual_facturado =  $data['saldo_actual_facturado'];
+		if($data['saldo_actual_facturado'] > 0) {
+			$saldo_actual_facturado = $data['saldo_actual_facturado'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$saldo_pasa = 0;
 		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_90_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
 		}
 		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
-		if($saldo_60_facturado_despues_abono > 0){
+		if($saldo_60_facturado_despues_abono > 0) {
 			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_60_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
 		}
 		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
-		if($saldo_30_facturado_despues_abono > 0){
+		if($saldo_30_facturado_despues_abono > 0) {
 			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_30_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
 		}
 		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
-		if($saldo_actual_facturado_despues_abono > 0){
+		if($saldo_actual_facturado_despues_abono > 0) {
 			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
-		}else{
+		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
 		//VALOR A TIPO DE FINANCIAMIENTO
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
-		}else{
-			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+		} else {
+			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
 				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
-			}else{
+			} else {
 				$data['tipo_financiamiento'] = 'NOVACIÓN';
 			}
 		}
 
 		//VALOR A FINANCIAR
 		$deuda_actual = 0;
-		if($data['deuda_actual'] > 0){
-			$deuda_actual =  $data['deuda_actual'];
+		if($data['deuda_actual'] > 0) {
+			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($data['total_precancelacion_diferidos'] > 0){
-			$total_precancelacion_diferidos =  $data['total_precancelacion_diferidos'];
+		if($data['total_precancelacion_diferidos'] > 0) {
+			$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
 		}
 		$interes_facturar = 0;
-		if($data['interes_facturar'] > 0){
-			$interes_facturar =  $data['interes_facturar'];
+		if($data['interes_facturar'] > 0) {
+			$interes_facturar = $data['interes_facturar'];
 		}
 		$corrientes_facturar = 0;
-		if($data['corrientes_facturar'] > 0){
-			$corrientes_facturar =  $data['corrientes_facturar'];
+		if($data['corrientes_facturar'] > 0) {
+			$corrientes_facturar = $data['corrientes_facturar'];
 		}
 		$gastos_cobranza = 0;
-		if($data['gastos_cobranza'] > 0){
-			$gastos_cobranza =  $data['gastos_cobranza'];
+		if($data['gastos_cobranza'] > 0) {
+			$gastos_cobranza = $data['gastos_cobranza'];
 		}
 		$valor_otras_tarjetas = 0;
-		if($data['valor_otras_tarjetas'] > 0){
-			$valor_otras_tarjetas =  $data['valor_otras_tarjetas'];
+		if($data['valor_otras_tarjetas'] > 0) {
+			$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$nd_facturar = 0;
-		if($data['nd_facturar'] > 0){
-			$nd_facturar =  $data['nd_facturar'];
+		if($data['nd_facturar'] > 0) {
+			$nd_facturar = $data['nd_facturar'];
 		}
 		$nc_facturar = 0;
-		if($data['nc_facturar'] > 0){
-			$nc_facturar =  $data['nc_facturar'];
+		if($data['nc_facturar'] > 0) {
+			$nc_facturar = $data['nc_facturar'];
 		}
-		if($data['exigible_financiamiento'] == 'SI'){
+		if($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = number_format($deuda_actual, 2, '.', '');
-		}else{
+		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
 		//CALCULO DE GASTOS DE COBRANZA
-		if($data['total_precancelacion_diferidos'] > 0){
+		if($data['total_precancelacion_diferidos'] > 0) {
 			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
 			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 		}
 
-		if($data['unificar_deudas'] == 'SI'){
+		if($data['unificar_deudas'] == 'SI') {
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;
-			foreach ($aplicativo_diners_detalle as $add){
-				if($add['nombre_tarjeta'] != 'DINERS'){
+			foreach($aplicativo_diners_detalle as $add) {
+				if($add['nombre_tarjeta'] != 'DINERS') {
 					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
 				}
 			}
@@ -1982,25 +2014,25 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$numero_meses_gracia = 0;
-		if($data['numero_meses_gracia'] > 0){
-			$numero_meses_gracia =  $data['numero_meses_gracia'];
+		if($data['numero_meses_gracia'] > 0) {
+			$numero_meses_gracia = $data['numero_meses_gracia'];
 		}
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 		$porcentaje_interes_arr = [];
-		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
+		foreach($aplicativo_diners_porcentaje_interes as $pi) {
 			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
 		}
 		$porcentaje_interes = 0.00;
 		$meses_plazo = $plazo_financiamiento + $numero_meses_gracia;
-		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+		if(isset($porcentaje_interes_arr[$meses_plazo])) {
 			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
 		}
 		$total_interes = $valor_financiar * ($porcentaje_interes / 100);
@@ -2008,47 +2040,47 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL FINANCIAMIENTO
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$total_intereses = 0;
-		if($data['total_intereses'] > 0){
-			$total_intereses =  $data['total_intereses'];
+		if($data['total_intereses'] > 0) {
+			$total_intereses = $data['total_intereses'];
 		}
 		$total_financiamiento = $valor_financiar + $total_intereses;
 		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
 
 		//VALOR CUOTA MENSUAL
 		$total_financiamiento_total = 0;
-		if($data['total_financiamiento_total'] > 0){
-			$total_financiamiento_total =  $data['total_financiamiento_total'];
+		if($data['total_financiamiento_total'] > 0) {
+			$total_financiamiento_total = $data['total_financiamiento_total'];
 		}
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$cuota_mensual = 0;
-		if ($plazo_financiamiento > 0) {
+		if($plazo_financiamiento > 0) {
 			$cuota_mensual = $total_financiamiento_total / $plazo_financiamiento;
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
 		//ALERTAS
 		$alerta_abono_negociador = '';
-		if($data['abono_total'] < $data['interes_facturado']){
+		if($data['abono_total'] < $data['interes_facturado']) {
 			$alerta_abono_negociador = 'ABONO NO CUBRE INTERES';
 		}
 
 		//FORMATEO DE DATOS
 		$respuesta = [];
-		foreach ($data as $key => $val){
-			if($key == 'abono_negociador'){
-				$respuesta['data['.$key.']'] = [
+		foreach($data as $key => $val) {
+			if($key == 'abono_negociador') {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => $alerta_abono_negociador
 				];
-			}else{
-				$respuesta['data['.$key.']'] = [
+			} else {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => ''
 				];
@@ -2067,8 +2099,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function calculos_tarjeta_interdin() {
-		if (!$this->isPost()) return "calculos_tarjeta_interdin";
+	function calculos_tarjeta_interdin()
+	{
+		if(!$this->isPost()) return "calculos_tarjeta_interdin";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
@@ -2077,143 +2110,143 @@ class AplicativoDinersApi extends BaseController {
 
 		//ABONO TOTAL
 		$abono_efectivo_sistema = 0;
-		if($data['abono_efectivo_sistema'] > 0){
-			$abono_efectivo_sistema =  $data['abono_efectivo_sistema'];
+		if($data['abono_efectivo_sistema'] > 0) {
+			$abono_efectivo_sistema = $data['abono_efectivo_sistema'];
 		}
 		$abono_negociador = 0;
-		if($data['abono_negociador'] > 0){
-			$abono_negociador =  $data['abono_negociador'];
+		if($data['abono_negociador'] > 0) {
+			$abono_negociador = $data['abono_negociador'];
 		}
-		if($abono_efectivo_sistema > 0){
+		if($abono_efectivo_sistema > 0) {
 			$abono_total_diners = $abono_efectivo_sistema + $abono_negociador;
-		}else{
+		} else {
 			$abono_total_diners = $abono_negociador;
 		}
 		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
 
 		//SALDOS FACTURADOS DESPUÉS DE ABONO
 		$saldo_90_facturado = 0;
-		if($data['saldo_90_facturado'] > 0){
-			$saldo_90_facturado =  $data['saldo_90_facturado'];
+		if($data['saldo_90_facturado'] > 0) {
+			$saldo_90_facturado = $data['saldo_90_facturado'];
 		}
 		$saldo_60_facturado = 0;
-		if($data['saldo_60_facturado'] > 0){
-			$saldo_60_facturado =  $data['saldo_60_facturado'];
+		if($data['saldo_60_facturado'] > 0) {
+			$saldo_60_facturado = $data['saldo_60_facturado'];
 		}
 		$saldo_30_facturado = 0;
-		if($data['saldo_30_facturado'] > 0){
-			$saldo_30_facturado =  $data['saldo_30_facturado'];
+		if($data['saldo_30_facturado'] > 0) {
+			$saldo_30_facturado = $data['saldo_30_facturado'];
 		}
 		$saldo_actual_facturado = 0;
-		if($data['saldo_actual_facturado'] > 0){
-			$saldo_actual_facturado =  $data['saldo_actual_facturado'];
+		if($data['saldo_actual_facturado'] > 0) {
+			$saldo_actual_facturado = $data['saldo_actual_facturado'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$saldo_pasa = 0;
 		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_90_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
 		}
 		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
-		if($saldo_60_facturado_despues_abono > 0){
+		if($saldo_60_facturado_despues_abono > 0) {
 			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_60_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
 		}
 		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
-		if($saldo_30_facturado_despues_abono > 0){
+		if($saldo_30_facturado_despues_abono > 0) {
 			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_30_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
 		}
 		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
-		if($saldo_actual_facturado_despues_abono > 0){
+		if($saldo_actual_facturado_despues_abono > 0) {
 			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
-		}else{
+		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
 		//VALOR A TIPO DE FINANCIAMIENTO
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
-		}else{
-			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+		} else {
+			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
 				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
-			}else{
+			} else {
 				$data['tipo_financiamiento'] = 'NOVACIÓN';
 			}
 		}
 
 		//VALOR A FINANCIAR
 		$deuda_actual = 0;
-		if($data['deuda_actual'] > 0){
-			$deuda_actual =  $data['deuda_actual'];
+		if($data['deuda_actual'] > 0) {
+			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($data['total_precancelacion_diferidos'] > 0){
-			$total_precancelacion_diferidos =  $data['total_precancelacion_diferidos'];
+		if($data['total_precancelacion_diferidos'] > 0) {
+			$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
 		}
 		$interes_facturar = 0;
-		if($data['interes_facturar'] > 0){
-			$interes_facturar =  $data['interes_facturar'];
+		if($data['interes_facturar'] > 0) {
+			$interes_facturar = $data['interes_facturar'];
 		}
 		$corrientes_facturar = 0;
-		if($data['corrientes_facturar'] > 0){
-			$corrientes_facturar =  $data['corrientes_facturar'];
+		if($data['corrientes_facturar'] > 0) {
+			$corrientes_facturar = $data['corrientes_facturar'];
 		}
 		$gastos_cobranza = 0;
-		if($data['gastos_cobranza'] > 0){
-			$gastos_cobranza =  $data['gastos_cobranza'];
+		if($data['gastos_cobranza'] > 0) {
+			$gastos_cobranza = $data['gastos_cobranza'];
 		}
 		$valor_otras_tarjetas = 0;
-		if($data['valor_otras_tarjetas'] > 0){
-			$valor_otras_tarjetas =  $data['valor_otras_tarjetas'];
+		if($data['valor_otras_tarjetas'] > 0) {
+			$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$nd_facturar = 0;
-		if($data['nd_facturar'] > 0){
-			$nd_facturar =  $data['nd_facturar'];
+		if($data['nd_facturar'] > 0) {
+			$nd_facturar = $data['nd_facturar'];
 		}
 		$nc_facturar = 0;
-		if($data['nc_facturar'] > 0){
-			$nc_facturar =  $data['nc_facturar'];
+		if($data['nc_facturar'] > 0) {
+			$nc_facturar = $data['nc_facturar'];
 		}
-		if($data['exigible_financiamiento'] == 'SI'){
+		if($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = number_format($deuda_actual, 2, '.', '');
-		}else{
+		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
 		//CALCULO DE GASTOS DE COBRANZA
-		if($data['total_precancelacion_diferidos'] > 0){
+		if($data['total_precancelacion_diferidos'] > 0) {
 			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
 			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 		}
 
-		if($data['unificar_deudas'] == 'SI'){
+		if($data['unificar_deudas'] == 'SI') {
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;
-			foreach ($aplicativo_diners_detalle as $add){
-				if($add['nombre_tarjeta'] != 'INTERDIN'){
+			foreach($aplicativo_diners_detalle as $add) {
+				if($add['nombre_tarjeta'] != 'INTERDIN') {
 					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
 				}
 			}
@@ -2223,25 +2256,25 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$numero_meses_gracia = 0;
-		if($data['numero_meses_gracia'] > 0){
-			$numero_meses_gracia =  $data['numero_meses_gracia'];
+		if($data['numero_meses_gracia'] > 0) {
+			$numero_meses_gracia = $data['numero_meses_gracia'];
 		}
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 		$porcentaje_interes_arr = [];
-		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
+		foreach($aplicativo_diners_porcentaje_interes as $pi) {
 			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
 		}
 		$porcentaje_interes = 0.00;
 		$meses_plazo = $plazo_financiamiento + $numero_meses_gracia;
-		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+		if(isset($porcentaje_interes_arr[$meses_plazo])) {
 			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
 		}
 		$total_interes = $valor_financiar * ($porcentaje_interes / 100);
@@ -2249,47 +2282,47 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL FINANCIAMIENTO
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$total_intereses = 0;
-		if($data['total_intereses'] > 0){
-			$total_intereses =  $data['total_intereses'];
+		if($data['total_intereses'] > 0) {
+			$total_intereses = $data['total_intereses'];
 		}
 		$total_financiamiento = $valor_financiar + $total_intereses;
 		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
 
 		//VALOR CUOTA MENSUAL
 		$total_financiamiento_total = 0;
-		if($data['total_financiamiento_total'] > 0){
-			$total_financiamiento_total =  $data['total_financiamiento_total'];
+		if($data['total_financiamiento_total'] > 0) {
+			$total_financiamiento_total = $data['total_financiamiento_total'];
 		}
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$cuota_mensual = 0;
-		if ($plazo_financiamiento > 0) {
+		if($plazo_financiamiento > 0) {
 			$cuota_mensual = $total_financiamiento_total / $plazo_financiamiento;
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
 		//ALERTAS
 		$alerta_abono_negociador = '';
-		if($data['abono_total'] < $data['interes_facturado']){
+		if($data['abono_total'] < $data['interes_facturado']) {
 			$alerta_abono_negociador = 'ABONO NO CUBRE INTERES';
 		}
 
 		//FORMATEO DE DATOS
 		$respuesta = [];
-		foreach ($data as $key => $val){
-			if($key == 'abono_negociador'){
-				$respuesta['data['.$key.']'] = [
+		foreach($data as $key => $val) {
+			if($key == 'abono_negociador') {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => $alerta_abono_negociador
 				];
-			}else{
-				$respuesta['data['.$key.']'] = [
+			} else {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => ''
 				];
@@ -2306,8 +2339,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function calculos_tarjeta_discover() {
-		if (!$this->isPost()) return "calculos_tarjeta_discover";
+	function calculos_tarjeta_discover()
+	{
+		if(!$this->isPost()) return "calculos_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
@@ -2316,143 +2350,143 @@ class AplicativoDinersApi extends BaseController {
 
 		//ABONO TOTAL
 		$abono_efectivo_sistema = 0;
-		if($data['abono_efectivo_sistema'] > 0){
-			$abono_efectivo_sistema =  $data['abono_efectivo_sistema'];
+		if($data['abono_efectivo_sistema'] > 0) {
+			$abono_efectivo_sistema = $data['abono_efectivo_sistema'];
 		}
 		$abono_negociador = 0;
-		if($data['abono_negociador'] > 0){
-			$abono_negociador =  $data['abono_negociador'];
+		if($data['abono_negociador'] > 0) {
+			$abono_negociador = $data['abono_negociador'];
 		}
-		if($abono_efectivo_sistema > 0){
+		if($abono_efectivo_sistema > 0) {
 			$abono_total_diners = $abono_efectivo_sistema + $abono_negociador;
-		}else{
+		} else {
 			$abono_total_diners = $abono_negociador;
 		}
 		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
 
 		//SALDOS FACTURADOS DESPUÉS DE ABONO
 		$saldo_90_facturado = 0;
-		if($data['saldo_90_facturado'] > 0){
-			$saldo_90_facturado =  $data['saldo_90_facturado'];
+		if($data['saldo_90_facturado'] > 0) {
+			$saldo_90_facturado = $data['saldo_90_facturado'];
 		}
 		$saldo_60_facturado = 0;
-		if($data['saldo_60_facturado'] > 0){
-			$saldo_60_facturado =  $data['saldo_60_facturado'];
+		if($data['saldo_60_facturado'] > 0) {
+			$saldo_60_facturado = $data['saldo_60_facturado'];
 		}
 		$saldo_30_facturado = 0;
-		if($data['saldo_30_facturado'] > 0){
-			$saldo_30_facturado =  $data['saldo_30_facturado'];
+		if($data['saldo_30_facturado'] > 0) {
+			$saldo_30_facturado = $data['saldo_30_facturado'];
 		}
 		$saldo_actual_facturado = 0;
-		if($data['saldo_actual_facturado'] > 0){
-			$saldo_actual_facturado =  $data['saldo_actual_facturado'];
+		if($data['saldo_actual_facturado'] > 0) {
+			$saldo_actual_facturado = $data['saldo_actual_facturado'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$saldo_pasa = 0;
 		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_90_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
 		}
 		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
-		if($saldo_60_facturado_despues_abono > 0){
+		if($saldo_60_facturado_despues_abono > 0) {
 			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_60_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
 		}
 		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
-		if($saldo_30_facturado_despues_abono > 0){
+		if($saldo_30_facturado_despues_abono > 0) {
 			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_30_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
 		}
 		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
-		if($saldo_actual_facturado_despues_abono > 0){
+		if($saldo_actual_facturado_despues_abono > 0) {
 			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
-		}else{
+		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
 		//VALOR A TIPO DE FINANCIAMIENTO
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
-		}else{
-			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+		} else {
+			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
 				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
-			}else{
+			} else {
 				$data['tipo_financiamiento'] = 'NOVACIÓN';
 			}
 		}
 
 		//VALOR A FINANCIAR
 		$deuda_actual = 0;
-		if($data['deuda_actual'] > 0){
-			$deuda_actual =  $data['deuda_actual'];
+		if($data['deuda_actual'] > 0) {
+			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($data['total_precancelacion_diferidos'] > 0){
-			$total_precancelacion_diferidos =  $data['total_precancelacion_diferidos'];
+		if($data['total_precancelacion_diferidos'] > 0) {
+			$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
 		}
 		$interes_facturar = 0;
-		if($data['interes_facturar'] > 0){
-			$interes_facturar =  $data['interes_facturar'];
+		if($data['interes_facturar'] > 0) {
+			$interes_facturar = $data['interes_facturar'];
 		}
 		$corrientes_facturar = 0;
-		if($data['corrientes_facturar'] > 0){
-			$corrientes_facturar =  $data['corrientes_facturar'];
+		if($data['corrientes_facturar'] > 0) {
+			$corrientes_facturar = $data['corrientes_facturar'];
 		}
 		$gastos_cobranza = 0;
-		if($data['gastos_cobranza'] > 0){
-			$gastos_cobranza =  $data['gastos_cobranza'];
+		if($data['gastos_cobranza'] > 0) {
+			$gastos_cobranza = $data['gastos_cobranza'];
 		}
 		$valor_otras_tarjetas = 0;
-		if($data['valor_otras_tarjetas'] > 0){
-			$valor_otras_tarjetas =  $data['valor_otras_tarjetas'];
+		if($data['valor_otras_tarjetas'] > 0) {
+			$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$nd_facturar = 0;
-		if($data['nd_facturar'] > 0){
-			$nd_facturar =  $data['nd_facturar'];
+		if($data['nd_facturar'] > 0) {
+			$nd_facturar = $data['nd_facturar'];
 		}
 		$nc_facturar = 0;
-		if($data['nc_facturar'] > 0){
-			$nc_facturar =  $data['nc_facturar'];
+		if($data['nc_facturar'] > 0) {
+			$nc_facturar = $data['nc_facturar'];
 		}
-		if($data['exigible_financiamiento'] == 'SI'){
+		if($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = number_format($deuda_actual, 2, '.', '');
-		}else{
+		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
 		//CALCULO DE GASTOS DE COBRANZA
-		if($data['total_precancelacion_diferidos'] > 0){
+		if($data['total_precancelacion_diferidos'] > 0) {
 			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
 			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 		}
 
-		if($data['unificar_deudas'] == 'SI'){
+		if($data['unificar_deudas'] == 'SI') {
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;
-			foreach ($aplicativo_diners_detalle as $add){
-				if($add['nombre_tarjeta'] != 'DISCOVER'){
+			foreach($aplicativo_diners_detalle as $add) {
+				if($add['nombre_tarjeta'] != 'DISCOVER') {
 					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
 				}
 			}
@@ -2462,25 +2496,25 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$numero_meses_gracia = 0;
-		if($data['numero_meses_gracia'] > 0){
-			$numero_meses_gracia =  $data['numero_meses_gracia'];
+		if($data['numero_meses_gracia'] > 0) {
+			$numero_meses_gracia = $data['numero_meses_gracia'];
 		}
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 		$porcentaje_interes_arr = [];
-		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
+		foreach($aplicativo_diners_porcentaje_interes as $pi) {
 			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
 		}
 		$porcentaje_interes = 0.00;
 		$meses_plazo = $plazo_financiamiento + $numero_meses_gracia;
-		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+		if(isset($porcentaje_interes_arr[$meses_plazo])) {
 			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
 		}
 		$total_interes = $valor_financiar * ($porcentaje_interes / 100);
@@ -2488,47 +2522,47 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL FINANCIAMIENTO
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$total_intereses = 0;
-		if($data['total_intereses'] > 0){
-			$total_intereses =  $data['total_intereses'];
+		if($data['total_intereses'] > 0) {
+			$total_intereses = $data['total_intereses'];
 		}
 		$total_financiamiento = $valor_financiar + $total_intereses;
 		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
 
 		//VALOR CUOTA MENSUAL
 		$total_financiamiento_total = 0;
-		if($data['total_financiamiento_total'] > 0){
-			$total_financiamiento_total =  $data['total_financiamiento_total'];
+		if($data['total_financiamiento_total'] > 0) {
+			$total_financiamiento_total = $data['total_financiamiento_total'];
 		}
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$cuota_mensual = 0;
-		if ($plazo_financiamiento > 0) {
+		if($plazo_financiamiento > 0) {
 			$cuota_mensual = $total_financiamiento_total / $plazo_financiamiento;
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
 		//ALERTAS
 		$alerta_abono_negociador = '';
-		if($data['abono_total'] < $data['interes_facturado']){
+		if($data['abono_total'] < $data['interes_facturado']) {
 			$alerta_abono_negociador = 'ABONO NO CUBRE INTERES';
 		}
 
 		//FORMATEO DE DATOS
 		$respuesta = [];
-		foreach ($data as $key => $val){
-			if($key == 'abono_negociador'){
-				$respuesta['data['.$key.']'] = [
+		foreach($data as $key => $val) {
+			if($key == 'abono_negociador') {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => $alerta_abono_negociador
 				];
-			}else{
-				$respuesta['data['.$key.']'] = [
+			} else {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => ''
 				];
@@ -2545,8 +2579,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function calculos_tarjeta_mastercard() {
-		if (!$this->isPost()) return "calculos_tarjeta_mastercard";
+	function calculos_tarjeta_mastercard()
+	{
+		if(!$this->isPost()) return "calculos_tarjeta_mastercard";
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
@@ -2555,143 +2590,143 @@ class AplicativoDinersApi extends BaseController {
 
 		//ABONO TOTAL
 		$abono_efectivo_sistema = 0;
-		if($data['abono_efectivo_sistema'] > 0){
-			$abono_efectivo_sistema =  $data['abono_efectivo_sistema'];
+		if($data['abono_efectivo_sistema'] > 0) {
+			$abono_efectivo_sistema = $data['abono_efectivo_sistema'];
 		}
 		$abono_negociador = 0;
-		if($data['abono_negociador'] > 0){
-			$abono_negociador =  $data['abono_negociador'];
+		if($data['abono_negociador'] > 0) {
+			$abono_negociador = $data['abono_negociador'];
 		}
-		if($abono_efectivo_sistema > 0){
+		if($abono_efectivo_sistema > 0) {
 			$abono_total_diners = $abono_efectivo_sistema + $abono_negociador;
-		}else{
+		} else {
 			$abono_total_diners = $abono_negociador;
 		}
 		$data['abono_total'] = number_format($abono_total_diners, 2, '.', '');
 
 		//SALDOS FACTURADOS DESPUÉS DE ABONO
 		$saldo_90_facturado = 0;
-		if($data['saldo_90_facturado'] > 0){
-			$saldo_90_facturado =  $data['saldo_90_facturado'];
+		if($data['saldo_90_facturado'] > 0) {
+			$saldo_90_facturado = $data['saldo_90_facturado'];
 		}
 		$saldo_60_facturado = 0;
-		if($data['saldo_60_facturado'] > 0){
-			$saldo_60_facturado =  $data['saldo_60_facturado'];
+		if($data['saldo_60_facturado'] > 0) {
+			$saldo_60_facturado = $data['saldo_60_facturado'];
 		}
 		$saldo_30_facturado = 0;
-		if($data['saldo_30_facturado'] > 0){
-			$saldo_30_facturado =  $data['saldo_30_facturado'];
+		if($data['saldo_30_facturado'] > 0) {
+			$saldo_30_facturado = $data['saldo_30_facturado'];
 		}
 		$saldo_actual_facturado = 0;
-		if($data['saldo_actual_facturado'] > 0){
-			$saldo_actual_facturado =  $data['saldo_actual_facturado'];
+		if($data['saldo_actual_facturado'] > 0) {
+			$saldo_actual_facturado = $data['saldo_actual_facturado'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$saldo_pasa = 0;
 		$saldo_90_facturado_despues_abono = $saldo_90_facturado - $abono_total;
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['saldo_90_facturado_despues_abono'] = number_format($saldo_90_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_90_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_90_facturado_despues_abono * (-1);
 		}
 		$saldo_60_facturado_despues_abono = $saldo_60_facturado - $saldo_pasa;
-		if($saldo_60_facturado_despues_abono > 0){
+		if($saldo_60_facturado_despues_abono > 0) {
 			$data['saldo_60_facturado_despues_abono'] = number_format($saldo_60_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_60_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_60_facturado_despues_abono * (-1);
 		}
 		$saldo_30_facturado_despues_abono = $saldo_30_facturado - $saldo_pasa;
-		if($saldo_30_facturado_despues_abono > 0){
+		if($saldo_30_facturado_despues_abono > 0) {
 			$data['saldo_30_facturado_despues_abono'] = number_format($saldo_30_facturado_despues_abono, 2, '.', '');
 			$saldo_pasa = 0;
-		}else{
+		} else {
 			$data['saldo_30_facturado_despues_abono'] = 0.00;
 			$saldo_pasa = $saldo_30_facturado_despues_abono * (-1);
 		}
 		$saldo_actual_facturado_despues_abono = $saldo_actual_facturado - $saldo_pasa;
-		if($saldo_actual_facturado_despues_abono > 0){
+		if($saldo_actual_facturado_despues_abono > 0) {
 			$data['saldo_actual_facturado_despues_abono'] = number_format($saldo_actual_facturado_despues_abono, 2, '.', '');
-		}else{
+		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
 
 		//VALOR A TIPO DE FINANCIAMIENTO
-		if($saldo_90_facturado_despues_abono > 0){
+		if($saldo_90_facturado_despues_abono > 0) {
 			$data['tipo_financiamiento'] = 'REESTRUCTURACIÓN';
-		}else{
-			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)){
+		} else {
+			if(($saldo_60_facturado_despues_abono > 0) || ($saldo_30_facturado_despues_abono > 0)) {
 				$data['tipo_financiamiento'] = 'REFINANCIACIÓN';
-			}else{
+			} else {
 				$data['tipo_financiamiento'] = 'NOVACIÓN';
 			}
 		}
 
 		//VALOR A FINANCIAR
 		$deuda_actual = 0;
-		if($data['deuda_actual'] > 0){
-			$deuda_actual =  $data['deuda_actual'];
+		if($data['deuda_actual'] > 0) {
+			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($data['total_precancelacion_diferidos'] > 0){
-			$total_precancelacion_diferidos =  $data['total_precancelacion_diferidos'];
+		if($data['total_precancelacion_diferidos'] > 0) {
+			$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
 		}
 		$interes_facturar = 0;
-		if($data['interes_facturar'] > 0){
-			$interes_facturar =  $data['interes_facturar'];
+		if($data['interes_facturar'] > 0) {
+			$interes_facturar = $data['interes_facturar'];
 		}
 		$corrientes_facturar = 0;
-		if($data['corrientes_facturar'] > 0){
-			$corrientes_facturar =  $data['corrientes_facturar'];
+		if($data['corrientes_facturar'] > 0) {
+			$corrientes_facturar = $data['corrientes_facturar'];
 		}
 		$gastos_cobranza = 0;
-		if($data['gastos_cobranza'] > 0){
-			$gastos_cobranza =  $data['gastos_cobranza'];
+		if($data['gastos_cobranza'] > 0) {
+			$gastos_cobranza = $data['gastos_cobranza'];
 		}
 		$valor_otras_tarjetas = 0;
-		if($data['valor_otras_tarjetas'] > 0){
-			$valor_otras_tarjetas =  $data['valor_otras_tarjetas'];
+		if($data['valor_otras_tarjetas'] > 0) {
+			$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
 		}
 		$abono_total = 0;
-		if($data['abono_total'] > 0){
-			$abono_total =  $data['abono_total'];
+		if($data['abono_total'] > 0) {
+			$abono_total = $data['abono_total'];
 		}
 		$nd_facturar = 0;
-		if($data['nd_facturar'] > 0){
-			$nd_facturar =  $data['nd_facturar'];
+		if($data['nd_facturar'] > 0) {
+			$nd_facturar = $data['nd_facturar'];
 		}
 		$nc_facturar = 0;
-		if($data['nc_facturar'] > 0){
-			$nc_facturar =  $data['nc_facturar'];
+		if($data['nc_facturar'] > 0) {
+			$nc_facturar = $data['nc_facturar'];
 		}
-		if($data['exigible_financiamiento'] == 'SI'){
+		if($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = number_format($deuda_actual, 2, '.', '');
-		}else{
+		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
 		//CALCULO DE GASTOS DE COBRANZA
-		if($data['total_precancelacion_diferidos'] > 0){
+		if($data['total_precancelacion_diferidos'] > 0) {
 			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
 			$data['valor_financiar'] = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 		}
 
-		if($data['unificar_deudas'] == 'SI'){
+		if($data['unificar_deudas'] == 'SI') {
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
 			$suma_valor_financiar = 0;
-			foreach ($aplicativo_diners_detalle as $add){
-				if($add['nombre_tarjeta'] != 'MASTERCARD'){
+			foreach($aplicativo_diners_detalle as $add) {
+				if($add['nombre_tarjeta'] != 'MASTERCARD') {
 					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
 				}
 			}
@@ -2701,25 +2736,25 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$numero_meses_gracia = 0;
-		if($data['numero_meses_gracia'] > 0){
-			$numero_meses_gracia =  $data['numero_meses_gracia'];
+		if($data['numero_meses_gracia'] > 0) {
+			$numero_meses_gracia = $data['numero_meses_gracia'];
 		}
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 		$porcentaje_interes_arr = [];
-		foreach ($aplicativo_diners_porcentaje_interes as $pi) {
+		foreach($aplicativo_diners_porcentaje_interes as $pi) {
 			$porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
 		}
 		$porcentaje_interes = 0.00;
 		$meses_plazo = $plazo_financiamiento + $numero_meses_gracia;
-		if (isset($porcentaje_interes_arr[$meses_plazo])) {
+		if(isset($porcentaje_interes_arr[$meses_plazo])) {
 			$porcentaje_interes = $porcentaje_interes_arr[$meses_plazo];
 		}
 		$total_interes = $valor_financiar * ($porcentaje_interes / 100);
@@ -2727,47 +2762,47 @@ class AplicativoDinersApi extends BaseController {
 
 		//TOTAL FINANCIAMIENTO
 		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0){
-			$valor_financiar =  $data['valor_financiar'];
+		if($data['valor_financiar'] > 0) {
+			$valor_financiar = $data['valor_financiar'];
 		}
 		$total_intereses = 0;
-		if($data['total_intereses'] > 0){
-			$total_intereses =  $data['total_intereses'];
+		if($data['total_intereses'] > 0) {
+			$total_intereses = $data['total_intereses'];
 		}
 		$total_financiamiento = $valor_financiar + $total_intereses;
 		$data['total_financiamiento_total'] = number_format($total_financiamiento, 2, '.', '');
 
 		//VALOR CUOTA MENSUAL
 		$total_financiamiento_total = 0;
-		if($data['total_financiamiento_total'] > 0){
-			$total_financiamiento_total =  $data['total_financiamiento_total'];
+		if($data['total_financiamiento_total'] > 0) {
+			$total_financiamiento_total = $data['total_financiamiento_total'];
 		}
 		$plazo_financiamiento = 0;
-		if($data['plazo_financiamiento'] > 0){
-			$plazo_financiamiento =  $data['plazo_financiamiento'];
+		if($data['plazo_financiamiento'] > 0) {
+			$plazo_financiamiento = $data['plazo_financiamiento'];
 		}
 		$cuota_mensual = 0;
-		if ($plazo_financiamiento > 0) {
+		if($plazo_financiamiento > 0) {
 			$cuota_mensual = $total_financiamiento_total / $plazo_financiamiento;
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
 		//ALERTAS
 		$alerta_abono_negociador = '';
-		if($data['abono_total'] < $data['interes_facturado']){
+		if($data['abono_total'] < $data['interes_facturado']) {
 			$alerta_abono_negociador = 'ABONO NO CUBRE INTERES';
 		}
 
 		//FORMATEO DE DATOS
 		$respuesta = [];
-		foreach ($data as $key => $val){
-			if($key == 'abono_negociador'){
-				$respuesta['data['.$key.']'] = [
+		foreach($data as $key => $val) {
+			if($key == 'abono_negociador') {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => $alerta_abono_negociador
 				];
-			}else{
-				$respuesta['data['.$key.']'] = [
+			} else {
+				$respuesta['data[' . $key . ']'] = [
 					'value' => $val,
 					'message' => ''
 				];
@@ -2784,8 +2819,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function save_tarjeta_diners() {
-		if (!$this->isPost()) return "save_tarjeta_diners";
+	function save_tarjeta_diners()
+	{
+		if(!$this->isPost()) return "save_tarjeta_diners";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$data = $this->request->getParam('data');
@@ -2793,18 +2829,18 @@ class AplicativoDinersApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS',$aplicativo_diners_id);
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
-		foreach ($data as $key => $val){
+		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
 //		$aplicativo_detalle = new AplicativoDinersDetalle();
 		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
-		foreach ($aplicativo_diners_tarjeta as $key => $val){
+		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
 //		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
@@ -2812,7 +2848,7 @@ class AplicativoDinersApi extends BaseController {
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 //		$aplicativo_detalle->eliminado = 0;
-		if($aplicativo_detalle->save()){
+		if($aplicativo_detalle->save()) {
 			return $this->json($res->conMensaje('OK'));
 		} else {
 			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
@@ -2825,8 +2861,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function save_tarjeta_interdin() {
-		if (!$this->isPost()) return "save_tarjeta_interdin";
+	function save_tarjeta_interdin()
+	{
+		if(!$this->isPost()) return "save_tarjeta_interdin";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$data = $this->request->getParam('data');
@@ -2834,18 +2871,18 @@ class AplicativoDinersApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN',$aplicativo_diners_id);
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
-		foreach ($data as $key => $val){
+		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
 //		$aplicativo_detalle = new AplicativoDinersDetalle();
 		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
-		foreach ($aplicativo_diners_tarjeta as $key => $val){
+		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
 //		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
@@ -2853,7 +2890,7 @@ class AplicativoDinersApi extends BaseController {
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 //		$aplicativo_detalle->eliminado = 0;
-		if($aplicativo_detalle->save()){
+		if($aplicativo_detalle->save()) {
 			return $this->json($res->conMensaje('OK'));
 		} else {
 			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
@@ -2866,8 +2903,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function save_tarjeta_discover() {
-		if (!$this->isPost()) return "save_tarjeta_discover";
+	function save_tarjeta_discover()
+	{
+		if(!$this->isPost()) return "save_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$data = $this->request->getParam('data');
@@ -2875,18 +2913,18 @@ class AplicativoDinersApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER',$aplicativo_diners_id);
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
 		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
-		foreach ($data as $key => $val){
+		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
 //		$aplicativo_detalle = new AplicativoDinersDetalle();
 		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
-		foreach ($aplicativo_diners_tarjeta as $key => $val){
+		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
 //		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
@@ -2894,7 +2932,7 @@ class AplicativoDinersApi extends BaseController {
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 //		$aplicativo_detalle->eliminado = 0;
-		if($aplicativo_detalle->save()){
+		if($aplicativo_detalle->save()) {
 			return $this->json($res->conMensaje('OK'));
 		} else {
 			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
@@ -2907,8 +2945,9 @@ class AplicativoDinersApi extends BaseController {
 	 * @param $data
 	 * @param $session
 	 */
-	function save_tarjeta_mastercard() {
-		if (!$this->isPost()) return "save_tarjeta_mastercard";
+	function save_tarjeta_mastercard()
+	{
+		if(!$this->isPost()) return "save_tarjeta_mastercard";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$data = $this->request->getParam('data');
@@ -2916,18 +2955,18 @@ class AplicativoDinersApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD',$aplicativo_diners_id);
+		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
 		$id_detalle = $aplicativo_diners_tarjeta['id'];
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
-		foreach ($data as $key => $val){
+		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
 		unset($aplicativo_diners_tarjeta['id']);
 
 //		$aplicativo_detalle = new AplicativoDinersDetalle();
 		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
-		foreach ($aplicativo_diners_tarjeta as $key => $val){
+		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
 //		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
@@ -2935,7 +2974,7 @@ class AplicativoDinersApi extends BaseController {
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 //		$aplicativo_detalle->eliminado = 0;
-		if($aplicativo_detalle->save()){
+		if($aplicativo_detalle->save()) {
 			return $this->json($res->conMensaje('OK'));
 		} else {
 			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
