@@ -11,13 +11,13 @@
 				<form method="POST" action="{{ root }}/admin/usuarios/guardar" id="form-edit" class="form-horizontal" autocomplete="off">
 					{{ hidden_field_tag('id', model.id) }}
 					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Username</label>
+						<label for="inputName" class="col-md-2 form-label">Username *</label>
 						<div class="col-md-4">
 							{{ text_field_tag('model.username', model.username, {class:'required form-control', placeholder:'Username'}) }}
 						</div>
 
 						{% if not model.id %}
-							<label for="inputName" class="col-md-2 form-label">Password</label>
+							<label for="inputName" class="col-md-2 form-label">Password *</label>
 							<div class="col-md-4">
 								{{ password_tag('password', '', {'class':'required form-control'}) }}
 							</div>
@@ -31,19 +31,19 @@
 								{key:'id',value:'nombre','multiple':'multiple', style:'width:100%', 'name':'perfiles[]', 'class':'selectpicker form-control'}) }}
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<label for="inputName" class="col-md-2 form-label">Nombres *</label>
 						<div class="col-md-4">
-							{{ text_field_tag("nombres", model.nombres, {class:'form-control', placeholder:'Nombres'}) }}
+							{{ text_field_tag("nombres", model.nombres, {class:'required form-control', placeholder:'Nombres'}) }}
 						</div>
 					</div>
 
 					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Apellidos</label>
+						<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
 						<div class="col-md-4">
 							{{ text_field_tag('model.apellidos', model.apellidos, {'class':'required form-control', placeholder:'Username'}) }}
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Email</label>
+						<label for="inputName" class="col-md-2 form-label">Email *</label>
 						<div class="col-md-4">
 							{{ text_field_tag('model.email', model.email, {'class':'required email form-control', placeholder:'Email'}) }}
 						</div>
