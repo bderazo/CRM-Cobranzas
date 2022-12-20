@@ -139,10 +139,10 @@ class AplicativoDinersDetalle extends Model
 
 		$q=$db->from('aplicativo_diners_detalle')
 			->select(null)
-			->select('*, MAX(total_riesgo) AS max_total_riesgo')
+			->select('*')
 			->where('eliminado',0)
 			->where('aplicativo_diners_id',$aplicativo_diners_id)
-			->groupBy('id');
+			->orderBy('total_riesgo DESC');
 		$lista = $q->fetch();
 //		$retorno = [];
 //		foreach ($lista as $l){
