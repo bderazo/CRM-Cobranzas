@@ -2195,11 +2195,11 @@ class AplicativoDinersApi extends BaseController
 		\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_detalle);
 		$save = $aplicativo_detalle->save();
 		\Auditor::info('save_tarjeta_discover data: ', 'API', $save);
-//		if($save) {
-//			return $this->json($res->conMensaje('OK'));
-//		} else {
-//			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
-//		}
+		if($save) {
+			return $this->json($res->conDatos($save));
+		} else {
+			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
+		}
 	}
 
 	/**
