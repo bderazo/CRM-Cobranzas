@@ -117,9 +117,9 @@ class AplicativoDinersApi extends BaseController
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 		$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners['id']);
 		foreach($aplicativo_diners_detalle as $add) {
-			if($add['nombre_tarjeta'] == 'DINERS | CICLO') {
+			if($add['nombre_tarjeta'] == 'DINERS') {
 				$dat = [
-					'nombre' => 'DINERS',
+					'nombre' => 'DINERS | CICLO:  | EDAD:  | PENDIENTE: ',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
@@ -131,7 +131,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjetas[] = $dat;
 			} elseif($add['nombre_tarjeta'] == 'INTERDIN') {
 				$dat = [
-					'nombre' => 'INTERDIN',
+					'nombre' => 'INTERDIN | CICLO:  | EDAD:  | PENDIENTE: ',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
@@ -143,7 +143,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjetas[] = $dat;
 			} elseif($add['nombre_tarjeta'] == 'DISCOVER') {
 				$dat = [
-					'nombre' => 'DISCOVER',
+					'nombre' => 'DISCOVER | CICLO:  | EDAD:  | PENDIENTE: ',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
@@ -155,7 +155,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjetas[] = $dat;
 			} elseif($add['nombre_tarjeta'] == 'MASTERCARD') {
 				$dat = [
-					'nombre' => 'MASTERCARD',
+					'nombre' => 'MASTERCARD | CICLO:  | EDAD:  | PENDIENTE: ',
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
