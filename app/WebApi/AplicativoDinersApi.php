@@ -2087,10 +2087,13 @@ class AplicativoDinersApi extends BaseController
 		\Auditor::info('save_tarjeta_diners data: ', 'API', $data);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
-		$id_detalle = $aplicativo_diners_tarjeta['id'];
+//		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
+//		$id_detalle = $aplicativo_diners_tarjeta['id'];
+		$id_detalle = $data['id'];
+		unset($data['id']);
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		$aplicativo_diners_tarjeta = [];
 		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
@@ -2128,13 +2131,16 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		\Auditor::info('save_tarjeta_interdin data: ', 'API', $data);
+//		\Auditor::info('save_tarjeta_interdin data: ', 'API', $data);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
-		$id_detalle = $aplicativo_diners_tarjeta['id'];
+//		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
+//		$id_detalle = $aplicativo_diners_tarjeta['id'];
+		$id_detalle = $data['id'];
+		unset($data['id']);
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		$aplicativo_diners_tarjeta = [];
 		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
@@ -2183,18 +2189,17 @@ class AplicativoDinersApi extends BaseController
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
 
-
 		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
 		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-		\Auditor::info('save_tarjeta_discover data: ', 'API', $session);
-		\Auditor::info('save_tarjeta_discover data: ', 'API', $user);
-		\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_detalle);
+//		\Auditor::info('save_tarjeta_discover data: ', 'API', $session);
+//		\Auditor::info('save_tarjeta_discover data: ', 'API', $user);
+//		\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_detalle);
 		$save = $aplicativo_detalle->save();
-		\Auditor::info('save_tarjeta_discover data: ', 'API', $save);
+//		\Auditor::info('save_tarjeta_discover data: ', 'API', $save);
 		if($save) {
 			return $this->json($res->conDatos($save));
 		} else {
@@ -2217,13 +2222,16 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		\Auditor::info('save_tarjeta_mastercard data: ', 'API', $data);
+//		\Auditor::info('save_tarjeta_mastercard data: ', 'API', $data);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
-		$id_detalle = $aplicativo_diners_tarjeta['id'];
+//		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
+//		$id_detalle = $aplicativo_diners_tarjeta['id'];
+		$id_detalle = $data['id'];
+		unset($data['id']);
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		$aplicativo_diners_tarjeta = [];
 		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
