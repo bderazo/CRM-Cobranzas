@@ -192,6 +192,12 @@ class AplicativoDinersApi extends BaseController
 		$seccion1['nombre'] = 'DINERS';
 		$seccion1['colorFondo'] = '#afccfc';
 		$seccion1['contenido'][] = [
+			'etiqueta' => 'ID',
+			'valor' => $tarjeta_diners['id'],
+			'tipo' => 'label',
+			'name' => 'data[id]'
+		];
+		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_diners['ciclo'],
 			'tipo' => 'label',
@@ -613,6 +619,12 @@ class AplicativoDinersApi extends BaseController
 
 		$seccion1['nombre'] = 'INTERDIN';
 		$seccion1['colorFondo'] = '#e3e3e3';
+		$seccion1['contenido'][] = [
+			'etiqueta' => 'ID',
+			'valor' => $tarjeta_interdin['id'],
+			'tipo' => 'label',
+			'name' => 'data[id]'
+		];
 		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_interdin['ciclo'],
@@ -1475,6 +1487,12 @@ class AplicativoDinersApi extends BaseController
 		$seccion1['nombre'] = 'MASTERCARD';
 		$seccion1['colorFondo'] = '#deffb8';
 		$seccion1['contenido'][] = [
+			'etiqueta' => 'ID',
+			'valor' => $tarjeta_mastercard['id'],
+			'tipo' => 'label',
+			'name' => 'data[id]'
+		];
+		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_mastercard['ciclo'],
 			'tipo' => 'label',
@@ -2154,8 +2172,6 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		\Auditor::info('save_tarjeta_discover data: ', 'API', $data);
-
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 //		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
 		$id_detalle = $data['id'];
@@ -2174,6 +2190,7 @@ class AplicativoDinersApi extends BaseController
 		}
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+		\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_detalle->toArray());
 		if($aplicativo_detalle->save()) {
 			return $this->json($res->conMensaje('OK'));
 		} else {
