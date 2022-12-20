@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include_once 'vendor/autoload.php';
 
 $config = include_once(__DIR__ . '/app/config.php');
