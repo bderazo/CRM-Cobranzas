@@ -1042,6 +1042,12 @@ class AplicativoDinersApi extends BaseController
 		$seccion1['nombre'] = 'DISCOVER';
 		$seccion1['colorFondo'] = '#ffd09e';
 		$seccion1['contenido'][] = [
+			'etiqueta' => 'ID',
+			'valor' => $tarjeta_discover['id'],
+			'tipo' => 'text',
+			'name' => 'data[id]'
+		];
+		$seccion1['contenido'][] = [
 			'etiqueta' => 'CICLO',
 			'valor' => $tarjeta_discover['ciclo'],
 			'tipo' => 'label',
