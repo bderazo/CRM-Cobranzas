@@ -2145,25 +2145,23 @@ class AplicativoDinersApi extends BaseController
 		$user = UsuarioLogin::getUserBySession($session);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
-		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
-		$id_detalle = $aplicativo_diners_tarjeta['id'];
+//		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
+		$id_detalle = $data['id'];
+		unset($data['id']);
 
 		//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
+		$aplicativo_diners_tarjeta = [];
 		foreach($data as $key => $val) {
 			$aplicativo_diners_tarjeta[$key] = $val;
 		}
-		unset($aplicativo_diners_tarjeta['id']);
 
-//		$aplicativo_detalle = new AplicativoDinersDetalle();
+
 		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);
 		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
-//		$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
-//		$aplicativo_detalle->usuario_ingreso = $user['id'];
 		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-//		$aplicativo_detalle->eliminado = 0;
 		if($aplicativo_detalle->save()) {
 			return $this->json($res->conMensaje('OK'));
 		} else {
