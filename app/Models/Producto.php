@@ -342,12 +342,12 @@ class Producto extends Model
 
 		//CALCULO DE GASTOS DE COBRANZA
 		if($data['total_precancelacion_diferidos'] > 0) {
-			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
-			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
-			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
-			$data['gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+//			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
+//			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+//			$data['gastos_cobranzas_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 		}
 
 		if($data['unificar_deudas'] == 'SI') {
@@ -551,12 +551,12 @@ class Producto extends Model
 
 		//CALCULO DE GASTOS DE COBRANZA
 		if($data['total_precancelacion_diferidos'] > 0) {
-			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
-			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
-			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
-			$data['gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+//			$suma_gastos_cobranza = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
+//			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+//			$data['gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 		}
 
 		if($data['unificar_deudas'] == 'SI') {
