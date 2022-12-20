@@ -433,6 +433,13 @@ class AplicativoDinersApi extends BaseController
 			'tipo' => 'label',
 			'name' => 'data[saldo_actual_facturado_despues_abono]',
 		];
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'TOTAL PENDIENTE',
+			'valor' => $tarjeta_diners['total_pendiente_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[total_pendiente_facturado_despues_abono]',
+			'colorFondo' => '#f0f0f0',
+		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
 		$seccion5['colorFondo'] = '#afccfc';
@@ -853,6 +860,13 @@ class AplicativoDinersApi extends BaseController
 			'valor' => $tarjeta_interdin['saldo_actual_facturado_despues_abono'],
 			'tipo' => 'label',
 			'name' => 'data[saldo_actual_facturado_despues_abono]',
+		];
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'TOTAL PENDIENTE',
+			'valor' => $tarjeta_interdin['total_pendiente_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[total_pendiente_facturado_despues_abono]',
+			'colorFondo' => '#f0f0f0',
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
@@ -1275,6 +1289,13 @@ class AplicativoDinersApi extends BaseController
 			'tipo' => 'label',
 			'name' => 'data[saldo_actual_facturado_despues_abono]',
 		];
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'TOTAL PENDIENTE',
+			'valor' => $tarjeta_discover['total_pendiente_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[total_pendiente_facturado_despues_abono]',
+			'colorFondo' => '#f0f0f0',
+		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';
 		$seccion5['colorFondo'] = '#ffd09e';
@@ -1694,6 +1715,13 @@ class AplicativoDinersApi extends BaseController
 			'valor' => $tarjeta_mastercard['saldo_actual_facturado_despues_abono'],
 			'tipo' => 'label',
 			'name' => 'data[saldo_actual_facturado_despues_abono]',
+		];
+		$seccion4['contenido'][] = [
+			'etiqueta' => 'TOTAL PENDIENTE',
+			'valor' => $tarjeta_mastercard['total_pendiente_facturado_despues_abono'],
+			'tipo' => 'label',
+			'name' => 'data[total_pendiente_facturado_despues_abono]',
+			'colorFondo' => '#f0f0f0',
 		];
 
 		$seccion5['nombre'] = 'VALORES POR FACTURAR';

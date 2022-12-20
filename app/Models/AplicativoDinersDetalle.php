@@ -52,6 +52,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double saldo_60_facturado_despues_abono
  * @property double saldo_30_facturado_despues_abono
  * @property double saldo_actual_facturado_despues_abono
+ * @property double total_pendiente_facturado_despues_abono
  * @property double interes_facturar
  * @property double corrientes_facturar
  * @property double nd_facturar
