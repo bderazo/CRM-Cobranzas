@@ -556,6 +556,7 @@ class Producto extends Model
 			$data['total_precancelacion_diferidos'] = number_format($suma_gastos_cobranza, 2, '.', '');
 			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+			$data['gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 		}
 
 		if($data['unificar_deudas'] == 'SI') {
