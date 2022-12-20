@@ -2188,18 +2188,18 @@ class AplicativoDinersApi extends BaseController
 		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
-//		$aplicativo_detalle->usuario_modificacion = $user['id'];
+		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
 		\Auditor::info('save_tarjeta_discover data: ', 'API', $session);
 		\Auditor::info('save_tarjeta_discover data: ', 'API', $user);
 		\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_detalle);
 		$save = $aplicativo_detalle->save();
 		\Auditor::info('save_tarjeta_discover data: ', 'API', $save);
-		if($save) {
-			return $this->json($res->conMensaje('OK'));
-		} else {
-			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
-		}
+//		if($save) {
+//			return $this->json($res->conMensaje('OK'));
+//		} else {
+//			return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
+//		}
 	}
 
 	/**
