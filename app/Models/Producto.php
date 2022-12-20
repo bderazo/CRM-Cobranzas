@@ -488,6 +488,8 @@ class Producto extends Model
 		} else {
 			$data['saldo_actual_facturado_despues_abono'] = 0.00;
 		}
+		$total_pendiente_facturado_despues_abono = $data['saldo_90_facturado_despues_abono'] + $data['saldo_60_facturado_despues_abono'] + $data['saldo_30_facturado_despues_abono'] + $data['saldo_actual_facturado_despues_abono'];
+		$data['total_pendiente_facturado_despues_abono'] = number_format($total_pendiente_facturado_despues_abono, 2, '.', '');
 
 		//VALOR A TIPO DE FINANCIAMIENTO
 		if($saldo_90_facturado_despues_abono > 0) {
