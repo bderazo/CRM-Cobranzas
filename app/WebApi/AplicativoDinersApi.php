@@ -2190,7 +2190,7 @@ class AplicativoDinersApi extends BaseController
 		}
 //		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-		\Auditor::info('save_tarjeta_discover data: ', 'API', $session);
+		\Auditor::info('save_tarjeta_discover data: ', 'API', $user);
 		$save = $aplicativo_detalle->save();
 
 		if($save) {
