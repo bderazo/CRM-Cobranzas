@@ -397,7 +397,7 @@ class AplicativoDinersApi extends BaseController
 			'valor' => $tarjeta_diners['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#f0f0f0',
+			'colorFondo' => '#84FA84',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
@@ -825,7 +825,7 @@ class AplicativoDinersApi extends BaseController
 			'valor' => $tarjeta_interdin['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#f0f0f0',
+			'colorFondo' => '#84FA84',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
@@ -1253,7 +1253,7 @@ class AplicativoDinersApi extends BaseController
 			'valor' => $tarjeta_discover['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#f0f0f0',
+			'colorFondo' => '#84FA84',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
@@ -1680,7 +1680,7 @@ class AplicativoDinersApi extends BaseController
 			'valor' => $tarjeta_mastercard['abono_negociador'],
 			'tipo' => 'number',
 			'name' => 'data[abono_negociador]',
-			'colorFondo' => '#f0f0f0',
+			'colorFondo' => '#84FA84',
 		];
 		$seccion3['contenido'][] = [
 			'etiqueta' => 'ABONO TOTAL',
