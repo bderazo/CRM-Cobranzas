@@ -1829,6 +1829,7 @@
                     self.aplicativo_diners_tarjeta_diners = [];
                     $.post('{{ root }}/producto/calcularTarjetaDiners', data, function (res) {
                         self.aplicativo_diners_tarjeta_diners = res;
+                        console.log(res);
                         //ALERTAS
                         if(parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturado)){
                             $("#alerta_abono_diners").show();
