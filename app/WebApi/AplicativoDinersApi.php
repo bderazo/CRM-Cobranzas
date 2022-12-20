@@ -2060,6 +2060,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
+		\Auditor::info('save_tarjeta_diners data: ', 'API', $data);
+
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 		$id_detalle = $aplicativo_diners_tarjeta['id'];
@@ -2101,6 +2103,8 @@ class AplicativoDinersApi extends BaseController
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
+
+		\Auditor::info('save_tarjeta_interdin data: ', 'API', $data);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
@@ -2185,6 +2189,8 @@ class AplicativoDinersApi extends BaseController
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
+
+		\Auditor::info('save_tarjeta_mastercard data: ', 'API', $data);
 
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
