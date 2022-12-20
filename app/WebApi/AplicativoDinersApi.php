@@ -2144,6 +2144,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
+		\Auditor::info('save_tarjeta_discover data: ', 'API', $data);
+
 		//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 //		$aplicativo_diners_tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
 		$id_detalle = $data['id'];
