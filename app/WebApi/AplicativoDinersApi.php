@@ -119,7 +119,7 @@ class AplicativoDinersApi extends BaseController
 		foreach($aplicativo_diners_detalle as $add) {
 			if($add['nombre_tarjeta'] == 'DINERS') {
 				$dat = [
-					'nombre' => 'DINERS | CICLO:  | EDAD:  | PENDIENTE: ',
+					'nombre' => 'DINERS | CICLO: '.$add['ciclo'].' | EDAD: '.$add['edad_cartera'].' | PENDIENTE: '.$add['total_pendiente_facturado_despues_abono'],
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
@@ -131,7 +131,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjetas[] = $dat;
 			} elseif($add['nombre_tarjeta'] == 'INTERDIN') {
 				$dat = [
-					'nombre' => 'INTERDIN | CICLO:  | EDAD:  | PENDIENTE: ',
+					'nombre' => 'INTERDIN | CICLO: '.$add['ciclo'].' | EDAD: '.$add['edad_cartera'].' | PENDIENTE: '.$add['total_pendiente_facturado_despues_abono'],
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
@@ -143,7 +143,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjetas[] = $dat;
 			} elseif($add['nombre_tarjeta'] == 'DISCOVER') {
 				$dat = [
-					'nombre' => 'DISCOVER | CICLO:  | EDAD:  | PENDIENTE: ',
+					'nombre' => 'DISCOVER | CICLO: '.$add['ciclo'].' | EDAD: '.$add['edad_cartera'].' | PENDIENTE: '.$add['total_pendiente_facturado_despues_abono'],
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
@@ -155,7 +155,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjetas[] = $dat;
 			} elseif($add['nombre_tarjeta'] == 'MASTERCARD') {
 				$dat = [
-					'nombre' => 'MASTERCARD | CICLO:  | EDAD:  | PENDIENTE: ',
+					'nombre' => 'MASTERCARD | CICLO: '.$add['ciclo'].' | EDAD: '.$add['edad_cartera'].' | PENDIENTE: '.$add['total_pendiente_facturado_despues_abono'],
 					'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
 					'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id=' . $aplicativo_diners['id'],
 					'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
