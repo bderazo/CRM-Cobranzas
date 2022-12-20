@@ -2188,9 +2188,9 @@ class AplicativoDinersApi extends BaseController
 		foreach($aplicativo_diners_tarjeta as $key => $val) {
 			$aplicativo_detalle->$key = $val;
 		}
-		$aplicativo_detalle->usuario_modificacion = $user['id'];
+//		$aplicativo_detalle->usuario_modificacion = $user['id'];
 		$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
-		\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_detalle);
+		\Auditor::info('save_tarjeta_discover data: ', 'API', $session);
 		$save = $aplicativo_detalle->save();
 
 		if($save) {
