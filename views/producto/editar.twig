@@ -1845,7 +1845,7 @@
                         data: self.aplicativo_diners_tarjeta_interdin,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                     };
-                    self.aplicativo_diners_tarjeta_interdin = [];
+                    // self.aplicativo_diners_tarjeta_interdin = [];
                     $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
                         self.aplicativo_diners_tarjeta_interdin = res;
                         //ALERTAS
@@ -1863,7 +1863,7 @@
                         data: self.aplicativo_diners_tarjeta_discover,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                     };
-                    self.aplicativo_diners_tarjeta_discover = [];
+                    // self.aplicativo_diners_tarjeta_discover = [];
                     $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
                         self.aplicativo_diners_tarjeta_discover = res;
                         //ALERTAS
@@ -1881,7 +1881,7 @@
                         data: self.aplicativo_diners_tarjeta_mastercard,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                     };
-                    self.aplicativo_diners_tarjeta_mastercard = [];
+                    // self.aplicativo_diners_tarjeta_mastercard = [];
                     $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
                         self.aplicativo_diners_tarjeta_mastercard = res;
                         //ALERTAS
