@@ -1,93 +1,71 @@
 {% extends layoutApp %}
 
 {% block content %}
-
-	<div class="col-lg-12">
-		<form method="post" id="filtro" class="form-horizontal">
-			<div class="ibox">
-				<div class="ibox-title">
-					<h5>Perfiles</h5>
-
-				</div>
-				<div class="ibox-content">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="" class="col-sm-4 control-label">Nombre</label>
-
-								<div class="col-sm-8">
-									{{ text_field_tag("nombre", '', {class:'form-control'}) }}
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="" class="col-sm-4 control-label">Identificador</label>
-
-								<div class="col-sm-8">
-									{{ select_tag('identificador', identificadores,'', {class:'form-control',prompt: ''} ) }}
-								</div>
-							</div>
-
-
-
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Perfiles</h4>
+			</div>
+			<div class="card-body">
+				<form method="post" id="filtro" class="form-horizontal">
+					<div class="row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Nombre</label>
+						<div class="col-md-4">
+							{{ text_field_tag("nombre", model.nombre, {class:'form-control', placeholder:'Nombre'}) }}
 						</div>
 
-						<div class="col-md-6">
-
-							<p class="text-info text-center"><span style="font-size: 20px;">Módulo de perfiles</span></p>
-
-							<p class="text-center">
-								<i class="fa fa-check-circle-o big-icon" aria-hidden="true"></i>
-							</p>
-							<div class="form-group text-center">
-
-							</div>
-
-
+						<label for="inputName" class="col-md-2 form-label">Identificador</label>
+						<div class="col-md-4">
+							{{ select_tag('identificador', identificadores,'', {class:'form-control',prompt: ''} ) }}
 						</div>
 					</div>
-				</div>
-				<div class="ibox-footer">
 
-					<button type="submit" class="btn">Filtrar</button>
-					<a class="btn" href="javascript:;" onclick="todos()">Ver todos</a>
-					<a href="{{ root }}/admin/perfiles/crear" class="btn btn-small"><i class="glyphicon glyphicon-plus-sign"></i> Crear perfil</a>
-					<a href="{{ root }}/admin/perfiles/asignar" class="btn btn-small btn-success">Asignacion Masiva</a>
-				</div>
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i>
+								Filtrar
+							</button>
+							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i>
+								Ver todos
+							</button>
+							<a href="{{ root }}/admin/perfiles/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear perfil</a>
+						</div>
+					</div>
+				</form>
 			</div>
-		</form>
-	</div>
-
-
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h5>Lista perfiles</h5>
-			</div>
-	<div class="ibox-content">
-		<div id="lista">
-
-
 		</div>
 	</div>
-	
+
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Lista de perfiles</h4>
+			</div>
+			<div class="card-body">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+
 	<script>
-		var form = $('#filtro');
-		function todos() {
-			//resetForm('filtro');
-			form[0].reset();
-			cargar(1);
-		}
+        var form = $('#filtro');
 
-		function cargar(page) {
-			var data = form.serializeArray();
-			$('#lista').load('{{ root }}/admin/perfiles/lista?page=' + page, data);
-		}
-		form.submit(function () {
-			cargar(1);
-			return false;
-		});
+        function todos() {
+            //resetForm('filtro');
+            form[0].reset();
+            cargar(1);
+        }
 
-		cargar(1);
+        function cargar(page) {
+            var data = form.serializeArray();
+            $('#lista').load('{{ root }}/admin/perfiles/lista?page=' + page, data);
+        }
+
+        form.submit(function () {
+            cargar(1);
+            return false;
+        });
+
+        cargar(1);
 	</script>
 {% endblock %}

@@ -28,7 +28,7 @@
 						<label for="inputName" class="col-md-2 form-label">Perfiles</label>
 						<div class="col-md-4">
 							{{ select_tag('perfiles', perfiles, perfilesUsuario,
-								{key:'id',value:'nombre','multiple':'multiple', style:'width:100%', 'name':'perfiles[]', 'class':'js-example-basic-multiple form-control'}) }}
+								{key:'id',value:'nombre','multiple':'multiple', style:'width:100%', 'name':'perfiles[]', 'class':'select2 form-control'}) }}
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Nombres *</label>
@@ -161,7 +161,9 @@
 		}
 
         $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
+            $('.select2').select2({
+                theme: "classic"
+            });
         });
 
 

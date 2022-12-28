@@ -57,7 +57,14 @@ class PerfilesController extends BaseController {
 	}
 	
 	function editar($id) {
-		\Breadcrumbs::active('Perfiles');
+
+
+		if (!$id) {
+			\Breadcrumbs::active('Crear Perfil');
+		}else{
+			\Breadcrumbs::active('Editar Perfil');
+		}
+
 		$data['cmd'] = $id ? 'Editar' : 'Crear';
 		$model = $id ? Perfil::query()->findOrFail($id) : new Perfil();
 		$actuales = empty($model->permisos) ? [] : json_decode($model->permisos);
