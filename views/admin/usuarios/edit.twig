@@ -28,7 +28,7 @@
 						<label for="inputName" class="col-md-2 form-label">Perfiles</label>
 						<div class="col-md-4">
 							{{ select_tag('perfiles', perfiles, perfilesUsuario,
-								{key:'id',value:'nombre','multiple':'multiple', style:'width:100%', 'name':'perfiles[]', 'class':'selectpicker form-control'}) }}
+								{key:'id',value:'nombre','multiple':'multiple', style:'width:100%', 'name':'perfiles[]', 'class':'js-example-basic-multiple form-control'}) }}
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Nombres *</label>
@@ -40,7 +40,7 @@
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Apellidos *</label>
 						<div class="col-md-4">
-							{{ text_field_tag('model.apellidos', model.apellidos, {'class':'required form-control', placeholder:'Username'}) }}
+							{{ text_field_tag('model.apellidos', model.apellidos, {'class':'required form-control', placeholder:'Apellidos'}) }}
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Email *</label>
@@ -50,11 +50,6 @@
 					</div>
 
 					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Departamento/Area</label>
-						<div class="col-md-4">
-							{{ select_tag('model.area', areas, model.area, {prompt:'Departamento/Area', class:'form-control form-select select2'} ) }}
-						</div>
-
 						<label for="inputName" class="col-md-2 form-label">Opciones</label>
 						<div class="col-sm-4 checkbox checkbox-success ">
 							<label class="custom-control custom-checkbox">
@@ -98,7 +93,7 @@
 		<button class="btn btn-primary" id="btnPassword">Cambiar</button>
 	</div>
 
-	{{ bundle('boot_select') }}
+	{{ bundle('select2') }}
 	{{ bundle('validate') }}
 	{{ script('js/validador_cedula.js') }}
 	<script>
@@ -164,6 +159,10 @@
 			if (!confirm('Eliminar este usuario?')) return;
 			window.location.href = '{{ root }}/admin/usuarios/delete?id={{ model.id }}';
 		}
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
 
 
 	</script>

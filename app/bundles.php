@@ -128,6 +128,15 @@ return [
 			'js/defaults-es_EC.js',
 		]
 	],
+
+	'select2' => [
+		'basedir' => 'js/select2',
+		'css' => 'dist/css/select2.min.css',
+		'js' => [
+			'dist/js/select2.min.js',
+			'dist/js/i18n/es.js',
+		]
+	],
 	
 	'jasny' => [
 		'basedir' => 'template/js/plugins/jasny-bootstrap',

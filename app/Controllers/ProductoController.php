@@ -1152,7 +1152,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_20_DIC_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_27_DIC_22.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
