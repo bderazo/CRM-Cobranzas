@@ -12,9 +12,12 @@ class AccessLogController extends BaseController {
 	
 	function init() {
 		\WebSecurity::secure('admin');
+		\Breadcrumbs::add('/admin/accessLog', 'Log de Acceso');
 	}
 	
 	function index() {
+		\WebSecurity::secure('admin');
+		\Breadcrumbs::active('Log de Acceso');
 		return $this->render('index');
 	}
 	

@@ -113,10 +113,6 @@
 		</form>
 	</div>
 
-
-
-
-
 	{{ bundle('validate') }}
 	<script>
 
@@ -140,12 +136,6 @@
             if (!confirm('Eliminar este perfil?')) return;
             window.location.href = '{{ root }}/admin/perfiles/delete?id={{ model.id }}';
         });
-
-        $(function () {
-            $('#atab1').tab('show');
-        });
-
-
 	</script>
 
 {% endblock %}

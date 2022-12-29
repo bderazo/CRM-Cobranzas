@@ -2,118 +2,97 @@
 
 {% block content %}
 
-
-	<form method="post" id="filtro" class="form-horizontal">
-		<div class="col-lg-12">
-
-			<div class="ibox">
-				<div class="ibox-title">
-					<h5>Eventos del sistema</h5>
-
-				</div>
-				<div class="ibox-content">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="" class="col-sm-4 control-label">Nivel</label>
-
-									<div class="col-sm-8">
-										{{ select_tag('nivel', niveles, model.nivel, {prompt:'', class:'form-control'} ) }}
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="" class="col-sm-4 control-label">Usuario</label>
-
-									<div class="col-sm-8">
-										{{ text_field_tag("usuario", model.usuario, {class:'form-control'}) }}
-									</div>
-								</div>
-
-							</div>
-							<div class="col-md-4">
-
-								<div class="form-group">
-									<label for="" class="col-sm-4 control-label">Desde</label>
-
-									<div class="col-sm-4">
-										{{ text_field_tag("desde", model.desde, {class:'form-control fecha'}) }}
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="" class="col-sm-4 control-label">Hasta</label>
-
-									<div class="col-sm-4">
-										{{ text_field_tag("hasta", model.hasta, {class:'form-control fecha'}) }}
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="" class="col-sm-4 control-label">Modulo</label>
-
-									<div class="col-sm-4">
-										{{ text_field_tag("modulo", model.modulo, {class:'form-control'}) }}
-									</div>
-								</div>
-
-							</div>
-							<div class="col-md-2">
-								<p class="text-info text-center"><span style="font-size: 20px;">Módulo de auditoria</span></p>
-								<p class="text-center">
-									<i class="fa fa-cogs fa-4x" aria-hidden="true"></i>
-								</p>
-							</div>
-
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Eventos del sistema</h4>
+			</div>
+			<div class="card-body">
+				<form method="post" id="filtro" class="form-horizontal">
+					<div class="row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Nivel</label>
+						<div class="col-md-4">
+							{{ select_tag('nivel', niveles, model.nivel, {prompt:'', class:'form-control', placeholder:'Nivel'} ) }}
 						</div>
 
-				</div>
-				<div class="ibox-footer">
-					<button type="submit" class="btn">Filtrar</button>
-					<a class="btn" href="javascript:;" onclick="todos()">Ver todos</a>
-				</div>
+						<label for="inputName" class="col-md-2 form-label">Usuario</label>
+						<div class="col-md-4">
+							{{ text_field_tag("usuario", model.usuario, {class:'form-control', placeholder:'Usuario'}) }}
+						</div>
+					</div>
+
+					<div class="row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Desde</label>
+						<div class="col-md-4">
+							{{ text_field_tag("desde", model.desde, {class:'form-control fecha'}) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Hasta</label>
+						<div class="col-md-4">
+							{{ text_field_tag("hasta", model.hasta, {class:'form-control fecha'}) }}
+						</div>
+					</div>
+
+					<div class="row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Modulo</label>
+						<div class="col-md-4">
+							{{ text_field_tag("modulo", model.modulo, {class:'form-control', placeholder:'Modulo'}) }}
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-secondary">
+								<i class="glyphicon glyphicon-search"></i> Filtrar
+							</button>
+							<button class="btn btn-secondary" onclick="todos()" type="button">
+								<i class="fa fa-eye"></i> Ver todos
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
+	</div>
 
 
-	</form>
-
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h5>Lista de eventos</h5>
-
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Lista de eventos</h4>
 			</div>
-			<div class="ibox-content">
+			<div class="card-body">
 				<div id="lista"></div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		var form = $('#filtro');
-		function todos() {
-			//resetForm('filtro');
-			form[0].reset();
-			cargar(1);
-		}
+        var form = $('#filtro');
 
-		function cargar(page) {
-			var data = form.serializeArray();
-			$('#lista').load('{{ root }}/admin/eventos/lista?page=' + page, data);
-		}
-		form.submit(function () {
-			cargar(1);
-			return false;
-		});
+        function todos() {
+            //resetForm('filtro');
+            form[0].reset();
+            cargar(1);
+        }
 
-		$(function () {
-			cargar(1);
-			$('.fecha').datepicker({
-				dateFormat: 'yy-mm-dd',
-				showButtonPanel: true
-			});
-		});
+        function cargar(page) {
+            var data = form.serializeArray();
+            $('#lista').load('{{ root }}/admin/eventos/lista?page=' + page, data);
+        }
+
+        form.submit(function () {
+            cargar(1);
+            return false;
+        });
+
+        $(function () {
+            cargar(1);
+            $('.fecha').datepicker({
+                dateFormat: 'yy-mm-dd',
+                showButtonPanel: true
+            });
+        });
 
 
 	</script>

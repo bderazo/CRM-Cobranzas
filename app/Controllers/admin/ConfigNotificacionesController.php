@@ -12,9 +12,12 @@ class ConfigNotificacionesController extends BaseController {
 	
 	function init() {
 		\WebSecurity::secure('admin');
+		\Breadcrumbs::add('/admin/configNotificaciones', 'Configuración Notificaciones');
 	}
 	
 	function index() {
+		\WebSecurity::secure('admin');
+		\Breadcrumbs::active('Configuración Notificaciones');
 		$file_path = __DIR__ . '/../../../config_notificaciones.php';
 		$config_notificaciones = include $file_path;
 		$data['model'] = json_encode($config_notificaciones);

@@ -1,66 +1,64 @@
 {% extends 'layout.twig' %}
 {% block content %}
 	<div id="app">
-		<div class="col-lg-12">
-			<div class="ibox">
-				<div class="ibox-title">
-					<h5>CONFIGURACIÓN DE NOTIFICACIONES</h5>
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Configuración Email</h4>
 				</div>
-				<div class="ibox-content">
+				<div class="card-body">
 					<form method="POST" action="{{ root }}/admin/configNotificaciones/guardar" id="formCrear" class="form-horizontal" autocomplete="off">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<h4>Configuración Email</h4>
+						<div class="row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Nombre de Usuario *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.configuracion_email.Username" placeholder="Nombre de Usuario" v-autoname/>
 							</div>
-							<div class="panel-body">
-								<div class="form-group">
-									<label for="" class="col-sm-3 control-label">Nombre de Usuario *</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control required" v-model="model.configuracion_email.Username" v-autoname/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="col-sm-3 control-label">Contraseña *</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control required" v-model="model.configuracion_email.Password" v-autoname/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="col-sm-3 control-label">Host *</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control required" v-model="model.configuracion_email.Host" v-autoname/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="col-sm-3 control-label">Port *</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control required" v-model="model.configuracion_email.Port" v-autoname/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="col-sm-3 control-label">SMTPSecure *</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control required" v-model="model.configuracion_email.SMTPSecure" v-autoname/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="col-sm-3 control-label">SMTPAuth *</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control required" v-model="model.configuracion_email.SMTPAuth" v-autoname/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="col-sm-3 control-label">Nombre App *</label>
-									<div class="col-sm-8">
-										<input type="text" class="form-control required" v-model="model.configuracion_email.nombre_app" v-autoname/>
-									</div>
-								</div>
+
+							<label for="inputName" class="col-md-2 form-label">Contraseña *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.configuracion_email.Password" placeholder="Contraseña" v-autoname/>
 							</div>
 						</div>
 
-						<div class="form-actions">
-							<input type="hidden" name="json" id="json"/>
-							<button class="btn btn-success" type="submit"><i class="far fa-save"></i></i> Guardar</button>
+						<div class="row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Host *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.configuracion_email.Host" placeholder="Host" v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Port *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.configuracion_email.Port" placeholder="Port" v-autoname/>
+							</div>
+						</div>
+
+						<div class="row mb-4">
+							<label for="inputName" class="col-md-2 form-label">SMTPSecure *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.configuracion_email.SMTPSecure" placeholder="SMTPSecure" v-autoname/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">SMTPAuth *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.configuracion_email.SMTPAuth" placeholder="SMTPAuth" v-autoname/>
+							</div>
+						</div>
+
+						<div class="row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Nombre App *</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control required" v-model="model.configuracion_email.nombre_app" placeholder="Nombre App" v-autoname/>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<input type="hidden" name="json" id="json"/>
+
+								<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+									<i class="fa fa-save"></i> Guardar
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -74,30 +72,30 @@
 	{{ bundle('gallery') }}
 	{{ bundle('socket') }}
 	<script>
-		var app = new Vue({
-			el: '#app',
-			data: {
-				model: {{ model|raw }},
-			},
-			watch: {},
-			computed: {},
-			methods: {},
-			mounted: function () {
-				var self = this;
-				$('#formCrear').validate({
-					onfocusout: false,
-					onkeyup: false,
-					onclick: false,
-					submitHandler: function (form) {
-						var data = {
-							model: self.model
-						};
-						$('#json').val(JSON.stringify(data));
-						form.submit();
-						return false;
-					}
-				});
-			}
-		});
+        var app = new Vue({
+            el: '#app',
+            data: {
+                model: {{ model|raw }},
+            },
+            watch: {},
+            computed: {},
+            methods: {},
+            mounted: function () {
+                var self = this;
+                $('#formCrear').validate({
+                    onfocusout: false,
+                    onkeyup: false,
+                    onclick: false,
+                    submitHandler: function (form) {
+                        var data = {
+                            model: self.model
+                        };
+                        $('#json').val(JSON.stringify(data));
+                        form.submit();
+                        return false;
+                    }
+                });
+            }
+        });
 	</script>
 {% endblock %}

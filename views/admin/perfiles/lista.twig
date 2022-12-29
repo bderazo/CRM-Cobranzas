@@ -1,17 +1,19 @@
-<table class="table table-bordered table-condensed table-striped table-full">
-	<tr>
-		<th>Nombre</th>
-		<th>Identificador</th>
-	</tr>
-	<tbody>
-	{% for l in lista %}
+<div class="table-responsive">
+	<table class="table border text-nowrap text-md-nowrap table-striped table-bordered table-sm mb-0">
 		<tr>
-			<td>
-				<a href="{{ root }}/admin/perfiles/editar?id={{ l.id }}">{{ l.nombre }}</a>
-			</td>
-			<td>{{ l.identificador }}</td>
+			<th>Nombre</th>
+			<th>Identificador</th>
 		</tr>
-	{% endfor %}
-	</tbody>
-</table>
+		<tbody>
+		{% for l in lista %}
+			<tr>
+				<td>
+					<a href="{{ root }}/admin/perfiles/editar?id={{ l.id }}">{{ l.nombre }}</a>
+				</td>
+				<td>{{ l.identificador }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
 {{ pag|raw }}

@@ -12,17 +12,18 @@ class EventosController extends BaseController {
 	
 	function init() {
 		\WebSecurity::secure('admin');
-		\Breadcrumbs::add('/admin/eventos', 'Eventos');
+		\Breadcrumbs::add('/admin/eventos', 'Eventos del sistema');
 	}
 	
 	function index() {
+		\WebSecurity::secure('admin');
+		\Breadcrumbs::active('Eventos del sistema');
 		$data['niveles'] = [
 			\Auditor::INFO => 'INFO',
 			\Auditor::WARN => 'WARNING',
 			\Auditor::DEBUG => 'DEBUG',
 			\Auditor::ERROR => 'ERROR',
 		];
-		
 		return $this->render('index', $data);
 	}
 	
