@@ -1,0 +1,27 @@
+{% if errorGeneral %}
+	<div>
+		{{ errorGeneral }}
+	</div>
+{% endif %}
+
+{% if reporte %}
+	<h5>Ingreso realizado</h5>
+	<table class="table table-bordered table-condensed table-striped small">
+		<tr>
+			<th class="col-md-1">Archivo</th>
+			<td>
+				<a href="{{ root }}/carga/detalle?id={{ reporte.idcarga }}">
+					{{ reporte.archivo }}
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<th>Total registros</th>
+			<td>{{ reporte.total }}</td>
+		</tr>
+		<tr>
+			<th>Total Errores</th>
+			<td>{{ reporte.errores }}</td>
+		</tr>
+	</table>
+{% endif %}

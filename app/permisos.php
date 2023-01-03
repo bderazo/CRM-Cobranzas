@@ -1,46 +1,6 @@
 <?php
 return [
 	[
-		'key' => 'producto',
-		'text' => 'Producto',
-		'children' => [
-			'lista' => 'Ver lista de productos',
-			'crear' => 'Crear producto',
-			'modificar' => 'Modificar producto',
-			'eliminar' => 'Eliminar producto',
-			'cargar_archivos' => 'Permitir la carga de archivos',
-			'ver_seguimientos' => 'Ver Seguimientos',
-		],
-		'mensaje' => 'Operaciones posibles para productos'
-	],
-
-	[
-		'key' => 'cliente',
-		'text' => 'Cliente',
-		'children' => [
-			'lista' => 'Ver lista de cliente',
-			'crear' => 'Crear cliente',
-			'modificar' => 'Modificar cliente',
-			'eliminar' => 'Eliminar cliente',
-			'cargar_archivos' => 'Permitir la carga de archivos',
-		],
-		'mensaje' => 'Operaciones posibles para clientes'
-	],
-
-	[
-		'key' => 'paleta',
-		'text' => 'Paleta',
-		'children' => [
-			'lista' => 'Ver lista de paletas',
-			'crear' => 'Crear paleta',
-			'modificar' => 'Modificar paleta',
-			'eliminar' => 'Eliminar paleta',
-			'subir_arbol' => 'Permitir subir el arbol',
-		],
-		'mensaje' => 'Operaciones posibles para paletas'
-	],
-
-	[
 		'key' => 'institucion',
 		'text' => 'Institución',
 		'children' => [
@@ -66,4 +26,52 @@ return [
 		'mensaje' => 'Operaciones posibles para contactos'
 	],
 
+	[
+		'key' => 'paleta',
+		'text' => 'Paleta',
+		'children' => [
+			'lista' => 'Ver lista de paletas',
+			'crear' => 'Crear paleta',
+			'modificar' => 'Modificar paleta',
+			'eliminar' => 'Eliminar paleta',
+			'subir_arbol' => 'Permitir subir el arbol',
+		],
+		'mensaje' => 'Operaciones posibles para paletas'
+	],
+
+	[
+		'key' => 'cliente',
+		'text' => 'Cliente',
+		'children' => [
+			'lista' => 'Ver lista de cliente',
+			'crear' => 'Crear cliente',
+			'modificar' => 'Modificar cliente',
+			'eliminar' => 'Eliminar cliente',
+			'cargar_archivos' => 'Permitir la carga de archivos',
+		],
+		'mensaje' => 'Operaciones posibles para clientes'
+	],
+
+	[
+		'key' => 'producto',
+		'text' => 'Producto',
+		'children' => [
+			'lista' => 'Ver lista de productos',
+			'eliminar' => 'Eliminar producto',
+			'registrar_seguimientos' => 'Registrar Seguimientos',
+			'ver_seguimientos' => 'Ver Seguimientos',
+		],
+		'mensaje' => 'Operaciones posibles para productos'
+	],
+
+	[
+		'key' => 'cargar_archivos',
+		'text' => 'Cargar Archivos',
+		'children' => [
+			'aplicativo_diners' => 'Permitir la carga de archivos de aplicativo Diners',
+			'asignaciones_diners' => 'Permitir la carga de archivos de asignaciones Diners',
+			'saldos_diners' => 'Permitir la carga de archivos de saldos Diners',
+		],
+		'mensaje' => 'Operaciones posibles para productos'
+	],
 ];

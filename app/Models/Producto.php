@@ -205,7 +205,7 @@ class Producto extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
-			$retorno[$l['institucion_id'].','.$l['cliente_id'].','.$l['producto']] = $l;
+			$retorno[$l['cliente_id']] = $l;
 		}
 		return $retorno;
 	}
@@ -312,12 +312,16 @@ class Producto extends Model
 			$corrientes_facturar = $data['corrientes_facturar'];
 		}
 		$gastos_cobranza = 0;
-		if($data['gastos_cobranza'] > 0) {
-			$gastos_cobranza = $data['gastos_cobranza'];
+		if(isset($data['gastos_cobranza'])) {
+			if($data['gastos_cobranza'] > 0) {
+				$gastos_cobranza = $data['gastos_cobranza'];
+			}
 		}
 		$valor_otras_tarjetas = 0;
-		if($data['valor_otras_tarjetas'] > 0) {
-			$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
+		if(isset($data['valor_otras_tarjetas'])) {
+			if($data['valor_otras_tarjetas'] > 0) {
+				$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
+			}
 		}
 		$abono_total = 0;
 		if($data['abono_total'] > 0) {
@@ -521,12 +525,16 @@ class Producto extends Model
 			$corrientes_facturar = $data['corrientes_facturar'];
 		}
 		$gastos_cobranza = 0;
-		if($data['gastos_cobranza'] > 0) {
-			$gastos_cobranza = $data['gastos_cobranza'];
+		if(isset($data['gastos_cobranza'])) {
+			if($data['gastos_cobranza'] > 0) {
+				$gastos_cobranza = $data['gastos_cobranza'];
+			}
 		}
 		$valor_otras_tarjetas = 0;
-		if($data['valor_otras_tarjetas'] > 0) {
-			$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
+		if(isset($data['valor_otras_tarjetas'])) {
+			if($data['valor_otras_tarjetas'] > 0) {
+				$valor_otras_tarjetas = $data['valor_otras_tarjetas'];
+			}
 		}
 		$abono_total = 0;
 		if($data['abono_total'] > 0) {

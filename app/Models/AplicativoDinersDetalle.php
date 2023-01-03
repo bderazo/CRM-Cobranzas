@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer id
  * @property integer aplicativo_diners_id
+ * @property string estado
  * @property string nombre_tarjeta
  * @property integer ciclo
  * @property string edad_cartera
@@ -165,5 +166,22 @@ class AplicativoDinersDetalle extends Model
 		if(!$lista)
 			return [];
 		return $lista;
+	}
+
+	static function porEstado($estado) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('aplicativo_diners_detalle det')
+			->select(null)
+			->select('det.*')
+			->where('det.eliminado',0)
+			->where('det.estado',$estado);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['aplicativo_diners_id'].','.$l['nombre_tarjeta']] = $l;
+		}
+		return $retorno;
 	}
 }

@@ -196,7 +196,7 @@ class ProductoController extends BaseController {
 	}
 
 	function guardar($json) {
-		\WebSecurity::secure('producto.modificar');
+		\WebSecurity::secure('producto.registrar_seguimientos');
 		$id = @$_POST['id'];
 		$data = json_decode($json, true);
 		// limpieza
@@ -315,7 +315,7 @@ class ProductoController extends BaseController {
 	}
 
 	function guardarAplicativoDiners() {
-		\WebSecurity::secure('producto.modificar');
+		\WebSecurity::secure('producto.registrar_seguimientos');
 
 		$aplicativo_diners_tarjeta_diners = isset($_REQUEST['aplicativo_diners_tarjeta_diners']) ? $_REQUEST['aplicativo_diners_tarjeta_diners'] : [];
 		$aplicativo_diners_tarjeta_interdin = isset($_REQUEST['aplicativo_diners_tarjeta_interdin']) ? $_REQUEST['aplicativo_diners_tarjeta_interdin'] : [];
@@ -1152,7 +1152,7 @@ class ProductoController extends BaseController {
 
 	function cargarDatosDiners() {
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_27_DIC_22.xlsx';
+		$archivo = $config['folder_temp'] . '/APLICATIVO_ERE_03_ENE_23.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach ($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
@@ -1330,9 +1330,9 @@ class ProductoController extends BaseController {
 
 			//TARJETA DINERS
 			if ($values[16] > 0) {
-//				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle = [];
 				$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners->id;
+				$aplicativo_diners_detalle['estado'] = 'pendiente';
 				$aplicativo_diners_detalle['nombre_tarjeta'] = 'DINERS';
 				$aplicativo_diners_detalle['corrientes_facturar'] = $values[14];
 				$aplicativo_diners_detalle['total_riesgo'] = $values[15];
@@ -1341,8 +1341,6 @@ class ProductoController extends BaseController {
 				$aplicativo_diners_detalle['saldo_actual_facturado'] = $values[18];
 				$aplicativo_diners_detalle['saldo_30_facturado'] = $values[19];
 				$aplicativo_diners_detalle['saldo_60_facturado'] = $values[20];
-//				$aplicativo_diners_detalle['saldo_90_facturado'] = $values[21];
-//				$aplicativo_diners_detalle['saldo_90_mas_90_facturado'] = $values[22];
 				$mas_90 = 0;
 				if ($values[21] > 0) {
 					$mas_90 = $values[21];
@@ -1422,6 +1420,7 @@ class ProductoController extends BaseController {
 //				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle = [];
 				$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners->id;
+				$aplicativo_diners_detalle['estado'] = 'pendiente';
 				$aplicativo_diners_detalle['nombre_tarjeta'] = 'INTERDIN';
 				$aplicativo_diners_detalle['corrientes_facturar'] = $values[51];
 				$aplicativo_diners_detalle['total_riesgo'] = $values[52];
@@ -1511,6 +1510,7 @@ class ProductoController extends BaseController {
 //				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle = [];
 				$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners->id;
+				$aplicativo_diners_detalle['estado'] = 'pendiente';
 				$aplicativo_diners_detalle['nombre_tarjeta'] = 'DISCOVER';
 				$aplicativo_diners_detalle['corrientes_facturar'] = $values[89];
 				$aplicativo_diners_detalle['total_riesgo'] = $values[90];
@@ -1599,6 +1599,7 @@ class ProductoController extends BaseController {
 //				$aplicativo_diners_detalle = new AplicativoDinersDetalle();
 				$aplicativo_diners_detalle = [];
 				$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners->id;
+				$aplicativo_diners_detalle['estado'] = 'pendiente';
 				$aplicativo_diners_detalle['nombre_tarjeta'] = 'MASTERCARD';
 				$aplicativo_diners_detalle['corrientes_facturar'] = $values[136];
 				$aplicativo_diners_detalle['total_riesgo'] = $values[137];
@@ -2589,3 +2590,5 @@ class ViewProductoSeguimiento {
 	var $usuario_modificacion;
 	var $eliminado;
 }
+
+

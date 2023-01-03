@@ -120,4 +120,21 @@ class AplicativoDiners extends Model
 			return [];
 		return $lista;
 	}
+
+	static function porInstitucioVerificar($institucion_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('aplicativo_diners ad')
+			->select(null)
+			->select('ad.*')
+			->where('ad.eliminado',0)
+			->where('ad.institucion_id',$institucion_id);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['producto_id']] = $l;
+		}
+		return $retorno;
+	}
 }
