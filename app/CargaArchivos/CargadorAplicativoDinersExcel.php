@@ -37,7 +37,8 @@ class CargadorAplicativoDinersExcel
 			'errores' => 0,
 			'errorSistema' => null,
 			'archivo' => $nombreArchivo,
-			'idcarga' => null
+			'idcarga' => null,
+			'tiempo_ejecucion' => 0,
 		];
 
 		$hoy = new \DateTime();
@@ -46,6 +47,8 @@ class CargadorAplicativoDinersExcel
 		$pdo = $this->pdo;
 		$pdo->beginTransaction();
 		try {
+			$time_start = microtime(true);
+
 			$carga = new CargaArchivo();
 			$carga->tipo = 'aplicativo_diners';
 			$carga->estado = 'cargado';
@@ -754,6 +757,11 @@ class CargadorAplicativoDinersExcel
 				$rep['total']++;
 
 			}
+
+			$time_end = microtime(true);
+
+			$execution_time = ($time_end - $time_start)/60;
+			$rep['tiempo_ejecucion'] = $execution_time;
 
 			$rep['idcarga'] = $carga->id;
 			$carga->total_registros = $rep['total'];

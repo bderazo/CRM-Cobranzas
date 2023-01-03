@@ -8,18 +8,22 @@
 	<h5>Ingreso realizado</h5>
 	<table class="table table-bordered table-condensed table-striped small">
 		<tr>
-			<th class="col-md-1">Archivo</th>
+			<th class="col-md-4">Archivo</th>
 			<td>
 				{{ reporte.archivo }}
 			</td>
 		</tr>
 		<tr>
-			<th>Total registros</th>
+			<th>Total Registros</th>
 			<td>{{ reporte.total }}</td>
 		</tr>
 		<tr>
 			<th>Total Errores</th>
 			<td>{{ reporte.errores }}</td>
+		</tr>
+		<tr>
+			<th>Tiempo de Ejecución</th>
+			<td>{{ reporte.tiempo_ejecucion|number_format(2, '.', ',') }} minutos</td>
 		</tr>
 	</table>
 {% endif %}
