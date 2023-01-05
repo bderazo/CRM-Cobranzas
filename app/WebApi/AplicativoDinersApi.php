@@ -2101,6 +2101,9 @@ class AplicativoDinersApi extends BaseController
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+			$aplicativo_detalle->usuario_ingreso = $user['id'];
+			$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+			$aplicativo_detalle->eliminado = 0;
 			if($aplicativo_detalle->save()) {
 				return $this->json($res->conMensaje('OK'));
 			} else {
@@ -2148,6 +2151,9 @@ class AplicativoDinersApi extends BaseController
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+			$aplicativo_detalle->usuario_ingreso = $user['id'];
+			$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+			$aplicativo_detalle->eliminado = 0;
 			if($aplicativo_detalle->save()) {
 				return $this->json($res->conMensaje('OK'));
 			} else {
@@ -2193,6 +2199,9 @@ class AplicativoDinersApi extends BaseController
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+			$aplicativo_detalle->usuario_ingreso = $user['id'];
+			$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+			$aplicativo_detalle->eliminado = 0;
 			$save = $aplicativo_detalle->save();
 //		\Auditor::info('save_tarjeta_discover data: ', 'API', $save);
 			if($save) {
@@ -2242,6 +2251,9 @@ class AplicativoDinersApi extends BaseController
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
+			$aplicativo_detalle->usuario_ingreso = $user['id'];
+			$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
+			$aplicativo_detalle->eliminado = 0;
 			if($aplicativo_detalle->save()) {
 				return $this->json($res->conMensaje('OK'));
 			} else {

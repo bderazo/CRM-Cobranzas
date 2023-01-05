@@ -8,6 +8,7 @@ use General\GeneralHelper;
 use General\Seguridad\PermisosSession;
 use Models\Actividad;
 use Models\ApiUserTokenPushNotifications;
+use Models\AplicativoDinersDetalle;
 use Models\Archivo;
 use Models\Banco;
 use Models\Caso;
@@ -484,6 +485,14 @@ class ProductoApi extends BaseController {
 			$con->usuario_modificacion = $user['id'];
 			$con->fecha_modificacion = date("Y-m-d H:i:s");
 			$con->save();
+
+			//BUSCAR SI EXISTEN APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO MODIFICADO POR EL USUARIO DE LA SESION
+			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
+			foreach($detalle_sin_seguimiento as $ss){
+				$mod = AplicativoDinersDetalle::porId($ss['id']);
+				$mod->producto_seguimiento_id = $con->id;
+				$mod->save();
+			}
 
 			if(isset($files["data"])) {
 				//ARREGLAR ARCHIVOS

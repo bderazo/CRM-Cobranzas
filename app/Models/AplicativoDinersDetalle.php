@@ -186,4 +186,23 @@ class AplicativoDinersDetalle extends Model
 		}
 		return $retorno;
 	}
+
+	static function getSinSeguimiento($usuario_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('aplicativo_diners_detalle det')
+			->select(null)
+			->select('det.*')
+			->where('det.eliminado',0)
+			->where('det.tipo','procesado')
+			->where('det.usuario_ingreso',$usuario_id)
+			->where('det.producto_seguimiento_id',0);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
 }

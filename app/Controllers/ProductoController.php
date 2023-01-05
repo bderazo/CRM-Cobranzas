@@ -243,6 +243,9 @@ class ProductoController extends BaseController {
 			$obj_diners->padre_id = $padre_id;
 			$obj_diners->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_diners->fecha_modificacion = date("Y-m-d H:i:s");
+			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
+			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
+			$obj_diners->eliminado = 0;
 			$obj_diners->save();
 			\Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
 		}
@@ -258,6 +261,9 @@ class ProductoController extends BaseController {
 			$obj_interdin->padre_id = $padre_id;
 			$obj_interdin->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_interdin->fecha_modificacion = date("Y-m-d H:i:s");
+			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
+			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
+			$obj_diners->eliminado = 0;
 			$obj_interdin->save();
 			\Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
 		}
@@ -273,6 +279,9 @@ class ProductoController extends BaseController {
 			$obj_discover->padre_id = $padre_id;
 			$obj_discover->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_discover->fecha_modificacion = date("Y-m-d H:i:s");
+			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
+			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
+			$obj_diners->eliminado = 0;
 			$obj_discover->save();
 			\Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
 		}
@@ -288,6 +297,9 @@ class ProductoController extends BaseController {
 			$obj_mastercard->padre_id = $padre_id;
 			$obj_mastercard->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_mastercard->fecha_modificacion = date("Y-m-d H:i:s");
+			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
+			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
+			$obj_diners->eliminado = 0;
 			$obj_mastercard->save();
 			\Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
 		}
