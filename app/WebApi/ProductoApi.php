@@ -520,7 +520,7 @@ class ProductoApi extends BaseController {
 				}
 			}
 
-			return $this->json($res->conMensaje('OK'));
+			return $this->json($res->conDatos($con->toArray()));
 		}else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
