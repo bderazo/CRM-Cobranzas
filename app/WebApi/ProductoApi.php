@@ -134,8 +134,16 @@ class ProductoApi extends BaseController {
 		$user = UsuarioLogin::getUserBySession($session);
 		if(isset($user['id'])) {
 			$config = $this->get('config');
+
+			//ELIMINAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
+			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
+			foreach($detalle_sin_seguimiento as $ss){
+				$mod = AplicativoDinersDetalle::porId($ss['id']);
+				$mod->eliminado = 1;
+				$mod->save();
+			}
+
 			$producto = Producto::getProductoList($data, $page, $user, $config);
-//		\Auditor::error("get_preguntas_list API ", 'Producto', $producto);
 			return $this->json($res->conDatos($producto));
 		}else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
@@ -486,7 +494,7 @@ class ProductoApi extends BaseController {
 			$con->fecha_modificacion = date("Y-m-d H:i:s");
 			$con->save();
 
-			//BUSCAR SI EXISTEN APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO MODIFICADO POR EL USUARIO DE LA SESION
+			//ASIGNAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
 			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
 			foreach($detalle_sin_seguimiento as $ss){
 				$mod = AplicativoDinersDetalle::porId($ss['id']);
