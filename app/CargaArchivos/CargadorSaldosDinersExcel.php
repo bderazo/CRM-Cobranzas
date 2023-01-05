@@ -12,7 +12,7 @@ use Models\Email;
 use Models\Producto;
 use Models\Telefono;
 
-class CargadorAplicativoDinersExcel
+class CargadorSaldosDinersExcel
 {
 
 	/** @var \PDO */
@@ -50,7 +50,7 @@ class CargadorAplicativoDinersExcel
 			$time_start = microtime(true);
 
 			$carga = new CargaArchivo();
-			$carga->tipo = 'aplicativo_diners';
+			$carga->tipo = 'saldos_diners';
 			$carga->estado = 'cargado';
 			$carga->observaciones = @$extraInfo['observaciones'];
 			$carga->archivo_real = $nombreArchivo;
@@ -66,12 +66,8 @@ class CargadorAplicativoDinersExcel
 
 			$db = new \FluentPDO($pdo);
 			$clientes_todos = Cliente::getTodos();
-			$telefonos_todos = Telefono::getTodos();
-			$direccion_todos = Direccion::getTodos();
-			$email_todos = Email::getTodos();
 			$productos_todos = Producto::porInstitucioVerificar(1);
 			$aplicativo_diners_todos = AplicativoDiners::porInstitucioVerificar(1);
-			$aplicativo_diners_detalle_todos = AplicativoDinersDetalle::porTipo('original');
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1))
 					continue;
@@ -453,7 +449,7 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
 					}else{
-						$datos_calculados['tipo'] = 'original';
+						$datos_calculados['estado'] = 'pendiente';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
 						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');
@@ -549,7 +545,7 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
 					}else{
-						$datos_calculados['tipo'] = 'original';
+						$datos_calculados['estado'] = 'pendiente';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
 						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');
@@ -644,7 +640,7 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
 					}else{
-						$datos_calculados['tipo'] = 'original';
+						$datos_calculados['estado'] = 'pendiente';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
 						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');
@@ -739,7 +735,7 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
 					}else{
-						$datos_calculados['tipo'] = 'original';
+						$datos_calculados['estado'] = 'pendiente';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
 						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');

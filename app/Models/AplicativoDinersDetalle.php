@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer id
  * @property integer aplicativo_diners_id
- * @property string estado
+ * @property integer producto_seguimiento_id
+ * @property string tipo
+ * @property integer padre_id
  * @property string nombre_tarjeta
  * @property integer ciclo
  * @property string edad_cartera
@@ -168,7 +170,7 @@ class AplicativoDinersDetalle extends Model
 		return $lista;
 	}
 
-	static function porEstado($estado) {
+	static function porTipo($tipo) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
@@ -176,7 +178,7 @@ class AplicativoDinersDetalle extends Model
 			->select(null)
 			->select('det.*')
 			->where('det.eliminado',0)
-			->where('det.estado',$estado);
+			->where('det.tipo',$tipo);
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
