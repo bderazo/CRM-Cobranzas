@@ -416,12 +416,13 @@ class CargadorAplicativoDinersExcel
 					$aplicativo_diners_detalle['abono_efectivo_sistema'] = $values[43];
 
 					//CALCULO DE ABONO NEGOCIADOR
-					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
-					if($abono_negociador > 0){
-						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
-					}else{
-						$aplicativo_diners_detalle['abono_negociador'] = 0;
-					}
+//					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+//					if($abono_negociador > 0){
+//						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
+//					}else{
+//						$aplicativo_diners_detalle['abono_negociador'] = 0;
+//					}
+					$aplicativo_diners_detalle['abono_negociador'] = 0;
 
 					$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[38];
 					$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[40];
@@ -512,12 +513,13 @@ class CargadorAplicativoDinersExcel
 					$aplicativo_diners_detalle['abono_efectivo_sistema'] = $values[81];
 
 					//CALCULO DE ABONO NEGOCIADOR
-					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
-					if($abono_negociador > 0){
-						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
-					}else{
-						$aplicativo_diners_detalle['abono_negociador'] = 0;
-					}
+//					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+//					if($abono_negociador > 0){
+//						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
+//					}else{
+//						$aplicativo_diners_detalle['abono_negociador'] = 0;
+//					}
+					$aplicativo_diners_detalle['abono_negociador'] = 0;
 
 					$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[76];
 					$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[78];
@@ -607,12 +609,13 @@ class CargadorAplicativoDinersExcel
 					$aplicativo_diners_detalle['abono_efectivo_sistema'] = $values[119];
 
 					//CALCULO DE ABONO NEGOCIADOR
-					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
-					if($abono_negociador > 0){
-						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
-					}else{
-						$aplicativo_diners_detalle['abono_negociador'] = 0;
-					}
+//					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+//					if($abono_negociador > 0){
+//						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
+//					}else{
+//						$aplicativo_diners_detalle['abono_negociador'] = 0;
+//					}
+					$aplicativo_diners_detalle['abono_negociador'] = 0;
 
 					$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[114];
 					$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[116];
@@ -702,12 +705,13 @@ class CargadorAplicativoDinersExcel
 					$aplicativo_diners_detalle['abono_efectivo_sistema'] = $values[166];
 
 					//CALCULO DE ABONO NEGOCIADOR
-					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
-					if($abono_negociador > 0){
-						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
-					}else{
-						$aplicativo_diners_detalle['abono_negociador'] = 0;
-					}
+//					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+//					if($abono_negociador > 0){
+//						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
+//					}else{
+//						$aplicativo_diners_detalle['abono_negociador'] = 0;
+//					}
+					$aplicativo_diners_detalle['abono_negociador'] = 0;
 
 					$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[161];
 					$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[163];

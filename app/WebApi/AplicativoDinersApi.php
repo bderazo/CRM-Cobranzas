@@ -402,6 +402,14 @@ class AplicativoDinersApi extends BaseController
 				'name' => 'data[abono_efectivo_sistema]',
 				'colorFondo' => '#f0f0f0',
 			];
+
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $tarjeta_diners['interes_facturado'] - $tarjeta_diners['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_diners['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_diners['abono_negociador'] = 0;
+			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_diners['abono_negociador'],
@@ -831,6 +839,14 @@ class AplicativoDinersApi extends BaseController
 				'name' => 'data[abono_efectivo_sistema]',
 				'colorFondo' => '#f0f0f0',
 			];
+
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $tarjeta_interdin['interes_facturado'] - $tarjeta_interdin['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_interdin['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_interdin['abono_negociador'] = 0;
+			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_interdin['abono_negociador'],
@@ -1260,6 +1276,14 @@ class AplicativoDinersApi extends BaseController
 				'name' => 'data[abono_efectivo_sistema]',
 				'colorFondo' => '#f0f0f0',
 			];
+
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $tarjeta_discover['interes_facturado'] - $tarjeta_discover['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_discover['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_discover['abono_negociador'] = 0;
+			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_discover['abono_negociador'],
@@ -1688,6 +1712,13 @@ class AplicativoDinersApi extends BaseController
 				'name' => 'data[abono_efectivo_sistema]',
 				'colorFondo' => '#f0f0f0',
 			];
+
+			$abono_negociador = $tarjeta_mastercard['interes_facturado'] - $tarjeta_mastercard['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_mastercard['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_mastercard['abono_negociador'] = 0;
+			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_mastercard['abono_negociador'],
