@@ -106,6 +106,24 @@ class AplicativoDiners extends Model
 		return $lista;
 	}
 
+	static function getAplicativoDinersDetalleSeguimiento($tarjeta, $producto_seguimiento_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('aplicativo_diners_detalle addet')
+			->select(null)
+			->select('addet.*')
+			->where('addet.eliminado',0)
+			->where('addet.producto_seguimiento_id',$producto_seguimiento_id)
+			->where('addet.nombre_tarjeta',$tarjeta)
+			->where('addet.tipo','procesado')
+			->orderBy('addet.id DESC');
+		$lista = $q->fetch();
+		if(!$lista)
+			return [];
+		return $lista;
+	}
+
 	static function verificarDatosAplicativoDiners($cliente_id, $producto_id) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

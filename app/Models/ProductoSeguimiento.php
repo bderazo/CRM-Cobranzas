@@ -17,6 +17,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer nivel_3_id
  * @property integer nivel_4_id
  * @property integer nivel_5_id
+ * @property integer nivel_1_motivo_no_pago_id
+ * @property integer nivel_2_motivo_no_pago_id
+ * @property integer nivel_3_motivo_no_pago_id
+ * @property integer nivel_4_motivo_no_pago_id
+ * @property integer nivel_5_motivo_no_pago_id
  * @property string observaciones
  * @property integer direccion_id
  * @property double lat
@@ -65,12 +70,20 @@ class ProductoSeguimiento extends Model
 
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
+
 			->leftJoin('paleta_arbol p_nivel1 ON ps.nivel_1_id = p_nivel1.id')
 			->leftJoin('paleta_arbol p_nivel2 ON ps.nivel_2_id = p_nivel2.id')
 			->leftJoin('paleta_arbol p_nivel3 ON ps.nivel_3_id = p_nivel3.id')
 			->leftJoin('paleta_arbol p_nivel4 ON ps.nivel_4_id = p_nivel4.id')
+
+			->leftJoin('paleta_motivo_no_pago p_np_nivel1 ON ps.nivel_1_motivo_no_pago_id = p_np_nivel1.id')
+			->leftJoin('paleta_motivo_no_pago p_np_nivel2 ON ps.nivel_2_motivo_no_pago_id = p_np_nivel2.id')
+			->leftJoin('paleta_motivo_no_pago p_np_nivel3 ON ps.nivel_3_motivo_no_pago_id = p_np_nivel3.id')
+			->leftJoin('paleta_motivo_no_pago p_np_nivel4 ON ps.nivel_4_motivo_no_pago_id = p_np_nivel4.id')
 			->select(null)
-			->select('ps.*, CONCAT(u.apellidos," ",u.nombres) AS usuario, p_nivel1.valor AS nivel1, p_nivel2.valor AS nivel2, p_nivel3.valor AS nivel3, p_nivel4.valor AS nivel4')
+			->select('ps.*, CONCAT(u.apellidos," ",u.nombres) AS usuario, p_nivel1.valor AS nivel1, p_nivel2.valor AS nivel2, p_nivel3.valor AS nivel3, p_nivel4.valor AS nivel4,
+							 p_np_nivel1.valor AS nivel1_motivo_no_pago, p_np_nivel2.valor AS nivel2_motivo_no_pago, p_np_nivel3.valor AS nivel3_motivo_no_pago,
+							 p_np_nivel4.valor AS nivel4_motivo_no_pago')
 			->where('ps.producto_id',$producto_id)
 			->where('ps.eliminado',0)
 			->orderBy('ps.fecha_ingreso DESC');
@@ -79,7 +92,6 @@ class ProductoSeguimiento extends Model
 		$dir = $config['url_images_seguimiento'];
 		foreach ($lista as $l){
 			//OBTENER LA FOTO DE PERFIL
-
 			$q = $db->from('archivo')
 				->select(null)
 				->select("nombre_sistema")
@@ -112,12 +124,21 @@ class ProductoSeguimiento extends Model
 
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
+
 			->leftJoin('paleta_arbol p_nivel1 ON ps.nivel_1_id = p_nivel1.id')
 			->leftJoin('paleta_arbol p_nivel2 ON ps.nivel_2_id = p_nivel2.id')
 			->leftJoin('paleta_arbol p_nivel3 ON ps.nivel_3_id = p_nivel3.id')
 			->leftJoin('paleta_arbol p_nivel4 ON ps.nivel_4_id = p_nivel4.id')
+
+			->leftJoin('paleta_motivo_no_pago p_np_nivel1 ON ps.nivel_1_motivo_no_pago_id = p_np_nivel1.id')
+			->leftJoin('paleta_motivo_no_pago p_np_nivel2 ON ps.nivel_2_motivo_no_pago_id = p_np_nivel2.id')
+			->leftJoin('paleta_motivo_no_pago p_np_nivel3 ON ps.nivel_3_motivo_no_pago_id = p_np_nivel3.id')
+			->leftJoin('paleta_motivo_no_pago p_np_nivel4 ON ps.nivel_4_motivo_no_pago_id = p_np_nivel4.id')
+
 			->select(null)
-			->select('ps.*, CONCAT(u.apellidos," ",u.nombres) AS usuario, p_nivel1.valor AS nivel1, p_nivel2.valor AS nivel2, p_nivel3.valor AS nivel3, p_nivel4.valor AS nivel4')
+			->select('ps.*, CONCAT(u.apellidos," ",u.nombres) AS usuario, p_nivel1.valor AS nivel1, p_nivel2.valor AS nivel2, p_nivel3.valor AS nivel3, p_nivel4.valor AS nivel4,
+							 p_np_nivel1.valor AS nivel1_motivo_no_pago, p_np_nivel2.valor AS nivel2_motivo_no_pago, p_np_nivel3.valor AS nivel3_motivo_no_pago,
+							 p_np_nivel4.valor AS nivel4_motivo_no_pago')
 			->where('ps.eliminado',0)
 			->where('ps.id IN (select MAX(id) as id from producto_seguimiento where eliminado = 0 GROUP BY producto_id)');
 		$lista = $q->fetchAll();

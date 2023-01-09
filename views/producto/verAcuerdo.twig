@@ -1,0 +1,1652 @@
+<div id="appAcuerdo">
+	<div class="table-responsive" style="scrollbar-color: red yellow;">
+		<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0 font-size: 10px;">
+			<thead>
+			<tr>
+				<template v-if="aplicativo_diners_tarjeta_diners.id > 0">
+					<th style="width: 25%; text-align: center; background-color: #0066A8; color: white;">DINERS</th>
+				</template>
+				<template v-if="aplicativo_diners_tarjeta_interdin.id > 0">
+					<th style="width: 25%; text-align: center; background-color: #404040; color: white;">INTERDIN
+					</th>
+				</template>
+				<template v-if="aplicativo_diners_tarjeta_discover.id > 0">
+					<th style="width: 25%; text-align: center; background-color: #E66929; color: white;">DISCOVER
+					</th>
+				</template>
+				<template v-if="aplicativo_diners_tarjeta_mastercard.id > 0">
+					<th style="width: 25%; text-align: center; background-color: #A4B706; color: white;">
+						MASTERCARD
+					</th>
+				</template>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<template v-if="aplicativo_diners_tarjeta_diners.id > 0">
+					<td style="vertical-align: top;">
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CICLO</strong></td>
+								<td style="width: 90%; text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_diners.ciclo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EDAD DE CARTERA</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_diners.edad_cartera"></span></td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE CANCELACION</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_diners.codigo_cancelacion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE BOLETIN</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_diners.codigo_boletin"></span></td>
+							</tr>
+							<tr>
+								<td><strong>DÉBITO AUTOMÁTICO</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_diners.debito_automatico"></span></td>
+							</tr>
+							<tr>
+								<td><strong>SCORE</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_diners.score"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CAMPAÑA</strong></td>
+								<td style="width: 90%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.campana"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EJECUTIVO ACTUAL A CARGO DE CUENTA</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.ejecutivo_actual_cuenta"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>LUGAR DE TRABAJO</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.lugar_trabajo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>FECHA ÚLTIMA GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.fecha_ultima_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.motivo_gestion"></span></td>
+							</tr>
+							<tr>
+								<td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.descripcion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.observacion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FECHA DE COMPROMISO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.fecha_compromiso"></span></td>
+								<td style="width: 10%;"><strong>No FIN HISTÓRICOS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.tt_exig_parcial"></span></td>
+							</tr>
+							<tr>
+								<td><strong>OFERTA VALOR</strong></td>
+								<td colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.oferta_valor"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>REFINANCIACIONES ANTERIORES</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.refinanciaciones_anteriores"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CARDIA</strong></td>
+								<td colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.cardia"></span></td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.motivo_no_pago_anterior"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FINANCIAMIENTO VIGENTE</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.financiamiento_vigente"></span>
+								</td>
+							</tr>
+							</tbody>
+							<tr>
+								<td><strong>N° CUOTAS PENDIENTES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.numero_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>TT CUOTAS FACT</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.tt_cuotas_fact"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR CUOTAS PENDIENTES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.valor_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>VALOR DE CUOTA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.valor_cuota"></span></td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>SEGUNDA REESTRUCTURACIÓN</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_diners.segunda_restructuracion"></span></strong>
+								</td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>TOTAL RIESGO</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_diners.total_riesgo"></span></strong>
+								</td>
+							</tr>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #0066A8; color: white;"><strong>SALDOS
+										FACTURADOS</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DÍAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_diners.saldo_90_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.saldo_60_facturado"></span></td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.saldo_30_facturado"></span></td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.saldo_actual_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.deuda_actual"></span></td>
+							</tr>
+							<tr>
+								<td style="text-decoration: underline;"><strong> &nbsp; </strong></td>
+								<td></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>INTERESES FACTURADOS</strong></td>
+								<td style="width: 40%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_diners.interes_facturado"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NUMERO DE DIFERIDOS FACTURADOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_diners.numero_diferidos_facturados"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #0066A8; color: white;">
+									<strong>PAGOS</strong>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;"><strong>ABONO EFECTIVO DEL SISTEMA</strong></td>
+								<td style="width: 20%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_diners.abono_efectivo_sistema"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ABONO NEGOCIADOR</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_diners.abono_negociador"></span></td>
+							</tr>
+							<tr>
+								<td><strong>ABONO TOTAL</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_diners.abono_total"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #0066A8; color: white;"><strong>SALDOS
+										FACTURADOS DESPUÉS DE ABONO</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DIAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_diners.saldo_90_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_diners.saldo_60_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_diners.saldo_30_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_diners.saldo_actual_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #0066A8; color: white;"><strong>VALORES
+										POR FACTURAR</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 65%;"><strong>INTERESES POR FACTURAR</strong></td>
+								<td style="width: 35%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_diners.interes_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>CORRIENTES POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.corrientes_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>ND POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.nd_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NC POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.nc_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.gastos_cobranza"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR OTRAS TARJETAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.valor_otras_tarjetas"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #0066A8; color: white;"><strong>FINANCIAMIENTO</strong>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 50%; text-align: center; background-color: #0066A8; color: white;">
+									<strong>TIPO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 50%; text-align: center; background-color: #0066A8; color: white;">
+									<strong><span
+												v-html="aplicativo_diners_tarjeta_diners.tipo_financiamiento"></span></strong>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.total_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>EXIGIBLE</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.exigible_financiamiento"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>PLAZO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_diners.plazo_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.motivo_no_pago"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.numero_meses_gracia"></span></td>
+							</tr>
+							<tr style="background-color: #0066A8; color: white;">
+								<td><strong>VALOR A FINANCIAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.valor_financiar"></span></td>
+							</tr>
+							{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'DINERS' %}
+								<tr style="background-color: #0066A8; color: white;">
+									<td><strong>UNIFICAR DEUDAS</strong></td>
+									<td><span v-html="aplicativo_diners_tarjeta_diners.unificar_deudas"></span></td>
+								</tr>
+							{% endif %}
+							<tr style="background-color: #0066A8; color: white;">
+								<td><strong>TOTAL INTERESES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.total_intereses"></span></td>
+							</tr>
+							<tr style="background-color: #0066A8; color: white;">
+								<td><strong>TOTAL FINANCIAMIENTO</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_diners.total_financiamiento_total"></span>
+								</td>
+							</tr>
+							<tr style="background-color: #0066A8; color: white;">
+								<td><strong>VALOR CUOTA MENSUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_diners.valor_cuota_mensual"></span></td>
+							</tr>
+							</tbody>
+						</table>
+					</td>
+				</template>
+				<template v-if="aplicativo_diners_tarjeta_interdin.id > 0">
+					<td style="vertical-align: top;">
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CICLO</strong></td>
+								<td style="width: 90%; text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.ciclo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EDAD DE CARTERA</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.edad_cartera"></span></td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE CANCELACION</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.codigo_cancelacion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE BOLETIN</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.codigo_boletin"></span></td>
+							</tr>
+							<tr>
+								<td><strong>DÉBITO AUTOMÁTICO</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.debito_automatico"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SCORE</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.score"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CAMPAÑA</strong></td>
+								<td style="width: 90%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.campana"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EJECUTIVO ACTUAL A CARGO DE CUENTA</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.ejecutivo_actual_cuenta"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>LUGAR DE TRABAJO</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.lugar_trabajo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>FECHA ÚLTIMA GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.fecha_ultima_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.motivo_gestion"></span></td>
+							</tr>
+							<tr>
+								<td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.descripcion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.observacion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FECHA DE COMPROMISO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.fecha_compromiso"></span></td>
+								<td style="width: 10%;"><strong>No FIN HISTÓRICOS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.tt_exig_parcial"></span></td>
+							</tr>
+							<tr>
+								<td><strong>OFERTA VALOR</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.oferta_valor"></span></td>
+							</tr>
+							<tr>
+								<td><strong>REFINANCIACIONES ANTERIORES</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.refinanciaciones_anteriores"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CARDIA</strong></td>
+								<td colspan="3"><span v-html="aplicativo_diners_tarjeta_interdin.cardia"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.motivo_no_pago_anterior"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FINANCIAMIENTO VIGENTE</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.financiamiento_vigente"></span>
+								</td>
+							</tr>
+							</tbody>
+							<tr>
+								<td><strong>N° CUOTAS PENDIENTES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.numero_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>TT CUOTAS FACT</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.tt_cuotas_fact"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR CUOTAS PENDIENTES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.valor_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>VALOR DE CUOTA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.valor_cuota"></span></td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>SEGUNDA REESTRUCTURACIÓN</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_interdin.segunda_restructuracion"></span></strong>
+								</td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>TOTAL RIESGO</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_interdin.total_riesgo"></span></strong>
+								</td>
+							</tr>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #404040; color: white;"><strong>SALDOS
+										FACTURADOS</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DÍAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.saldo_90_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.saldo_60_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.saldo_30_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.saldo_actual_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MÍNIMO A PAGAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.minimo_pagar"></span></td>
+							</tr>
+							<tr>
+								<td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.deuda_actual"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>INTERESES FACTURADOS</strong></td>
+								<td style="width: 40%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.interes_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>NUMERO DE DIFERIDOS FACTURADOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.numero_diferidos_facturados"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #404040; color: white;">
+									<strong>PAGOS</strong>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;"><strong>ABONO EFECTIVO DEL SISTEMA</strong></td>
+								<td style="width: 20%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.abono_efectivo_sistema"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ABONO NEGOCIADOR</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.abono_negociador"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ABONO TOTAL</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.abono_total"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #404040; color: white;"><strong>SALDOS
+										FACTURADOS DESPUÉS DE ABONO</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DIAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.saldo_90_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.saldo_60_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.saldo_30_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.saldo_actual_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #404040; color: white;"><strong>VALORES
+										POR FACTURAR</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 65%;"><strong>INTERESES POR FACTURAR</strong></td>
+								<td style="width: 35%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_interdin.interes_facturar"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CORRIENTES POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.corrientes_facturar"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ND POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.nd_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NC POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.nc_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.gastos_cobranza"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR OTRAS TARJETAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.valor_otras_tarjetas"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #404040; color: white;"><strong>FINANCIAMIENTO</strong>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 50%; text-align: center; background-color: #404040; color: white;">
+									<strong>TIPO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 50%; text-align: center; background-color: #404040; color: white;">
+									<strong><span
+												v-html="aplicativo_diners_tarjeta_interdin.tipo_financiamiento"></span></strong>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.total_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>EXIGIBLE</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.exigible_financiamiento"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>PLAZO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_interdin.plazo_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.motivo_no_pago"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.numero_meses_gracia"></span>
+								</td>
+							</tr>
+							<tr style="background-color: #404040; color: white;">
+								<td><strong>VALOR A FINANCIAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.valor_financiar"></span></td>
+							</tr>
+							{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'INTERDIN' %}
+								<tr style="background-color: #404040; color: white;">
+									<td><strong>UNIFICAR DEUDAS</strong></td>
+									<td><span v-html="aplicativo_diners_tarjeta_interdin.unificar_deudas"></span>
+									</td>
+								</tr>
+							{% endif %}
+							<tr style="background-color: #404040; color: white;">
+								<td><strong>TOTAL INTERESES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.total_intereses"></span></td>
+							</tr>
+							<tr style="background-color: #404040; color: white;">
+								<td><strong>TOTAL FINANCIAMIENTO</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_interdin.total_financiamiento_total"></span>
+								</td>
+							</tr>
+							<tr style="background-color: #404040; color: white;">
+								<td><strong>VALOR CUOTA MENSUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_interdin.valor_cuota_mensual"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</td>
+				</template>
+				<template v-if="aplicativo_diners_tarjeta_discover.id > 0">
+					<td style="vertical-align: top;">
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CICLO</strong></td>
+								<td style="width: 90%; text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_discover.ciclo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EDAD DE CARTERA</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_discover.edad_cartera"></span></td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE CANCELACION</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_discover.codigo_cancelacion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE BOLETIN</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_discover.codigo_boletin"></span></td>
+							</tr>
+							<tr>
+								<td><strong>DÉBITO AUTOMÁTICO</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_discover.debito_automatico"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SCORE</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_discover.score"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CAMPAÑA</strong></td>
+								<td style="width: 90%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.campana"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EJECUTIVO ACTUAL A CARGO DE CUENTA</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.ejecutivo_actual_cuenta"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>LUGAR DE TRABAJO</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.lugar_trabajo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>FECHA ÚLTIMA GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.fecha_ultima_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.motivo_gestion"></span></td>
+							</tr>
+							<tr>
+								<td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.descripcion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.observacion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FECHA DE COMPROMISO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.fecha_compromiso"></span></td>
+								<td style="width: 10%;"><strong>No FIN HISTÓRICOS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.tt_exig_parcial"></span></td>
+							</tr>
+							<tr>
+								<td><strong>OFERTA VALOR</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.oferta_valor"></span></td>
+							</tr>
+							<tr>
+								<td><strong>REFINANCIACIONES ANTERIORES</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.refinanciaciones_anteriores"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CARDIA</strong></td>
+								<td colspan="3"><span v-html="aplicativo_diners_tarjeta_discover.cardia"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.motivo_no_pago_anterior"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FINANCIAMIENTO VIGENTE</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.financiamiento_vigente"></span>
+								</td>
+							</tr>
+							</tbody>
+							<tr>
+								<td><strong>N° CUOTAS PENDIENTES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.numero_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>TT CUOTAS FACT</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.tt_cuotas_fact"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR CUOTAS PENDIENTES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.valor_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>VALOR DE CUOTA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.valor_cuota"></span></td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>SEGUNDA REESTRUCTURACIÓN</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_discover.segunda_restructuracion"></span></strong>
+								</td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>TOTAL RIESGO</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_discover.total_riesgo"></span></strong>
+								</td>
+							</tr>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #E66929; color: white;"><strong>SALDOS
+										FACTURADOS</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DÍAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_discover.saldo_90_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.saldo_60_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.saldo_30_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.saldo_actual_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MÍNIMO A PAGAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.minimo_pagar"></span></td>
+							</tr>
+							<tr>
+								<td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.deuda_actual"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>INTERESES FACTURADOS</strong></td>
+								<td style="width: 40%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_discover.interes_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>NUMERO DE DIFERIDOS FACTURADOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.numero_diferidos_facturados"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.especialidad_venta_vehiculos"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #E66929; color: white;">
+									<strong>PAGOS</strong>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;"><strong>ABONO EFECTIVO DEL SISTEMA</strong></td>
+								<td style="width: 20%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_discover.abono_efectivo_sistema"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ABONO NEGOCIADOR</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_discover.abono_negociador"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ABONO TOTAL</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_discover.abono_total"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #E66929; color: white;"><strong>SALDOS
+										FACTURADOS DESPUÉS DE ABONO</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DIAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_discover.saldo_90_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.saldo_60_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.saldo_30_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.saldo_actual_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #E66929; color: white;"><strong>VALORES
+										POR FACTURAR</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 65%;"><strong>INTERESES POR FACTURAR</strong></td>
+								<td style="width: 35%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_discover.interes_facturar"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CORRIENTES POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.corrientes_facturar"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ND POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.nd_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NC POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.nc_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.gastos_cobranza"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR OTRAS TARJETAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.valor_otras_tarjetas"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #E66929; color: white;"><strong>FINANCIAMIENTO</strong>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 50%; text-align: center; background-color: #E66929; color: white;">
+									<strong>TIPO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 50%; text-align: center; background-color: #E66929; color: white;">
+									<strong><span
+												v-html="aplicativo_diners_tarjeta_discover.tipo_financiamiento"></span></strong>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.total_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>EXIGIBLE</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.exigible_financiamiento"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>PLAZO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_discover.plazo_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.motivo_no_pago"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.numero_meses_gracia"></span>
+								</td>
+							</tr>
+							<tr style="background-color: #E66929; color: white;">
+								<td><strong>VALOR A FINANCIAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.valor_financiar"></span></td>
+							</tr>
+							{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'DISCOVER' %}
+								<tr style="background-color: #E66929; color: white;">
+									<td><strong>UNIFICAR DEUDAS</strong></td>
+									<td><span v-html="aplicativo_diners_tarjeta_discover.unificar_deudas"></span>
+									</td>
+								</tr>
+							{% endif %}
+							<tr style="background-color: #E66929; color: white;">
+								<td><strong>TOTAL INTERESES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.total_intereses"></span></td>
+							</tr>
+							<tr style="background-color: #E66929; color: white;">
+								<td><strong>TOTAL FINANCIAMIENTO</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_discover.total_financiamiento_total"></span>
+								</td>
+							</tr>
+							<tr style="background-color: #E66929; color: white;">
+								<td><strong>VALOR CUOTA MENSUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_discover.valor_cuota_mensual"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</td>
+				</template>
+				<template v-if="aplicativo_diners_tarjeta_mastercard.id > 0">
+					<td style="vertical-align: top;">
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CICLO</strong></td>
+								<td style="width: 90%; text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.ciclo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EDAD DE CARTERA</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.edad_cartera"></span></td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE CANCELACION</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.codigo_cancelacion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CODIGO DE BOLETIN</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.codigo_boletin"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>DÉBITO AUTOMÁTICO</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.debito_automatico"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SCORE</strong></td>
+								<td style="text-align: center;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.score"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 10%;"><strong>CAMPAÑA</strong></td>
+								<td style="width: 90%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.campana"></span></td>
+							</tr>
+							<tr>
+								<td><strong>EJECUTIVO ACTUAL A CARGO DE CUENTA</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.ejecutivo_actual_cuenta"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>LUGAR DE TRABAJO</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.lugar_trabajo"></span></td>
+							</tr>
+							<tr>
+								<td><strong>FECHA ÚLTIMA GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.fecha_ultima_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.motivo_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.descripcion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.observacion_gestion"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FECHA DE COMPROMISO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.fecha_compromiso"></span>
+								</td>
+								<td style="width: 10%;"><strong>No FIN HISTÓRICOS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.tt_exig_parcial"></span></td>
+							</tr>
+							<tr>
+								<td><strong>OFERTA VALOR</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.oferta_valor"></span></td>
+							</tr>
+							<tr>
+								<td><strong>REFINANCIACIONES ANTERIORES</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.refinanciaciones_anteriores"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CARDIA</strong></td>
+								<td colspan="3"><span v-html="aplicativo_diners_tarjeta_mastercard.cardia"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.motivo_no_pago_anterior"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>FINANCIAMIENTO VIGENTE</strong></td>
+								<td colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.financiamiento_vigente"></span>
+								</td>
+							</tr>
+							</tbody>
+							<tr>
+								<td><strong>N° CUOTAS PENDIENTES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.numero_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>TT CUOTAS FACT</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.tt_cuotas_fact"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR CUOTAS PENDIENTES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.valor_cuotas_pendientes"></span>
+								</td>
+								<td style="width: 10%;"><strong>VALOR DE CUOTA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.valor_cuota"></span></td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>SEGUNDA REESTRUCTURACIÓN</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_mastercard.segunda_restructuracion"></span></strong>
+								</td>
+							</tr>
+							<tr style="background-color: #c3c3c3;">
+								<td><strong>TOTAL RIESGO</strong></td>
+								<td colspan="3"><strong><span
+												v-html="aplicativo_diners_tarjeta_mastercard.total_riesgo"></span></strong>
+								</td>
+							</tr>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #A4B706; color: white;"><strong>SALDOS
+										FACTURADOS</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DÍAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.saldo_90_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.saldo_60_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.saldo_30_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.saldo_actual_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MÍNIMO A PAGAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.minimo_pagar"></span></td>
+							</tr>
+							<tr>
+								<td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.deuda_actual"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>INTERESES FACTURADOS</strong></td>
+								<td style="width: 40%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.interes_facturado"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>NUMERO DE DIFERIDOS FACTURADOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.numero_diferidos_facturados"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.total_precancelacion_diferidos"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.especialidad_venta_vehiculos"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #A4B706; color: white;">
+									<strong>PAGOS</strong>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;"><strong>ABONO EFECTIVO DEL SISTEMA</strong></td>
+								<td style="width: 20%; background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.abono_efectivo_sistema"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ABONO NEGOCIADOR</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.abono_negociador"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ABONO TOTAL</strong></td>
+								<td style="background-color: #c3c3c3;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.abono_total"></span></td>
+							</tr>
+							</tbody>
+						</table>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #A4B706; color: white;"><strong>SALDOS
+										FACTURADOS DESPUÉS DE ABONO</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 60%;"><strong>SALDO A 90 Y MAS 90 DIAS</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.saldo_90_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 60 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.saldo_60_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO A 30 DIAS</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.saldo_30_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>SALDO ACTUALES</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.saldo_actual_facturado_despues_abono"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="4"
+								    style="text-align: center; background-color: #A4B706; color: white;"><strong>VALORES
+										POR FACTURAR</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 65%;"><strong>INTERESES POR FACTURAR</strong></td>
+								<td style="width: 35%;" colspan="3"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.interes_facturar"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>CORRIENTES POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.corrientes_facturar"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>ND POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.nd_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NC POR FACTURAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.nc_facturar"></span></td>
+							</tr>
+							<tr>
+								<td><strong>GASTOS DE COBRANZA / OTROS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.gastos_cobranza"></span></td>
+							</tr>
+							<tr>
+								<td><strong>VALOR OTRAS TARJETAS</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.valor_otras_tarjetas"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td colspan="2"
+								    style="text-align: center; background-color: #A4B706; color: white;"><strong>FINANCIAMIENTO</strong>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 50%; text-align: center; background-color: #A4B706; color: white;">
+									<strong>TIPO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 50%; text-align: center; background-color: #A4B706; color: white;">
+									<strong><span
+												v-html="aplicativo_diners_tarjeta_mastercard.tipo_financiamiento"></span></strong>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.total_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>EXIGIBLE</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.exigible_financiamiento"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table>
+							<tbody>
+							<tr>
+								<td style="width: 60%;"><strong>PLAZO DE FINANCIAMIENTO</strong></td>
+								<td style="width: 40%;"><span
+											v-html="aplicativo_diners_tarjeta_mastercard.plazo_financiamiento"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>MOTIVO DE NO PAGO</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.motivo_no_pago"></span></td>
+							</tr>
+							<tr>
+								<td><strong>NÚMERO DE MESES DE GRACIA</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.numero_meses_gracia"></span>
+								</td>
+							</tr>
+							<tr style="background-color: #A4B706; color: white;">
+								<td><strong>VALOR A FINANCIAR</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.valor_financiar"></span></td>
+							</tr>
+							{% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'MASTERCARD' %}
+								<tr style="background-color: #A4B706; color: white;">
+									<td><strong>UNIFICAR DEUDAS</strong></td>
+									<td><span v-html="aplicativo_diners_tarjeta_mastercard.unificar_deudas"></span>
+									</td>
+								</tr>
+							{% endif %}
+							<tr style="background-color: #A4B706; color: white;">
+								<td><strong>TOTAL INTERESES</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.total_intereses"></span></td>
+							</tr>
+							<tr style="background-color: #A4B706; color: white;">
+								<td><strong>TOTAL FINANCIAMIENTO</strong></td>
+								<td>
+									<span v-html="aplicativo_diners_tarjeta_mastercard.total_financiamiento_total"></span>
+								</td>
+							</tr>
+							<tr style="background-color: #A4B706; color: white;">
+								<td><strong>VALOR CUOTA MENSUAL</strong></td>
+								<td><span v-html="aplicativo_diners_tarjeta_mastercard.valor_cuota_mensual"></span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</td>
+				</template>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="modalAcuerdo" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><strong>Acuerdos</strong></h5>
+				<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div id="acuerdoContent"></div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+<script>
+    _autonameVueCount = 0;
+    Vue.directive('autoname', {
+        inserted: function (el, binding, vnode) {
+            _autonameVueCount++;
+            $(el).prop('name', '_auto' + _autonameVueCount);
+        }
+    });
+
+    var appAcuerdo = new Vue({
+        el: '#appAcuerdo',
+        data: {
+            aplicativo_diners_tarjeta_diners: {{ aplicativo_diners_tarjeta_diners|raw }},
+            aplicativo_diners_tarjeta_discover: {{ aplicativo_diners_tarjeta_discover|raw }},
+            aplicativo_diners_tarjeta_interdin: {{ aplicativo_diners_tarjeta_interdin|raw }},
+            aplicativo_diners_tarjeta_mastercard: {{ aplicativo_diners_tarjeta_mastercard|raw }},
+        },
+        watch: {},
+        computed: {},
+        methods: {},
+        mounted: function () {
+            var self = this;
+        }
+    });
+</script>
+<style>
+    table, th, td {
+        border: 1px solid;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+</style>

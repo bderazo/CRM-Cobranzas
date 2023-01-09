@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer paleta_id
  * @property integer nivel
  * @property string valor
- * @property string secuencia
+ * @property string codigo
  * @property integer padre_id
  * @property string fecha_ingreso
  * @property string fecha_modificacion
@@ -59,10 +59,10 @@ class PaletaMotivoNoPago extends Model
 			->leftJoin('paleta_motivo_no_pago nivel3 ON nivel2.id = nivel3.padre_id AND nivel3.nivel = 3')
 			->leftJoin('paleta_motivo_no_pago nivel4 ON nivel3.id = nivel4.padre_id AND nivel4.nivel = 4')
 			->select(null)
-			->select('nivel1.valor AS nivel1, nivel1.id AS nivel1_id,
-			 				 nivel2.valor AS nivel2, nivel2.id AS nivel2_id,
-			 				 nivel3.valor AS nivel3, nivel3.id AS nivel3_id,
-			 				 nivel4.valor AS nivel4, nivel4.id AS nivel4_id')
+			->select('nivel1.valor AS nivel1, nivel1.id AS nivel1_id, nivel1.codigo AS nivel1_codigo,
+			 				 nivel2.valor AS nivel2, nivel2.id AS nivel2_id, nivel2.codigo AS nivel2_codigo,
+			 				 nivel3.valor AS nivel3, nivel3.id AS nivel3_id, nivel3.codigo AS nivel3_codigo,
+			 				 nivel4.valor AS nivel4, nivel4.id AS nivel4_id, nivel4.codigo AS nivel4_codigo')
 			->where('nivel1.nivel',1)
 			->where('nivel1.paleta_id',$paleta_id)
 			->orderBy('nivel1.valor, nivel2.valor, nivel3.valor, nivel4.valor');
@@ -154,7 +154,7 @@ class PaletaMotivoNoPago extends Model
 			->select(null)
 			->select('nivel2.valor AS nivel2, nivel2.id AS nivel2_id')
 			->where('nivel2.nivel',2)
-			->where('nivel2.padre_id',$data['nivel1']);
+			->where('nivel2.padre_id',$data['nivel_1_motivo_no_pago_id']);
 		if($query != '') {
 			$q->where('UPPER(nivel2.valor) LIKE "%' . strtoupper($query) . '%"');
 		}

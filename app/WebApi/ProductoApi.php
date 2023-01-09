@@ -19,6 +19,7 @@ use Models\Institucion;
 use Models\Membresia;
 use Models\Paleta;
 use Models\PaletaArbol;
+use Models\PaletaMotivoNoPago;
 use Models\Pregunta;
 use Models\Producto;
 use Models\ProductoSeguimiento;
@@ -308,6 +309,34 @@ class ProductoApi extends BaseController {
 	}
 
 	/**
+	 * buscar_listas_motivo_no_pago
+	 * @param $session
+	 * @param $list
+	 * @param $q
+	 * @param $page
+	 * @param $data
+	 */
+	function buscar_listas_motivo_no_pago() {
+		if(!$this->isPost()) return "buscar_listas_motivo_no_pago";
+		$res = new RespuestaConsulta();
+
+		$q = $this->request->getParam('q');
+//		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
+		$page = $this->request->getParam('page');
+//		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
+		$data = $this->request->getParam('data');
+//		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		$respuesta = PaletaMotivoNoPago::getNivel2ApiQuery($q, $page, $data);
+		$retorno['results'] = $respuesta;
+		$retorno['pagination'] = ['more' => true];
+
+		return $this->json($retorno);
+	}
+
+	/**
 	 * get_form_paleta
 	 * @param $session
 	 * @param $institucion_id
@@ -375,6 +404,56 @@ class ProductoApi extends BaseController {
 					"data[nivel1]" => "data[nivel1]"
 				],
 			];
+
+			$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
+			$nivel = [];
+			foreach($paleta_nivel1 as $key => $val) {
+				$nivel[] = ['id' => $key, 'label' => $val];
+			}
+			$retorno['form']['properties']['Nivel1MotivoNoPago'] = [
+				'type' => 'string',
+				'title' => 'Motivo No Pago',
+				'widget' => 'choice',
+				'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+				'full_name' => 'data[nivel_1_motivo_no_pago_id]',
+				'constraints' => [
+					[
+						'name' => 'NotBlank',
+						'message' => 'Este campo no puede estar vacío'
+					]
+				],
+				'required' => 1,
+				'disabled' => 0,
+				'property_order' => 3,
+				'choices' => $nivel,
+			];
+			$retorno['form']['properties']['Nivel2MotivoNoPago'] = [
+				'type' => 'string',
+				'title' => 'Descripción',
+				'widget' => 'picker-select2',
+				'empty_data' => null,
+				'full_name' => 'data[nivel_2_motivo_no_pago_id]',
+				'constraints' => [
+					[
+						'name' => 'Count',
+						'Min' => 1,
+						'MinMessage' => "Debe seleccionar por lo menos una opción."
+					],
+				],
+				'required' => 1,
+				'disabled' => 0,
+				'property_order' => 4,
+				'choices' => [],
+				"multiple" => false,
+				'remote_path' => 'api/producto/buscar_listas_motivo_no_pago',
+				'remote_params' => [
+					"list" => "nivel_2_motivo_no_pago_id"
+				],
+				'req_params' => [
+					"data[nivel_1_motivo_no_pago_id]" => "data[nivel_1_motivo_no_pago_id]"
+				],
+			];
+
 			$producto = Producto::porId($producto_id);
 			$direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
 			$dir = [];
@@ -390,7 +469,7 @@ class ProductoApi extends BaseController {
 				'constraints' => [],
 				'required' => 0,
 				'disabled' => 0,
-				'property_order' => 3,
+				'property_order' => 5,
 				'choices' => $dir,
 			];
 			$retorno['form']['properties']['Observaciones'] = [
@@ -402,7 +481,7 @@ class ProductoApi extends BaseController {
 				'constraints' => [],
 				'required' => 0,
 				'disabled' => 0,
-				'property_order' => 4,
+				'property_order' => 6,
 				'choices' => [],
 			];
 			$retorno['form']['properties']['imagenes'] = [
@@ -416,7 +495,7 @@ class ProductoApi extends BaseController {
 				'multiple' => true,
 				'required' => 0,
 				'disabled' => 0,
-				'property_order' => 5,
+				'property_order' => 7,
 				'choices' => [],
 			];
 
@@ -476,6 +555,14 @@ class ProductoApi extends BaseController {
 			if(isset($data['nivel4'])) {
 				$con->nivel_4_id = $data['nivel4'];
 			}
+
+			if(isset($data['nivel_1_motivo_no_pago_id'])) {
+				$con->nivel_1_motivo_no_pago_id = $data['nivel_1_motivo_no_pago_id'];
+			}
+			if(isset($data['nivel_22_motivo_no_pago_id'])) {
+				$con->nivel_2_motivo_no_pago_id = $data['nivel_2_motivo_no_pago_id'];
+			}
+
 			$con->observaciones = $data['observaciones'];
 			if($data['direccion_visita'] > 0) {
 				$con->direccion_id = $data['direccion_visita'];

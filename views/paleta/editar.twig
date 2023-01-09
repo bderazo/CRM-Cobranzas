@@ -167,6 +167,39 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading1">
+								<h4 class="panel-title1">
+									<a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseSix" aria-expanded="false">Motivo No Pago</a>
+								</h4>
+							</div>
+							<div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+											<thead>
+											<tr>
+												<th>NIVEL1</th>
+												<th>NIVEL2</th>
+												<th>NIVEL3</th>
+												<th>NIVEL4</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr v-for="pd in paleta_motivo_no_pago">
+												<td><span v-html="pd.nivel1"></span> (<span v-html="pd.nivel1_codigo"></span>)</td>
+												<td><span v-html="pd.nivel2"></span> (<span v-html="pd.nivel2_codigo"></span>)</td>
+												<td><span v-html="pd.nivel3"></span> (<span v-html="pd.nivel3_codigo"></span>)</td>
+												<td><span v-html="pd.nivel4"></span> (<span v-html="pd.nivel4_codigo"></span>)</td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br/>
 						<div class="panel panel-default">
 							<div class="panel-heading1">
 								<h4 class="panel-title1">
@@ -230,8 +263,8 @@
 			data: {
 				cat: {{ catalogos|raw }},
 				model: {{ model|raw }},
-				paleta_detalle: {{ paleta_detalle|raw }},
-				paleta_arbol: {{ paleta_arbol|raw }},
+                paleta_motivo_no_pago: {{ paleta_motivo_no_pago|raw }},
+                paleta_arbol: {{ paleta_arbol|raw }},
 				instituciones: {{ instituciones|raw }},
 			},
 			watch: {},

@@ -13,6 +13,7 @@ use Models\Institucion;
 use Models\Paleta;
 use Models\PaletaArbol;
 use Models\PaletaDetalle;
+use Models\PaletaMotivoNoPago;
 use upload;
 
 class PaletaController extends BaseController {
@@ -73,21 +74,21 @@ class PaletaController extends BaseController {
 		if ($id == 0) {
 			\Breadcrumbs::active('Crear Paleta');
 			$model = new ViewPaleta();
-			$paleta_detalle = [];
 			$instituciones = [];
 			$paleta_arbol = [];
+			$paleta_motivo_no_pago = [];
 			$es_nuevo = true;
 		} else {
 			$model = Paleta::porId($id);
 			\Breadcrumbs::active('Editar Paleta');
-			$paleta_detalle = PaletaDetalle::porPaleta($model->id);
 			$instituciones = Institucion::porPaleta($model->id);
 			$paleta_arbol = PaletaArbol::porPaleta($model->id);
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porPaleta($model->id);
 			$es_nuevo = false;
 		}
+		$data['paleta_motivo_no_pago'] = json_encode($paleta_motivo_no_pago);
 		$data['paleta_arbol'] = json_encode($paleta_arbol);
 		$data['instituciones'] = json_encode($instituciones);
-		$data['paleta_detalle'] = json_encode($paleta_detalle);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		$data['model'] = json_encode($model);
 		$data['modelArr'] = $model;
@@ -210,6 +211,24 @@ class PaletaController extends BaseController {
 	function cargarNivel4() {
 		$nivel_3_id = $_REQUEST['nivel_3_id'];
 		$nivel4 = PaletaArbol::getNivel4($nivel_3_id);
+		return $this->json($nivel4);
+	}
+
+	function cargarMotivoNoPagoNivel2() {
+		$nivel_1_motivo_no_pago_id = $_REQUEST['nivel_1_motivo_no_pago_id'];
+		$nivel2 = PaletaMotivoNoPago::getNivel2($nivel_1_motivo_no_pago_id);
+		return $this->json($nivel2);
+	}
+
+	function cargarMotivoNoPagoNivel3() {
+		$nivel_2_motivo_no_pago_id = $_REQUEST['nivel_2_motivo_no_pago_id'];
+		$nivel3 = PaletaMotivoNoPago::getNivel2($nivel_2_motivo_no_pago_id);
+		return $this->json($nivel3);
+	}
+
+	function cargarMotivoNoPagoNivel4() {
+		$nivel_3_motivo_no_pago_id = $_REQUEST['nivel_3_motivo_no_pago_id'];
+		$nivel4 = PaletaMotivoNoPago::getNivel2($nivel_3_motivo_no_pago_id);
 		return $this->json($nivel4);
 	}
 
