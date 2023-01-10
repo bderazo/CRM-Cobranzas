@@ -2226,13 +2226,13 @@ class AplicativoDinersApi extends BaseController
 		if(isset($user['id'])) {
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 			$id_detalle = $data['id'];
-			unset($data['id']);
 
 			//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
 			$aplicativo_diners_tarjeta = AplicativoDinersDetalle::porId($id_detalle)->toArray();
 			foreach($data as $key => $val) {
 				$aplicativo_diners_tarjeta[$key] = $val;
 			}
+			unset($aplicativo_diners_tarjeta['id']);
 
 			\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_diners_tarjeta);
 
