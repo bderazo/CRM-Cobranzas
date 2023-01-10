@@ -345,15 +345,15 @@ class ProductoApi extends BaseController {
 	function get_form_paleta() {
 //		if (!$this->isPost()) return "get_form_paleta";
 		$res = new RespuestaConsulta();
-//		$institucion_id = $this->request->getParam('institucion_id');
-//		$producto_id = $this->request->getParam('producto_id');
+		$institucion_id = $this->request->getParam('institucion_id');
+		$producto_id = $this->request->getParam('producto_id');
 
-		$institucion_id = 1;
-		$producto_id = 12596;
+//		$institucion_id = 1;
+//		$producto_id = 12596;
 
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
-//		if(isset($user['id'])) {
+		if(isset($user['id'])) {
 			$retorno = [];
 
 			$retorno['form']['title'] = 'form';
@@ -504,9 +504,9 @@ class ProductoApi extends BaseController {
 			];
 
 			return $this->json($res->conDatos($retorno));
-//		}else {
-//			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
-//		}
+		}else {
+			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+		}
 	}
 
 	/**
