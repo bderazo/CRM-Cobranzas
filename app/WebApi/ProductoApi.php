@@ -405,54 +405,54 @@ class ProductoApi extends BaseController {
 				],
 			];
 
-			$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
-			$nivel = [];
-			foreach($paleta_nivel1 as $key => $val) {
-				$nivel[] = ['id' => $key, 'label' => $val];
-			}
-			$retorno['form']['properties']['Nivel1MotivoNoPago'] = [
-				'type' => 'string',
-				'title' => 'Motivo No Pago',
-				'widget' => 'choice',
-				'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-				'full_name' => 'data[nivel_1_motivo_no_pago_id]',
-				'constraints' => [
-					[
-						'name' => 'NotBlank',
-						'message' => 'Este campo no puede estar vacío'
-					]
-				],
-				'required' => 1,
-				'disabled' => 0,
-				'property_order' => 3,
-				'choices' => $nivel,
-			];
-			$retorno['form']['properties']['Nivel2MotivoNoPago'] = [
-				'type' => 'string',
-				'title' => 'Descripción',
-				'widget' => 'picker-select2',
-				'empty_data' => null,
-				'full_name' => 'data[nivel_2_motivo_no_pago_id]',
-				'constraints' => [
-					[
-						'name' => 'Count',
-						'Min' => 1,
-						'MinMessage' => "Debe seleccionar por lo menos una opción."
-					],
-				],
-				'required' => 1,
-				'disabled' => 0,
-				'property_order' => 4,
-				'choices' => [],
-				"multiple" => false,
-				'remote_path' => 'api/producto/buscar_listas_motivo_no_pago',
-				'remote_params' => [
-					"list" => "nivel_2_motivo_no_pago_id"
-				],
-				'req_params' => [
-					"data[nivel_1_motivo_no_pago_id]" => "data[nivel_1_motivo_no_pago_id]"
-				],
-			];
+//			$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
+//			$nivel = [];
+//			foreach($paleta_nivel1 as $key => $val) {
+//				$nivel[] = ['id' => $key, 'label' => $val];
+//			}
+//			$retorno['form']['properties']['Nivel1MotivoNoPago'] = [
+//				'type' => 'string',
+//				'title' => 'Motivo No Pago',
+//				'widget' => 'choice',
+//				'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+//				'full_name' => 'data[nivel_1_motivo_no_pago_id]',
+//				'constraints' => [
+//					[
+//						'name' => 'NotBlank',
+//						'message' => 'Este campo no puede estar vacío'
+//					]
+//				],
+//				'required' => 1,
+//				'disabled' => 0,
+//				'property_order' => 3,
+//				'choices' => $nivel,
+//			];
+//			$retorno['form']['properties']['Nivel2MotivoNoPago'] = [
+//				'type' => 'string',
+//				'title' => 'Descripción',
+//				'widget' => 'picker-select2',
+//				'empty_data' => null,
+//				'full_name' => 'data[nivel_2_motivo_no_pago_id]',
+//				'constraints' => [
+//					[
+//						'name' => 'Count',
+//						'Min' => 1,
+//						'MinMessage' => "Debe seleccionar por lo menos una opción."
+//					],
+//				],
+//				'required' => 1,
+//				'disabled' => 0,
+//				'property_order' => 4,
+//				'choices' => [],
+//				"multiple" => false,
+//				'remote_path' => 'api/producto/buscar_listas_motivo_no_pago',
+//				'remote_params' => [
+//					"list" => "nivel_2_motivo_no_pago_id"
+//				],
+//				'req_params' => [
+//					"data[nivel_1_motivo_no_pago_id]" => "data[nivel_1_motivo_no_pago_id]"
+//				],
+//			];
 
 			$producto = Producto::porId($producto_id);
 			$direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
