@@ -304,10 +304,20 @@ class CargadorSaldosDinersExcel
 						break;
 					}
 				}
+				//MAPEAR LOS CAMPOS PARA GUARDAR COMO CLAVE VALOR
+				$cont = 0;
+				$data_campos = [];
+				for($i = 11; $i <= $ultima_posicion_columna; $i++) {
+					if(isset($values[$i])) {
+						$data_campos[$cabecera[$cont]] = $values[$i];
+					}
+					$cont++;
+				}
 				if($saldos_id == 0){
 					//CREAR SALDOS
 					$saldos = new AplicativoDinersSaldos();
 					$saldos->cliente_id = $cliente_id;
+					$saldos->campos = json_encode($data_campos,JSON_PRETTY_PRINT);
 					$saldos->fecha_ingreso = date("Y-m-d H:i:s");
 					$saldos->usuario_ingreso = \WebSecurity::getUserData('id');
 					$saldos->fecha_modificacion = date("Y-m-d H:i:s");
@@ -319,29 +329,15 @@ class CargadorSaldosDinersExcel
 					//MODIFICAR SALDOS
 					$set = [
 						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_modificacion' => \WebSecurity::getUserData('id')
+						'usuario_modificacion' => \WebSecurity::getUserData('id'),
+						'campos' => json_encode($data_campos,JSON_PRETTY_PRINT),
 					];
 					$query = $db->update('aplicativo_diners_saldos')->set($set)->where('id', $saldos_id)->execute();
 
 					//ELIMINAR CAMPOS ANTERIORES
-					$query = $db->deleteFrom('aplicativo_diners_saldos_campos')->where('aplicativo_diners_saldos_id', $saldos_id)->execute();
+//					$query = $db->deleteFrom('aplicativo_diners_saldos_campos')->where('aplicativo_diners_saldos_id', $saldos_id)->execute();
 				}
-				$cont = 0;
-				for($i = 11; $i <= $ultima_posicion_columna; $i++) {
-					$saldos_campos = new AplicativoDinersSaldosCampos();
-					$saldos_campos->aplicativo_diners_saldos_id = $saldos_id;
-					$saldos_campos->campo = $cabecera[$cont];
-					if(isset($values[$i])){
-						$saldos_campos->valor = $values[$i];
-					}
-					$saldos_campos->fecha_ingreso = date("Y-m-d H:i:s");
-					$saldos_campos->fecha_modificacion = date("Y-m-d H:i:s");
-					$saldos_campos->usuario_ingreso = \WebSecurity::getUserData('id');
-					$saldos_campos->usuario_modificacion = \WebSecurity::getUserData('id');
-					$saldos_campos->eliminado = 0;
-					$saldos_campos->save();
-					$cont++;
-				}
+
 
 				$rep['total']++;
 			}
