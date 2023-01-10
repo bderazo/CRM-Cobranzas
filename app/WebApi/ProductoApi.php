@@ -505,7 +505,7 @@ class ProductoApi extends BaseController {
 
 			return $this->json($res->conDatos($retorno));
 		}else {
-			return $this->json($res->conDatos($session));
+			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
 
