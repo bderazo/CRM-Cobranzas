@@ -2099,6 +2099,7 @@ class AplicativoDinersApi extends BaseController
 	 * save_tarjeta_diners
 	 * @param $aplicativo_diners_id
 	 * @param $data
+	 * @param $tracing_id
 	 * @param $session
 	 */
 	function save_tarjeta_diners()
@@ -2107,6 +2108,7 @@ class AplicativoDinersApi extends BaseController
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$data = $this->request->getParam('data');
+		$seguimiento_id = $this->request->getParam('tracing_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		if(isset($user['id'])) {
@@ -2127,7 +2129,11 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			$aplicativo_detalle->producto_seguimiento_id = 0;
+			if($seguimiento_id > 0){
+				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
+			}else {
+				$aplicativo_detalle->producto_seguimiento_id = 0;
+			}
 			$aplicativo_detalle->tipo = 'procesado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
@@ -2149,6 +2155,7 @@ class AplicativoDinersApi extends BaseController
 	 * save_tarjeta_interdin
 	 * @param $aplicativo_diners_id
 	 * @param $data
+	 * @param $tracing_id
 	 * @param $session
 	 */
 	function save_tarjeta_interdin()
@@ -2157,6 +2164,7 @@ class AplicativoDinersApi extends BaseController
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$data = $this->request->getParam('data');
+		$seguimiento_id = $this->request->getParam('tracing_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		if(isset($user['id'])) {
@@ -2177,7 +2185,11 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			$aplicativo_detalle->producto_seguimiento_id = 0;
+			if($seguimiento_id > 0){
+				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
+			}else {
+				$aplicativo_detalle->producto_seguimiento_id = 0;
+			}
 			$aplicativo_detalle->tipo = 'procesado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
@@ -2199,6 +2211,7 @@ class AplicativoDinersApi extends BaseController
 	 * save_tarjeta_discover
 	 * @param $aplicativo_diners_id
 	 * @param $data
+	 * @param $tracing_id
 	 * @param $session
 	 */
 	function save_tarjeta_discover()
@@ -2206,6 +2219,7 @@ class AplicativoDinersApi extends BaseController
 		if(!$this->isPost()) return "save_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
+		$seguimiento_id = $this->request->getParam('tracing_id');
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
@@ -2225,7 +2239,11 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			$aplicativo_detalle->producto_seguimiento_id = 0;
+			if($seguimiento_id > 0){
+				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
+			}else {
+				$aplicativo_detalle->producto_seguimiento_id = 0;
+			}
 			$aplicativo_detalle->tipo = 'procesado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
@@ -2249,6 +2267,7 @@ class AplicativoDinersApi extends BaseController
 	 * save_tarjeta_mastercard
 	 * @param $aplicativo_diners_id
 	 * @param $data
+	 * @param $tracing_id
 	 * @param $session
 	 */
 	function save_tarjeta_mastercard()
@@ -2257,6 +2276,7 @@ class AplicativoDinersApi extends BaseController
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$data = $this->request->getParam('data');
+		$seguimiento_id = $this->request->getParam('tracing_id');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		if(isset($user['id'])) {
@@ -2277,7 +2297,11 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			$aplicativo_detalle->producto_seguimiento_id = 0;
+			if($seguimiento_id > 0){
+				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
+			}else {
+				$aplicativo_detalle->producto_seguimiento_id = 0;
+			}
 			$aplicativo_detalle->tipo = 'procesado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
