@@ -353,7 +353,7 @@ class ProductoApi extends BaseController {
 
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
-		if(isset($user['id'])) {
+//		if(isset($user['id'])) {
 			$retorno = [];
 
 			$retorno['form']['title'] = 'form';
@@ -504,9 +504,9 @@ class ProductoApi extends BaseController {
 			];
 
 			return $this->json($res->conDatos($retorno));
-		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
-		}
+//		}else {
+//			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+//		}
 	}
 
 	/**
