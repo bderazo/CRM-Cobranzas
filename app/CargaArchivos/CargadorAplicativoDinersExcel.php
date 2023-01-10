@@ -102,6 +102,8 @@ class CargadorAplicativoDinersExcel
 					$cliente->zona = $values[11];
 					$cliente->fecha_modificacion = date("Y-m-d H:i:s");
 					$cliente->usuario_modificacion = \WebSecurity::getUserData('id');
+					$cliente->fecha_ingreso = date("Y-m-d H:i:s");
+					$cliente->usuario_ingreso = \WebSecurity::getUserData('id');
 					$cliente->usuario_asignado = \WebSecurity::getUserData('id');
 					$cliente->save();
 					$cliente_id = $cliente->id;
@@ -115,7 +117,7 @@ class CargadorAplicativoDinersExcel
 						'ciudad' => $values[10],
 						'zona' => $values[11],
 						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_asignado' => \WebSecurity::getUserData('id')
+						'usuario_modificacion' => \WebSecurity::getUserData('id')
 					];
 					$query = $db->update('cliente')->set($set)->where('id', $cliente_id)->execute();
 				}

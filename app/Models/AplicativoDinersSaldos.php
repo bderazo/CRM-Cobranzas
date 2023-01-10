@@ -8,10 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package Models
  *
  * @property integer id
- * @property integer institucion_id
  * @property integer cliente_id
- * @property integer producto_id
- * @property integer aplicativo_diners_id
  * @property string estado
  * @property string fecha_ingreso
  * @property string fecha_modificacion
@@ -48,6 +45,23 @@ class AplicativoDinersSaldos extends Model
 		$q->fecha_modificacion = date("Y-m-d H:i:s");
 		$q->save();
 		return $q;
+	}
+
+	static function getTodos() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('aplicativo_diners_saldos ads')
+			->innerJoin('cliente cl ON cl.id = ads.cliente_id')
+			->select(null)
+			->select('ads.*, cl.cedula')
+			->where('ads.eliminado',0);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
 	}
 
 }
