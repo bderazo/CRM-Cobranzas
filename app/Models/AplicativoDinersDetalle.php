@@ -126,6 +126,7 @@ class AplicativoDinersDetalle extends Model
 		$q=$db->from('aplicativo_diners_detalle')
 			->select(null)
 			->select('*')
+			->where('tipo','original')
 			->where('eliminado',0)
 			->where('aplicativo_diners_id',$aplicativo_diners_id);
 		$lista = $q->fetchAll();
