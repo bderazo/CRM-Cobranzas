@@ -563,7 +563,7 @@ class ProductoApi extends BaseController {
 			if(isset($data['nivel_1_motivo_no_pago_id'])) {
 				$con->nivel_1_motivo_no_pago_id = $data['nivel_1_motivo_no_pago_id'];
 			}
-			if(isset($data['nivel_22_motivo_no_pago_id'])) {
+			if(isset($data['nivel_2_motivo_no_pago_id'])) {
 				$con->nivel_2_motivo_no_pago_id = $data['nivel_2_motivo_no_pago_id'];
 			}
 
