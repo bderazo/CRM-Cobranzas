@@ -186,6 +186,8 @@ class Producto extends Model
 			}
 			$l['campos'] = $campos;
 
+			$l['mostrar_acuerdo_diners'] = true;
+			
 			$l['tarjeta_fondo'] = '#FFFFFF';
 
 			$retorno[] = $l;

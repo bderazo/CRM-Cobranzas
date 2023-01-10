@@ -343,7 +343,7 @@ class ProductoApi extends BaseController {
 	 * @param $producto_id
 	 */
 	function get_form_paleta() {
-//		if (!$this->isPost()) return "get_form_paleta";
+		if (!$this->isPost()) return "get_form_paleta";
 		$res = new RespuestaConsulta();
 		$institucion_id = $this->request->getParam('institucion_id');
 		$producto_id = $this->request->getParam('producto_id');
