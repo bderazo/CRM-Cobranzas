@@ -349,7 +349,7 @@ class ProductoApi extends BaseController {
 //		$producto_id = $this->request->getParam('producto_id');
 
 		$institucion_id = 1;
-		$producto_id = 24577;
+		$producto_id = 12596;
 
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
