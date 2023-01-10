@@ -2228,6 +2228,8 @@ class AplicativoDinersApi extends BaseController
 			$id_detalle = $data['id'];
 			unset($data['id']);
 
+			\Auditor::info('save_tarjeta_discover data: ', 'API', $data);
+
 			//ASIGNAR LOS NUEVOS VALORES A LA TARJETA
 			$aplicativo_diners_tarjeta = [];
 			foreach($data as $key => $val) {
@@ -2252,7 +2254,7 @@ class AplicativoDinersApi extends BaseController
 			$aplicativo_detalle->fecha_ingreso = date("Y-m-d H:i:s");
 			$aplicativo_detalle->eliminado = 0;
 			$save = $aplicativo_detalle->save();
-//		\Auditor::info('save_tarjeta_discover data: ', 'API', $save);
+
 			if($save) {
 				return $this->json($res->conDatos($save));
 			} else {
