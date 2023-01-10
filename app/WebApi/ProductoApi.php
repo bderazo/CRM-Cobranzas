@@ -343,10 +343,14 @@ class ProductoApi extends BaseController {
 	 * @param $producto_id
 	 */
 	function get_form_paleta() {
-		if (!$this->isPost()) return "get_form_paleta";
+//		if (!$this->isPost()) return "get_form_paleta";
 		$res = new RespuestaConsulta();
-		$institucion_id = $this->request->getParam('institucion_id');
-		$producto_id = $this->request->getParam('producto_id');
+//		$institucion_id = $this->request->getParam('institucion_id');
+//		$producto_id = $this->request->getParam('producto_id');
+
+		$institucion_id = 1;
+		$producto_id = 24577;
+
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		if(isset($user['id'])) {
