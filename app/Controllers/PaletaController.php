@@ -9,6 +9,7 @@ use JasonGrimes\Paginator;
 use Models\Archivo;
 use Models\Catalogo;
 use Models\Contacto;
+use Models\FiltroBusqueda;
 use Models\Institucion;
 use Models\Paleta;
 use Models\PaletaArbol;
@@ -18,6 +19,8 @@ use upload;
 
 class PaletaController extends BaseController {
 
+	var $modulo = 'Paleta';
+
 	function init() {
 		\Breadcrumbs::add('/paleta', 'Paleta');
 	}
@@ -26,6 +29,7 @@ class PaletaController extends BaseController {
 		\WebSecurity::secure('paleta.lista');
 		\Breadcrumbs::active('Paleta');
 		$data['puedeCrear'] = $this->permisos->hasRole('paleta.crear');
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
 		return $this->render('index', $data);
 	}
 
@@ -35,6 +39,7 @@ class PaletaController extends BaseController {
 		$pdo = $this->get('pdo');
 		$db = new \FluentPDO($pdo);
 		$params = $this->request->getParsedBody();
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
 		$lista = Paleta::buscar($params, 'paleta.nombre', $page, 20);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];

@@ -12,6 +12,7 @@ use Models\Contacto;
 use Models\Direccion;
 use Models\Egreso;
 use Models\Cliente;
+use Models\FiltroBusqueda;
 use Models\Paleta;
 use Models\Producto;
 use Models\Referencia;
@@ -19,6 +20,8 @@ use Models\Telefono;
 use upload;
 
 class ClienteController extends BaseController {
+
+	var $modulo = 'Cliente';
 
 	function init() {
 		\Breadcrumbs::add('/cliente', 'Cliente');
@@ -28,12 +31,14 @@ class ClienteController extends BaseController {
 		\WebSecurity::secure('cliente.lista');
 		\Breadcrumbs::active('Cliente');
 		$data['puedeCrear'] = $this->permisos->hasRole('cliente.crear');
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
 		return $this->render('index', $data);
 	}
 
 	function lista($page) {
 		\WebSecurity::secure('cliente.lista');
 		$params = $this->request->getParsedBody();
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
 		$lista = Cliente::buscar($params, 'cliente.apellidos', $page, 20);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];

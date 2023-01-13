@@ -15,6 +15,7 @@ use Models\Contacto;
 use Models\Direccion;
 use Models\Egreso;
 use Models\Email;
+use Models\FiltroBusqueda;
 use Models\Institucion;
 use Models\Paleta;
 use Models\PaletaArbol;
@@ -37,17 +38,18 @@ use WebApi\AplicativoDinersApi;
 
 class ProductoController extends BaseController
 {
-
+	var $modulo = 'Producto';
 	function init()
 	{
-		\Breadcrumbs::add('/producto', 'Producto');
+		\Breadcrumbs::add('/producto', 'Productos y Seguimientos');
 	}
 
 	function index()
 	{
 		\WebSecurity::secure('producto.lista');
-		\Breadcrumbs::active('Producto');
+		\Breadcrumbs::active('Productos y Seguimientos');
 		$data['puedeCrear'] = $this->permisos->hasRole('producto.crear');
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
 		return $this->render('index', $data);
 	}
 
@@ -55,6 +57,7 @@ class ProductoController extends BaseController
 	{
 		\WebSecurity::secure('producto.lista');
 		$params = $this->request->getParsedBody();
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
 		$lista = Producto::buscar($params, 'cliente.nombres', $page, 20);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
