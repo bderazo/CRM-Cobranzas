@@ -58,7 +58,9 @@ class ProductoController extends BaseController
 		\WebSecurity::secure('producto.lista');
 		$params = $this->request->getParsedBody();
 		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
-		$lista = Producto::buscar($params, 'cliente.nombres', $page, 20);
+		$esAdmin = $this->permisos->hasRole('admin');
+		$config = $this->get('config');
+		$lista = Producto::buscar($params, 'cliente.nombres', $page, 20, $config, $esAdmin);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		$seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();

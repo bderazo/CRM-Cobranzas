@@ -5,6 +5,7 @@ namespace Controllers;
 use Catalogos\CatalogoInstitucion;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
+use Illuminate\Database\Query\Builder;
 use JasonGrimes\Paginator;
 use Models\Archivo;
 use Models\Catalogo;
@@ -15,6 +16,7 @@ use Models\FiltroBusqueda;
 use Models\Institucion;
 use Models\Paleta;
 use Models\Telefono;
+use Models\Usuario;
 use upload;
 
 class InstitucionController extends BaseController {
@@ -180,6 +182,37 @@ class InstitucionController extends BaseController {
 		if ($ciudad != '') {
 			$qpro->where("i.ciudad", $ciudad);
 		}
+
+		//VALIDAR LA INSTITUCION POR USUARIO
+		$esAdmin = $this->permisos->hasRole('admin');
+		if(!$esAdmin) {
+			$config = $this->get('config');
+			$id_usuario = \WebSecurity::getUserData('id');
+			$perfil_valida_institucion = $config['perfil_valida_institucion'];
+			/** @var Usuario $user */
+			$user = Usuario::porId($id_usuario, ['instituciones']);
+			$validar = false;
+			foreach ($user->perfiles as $per) {
+				if (array_search($per->id, $perfil_valida_institucion) !== FALSE ) {
+					$validar = true;
+					break;
+				}
+			}
+			if($validar) {
+				$q = $db->from('usuario_institucion')
+					->select(null)
+					->select('institucion_id')
+					->where('usuario_id', $id_usuario);
+				$usuario_institucion = $q->fetchAll();
+				$ui = [];
+				foreach($usuario_institucion as $u){
+					$ui[] = $u['institucion_id'];
+				}
+				$qpro->where("i.id", $ui);
+			}
+		}
+
+
 		$qpro->orderBy('i.nombre')->limit(50);
 		$lista = $qpro->fetchAll();
 		$institucion = [];

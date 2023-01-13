@@ -3,6 +3,7 @@
 namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 
 /**
  * @package Models
@@ -57,7 +58,7 @@ class Producto extends Model
 	 * @param int $records
 	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection
 	 */
-	public static function buscar($post, $order = 'nombre', $pagina = null, $records = 25)
+	public static function buscar($post, $order = 'nombre', $pagina = null, $records = 25, $config, $esAdmin = false)
 	{
 		$q = self::query();
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
@@ -66,7 +67,30 @@ class Producto extends Model
 		$q->select(['producto.*','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre','usuario.apellidos AS apellidos_usuario_asignado',
 					'usuario.nombres AS nombres_usuario_asignado']);
 
-		if (!empty($post['institucion_id'])) $q->where('institucion.id', '=', $post['institucion_id']);
+		if (!empty($post['institucion_id'])){
+			$q->where('institucion.id', '=', $post['institucion_id']);
+		}else{
+			if(!$esAdmin) {
+				$id_usuario = \WebSecurity::getUserData('id');
+				$perfil_valida_institucion = $config['perfil_valida_institucion'];
+				/** @var Usuario $user */
+				$user = Usuario::porId($id_usuario, ['instituciones']);
+				$validar = false;
+				foreach ($user->perfiles as $per) {
+					if (array_search($per->id, $perfil_valida_institucion) !== FALSE ) {
+						$validar = true;
+						break;
+					}
+				}
+				if($validar) {
+					$q->whereIn('institucion.id', function(Builder $qq) use ($id_usuario) {
+						$qq->select('institucion_id')
+							->from('usuario_institucion')
+							->where('usuario_id', $id_usuario);
+					});
+				}
+			}
+		}
 
 		if(!empty($post['cedula'])) {
 			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
