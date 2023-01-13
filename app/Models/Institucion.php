@@ -31,6 +31,10 @@ class Institucion extends Model
 	protected $guarded = [];
 	public $timestamps = false;
 
+	function usuarios() {
+		return $this->belongsToMany('Models\Usuario', 'usuario_institucion', 'institucion_id', 'usuario_id');
+	}
+
 	/**
 	 * @param $id
 	 * @param array $relations
@@ -90,6 +94,23 @@ class Institucion extends Model
 			->select('i.*')
 			->where('i.eliminado',0)
 			->where('i.paleta_id',$paleta_id)
+			->orderBy('i.nombre');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
+	static function getInstituciones() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('institucion i')
+			->select(null)
+			->select('i.*')
+			->where('i.eliminado',0)
 			->orderBy('i.nombre');
 		$lista = $q->fetchAll();
 		$retorno = [];

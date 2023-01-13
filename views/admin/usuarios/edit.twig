@@ -89,6 +89,14 @@
 						</div>
 					</div>
 
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Instituciones asignadas</label>
+						<div class="col-md-4">
+							{{ select_tag('instituciones', instituciones, institucionesUsuario,
+								{key:'id',value:'nombre','multiple':'multiple', style:'width:100%', 'name':'instituciones[]', 'class':'select2 form-control'}) }}
+						</div>
+					</div>
+
 					<div class="mb-0 mt-4 ">
 						<div class="col-md-12">
 							<input type="hidden" name="json" id="json"/>

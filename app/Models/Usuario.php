@@ -27,7 +27,7 @@ use Negocio\EnvioNotificacionesPush;
  * @property string identificador
  * @property string plaza
  * @property Perfil[] perfiles
- * @property Concesionario[] concesionarios
+ * @property Institucion[] instituciones
  */
 class Usuario extends Model {
 	
@@ -38,6 +38,10 @@ class Usuario extends Model {
 	
 	function perfiles() {
 		return $this->belongsToMany('Models\Perfil', 'usuario_perfil', 'usuario_id', 'perfil_id');
+	}
+
+	function instituciones() {
+		return $this->belongsToMany('Models\Institucion', 'usuario_institucion', 'usuario_id', 'institucion_id');
 	}
 	
 	function nombreCompleto() {
@@ -141,6 +145,15 @@ class Usuario extends Model {
 				$qq->select('usuario_id')
 					->from('usuario_perfil')
 					->where('perfil_id', $idper);
+			});
+		}
+
+		if (!empty($post['institucion'])) {
+			$idins = $post['institucion'];
+			$q->whereIn('id', function (Builder $qq) use ($idins) {
+				$qq->select('usuario_id')
+					->from('usuario_institucion')
+					->where('institucion_id', $idins);
 			});
 		}
 		

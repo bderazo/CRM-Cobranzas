@@ -32,6 +32,13 @@
 						</div>
 					</div>
 
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Institución</label>
+						<div class="col-md-4">
+							{{ select_tag('institucion', instituciones, model.institucion, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
+						</div>
+					</div>
+
 {#					<div class=" row mb-4">#}
 {#						<label for="inputName" class="col-md-2 form-label">Canal</label>#}
 {#						<div class="col-md-4">#}

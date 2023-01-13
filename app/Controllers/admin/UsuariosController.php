@@ -5,6 +5,7 @@ namespace Controllers\admin;
 use Catalogos\CatalogoUsuarios;
 use Controllers\BaseController;
 use JasonGrimes\Paginator;
+use Models\Institucion;
 use Models\Perfil;
 use Models\Usuario;
 use Notificaciones\AbstractEmailSender;
@@ -26,6 +27,7 @@ class UsuariosController extends BaseController {
 		
 		$data = [];
 		$data['perfiles'] = $db->from('perfil')->select(null)->select('id, nombre')->orderBy('nombre')->fetchAll();
+		$data['instituciones'] = Institucion::getInstituciones();
 
 		$cat = new CatalogoUsuarios(true);
 		$data['canal'] = $cat->getByKey('canal');
@@ -48,8 +50,8 @@ class UsuariosController extends BaseController {
 			$params['region'] = $p[0];
 			if (!empty($p[1])) $params['zona'] = $p[1];
 		}
-		$lista = Usuario::buscar($params, 'username', $page, 15);
-		$pag = new Paginator($lista->total(), 15, $page, "javascript:cargar((:num));");
+		$lista = Usuario::buscar($params, 'username', $page, 20);
+		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$data['lista'] = $lista;
 		$data['pag'] = $pag;
 		return $this->render('lista', $data);
@@ -62,6 +64,7 @@ class UsuariosController extends BaseController {
 	function editar($id) {
 		$data = [];
 		$perfilesUsuario = [];
+		$institucionesUsuario = [];
 		
 		$cat = new CatalogoUsuarios(true);
 		$areas = $cat->areasTrabajo();
@@ -80,25 +83,29 @@ class UsuariosController extends BaseController {
 		} else {
 			\Breadcrumbs::active('Editar Usuario');
 			/** @var Usuario $user */
-			//$user = Usuario::query()->with('perfiles')->find($id);
-			$user = Usuario::porId($id, ['perfiles']);
+			$user = Usuario::porId($id, ['perfiles', 'instituciones']);
 			foreach ($user->perfiles as $per) {
 				$perfilesUsuario[] = $per->id;
 			}
+			foreach ($user->instituciones as $per) {
+				$institucionesUsuario[] = $per->id;
+			}
 			$data['perfilesUsuario'] = $perfilesUsuario;
+			$data['institucionesUsuario'] = $institucionesUsuario;
 
 		}
 		
 		$data['model'] = $user;
 		$data['esAdmin'] = $this->permisos->hasRole('admin');
-		$data['puedeRed'] = $this->permisos->hasRole('config.red_pqr');
 		$data['perfiles'] = Perfil::query()->orderBy('nombre')->get()->toArray();
+		$data['instituciones'] = Institucion::getInstituciones();
 		return $this->render('edit', $data);
 	}
 	
 	function guardar() {
 		$id = @$_POST['id'];
 		$perfiles = $_POST['perfiles'] ?? [];
+		$instituciones = $_POST['instituciones'] ?? [];
 		
 		$formData = \ModelHelper::findPrefix($_POST, 'model');
 		$user = $id ? Usuario::porId($id) : new Usuario();
@@ -128,6 +135,12 @@ class UsuariosController extends BaseController {
 				$db->delete('usuario_perfil')->where('usuario_id', $user->id)->execute();
 				foreach ($perfiles as $idPer)
 					$db->insertInto('usuario_perfil', ['usuario_id' => $user->id, 'perfil_id' => $idPer])->execute();
+			}
+
+			if ($instituciones) {
+				$db->delete('usuario_institucion')->where('usuario_id', $user->id)->execute();
+				foreach ($instituciones as $idIns)
+					$db->insertInto('usuario_institucion', ['usuario_id' => $user->id, 'institucion_id' => $idIns])->execute();
 			}
 			$pdo->commit();
 			\Auditor::info("Usuario $user->username actualizado", 'Usuarios');
