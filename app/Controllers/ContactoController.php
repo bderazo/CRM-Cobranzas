@@ -9,12 +9,15 @@ use Models\Archivo;
 use Models\Catalogo;
 use Models\Contacto;
 use Models\Email;
+use Models\FiltroBusqueda;
 use Models\Institucion;
 use Models\Paleta;
 use Models\Telefono;
 use upload;
 
 class ContactoController extends BaseController {
+
+	var $modulo = 'Contacto';
 
 	function init() {
 		\Breadcrumbs::add('/contacto', 'Contacto');
@@ -24,14 +27,15 @@ class ContactoController extends BaseController {
 		\WebSecurity::secure('contacto.lista');
 		\Breadcrumbs::active('Contacto');
 		$data['puedeCrear'] = $this->permisos->hasRole('contacto.crear');
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
 		return $this->render('index', $data);
 	}
 
 	function lista($page) {
 		\WebSecurity::secure('contacto.lista');
 		$params = $this->request->getParsedBody();
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
 		$lista = Contacto::buscar($params, 'contacto.nombres', $page, 20);
-//		printDie($lista);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {

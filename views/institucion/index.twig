@@ -11,12 +11,12 @@
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Nombre</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="nombre" placeholder="Nombre"/>
+								<input type="text" class="form-control" name="nombre" id="nombre" value="{{ filtros.nombre }}"/>
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">RUC</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="ruc" placeholder="RUC"/>
+								<input type="text" class="form-control" name="ruc" id="ruc" value="{{ filtros.ruc }}"/>
 							</div>
 						</div>
 
@@ -24,8 +24,8 @@
 							<label for="inputName" class="col-md-2 form-label">Paleta</label>
 							<div class="col-md-4">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Seleccione una paleta" name="paleta_nombre" id="paleta_nombre" readonly>
-									<input type="hidden" class="form-control" v-model="model.paleta_id" name="paleta_id" id="paleta_id"/>
+									<input type="text" class="form-control" name="paleta_nombre" id="paleta_nombre" value="{{ filtros.paleta_nombre }}" readonly>
+									<input type="hidden" class="form-control" name="paleta_id" id="paleta_id" value="{{ filtros.paleta_id }}"/>
 									<button class="btn btn-default" type="button" v-on:click="buscarPaleta">
 										<i class="glyphicon glyphicon-search"></i>
 									</button>
@@ -34,7 +34,7 @@
 
 							<label for="inputName" class="col-md-2 form-label">Paleta propia</label>
 							<div class="col-md-4">
-								<select class="form-control form-select select2" name="paletas_propias" placeholder="Seleccione una opción">
+								<select class="form-control form-select select2" name="paletas_propias">
 									<option value=""></option>
 									<option value="si">SI</option>
 									<option value="no">NO</option>
@@ -94,6 +94,9 @@
 		function todos() {
 			form[0].reset();
 			$("#paleta_id").val('');
+            $("#paleta_nombre").val('');
+            $("#nombre").val('');
+            $("#ruc").val('');
 			cargar(1);
 		}
 

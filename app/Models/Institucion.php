@@ -69,11 +69,12 @@ class Institucion extends Model
 		if(!empty($post['nombre'])) {
 			$q->whereRaw("upper(institucion.nombre) LIKE '%" . strtoupper($post['nombre']) . "%'");
 		}
+		if(!empty($post['ruc'])) {
+			$q->whereRaw("upper(institucion.ruc) LIKE '%" . strtoupper($post['ruc']) . "%'");
+		}
 		if(!empty($post['paleta_id'])) $q->where('institucion.paleta_id', '=', $post['paleta_id']);
-		if(!empty($post['ciudad'])) $q->where('institucion.ciudad', '=', $post['ciudad']);
-		if(!empty($post['acceso_sistema'])) $q->where('institucion.acceso_sistema', '=', $post['acceso_sistema']);
 		if(!empty($post['paletas_propias'])) $q->where('institucion.paletas_propias', '=', $post['paletas_propias']);
-		$q->where('institucion.eliminado', '=', false);
+		$q->where('institucion.eliminado', '=', 0);
 		$q->orderBy($order, 'asc');
 		if($pagina > 0 && $records > 0)
 			return $q->paginate($records, ['*'], 'page', $pagina);

@@ -65,6 +65,30 @@
 						</div>
 					</div>
 
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Canal</label>
+						<div class="col-md-4">
+							{{ select_tag('model.canal', canal, model.canal, {class:'form-control form-select', prompt:''}) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Plaza</label>
+						<div class="col-md-4">
+							{{ select_tag('model.plaza', plaza, model.plaza, {'class':'form-control form-select', prompt:''}) }}
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Campaña</label>
+						<div class="col-md-4">
+							{{ select_tag('model.campana', campana, model.campana, {'class':'form-control form-select', prompt:''}) }}
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Identificador</label>
+						<div class="col-md-4">
+							{{ select_tag('model.identificador', identificador, model.identificador, {'class':'form-control form-select', prompt:''}) }}
+						</div>
+					</div>
+
 					<div class="mb-0 mt-4 ">
 						<div class="col-md-12">
 							<input type="hidden" name="json" id="json"/>
@@ -101,21 +125,13 @@
 		var vm = new Vue({
 			el: '#form-edit',
 			data: {
-				deleted: []
+				deleted: [],
+				canal: {{ canal|raw }},
+                plaza: {{ plaza|raw }},
+                campana: {{ campana|raw }},
+                identificador: {{ identificador|raw }},
 			},
-			methods: {
-				addCon: function () {
-					this.empresasUsuario.push({
-						concesionario_id: null, id: null
-					});
-				},
-				delCon: function (c) {
-					var ix = this.empresas.indexOf(c);
-					this.empresas.splice(ix, 1);
-					if (c.id)
-						this.deleted.push(c.id);
-				}
-			}
+			methods: {}
 		});
 
 		//		$('form label').addClass('pull-left').css('width', '120px');

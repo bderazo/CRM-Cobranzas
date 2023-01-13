@@ -12,12 +12,12 @@
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Apellidos</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="apellidos" placeholder="Apellidos"/>
+								<input type="text" class="form-control" name="apellidos" id="apellidos" value="{{ filtros.apellidos }}"/>
 							</div>
 
 							<label for="inputName" class="col-md-2 form-label">Nombres</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="nombres" placeholder="Nombres"/>
+								<input type="text" class="form-control" name="nombres" id="nombres" value="{{ filtros.nombres }}"/>
 							</div>
 						</div>
 
@@ -25,8 +25,8 @@
 							<label for="inputName" class="col-md-2 form-label">Institución</label>
 							<div class="col-md-4">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Seleccione una institución" name="institucion_nombre" id="institucion_nombre" readonly>
-									<input type="hidden" class="form-control" v-model="model.institucion_id" name="institucion_id" id="institucion_id"/>
+									<input type="text" class="form-control" name="institucion_nombre" id="institucion_nombre" value="{{ filtros.institucion_nombre }}" readonly>
+									<input type="hidden" class="form-control" name="institucion_id" id="institucion_id" value="{{ filtros.institucion_id }}"/>
 									<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
 										<i class="glyphicon glyphicon-search"></i>
 									</button>
@@ -86,6 +86,9 @@
 		function todos() {
 			form[0].reset();
 			$("#institucion_id").val('');
+            $("#institucion_nombre").val('');
+            $("#apellidos").val('');
+            $("#nombres").val('');
 			cargar(1);
 		}
 

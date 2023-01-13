@@ -11,12 +11,15 @@ use Models\Catalogo;
 use Models\Contacto;
 use Models\Egreso;
 use Models\Email;
+use Models\FiltroBusqueda;
 use Models\Institucion;
 use Models\Paleta;
 use Models\Telefono;
 use upload;
 
 class InstitucionController extends BaseController {
+
+	var $modulo = 'Institucion';
 
 	function init() {
 		\Breadcrumbs::add('/institucion', 'Institución');
@@ -26,14 +29,15 @@ class InstitucionController extends BaseController {
 		\WebSecurity::secure('institucion.lista');
 		\Breadcrumbs::active('Institución');
 		$data['puedeCrear'] = $this->permisos->hasRole('institucion.crear');
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
 		return $this->render('index', $data);
 	}
 
 	function lista($page) {
 		\WebSecurity::secure('institucion.lista');
 		$params = $this->request->getParsedBody();
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
 		$lista = Institucion::buscar($params, 'institucion.nombre', $page, 20);
-//		printDie($lista);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {

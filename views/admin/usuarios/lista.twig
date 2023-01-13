@@ -1,10 +1,14 @@
-<table class="table border text-nowrap text-md-nowrap table-striped mb-0">
+<div class="table-responsive">
+	<table class="table border table-striped table-bordered table-sm mb-0">
 	<thead>
 	<tr>
 		<th>Username</th>
 		<th>Nombre Completo</th>
-		<th>Email</th>
 		<th>Activo</th>
+		<th>Canal</th>
+		<th>Plaza</th>
+		<th>Campaña</th>
+		<th>Identificador</th>
 		<th>Fecha creacion</th>
 	</tr>
 	</thead>
@@ -15,7 +19,6 @@
 				<a href="usuarios/editar?id={{ l.id }}">{{ l.username }}</a>
 			</td>
 			<td>{{ l.apellidos }}&nbsp;{{ l.nombres }}</td>
-			<td>{{ l.email }}</td>
 			<td>
 				{% if l.activo == 1 %}
 					SI
@@ -23,12 +26,16 @@
 					NO
 				{% endif %}
 			</td>
+			<td>{{ l.canal }}</td>
+			<td>{{ l.plaza }}</td>
+			<td>{{ l.campana }}</td>
+			<td>{{ l.identificador }}</td>
 			<td>{{ l.fecha_creacion|date("Y-m-d") }}</td>
-
 		</tr>
 	{% endfor %}
 	</tbody>
 </table>
+</div>
 
 <br/>
 {{ pag|raw }}

@@ -71,7 +71,7 @@ class Paleta extends Model
 		$q = self::query();
 		$q->select(['paleta.*']);
 		if(!empty($post['numero'])) {
-			$q->whereRaw("upper(paleta.nombre) LIKE '%" . strtoupper($post['numero']) . "%'");
+			$q->whereRaw("upper(paleta.numero) LIKE '%" . strtoupper($post['numero']) . "%'");
 		}
 		if(!empty($post['nombre'])) {
 			$q->whereRaw("upper(paleta.nombre) LIKE '%" . strtoupper($post['nombre']) . "%'");

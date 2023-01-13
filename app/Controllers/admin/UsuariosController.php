@@ -26,8 +26,17 @@ class UsuariosController extends BaseController {
 		
 		$data = [];
 		$data['perfiles'] = $db->from('perfil')->select(null)->select('id, nombre')->orderBy('nombre')->fetchAll();
+
 		$cat = new CatalogoUsuarios(true);
-		$data['areas'] = $cat->areasTrabajo();
+		$data['canal'] = $cat->getByKey('canal');
+		$data['plaza'] = $cat->getByKey('plaza');
+		$data['campana'] = $cat->getByKey('campana');
+		$data['identificador'] = $cat->getByKey('identificador');
+
+		$data['model'] = [
+			'canal' =>	'',
+		];
+
 		return $this->render('index', $data);
 	}
 	
@@ -58,8 +67,12 @@ class UsuariosController extends BaseController {
 		$areas = $cat->areasTrabajo();
 		asort($areas);
 		$data['areas'] = $areas;
-		
-		
+		$data['canal'] = $cat->getByKey('canal');
+		$data['plaza'] = $cat->getByKey('plaza');
+		$data['campana'] = $cat->getByKey('campana');
+		$data['identificador'] = $cat->getByKey('identificador');
+
+
 		if (!$id) {
 			\Breadcrumbs::active('Crear Usuario');
 			$user = new Usuario();

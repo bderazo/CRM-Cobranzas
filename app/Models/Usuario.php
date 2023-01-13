@@ -22,8 +22,10 @@ use Negocio\EnvioNotificacionesPush;
  * @property string es_admin
  * @property string activo
  * @property string cambiar_password
- * @property string estado
- * @property string area
+ * @property string canal
+ * @property string campana
+ * @property string identificador
+ * @property string plaza
  * @property Perfil[] perfiles
  * @property Concesionario[] concesionarios
  */
@@ -128,21 +130,10 @@ class Usuario extends Model {
 		if (!empty($post['apellidos'])) $q->where('apellidos', 'like', '%' . $post['apellidos'] . '%');
 		if (!empty($post['username'])) $q->where('username', 'like', '%' . $post['username'] . '%');
 		if (!empty($post['email'])) $q->where('email', 'like', '%' . $post['email'] . '%');
-		if (!empty($post['area'])) $q->where('area', $post['area']);
-		
-		// TODO revisar filtros usuario
-
-//		if (!empty($post['cedula'])) $q->where('cedula', 'like', '%' . $post['cedula'] . '%');
-//		if (!empty($post['tipo_usuario'])) $q->where('tipo_usuario', 'like', '%' . $post['tipo_usuario'] . '%');
-//		if (!empty($post['region'])) $q->where('region', '=', $post['region']);
-//		if (!empty($post['zona'])) $q->where('zona', '=', $post['zona']);
-//		if (!empty($post['ubicacion'])) $q->where('ubicacion', 'like', '%' . $post['ubicacion'] . '%');
-//
-//		if (!empty($post['concesionarios'])) {
-//			$idcon = $post['concesionarios'];
-//			$q->join('usuario_concesionario', 'usuario.id', '=', 'usuario_concesionario.usuario_id')
-//				->where('usuario_concesionario.concesionario_id', '=', $idcon);
-//		}
+//		if (!empty($post['canal'])) $q->where('canal', $post['canal']);
+//		if (!empty($post['plaza'])) $q->where('plaza', $post['plaza']);
+//		if (!empty($post['campana'])) $q->where('campana', $post['campana']);
+//		if (!empty($post['identificador'])) $q->where('identificador', $post['identificador']);
 		
 		if (!empty($post['perfil'])) {
 			$idper = $post['perfil'];
@@ -150,16 +141,6 @@ class Usuario extends Model {
 				$qq->select('usuario_id')
 					->from('usuario_perfil')
 					->where('perfil_id', $idper);
-			});
-		}
-		
-		if (!empty($post['concesionarios'])) {
-			$idcon = $post['concesionarios'];
-			$q->whereIn('email', function (Builder $qq) use ($idcon) {
-				// select email from red_contactos_pqr where concesionario_id = 7
-				$qq->select('email')
-					->from('red_contactos_pqr')
-					->where('concesionario_id', $idcon);
 			});
 		}
 		
