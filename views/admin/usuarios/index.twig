@@ -14,16 +14,16 @@
 							{{ text_field_tag("username", model.username, {class:'form-control', placeholder:'Username'}) }}
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<label for="inputName" class="col-md-2 form-label">Perfil</label>
 						<div class="col-md-4">
-							{{ text_field_tag("nombres", model.nombres, {class:'form-control', placeholder:'Nombres'}) }}
+							{{ select_tag('perfil', perfiles, model.perfil, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
 						</div>
 					</div>
 
 					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Email</label>
+						<label for="inputName" class="col-md-2 form-label">Nombres</label>
 						<div class="col-md-4">
-							{{ text_field_tag("email", model.email, {class:'form-control', placeholder:'Email'}) }}
+							{{ text_field_tag("nombres", model.nombres, {class:'form-control', placeholder:'Nombres'}) }}
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Apellidos</label>
@@ -32,17 +32,29 @@
 						</div>
 					</div>
 
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Perfil</label>
-						<div class="col-md-4">
-							{{ select_tag('perfil', perfiles, model.perfil, {key:'id',value:'nombre', prompt:'Perfil', class:'form-control form-select select2'} ) }}
-						</div>
+{#					<div class=" row mb-4">#}
+{#						<label for="inputName" class="col-md-2 form-label">Canal</label>#}
+{#						<div class="col-md-4">#}
+{#							{{ select_tag('canal', canal, model.canal, {class:'form-control form-select', prompt:''} ) }}#}
+{#						</div>#}
 
-						<label for="inputName" class="col-md-2 form-label">Departamento / Area</label>
-						<div class="col-md-4">
-							{{ select_tag('area', areas, model.area, {prompt:'Departamento / Area', class:'form-control form-select select2'} ) }}
-						</div>
-					</div>
+{#						<label for="inputName" class="col-md-2 form-label">Plaza</label>#}
+{#						<div class="col-md-4">#}
+{#							{{ select_tag('plaza', plaza, model.plaza, {prompt:'', class:'form-control form-select'} ) }}#}
+{#						</div>#}
+{#					</div>#}
+
+{#					<div class=" row mb-4">#}
+{#						<label for="inputName" class="col-md-2 form-label">Campaña</label>#}
+{#						<div class="col-md-4">#}
+{#							{{ select_tag('campana', campana, model.campana, {prompt:'', class:'form-control form-select'} ) }}#}
+{#						</div>#}
+
+{#						<label for="inputName" class="col-md-2 form-label">Identificador</label>#}
+{#						<div class="col-md-4">#}
+{#							{{ select_tag('identificador', identificador, model.identificador, {prompt:'', class:'form-control form-select'} ) }}#}
+{#						</div>#}
+{#					</div>#}
 
 					<div class="mb-0 mt-4 ">
 						<div class="col-md-12">
