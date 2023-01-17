@@ -279,10 +279,10 @@ class CargadorAplicativoDinersExcel
 						$producto->fecha_ingreso = date("Y-m-d H:i:s");
 						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 						$producto->eliminado = 0;
-						$producto->estado = 'activo';
+						$producto->estado = 'no_asignado';
 						$producto->fecha_modificacion = date("Y-m-d H:i:s");
 						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-						$producto->usuario_asignado = \WebSecurity::getUserData('id');
+						$producto->usuario_asignado = 0;
 						$producto->save();
 						$producto_id = $producto->id;
 					} elseif($values[53] > 0) {
@@ -293,10 +293,10 @@ class CargadorAplicativoDinersExcel
 						$producto->fecha_ingreso = date("Y-m-d H:i:s");
 						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 						$producto->eliminado = 0;
-						$producto->estado = 'activo';
+						$producto->estado = 'no_asignado';
 						$producto->fecha_modificacion = date("Y-m-d H:i:s");
 						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-						$producto->usuario_asignado = \WebSecurity::getUserData('id');
+						$producto->usuario_asignado = 0;
 						$producto->save();
 						$producto_id = $producto->id;
 					} elseif($values[91] > 0) {
@@ -307,10 +307,10 @@ class CargadorAplicativoDinersExcel
 						$producto->fecha_ingreso = date("Y-m-d H:i:s");
 						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 						$producto->eliminado = 0;
-						$producto->estado = 'activo';
+						$producto->estado = 'no_asignado';
 						$producto->fecha_modificacion = date("Y-m-d H:i:s");
 						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-						$producto->usuario_asignado = \WebSecurity::getUserData('id');
+						$producto->usuario_asignado = 0;
 						$producto->save();
 						$producto_id = $producto->id;
 					} elseif($values[138] > 0) {
@@ -321,10 +321,10 @@ class CargadorAplicativoDinersExcel
 						$producto->fecha_ingreso = date("Y-m-d H:i:s");
 						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 						$producto->eliminado = 0;
-						$producto->estado = 'activo';
+						$producto->estado = 'no_asignado';
 						$producto->fecha_modificacion = date("Y-m-d H:i:s");
 						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-						$producto->usuario_asignado = \WebSecurity::getUserData('id');
+						$producto->usuario_asignado = 0;
 						$producto->save();
 						$producto_id = $producto->id;
 					}
@@ -340,6 +340,7 @@ class CargadorAplicativoDinersExcel
 					$aplicativo_diners->cliente_id = $cliente_id;
 					$aplicativo_diners->institucion_id = 1;
 					$aplicativo_diners->producto_id = $producto_id;
+					$aplicativo_diners->estado = 'no_asignado';
 					$aplicativo_diners->ciudad_gestion = $values[10];
 					$aplicativo_diners->fecha_elaboracion = date("Y-m-d H:i:s");
 					$aplicativo_diners->cedula_socio = $cliente_cedula;
@@ -353,7 +354,7 @@ class CargadorAplicativoDinersExcel
 					$aplicativo_diners->fecha_modificacion = date("Y-m-d H:i:s");
 					$aplicativo_diners->usuario_ingreso = \WebSecurity::getUserData('id');
 					$aplicativo_diners->usuario_modificacion = \WebSecurity::getUserData('id');
-					$aplicativo_diners->usuario_asignado = \WebSecurity::getUserData('id');
+					$aplicativo_diners->usuario_asignado = 0;
 					$aplicativo_diners->eliminado = 0;
 					$aplicativo_diners->save();
 					$aplicativo_diners_id = $aplicativo_diners->id;
@@ -459,7 +460,6 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['tipo'] = 'original';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
-						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');
 						$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$datos_calculados['eliminado'] = 0;
@@ -556,7 +556,6 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['tipo'] = 'original';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
-						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');
 						$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$datos_calculados['eliminado'] = 0;
@@ -652,7 +651,6 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['tipo'] = 'original';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
-						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');
 						$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$datos_calculados['eliminado'] = 0;
@@ -748,7 +746,6 @@ class CargadorAplicativoDinersExcel
 						$datos_calculados['tipo'] = 'original';
 						$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
-						$datos_calculados['usuario_asignado'] = \WebSecurity::getUserData('id');
 						$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 						$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 						$datos_calculados['eliminado'] = 0;

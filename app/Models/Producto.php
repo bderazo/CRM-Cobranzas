@@ -63,18 +63,18 @@ class Producto extends Model
 		$q = self::query();
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
-		$q->join('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
+		$q->leftJoin('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
 		$q->select(['producto.*','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre','usuario.apellidos AS apellidos_usuario_asignado',
 					'usuario.nombres AS nombres_usuario_asignado']);
 
+		$id_usuario = \WebSecurity::getUserData('id');
 		if (!empty($post['institucion_id'])){
 			$q->where('institucion.id', '=', $post['institucion_id']);
 		}else{
 			if(!$esAdmin) {
-				$id_usuario = \WebSecurity::getUserData('id');
 				$perfil_valida_institucion = $config['perfil_valida_institucion'];
 				/** @var Usuario $user */
-				$user = Usuario::porId($id_usuario, ['instituciones']);
+				$user = Usuario::porId($id_usuario, ['perfiles']);
 				$validar = false;
 				foreach ($user->perfiles as $per) {
 					if (array_search($per->id, $perfil_valida_institucion) !== FALSE ) {
@@ -92,6 +92,17 @@ class Producto extends Model
 			}
 		}
 
+		if (!empty($post['telefono'])){
+			$tel = $post['telefono'];
+			$q->whereIn('cliente.id', function(Builder $qq) use ($tel) {
+				$qq->select('modulo_id')
+					->from('telefono')
+					->whereRaw("telefono LIKE '%" . $tel . "%'")
+					->where('modulo_relacionado', 'cliente')
+					->where('eliminado', 0);
+			});
+		}
+
 		if(!empty($post['cedula'])) {
 			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
 		}
@@ -104,11 +115,33 @@ class Producto extends Model
 		if(!empty($post['producto'])) {
 			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
 		}
+		if (!empty($post['estado'])){
+			$q->where('producto.estado', '=', $post['estado']);
+		}
+
+		if(!$esAdmin) {
+			$perfil_valida_institucion = $config['perfil_valida_institucion'];
+			/** @var Usuario $user */
+			$user = Usuario::porId($id_usuario, ['perfiles']);
+			$validar = false;
+			foreach($user->perfiles as $per) {
+				if(array_search($per->id, $perfil_valida_institucion) !== FALSE) {
+					$validar = true;
+					break;
+				}
+			}
+			if($validar) {
+				$q->whereRaw("producto.usuario_asignado = CASE WHEN producto.estado = 'asignado_usuario' THEN " . $id_usuario . " ELSE 0 END");
+			}
+		}
+
+		$q->whereIn('producto.estado',['no_asignado','asignado_megacob','asignado_usuario','procesado']);
 
 		$q->where('producto.estado', '<>', 'inactivo');
 
 		$q->where('producto.eliminado', '=', 0);
 		$q->orderBy($order, 'asc');
+//		printDie($q->toSql());
 		if($pagina > 0 && $records > 0)
 			return $q->paginate($records, ['*'], 'page', $pagina);
 		return $q->get();
