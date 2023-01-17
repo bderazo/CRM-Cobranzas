@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package Models
  *
  * @property integer id
+ * @property integer aplicativo_diners_id
  * @property integer cliente_id
  * @property string fecha_inicio
  * @property string fecha_fin
@@ -69,7 +70,7 @@ class AplicativoDinersAsignaciones extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
-			$retorno[] = $l;
+			$retorno[$l['aplicativo_diners_id']] = $l;
 		}
 		return $retorno;
 	}

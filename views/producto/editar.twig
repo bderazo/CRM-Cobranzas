@@ -69,7 +69,7 @@
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Direcciones</label>
 						<div class="col-md-10">
-							<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+							<table class="table border table-bordered table-sm mb-0">
 								<thead>
 								<tr>
 									<th>Tipo</th>
@@ -80,16 +80,13 @@
 								<tbody>
 								<tr v-for="d in direccion">
 									<td>
-										<input type="text" style="text-transform: uppercase;" readonly
-										       class="form-control-plaintext" v-model="d.tipo">
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="d.tipo"></span>
 									</td>
 									<td>
-										<input type="text" style="text-transform: uppercase;" readonly
-										       class="form-control-plaintext" v-model="d.ciudad">
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="d.ciudad"></span>
 									</td>
 									<td>
-										<input type="text" style="text-transform: uppercase;" readonly
-										       class="form-control-plaintext" v-model="d.direccion">
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="d.direccion"></span>
 									</td>
 								</tr>
 								</tbody>

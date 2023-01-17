@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Catalogos\CatalogoCliente;
+use Catalogos\CatalogoProducto;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
 use JasonGrimes\Paginator;
@@ -50,6 +51,9 @@ class ProductoController extends BaseController
 		\Breadcrumbs::active('Productos y Seguimientos');
 		$data['puedeCrear'] = $this->permisos->hasRole('producto.crear');
 		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
+		$cat = new CatalogoProducto(true);
+		$listas = $cat->getCatalogo();
+		$data['listas'] = $listas;
 		return $this->render('index', $data);
 	}
 
@@ -259,6 +263,7 @@ class ProductoController extends BaseController
 		//GUARDAR SEGUIMIENTO
 		$producto = $data['model'];
 		$seguimiento = $data['seguimiento'];
+		$aplicativo_diners = $data['aplicativo_diners'];
 		$institucion = Institucion::porId($producto['institucion_id']);
 		if($seguimiento['id'] > 0) {
 			$con = ProductoSeguimiento::porId($seguimiento['id']);
@@ -295,6 +300,9 @@ class ProductoController extends BaseController
 		$producto_obj = Producto::porId($producto['id']);
 		$producto_obj->estado = 'procesado';
 		$producto_obj->save();
+		$aplicativo_diners_obj = AplicativoDiners::porId($aplicativo_diners['id']);
+		$aplicativo_diners_obj->estado = 'procesado';
+		$aplicativo_diners_obj->save();
 		\Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
 
 		//GUARDAR APLICATIVO DINERS

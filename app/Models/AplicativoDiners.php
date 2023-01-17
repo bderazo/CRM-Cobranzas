@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer institucion_id
  * @property integer cliente_id
  * @property integer producto_id
+ * @property string estado
  * @property string ciudad_gestion
  * @property string fecha_elaboracion
  * @property string negociado_por

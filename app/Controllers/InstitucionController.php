@@ -211,8 +211,6 @@ class InstitucionController extends BaseController {
 				$qpro->where("i.id", $ui);
 			}
 		}
-
-
 		$qpro->orderBy('i.nombre')->limit(50);
 		$lista = $qpro->fetchAll();
 		$institucion = [];
