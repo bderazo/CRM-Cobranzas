@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Catalogos\CatalogoUsuarios;
 use General\GenerarPDF;
 use Models\Catalogo;
 use Models\Plantilla;
@@ -12,6 +13,7 @@ use Reportes\CorteBobinado\ConsumoRollosMadre;
 use Reportes\CorteBobinado\InventarioProductoTerminado;
 use Reportes\CorteBobinado\ProduccionDiariaCB;
 use Reportes\Desperdicio\BodegaDesperdicio;
+use Reportes\Diners\ProduccionPlaza;
 use Reportes\Export\ExcelDatasetExport;
 use Reportes\Extrusion\InventarioPerchaConforme;
 use Reportes\Extrusion\InventarioPerchaInconforme;
@@ -36,20 +38,20 @@ class ReportesController extends BaseController {
 	}
 	
 	protected function paramsBasico() {
-		$tipo_material = TipoMaterial::tipo_material();
-		$tipo_material_materia_prima = TipoMaterial::tipo_material_materia_prima();
-		$anio = [];
-		for($i = date("Y"); $i >= 2018; $i--){
-			$anio[$i] = $i;
+		$catalogo_usuario = new CatalogoUsuarios(true);
+		$horas = [];
+		for($i = 0; $i < 24; $i++){
+			$horas[$i] = $i;
+		}
+		$minutos = [];
+		for($i = 0; $i < 60; $i++){
+			$minutos[$i] = $i;
 		}
 		return [
-			'productos_extrusion' => ProductoExtrusion::listaSimple(),
-			'productos' => Producto::listaSimple(),
-			'tipo_producto' => json_encode(Catalogo::valorPorClase('tipo_producto')),
-            'tipo_material' => json_encode($tipo_material),
-			'tipo_material_materia_prima' => json_encode($tipo_material_materia_prima),
-			'tipo_material_materia_prima_arr' => $tipo_material_materia_prima,
-			'anio' => json_encode($anio),
+			'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
+			'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
+			'horas' => json_encode($horas),
+			'minutos' => json_encode($minutos),
 		];
 	}
 
@@ -57,7 +59,7 @@ class ReportesController extends BaseController {
         if (!\WebSecurity::hasUser()) {
             return $this->login();
         }
-
+		\Breadcrumbs::active('Reportes');
         $menu = $this->get('menuReportes');
         $root = $this->get('root');
         $items = [];
@@ -75,7 +77,7 @@ class ReportesController extends BaseController {
 
         $itemsChunks = [];
         foreach ($items as $k=>$v) {
-            $itemsChunks[$k] = array_chunk($v, 4);
+            $itemsChunks[$k] = array_chunk($v, 3);
         }
 
 
@@ -86,19 +88,19 @@ class ReportesController extends BaseController {
         return $this->render('index', $data);
     }
 
-	//PERCHA CONFORME
-	function inventarioPerchaConforme() {
-		\WebSecurity::secure('reportes.inventario_percha_conforme');
+	//PRODUCCION PLAZA
+	function produccionPlaza() {
+		\WebSecurity::secure('reportes.produccion_plaza');
 		if ($this->isPost()) {
-			$rep = new InventarioPerchaConforme($this->get('pdo'));
+			$rep = new ProduccionPlaza($this->get('pdo'));
 			$data = $rep->calcular($this->request->getParsedBody());
 			return $this->json($data);
 		}
-		$titulo = 'Inventario Percha';
+		$titulo = 'Producción Plaza';
 		\Breadcrumbs::active($titulo);
 		$data = $this->paramsBasico();
 		$data['titulo'] = $titulo;
-		return $this->render('inventarioPerchaConforme', $data);
+		return $this->render('produccionPlaza', $data);
 	}
 
 	function exportInventarioPerchaConforme($json) {

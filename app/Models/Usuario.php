@@ -236,6 +236,22 @@ class Usuario extends Model {
 
 		return $lista;
 	}
+
+	static function getUsuariosGestores() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+		$q=$db->from('usuario u')
+			->innerJoin('usuario_perfil up ON u.id = up.usuario_id')
+			->innerJoin('perfil p ON p.id = up.perfil_id')
+			->select(null)
+			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombres")
+			->where('u.activo',1)
+			->where('p.id',15)
+			->orderBy('u.apellidos');
+		$lista = $q->fetchAll();
+		if (!$lista) return [];
+		return $lista;
+	}
 }
 
 

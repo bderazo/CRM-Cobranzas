@@ -20,10 +20,7 @@ return [
 		['text' => 'Saldos Diners', 'link' => '/cargarArchivo/saldosDiners', 'roles' => 'cargar_archivos.saldos_diners', 'icon' => 'fas fa-undo warm-gray'],
 	]],
 
-	['text' => 'Reportes', 'link' => '#', 'roles' => 'reportes', 'icon' => 'side-menu__icon glyphicon glyphicon-print', 'children' => [
-		['text' => 'Reporte1', 'link' => '/compra', 'roles' => 'compra', 'icon' => 'fas fa-shopping-cart warm-gray'],
-		['text' => 'Reporte2', 'link' => '/solicitudCompra', 'roles' => 'compra.solicitud_compra', 'icon' => 'far fa-clipboard warm-gray'],
-	]],
+	['text' => 'Reportes', 'link' => '/reportes', 'roles' => 'reportes', 'icon' => 'side-menu__icon glyphicon glyphicon-print'],
 	
 	['text' => 'Administración', 'link' => '#', 'roles' => 'admin', 'icon' => 'side-menu__icon glyphicon glyphicon-cog', 'children' =>
 		[

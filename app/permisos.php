@@ -63,7 +63,6 @@ return [
 		],
 		'mensaje' => 'Operaciones posibles para productos'
 	],
-
 	[
 		'key' => 'cargar_archivos',
 		'text' => 'Cargar Archivos',
@@ -73,5 +72,18 @@ return [
 			'saldos_diners' => 'Permitir la carga de archivos de saldos Diners',
 		],
 		'mensaje' => 'Operaciones posibles para productos'
+	],
+	[
+		'key' => 'reportes',
+		'text' => 'Reportes',
+		'children' => [
+			'produccion_plaza' => 'Producción Plaza',
+			'campo_telefonia' => 'Campo y Telefonía',
+			'informe_jornada' => 'Informes De Jornada',
+			'negociaciones_ejecutivo' => 'Negociaciones Por Ejecutivo',
+			'procesadas_liquidacion' => 'Procesadas Para Liquidación',
+			'base_carga' => 'Base De Carga',
+		],
+		'mensaje' => 'Operaciones para Reportes'
 	],
 ];

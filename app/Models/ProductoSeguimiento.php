@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer cliente_id
  * @property integer producto_id
  * @property integer paleta_id
+ * @property string canal
  * @property integer nivel_1_id
  * @property integer nivel_2_id
  * @property integer nivel_3_id

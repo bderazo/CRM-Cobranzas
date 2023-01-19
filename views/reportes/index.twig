@@ -1,109 +1,38 @@
 {% extends layoutApp %}
 {% block content %}
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-content">
-				<div class="row">
-					<div class="col-sm-12">
-						{% if menuReportes['inventario']|length > 0 %}
-							<div class="panel panel-success">
-								<div class="panel-heading">
-									<h2>INVENTARIO</h2>
-								</div>
-								<div class="panel-body">
-									{% for chunk in menuReportes['inventario'] %}
-										<div class="row">
-											{% for item in chunk %}
-												<div class="col-md-3">
-													<a href="{{ item.link }}">
-														{# <div class="widget style1 navy-bg"> #}
-														<div class="widget style1 widget-banco">
-															<div class="row">
-																<div class="col-xs-3">
-																	<i class="{{ item.icon }} fa-3x"></i>
-																</div>
-																<div class="col-xs-8 text-right">
-																	<h3 class="font-bold">{{ item.label }}</h3>
-																	<span style="font-size: 10px;"> {{ item.description }} </span>
-																</div>
-															</div>
+	<div class="col-md-12 col-xl-12">
+		{% if menuReportes['diners']|length > 0 %}
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title"><h1>REPORTES DINERS</h1></h4>
+				</div>
+				<div id="app">
+					<div class="card-body">
+						{% for chunk in menuReportes['diners'] %}
+							<div class="row">
+								{% for item in chunk %}
+									<div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+										<a href="{{ item.link }}">
+											<div class="card bg-success img-card">
+												<div class="card-body">
+													<div class="d-flex">
+														<div class="text-white">
+															<h2 style="font-size: 20px;" class="mb-0 number-font">{{ item.label }}</h2>
+															<p class="text-white mb-0">{{ item.description }}</p>
 														</div>
-													</a>
+														<div class="ms-auto"><i class="{{ item.icon }} text-white fa-3x"></i></div>
+													</div>
 												</div>
-											{% endfor %}
-										</div>
-									{% endfor %}
-								</div>
+											</div>
+										</a>
+									</div>
+								{% endfor %}
 							</div>
-						{% endif %}
-
-						{% if menuReportes['produccion']|length > 0 %}
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<h2>PRODUCCIÓN</h2>
-								</div>
-								<div class="panel-body">
-									{% for chunk in menuReportes['produccion'] %}
-										<div class="row">
-											{% for item in chunk %}
-												<div class="col-md-3">
-													<a href="{{ item.link }}">
-														{# <div class="widget style1 navy-bg"> #}
-														<div class="widget style1 widget-banco">
-															<div class="row">
-																<div class="col-xs-3">
-																	<i class="{{ item.icon }} fa-3x"></i>
-																</div>
-																<div class="col-xs-8 text-right">
-																	<h3 class="font-bold">{{ item.label }}</h3>
-																	<span style="font-size: 10px;"> {{ item.description }} </span>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-											{% endfor %}
-										</div>
-									{% endfor %}
-								</div>
-							</div>
-						{% endif %}
-
-						{% if menuReportes['ventas']|length > 0 %}
-							<div class="panel panel-info">
-								<div class="panel-heading">
-									<h2>VENTAS</h2>
-								</div>
-								<div class="panel-body">
-									{% for chunk in menuReportes['ventas'] %}
-										<div class="row">
-											{% for item in chunk %}
-												<div class="col-md-3">
-													<a href="{{ item.link }}">
-														{# <div class="widget style1 navy-bg"> #}
-														<div class="widget style1 widget-banco">
-															<div class="row">
-																<div class="col-xs-3">
-																	<i class="{{ item.icon }} fa-3x"></i>
-																</div>
-																<div class="col-xs-8 text-right">
-																	<h3 class="font-bold">{{ item.label }}</h3>
-																	<span style="font-size: 10px;"> {{ item.description }} </span>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-											{% endfor %}
-										</div>
-									{% endfor %}
-								</div>
-							</div>
-						{% endif %}
+						{% endfor %}
 					</div>
 				</div>
 			</div>
-		</div>
+		{% endif %}
 	</div>
 
 	<script type="text/javascript">

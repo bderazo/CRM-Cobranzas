@@ -547,6 +547,7 @@ class ProductoApi extends BaseController {
 			$con->cliente_id = $producto->cliente_id;
 			$con->producto_id = $producto->id;
 			$con->paleta_id = $institucion['paleta_id'];
+			$con->canal = 'campo';
 			if(isset($data['nivel1'])) {
 				$con->nivel_1_id = $data['nivel1'];
 			}

@@ -1,0 +1,187 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosProduccionPlaza.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+				<a class="btn btn-default-light" id="btnExportarDetalle">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<table class="table border table-striped table-bordered table-sm mb-0">
+					<thead>
+					<tr>
+						<th>ZONA</th>
+						<th>EJECUTIVO</th>
+						<th>CANAL</th>
+						<th>DINERS</th>
+						<th>VISA</th>
+						<th>DISCOVER</th>
+						<th>MASTERCARD</th>
+						<th>TOTAL GENERAL</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="d in datos">
+						<template
+								v-if="d.plaza == 'TOTAL AMBATO' || d.plaza == 'TOTAL CUENCA' || d.plaza == 'TOTAL GUAYAQUIL' || d.plaza == 'TOTAL MACHALA' || d.plaza == 'TOTAL MANABI' || d.plaza == 'TOTAL QUITO'">
+							<td style="font-weight: bold;" v-html="d.plaza"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="d.ejecutivo"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="d.canal"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="d.diners"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="d.interdin"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="d.discover"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="d.mastercard"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="d.total_general"></td>
+						</template>
+						<template v-else>
+							<td v-html="d.plaza"></td>
+							<td v-html="d.ejecutivo"></td>
+							<td v-html="d.canal"></td>
+							<td style="text-align: center;" v-html="d.diners"></td>
+							<td style="text-align: center;" v-html="d.interdin"></td>
+							<td style="text-align: center;" v-html="d.discover"></td>
+							<td style="text-align: center;" v-html="d.mastercard"></td>
+							<td style="text-align: center;" v-html="d.total_general"></td>
+						</template>
+					</tr>
+					</tbody>
+					<tfoot>
+					<tr>
+						<td style="font-weight: bold;">TOTAL</td>
+						<td></td>
+						<td></td>
+						<td style="font-weight: bold; text-align: center;" v-html="total.total_diners"></td>
+						<td style="font-weight: bold; text-align: center;" v-html="total.total_interdin"></td>
+						<td style="font-weight: bold; text-align: center;" v-html="total.total_discover"></td>
+						<td style="font-weight: bold; text-align: center;" v-html="total.total_mastercard"></td>
+						<td style="font-weight: bold; text-align: center;" v-html="total.total_general"></td>
+					</tr>
+					</tfoot>
+				</table>
+
+				<br/>
+
+				<h2>RECUPERO AL REFINANCIAR</h2>
+				<a class="btn btn-default-light" id="btnExportarDetalle">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<table class="table border table-striped table-bordered table-sm mb-0">
+					<thead>
+					<tr>
+						<th>ZONA</th>
+						<th>MARCA</th>
+						<th>CUENTAS</th>
+						<th>ACTUALES</th>
+						<th>D30</th>
+						<th>D60</th>
+						<th>D90</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="d in datos_recupero">
+						<td v-html="d.zona"></td>
+						<td v-html="d.marca"></td>
+						<td style="text-align: center;" v-html="d.cuentas"></td>
+						<td style="text-align: right;" v-html="d.actuales"></td>
+						<td style="text-align: right;" v-html="d.d30"></td>
+						<td style="text-align: right;" v-html="d.d60"></td>
+						<td style="text-align: right;" v-html="d.d90"></td>
+					</tr>
+					<tfoot>
+					<tr>
+						<td style="font-weight: bold;">TOTAL</td>
+						<td></td>
+						<td style="font-weight: bold; text-align: center;" v-html="total_recupero.total_cuentas"></td>
+						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_actuales"></td>
+						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d30"></td>
+						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d60"></td>
+						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d90"></td>
+					</tr>
+					</tfoot>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	<form id="exportDetalleForm" method="POST" action="{{ root }}/reportes/exportDetalleInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+                datos_recupero: [],
+                total_recupero: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/produccionPlaza', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        self.datos_recupero = res['data_recupero'];
+                        self.total_recupero = res['total_recupero'];
+                        console.log(res);
+                    })
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportForm').submit();
+                });
+
+                $('#btnExportarDetalle').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportDetalleForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        self.consultar();
+                    });
+                    self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}
