@@ -28,7 +28,7 @@ class ProduccionPlaza {
 		$db = new \FluentPDO($this->pdo);
 
 		//BUSCAR USUARIOS CON ROL DE GESTOR
-		$usuarios_gestores = Usuario::getUsuariosGestores();
+		$usuarios_gestores = Usuario::getUsuariosGestoresDiners();
 
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
@@ -41,6 +41,7 @@ class ProduccionPlaza {
 							 addet.saldo_30_facturado_despues_abono, addet.saldo_60_facturado_despues_abono,
 							 addet.saldo_90_facturado_despues_abono')
 			->where('ps.nivel_1_id',7)
+			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
 			$q->where('u.plaza',$filtros['plaza_usuario']);
@@ -484,6 +485,7 @@ class ProduccionPlaza {
 							 addet.saldo_30_facturado_despues_abono, addet.saldo_60_facturado_despues_abono,
 							 addet.saldo_90_facturado_despues_abono')
 			->where('ps.nivel_1_id',7)
+			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
 			$q->where('u.plaza',$filtros['plaza_usuario']);

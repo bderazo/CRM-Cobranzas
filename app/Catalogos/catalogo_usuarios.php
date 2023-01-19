@@ -2,7 +2,7 @@
 return [
 	'canal' => [
 		'TELEFONIA' => 'TELEFONIA',
-		'TERRENO' => 'TERRENO',
+		'CAMPO' => 'CAMPO',
 	],
 	'campana' => [
 		'CAMPO' => 'CAMPO',

@@ -237,16 +237,19 @@ class Usuario extends Model {
 		return $lista;
 	}
 
-	static function getUsuariosGestores() {
+	static function getUsuariosGestoresDiners() {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 		$q=$db->from('usuario u')
 			->innerJoin('usuario_perfil up ON u.id = up.usuario_id')
 			->innerJoin('perfil p ON p.id = up.perfil_id')
+			->innerJoin('usuario_institucion ui ON u.id = ui.usuario_id')
+			->innerJoin('institucion i ON i.id = ui.institucion_id')
 			->select(null)
 			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombres")
 			->where('u.activo',1)
 			->where('p.id',15)
+			->where('i.id',1)
 			->orderBy('u.apellidos');
 		$lista = $q->fetchAll();
 		if (!$lista) return [];

@@ -273,7 +273,7 @@ class ProductoController extends BaseController
 			$con->cliente_id = $producto['cliente_id'];
 			$con->producto_id = $producto['id'];
 			$con->paleta_id = $institucion['paleta_id'];
-			$con->canal = 'telefonia';
+			$con->canal = 'TELEFONIA';
 			$con->usuario_ingreso = \WebSecurity::getUserData('id');
 			$con->eliminado = 0;
 			$con->fecha_ingreso = date("Y-m-d H:i:s");
