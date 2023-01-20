@@ -14,6 +14,7 @@ use Reportes\CorteBobinado\InventarioProductoTerminado;
 use Reportes\CorteBobinado\ProduccionDiariaCB;
 use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\CampoTelefonia;
+use Reportes\Diners\InformeJornada;
 use Reportes\Diners\ProduccionPlaza;
 use Reportes\Export\ExcelDatasetExport;
 use Reportes\Extrusion\InventarioPerchaConforme;
@@ -166,6 +167,21 @@ class ReportesController extends BaseController {
 		$data = $this->paramsBasico();
 		$data['titulo'] = $titulo;
 		return $this->render('campoTelefonia', $data);
+	}
+
+	//INFORMES DE JORNADA
+	function informeJornada() {
+		\WebSecurity::secure('reportes.informe_jornada');
+		if ($this->isPost()) {
+			$rep = new InformeJornada($this->get('pdo'));
+			$data = $rep->calcular($this->request->getParsedBody());
+			return $this->json($data);
+		}
+		$titulo = 'Informes de Jornada';
+		\Breadcrumbs::active($titulo);
+		$data = $this->paramsBasico();
+		$data['titulo'] = $titulo;
+		return $this->render('informeJornada', $data);
 	}
 
 	

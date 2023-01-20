@@ -237,7 +237,7 @@ class Usuario extends Model {
 		return $lista;
 	}
 
-	static function getUsuariosGestoresDiners() {
+	static function getUsuariosGestoresDiners($plaza = '') {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 		$q=$db->from('usuario u')
@@ -249,8 +249,11 @@ class Usuario extends Model {
 			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombres")
 			->where('u.activo',1)
 			->where('p.id',15)
-			->where('i.id',1)
-			->orderBy('u.apellidos');
+			->where('i.id',1);
+		if($plaza != ''){
+			$q->where('u.plaza',$plaza);
+		}
+		$q->orderBy('u.apellidos');
 		$lista = $q->fetchAll();
 		if (!$lista) return [];
 		return $lista;

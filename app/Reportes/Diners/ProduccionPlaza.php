@@ -27,7 +27,7 @@ class ProduccionPlaza {
 	function consultaBase($filtros) {
 		$db = new \FluentPDO($this->pdo);
 
-		//BUSCAR USUARIOS CON ROL DE GESTOR
+		//BUSCAR USUARIOS DINERS CON ROL DE GESTOR
 		$usuarios_gestores = Usuario::getUsuariosGestoresDiners();
 
 		//BUSCAR SEGUIMIENTOS
