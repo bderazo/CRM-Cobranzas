@@ -73,7 +73,6 @@
 				<table class="table border table-striped table-bordered table-sm mb-0">
 					<thead>
 					<tr>
-						<th>ZONA</th>
 						<th>MARCA</th>
 						<th>CUENTAS</th>
 						<th>ACTUALES</th>
@@ -84,7 +83,6 @@
 					</thead>
 					<tbody>
 					<tr v-for="d in datos_recupero">
-						<td v-html="d.zona"></td>
 						<td v-html="d.marca"></td>
 						<td style="text-align: center;" v-html="d.cuentas"></td>
 						<td style="text-align: right;" v-html="d.actuales"></td>
@@ -94,8 +92,7 @@
 					</tr>
 					<tfoot>
 					<tr>
-						<td style="font-weight: bold;">TOTAL</td>
-						<td></td>
+						<td style="font-weight: bold;">TOTAL GENERAL</td>
 						<td style="font-weight: bold; text-align: center;" v-html="total_recupero.total_cuentas"></td>
 						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_actuales"></td>
 						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d30"></td>

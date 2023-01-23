@@ -1,0 +1,171 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosNegociacionesEjecutivo.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+				<a class="btn btn-default-light" id="btnExportarDetalle">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr>
+							<th>PLAZA</th>
+							<th>EJECUTIVO</th>
+							<th>CUENTAS</th>
+							<th>ASIGNACION DEL DIA</th>
+							<th>PRODUCTIVIDAD</th>
+							<th>OBSERVACIONES</th>
+							<th>CONTACTADAS</th>
+							<th>EFECTIVIDAD</th>
+							<th>% CONTAC</th>
+							<th>% EFECTIV</th>
+							<th>NEGOCIACIONES</th>
+							<th>% PRODUCCION</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td v-html="d.plaza"></td>
+							<td v-html="d.gestor"></td>
+							<td style="text-align: center;" v-html="d.cuentas"></td>
+							<td style="text-align: center;">
+								<input type="text" class="form-control" v-on:keyup="calcular" v-model="d.asignacion"
+								       placeholder="ASIGNACION DEL DIA" v-autoname/>
+							</td>
+							<td style="text-align: center;" v-html="d.porcentaje_productividad"></td>
+							<td style="text-align: center;">
+								<textarea rows="3" v-model="d.observaciones" class="form-control form-control-sm"
+								          placeholder="OBSERVACIONES" v-autoname></textarea>
+							</td>
+							<td style="text-align: center;" v-html="d.contactadas"></td>
+							<td style="text-align: center;" v-html="d.efectividad"></td>
+							<td style="text-align: center;" v-html="d.porcentaje_contactado"></td>
+							<td style="text-align: center;" v-html="d.porcentaje_efectividad"></td>
+							<td style="text-align: center;" v-html="d.negociaciones"></td>
+							<td style="text-align: center;" v-html="d.porcentaje_produccion"></td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td style="font-weight: bold;">TOTAL</td>
+							<td></td>
+							<td style="font-weight: bold; text-align: center;" v-html="total.total_cuentas"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="total.total_asignacion"></td>
+							<td style="font-weight: bold; text-align: center;"
+							    v-html="total.total_porcentaje_productividad"></td>
+							<td style="font-weight: bold; text-align: center;"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="total.total_contactadas"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="total.total_efectividad"></td>
+							<td style="font-weight: bold; text-align: center;"
+							    v-html="total.total_porcentaje_cantactado"></td>
+							<td style="font-weight: bold; text-align: center;"
+							    v-html="total.total_porcentaje_efectividad"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="total.total_negociaciones"></td>
+							<td style="font-weight: bold; text-align: center;"
+							    v-html="total.total_porcentaje_produccion"></td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	<form id="exportDetalleForm" method="POST" action="{{ root }}/reportes/exportDetalleInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/informeJornada', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        console.log(res);
+                    })
+                },
+
+                calcular: function () {
+                    var self = this;
+                    var total_asignacion = 0;
+                    $.each(self.datos, function (key, value) {
+                        var porcentaje_productividad = 0.00;
+                        if(parseFloat(value.asignacion) > 0){
+                            porcentaje_productividad = (parseFloat(value.cuentas) / parseFloat(value.asignacion)) * 100;
+                        }
+                        self.datos[key].porcentaje_productividad = porcentaje_productividad.toFixed(2);
+                        total_asignacion = total_asignacion + parseFloat(value.asignacion);
+                    });
+                    self.total.total_asignacion = total_asignacion;
+                    var total_porcentaje_productividad = 0;
+                    if(total_asignacion > 0){
+                        total_porcentaje_productividad = (parseFloat(self.total.total_cuentas) / total_asignacion) * 100;
+                    }
+                    self.total.total_porcentaje_productividad = total_porcentaje_productividad.toFixed(2);
+                    // app.$forceUpdate();
+                },
+
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportForm').submit();
+                });
+
+                $('#btnExportarDetalle').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportDetalleForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        self.consultar();
+                    });
+                    self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}

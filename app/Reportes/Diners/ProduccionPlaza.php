@@ -200,280 +200,6 @@ class ProduccionPlaza {
 			'total_general' => $total_general,
 		];
 
-
-		$recupero = [
-			'AMBATO' => [
-				'DINERS' => [
-					'zona' => 'AMBATO',
-					'marca' => 'DINERS',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'INTERDIN' => [
-					'zona' => 'AMBATO',
-					'marca' => 'INTERDIN',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'DISCOVER' => [
-					'zona' => 'AMBATO',
-					'marca' => 'DISCOVER',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'MASTERCARD' => [
-					'zona' => 'AMBATO',
-					'marca' => 'MASTERCARD',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-			],
-			'CUENCA' => [
-				'DINERS' => [
-					'zona' => 'CUENCA',
-					'marca' => 'DINERS',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'INTERDIN' => [
-					'zona' => 'CUENCA',
-					'marca' => 'INTERDIN',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'DISCOVER' => [
-					'zona' => 'CUENCA',
-					'marca' => 'DISCOVER',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'MASTERCARD' => [
-					'zona' => 'CUENCA',
-					'marca' => 'MASTERCARD',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-			],
-			'GUAYAQUIL' => [
-				'DINERS' => [
-					'zona' => 'GUAYAQUIL',
-					'marca' => 'DINERS',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'INTERDIN' => [
-					'zona' => 'GUAYAQUIL',
-					'marca' => 'INTERDIN',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'DISCOVER' => [
-					'zona' => 'GUAYAQUIL',
-					'marca' => 'DISCOVER',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'MASTERCARD' => [
-					'zona' => 'GUAYAQUIL',
-					'marca' => 'MASTERCARD',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-			],
-			'MACHALA' => [
-				'DINERS' => [
-					'zona' => 'MACHALA',
-					'marca' => 'DINERS',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'INTERDIN' => [
-					'zona' => 'MACHALA',
-					'marca' => 'INTERDIN',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'DISCOVER' => [
-					'zona' => 'MACHALA',
-					'marca' => 'DISCOVER',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'MASTERCARD' => [
-					'zona' => 'MACHALA',
-					'marca' => 'MASTERCARD',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-			],
-			'MANABI' => [
-				'DINERS' => [
-					'zona' => 'MANABI',
-					'marca' => 'DINERS',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'INTERDIN' => [
-					'zona' => 'MANABI',
-					'marca' => 'INTERDIN',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'DISCOVER' => [
-					'zona' => 'MANABI',
-					'marca' => 'DISCOVER',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'MASTERCARD' => [
-					'zona' => 'MANABI',
-					'marca' => 'MASTERCARD',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-			],
-			'QUITO' => [
-				'DINERS' => [
-					'zona' => 'QUITO',
-					'marca' => 'DINERS',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'INTERDIN' => [
-					'zona' => 'QUITO',
-					'marca' => 'INTERDIN',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'DISCOVER' => [
-					'zona' => 'QUITO',
-					'marca' => 'DISCOVER',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-				'MASTERCARD' => [
-					'zona' => 'QUITO',
-					'marca' => 'MASTERCARD',
-					'cuentas' => 0,
-					'actuales' => 0,
-					'd30' => 0,
-					'd60' => 0,
-					'd90' => 0,
-				],
-			],
-		];
-		if (@$filtros['plaza_usuario']){
-			$recupero = [
-				$filtros['plaza_usuario'] => [
-					'DINERS' => [
-						'zona' => $filtros['plaza_usuario'],
-						'marca' => 'DINERS',
-						'cuentas' => 0,
-						'actuales' => 0,
-						'd30' => 0,
-						'd60' => 0,
-						'd90' => 0,
-					],
-					'INTERDIN' => [
-						'zona' => $filtros['plaza_usuario'],
-						'marca' => 'INTERDIN',
-						'cuentas' => 0,
-						'actuales' => 0,
-						'd30' => 0,
-						'd60' => 0,
-						'd90' => 0,
-					],
-					'DISCOVER' => [
-						'zona' => $filtros['plaza_usuario'],
-						'marca' => 'DISCOVER',
-						'cuentas' => 0,
-						'actuales' => 0,
-						'd30' => 0,
-						'd60' => 0,
-						'd90' => 0,
-					],
-					'MASTERCARD' => [
-						'zona' => $filtros['plaza_usuario'],
-						'marca' => 'MASTERCARD',
-						'cuentas' => 0,
-						'actuales' => 0,
-						'd30' => 0,
-						'd60' => 0,
-						'd90' => 0,
-					],
-				],
-			];
-		}
-
 		//BUSCAR RECUPERO AL REFINANCIAR
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
@@ -481,9 +207,11 @@ class ProduccionPlaza {
 			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'procesado'")
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
-			->select('ps.*, u.id AS id_usuario, u.plaza, addet.nombre_tarjeta, addet.saldo_actual_facturado_despues_abono,
-							 addet.saldo_30_facturado_despues_abono, addet.saldo_60_facturado_despues_abono,
-							 addet.saldo_90_facturado_despues_abono')
+			->select('addet.nombre_tarjeta, addet.ciclo, COUNT(ps.id) AS cuentas, 
+							 SUM(addet.saldo_actual_facturado_despues_abono) AS actuales,
+							 SUM(addet.saldo_30_facturado_despues_abono) AS d30, 
+							 SUM(addet.saldo_60_facturado_despues_abono) AS d60,
+							 SUM(addet.saldo_90_facturado_despues_abono) AS d90, u.plaza, u.id')
 			->where('ps.nivel_1_id',7)
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
@@ -514,38 +242,56 @@ class ProduccionPlaza {
 			$fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
 			$q->where('ps.fecha_ingreso <= "'.$fecha.'"');
 		}
+		$q->orderBy('addet.nombre_tarjeta, addet.ciclo');
+		$q->groupBy('addet.nombre_tarjeta, addet.ciclo');
 		$lista = $q->fetchAll();
 		$total_cuentas = 0;
 		$total_actuales = 0;
 		$total_d30 = 0;
 		$total_d60 = 0;
 		$total_d90 = 0;
+		$data_grupo_tarjeta = [];
+//		printDie($lista);
 		foreach($lista as $l){
-			if(isset($recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']])) {
-				$recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['cuentas']++;
-				$recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['actuales'] = $recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['actuales'] + $l['saldo_actual_facturado_despues_abono'];
-				$recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['d30'] = $recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['d30'] + $l['saldo_30_facturado_despues_abono'];
-				$recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['d60'] = $recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['d60'] + $l['saldo_60_facturado_despues_abono'];
-				$recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['d90'] = $recupero[strtoupper($l['plaza'])][$l['nombre_tarjeta']]['d90'] + $l['saldo_90_facturado_despues_abono'];
+			$data_grupo_tarjeta[$l['nombre_tarjeta']][] = $l;
+			$total_cuentas = $total_cuentas + $l['cuentas'];
+			$total_actuales = $total_actuales + $l['actuales'];
+			$total_d30 = $total_d30 + $l['d30'];
+			$total_d60 = $total_d60 + $l['d60'];
+			$total_d90 = $total_d90 + $l['d90'];
+		}
 
-				$total_cuentas++;
-				$total_actuales = $total_actuales + $l['saldo_actual_facturado_despues_abono'];
-				$total_d30 = $total_d30 + $l['saldo_30_facturado_despues_abono'];
-				$total_d60 = $total_d60 + $l['saldo_60_facturado_despues_abono'];
-				$total_d90 = $total_d90 + $l['saldo_90_facturado_despues_abono'];
-			}
-		}
-		//ORDENAR ARRAY PARA IMPRIMIR
+		//TOTALES POR TARJETA
 		$data_recupero = [];
-		foreach($recupero as $k => $v){
-			foreach($v as $val){
-				$val['actuales'] = number_format($val['actuales'],2,',','.');
-				$val['d30'] = number_format($val['d30'],2,',','.');
-				$val['d60'] = number_format($val['d60'],2,',','.');
-				$val['d90'] = number_format($val['d90'],2,',','.');
-				$data_recupero[] = $val;
+		foreach($data_grupo_tarjeta as $key => $val){
+			$total_cuentas_tarjeta = 0;
+			$total_actuales_tarjeta = 0;
+			$total_d30_tarjeta = 0;
+			$total_d60_tarjeta = 0;
+			$total_d90_tarjeta = 0;
+			foreach($val as $v){
+				$total_cuentas_tarjeta = $total_cuentas_tarjeta + $v['cuentas'];
+				$total_actuales_tarjeta = $total_actuales_tarjeta + $v['actuales'];
+				$total_d30_tarjeta = $total_d30_tarjeta + $v['d30'];
+				$total_d60_tarjeta = $total_d60_tarjeta + $v['d60'];
+				$total_d90_tarjeta = $total_d90_tarjeta + $v['d90'];
+				$v['marca'] = $v['ciclo'];
+				$v['actuales'] = number_format($v['actuales'],2,'.',',');
+				$v['d30'] = number_format($v['d30'],2,'.',',');
+				$v['d60'] = number_format($v['d60'],2,'.',',');
+				$v['d90'] = number_format($v['d90'],2,'.',',');
+				$data_recupero[] = $v;
 			}
+			$data_recupero[] = [
+				'marca' => $key,
+				'cuentas' => $total_cuentas_tarjeta,
+				'actuales' => number_format($total_actuales_tarjeta,2,'.',','),
+				'd30' => number_format($total_d30_tarjeta,2,'.',','),
+				'd60' => number_format($total_d60_tarjeta,2,'.',','),
+				'd90' => number_format($total_d90_tarjeta,2,'.',','),
+			];
 		}
+
 //		printDie($data_recupero);
 
 		$retorno['data_recupero'] = $data_recupero;
