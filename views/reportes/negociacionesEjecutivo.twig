@@ -15,62 +15,60 @@
 					<table class="table border table-striped table-bordered table-sm mb-0">
 						<thead>
 						<tr>
-							<th>PLAZA</th>
-							<th>EJECUTIVO</th>
-							<th>CUENTAS</th>
-							<th>ASIGNACION DEL DIA</th>
-							<th>PRODUCTIVIDAD</th>
-							<th>OBSERVACIONES</th>
-							<th>CONTACTADAS</th>
-							<th>EFECTIVIDAD</th>
-							<th>% CONTAC</th>
-							<th>% EFECTIV</th>
-							<th>NEGOCIACIONES</th>
-							<th>% PRODUCCION</th>
+							<th>MARCACEDULA</th>
+							<th>FECHA</th>
+							<th>MARCA</th>
+							<th>CORTE</th>
+							<th>CAMPAÑA</th>
+							<th>CEDULA</th>
+							<th>NOMBRE</th>
+							<th>PLAZO</th>
+							<th>TIPO DE PROCESO</th>
+							<th>GESTOR</th>
+							<th>ZONA</th>
+							<th>ACTUALES_ORIG</th>
+							<th>D30_ORIG</th>
+							<th>D60_ORIG</th>
+							<th>D90_ORIG</th>
+							<th>DMAS90_ORIG</th>
+							<th>TOTAL</th>
+							<th>ESTADO</th>
+							<th>VERIFICACION</th>
+							<th>AREA</th>
+							<th>TIPO DE RECUPERO</th>
 						</tr>
 						</thead>
 						<tbody>
 						<tr v-for="d in datos">
-							<td v-html="d.plaza"></td>
+							<td v-html="d.marca_cedula"></td>
+							<td v-html="d.fecha"></td>
+							<td v-html="d.nombre_tarjeta"></td>
+							<td v-html="d.corte"></td>
+							<td v-html="d.campana"></td>
+							<td v-html="d.cedula"></td>
+							<td v-html="d.nombres"></td>
+							<td v-html="d.plazo_financiamiento"></td>
+							<td v-html="d.tipo_proceso"></td>
 							<td v-html="d.gestor"></td>
-							<td style="text-align: center;" v-html="d.cuentas"></td>
+							<td v-html="d.zona"></td>
+							<td style="text-align: right;" v-html="d.actuales_orig"></td>
+							<td style="text-align: right;" v-html="d.d30_orig"></td>
+							<td style="text-align: right;" v-html="d.d60_orig"></td>
+							<td style="text-align: right;" v-html="d.d90_orig"></td>
+							<td style="text-align: right;" v-html="d.dmas90_orig"></td>
+							<td style="text-align: right;" v-html="d.total"></td>
 							<td style="text-align: center;">
-								<input type="text" class="form-control" v-on:keyup="calcular" v-model="d.asignacion"
-								       placeholder="ASIGNACION DEL DIA" v-autoname/>
+								<input type="text" class="form-control" v-model="d.estado" style="width: 120px;" v-autoname/>
 							</td>
-							<td style="text-align: center;" v-html="d.porcentaje_productividad"></td>
 							<td style="text-align: center;">
-								<textarea rows="3" v-model="d.observaciones" class="form-control form-control-sm"
-								          placeholder="OBSERVACIONES" v-autoname></textarea>
+								<input type="text" class="form-control" v-model="d.verificacion" style="width: 120px;" v-autoname/>
 							</td>
-							<td style="text-align: center;" v-html="d.contactadas"></td>
-							<td style="text-align: center;" v-html="d.efectividad"></td>
-							<td style="text-align: center;" v-html="d.porcentaje_contactado"></td>
-							<td style="text-align: center;" v-html="d.porcentaje_efectividad"></td>
-							<td style="text-align: center;" v-html="d.negociaciones"></td>
-							<td style="text-align: center;" v-html="d.porcentaje_produccion"></td>
+							<td v-html="d.area_usuario"></td>
+							<td style="text-align: center;">
+								<input type="text" class="form-control" v-model="d.tipo_recuperacion" style="width: 120px;" v-autoname/>
+							</td>
 						</tr>
 						</tbody>
-						<tfoot>
-						<tr>
-							<td style="font-weight: bold;">TOTAL</td>
-							<td></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_cuentas"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_asignacion"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_productividad"></td>
-							<td style="font-weight: bold; text-align: center;"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_contactadas"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_efectividad"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_cantactado"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_efectividad"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_negociaciones"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_produccion"></td>
-						</tr>
-						</tfoot>
 					</table>
 				</div>
 			</div>
@@ -107,7 +105,7 @@
                     var self = this;
                     var data = form.serializeArray();
                     toggleLoader();
-                    $.post('{{ root }}/reportes/informeJornada', data, function (res) {
+                    $.post('{{ root }}/reportes/negociacionesEjecutivo', data, function (res) {
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];

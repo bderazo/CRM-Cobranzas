@@ -60,7 +60,7 @@ class AplicativoDinersSaldos extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
-			$retorno[] = $l;
+			$retorno[$l['cliente_id']] = $l;
 		}
 		return $retorno;
 	}
