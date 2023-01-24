@@ -16,8 +16,9 @@ return [
 
 	['text' => 'Carga de Archivos', 'link' => '#', 'roles' => 'cargar_archivos', 'icon' => 'side-menu__icon fa fa-file-excel-o', 'children' => [
 		['text' => 'Aplicativo Diners', 'link' => '/cargarArchivo/aplicativoDiners', 'roles' => 'cargar_archivos.aplicativo_diners', 'icon' => 'fas fa-truck-moving warm-gray'],
-		['text' => 'Asignaciones Diners', 'link' => '/cargarArchivo/asignacionesDiners', 'roles' => 'cargar_archivos.asignaciones_diners', 'icon' => 'fas fa-undo warm-gray'],
 		['text' => 'Saldos Diners', 'link' => '/cargarArchivo/saldosDiners', 'roles' => 'cargar_archivos.saldos_diners', 'icon' => 'fas fa-undo warm-gray'],
+		['text' => 'Asignaciones Diners Megacob', 'link' => '/cargarArchivo/asignacionesDiners', 'roles' => 'cargar_archivos.asignaciones_diners', 'icon' => 'fas fa-undo warm-gray'],
+		['text' => 'Asignaciones Diners Gestor', 'link' => '/cargarArchivo/asignacionesGestorDiners', 'roles' => 'cargar_archivos.asignaciones_gestor_diners', 'icon' => 'fas fa-undo warm-gray'],
 	]],
 
 	['text' => 'Reportes', 'link' => '/reportes', 'roles' => 'reportes', 'icon' => 'side-menu__icon glyphicon glyphicon-print'],

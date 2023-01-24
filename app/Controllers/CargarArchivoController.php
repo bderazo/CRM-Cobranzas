@@ -4,6 +4,7 @@ namespace Controllers;
 
 use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
+use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
 use CargaArchivos\CargadorSaldosDinersExcel;
 use Catalogos\CatalogoCliente;
 use General\GeneralHelper;
@@ -112,7 +113,7 @@ class CargarArchivoController extends BaseController {
 
 	function asignacionesDiners() {
 		\WebSecurity::secure('cargar_archivos.asignaciones_diners');
-		\Breadcrumbs::active('Asignaciones Diners');
+		\Breadcrumbs::active('Asignaciones Diners Megacob');
 
 		$catalogos = [
 			'ciudades' => Catalogo::ciudades(),
@@ -144,6 +145,47 @@ class CargarArchivoController extends BaseController {
 			'observaciones' => @$post['observaciones'],
 		];
 		$cargador = new CargadorAsignacionesDinersExcel($this->get('pdo'));
+		$rep = $cargador->cargar($archivo->file, $fileInfo);
+		$data['reporte'] = $rep;
+		if ($rep['errorSistema'])
+			$data['errorGeneral'] = $rep['errorSistema'];
+		return $this->render('reporte', $data);
+	}
+
+	function asignacionesGestorDiners() {
+		\WebSecurity::secure('cargar_archivos.asignaciones_gestor_diners');
+		\Breadcrumbs::active('Asignaciones Diners Gestor');
+
+		$catalogos = [
+			'ciudades' => Catalogo::ciudades(),
+		];
+
+		$carga_archivo = new ViewCargaArchivo();
+		$carga_archivo->total_registros = 0;
+		$carga_archivo->total_errores = 0;
+
+		$data['carga_archivo'] = json_encode($carga_archivo);
+		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+		return $this->render('asignacionesGestorDiners', $data);
+	}
+
+	function cargarAsignacionesGestorDiners() {
+		$post = $this->request->getParsedBody();
+		// try catch, etc.
+		$files = $this->request->getUploadedFiles();
+		if (empty($files['archivo'])) {
+			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+		}
+		/** @var UploadedFile $archivo */
+		$archivo = $files['archivo'];
+		// mas checks que sea xlsx, etc, tamaño, etc.
+		$fileInfo = [
+			'size' => $archivo->getSize(),
+			'name' => $archivo->getClientFilename(),
+			'mime' => $archivo->getClientMediaType(),
+			'observaciones' => @$post['observaciones'],
+		];
+		$cargador = new CargadorAsignacionesGestorDinersExcel($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);
 		$data['reporte'] = $rep;
 		if ($rep['errorSistema'])

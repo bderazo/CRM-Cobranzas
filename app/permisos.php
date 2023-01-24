@@ -68,8 +68,9 @@ return [
 		'text' => 'Cargar Archivos',
 		'children' => [
 			'aplicativo_diners' => 'Permitir la carga de archivos de aplicativo Diners',
-			'asignaciones_diners' => 'Permitir la carga de archivos de asignaciones Diners',
 			'saldos_diners' => 'Permitir la carga de archivos de saldos Diners',
+			'asignaciones_diners' => 'Permitir la carga de archivos de asignaciones Diners a Megacob',
+			'asignaciones_gestor_diners' => 'Permitir la carga de archivos de asignaciones Dinersa Gestores',
 		],
 		'mensaje' => 'Operaciones posibles para productos'
 	],

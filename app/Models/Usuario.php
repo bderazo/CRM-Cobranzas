@@ -258,6 +258,22 @@ class Usuario extends Model {
 		if (!$lista) return [];
 		return $lista;
 	}
+
+	static function getTodos() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('usuario u')
+			->select(null)
+			->select('u.*')
+			->where('u.activo',1);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['username']] = $l;
+		}
+		return $retorno;
+	}
 }
 
 
