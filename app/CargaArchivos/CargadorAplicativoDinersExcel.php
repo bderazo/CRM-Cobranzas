@@ -126,7 +126,7 @@ class CargadorAplicativoDinersExcel
 				$direccion_id = 0;
 				if(isset($direccion_todos[$cliente_id])) {
 					foreach($direccion_todos[$cliente_id] as $dir) {
-						$existe_direccion = array_search($values[3], $dir);
+						$existe_direccion = array_search(trim($values[3]), $dir);
 						if($existe_direccion) {
 							$direccion_id = $dir['id'];
 							break;
@@ -138,7 +138,7 @@ class CargadorAplicativoDinersExcel
 					$direccion->tipo = 'DOMICILIO';
 					$direccion->origen = 'DINERS';
 					$direccion->ciudad = $values[10];
-					$direccion->direccion = $values[3];
+					$direccion->direccion = trim($values[3]);
 					$direccion->modulo_id = $cliente_id;
 					$direccion->modulo_relacionado = 'cliente';
 					$direccion->fecha_ingreso = date("Y-m-d H:i:s");
@@ -345,7 +345,7 @@ class CargadorAplicativoDinersExcel
 					$aplicativo_diners->fecha_elaboracion = date("Y-m-d H:i:s");
 					$aplicativo_diners->cedula_socio = $cliente_cedula;
 					$aplicativo_diners->nombre_socio = $values[1];
-					$aplicativo_diners->direccion = $values[3];
+					$aplicativo_diners->direccion = trim($values[3]);
 					$aplicativo_diners->mail_contacto = $values[12];
 					$aplicativo_diners->ciudad_cuenta = $values[10];
 					$aplicativo_diners->zona_cuenta = $values[11];
@@ -365,7 +365,7 @@ class CargadorAplicativoDinersExcel
 						'fecha_elaboracion' => date("Y-m-d H:i:s"),
 						'cedula_socio' => $cliente_cedula,
 						'nombre_socio' => $values[1],
-						'direccion' => $values[3],
+						'direccion' => trim($values[3]),
 						'mail_contacto' => $values[12],
 						'ciudad_cuenta' => $values[10],
 						'zona_cuenta' => $values[11],

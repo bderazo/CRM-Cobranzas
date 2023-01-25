@@ -68,6 +68,9 @@ class CargadorSaldosDinersExcel
 
 			$db = new \FluentPDO($pdo);
 			$clientes_todos = Cliente::getTodos();
+			$telefonos_todos = Telefono::getTodos();
+			$direccion_todos = Direccion::getTodos();
+			$email_todos = Email::getTodos();
 			$saldos_todos = AplicativoDinersSaldos::getTodos();
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1)) {
@@ -128,7 +131,7 @@ class CargadorSaldosDinersExcel
 				$direccion_id = 0;
 				if(isset($direccion_todos[$cliente_id])) {
 					foreach($direccion_todos[$cliente_id] as $dir) {
-						$existe_direccion = array_search($values[8], $dir);
+						$existe_direccion = array_search(trim($values[8]), $dir);
 						if($existe_direccion) {
 							$direccion_id = $dir['id'];
 							break;
@@ -140,7 +143,7 @@ class CargadorSaldosDinersExcel
 					$direccion->tipo = 'DOMICILIO';
 					$direccion->origen = 'DINERS';
 					$direccion->ciudad = $values[9];
-					$direccion->direccion = $values[8];
+					$direccion->direccion = trim($values[8]);
 					$direccion->modulo_id = $cliente_id;
 					$direccion->modulo_relacionado = 'cliente';
 					$direccion->fecha_ingreso = date("Y-m-d H:i:s");
