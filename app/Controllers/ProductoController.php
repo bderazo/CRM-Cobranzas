@@ -107,6 +107,7 @@ class ProductoController extends BaseController
 		$model = Producto::porId($id);
 		\Breadcrumbs::active('Registrar Seguimiento');
 		$telefono = Telefono::porModulo('cliente', $model->cliente_id);
+		$email = Email::porModulo('cliente', $model->cliente_id);
 		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
 		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
@@ -250,6 +251,7 @@ class ProductoController extends BaseController
 		$data['direccion'] = json_encode($direccion);
 		$data['referencia'] = json_encode($referencia);
 		$data['telefono'] = json_encode($telefono);
+		$data['email'] = json_encode($email);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		$data['model'] = json_encode($model);
 		$data['modelArr'] = $model;

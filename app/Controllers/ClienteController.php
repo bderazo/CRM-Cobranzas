@@ -12,6 +12,7 @@ use Models\Contacto;
 use Models\Direccion;
 use Models\Egreso;
 use Models\Cliente;
+use Models\Email;
 use Models\FiltroBusqueda;
 use Models\Paleta;
 use Models\Producto;
@@ -63,7 +64,9 @@ class ClienteController extends BaseController {
 			'sexo' => $cat->getByKey('sexo'),
 			'estado_civil' => $cat->getByKey('estado_civil'),
 			'tipo_telefono' => $cat->getByKey('tipo_telefono'),
+			'tipo_email' => $cat->getByKey('tipo_email'),
 			'descripcion_telefono' => $cat->getByKey('descripcion_telefono'),
+			'descripcion_email' => $cat->getByKey('descripcion_email'),
 			'origen_telefono' => $cat->getByKey('origen_telefono'),
 			'tipo_direccion' => $cat->getByKey('tipo_direccion'),
 			'tipo_referencia' => $cat->getByKey('tipo_referencia'),
@@ -75,6 +78,7 @@ class ClienteController extends BaseController {
 			\Breadcrumbs::active('Crear Cliente');
 			$model = new ViewCliente();
 			$telefono = [];
+			$email = [];
 			$direccion = [];
 			$referencia = [];
 			$productos = [];
@@ -82,6 +86,8 @@ class ClienteController extends BaseController {
 			$model = Cliente::porId($id);
 			\Breadcrumbs::active('Editar Cliente');
 			$telefono = Telefono::porModulo('cliente', $model->id);
+			$email = Email::porModulo('cliente', $model->id);
+//			printDie($email);
 			$direccion = Direccion::porModulo('cliente', $model->id);
 			$referencia = Referencia::porModulo('cliente', $model->id);
 			$productos = Producto::porCliente($model->id);
@@ -91,6 +97,7 @@ class ClienteController extends BaseController {
 		$data['referencia'] = json_encode($referencia);
 		$data['direccion'] = json_encode($direccion);
 		$data['telefono'] = json_encode($telefono);
+		$data['email'] = json_encode($email);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		$data['model'] = json_encode($model);
 		$data['modelArr'] = $model;
@@ -133,22 +140,46 @@ class ClienteController extends BaseController {
 		foreach ($data['telefono'] as $t) {
 			if (isset($t['id'])) {
 				$tel = Telefono::porId($t['id']);
-				$tel->telefono = $t['telefono'];
 			} else {
 				$tel = new Telefono();
-				$tel->telefono = $t['telefono'];
 				$tel->modulo_id = $con->id;
 				$tel->modulo_relacionado = 'cliente';
 				$tel->usuario_ingreso = \WebSecurity::getUserData('id');
 				$tel->eliminado = 0;
 				$tel->fecha_ingreso = date("Y-m-d H:i:s");
 			}
+			$tel->telefono = $t['telefono'];
+			$tel->tipo = $t['tipo'];
+			$tel->descripcion = $t['descripcion'];
 			$tel->usuario_modificacion = \WebSecurity::getUserData('id');
 			$tel->fecha_modificacion = date("Y-m-d H:i:s");
 			$tel->save();
 		}
 		foreach ($data['del_telefono'] as $d) {
 			$del = Telefono::eliminar($d);
+		}
+
+		//GUARDAR EMAIL
+		foreach ($data['email'] as $e) {
+			if (isset($e['id'])) {
+				$ema = Email::porId($e['id']);
+			} else {
+				$ema = new Email();
+				$ema->modulo_id = $con->id;
+				$ema->modulo_relacionado = 'cliente';
+				$ema->usuario_ingreso = \WebSecurity::getUserData('id');
+				$ema->eliminado = 0;
+				$ema->fecha_ingreso = date("Y-m-d H:i:s");
+			}
+			$ema->email = $e['email'];
+			$ema->tipo = $e['tipo'];
+			$ema->descripcion = $e['descripcion'];
+			$ema->usuario_modificacion = \WebSecurity::getUserData('id');
+			$ema->fecha_modificacion = date("Y-m-d H:i:s");
+			$ema->save();
+		}
+		foreach ($data['del_email'] as $d) {
+			$del = Email::eliminar($d);
 		}
 
 		//GUARDAR DIRECCION

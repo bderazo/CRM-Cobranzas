@@ -137,6 +137,51 @@
 						</div>
 
 						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Emails</label>
+							<div class="col-md-10">
+								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarEmail">
+									<i class="fa fa-plus"></i> Agregar
+								</button>
+								<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+									<thead>
+									<tr>
+										<th>Tipo</th>
+										<th>Descripción</th>
+										<th>Email</th>
+										<th>Origen</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="e in email">
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-autoname v-model="e.tipo" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.tipo_email" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
+											<select class="form-control form-control-sm form-select select2" v-autoname v-model="e.descripcion" placeholder="Seleccione una opción" v-autoname>
+												<option v-for="(v,k) in cat.descripcion_email" v-html="v" :value="k"></option>
+											</select>
+										</td>
+										<td>
+											<div class="input-group">
+												<input type="text" class="form-control form-control-sm required email" v-model="e.email" placeholder="Email" v-autoname/>
+											</div>
+										</td>
+										<td style="text-transform: uppercase;"><span v-html="e.origen"></span></td>
+										<td style="text-align: center;">
+											<button type="button" class="btn btn-icon btn-danger btn-sm" v-on:click="delEmail(e)">
+												<i class="fe fe-trash"></i>
+											</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Referencias</label>
 							<div class="col-md-10">
 								<button class="btn btn-sm btn-secondary" type="button" v-on:click="agregarReferencia">
@@ -204,7 +249,6 @@
 					</div>
 				</div>
 			</form>
-
 
 			<div class="card">
 				<div class="card-header">
@@ -310,7 +354,6 @@
 				$(el).prop('name', '_auto' + _autonameVueCount);
 			}
 		});
-
 		var app = new Vue({
 			el: '#app',
 			data: {
@@ -318,6 +361,8 @@
 				model: {{ model|raw }},
 				telefono: {{ telefono|raw }},
 				del_telefono: [],
+                email: {{ email|raw }},
+                del_email: [],
 				direccion: {{ direccion|raw }},
 				del_direccion: [],
 				referencia: {{ referencia|raw }},
@@ -327,26 +372,47 @@
 			watch: {},
 			computed: {},
 			methods: {
-				agregarTelefono: function () {
+				agregarEmail: function () {
 					var self = this;
 					var data = {
-						telefono: '',
+						email: '',
 						tipo: '',
 						descripcion: '',
 						origen: 'SISTEMA',
 					};
-					self.telefono.push(data);
+					self.email.push(data);
 				},
 
-				delTelefono: function (p) {
+				delEmail: function (p) {
 					var self = this;
-					if (confirm("Está seguro que desea eliminar el telefono: " + p.telefono + "?")) {
-						var ix = self.telefono.indexOf(p);
-						self.telefono.splice(ix, 1);
+					if (confirm("Está seguro que desea eliminar el email: " + p.email + "?")) {
+						var ix = self.email.indexOf(p);
+						self.email.splice(ix, 1);
 						if (p.id)
-							self.del_telefono.push(p.id);
+							self.del_email.push(p.id);
 					}
 				},
+
+                agregarTelefono: function () {
+                    var self = this;
+                    var data = {
+                        telefono: '',
+                        tipo: '',
+                        descripcion: '',
+                        origen: 'SISTEMA',
+                    };
+                    self.telefono.push(data);
+                },
+
+                delTelefono: function (p) {
+                    var self = this;
+                    if (confirm("Está seguro que desea eliminar el telefono: " + p.telefono + "?")) {
+                        var ix = self.telefono.indexOf(p);
+                        self.telefono.splice(ix, 1);
+                        if (p.id)
+                            self.del_telefono.push(p.id);
+                    }
+                },
 
 				agregarDireccion: function () {
 					var self = this;
@@ -402,6 +468,8 @@
 							model: self.model,
 							telefono: self.telefono,
 							del_telefono: self.del_telefono,
+                            email: self.email,
+                            del_email: self.del_email,
 							direccion: self.direccion,
 							del_direccion: self.del_direccion,
 							referencia: self.referencia,

@@ -43,22 +43,16 @@
 										</label>
 									</td>
 									<td>
-										<input type="text" style="text-transform: uppercase;" readonly
-										       class="form-control-plaintext" v-model="t.tipo">
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.tipo"></span>
 									</td>
 									<td>
-										<input type="text" style="text-transform: uppercase;" readonly
-										       class="form-control-plaintext" v-model="t.descripcion">
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.descripcion"></span>
 									</td>
 									<td>
-										<div class="input-group">
-											<input type="text" style="text-transform: uppercase;" readonly
-											       class="form-control-plaintext" v-model="t.telefono">
-										</div>
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.telefono"></span>
 									</td>
-									<td style="text-transform: uppercase;">
-										<input type="text" style="text-transform: uppercase;" readonly
-										       class="form-control-plaintext" v-model="t.origen">
+									<td>
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.origen"></span>
 									</td>
 								</tr>
 								</tbody>
@@ -87,6 +81,38 @@
 									</td>
 									<td>
 										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="d.direccion"></span>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Emails</label>
+						<div class="col-md-10">
+							<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+								<thead>
+								<tr>
+									<th>Tipo</th>
+									<th>Descripción</th>
+									<th>Email</th>
+									<th>Origen</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr v-for="e in email">
+									<td>
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="e.tipo"></span>
+									</td>
+									<td>
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="e.descripcion"></span>
+									</td>
+									<td>
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="e.email"></span>
+									</td>
+									<td>
+										<span style="text-transform: uppercase;" class="form-control-plaintext" v-html="e.origen"></span>
 									</td>
 								</tr>
 								</tbody>
@@ -2343,6 +2369,7 @@
                 cat: {{ catalogos|raw }},
                 model: {{ model|raw }},
                 telefono: {{ telefono|raw }},
+	            email: {{ email|raw }},
                 direccion: {{ direccion|raw }},
                 referencia: {{ referencia|raw }},
                 cliente: {{ cliente|raw }},

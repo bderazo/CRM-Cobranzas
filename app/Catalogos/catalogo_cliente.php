@@ -18,7 +18,23 @@ return [
 		'LABORAL' => 'LABORAL',
 		'REFERENCIA' => 'REFERENCIA',
 	],
+	'tipo_email' => [
+		'PERSONAL' => 'PERSONAL',
+		'LABORAL' => 'LABORAL',
+		'REFERENCIA' => 'REFERENCIA',
+	],
 	'descripcion_telefono' => [
+		'AMIGOS' => 'AMIGOS',
+		'CÓNYUGE' => 'CÓNYUGE',
+		'FAMILIARES' => 'FAMILIARES',
+		'GARANTE' => 'GARANTE',
+		'PADRE' => 'PADRE',
+		'REPRESENTANTE' => 'REPRESENTANTE',
+		'TITULAR' => 'TITULAR',
+		'TRABAJO' => 'TRABAJO',
+		'VECINOS' => 'VECINOS',
+	],
+	'descripcion_email' => [
 		'AMIGOS' => 'AMIGOS',
 		'CÓNYUGE' => 'CÓNYUGE',
 		'FAMILIARES' => 'FAMILIARES',
