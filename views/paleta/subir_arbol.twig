@@ -2,63 +2,46 @@
 {% block content %}
 	<div id="app">
 		<div class="col-md-12 col-xl-12">
-			<form method="POST" action="{{ root }}/paleta/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+			<form method="POST" id="form-edit" class="form-horizontal">
 				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Ingresar archivo</h4>
+					</div>
 					<div class="card-body">
-
-						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Archivo *</label>
-							<div class="col-md-10 col-informacion">
-								<input class="form-control" type="file" id="formFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="archivo_arbol_paleta">
+						<fieldset id="campos">
+							<div class=" row mb-4">
+								<label for="inputName" class="col-md-2 form-label">Archivo *</label>
+								<div class="col-md-8 col-informacion">
+									<input class="form-control" type="file" name="archivo" id="archivo" required>
+								</div>
 							</div>
-						</div>
 
-						<div class="mb-0 mt-4 ">
-							<div class="col-md-12">
-								<input type="hidden" v-model="model.id" id="id" name="id"/>
-								<button type="button" class="btn btn-primary" v-on:click="subirArchivo()">
-									<i class="fa fa-upload" aria-hidden="true"></i> Cargar Archivo
-								</button>
+							<div class=" row mb-4">
+								<label for="inputName" class="col-md-2 form-label">Observaciones</label>
+								<div class="col-md-8 col-informacion">
+									<textarea rows="3" name="observaciones" id="observaciones" class="form-control form-control-sm" placeholder="Observaciones"></textarea>
+								</div>
 							</div>
-						</div>
+
+							<div class="mb-0 mt-4 ">
+								<div class="col-md-12">
+									<input type="hidden" name="paleta_id" id="paleta_id" value="{{ modelArr.id }}">
+									<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+										<i class="fa fa-upload" aria-hidden="true"></i> Cargar Archivo
+									</button>
+								</div>
+							</div>
+						</fieldset>
 					</div>
 				</div>
 			</form>
 
 			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Resultado</h4>
+				</div>
 				<div class="card-body">
-					<div class="panel-group1" id="accordion1">
-						<div class="panel panel-default mb-4">
-							<div class="panel-heading1 ">
-								<h4 class="panel-title1">
-									<a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">Árbol de Gestión</a>
-								</h4>
-							</div>
-							<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
-								<div class="panel-body">
-									<div class="table-responsive">
-										<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
-											<thead>
-											<tr>
-												<th>NIVEL1</th>
-												<th>NIVEL2</th>
-												<th>NIVEL3</th>
-												<th>NIVEL4</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr v-for="pd in paleta_arbol">
-												<td><span v-html="pd.nivel1"></span></td>
-												<td><span v-html="pd.nivel2"></span></td>
-												<td><span v-html="pd.nivel3"></span></td>
-												<td><span v-html="pd.nivel4"></span></td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="ibox-content" id="resultado">
 					</div>
 				</div>
 			</div>
@@ -70,70 +53,50 @@
 	{{ script('js/lodash.js') }}
 	{{ bundle('jasny') }}
 	<script>
-		_autonameVueCount = 0;
-		Vue.directive('autoname', {
-			inserted: function (el, binding, vnode) {
-				_autonameVueCount++;
-				$(el).prop('name', '_auto' + _autonameVueCount);
-			}
-		});
+        var app = new Vue({
+            el: '#app',
+            data: {},
+            watch: {},
+            computed: {},
+            methods: {
+            },
+            mounted: function () {
+                var self = this;
+                var form = $('#form-edit');
+                var campos = $('#campos');
+                var resDiv = $('#resultado');
 
-		var app = new Vue({
-			el: '#app',
-			data: {
-				cat: [],
-				model: {{ model|raw }},
-				paleta_detalle: [],
-				paleta_arbol: [],
-				instituciones: [],
-			},
-			watch: {},
-			computed: {},
-			methods: {
-				subirArchivo: function () {
-					var self = this;
-					var form = $('#form-edit');
-					var url = '{{ root }}/paleta/subirArchivo';
-					var formData = new FormData(form[0]);
-					$.ajax({
-						url: url,
-						data: formData,
-						type: 'POST',
-						// THIS MUST BE DONE FOR FILE UPLOADING
-						contentType: false,
-						processData: false,
-						success: function (data) {
-							console.log(data);
-							// $('.fileinput').fileinput('clear');
-							self.archivo = data.lista_archivos;
-							self.mensaje_subir_archivo = data.mensaje;
-						},
-						error: function () {
-						}
-					});
-				},
-			},
-			mounted: function () {
-				var self = this;
-				$('#form-edit').validate({
-					onfocusout: false,
-					onkeyup: false,
-					onclick: false,
-					submitHandler: function (form) {
-						var data = {
-							model: self.model,
-							telefono: self.telefono,
-							del_telefono: self.del_telefono,
-							email: self.email,
-							del_email: self.del_email,
-						};
-						$('#json').val(JSON.stringify(data));
-						$("#btnGuardar").prop("disabled", true);
-						form.submit();
-						return false;
-					}
-				});
-			}
-		});
+                $('#form-edit').validate({
+                    onfocusout: false,
+                    onkeyup: false,
+                    onclick: false,
+                    submitHandler: function (f) {
+                        var url = '{{ root }}/paleta/subirArchivo';
+                        var formData = new FormData(form[0]);
+                        campos.prop('disabled', 'disabled');
+                        resDiv.html('');
+                        $.ajax({
+                            url: url,
+                            data: formData,
+                            type: 'POST',
+                            // THIS MUST BE DONE FOR FILE UPLOADING
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                campos.removeAttr('disabled');
+                                // aca formatear los resultados
+                                //resDiv.html('<pre>' + data + '</pre>');
+                                resDiv.html(data);
+                                form[0].reset();
+                            },
+                            error: function () {
+                                campos.removeAttr('disabled');
+                            }
+                        });
+                        return false;
+                    }
+                });
+            }
+        });
 	</script>
 {% endblock %}

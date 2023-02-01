@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer paleta_id
  * @property integer nivel
  * @property string valor
- * @property string secuencia
+ * @property string codigo
+ * @property integer peso
  * @property integer padre_id
  * @property string fecha_ingreso
  * @property string fecha_modificacion

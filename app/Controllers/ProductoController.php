@@ -281,20 +281,41 @@ class ProductoController extends BaseController
 			$con->fecha_ingreso = date("Y-m-d H:i:s");
 		}
 		$con->nivel_1_id = $seguimiento['nivel_1_id'];
-		$con->nivel_2_id = $seguimiento['nivel_2_id'];
+		$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_1_id']);
+		$con->nivel_1_texto = $paleta_arbol['valor'];
+		if(isset($seguimiento['nivel_2_id'])) {
+			$con->nivel_2_id = $seguimiento['nivel_2_id'];
+			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_2_id']);
+			$con->nivel_2_texto = $paleta_arbol['valor'];
+		}
 		if(isset($seguimiento['nivel_3_id'])) {
 			$con->nivel_3_id = $seguimiento['nivel_3_id'];
+			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_3_id']);
+			$con->nivel_3_texto = $paleta_arbol['valor'];
 		}
 		if(isset($seguimiento['nivel_4_id'])) {
 			$con->nivel_4_id = $seguimiento['nivel_4_id'];
+			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_4_id']);
+			$con->nivel_4_texto = $paleta_arbol['valor'];
 		}
+		//MOTIVOS DE NO PAGO
 		$con->nivel_1_motivo_no_pago_id = $seguimiento['nivel_1_motivo_no_pago_id'];
-		$con->nivel_2_motivo_no_pago_id = $seguimiento['nivel_2_motivo_no_pago_id'];
+		$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_1_motivo_no_pago_id']);
+		$con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		if(isset($seguimiento['nivel_2_motivo_no_pago_id'])) {
+			$con->nivel_2_motivo_no_pago_id = $seguimiento['nivel_2_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_2_motivo_no_pago_id']);
+			$con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		}
 		if(isset($seguimiento['nivel_3_motivo_no_pago_id'])) {
 			$con->nivel_3_motivo_no_pago_id = $seguimiento['nivel_3_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_3_motivo_no_pago_id']);
+			$con->nivel_3_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
 		}
 		if(isset($seguimiento['nivel_4_motivo_no_pago_id'])) {
 			$con->nivel_4_motivo_no_pago_id = $seguimiento['nivel_4_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_4_motivo_no_pago_id']);
+			$con->nivel_4_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
 		}
 		$con->observaciones = $seguimiento['observaciones'];
 		$con->usuario_modificacion = \WebSecurity::getUserData('id');

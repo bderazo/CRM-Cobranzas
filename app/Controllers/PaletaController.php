@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use CargaArchivos\CargadorAplicativoDinersExcel;
+use CargaArchivos\CargadorPaletaExcel;
 use Catalogos\CatalogoPaleta;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
@@ -15,6 +17,7 @@ use Models\Paleta;
 use Models\PaletaArbol;
 use Models\PaletaDetalle;
 use Models\PaletaMotivoNoPago;
+use Slim\Http\UploadedFile;
 use upload;
 
 class PaletaController extends BaseController {
@@ -148,57 +151,43 @@ class PaletaController extends BaseController {
 
 	function subir_arbol($id) {
 		\WebSecurity::secure('paleta.subir_arbol');
-
-		$cat = new CatalogoPaleta();
-		$catalogos = [
-			'tipo_gestion' => $cat->getByKey('tipo_gestion'),
-			'tipo_perfil' => $cat->getByKey('tipo_perfil'),
-			'tipo_accion' => $cat->getByKey('tipo_accion'),
-		];
-
-
 		$model = Paleta::porId($id);
-		\Breadcrumbs::active('Subir Árbol');
+		\Breadcrumbs::add('/paleta/editar?id='.$model['id'], $model['nombre']);
+		\Breadcrumbs::active('Subir Árbol - '.$model['nombre']);
 
+		$carga_archivo = new ViewCargaArchivo();
+		$carga_archivo->total_registros = 0;
+		$carga_archivo->total_errores = 0;
 
-
-
+		$data['carga_archivo'] = json_encode($carga_archivo);
 		$data['model'] = json_encode($model);
 		$data['modelArr'] = $model;
 		return $this->render('subir_arbol', $data);
 	}
 
 	function subirArchivo() {
-		$config = $this->get('config');
-		$file = $_FILES;
-		$id_modulo = $_REQUEST['id'];
-
-		printDie($_FILES['archivo_arbol_paleta']);
-
-//		$modulo = 'Material';
-//		$dir = $config['folder_archivos_material'];
-//		$path = $config['path_archivos_material'];
-//		if($file['archivo']['name'] != '') {
-//			//ARREGLAR ARCHIVOS
-//			$archivo['name'] = date("Y_m_d_H_i_s") . '_' . $file["archivo"]["name"];
-//			$archivo['type'] = $file["archivo"]["type"];
-//			$archivo['tmp_name'] = $file["archivo"]["tmp_name"];
-//			$archivo['error'] = $file["archivo"]["error"];
-//			$archivo['size'] = $file["archivo"]["size"];
-//			$mensaje = GeneralHelper::uploadFiles($id_modulo, $modulo, $archivo, $descripcion_archivo, $file["archivo"]["name"], $dir);
-//			$lista_archivos = Archivo::porModulo($modulo, $id_modulo, $path);
-//			$retorno = [
-//				'mensaje' => $mensaje,
-//				'lista_archivos' => $lista_archivos,
-//			];
-//		}else{
-//			$lista_archivos = Archivo::porModulo($modulo, $id_modulo,$path);
-//			$retorno = [
-//				'mensaje' => 'Seleccione un archivo',
-//				'lista_archivos' => $lista_archivos,
-//			];
-//		}
-//		return $this->json($retorno);
+		$post = $this->request->getParsedBody();
+		$paleta_id = $post['paleta_id'];
+		// try catch, etc.
+		$files = $this->request->getUploadedFiles();
+		if (empty($files['archivo'])) {
+			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+		}
+		/** @var UploadedFile $archivo */
+		$archivo = $files['archivo'];
+		// mas checks que sea xlsx, etc, tamaño, etc.
+		$fileInfo = [
+			'size' => $archivo->getSize(),
+			'name' => $archivo->getClientFilename(),
+			'mime' => $archivo->getClientMediaType(),
+			'observaciones' => @$post['observaciones'],
+		];
+		$cargador = new CargadorPaletaExcel($this->get('pdo'));
+		$rep = $cargador->cargar($archivo->file, $fileInfo, $paleta_id);
+		$data['reporte'] = $rep;
+		if ($rep['errorSistema'])
+			$data['errorGeneral'] = $rep['errorSistema'];
+		return $this->render('reporteCarga', $data);
 	}
 
 	function cargarNivel2() {
@@ -288,6 +277,24 @@ class ViewPaleta {
 	var $requiere_ingreso_monto;
 	var $requiere_ocultar_motivo;
 	var $observaciones;
+	var $fecha_ingreso;
+	var $fecha_modificacion;
+	var $usuario_ingreso;
+	var $usuario_modificacion;
+	var $usuario_asignado;
+	var $eliminado;
+}
+
+class ViewCargaArchivo {
+	var $id;
+	var $total_registros;
+	var $total_errores;
+	var $estado;
+	var $observaciones;
+	var $archivo_sistema;
+	var $longitud;
+	var $tipomime;
+	var $archivo_real;
 	var $fecha_ingreso;
 	var $fecha_modificacion;
 	var $usuario_ingreso;

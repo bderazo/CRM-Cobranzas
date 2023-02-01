@@ -550,22 +550,44 @@ class ProductoApi extends BaseController {
 			$con->canal = 'CAMPO';
 			if(isset($data['nivel1'])) {
 				$con->nivel_1_id = $data['nivel1'];
+				$paleta_arbol = PaletaArbol::porId($data['nivel1']);
+				$con->nivel_1_texto = $paleta_arbol['valor'];
 			}
 			if(isset($data['nivel2'])) {
 				$con->nivel_2_id = $data['nivel2'];
+				$paleta_arbol = PaletaArbol::porId($data['nivel2']);
+				$con->nivel_2_texto = $paleta_arbol['valor'];
 			}
 			if(isset($data['nivel3'])) {
 				$con->nivel_3_id = $data['nivel3'];
+				$paleta_arbol = PaletaArbol::porId($data['nivel3']);
+				$con->nivel_3_texto = $paleta_arbol['valor'];
 			}
 			if(isset($data['nivel4'])) {
 				$con->nivel_4_id = $data['nivel4'];
+				$paleta_arbol = PaletaArbol::porId($data['nivel4']);
+				$con->nivel_4_texto = $paleta_arbol['valor'];
 			}
 
 			if(isset($data['nivel_1_motivo_no_pago_id'])) {
 				$con->nivel_1_motivo_no_pago_id = $data['nivel_1_motivo_no_pago_id'];
+				$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_1_motivo_no_pago_id']);
+				$con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
 			}
 			if(isset($data['nivel_2_motivo_no_pago_id'])) {
 				$con->nivel_2_motivo_no_pago_id = $data['nivel_2_motivo_no_pago_id'];
+				$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_2_motivo_no_pago_id']);
+				$con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+			}
+			if(isset($data['nivel_3_motivo_no_pago_id'])) {
+				$con->nivel_3_motivo_no_pago_id = $data['nivel_3_motivo_no_pago_id'];
+				$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_3_motivo_no_pago_id']);
+				$con->nivel_3_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+			}
+			if(isset($data['nivel_4_motivo_no_pago_id'])) {
+				$con->nivel_4_motivo_no_pago_id = $data['nivel_4_motivo_no_pago_id'];
+				$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_4_motivo_no_pago_id']);
+				$con->nivel_4_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
 			}
 
 			$con->observaciones = $data['observaciones'];

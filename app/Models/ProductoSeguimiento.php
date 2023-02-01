@@ -14,17 +14,28 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer paleta_id
  * @property string canal
  * @property integer nivel_1_id
+ * @property string nivel_1_texto
  * @property integer nivel_2_id
+ * @property string nivel_2_texto
  * @property integer nivel_3_id
+ * @property string nivel_3_texto
  * @property integer nivel_4_id
+ * @property string nivel_4_texto
  * @property integer nivel_5_id
+ * @property string nivel_5_texto
  * @property integer nivel_1_motivo_no_pago_id
+ * @property string nivel_1_motivo_no_pago_texto
  * @property integer nivel_2_motivo_no_pago_id
+ * @property string nivel_2_motivo_no_pago_texto
  * @property integer nivel_3_motivo_no_pago_id
+ * @property string nivel_3_motivo_no_pago_texto
  * @property integer nivel_4_motivo_no_pago_id
+ * @property string nivel_4_motivo_no_pago_texto
  * @property integer nivel_5_motivo_no_pago_id
+ * @property string nivel_5_motivo_no_pago_texto
  * @property string observaciones
  * @property integer direccion_id
+ * @property integer telefono_id
  * @property double lat
  * @property double long
  * @property string fecha_ingreso
