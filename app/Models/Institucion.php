@@ -115,6 +115,24 @@ class Institucion extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
+			$retorno[$l['id']] = $l;
+		}
+		return $retorno;
+	}
+
+	static function getInstitucionesSinDiners() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('institucion i')
+			->select(null)
+			->select('i.*')
+			->where('i.eliminado',0)
+			->where('i.id <> 1')
+			->orderBy('i.nombre');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
 			$retorno[] = $l;
 		}
 		return $retorno;

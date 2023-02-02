@@ -71,54 +71,122 @@ class CargadorPaletaExcel
 				if($values[0] == '')
 					continue;
 
-				if($values[0] != ''){
+				$nivel_1_todos = PaletaArbol::getNivel1Paleta($paleta_id);
+				$nivel_2_todos = PaletaArbol::getNivel2Paleta($paleta_id);
+				$nivel_3_todos = PaletaArbol::getNivel3Paleta($paleta_id);
+				$nivel_4_todos = PaletaArbol::getNivel4Paleta($paleta_id);
+
+				$nivel1_id = 0;
+				foreach($nivel_1_todos as $niv) {
+					if (array_search(trim($values[0]), $niv) !== FALSE ) {
+						$nivel1_id = $niv['nivel1_id'];
+						break;
+					}
+				}
+				if($nivel1_id == 0) {
 					$paleta_arbol_n1 = new PaletaArbol();
 					$paleta_arbol_n1->paleta_id = $paleta_id;
 					$paleta_arbol_n1->nivel = 1;
-					$paleta_arbol_n1->valor = $values[0];
+					$paleta_arbol_n1->valor = trim($values[0]);
+					$paleta_arbol_n1->codigo = $values[2];
+					$paleta_arbol_n1->peso = $values[1];
+					$paleta_arbol_n1->save();
+					$nivel1_id = $paleta_arbol_n1->id;
+				}else{
+					$paleta_arbol_n1 = PaletaArbol::porId($nivel1_id);
 					$paleta_arbol_n1->codigo = $values[2];
 					$paleta_arbol_n1->peso = $values[1];
 					$paleta_arbol_n1->save();
 				}
 
-				if($values[3] != ''){
-					$paleta_arbol_n2 = new PaletaArbol();
-					$paleta_arbol_n2->paleta_id = $paleta_id;
-					$paleta_arbol_n2->nivel = 2;
-					$paleta_arbol_n2->valor = $values[3];
-					$paleta_arbol_n2->codigo = $values[5];
-					$paleta_arbol_n2->peso = $values[4];
-					$paleta_arbol_n2->padre_id = $paleta_arbol_n1->id;
-					$paleta_arbol_n2->save();
+
+				if($values[3] != '') {
+					$nivel2_id = 0;
+					foreach($nivel_2_todos as $niv) {
+						$existe = array_search(trim($values[3]), $niv);
+						if($existe) {
+							$nivel2_id = $niv['nivel2_id'];
+							break;
+						}
+					}
+					if($nivel2_id == 0) {
+						$paleta_arbol_n2 = new PaletaArbol();
+						$paleta_arbol_n2->paleta_id = $paleta_id;
+						$paleta_arbol_n2->nivel = 2;
+						$paleta_arbol_n2->valor = trim($values[3]);
+						$paleta_arbol_n2->codigo = $values[5];
+						$paleta_arbol_n2->peso = $values[4];
+						$paleta_arbol_n2->padre_id = $nivel1_id;
+						$paleta_arbol_n2->save();
+						$nivel2_id = $paleta_arbol_n2->id;
+					}else{
+						$paleta_arbol_n2 = PaletaArbol::porId($nivel2_id);
+						$paleta_arbol_n2->codigo = $values[5];
+						$paleta_arbol_n2->peso = $values[4];
+						$paleta_arbol_n2->save();
+					}
+
+					if($values[6] != '') {
+						$nivel3_id = 0;
+						foreach($nivel_3_todos as $niv) {
+							$existe = array_search(trim($values[6]), $niv);
+							if($existe) {
+								$nivel3_id = $niv['nivel3_id'];
+								break;
+							}
+						}
+						if($nivel3_id == 0) {
+							$paleta_arbol_n3 = new PaletaArbol();
+							$paleta_arbol_n3->paleta_id = $paleta_id;
+							$paleta_arbol_n3->nivel = 3;
+							$paleta_arbol_n3->valor = trim($values[6]);
+							$paleta_arbol_n3->codigo = $values[8];
+							$paleta_arbol_n3->peso = $values[7];
+							$paleta_arbol_n3->padre_id = $nivel2_id;
+							$paleta_arbol_n3->save();
+							$nivel3_id = $paleta_arbol_n3->id;
+						}else{
+							$paleta_arbol_n3 = PaletaArbol::porId($nivel2_id);
+							$paleta_arbol_n3->codigo = $values[8];
+							$paleta_arbol_n3->peso = $values[7];
+							$paleta_arbol_n3->save();
+						}
+
+						if($values[9] != '') {
+							$nivel4_id = 0;
+							foreach($nivel_4_todos as $niv) {
+								$existe = array_search(trim($values[9]), $niv);
+								if($existe) {
+									$nivel4_id = $niv['nivel4_id'];
+									break;
+								}
+							}
+							if($nivel4_id == 0) {
+								$paleta_arbol_n4 = new PaletaArbol();
+								$paleta_arbol_n4->paleta_id = $paleta_id;
+								$paleta_arbol_n4->nivel = 4;
+								$paleta_arbol_n4->valor = trim($values[9]);
+								$paleta_arbol_n4->codigo = $values[11];
+								$paleta_arbol_n4->peso = $values[10];
+								$paleta_arbol_n4->padre_id = $nivel3_id;
+								$paleta_arbol_n4->save();
+								$nivel4_id = $paleta_arbol_n4->id;
+							}else{
+								$paleta_arbol_n4 = PaletaArbol::porId($nivel2_id);
+								$paleta_arbol_n4->codigo = $values[11];
+								$paleta_arbol_n4->peso = $values[10];
+								$paleta_arbol_n4->save();
+							}
+						}
+					}
 				}
 
-				if($values[6] != ''){
-					$paleta_arbol_n3 = new PaletaArbol();
-					$paleta_arbol_n3->paleta_id = $paleta_id;
-					$paleta_arbol_n3->nivel = 3;
-					$paleta_arbol_n3->valor = $values[6];
-					$paleta_arbol_n3->codigo = $values[8];
-					$paleta_arbol_n3->peso = $values[7];
-					$paleta_arbol_n3->padre_id = $paleta_arbol_n2->id;
-					$paleta_arbol_n3->save();
-				}
-
-				if($values[9] != ''){
-					$paleta_arbol_n4 = new PaletaArbol();
-					$paleta_arbol_n4->paleta_id = $paleta_id;
-					$paleta_arbol_n4->nivel = 4;
-					$paleta_arbol_n4->valor = $values[9];
-					$paleta_arbol_n4->codigo = $values[11];
-					$paleta_arbol_n4->peso = $values[10];
-					$paleta_arbol_n4->padre_id = $paleta_arbol_n3->id;
-					$paleta_arbol_n4->save();
-				}
 				$rep['total']++;
 			}
 
 			$time_end = microtime(true);
 
-			$execution_time = ($time_end - $time_start)/60;
+			$execution_time = ($time_end - $time_start) / 60;
 			$rep['tiempo_ejecucion'] = $execution_time;
 
 			$rep['idcarga'] = $carga->id;

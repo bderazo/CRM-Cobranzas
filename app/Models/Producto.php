@@ -58,7 +58,7 @@ class Producto extends Model
 	 * @param int $records
 	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection
 	 */
-	public static function buscar($post, $order = 'nombre', $pagina = null, $records = 25, $config, $esAdmin = false)
+	public static function buscarDiners($post, $order = 'nombre', $pagina = null, $records = 25, $config, $esAdmin = false)
 	{
 		$q = self::query();
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
@@ -138,6 +138,106 @@ class Producto extends Model
 		$q->whereIn('producto.estado',['no_asignado','asignado_megacob','asignado_usuario','procesado']);
 
 		$q->where('producto.estado', '<>', 'inactivo');
+
+		$q->where('institucion.id', '=', 1);
+
+		$q->where('producto.eliminado', '=', 0);
+		$q->orderBy($order, 'asc');
+//		printDie($q->toSql());
+		if($pagina > 0 && $records > 0)
+			return $q->paginate($records, ['*'], 'page', $pagina);
+		return $q->get();
+	}
+
+	/**
+	 * @param $post
+	 * @param string $order
+	 * @param null $pagina
+	 * @param int $records
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection
+	 */
+	public static function buscar($post, $order = 'nombre', $pagina = null, $records = 25, $config, $esAdmin = false)
+	{
+		$q = self::query();
+		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
+		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
+		$q->leftJoin('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
+		$q->select(['producto.*','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre','usuario.apellidos AS apellidos_usuario_asignado',
+			'usuario.nombres AS nombres_usuario_asignado']);
+
+		$id_usuario = \WebSecurity::getUserData('id');
+		if (!empty($post['institucion_id'])){
+			$q->where('institucion.id', '=', $post['institucion_id']);
+		}else{
+			if(!$esAdmin) {
+				$perfil_valida_institucion = $config['perfil_valida_institucion'];
+				/** @var Usuario $user */
+				$user = Usuario::porId($id_usuario, ['perfiles']);
+				$validar = false;
+				foreach ($user->perfiles as $per) {
+					if (array_search($per->id, $perfil_valida_institucion) !== FALSE ) {
+						$validar = true;
+						break;
+					}
+				}
+				if($validar) {
+					$q->whereIn('institucion.id', function(Builder $qq) use ($id_usuario) {
+						$qq->select('institucion_id')
+							->from('usuario_institucion')
+							->where('usuario_id', $id_usuario);
+					});
+				}
+			}
+		}
+
+		if (!empty($post['telefono'])){
+			$tel = $post['telefono'];
+			$q->whereIn('cliente.id', function(Builder $qq) use ($tel) {
+				$qq->select('modulo_id')
+					->from('telefono')
+					->whereRaw("telefono LIKE '%" . $tel . "%'")
+					->where('modulo_relacionado', 'cliente')
+					->where('eliminado', 0);
+			});
+		}
+
+		if(!empty($post['cedula'])) {
+			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
+		}
+		if(!empty($post['apellidos'])) {
+			$q->whereRaw("upper(cliente.apellidos) LIKE '%" . strtoupper($post['apellidos']) . "%'");
+		}
+		if(!empty($post['nombres'])) {
+			$q->whereRaw("upper(cliente.nombres) LIKE '%" . strtoupper($post['nombres']) . "%'");
+		}
+		if(!empty($post['producto'])) {
+			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
+		}
+		if (!empty($post['estado'])){
+			$q->where('producto.estado', '=', $post['estado']);
+		}
+
+		if(!$esAdmin) {
+			$perfil_valida_institucion = $config['perfil_valida_institucion'];
+			/** @var Usuario $user */
+			$user = Usuario::porId($id_usuario, ['perfiles']);
+			$validar = false;
+			foreach($user->perfiles as $per) {
+				if(array_search($per->id, $perfil_valida_institucion) !== FALSE) {
+					$validar = true;
+					break;
+				}
+			}
+			if($validar) {
+				$q->whereRaw("producto.usuario_asignado = CASE WHEN producto.estado = 'asignado_usuario' THEN " . $id_usuario . " ELSE 0 END");
+			}
+		}
+
+		$q->whereIn('producto.estado',['no_asignado','asignado_megacob','asignado_usuario','procesado']);
+
+		$q->where('producto.estado', '<>', 'inactivo');
+
+		$q->where('institucion.id', '<>', 1);
 
 		$q->where('producto.eliminado', '=', 0);
 		$q->orderBy($order, 'asc');
@@ -265,6 +365,23 @@ class Producto extends Model
 		$retorno = [];
 		foreach ($lista as $l){
 			$retorno[$l['cliente_id']] = $l;
+		}
+		return $retorno;
+	}
+
+	static function porInstitucion($institucion_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('producto p')
+			->select(null)
+			->select('p.*')
+			->where('p.eliminado',0)
+			->where('p.institucion_id',$institucion_id);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
 		}
 		return $retorno;
 	}

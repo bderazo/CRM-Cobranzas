@@ -147,6 +147,78 @@ class PaletaArbol extends Model
 		return $retorno;
 	}
 
+	static function getNivel1Paleta($paleta_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel1')
+			->select(null)
+			->select('nivel1.valor AS nivel1, nivel1.id AS nivel1_id')
+			->where('nivel1.nivel',1)
+			->where('nivel1.paleta_id',$paleta_id)
+			->orderBy('nivel1.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
+	static function getNivel2Paleta($paleta_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel2')
+			->select(null)
+			->select('nivel2.valor AS nivel2, nivel2.id AS nivel2_id')
+			->where('nivel2.nivel',2)
+			->where('nivel2.paleta_id',$paleta_id)
+			->orderBy('nivel2.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
+	static function getNivel3Paleta($paleta_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel3')
+			->select(null)
+			->select('nivel3.valor AS nivel3, nivel3.id AS nivel3_id')
+			->where('nivel3.nivel',3)
+			->where('nivel3.paleta_id',$paleta_id)
+			->orderBy('nivel3.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
+	static function getNivel4Paleta($paleta_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel4')
+			->select(null)
+			->select('nivel4.valor AS nivel4, nivel4.id AS nivel4_id')
+			->where('nivel4.nivel',4)
+			->where('nivel4.paleta_id',$paleta_id)
+			->orderBy('nivel4.valor');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
+
 	static function getNivel2ApiQuery($query, $page, $data) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

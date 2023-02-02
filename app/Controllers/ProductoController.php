@@ -45,23 +45,59 @@ class ProductoController extends BaseController
 		\Breadcrumbs::add('/producto', 'Productos y Seguimientos');
 	}
 
+	function indexDiners()
+	{
+		\WebSecurity::secure('producto.lista_diners');
+		\Breadcrumbs::active('Seguimiento Diners');
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners',\WebSecurity::getUserData('id'));
+		$cat = new CatalogoProducto(true);
+		$listas = $cat->getCatalogo();
+		$data['listas'] = $listas;
+		return $this->render('indexDiners', $data);
+	}
+
 	function index()
 	{
 		\WebSecurity::secure('producto.lista');
-		\Breadcrumbs::active('Productos y Seguimientos');
+		\Breadcrumbs::active('Seguimientos');
 		$data['puedeCrear'] = $this->permisos->hasRole('producto.crear');
-		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario('Producto',\WebSecurity::getUserData('id'));
 		$cat = new CatalogoProducto(true);
 		$listas = $cat->getCatalogo();
 		$data['listas'] = $listas;
 		return $this->render('index', $data);
 	}
 
+	function listaDiners($page)
+	{
+		\WebSecurity::secure('producto.lista_diners');
+		$params = $this->request->getParsedBody();
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario('ProductoDiners',\WebSecurity::getUserData('id'), $params);
+		$esAdmin = $this->permisos->hasRole('admin');
+		$config = $this->get('config');
+		$lista = Producto::buscarDiners($params, 'cliente.nombres', $page, 20, $config, $esAdmin);
+		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
+		$retorno = [];
+		$seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
+		foreach($lista as $listas) {
+			if(isset($seguimiento_ultimos_todos[$listas['id']])) {
+				$listas['ultimo_seguimiento'] = $seguimiento_ultimos_todos[$listas['id']];
+			} else {
+				$listas['ultimo_seguimiento'] = [];
+			}
+			$retorno[] = $listas;
+		}
+//		printDie($retorno);
+		$data['lista'] = $retorno;
+		$data['pag'] = $pag;
+		return $this->render('listaDiners', $data);
+	}
+
 	function lista($page)
 	{
 		\WebSecurity::secure('producto.lista');
 		$params = $this->request->getParsedBody();
-		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario('Producto',\WebSecurity::getUserData('id'), $params);
 		$esAdmin = $this->permisos->hasRole('admin');
 		$config = $this->get('config');
 		$lista = Producto::buscar($params, 'cliente.nombres', $page, 20, $config, $esAdmin);
@@ -259,7 +295,255 @@ class ProductoController extends BaseController
 		return $this->render('editar', $data);
 	}
 
+	function editarDiners($id)
+	{
+		\WebSecurity::secure('producto.lista');
+
+		$meses_gracia = [];
+		for($i = 1; $i <= 6; $i++) {
+			$meses_gracia[$i] = $i;
+		}
+		$cat = new CatalogoCliente();
+		$catalogos = [
+			'sexo' => $cat->getByKey('sexo'),
+			'estado_civil' => $cat->getByKey('estado_civil'),
+			'tipo_telefono' => $cat->getByKey('tipo_telefono'),
+			'descripcion_telefono' => $cat->getByKey('descripcion_telefono'),
+			'origen_telefono' => $cat->getByKey('origen_telefono'),
+			'tipo_direccion' => $cat->getByKey('tipo_direccion'),
+			'tipo_referencia' => $cat->getByKey('tipo_referencia'),
+			'descripcion_referencia' => $cat->getByKey('descripcion_referencia'),
+			'ciudades' => Catalogo::ciudades(),
+			'meses_gracia' => $meses_gracia,
+		];
+
+		$model = Producto::porId($id);
+		\Breadcrumbs::active('Registrar Seguimiento');
+		$telefono = Telefono::porModulo('cliente', $model->cliente_id);
+		$email = Email::porModulo('cliente', $model->cliente_id);
+		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
+		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
+		$cliente = Cliente::porId($model->cliente_id);
+		$institucion = Institucion::porId($model->institucion_id);
+		$catalogos['paleta_nivel_1'] = PaletaArbol::getNivel1($institucion->paleta_id);
+		$catalogos['paleta_nivel_2'] = [];
+		$catalogos['paleta_nivel_3'] = [];
+		$catalogos['paleta_nivel_4'] = [];
+
+		$catalogos['paleta_motivo_no_pago_nivel_1'] = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
+		$catalogos['paleta_motivo_no_pago_nivel_2'] = [];
+		$catalogos['paleta_motivo_no_pago_nivel_3'] = [];
+		$catalogos['paleta_motivo_no_pago_nivel_4'] = [];
+
+		$paleta = Paleta::porId($institucion->paleta_id);
+//		printDie($paleta_nivel_1);
+
+		$pagos = [];
+		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
+		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
+
+		//DATOS TARJETA DINERS
+		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id'], 'original');
+		$plazo_financiamiento_diners = [];
+		if(count($aplicativo_diners_tarjeta_diners) > 0) {
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $aplicativo_diners_tarjeta_diners['interes_facturado'] - $aplicativo_diners_tarjeta_diners['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$aplicativo_diners_tarjeta_diners['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$aplicativo_diners_tarjeta_diners['abono_negociador'] = 0;
+			}
+
+			$cuotas_pendientes = $aplicativo_diners_tarjeta_diners['numero_cuotas_pendientes'];
+			if($cuotas_pendientes > 0) {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento_diners[$i] = $i;
+				}
+			} else {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento_diners[$i] = $i;
+				}
+			}
+		}
+		$catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
+
+		//DATOS TARJETA DISCOVER
+		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners['id'], 'original');
+		$plazo_financiamiento_discover = [];
+		if(count($aplicativo_diners_tarjeta_discover) > 0) {
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $aplicativo_diners_tarjeta_discover['interes_facturado'] - $aplicativo_diners_tarjeta_discover['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$aplicativo_diners_tarjeta_discover['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$aplicativo_diners_tarjeta_discover['abono_negociador'] = 0;
+			}
+
+			$cuotas_pendientes = $aplicativo_diners_tarjeta_discover['numero_cuotas_pendientes'];
+			if($cuotas_pendientes > 0) {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento_discover[$i] = $i;
+				}
+			} else {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento_discover[$i] = $i;
+				}
+			}
+		}
+		$catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
+
+		//DATOS TARJETA INTERDIN
+		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners['id'], 'original');
+		$plazo_financiamiento_interdin = [];
+		if(count($aplicativo_diners_tarjeta_interdin) > 0) {
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $aplicativo_diners_tarjeta_interdin['interes_facturado'] - $aplicativo_diners_tarjeta_interdin['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$aplicativo_diners_tarjeta_interdin['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$aplicativo_diners_tarjeta_interdin['abono_negociador'] = 0;
+			}
+
+			$cuotas_pendientes = $aplicativo_diners_tarjeta_interdin['numero_cuotas_pendientes'];
+			if($cuotas_pendientes > 0) {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento_interdin[$i] = $i;
+				}
+			} else {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento_interdin[$i] = $i;
+				}
+			}
+		}
+		$catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
+
+		//DATOS TARJETA MASTERCARD
+		$aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners['id'], 'original');
+		$plazo_financiamiento_mastercard = [];
+		if(count($aplicativo_diners_tarjeta_mastercard) > 0) {
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $aplicativo_diners_tarjeta_mastercard['interes_facturado'] - $aplicativo_diners_tarjeta_mastercard['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$aplicativo_diners_tarjeta_mastercard['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$aplicativo_diners_tarjeta_mastercard['abono_negociador'] = 0;
+			}
+
+			$cuotas_pendientes = $aplicativo_diners_tarjeta_mastercard['numero_cuotas_pendientes'];
+			if($cuotas_pendientes > 0) {
+				for($i = $cuotas_pendientes; $i <= 72; $i++) {
+					$plazo_financiamiento_mastercard[$i] = $i;
+				}
+			} else {
+				for($i = 1; $i <= 72; $i++) {
+					$plazo_financiamiento_mastercard[$i] = $i;
+				}
+			}
+		}
+		$catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
+
+		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
+
+		$producto_campos = ProductoCampos::porProductoId($model->id);
+
+		$seguimiento = new ViewProductoSeguimiento();
+		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+
+		$data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
+		$data['paleta'] = $paleta;
+		$data['producto_campos'] = $producto_campos;
+		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
+		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
+		$data['aplicativo_diners_tarjeta_diners'] = json_encode($aplicativo_diners_tarjeta_diners);
+		$data['aplicativo_diners_tarjeta_discover'] = json_encode($aplicativo_diners_tarjeta_discover);
+		$data['aplicativo_diners_tarjeta_interdin'] = json_encode($aplicativo_diners_tarjeta_interdin);
+		$data['aplicativo_diners_tarjeta_mastercard'] = json_encode($aplicativo_diners_tarjeta_mastercard);
+		$data['seguimiento'] = json_encode($seguimiento);
+		$data['pagos'] = json_encode($pagos);
+		$data['cliente'] = json_encode($cliente);
+		$data['direccion'] = json_encode($direccion);
+		$data['referencia'] = json_encode($referencia);
+		$data['telefono'] = json_encode($telefono);
+		$data['email'] = json_encode($email);
+		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+		$data['model'] = json_encode($model);
+		$data['modelArr'] = $model;
+		$data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
+		return $this->render('editarDiners', $data);
+	}
+
 	function guardarSeguimiento($json)
+	{
+		$data = json_decode($json, true);
+		//GUARDAR SEGUIMIENTO
+		$producto = $data['model'];
+		$seguimiento = $data['seguimiento'];
+		$aplicativo_diners = $data['aplicativo_diners'];
+		$institucion = Institucion::porId($producto['institucion_id']);
+		if($seguimiento['id'] > 0) {
+			$con = ProductoSeguimiento::porId($seguimiento['id']);
+		} else {
+			$con = new ProductoSeguimiento();
+			$con->institucion_id = $producto['institucion_id'];
+			$con->cliente_id = $producto['cliente_id'];
+			$con->producto_id = $producto['id'];
+			$con->paleta_id = $institucion['paleta_id'];
+			$con->canal = 'TELEFONIA';
+			$con->usuario_ingreso = \WebSecurity::getUserData('id');
+			$con->eliminado = 0;
+			$con->fecha_ingreso = date("Y-m-d H:i:s");
+		}
+		$con->nivel_1_id = $seguimiento['nivel_1_id'];
+		$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_1_id']);
+		$con->nivel_1_texto = $paleta_arbol['valor'];
+		if(isset($seguimiento['nivel_2_id'])) {
+			$con->nivel_2_id = $seguimiento['nivel_2_id'];
+			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_2_id']);
+			$con->nivel_2_texto = $paleta_arbol['valor'];
+		}
+		if(isset($seguimiento['nivel_3_id'])) {
+			$con->nivel_3_id = $seguimiento['nivel_3_id'];
+			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_3_id']);
+			$con->nivel_3_texto = $paleta_arbol['valor'];
+		}
+		if(isset($seguimiento['nivel_4_id'])) {
+			$con->nivel_4_id = $seguimiento['nivel_4_id'];
+			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_4_id']);
+			$con->nivel_4_texto = $paleta_arbol['valor'];
+		}
+		//MOTIVOS DE NO PAGO
+		$con->nivel_1_motivo_no_pago_id = $seguimiento['nivel_1_motivo_no_pago_id'];
+		$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_1_motivo_no_pago_id']);
+		$con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		if(isset($seguimiento['nivel_2_motivo_no_pago_id'])) {
+			$con->nivel_2_motivo_no_pago_id = $seguimiento['nivel_2_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_2_motivo_no_pago_id']);
+			$con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		}
+		if(isset($seguimiento['nivel_3_motivo_no_pago_id'])) {
+			$con->nivel_3_motivo_no_pago_id = $seguimiento['nivel_3_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_3_motivo_no_pago_id']);
+			$con->nivel_3_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		}
+		if(isset($seguimiento['nivel_4_motivo_no_pago_id'])) {
+			$con->nivel_4_motivo_no_pago_id = $seguimiento['nivel_4_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_4_motivo_no_pago_id']);
+			$con->nivel_4_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		}
+		$con->observaciones = $seguimiento['observaciones'];
+		$con->usuario_modificacion = \WebSecurity::getUserData('id');
+		$con->fecha_modificacion = date("Y-m-d H:i:s");
+		$con->save();
+		$producto_obj = Producto::porId($producto['id']);
+		$producto_obj->estado = 'procesado';
+		$producto_obj->save();
+
+		\Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
+
+		return $this->redirectToAction('index');
+	}
+
+	function guardarSeguimientoDiners($json)
 	{
 		$data = json_decode($json, true);
 		//GUARDAR SEGUIMIENTO
@@ -407,7 +691,7 @@ class ProductoController extends BaseController
 			\Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
 		}
 
-		return $this->redirectToAction('index');
+		return $this->redirectToAction('indexDiners');
 	}
 
 	function exportNegociacionManual()
@@ -1171,6 +1455,39 @@ class ProductoController extends BaseController
 		return $this->render('verSeguimientos', $data);
 	}
 
+	function verSeguimientosDiners($id)
+	{
+		\WebSecurity::secure('producto.ver_seguimientos');
+
+		$model = Producto::porId($id);
+		\Breadcrumbs::active('Ver Seguimiento');
+		$telefono = Telefono::porModulo('cliente', $model->cliente_id);
+		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
+		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
+		$cliente = Cliente::porId($model->cliente_id);
+
+		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
+
+		$institucion = Institucion::porId($model->institucion_id);
+		$paleta = Paleta::porId($institucion->paleta_id);
+
+		$config = $this->get('config');
+		$seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id, $config);
+//		printDie($seguimientos);
+
+		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
+		$data['paleta'] = $paleta;
+		$data['seguimientos'] = $seguimientos;
+		$data['cliente'] = json_encode($cliente);
+		$data['direccion'] = json_encode($direccion);
+		$data['referencia'] = json_encode($referencia);
+		$data['telefono'] = json_encode($telefono);
+		$data['model'] = json_encode($model);
+		$data['modelArr'] = $model;
+		$data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
+		return $this->render('verSeguimientosDiners', $data);
+	}
+
 	function verAcuerdo()
 	{
 		\WebSecurity::secure('producto.ver_seguimientos');
@@ -1215,138 +1532,6 @@ class ProductoController extends BaseController
 		$aplicativo_diners_id = $_REQUEST['aplicativo_diners_id'];
 		$datos_calculados = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
 		return $this->json($datos_calculados);
-	}
-
-	function cargarDatosJep()
-	{
-		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/carga_jep_creditos.xlsx';
-		$workbook = SpreadsheetParser::open($archivo);
-		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
-		$cabecera = [];
-		$clientes_todos = Cliente::getTodos();
-		$telefonos_todos = Telefono::getTodos();
-		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
-			if($rowIndex === 1) {
-				$ultima_posicion_columna = array_key_last($values);
-				for($i = 5; $i <= $ultima_posicion_columna; $i++) {
-					$cabecera[] = $values[$i];
-				}
-				continue;
-			}
-//			printDie($cabecera);
-
-			$cliente_id = 0;
-			foreach($clientes_todos as $cl) {
-				$existe_cedula = array_search($values[1], $cl);
-				if($existe_cedula) {
-					$cliente_id = $cl['id'];
-					break;
-				}
-			}
-
-			if($cliente_id == 0) {
-				$cliente = new Cliente();
-				$cliente->cedula = $values[1];
-				$cliente->nombres = $values[2];
-				$cliente->fecha_ingreso = date("Y-m-d H:i:s");
-				$cliente->fecha_modificacion = date("Y-m-d H:i:s");
-				$cliente->usuario_ingreso = \WebSecurity::getUserData('id');
-				$cliente->usuario_modificacion = \WebSecurity::getUserData('id');
-				$cliente->usuario_asignado = \WebSecurity::getUserData('id');
-				$cliente->eliminado = 0;
-				$cliente->save();
-				$cliente_id = $cliente->id;
-			}
-
-			if($values[4] != '') {
-				$direccion = new Direccion();
-				$direccion->tipo = 'DOMICILIO';
-//				$direccion->ciudad = $values[10];
-				$direccion->direccion = $values[4];
-				$direccion->modulo_id = $cliente_id;
-				$direccion->modulo_relacionado = 'cliente';
-				$direccion->fecha_ingreso = date("Y-m-d H:i:s");
-				$direccion->fecha_modificacion = date("Y-m-d H:i:s");
-				$direccion->usuario_ingreso = \WebSecurity::getUserData('id');
-				$direccion->usuario_modificacion = \WebSecurity::getUserData('id');
-				$direccion->eliminado = 0;
-				$direccion->save();
-			}
-
-			if($values[3] != '') {
-				$telefono_id = 0;
-				foreach($telefonos_todos as $tel) {
-					$existe = array_search($values[3], $tel);
-					if($existe) {
-						$telefono_id = $tel['id'];
-						break;
-					}
-				}
-				if($telefono_id == 0) {
-					$telefono = new Telefono();
-//					$telefono->tipo = 'CELULAR';
-					$telefono->descripcion = 'TITULAR';
-					$telefono->origen = 'JEP';
-					$telefono->telefono = $values[3];
-					$telefono->bandera = 0;
-					$telefono->modulo_id = $cliente_id;
-					$telefono->modulo_relacionado = 'cliente';
-					$telefono->fecha_ingreso = date("Y-m-d H:i:s");
-					$telefono->fecha_modificacion = date("Y-m-d H:i:s");
-					$telefono->usuario_ingreso = \WebSecurity::getUserData('id');
-					$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-					$telefono->eliminado = 0;
-					$telefono->save();
-				}
-			}
-
-//			if($values[12] != '') {
-//				$mail = new Email();
-//				$mail->tipo = 'PERSONAL';
-//				$mail->descripcion = 'TITULAR';
-//				$mail->origen = 'DINERS';
-//				$mail->email = $values[12];
-//				$mail->bandera = 0;
-//				$mail->modulo_id = $cliente->id;
-//				$mail->modulo_relacionado = 'cliente';
-//				$mail->fecha_ingreso = date("Y-m-d H:i:s");
-//				$mail->fecha_modificacion = date("Y-m-d H:i:s");
-//				$mail->usuario_ingreso = \WebSecurity::getUserData('id');
-//				$mail->usuario_modificacion = \WebSecurity::getUserData('id');
-//				$mail->eliminado = 0;
-//				$mail->save();
-//			}
-
-			$producto = new Producto();
-			$producto->institucion_id = 2;
-			$producto->cliente_id = $cliente_id;
-			$producto->producto = $values[0];
-			$producto->estado = 'activo';
-			$producto->fecha_ingreso = date("Y-m-d H:i:s");
-			$producto->fecha_modificacion = date("Y-m-d H:i:s");
-			$producto->usuario_ingreso = \WebSecurity::getUserData('id');
-			$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-			$producto->usuario_asignado = \WebSecurity::getUserData('id');
-			$producto->eliminado = 0;
-			$producto->save();
-
-			$cont = 0;
-			for($i = 5; $i <= $ultima_posicion_columna; $i++) {
-				$producto_campos = new ProductoCampos();
-				$producto_campos->producto_id = $producto->id;
-				$producto_campos->campo = $cabecera[$cont];
-				$producto_campos->valor = $values[$i];
-				$producto_campos->fecha_ingreso = date("Y-m-d H:i:s");
-				$producto_campos->fecha_modificacion = date("Y-m-d H:i:s");
-				$producto_campos->usuario_ingreso = \WebSecurity::getUserData('id');
-				$producto_campos->usuario_modificacion = \WebSecurity::getUserData('id');
-				$producto_campos->eliminado = 0;
-				$producto_campos->save();
-				$cont++;
-			}
-		}
-
 	}
 
 	function cargarDatosHuaicana()

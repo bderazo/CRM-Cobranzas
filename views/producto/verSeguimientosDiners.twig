@@ -1,0 +1,230 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">SEGUIMIENTOS</h4>
+				</div>
+				<div class="card-body">
+					<h4 class="text-primary">COBRANZA</h4>
+					<div class="table-responsive">
+						<table class="table border table-striped table-bordered table-sm mb-0">
+							<thead>
+							<tr>
+								<th>Seguimiento</th>
+								<th>Observaciones</th>
+								<th>Usuario</th>
+								<th>Fecha de seguimiento</th>
+								<th></th>
+							</tr>
+							</thead>
+							<tbody>
+							{% for seg in seguimientos %}
+								<tr>
+									<td>
+										{% if seg.nivel1 != '' %}
+											<strong>{{ paleta.titulo_nivel1 }}: </strong><br/> {{ seg.nivel1 }}<br/><br/>
+										{% endif %}
+										{% if seg.nivel2 != '' %}
+											<strong>{{ paleta.titulo_nivel2 }}: </strong><br/> {{ seg.nivel2 }}<br/><br/>
+										{% endif %}
+										{% if seg.nivel3 != '' %}
+											<strong>{{ paleta.titulo_nivel3 }}: </strong><br/> {{ seg.nivel3 }}<br/><br/>
+										{% endif %}
+										{% if seg.nivel4 != '' %}
+											<strong>{{ paleta.titulo_nivel4 }}: </strong><br/> {{ seg.nivel4 }}<br/><br/>
+										{% endif %}
+										{% if seg.nivel1_motivo_no_pago != '' %}
+											<strong>Motivo No Pago: </strong><br/> {{ seg.nivel1_motivo_no_pago }}<br/><br/>
+										{% endif %}
+										{% if seg.nivel2_motivo_no_pago != '' %}
+											<strong>Descripción: </strong><br/> {{ seg.nivel2_motivo_no_pago }}<br/><br/>
+										{% endif %}
+										{% for img in seg.imagenes %}
+											<a href="{{ img }}" target="_blank"><img style="width: auto; max-height: 80px; " src="{{ img }}"/></a>
+										{% endfor %}
+										{% if seg.lat != '' %}
+											<br/>
+											<strong>Lat: </strong> {{ seg.lat }}<br/>
+										{% endif %}
+										{% if seg.lat != '' %}
+											<strong>Long: </strong> {{ seg.long }}<br/>
+										{% endif %}
+									</td>
+									<td>{{ seg.observaciones }}</td>
+									<td>{{ seg.usuario }}</td>
+									<td>{{ seg.fecha_ingreso }}</td>
+									<td style="vertical-align: middle;">
+										<button class="btn btn-primary-light" type="button" v-on:click="verAcuerdo({{ seg.id }})">
+											<i class="fa fa-file-excel-o"></i>
+										</button>
+									</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">CLIENTE</h4>
+				</div>
+				<div class="card-body">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="cliente.nombres">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Cédula</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="cliente.cedula">
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">APLICATIVO TARJETAS</h4>
+				</div>
+				<div class="card-body">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">PRODUCTO</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">CIUDAD DE GESTIÓN</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_gestion">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">NEGOCIADO POR</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.negociado_por">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">NUMERO DE CEDULA SOCIO</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.cedula_socio">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">NOMBRE DEL SOCIO</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.nombre_socio">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">DIRECCIÓN</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.direccion">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">SEGURO</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.seguro_desgravamen">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">NÚMEROS DE CONTACTO</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.numero_contactos">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">MAIL DE CONTACTO</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.mail_contacto">
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">CIUDAD DE LA CUENTA</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_cuenta">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">ZONA DE LA CUENTA</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.zona_cuenta">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalAcuerdo" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Acuerdos</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="acuerdoContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                model: {{ model|raw }},
+                telefono: {{ telefono|raw }},
+                direccion: {{ direccion|raw }},
+                referencia: {{ referencia|raw }},
+                cliente: {{ cliente|raw }},
+                aplicativo_diners: {{ aplicativo_diners|raw }},
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                verAcuerdo: function (producto_seguimiento_id) {
+                    var self = this;
+                    var data = {
+                        'producto_seguimiento_id': producto_seguimiento_id,
+                    };
+                    $('#acuerdoContent').load('{{ root }}/producto/verAcuerdo', data, function () {
+                        $('#modalAcuerdo').modal('show');
+                    });
+                },
+            },
+            mounted: function () {
+                var self = this;
+            }
+        });
+	</script>
+	<style>
+        table, th, td {
+            border: 1px solid;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+	</style>
+{% endblock %}

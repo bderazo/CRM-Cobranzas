@@ -1,0 +1,145 @@
+{% extends layoutApp %}
+{% block content %}
+	<form method="post" id="filtro" class="form-horizontal">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Filtros de Búsqueda</h4>
+				</div>
+				<div id="app">
+					<div class="card-body">
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Producto</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="producto" id="producto" value="{{ filtros.producto }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Estado</label>
+							<div class="col-md-4">
+								{{ select_tag('estado', listas.estado, '', {class:'form-control form-select select2',prompt: ''} ) }}
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Nombres</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="nombres" id="nombres" value="{{ filtros.nombres }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Cédula</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="cedula" id="cedula" value="{{ filtros.cedula }}"/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Teléfono</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="telefono" id="telefono" value="{{ filtros.telefono }}"/>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+								<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Lista de Productos</h4>
+			</div>
+			<div class="card-body">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalInstitucion" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Instituciones</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="institucionContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var form = $('#filtro');
+		$('.integer').numeric('integer');
+
+        var estado_list = '{{ filtros.estado }}';
+        if(estado_list != ''){
+            $('#estado option[value={{ filtros.estado }}]').attr('selected','selected');
+        }
+
+		function todos() {
+			form[0].reset();
+			$("#institucion_id").val('');
+            $("#institucion_nombre").val('');
+            $("#cedula").val('');
+            $("#nombres").val('');
+            $("#producto").val('');
+            $("#telefono").val('');
+            $("#estado").val('');
+			cargar(1);
+		}
+
+		function cargar(page) {
+			var data = form.serializeArray();
+			$('#lista').load('{{ root }}/producto/listaDiners?page=' + page, data);
+		}
+
+		form.submit(function () {
+			cargar(1);
+			return false;
+		});
+
+		cargar(1);
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				model: [],
+			},
+			watch: {},
+			methods: {
+				buscarInstitucion: function () {
+					var self = this;
+					var data = {};
+					$('#institucionContent').load('{{ root }}/institucion/buscador', data, function () {
+						callbackInstitucion = function (res) {
+							$("#institucion_id").val(res.id);
+							$("#institucion_nombre").val(res.nombre);
+							$('#modalInstitucion').modal('hide');
+						};
+						$('#modalInstitucion').modal('show');
+					});
+				},
+			},
+			mounted: function () {
+				$('.integer').numeric("integer");
+				$('.numeric').numeric();
+			}
+		});
+	</script>
+{% endblock %}

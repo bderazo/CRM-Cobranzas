@@ -53,10 +53,11 @@ return [
 	],
 
 	[
-		'key' => 'producto',
-		'text' => 'Producto',
+		'key' => 'seguimiento',
+		'text' => 'Seguimientos',
 		'children' => [
-			'lista' => 'Ver lista de productos',
+			'lista_diners' => 'Ver lista de Seguimientos Diners',
+			'lista' => 'Ver lista de Seguimientos',
 			'eliminar' => 'Eliminar producto',
 			'registrar_seguimientos' => 'Registrar Seguimientos',
 			'ver_seguimientos' => 'Ver Seguimientos',
@@ -70,9 +71,10 @@ return [
 			'aplicativo_diners' => 'Permitir la carga de archivos de aplicativo Diners',
 			'saldos_diners' => 'Permitir la carga de archivos de saldos Diners',
 			'asignaciones_diners' => 'Permitir la carga de archivos de asignaciones Diners a Megacob',
-			'asignaciones_gestor_diners' => 'Permitir la carga de archivos de asignaciones Dinersa Gestores',
+			'asignaciones_gestor_diners' => 'Permitir la carga de archivos de asignaciones Diners a Gestores',
+			'productos' => 'Permitir la carga de archivos de productos',
 		],
-		'mensaje' => 'Operaciones posibles para productos'
+		'mensaje' => 'Operaciones posibles para carga de archivos'
 	],
 	[
 		'key' => 'reportes',

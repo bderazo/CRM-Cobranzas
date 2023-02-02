@@ -5,6 +5,7 @@ namespace Controllers;
 use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
 use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
+use CargaArchivos\CargadorProductosExcel;
 use CargaArchivos\CargadorSaldosDinersExcel;
 use Catalogos\CatalogoCliente;
 use General\GeneralHelper;
@@ -16,6 +17,7 @@ use Models\Contacto;
 use Models\Direccion;
 use Models\Egreso;
 use Models\Cliente;
+use Models\Institucion;
 use Models\Paleta;
 use Models\Producto;
 use Models\Referencia;
@@ -187,6 +189,51 @@ class CargarArchivoController extends BaseController {
 		];
 		$cargador = new CargadorAsignacionesGestorDinersExcel($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);
+		$data['reporte'] = $rep;
+		if ($rep['errorSistema'])
+			$data['errorGeneral'] = $rep['errorSistema'];
+		return $this->render('reporte', $data);
+	}
+
+	function productos() {
+		\WebSecurity::secure('cargar_archivos.productos');
+		\Breadcrumbs::active('Productos');
+
+		$catalogos = [
+			'ciudades' => Catalogo::ciudades(),
+		];
+
+		$carga_archivo = new ViewCargaArchivo();
+		$carga_archivo->total_registros = 0;
+		$carga_archivo->total_errores = 0;
+
+		$instituciones = Institucion::getInstitucionesSinDiners();
+
+		$data['carga_archivo'] = json_encode($carga_archivo);
+		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+		$data['instituciones'] = $instituciones;
+		return $this->render('productos', $data);
+	}
+
+	function cargarProductos() {
+		$post = $this->request->getParsedBody();
+		// try catch, etc.
+		$files = $this->request->getUploadedFiles();
+		if (empty($files['archivo'])) {
+			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+		}
+		/** @var UploadedFile $archivo */
+		$archivo = $files['archivo'];
+		// mas checks que sea xlsx, etc, tamaño, etc.
+		$fileInfo = [
+			'size' => $archivo->getSize(),
+			'name' => $archivo->getClientFilename(),
+			'mime' => $archivo->getClientMediaType(),
+			'observaciones' => @$post['observaciones'],
+		];
+		$institucion_id = $post['institucion'];
+		$cargador = new CargadorProductosExcel($this->get('pdo'));
+		$rep = $cargador->cargar($archivo->file, $fileInfo, $institucion_id);
 		$data['reporte'] = $rep;
 		if ($rep['errorSistema'])
 			$data['errorGeneral'] = $rep['errorSistema'];
