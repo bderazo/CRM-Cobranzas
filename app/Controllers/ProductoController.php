@@ -297,7 +297,7 @@ class ProductoController extends BaseController
 
 	function editarDiners($id)
 	{
-		\WebSecurity::secure('producto.lista');
+		\WebSecurity::secure('producto.lista_diners');
 
 		$meses_gracia = [];
 		for($i = 1; $i <= 6; $i++) {
