@@ -159,10 +159,22 @@ class ProductoApi extends BaseController {
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
-		$config = $this->get('config');
-		$producto = Producto::getProductoList($data, $page, $user, $config);
-//		\Auditor::error("get_preguntas_list API ", 'Producto', $producto);
-		return $this->json($res->conDatos($producto));
+		if(isset($user['id'])) {
+			$config = $this->get('config');
+
+			//ELIMINAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
+			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
+			foreach($detalle_sin_seguimiento as $ss){
+				$mod = AplicativoDinersDetalle::porId($ss['id']);
+				$mod->eliminado = 1;
+				$mod->save();
+			}
+
+			$producto = Producto::getProductoList($data, $page, $user, $config);
+			return $this->json($res->conDatos($producto));
+		}else {
+			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+		}
 	}
 
 	/**
