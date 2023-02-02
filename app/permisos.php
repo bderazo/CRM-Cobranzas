@@ -53,7 +53,7 @@ return [
 	],
 
 	[
-		'key' => 'seguimiento',
+		'key' => 'producto',
 		'text' => 'Seguimientos',
 		'children' => [
 			'lista_diners' => 'Ver lista de Seguimientos Diners',
