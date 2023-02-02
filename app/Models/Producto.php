@@ -286,9 +286,9 @@ class Producto extends Model
 		$q->orderBy('cl.nombres ASC')
 			->limit(10)
 			->offset($page * 10);
-//		\Auditor::error("getProductoList Query " . $q->getQuery(), 'Producto', []);
+		\Auditor::error("getProductoList Query " . $q->getQuery(), 'Producto', []);
 		$lista = $q->fetchAll();
-//		\Auditor::error("getProductoList DATA " . $q->getQuery(), 'Producto', $lista);
+		\Auditor::error("getProductoList DATA " . $q->getQuery(), 'Producto', $lista);
 		$retorno = [];
 		foreach($lista as $l){
 			//DATA DE DIRECCIONES
