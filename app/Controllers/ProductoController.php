@@ -1433,8 +1433,6 @@ class ProductoController extends BaseController
 		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
 
-		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
-
 		$institucion = Institucion::porId($model->institucion_id);
 		$paleta = Paleta::porId($institucion->paleta_id);
 
@@ -1442,7 +1440,9 @@ class ProductoController extends BaseController
 		$seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id, $config);
 //		printDie($seguimientos);
 
-		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
+		$producto_campos = ProductoCampos::porProductoId($model->id);
+
+		$data['producto_campos'] = $producto_campos;
 		$data['paleta'] = $paleta;
 		$data['seguimientos'] = $seguimientos;
 		$data['cliente'] = json_encode($cliente);

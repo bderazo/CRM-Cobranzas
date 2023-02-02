@@ -7,7 +7,6 @@
 					<h4 class="card-title">SEGUIMIENTOS</h4>
 				</div>
 				<div class="card-body">
-					<h4 class="text-primary">COBRANZA</h4>
 					<div class="table-responsive">
 						<table class="table border table-striped table-bordered table-sm mb-0">
 							<thead>
@@ -16,7 +15,6 @@
 								<th>Observaciones</th>
 								<th>Usuario</th>
 								<th>Fecha de seguimiento</th>
-								<th></th>
 							</tr>
 							</thead>
 							<tbody>
@@ -55,11 +53,6 @@
 									<td>{{ seg.observaciones }}</td>
 									<td>{{ seg.usuario }}</td>
 									<td>{{ seg.fecha_ingreso }}</td>
-									<td style="vertical-align: middle;">
-										<button class="btn btn-primary-light" type="button" v-on:click="verAcuerdo({{ seg.id }})">
-											<i class="fa fa-file-excel-o"></i>
-										</button>
-									</td>
 								</tr>
 							{% endfor %}
 							</tbody>
@@ -76,12 +69,12 @@
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Nombres</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="cliente.nombres">
+							<span class="form-control-plaintext" v-html="cliente.nombres"></span>
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">Cédula</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="cliente.cedula">
+							<span class="form-control-plaintext" v-html="cliente.cedula"></span>
 						</div>
 					</div>
 				</div>
@@ -90,96 +83,38 @@
 
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title">APLICATIVO TARJETAS</h4>
+					<h4 class="card-title">PRODUCTO</h4>
 				</div>
 				<div class="card-body">
 					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">PRODUCTO</label>
+						<label for="inputName" class="col-md-2 form-label">Código operación</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
+							<span class="form-control-plaintext" style="text-transform: uppercase;" v-html="model.producto"></span>
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">CIUDAD DE GESTIÓN</label>
+						<label for="inputName" class="col-md-2 form-label">Estado</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_gestion">
+							<span class="form-control-plaintext" style="text-transform: uppercase;" v-html="model.estado"></span>
 						</div>
 					</div>
 
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">NEGOCIADO POR</label>
+					{% set residuo_final = 1 %}
+					{% for key, pc in producto_campos %}
+						{% if((key % 2) == 0) %}
+							<div class=" row mb-4">
+						{% endif %}
+						<label for="inputName" class="col-md-2 form-label">{{ pc.campo }}</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.negociado_por">
+							<span class="form-control-plaintext">{{ pc.valor }}</span>
 						</div>
-
-						<label for="inputName" class="col-md-2 form-label">NUMERO DE CEDULA SOCIO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.cedula_socio">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">NOMBRE DEL SOCIO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.nombre_socio">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">DIRECCIÓN</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.direccion">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">SEGURO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.seguro_desgravamen">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">NÚMEROS DE CONTACTO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.numero_contactos">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">MAIL DE CONTACTO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.mail_contacto">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">CIUDAD DE LA CUENTA</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_cuenta">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">ZONA DE LA CUENTA</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.zona_cuenta">
-						</div>
-					</div>
+						{% if((key % 2) == 1) %}
+							</div>
+						{% endif %}
+						{% set residuo_final = (key % 2) %}
+					{% endfor %}
+					{% if(residuo_final == 0) %}
 				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- MODAL -->
-	<div class="modal fade" id="modalAcuerdo" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-xl" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title"><strong>Acuerdos</strong></h5>
-					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div id="acuerdoContent"></div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -197,21 +132,10 @@
                 direccion: {{ direccion|raw }},
                 referencia: {{ referencia|raw }},
                 cliente: {{ cliente|raw }},
-                aplicativo_diners: {{ aplicativo_diners|raw }},
             },
             watch: {},
             computed: {},
-            methods: {
-                verAcuerdo: function (producto_seguimiento_id) {
-                    var self = this;
-                    var data = {
-                        'producto_seguimiento_id': producto_seguimiento_id,
-                    };
-                    $('#acuerdoContent').load('{{ root }}/producto/verAcuerdo', data, function () {
-                        $('#modalAcuerdo').modal('show');
-                    });
-                },
-            },
+            methods: {},
             mounted: function () {
                 var self = this;
             }
