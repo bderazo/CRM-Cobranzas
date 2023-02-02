@@ -274,8 +274,8 @@ class Producto extends Model
 			->innerJoin('institucion i ON i.id = p.institucion_id')
 			->select(null)
 			->select("p.*, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre")
-			->where('p.eliminado', 0)
-			->where('p.usuario_asignado', 1);
+			->where('p.eliminado', 0);
+//			->where('p.usuario_asignado', 1);
 		if(count($data) > 0) {
 			foreach($data as $key => $val) {
 				if($val != '') {
