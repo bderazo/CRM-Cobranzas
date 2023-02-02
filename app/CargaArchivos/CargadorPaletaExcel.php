@@ -127,15 +127,15 @@ class CargadorPaletaExcel
 					}
 
 					if($values[6] != '') {
-						$nivel3_id = 0;
-						foreach($nivel_3_todos as $niv) {
-							$existe = array_search(trim($values[6]), $niv);
-							if($existe) {
-								$nivel3_id = $niv['nivel3_id'];
-								break;
-							}
-						}
-						if($nivel3_id == 0) {
+//						$nivel3_id = 0;
+//						foreach($nivel_3_todos as $niv) {
+//							$existe = array_search(trim($values[6]), $niv);
+//							if($existe) {
+//								$nivel3_id = $niv['nivel3_id'];
+//								break;
+//							}
+//						}
+//						if($nivel3_id == 0) {
 							$paleta_arbol_n3 = new PaletaArbol();
 							$paleta_arbol_n3->paleta_id = $paleta_id;
 							$paleta_arbol_n3->nivel = 3;
@@ -145,23 +145,23 @@ class CargadorPaletaExcel
 							$paleta_arbol_n3->padre_id = $nivel2_id;
 							$paleta_arbol_n3->save();
 							$nivel3_id = $paleta_arbol_n3->id;
-						}else{
-							$paleta_arbol_n3 = PaletaArbol::porId($nivel2_id);
-							$paleta_arbol_n3->codigo = $values[8];
-							$paleta_arbol_n3->peso = $values[7];
-							$paleta_arbol_n3->save();
-						}
+//						}else{
+//							$paleta_arbol_n3 = PaletaArbol::porId($nivel2_id);
+//							$paleta_arbol_n3->codigo = $values[8];
+//							$paleta_arbol_n3->peso = $values[7];
+//							$paleta_arbol_n3->save();
+//						}
 
 						if($values[9] != '') {
-							$nivel4_id = 0;
-							foreach($nivel_4_todos as $niv) {
-								$existe = array_search(trim($values[9]), $niv);
-								if($existe) {
-									$nivel4_id = $niv['nivel4_id'];
-									break;
-								}
-							}
-							if($nivel4_id == 0) {
+//							$nivel4_id = 0;
+//							foreach($nivel_4_todos as $niv) {
+//								$existe = array_search(trim($values[9]), $niv);
+//								if($existe) {
+//									$nivel4_id = $niv['nivel4_id'];
+//									break;
+//								}
+//							}
+//							if($nivel4_id == 0) {
 								$paleta_arbol_n4 = new PaletaArbol();
 								$paleta_arbol_n4->paleta_id = $paleta_id;
 								$paleta_arbol_n4->nivel = 4;
@@ -171,12 +171,12 @@ class CargadorPaletaExcel
 								$paleta_arbol_n4->padre_id = $nivel3_id;
 								$paleta_arbol_n4->save();
 								$nivel4_id = $paleta_arbol_n4->id;
-							}else{
-								$paleta_arbol_n4 = PaletaArbol::porId($nivel2_id);
-								$paleta_arbol_n4->codigo = $values[11];
-								$paleta_arbol_n4->peso = $values[10];
-								$paleta_arbol_n4->save();
-							}
+//							}else{
+//								$paleta_arbol_n4 = PaletaArbol::porId($nivel2_id);
+//								$paleta_arbol_n4->codigo = $values[11];
+//								$paleta_arbol_n4->peso = $values[10];
+//								$paleta_arbol_n4->save();
+//							}
 						}
 					}
 				}

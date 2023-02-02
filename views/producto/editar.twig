@@ -201,6 +201,26 @@
 						</div>
 					</div>
 
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
+						<div class="col-md-4 col-informacion">
+							<select class="form-control form-select select2" v-on:change="cargarNivel4"
+							        v-model="seguimiento.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id"
+							        required v-autoname>
+								<option v-for="(v,k) in cat.paleta_nivel_3" v-html="v" :value="k"></option>
+							</select>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel4 }}</label>
+						<div class="col-md-4 col-informacion">
+							<select class="form-control form-select select2"
+							        v-model="seguimiento.nivel_4_id" placeholder="Seleccione una opción" id="nivel_4_id"
+							        required v-autoname>
+								<option v-for="(v,k) in cat.paleta_nivel_4" v-html="v" :value="k"></option>
+							</select>
+						</div>
+					</div>
+
 					<h4 class="text-primary">MOTIVO DE NO PAGO</h4>
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Motivo No Pago</label>
@@ -294,13 +314,6 @@
                 direccion: {{ direccion|raw }},
                 referencia: {{ referencia|raw }},
                 cliente: {{ cliente|raw }},
-                pagos: {{ pagos|raw }},
-                aplicativo_diners: {{ aplicativo_diners|raw }},
-                aplicativo_diners_tarjeta_diners: {{ aplicativo_diners_tarjeta_diners|raw }},
-                aplicativo_diners_tarjeta_discover: {{ aplicativo_diners_tarjeta_discover|raw }},
-                aplicativo_diners_tarjeta_interdin: {{ aplicativo_diners_tarjeta_interdin|raw }},
-                aplicativo_diners_tarjeta_mastercard: {{ aplicativo_diners_tarjeta_mastercard|raw }},
-                aplicativo_diners_porcentaje_interes: {{ aplicativo_diners_porcentaje_interes|raw }},
                 seguimiento: {{ seguimiento|raw }},
             },
             watch: {},
@@ -313,6 +326,8 @@
                     };
                     $.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
                         self.cat.paleta_nivel_2 = res;
+                        self.cat.paleta_nivel_3 = [];
+                        self.cat.paleta_nivel_4 = [];
                         console.log(res);
                     });
                 },
@@ -324,6 +339,7 @@
                     };
                     $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
                         self.cat.paleta_nivel_3 = res;
+                        self.cat.paleta_nivel_4 = [];
                         console.log(res);
                     });
                 },
@@ -349,100 +365,9 @@
                         console.log(res);
                     });
                 },
-
-                calcularValoresDiners: function () {
-                    var self = this;
-                    var data = {
-                        data: self.aplicativo_diners_tarjeta_diners,
-                        aplicativo_diners_id: self.aplicativo_diners.id,
-                    };
-                    // self.aplicativo_diners_tarjeta_diners = [];
-                    $.post('{{ root }}/producto/calcularTarjetaDiners', data, function (res) {
-                        self.aplicativo_diners_tarjeta_diners = res;
-                        // console.log(self.aplicativo_diners_tarjeta_diners);
-                        //ALERTAS
-                        if (parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturado)) {
-                            $("#alerta_abono_diners").show();
-                        } else {
-                            $("#alerta_abono_diners").hide();
-                        }
-                    });
-                },
-
-                calcularValoresInterdin: function () {
-                    var self = this;
-                    var data = {
-                        data: self.aplicativo_diners_tarjeta_interdin,
-                        aplicativo_diners_id: self.aplicativo_diners.id,
-                    };
-                    // self.aplicativo_diners_tarjeta_interdin = [];
-                    $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
-                        self.aplicativo_diners_tarjeta_interdin = res;
-                        //ALERTAS
-                        if (parseFloat(self.aplicativo_diners_tarjeta_interdin.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_interdin.interes_facturado)) {
-                            $("#alerta_abono_interdin").show();
-                        } else {
-                            $("#alerta_abono_interdin").hide();
-                        }
-                    });
-                },
-
-                calcularValoresDiscover: function () {
-                    var self = this;
-                    var data = {
-                        data: self.aplicativo_diners_tarjeta_discover,
-                        aplicativo_diners_id: self.aplicativo_diners.id,
-                    };
-                    // self.aplicativo_diners_tarjeta_discover = [];
-                    $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
-                        self.aplicativo_diners_tarjeta_discover = res;
-                        //ALERTAS
-                        if (parseFloat(self.aplicativo_diners_tarjeta_discover.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_discover.interes_facturado)) {
-                            $("#alerta_abono_discover").show();
-                        } else {
-                            $("#alerta_abono_discover").hide();
-                        }
-                    });
-                },
-
-                calcularValoresMastercard: function () {
-                    var self = this;
-                    var data = {
-                        data: self.aplicativo_diners_tarjeta_mastercard,
-                        aplicativo_diners_id: self.aplicativo_diners.id,
-                    };
-                    // self.aplicativo_diners_tarjeta_mastercard = [];
-                    $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
-                        self.aplicativo_diners_tarjeta_mastercard = res;
-                        //ALERTAS
-                        if (parseFloat(self.aplicativo_diners_tarjeta_mastercard.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_mastercard.interes_facturado)) {
-                            $("#alerta_abono_mastercard").show();
-                        } else {
-                            $("#alerta_abono_mastercard").hide();
-                        }
-                    });
-                },
             },
             mounted: function () {
                 var self = this;
-
-                if(self.aplicativo_diners_tarjeta_diners.length != 0){
-                    self.calcularValoresDiners();
-                }
-                if(self.aplicativo_diners_tarjeta_discover.length != 0){
-                    self.calcularValoresDiscover();
-                }
-                if(self.aplicativo_diners_tarjeta_interdin.length != 0){
-                    self.calcularValoresInterdin();
-                }
-                if(self.aplicativo_diners_tarjeta_mastercard.length != 0){
-                    self.calcularValoresMastercard();
-                }
-
-                $("#alerta_abono_diners").hide();
-                $("#alerta_abono_interdin").hide();
-                $("#alerta_abono_discover").hide();
-                $("#alerta_abono_mastercard").hide();
                 $('#form-edit-seguimiento').validate({
                     onfocusout: false,
                     onkeyup: false,
