@@ -144,7 +144,8 @@ class ProductoApi extends BaseController {
 				$mod->save();
 			}
 
-			$producto = Producto::getProductoList($data, $page, $user, $config);
+//			$producto = Producto::getProductoList($data, $page, $user, $config);
+			$producto = ['ss',4,3,4,56];
 			return $this->json($res->conDatos($producto));
 		}else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
