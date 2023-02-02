@@ -131,7 +131,7 @@ class Producto extends Model
 				}
 			}
 			if($validar) {
-				$q->whereRaw("producto.usuario_asignado = CASE WHEN producto.estado = 'asignado_usuario' THEN " . $id_usuario . " ELSE 0 END");
+//				$q->whereRaw("producto.usuario_asignado = CASE WHEN producto.estado = 'asignado_usuario' THEN " . $id_usuario . " ELSE 0 END");
 			}
 		}
 
