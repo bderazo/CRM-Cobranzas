@@ -517,6 +517,8 @@ class ProductoApi extends BaseController {
 				'choices' => [],
 			];
 
+			\Auditor::error("get_form_paleta DATA ", 'Producto', $retorno);
+
 			return $this->json($res->conDatos($retorno));
 		}else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
