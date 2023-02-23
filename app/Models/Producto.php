@@ -314,7 +314,7 @@ class Producto extends Model
 						'titulo_color_texto' => '#000000',
 						'titulo_color_fondo' => '#FFFFFF',
 						'contenido_color_texto' => '#FFFFFF',
-						'contenido_color_fondo' => '#4C5EF7',
+						'contenido_color_fondo' => '#499B70',
 						'order' => 1,
 					];
 				}
