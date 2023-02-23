@@ -212,11 +212,12 @@ class Usuario extends Model {
 	static function getUsuarioDetalle($usuario_id, $config) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
-		$q = $db->from('usuario u')
-			->select(null)
-			->select("u.username, u.nombres, u.apellidos")
-			->where('u.id', $usuario_id);
-		$lista = $q->fetch();
+//		$q = $db->from('usuario u')
+//			->select(null)
+//			->select("u.username, u.nombres, u.apellidos")
+//			->where('u.id', $usuario_id);
+//		$lista = $q->fetch();
+		$lista = $_SESSION['user'];
 		if (!$lista) return [];
 
 		//OBTENER LA FOTO DE PERFIL
