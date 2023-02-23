@@ -248,6 +248,8 @@ class ProductoApi extends BaseController {
 			$retorno['direcciones'] = $dir_array;
 			$retorno['referencias'] = $ref_array;
 
+			\Auditor::error("get_producto_cliente DATA ", 'Producto', $retorno);
+
 			return $this->json($res->conDatos($retorno));
 		}else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
