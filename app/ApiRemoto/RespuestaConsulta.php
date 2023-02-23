@@ -17,6 +17,14 @@ class RespuestaConsulta {
 		unset($this->more);
 		return $this;
 	}
+
+	function conErrorSesion($mensaje) {
+		$this->codigo = '401';
+		$this->mensaje = $mensaje;
+		unset($this->results);
+		unset($this->more);
+		return $this;
+	}
 	
 	function conMensaje($mensaje) {
 		$this->mensaje = $mensaje;

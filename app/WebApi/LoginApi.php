@@ -45,6 +45,9 @@ class LoginApi extends BaseController {
 			/** @var PermisosSession $permisosManager */
 			$permisosManager = $this->get('permisosCheck');
 			$permisosManager->setSessionRoles($check->permisos);
+
+			\Auditor::error("login SESSION ", 'Producto', $_SESSION);
+
 			return $this->json($res->conDatos($userdata));
 		} else {
 			return $this->json($res->conError($check->error));
