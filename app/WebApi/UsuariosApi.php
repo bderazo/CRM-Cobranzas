@@ -51,7 +51,8 @@ class UsuariosApi extends BaseController
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		$config = $this->get('config');
-		$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
+//		$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
+		$usuario = $_SESSION['user'];
 		return $this->json($res->conDatos($usuario));
 	}
 
