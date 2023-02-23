@@ -288,6 +288,8 @@ class ProductoApi extends BaseController {
 			$retorno['campos'] = $campos;
 			$retorno['pagos'] = $pagos_array;
 
+			\Auditor::error("get_producto_producto DATA ", 'Producto', $retorno);
+
 			return $this->json($res->conDatos($retorno));
 		}else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
