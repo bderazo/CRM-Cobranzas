@@ -254,8 +254,6 @@ class ProductoApi extends BaseController
 			$retorno['direcciones'] = $dir_array;
 			$retorno['referencias'] = $ref_array;
 
-			\Auditor::error("get_producto_cliente DATA ", 'Producto', $retorno);
-
 			return $this->json($res->conDatos($retorno));
 		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
@@ -294,8 +292,6 @@ class ProductoApi extends BaseController
 
 			$retorno['campos'] = $campos;
 			$retorno['pagos'] = $pagos_array;
-
-			\Auditor::error("get_producto_producto DATA ", 'Producto', $retorno);
 
 			return $this->json($res->conDatos($retorno));
 		} else {
@@ -376,6 +372,9 @@ class ProductoApi extends BaseController
 
 //		$institucion_id = 1;
 //		$producto_id = 12596;
+
+		\Auditor::error("get_form_paleta $institucion_id ", 'Producto', $institucion_id);
+		\Auditor::error("get_form_paleta $producto_id ", 'Producto', $producto_id);
 
 		if($institucion_id > 0 && $producto_id > 0) {
 			$session = $this->request->getParam('session');
@@ -529,8 +528,6 @@ class ProductoApi extends BaseController
 					'property_order' => 7,
 					'choices' => [],
 				];
-
-				\Auditor::error("get_form_paleta DATA ", 'Producto', $retorno);
 
 				return $this->json($res->conDatos($retorno));
 			} else {
