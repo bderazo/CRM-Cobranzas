@@ -218,6 +218,7 @@ class Usuario extends Model {
 //			->where('u.id', $usuario_id);
 //		$lista = $q->fetch();
 		$lista = $_SESSION['user'];
+		$usuario_id = $_SESSION['user']['id'];
 		if (!$lista) return [];
 
 		//OBTENER LA FOTO DE PERFIL
