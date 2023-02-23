@@ -346,7 +346,7 @@ class Producto extends Model
 			if($l['institucion_id'] == 1){
 				$l['mostrar_acuerdo_diners'] = true;
 			}else{
-				$l['mostrar_acuerdo_diners'] = true;
+				$l['mostrar_acuerdo_diners'] = false;
 			}
 
 			$l['tarjeta_fondo'] = '#FFFFFF';
