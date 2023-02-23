@@ -273,7 +273,7 @@ class Producto extends Model
 			->innerJoin('cliente cl ON cl.id = p.cliente_id')
 			->innerJoin('institucion i ON i.id = p.institucion_id')
 			->select(null)
-			->select("p.*, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre")
+			->select("p.*, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre, i.id AS institucion_id")
 			->where('p.eliminado', 0);
 //			->where('p.usuario_asignado', 1);
 		if(count($data) > 0) {
@@ -343,7 +343,11 @@ class Producto extends Model
 			}
 			$l['campos'] = $campos;
 
-			$l['mostrar_acuerdo_diners'] = true;
+			if($l['institucion_id'] == 1){
+				$l['mostrar_acuerdo_diners'] = true;
+			}else{
+				$l['mostrar_acuerdo_diners'] = false;
+			}
 
 			$l['tarjeta_fondo'] = '#FFFFFF';
 
