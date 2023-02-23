@@ -40,19 +40,22 @@ use upload;
  * @package Controllers\api
  * Aqui se ejecuta la logica de productos
  */
-class ProductoApi extends BaseController {
+class ProductoApi extends BaseController
+{
 	var $test = false;
 
-	function init($p = []) {
-		if (@$p['test']) $this->test = true;
+	function init($p = [])
+	{
+		if(@$p['test']) $this->test = true;
 	}
 
 	/**
 	 * get_form_busqueda_producto
 	 * @param $session
 	 */
-	function get_form_busqueda_producto() {
-		if (!$this->isPost()) return "get_form_busqueda_producto";
+	function get_form_busqueda_producto()
+	{
+		if(!$this->isPost()) return "get_form_busqueda_producto";
 		$res = new RespuestaConsulta();
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
@@ -114,7 +117,7 @@ class ProductoApi extends BaseController {
 			$retorno['form']['properties'] = $form;
 
 			return $this->json($res->conDatos($retorno));
-		}else {
+		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
@@ -125,8 +128,9 @@ class ProductoApi extends BaseController {
 	 * @param $page
 	 * @param $session
 	 */
-	function get_productos_list() {
-		if (!$this->isPost()) return "get_productos_list";
+	function get_productos_list()
+	{
+		if(!$this->isPost()) return "get_productos_list";
 		$res = new RespuestaConsulta();
 
 		$page = $this->request->getParam('page');
@@ -138,7 +142,7 @@ class ProductoApi extends BaseController {
 
 			//ELIMINAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
 			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
-			foreach($detalle_sin_seguimiento as $ss){
+			foreach($detalle_sin_seguimiento as $ss) {
 				$mod = AplicativoDinersDetalle::porId($ss['id']);
 				$mod->eliminado = 1;
 				$mod->save();
@@ -146,13 +150,14 @@ class ProductoApi extends BaseController {
 
 			$producto = Producto::getProductoList($data, $page, $user, $config);
 			return $this->json($res->conDatos($producto));
-		}else {
+		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
 
-	function get_preguntas_list() {
-		if (!$this->isPost()) return "get_productos_list";
+	function get_preguntas_list()
+	{
+		if(!$this->isPost()) return "get_productos_list";
 		$res = new RespuestaConsulta();
 
 		$page = $this->request->getParam('page');
@@ -164,7 +169,7 @@ class ProductoApi extends BaseController {
 
 			//ELIMINAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
 			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
-			foreach($detalle_sin_seguimiento as $ss){
+			foreach($detalle_sin_seguimiento as $ss) {
 				$mod = AplicativoDinersDetalle::porId($ss['id']);
 				$mod->eliminado = 1;
 				$mod->save();
@@ -172,7 +177,7 @@ class ProductoApi extends BaseController {
 
 			$producto = Producto::getProductoList($data, $page, $user, $config);
 			return $this->json($res->conDatos($producto));
-		}else {
+		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
@@ -182,7 +187,8 @@ class ProductoApi extends BaseController {
 	 * @param $producto_id
 	 * @param $session
 	 */
-	function get_producto_cliente() {
+	function get_producto_cliente()
+	{
 		if(!$this->isPost()) return "get_producto_cliente";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
@@ -251,7 +257,7 @@ class ProductoApi extends BaseController {
 			\Auditor::error("get_producto_cliente DATA ", 'Producto', $retorno);
 
 			return $this->json($res->conDatos($retorno));
-		}else {
+		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
@@ -261,7 +267,8 @@ class ProductoApi extends BaseController {
 	 * @param $producto_id
 	 * @param $session
 	 */
-	function get_producto_producto() {
+	function get_producto_producto()
+	{
 		if(!$this->isPost()) return "get_producto_producto";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
@@ -291,7 +298,7 @@ class ProductoApi extends BaseController {
 			\Auditor::error("get_producto_producto DATA ", 'Producto', $retorno);
 
 			return $this->json($res->conDatos($retorno));
-		}else {
+		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
@@ -304,7 +311,8 @@ class ProductoApi extends BaseController {
 	 * @param $page
 	 * @param $data
 	 */
-	function buscar_listas() {
+	function buscar_listas()
+	{
 		if(!$this->isPost()) return "buscar_listas";
 		$res = new RespuestaConsulta();
 
@@ -332,7 +340,8 @@ class ProductoApi extends BaseController {
 	 * @param $page
 	 * @param $data
 	 */
-	function buscar_listas_motivo_no_pago() {
+	function buscar_listas_motivo_no_pago()
+	{
 		if(!$this->isPost()) return "buscar_listas_motivo_no_pago";
 		$res = new RespuestaConsulta();
 
@@ -358,8 +367,9 @@ class ProductoApi extends BaseController {
 	 * @param $institucion_id
 	 * @param $producto_id
 	 */
-	function get_form_paleta() {
-		if (!$this->isPost()) return "get_form_paleta";
+	function get_form_paleta()
+	{
+		if(!$this->isPost()) return "get_form_paleta";
 		$res = new RespuestaConsulta();
 		$institucion_id = $this->request->getParam('institucion_id');
 		$producto_id = $this->request->getParam('producto_id');
@@ -367,162 +377,166 @@ class ProductoApi extends BaseController {
 //		$institucion_id = 1;
 //		$producto_id = 12596;
 
-		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
-		if(isset($user['id'])) {
-			$retorno = [];
+		if($institucion_id > 0 && $producto_id > 0) {
+			$session = $this->request->getParam('session');
+			$user = UsuarioLogin::getUserBySession($session);
+			if(isset($user['id'])) {
+				$retorno = [];
 
-			$retorno['form']['title'] = 'form';
-			$retorno['form']['type'] = 'object';
+				$retorno['form']['title'] = 'form';
+				$retorno['form']['type'] = 'object';
 
-			$institucion = Institucion::porId($institucion_id);
-			$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
-			$nivel = [];
-			foreach($paleta_nivel1 as $key => $val) {
-				$nivel[] = ['id' => $key, 'label' => $val];
-			}
-			$retorno['form']['properties']['Nivel1'] = [
-				'type' => 'string',
-				'title' => 'Resultado Gestión',
-				'widget' => 'choice',
-				'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-				'full_name' => 'data[nivel1]',
-				'constraints' => [
-					[
-						'name' => 'NotBlank',
-						'message' => 'Este campo no puede estar vacío'
-					]
-				],
-				'required' => 1,
-				'disabled' => 0,
-				'property_order' => 1,
-				'choices' => $nivel,
-			];
-			$retorno['form']['properties']['Nivel2'] = [
-				'type' => 'string',
-				'title' => 'Descripción',
-				'widget' => 'picker-select2',
-				'empty_data' => null,
-				'full_name' => 'data[nivel2]',
-				'constraints' => [
-					[
-						'name' => 'Count',
-						'Min' => 1,
-						'MinMessage' => "Debe seleccionar por lo menos una opción."
+				$institucion = Institucion::porId($institucion_id);
+				$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
+				$nivel = [];
+				foreach($paleta_nivel1 as $key => $val) {
+					$nivel[] = ['id' => $key, 'label' => $val];
+				}
+				$retorno['form']['properties']['Nivel1'] = [
+					'type' => 'string',
+					'title' => 'Resultado Gestión',
+					'widget' => 'choice',
+					'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+					'full_name' => 'data[nivel1]',
+					'constraints' => [
+						[
+							'name' => 'NotBlank',
+							'message' => 'Este campo no puede estar vacío'
+						]
 					],
-				],
-				'required' => 1,
-				'disabled' => 0,
-				'property_order' => 2,
-				'choices' => [],
-				"multiple" => false,
-				'remote_path' => 'api/producto/buscar_listas',
-				'remote_params' => [
-					"list" => "nivel2"
-				],
-				'req_params' => [
-					"data[nivel1]" => "data[nivel1]"
-				],
-			];
-
-			$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
-			$nivel = [];
-			foreach($paleta_nivel1 as $key => $val) {
-				$nivel[] = ['id' => $key, 'label' => $val];
-			}
-			$retorno['form']['properties']['Nivel1MotivoNoPago'] = [
-				'type' => 'string',
-				'title' => 'Motivo No Pago',
-				'widget' => 'choice',
-				'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-				'full_name' => 'data[nivel_1_motivo_no_pago_id]',
-				'constraints' => [
-					[
-						'name' => 'NotBlank',
-						'message' => 'Este campo no puede estar vacío'
-					]
-				],
-				'required' => 1,
-				'disabled' => 0,
-				'property_order' => 3,
-				'choices' => $nivel,
-			];
-			$retorno['form']['properties']['Nivel2MotivoNoPago'] = [
-				'type' => 'string',
-				'title' => 'Descripción',
-				'widget' => 'picker-select2',
-				'empty_data' => null,
-				'full_name' => 'data[nivel_2_motivo_no_pago_id]',
-				'constraints' => [
-					[
-						'name' => 'Count',
-						'Min' => 1,
-						'MinMessage' => "Debe seleccionar por lo menos una opción."
+					'required' => 1,
+					'disabled' => 0,
+					'property_order' => 1,
+					'choices' => $nivel,
+				];
+				$retorno['form']['properties']['Nivel2'] = [
+					'type' => 'string',
+					'title' => 'Descripción',
+					'widget' => 'picker-select2',
+					'empty_data' => null,
+					'full_name' => 'data[nivel2]',
+					'constraints' => [
+						[
+							'name' => 'Count',
+							'Min' => 1,
+							'MinMessage' => "Debe seleccionar por lo menos una opción."
+						],
 					],
-				],
-				'required' => 1,
-				'disabled' => 0,
-				'property_order' => 4,
-				'choices' => [],
-				"multiple" => false,
-				'remote_path' => 'api/producto/buscar_listas_motivo_no_pago',
-				'remote_params' => [
-					"list" => "nivel_2_motivo_no_pago_id"
-				],
-				'req_params' => [
-					"data[nivel_1_motivo_no_pago_id]" => "data[nivel_1_motivo_no_pago_id]"
-				],
-			];
+					'required' => 1,
+					'disabled' => 0,
+					'property_order' => 2,
+					'choices' => [],
+					"multiple" => false,
+					'remote_path' => 'api/producto/buscar_listas',
+					'remote_params' => [
+						"list" => "nivel2"
+					],
+					'req_params' => [
+						"data[nivel1]" => "data[nivel1]"
+					],
+				];
 
-			$producto = Producto::porId($producto_id);
-			$direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
-			$dir = [];
-			foreach($direcciones as $d) {
-				$dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'], 0, 40)];
+				$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
+				$nivel = [];
+				foreach($paleta_nivel1 as $key => $val) {
+					$nivel[] = ['id' => $key, 'label' => $val];
+				}
+				$retorno['form']['properties']['Nivel1MotivoNoPago'] = [
+					'type' => 'string',
+					'title' => 'Motivo No Pago',
+					'widget' => 'choice',
+					'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+					'full_name' => 'data[nivel_1_motivo_no_pago_id]',
+					'constraints' => [
+						[
+							'name' => 'NotBlank',
+							'message' => 'Este campo no puede estar vacío'
+						]
+					],
+					'required' => 1,
+					'disabled' => 0,
+					'property_order' => 3,
+					'choices' => $nivel,
+				];
+				$retorno['form']['properties']['Nivel2MotivoNoPago'] = [
+					'type' => 'string',
+					'title' => 'Descripción',
+					'widget' => 'picker-select2',
+					'empty_data' => null,
+					'full_name' => 'data[nivel_2_motivo_no_pago_id]',
+					'constraints' => [
+						[
+							'name' => 'Count',
+							'Min' => 1,
+							'MinMessage' => "Debe seleccionar por lo menos una opción."
+						],
+					],
+					'required' => 1,
+					'disabled' => 0,
+					'property_order' => 4,
+					'choices' => [],
+					"multiple" => false,
+					'remote_path' => 'api/producto/buscar_listas_motivo_no_pago',
+					'remote_params' => [
+						"list" => "nivel_2_motivo_no_pago_id"
+					],
+					'req_params' => [
+						"data[nivel_1_motivo_no_pago_id]" => "data[nivel_1_motivo_no_pago_id]"
+					],
+				];
+
+				$producto = Producto::porId($producto_id);
+				$direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
+				$dir = [];
+				foreach($direcciones as $d) {
+					$dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'], 0, 40)];
+				}
+				$retorno['form']['properties']['Direccion'] = [
+					'type' => 'string',
+					'title' => 'Dirección Visita',
+					'widget' => 'choice',
+					'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+					'full_name' => 'data[direccion_visita]',
+					'constraints' => [],
+					'required' => 0,
+					'disabled' => 0,
+					'property_order' => 5,
+					'choices' => $dir,
+				];
+				$retorno['form']['properties']['Observaciones'] = [
+					'type' => 'string',
+					'title' => 'Observaciones',
+					'widget' => 'textarea',
+					'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
+					'full_name' => 'data[observaciones]',
+					'constraints' => [],
+					'required' => 0,
+					'disabled' => 0,
+					'property_order' => 6,
+					'choices' => [],
+				];
+				$retorno['form']['properties']['imagenes'] = [
+					'type' => 'string',
+					'title' => 'Imagen1',
+					'widget' => 'file_widget',
+					'empty_data' => '',
+					'full_name' => 'data[imagenes]',
+					'constraints' => [],
+					'mode' => 'IMAGEN',
+					'multiple' => true,
+					'required' => 0,
+					'disabled' => 0,
+					'property_order' => 7,
+					'choices' => [],
+				];
+
+				\Auditor::error("get_form_paleta DATA ", 'Producto', $retorno);
+
+				return $this->json($res->conDatos($retorno));
+			} else {
+				return $this->json($res->conError('PARAMETROS INCORRECTOS'));
 			}
-			$retorno['form']['properties']['Direccion'] = [
-				'type' => 'string',
-				'title' => 'Dirección Visita',
-				'widget' => 'choice',
-				'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-				'full_name' => 'data[direccion_visita]',
-				'constraints' => [],
-				'required' => 0,
-				'disabled' => 0,
-				'property_order' => 5,
-				'choices' => $dir,
-			];
-			$retorno['form']['properties']['Observaciones'] = [
-				'type' => 'string',
-				'title' => 'Observaciones',
-				'widget' => 'textarea',
-				'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
-				'full_name' => 'data[observaciones]',
-				'constraints' => [],
-				'required' => 0,
-				'disabled' => 0,
-				'property_order' => 6,
-				'choices' => [],
-			];
-			$retorno['form']['properties']['imagenes'] = [
-				'type' => 'string',
-				'title' => 'Imagen1',
-				'widget' => 'file_widget',
-				'empty_data' => '',
-				'full_name' => 'data[imagenes]',
-				'constraints' => [],
-				'mode' => 'IMAGEN',
-				'multiple' => true,
-				'required' => 0,
-				'disabled' => 0,
-				'property_order' => 7,
-				'choices' => [],
-			];
-
-			\Auditor::error("get_form_paleta DATA ", 'Producto', $retorno);
-
-			return $this->json($res->conDatos($retorno));
-		}else {
+		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
@@ -537,17 +551,18 @@ class ProductoApi extends BaseController {
 	 * @param $data
 	 * @param $_FILE
 	 */
-	function save_form_paleta() {
-		if (!$this->isPost()) return "save_form_paleta";
+	function save_form_paleta()
+	{
+		if(!$this->isPost()) return "save_form_paleta";
 		$res = new RespuestaConsulta();
 		$institucion_id = $this->request->getParam('institucion_id');
-		\Auditor::info('save_form_paleta institucion_id: '.$institucion_id, 'API', []);
+		\Auditor::info('save_form_paleta institucion_id: ' . $institucion_id, 'API', []);
 		$producto_id = $this->request->getParam('producto_id');
-		\Auditor::info('save_form_paleta producto_id: '.$producto_id, 'API', []);
+		\Auditor::info('save_form_paleta producto_id: ' . $producto_id, 'API', []);
 		$lat = $this->request->getParam('lat');
-		\Auditor::info('save_form_paleta lat: '.$lat, 'API', []);
+		\Auditor::info('save_form_paleta lat: ' . $lat, 'API', []);
 		$long = $this->request->getParam('long');
-		\Auditor::info('save_form_paleta long: '.$long, 'API', []);
+		\Auditor::info('save_form_paleta long: ' . $long, 'API', []);
 		$data = $this->request->getParam('data');
 		\Auditor::info('save_form_paleta data: ', 'API', $data);
 		$files = $_FILES;
@@ -628,7 +643,7 @@ class ProductoApi extends BaseController {
 
 			//ASIGNAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
 			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
-			foreach($detalle_sin_seguimiento as $ss){
+			foreach($detalle_sin_seguimiento as $ss) {
 				$mod = AplicativoDinersDetalle::porId($ss['id']);
 				$mod->producto_seguimiento_id = $con->id;
 				$mod->save();
@@ -670,7 +685,7 @@ class ProductoApi extends BaseController {
 			}
 
 			return $this->json($res->conDatos($con->toArray()));
-		}else {
+		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
