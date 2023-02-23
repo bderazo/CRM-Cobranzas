@@ -7,7 +7,7 @@ return [
 	'campana' => [
 		'CAMPO' => 'CAMPO',
 		'REF TLF' => 'REF TLF',
-		'TELF' => 'TELF',
+		'TELEFONIA' => 'TELEFONIA',
 	],
 	'identificador' => [
 		'DM' => 'DM',

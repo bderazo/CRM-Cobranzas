@@ -27,6 +27,7 @@ use Models\ProductoSeguimiento;
 use Models\Referencia;
 use Models\Telefono;
 use Models\Usuario;
+use Models\UsuarioInstitucion;
 use Models\UsuarioPerfil;
 use Reportes\Export\ExcelDatasetExport;
 use upload;
@@ -1671,7 +1672,7 @@ class ProductoController extends BaseController
 		$pdo = $this->get('pdo');
 		$db = new \FluentPDO($pdo);
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/Usuarios_diners_04_ene_22.xlsx';
+		$archivo = $config['folder_temp'] . '/Usuarios_diners_22_feb_23.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {
@@ -1682,42 +1683,52 @@ class ProductoController extends BaseController
 			$qpro = $db->from('usuario')
 				->select(null)
 				->select('*')
-				->where('username', 6);
+				->where('username', $values[5]);
 			$lista = $qpro->fetch();
 			if(!$lista) {
 				$usuario = new Usuario();
-				$usuario->username = $values[2];
-				$usuario->password = \WebSecurity::getHash('megacob2023');
+				$usuario->username = $values[5];
 				$usuario->fecha_creacion = date("Y-m-d");
-				$usuario->nombres = $values[1];
-				$usuario->apellidos = $values[2];
+				$usuario->nombres = $values[0];
+				$usuario->apellidos = $values[1];
 				$usuario->email = 'soporte@saes.tech';
 				$usuario->fecha_ultimo_cambio = date("Y-m-d");
 				$usuario->es_admin = 0;
 				$usuario->activo = 1;
 				$usuario->cambiar_password = 0;
-				$usuario->canal = $values[3];
-				$usuario->campana = $values[4];
-				$usuario->identificador = $values[5];
+				$usuario->canal = $values[2];
+				$usuario->campana = $values[3];
+				$usuario->identificador = $values[4];
 				$usuario->plaza = $values[7];
 				$usuario->save();
+
+				$crypt = \WebSecurity::getHash($values[6]);
+				Usuario::query()->where('id', $usuario->id)->update(['password' => $crypt]);
 
 				$usuario_perfil = new UsuarioPerfil();
 				$usuario_perfil->usuario_id = $usuario->id;
 				$usuario_perfil->perfil_id = 15;
+				$usuario_perfil->fecha_ingreso = date("Y-m-d H:i:s");
+				$usuario_perfil->fecha_modificacion = date("Y-m-d H:i:s");
 				$usuario_perfil->save();
+
+				$usuario_institucion = new UsuarioInstitucion();
+				$usuario_institucion->usuario_id = $usuario->id;
+				$usuario_institucion->institucion_id = 1;
+				$usuario_institucion->fecha_ingreso = date("Y-m-d H:i:s");
+				$usuario_institucion->fecha_modificacion = date("Y-m-d H:i:s");
+				$usuario_institucion->save();
 			}else{
 				$usuario = Usuario::porId($lista['id']);
 				$usuario->es_admin = 0;
-				$usuario->canal = $values[3];
-				$usuario->campana = $values[4];
-				$usuario->identificador = $values[5];
+				$usuario->canal = $values[2];
+				$usuario->campana = $values[3];
+				$usuario->identificador = $values[4];
 				$usuario->plaza = $values[7];
 				$usuario->save();
 			}
-
 		}
-
+		printDie("OK");
 	}
 }
 
