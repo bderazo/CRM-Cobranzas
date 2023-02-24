@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string valor
  * @property string codigo
  * @property integer peso
+ * @property string mostrar_motivo_no_pago
+ * @property string mostrar_fecha_compromiso_pago
+ * @property string mostrar_valor_comprometido
  * @property integer padre_id
  * @property string fecha_ingreso
  * @property string fecha_modificacion

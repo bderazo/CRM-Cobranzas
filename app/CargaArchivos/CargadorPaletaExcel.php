@@ -65,6 +65,7 @@ class CargadorPaletaExcel
 			$carga->save();
 
 			$db = new \FluentPDO($pdo);
+
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1))
 					continue;
@@ -88,22 +89,28 @@ class CargadorPaletaExcel
 					$paleta_arbol_n1->paleta_id = $paleta_id;
 					$paleta_arbol_n1->nivel = 1;
 					$paleta_arbol_n1->valor = trim($values[0]);
-					$paleta_arbol_n1->codigo = $values[2];
-					$paleta_arbol_n1->peso = $values[1];
+					$paleta_arbol_n1->codigo = trim($values[1]);
+					$paleta_arbol_n1->peso = trim($values[2]);
+					$paleta_arbol_n1->mostrar_motivo_no_pago = trim($values[3]) == '' ? '' : 'si';
+					$paleta_arbol_n1->mostrar_fecha_compromiso_pago = trim($values[4]) == '' ? '' : 'si';
+					$paleta_arbol_n1->mostrar_valor_comprometido = trim($values[5]) == '' ? '' : 'si';
 					$paleta_arbol_n1->save();
 					$nivel1_id = $paleta_arbol_n1->id;
 				}else{
 					$paleta_arbol_n1 = PaletaArbol::porId($nivel1_id);
-					$paleta_arbol_n1->codigo = $values[2];
-					$paleta_arbol_n1->peso = $values[1];
+					$paleta_arbol_n1->codigo = trim($values[1]);
+					$paleta_arbol_n1->peso = trim($values[2]);
+					$paleta_arbol_n1->mostrar_motivo_no_pago = trim($values[3]) == '' ? '' : 'si';
+					$paleta_arbol_n1->mostrar_fecha_compromiso_pago = trim($values[4]) == '' ? '' : 'si';
+					$paleta_arbol_n1->mostrar_valor_comprometido = trim($values[5]) == '' ? '' : 'si';
 					$paleta_arbol_n1->save();
 				}
 
 
-				if($values[3] != '') {
+				if($values[6] != '') {
 					$nivel2_id = 0;
 					foreach($nivel_2_todos as $niv) {
-						$existe = array_search(trim($values[3]), $niv);
+						$existe = array_search(trim($values[6]), $niv);
 						if($existe) {
 							$nivel2_id = $niv['nivel2_id'];
 							break;
@@ -113,70 +120,88 @@ class CargadorPaletaExcel
 						$paleta_arbol_n2 = new PaletaArbol();
 						$paleta_arbol_n2->paleta_id = $paleta_id;
 						$paleta_arbol_n2->nivel = 2;
-						$paleta_arbol_n2->valor = trim($values[3]);
-						$paleta_arbol_n2->codigo = $values[5];
-						$paleta_arbol_n2->peso = $values[4];
+						$paleta_arbol_n2->valor = trim($values[6]);
+						$paleta_arbol_n2->codigo = trim($values[7]);
+						$paleta_arbol_n2->peso = trim($values[8]);
+						$paleta_arbol_n2->mostrar_motivo_no_pago = trim($values[9]) == '' ? '' : 'si';
+						$paleta_arbol_n2->mostrar_fecha_compromiso_pago = trim($values[10]) == '' ? '' : 'si';
+						$paleta_arbol_n2->mostrar_valor_comprometido = trim($values[11]) == '' ? '' : 'si';
 						$paleta_arbol_n2->padre_id = $nivel1_id;
 						$paleta_arbol_n2->save();
 						$nivel2_id = $paleta_arbol_n2->id;
 					}else{
 						$paleta_arbol_n2 = PaletaArbol::porId($nivel2_id);
-						$paleta_arbol_n2->codigo = $values[5];
-						$paleta_arbol_n2->peso = $values[4];
+						$paleta_arbol_n2->codigo = trim($values[7]);
+						$paleta_arbol_n2->peso = trim($values[8]);
+						$paleta_arbol_n2->mostrar_motivo_no_pago = trim($values[9]) == '' ? '' : 'si';
+						$paleta_arbol_n2->mostrar_fecha_compromiso_pago = trim($values[10]) == '' ? '' : 'si';
+						$paleta_arbol_n2->mostrar_valor_comprometido = trim($values[11]) == '' ? '' : 'si';
 						$paleta_arbol_n2->save();
 					}
 
-					if($values[6] != '') {
-//						$nivel3_id = 0;
-//						foreach($nivel_3_todos as $niv) {
-//							$existe = array_search(trim($values[6]), $niv);
-//							if($existe) {
-//								$nivel3_id = $niv['nivel3_id'];
-//								break;
-//							}
-//						}
-//						if($nivel3_id == 0) {
+					if($values[12] != '') {
+						$nivel3_id = 0;
+						foreach($nivel_3_todos as $niv) {
+							$existe = array_search(trim($values[12]), $niv);
+							if($existe) {
+								$nivel3_id = $niv['nivel3_id'];
+								break;
+							}
+						}
+						if($nivel3_id == 0) {
 							$paleta_arbol_n3 = new PaletaArbol();
 							$paleta_arbol_n3->paleta_id = $paleta_id;
 							$paleta_arbol_n3->nivel = 3;
-							$paleta_arbol_n3->valor = trim($values[6]);
-							$paleta_arbol_n3->codigo = $values[8];
-							$paleta_arbol_n3->peso = $values[7];
+							$paleta_arbol_n3->valor = trim($values[12]);
+							$paleta_arbol_n3->codigo = trim($values[13]);
+							$paleta_arbol_n3->peso = trim($values[14]);
+							$paleta_arbol_n3->mostrar_motivo_no_pago = trim($values[15]) == '' ? '' : 'si';
+							$paleta_arbol_n3->mostrar_fecha_compromiso_pago = trim($values[16]) == '' ? '' : 'si';
+							$paleta_arbol_n3->mostrar_valor_comprometido = trim($values[17]) == '' ? '' : 'si';
 							$paleta_arbol_n3->padre_id = $nivel2_id;
 							$paleta_arbol_n3->save();
 							$nivel3_id = $paleta_arbol_n3->id;
-//						}else{
-//							$paleta_arbol_n3 = PaletaArbol::porId($nivel2_id);
-//							$paleta_arbol_n3->codigo = $values[8];
-//							$paleta_arbol_n3->peso = $values[7];
-//							$paleta_arbol_n3->save();
-//						}
+						} else {
+							$paleta_arbol_n3 = PaletaArbol::porId($nivel3_id);
+							$paleta_arbol_n3->codigo = trim($values[13]);
+							$paleta_arbol_n3->peso = trim($values[14]);
+							$paleta_arbol_n3->mostrar_motivo_no_pago = trim($values[15]) == '' ? '' : 'si';
+							$paleta_arbol_n3->mostrar_fecha_compromiso_pago = trim($values[16]) == '' ? '' : 'si';
+							$paleta_arbol_n3->mostrar_valor_comprometido = trim($values[17]) == '' ? '' : 'si';
+							$paleta_arbol_n3->save();
+						}
 
-						if($values[9] != '') {
-//							$nivel4_id = 0;
-//							foreach($nivel_4_todos as $niv) {
-//								$existe = array_search(trim($values[9]), $niv);
-//								if($existe) {
-//									$nivel4_id = $niv['nivel4_id'];
-//									break;
-//								}
-//							}
-//							if($nivel4_id == 0) {
+						if($values[18] != '') {
+							$nivel4_id = 0;
+							foreach($nivel_4_todos as $niv) {
+								$existe = array_search(trim($values[18]), $niv);
+								if($existe) {
+									$nivel4_id = $niv['nivel4_id'];
+									break;
+								}
+							}
+							if($nivel4_id == 0) {
 								$paleta_arbol_n4 = new PaletaArbol();
 								$paleta_arbol_n4->paleta_id = $paleta_id;
 								$paleta_arbol_n4->nivel = 4;
-								$paleta_arbol_n4->valor = trim($values[9]);
-								$paleta_arbol_n4->codigo = $values[11];
-								$paleta_arbol_n4->peso = $values[10];
+								$paleta_arbol_n4->valor = trim($values[18]);
+								$paleta_arbol_n4->codigo = trim($values[19]);
+								$paleta_arbol_n4->peso = trim($values[20]);
+								$paleta_arbol_n4->mostrar_motivo_no_pago = trim($values[21]) == '' ? '' : 'si';
+								$paleta_arbol_n4->mostrar_fecha_compromiso_pago = trim($values[22]) == '' ? '' : 'si';
+								$paleta_arbol_n4->mostrar_valor_comprometido = trim($values[23]) == '' ? '' : 'si';
 								$paleta_arbol_n4->padre_id = $nivel3_id;
 								$paleta_arbol_n4->save();
 								$nivel4_id = $paleta_arbol_n4->id;
-//							}else{
-//								$paleta_arbol_n4 = PaletaArbol::porId($nivel2_id);
-//								$paleta_arbol_n4->codigo = $values[11];
-//								$paleta_arbol_n4->peso = $values[10];
-//								$paleta_arbol_n4->save();
-//							}
+							} else {
+								$paleta_arbol_n4 = PaletaArbol::porId($nivel4_id);
+								$paleta_arbol_n4->codigo = trim($values[19]);
+								$paleta_arbol_n4->peso = trim($values[20]);
+								$paleta_arbol_n4->mostrar_motivo_no_pago = trim($values[21]) == '' ? '' : 'si';
+								$paleta_arbol_n4->mostrar_fecha_compromiso_pago = trim($values[22]) == '' ? '' : 'si';
+								$paleta_arbol_n4->mostrar_valor_comprometido = trim($values[23]) == '' ? '' : 'si';
+								$paleta_arbol_n4->save();
+							}
 						}
 					}
 				}

@@ -1672,7 +1672,7 @@ class ProductoController extends BaseController
 		$pdo = $this->get('pdo');
 		$db = new \FluentPDO($pdo);
 		$config = $this->get('config');
-		$archivo = $config['folder_temp'] . '/Usuarios_diners_22_feb_23.xlsx';
+		$archivo = $config['folder_temp'] . '/Usuarios_diners_24_feb_23.xlsx';
 		$workbook = SpreadsheetParser::open($archivo);
 		$myWorksheetIndex = $workbook->getWorksheetIndex('myworksheet');
 		foreach($workbook->createRowIterator($myWorksheetIndex) as $rowIndex => $values) {

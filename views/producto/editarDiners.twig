@@ -202,6 +202,17 @@
 						</div>
 					</div>
 
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
+						<div class="col-md-4 col-informacion">
+							<select class="form-control form-select select2"
+							        v-model="seguimiento.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id"
+							        required v-autoname>
+								<option v-for="(v,k) in cat.paleta_nivel_3" v-html="v" :value="k"></option>
+							</select>
+						</div>
+					</div>
+
 					<h4 class="text-primary">MOTIVO DE NO PAGO</h4>
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Motivo No Pago</label>
@@ -215,7 +226,7 @@
 
 						<label for="inputName" class="col-md-2 form-label">Descripción</label>
 						<div class="col-md-4 col-informacion">
-							<select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel3"
+							<select class="form-control form-select select2"
 							        v-model="seguimiento.nivel_2_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_2_motivo_no_pago_id"
 							        required v-autoname>
 								<option v-for="(v,k) in cat.paleta_motivo_no_pago_nivel_2" v-html="v" :value="k"></option>
