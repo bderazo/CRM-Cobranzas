@@ -492,7 +492,7 @@ class ProductoApi extends BaseController
 				}
 				$retorno['form']['properties']['Nivel1MotivoNoPago'] = [
 					'type' => 'string',
-					'title' => 'Motivo No Pago',
+					'title' => 'MOTIVO NO PAGO',
 					'widget' => 'choice',
 					'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
 					'full_name' => 'data[nivel_1_motivo_no_pago_id]',
@@ -509,7 +509,7 @@ class ProductoApi extends BaseController
 				];
 				$retorno['form']['properties']['Nivel2MotivoNoPago'] = [
 					'type' => 'string',
-					'title' => 'Descripción',
+					'title' => 'DESCRIPCIÓN',
 					'widget' => 'picker-select2',
 					'empty_data' => null,
 					'full_name' => 'data[nivel_2_motivo_no_pago_id]',
