@@ -247,4 +247,30 @@ class PaletaArbol extends Model
 		}
 		return $retorno;
 	}
+
+	static function getNivel3ApiQuery($query, $page, $data) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('paleta_arbol nivel3')
+			->select(null)
+			->select('nivel3.valor AS nivel3, nivel3.id AS nivel3_id')
+			->where('nivel3.nivel',3)
+			->where('nivel3.padre_id',$data['nivel2']);
+		if($query != '') {
+			$q->where('UPPER(nivel3.valor) LIKE "%' . strtoupper($query) . '%"');
+		}
+		$q->orderBy('nivel3.valor')
+			->limit(10)
+			->offset($page * 10);
+
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$aux['id'] = $l['nivel3_id'];
+			$aux['text'] = $l['nivel3'];
+			$retorno[] = $aux;
+		}
+		return $retorno;
+	}
 }

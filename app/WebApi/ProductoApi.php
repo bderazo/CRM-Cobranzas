@@ -328,6 +328,27 @@ class ProductoApi extends BaseController
 		return $this->json($retorno);
 	}
 
+	function buscar_listas_n3()
+	{
+		if(!$this->isPost()) return "buscar_listas_n3";
+		$res = new RespuestaConsulta();
+
+		$q = $this->request->getParam('q');
+//		\Auditor::info('buscar_listas_n3 q: '.$q, 'API', $q);
+		$page = $this->request->getParam('page');
+//		\Auditor::info('buscar_listas_n3 page: '.$page, 'API', $page);
+		$data = $this->request->getParam('data');
+//		\Auditor::info('buscar_listas_n3 data: '.$data, 'API', $data);
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		$respuesta = PaletaArbol::getNivel2ApiQuery($q, $page, $data);
+		$retorno['results'] = $respuesta;
+		$retorno['pagination'] = ['more' => true];
+
+		return $this->json($retorno);
+	}
+
 	/**
 	 * buscar_listas_motivo_no_pago
 	 * @param $session
@@ -386,6 +407,8 @@ class ProductoApi extends BaseController
 				$retorno['form']['type'] = 'object';
 
 				$institucion = Institucion::porId($institucion_id);
+				$paleta = Paleta::porId($institucion->paleta_id);
+
 				$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
 				$nivel = [];
 				foreach($paleta_nivel1 as $key => $val) {
@@ -393,7 +416,7 @@ class ProductoApi extends BaseController
 				}
 				$retorno['form']['properties']['Nivel1'] = [
 					'type' => 'string',
-					'title' => 'Resultado Gestión',
+					'title' => $paleta['titulo_nivel1'],
 					'widget' => 'choice',
 					'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
 					'full_name' => 'data[nivel1]',
@@ -410,7 +433,7 @@ class ProductoApi extends BaseController
 				];
 				$retorno['form']['properties']['Nivel2'] = [
 					'type' => 'string',
-					'title' => 'Descripción',
+					'title' => $paleta['titulo_nivel1'],
 					'widget' => 'picker-select2',
 					'empty_data' => null,
 					'full_name' => 'data[nivel2]',
@@ -432,6 +455,33 @@ class ProductoApi extends BaseController
 					],
 					'req_params' => [
 						"data[nivel1]" => "data[nivel1]"
+					],
+				];
+
+				$retorno['form']['properties']['Nivel3'] = [
+					'type' => 'string',
+					'title' => $paleta['titulo_nivel3'],
+					'widget' => 'picker-select2',
+					'empty_data' => null,
+					'full_name' => 'data[nivel3]',
+					'constraints' => [
+						[
+							'name' => 'Count',
+							'Min' => 1,
+							'MinMessage' => "Debe seleccionar por lo menos una opción."
+						],
+					],
+					'required' => 1,
+					'disabled' => 0,
+					'property_order' => 2,
+					'choices' => [],
+					"multiple" => false,
+					'remote_path' => 'api/producto/buscar_listas_n3',
+					'remote_params' => [
+						"list" => "nivel3"
+					],
+					'req_params' => [
+						"data[nivel2]" => "data[nivel2]"
 					],
 				];
 
