@@ -433,7 +433,7 @@ class ProductoApi extends BaseController
 				];
 				$retorno['form']['properties']['Nivel2'] = [
 					'type' => 'string',
-					'title' => $paleta['titulo_nivel1'],
+					'title' => $paleta['titulo_nivel2'],
 					'widget' => 'picker-select2',
 					'empty_data' => null,
 					'full_name' => 'data[nivel2]',
