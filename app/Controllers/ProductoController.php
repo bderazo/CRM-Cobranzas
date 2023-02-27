@@ -53,6 +53,7 @@ class ProductoController extends BaseController
 		$data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners',\WebSecurity::getUserData('id'));
 		$cat = new CatalogoProducto(true);
 		$listas = $cat->getCatalogo();
+		$listas['paleta_nivel_1'] = PaletaArbol::getNivel1(1);
 		$data['listas'] = $listas;
 		return $this->render('indexDiners', $data);
 	}

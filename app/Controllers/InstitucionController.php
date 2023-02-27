@@ -15,6 +15,7 @@ use Models\Email;
 use Models\FiltroBusqueda;
 use Models\Institucion;
 use Models\Paleta;
+use Models\PaletaArbol;
 use Models\Telefono;
 use Models\Usuario;
 use upload;
@@ -215,6 +216,8 @@ class InstitucionController extends BaseController {
 		$lista = $qpro->fetchAll();
 		$institucion = [];
 		foreach ($lista as $l) {
+			$l['paleta_nivel2'] = PaletaArbol::getNivel2Todos($l['paleta_id']);
+
 			$institucion[] = $l;
 		}
 		return $this->json(compact('institucion'));

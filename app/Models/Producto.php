@@ -64,6 +64,7 @@ class Producto extends Model
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->leftJoin('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
+		$q->leftJoin('producto_seguimiento', 'producto_seguimiento.producto_id', '=', 'producto.id');
 		$q->select(['producto.*','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre','usuario.apellidos AS apellidos_usuario_asignado',
 					'usuario.nombres AS nombres_usuario_asignado']);
 
@@ -135,6 +136,36 @@ class Producto extends Model
 			}
 		}
 
+		if (!empty($post['fecha_inicio'])){
+			$fecha_inicio = $post['fecha_inicio'];
+			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_inicio) {
+				$qq->select('producto_id')
+					->from('producto_seguimiento')
+					->whereRaw("DATE(fecha_ingreso) >= '" . $fecha_inicio . "'")
+					->where('eliminado', 0);
+			});
+		}
+
+		if (!empty($post['fecha_fin'])){
+			$fecha_fin = $post['fecha_fin'];
+			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_fin) {
+				$qq->select('producto_id')
+					->from('producto_seguimiento')
+					->whereRaw("DATE(fecha_ingreso) <= '" . $fecha_fin . "'")
+					->where('eliminado', 0);
+			});
+		}
+
+		if (!empty($post['seguimiento'])){
+			$seguimiento = $post['seguimiento'];
+			$q->whereIn('producto.id', function(Builder $qq) use ($seguimiento) {
+				$qq->select('producto_id')
+					->from('producto_seguimiento')
+					->where('nivel_1_id', $seguimiento)
+					->where('eliminado', 0);
+			});
+		}
+
 		$q->whereIn('producto.estado',['no_asignado','asignado_megacob','asignado_usuario','procesado']);
 
 		$q->where('producto.estado', '<>', 'inactivo');
@@ -142,6 +173,7 @@ class Producto extends Model
 		$q->where('institucion.id', '=', 1);
 
 		$q->where('producto.eliminado', '=', 0);
+		$q->distinct("id");
 		$q->orderBy($order, 'asc');
 //		printDie($q->toSql());
 		if($pagina > 0 && $records > 0)
@@ -233,6 +265,36 @@ class Producto extends Model
 			}
 		}
 
+		if (!empty($post['fecha_inicio'])){
+			$fecha_inicio = $post['fecha_inicio'];
+			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_inicio) {
+				$qq->select('producto_id')
+					->from('producto_seguimiento')
+					->whereRaw("DATE(fecha_ingreso) >= '" . $fecha_inicio . "'")
+					->where('eliminado', 0);
+			});
+		}
+
+		if (!empty($post['fecha_fin'])){
+			$fecha_fin = $post['fecha_fin'];
+			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_fin) {
+				$qq->select('producto_id')
+					->from('producto_seguimiento')
+					->whereRaw("DATE(fecha_ingreso) <= '" . $fecha_fin . "'")
+					->where('eliminado', 0);
+			});
+		}
+
+		if (!empty($post['seguimiento'])){
+			$seguimiento = $post['seguimiento'];
+			$q->whereIn('producto.id', function(Builder $qq) use ($seguimiento) {
+				$qq->select('producto_id')
+					->from('producto_seguimiento')
+					->where('nivel_1_id', $seguimiento)
+					->where('eliminado', 0);
+			});
+		}
+
 		$q->whereIn('producto.estado',['no_asignado','asignado_megacob','asignado_usuario','procesado']);
 
 		$q->where('producto.estado', '<>', 'inactivo');
@@ -240,6 +302,7 @@ class Producto extends Model
 		$q->where('institucion.id', '<>', 1);
 
 		$q->where('producto.eliminado', '=', 0);
+		$q->distinct("id");
 		$q->orderBy($order, 'asc');
 //		printDie($q->toSql());
 		if($pagina > 0 && $records > 0)

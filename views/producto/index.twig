@@ -9,6 +9,18 @@
 				<div id="app">
 					<div class="card-body">
 						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Fecha inicio</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control fecha" name="fecha_inicio" id="fecha_inicio" value="{{ filtros.fecha_inicio }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Fecha fin</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control fecha" name="fecha_fin" id="fecha_fin" value="{{ filtros.fecha_fin }}"/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Institución</label>
 							<div class="col-md-4">
 								<div class="input-group">
@@ -47,6 +59,15 @@
 							<label for="inputName" class="col-md-2 form-label">Estado</label>
 							<div class="col-md-4">
 								{{ select_tag('estado', listas.estado, '', {class:'form-control form-select select2',prompt: ''} ) }}
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Seguimiento</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" id="seguimiento" name="seguimiento">
+									<option value=""></option>
+								</select>
 							</div>
 						</div>
 
@@ -112,6 +133,14 @@
             $("#producto").val('');
             $("#telefono").val('');
             $("#estado").val('');
+            $("#fecha_inicio").val('');
+            $("#fecha_fin").val('');
+            $('#seguimiento')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value=""></option>')
+                .val('');
 			cargar(1);
 		}
 
@@ -141,6 +170,23 @@
 						callbackInstitucion = function (res) {
 							$("#institucion_id").val(res.id);
 							$("#institucion_nombre").val(res.nombre);
+
+                            $('#seguimiento')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option value=""></option>')
+                                .val('');
+
+                            $.each(res.paleta_nivel2, function (key, value) {
+                                $('#seguimiento').append($('<option>', {
+                                    value: value.nivel2_id,
+                                    text: value.nivel2
+                                }));
+                            });
+
+                            console.log(res);
+
 							$('#modalInstitucion').modal('hide');
 						};
 						$('#modalInstitucion').modal('show');

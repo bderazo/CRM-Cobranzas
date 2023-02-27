@@ -9,6 +9,18 @@
 				<div id="app">
 					<div class="card-body">
 						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Fecha inicio</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control fecha" name="fecha_inicio" id="fecha_inicio" value="{{ filtros.fecha_inicio }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Fecha fin</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control fecha" name="fecha_fin" id="fecha_fin" value="{{ filtros.fecha_fin }}"/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Producto</label>
 							<div class="col-md-4">
 								<input type="text" class="form-control" name="producto" id="producto" value="{{ filtros.producto }}"/>
@@ -36,6 +48,16 @@
 							<label for="inputName" class="col-md-2 form-label">Teléfono</label>
 							<div class="col-md-4">
 								<input type="text" class="form-control" name="telefono" id="telefono" value="{{ filtros.telefono }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Seguimiento</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" id="seguimiento" name="seguimiento">
+									<option value=""></option>
+									{% for l in listas.paleta_nivel_1 %}
+										<option value="{{ l.nivel1_id }}">{{ l.nivel1 }}</option>
+									{% endfor %}
+								</select>
 							</div>
 						</div>
 
@@ -101,6 +123,9 @@
             $("#producto").val('');
             $("#telefono").val('');
             $("#estado").val('');
+            $("#fecha_inicio").val('');
+            $("#fecha_fin").val('');
+            $("#seguimiento").val('');
 			cargar(1);
 		}
 
@@ -139,6 +164,15 @@
 			mounted: function () {
 				$('.integer').numeric("integer");
 				$('.numeric').numeric();
+
+                $(function () {
+                    $('.fecha').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true
+                    });
+
+                });
+
 			}
 		});
 	</script>
