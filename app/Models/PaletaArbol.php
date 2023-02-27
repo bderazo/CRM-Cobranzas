@@ -89,11 +89,11 @@ class PaletaArbol extends Model
 			->where('nivel1.paleta_id',$paleta_id)
 			->orderBy('nivel1.valor');
 		$lista = $q->fetchAll();
-		$retorno = [];
-		foreach ($lista as $l){
-			$retorno[$l['nivel1_id']] = $l['nivel1'];
-		}
-		return $retorno;
+//		$retorno = [];
+//		foreach ($lista as $l){
+//			$retorno[$l['nivel1_id']] = $l['nivel1'];
+//		}
+		return $lista;
 	}
 
 	static function getNivel2($nivel_1_id) {
@@ -107,11 +107,11 @@ class PaletaArbol extends Model
 			->where('nivel2.padre_id',$nivel_1_id)
 			->orderBy('nivel2.valor');
 		$lista = $q->fetchAll();
-		$retorno = [];
-		foreach ($lista as $l){
-			$retorno[$l['nivel2_id']] = $l['nivel2'];
-		}
-		return $retorno;
+//		$retorno = [];
+//		foreach ($lista as $l){
+//			$retorno[$l['nivel2_id']] = $l['nivel2'];
+//		}
+		return $lista;
 	}
 
 	static function getNivel3($nivel_2_id) {
@@ -125,11 +125,11 @@ class PaletaArbol extends Model
 			->where('nivel3.padre_id',$nivel_2_id)
 			->orderBy('nivel3.valor');
 		$lista = $q->fetchAll();
-		$retorno = [];
-		foreach ($lista as $l){
-			$retorno[$l['nivel3_id']] = $l['nivel3'];
-		}
-		return $retorno;
+//		$retorno = [];
+//		foreach ($lista as $l){
+//			$retorno[$l['nivel3_id']] = $l['nivel3'];
+//		}
+		return $lista;
 	}
 
 	static function getNivel4($nivel_3_id) {
@@ -143,11 +143,11 @@ class PaletaArbol extends Model
 			->where('nivel4.padre_id',$nivel_3_id)
 			->orderBy('nivel4.valor');
 		$lista = $q->fetchAll();
-		$retorno = [];
-		foreach ($lista as $l){
-			$retorno[$l['nivel4_id']] = $l['nivel4'];
-		}
-		return $retorno;
+//		$retorno = [];
+//		foreach ($lista as $l){
+//			$retorno[$l['nivel4_id']] = $l['nivel4'];
+//		}
+		return $lista;
 	}
 
 	static function getNivel1Paleta($paleta_id) {

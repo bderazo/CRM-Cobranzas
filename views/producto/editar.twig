@@ -187,7 +187,7 @@
 							<select class="form-control form-select select2" v-on:change="cargarNivel2"
 							        v-model="seguimiento.nivel_1_id" placeholder="Seleccione una opción" id="nivel_1_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_nivel_1" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_nivel_1" v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
 							</select>
 						</div>
 
@@ -196,7 +196,7 @@
 							<select class="form-control form-select select2" v-on:change="cargarNivel3"
 							        v-model="seguimiento.nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_nivel_2" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_nivel_2" v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
 							</select>
 						</div>
 					</div>
@@ -207,7 +207,7 @@
 							<select class="form-control form-select select2" v-on:change="cargarNivel4"
 							        v-model="seguimiento.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_nivel_3" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_nivel_3" v-bind:value="item.nivel3_id" v-html="item.nivel3"></option>
 							</select>
 						</div>
 
@@ -216,7 +216,7 @@
 							<select class="form-control form-select select2"
 							        v-model="seguimiento.nivel_4_id" placeholder="Seleccione una opción" id="nivel_4_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_nivel_4" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_nivel_4" v-bind:value="item.nivel4_id" v-html="item.nivel4"></option>
 							</select>
 						</div>
 					</div>
@@ -228,7 +228,7 @@
 							<select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2"
 							        v-model="seguimiento.nivel_1_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_motivo_no_pago_nivel_1" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_motivo_no_pago_nivel_1" v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
 							</select>
 						</div>
 					</div>

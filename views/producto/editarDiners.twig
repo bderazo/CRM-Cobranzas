@@ -188,7 +188,7 @@
 							<select class="form-control form-select select2" v-on:change="cargarNivel2"
 							        v-model="seguimiento.nivel_1_id" placeholder="Seleccione una opción" id="nivel_1_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_nivel_1" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_nivel_1" v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
 							</select>
 						</div>
 
@@ -197,7 +197,7 @@
 							<select class="form-control form-select select2" v-on:change="cargarNivel3"
 							        v-model="seguimiento.nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_nivel_2" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_nivel_2" v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
 							</select>
 						</div>
 					</div>
@@ -205,32 +205,50 @@
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
 						<div class="col-md-4 col-informacion">
-							<select class="form-control form-select select2"
+							<select class="form-control form-select select2" v-on:change="verificarCampos"
 							        v-model="seguimiento.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id"
 							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_nivel_3" v-html="v" :value="k"></option>
+								<option v-for="item in cat.paleta_nivel_3" v-bind:value="item.nivel3_id" v-html="item.nivel3"></option>
 							</select>
 						</div>
 					</div>
 
-					<h4 class="text-primary">MOTIVO DE NO PAGO</h4>
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Motivo No Pago</label>
-						<div class="col-md-4 col-informacion">
-							<select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2"
-							        v-model="seguimiento.nivel_1_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id"
-							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_motivo_no_pago_nivel_1" v-html="v" :value="k"></option>
-							</select>
+					<div id="div_fecha_compromiso_pago">
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">FECHA COMPROMISO DE PAGO</label>
+							<div class="col-md-4 col-informacion">
+								<input type="text" class="form-control fecha" id="fecha_compromiso_pago" name="fecha_compromiso_pago">
+							</div>
 						</div>
+					</div>
 
-						<label for="inputName" class="col-md-2 form-label">Descripción</label>
-						<div class="col-md-4 col-informacion">
-							<select class="form-control form-select select2"
-							        v-model="seguimiento.nivel_2_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_2_motivo_no_pago_id"
-							        required v-autoname>
-								<option v-for="(v,k) in cat.paleta_motivo_no_pago_nivel_2" v-html="v" :value="k"></option>
-							</select>
+					<div id="div_valor_comprometido">
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
+							<div class="col-md-4 col-informacion">
+								<input type="text" class="form-control number" v-model="seguimiento.valor_comprometido" id="valor_comprometido" name="valor_comprometido">
+							</div>
+						</div>
+					</div>
+
+					<div id="div_motivo_no_pago">
+						<h4 class="text-primary">MOTIVO DE NO PAGO</h4>
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Motivo No Pago</label>
+							<div class="col-md-4 col-informacion">
+								<select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2"
+								        v-model="seguimiento.nivel_1_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id" name="nivel_1_motivo_no_pago_id">
+									<option v-for="item in cat.paleta_motivo_no_pago_nivel_1" v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Descripción</label>
+							<div class="col-md-4 col-informacion">
+								<select class="form-control form-select select2"
+								        v-model="seguimiento.nivel_2_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_2_motivo_no_pago_id" name="nivel_2_motivo_no_pago_id">
+									<option v-for="item in cat.paleta_motivo_no_pago_nivel_2" v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
+								</select>
+							</div>
 						</div>
 					</div>
 
@@ -2365,6 +2383,8 @@
 	{{ bundle('summer') }}
 	{{ script('js/lodash.js') }}
 	{{ bundle('jasny') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
 	<script>
         _autonameVueCount = 0;
         Vue.directive('autoname', {
@@ -2418,13 +2438,37 @@
                     });
                 },
 
-                cargarNivel4: function () {
+                verificarCampos: function () {
                     var self = this;
                     var data = {
                         nivel_3_id: self.seguimiento.nivel_3_id,
                     };
-                    $.post('{{ root }}/paleta/cargarNivel4', data, function (res) {
-                        self.cat.paleta_nivel_4 = res;
+                    $.post('{{ root }}/producto/verificarCampos', data, function (res) {
+                        if(res.mostrar_motivo_no_pago == 'si'){
+                            $("#div_motivo_no_pago").show();
+                            $('#nivel_1_motivo_no_pago_id').prop('required',true);
+                            $('#nivel_2_motivo_no_pago_id').prop('required',true);
+                        }else{
+                            $("#div_motivo_no_pago").hide();
+                            $('#nivel_1_motivo_no_pago_id').removeAttr('required');
+                            $('#nivel_2_motivo_no_pago_id').removeAttr('required');
+                        }
+
+                        if(res.mostrar_fecha_compromiso_pago == 'si'){
+                            $("#div_fecha_compromiso_pago").show();
+                            $('#fecha_compromiso_pago').prop('required',true);
+                        }else{
+                            $("#div_fecha_compromiso_pago").hide();
+                            $('#fecha_compromiso_pago').removeAttr('required');
+                        }
+
+                        if(res.mostrar_valor_comprometido == 'si'){
+                            $("#div_valor_comprometido").show();
+                            $('#valor_comprometido').prop('required',true);
+                        }else{
+                            $("#div_valor_comprometido").hide();
+                            $('#valor_comprometido').removeAttr('required');
+                        }
                         console.log(res);
                     });
                 },
@@ -2516,6 +2560,10 @@
             mounted: function () {
                 var self = this;
 
+                $("#div_motivo_no_pago").hide();
+                $("#div_fecha_compromiso_pago").hide();
+                $("#div_valor_comprometido").hide();
+
                 if(self.aplicativo_diners_tarjeta_diners.length != 0){
                     self.calcularValoresDiners();
                 }
@@ -2546,6 +2594,7 @@
                             aplicativo_diners_tarjeta_discover: self.aplicativo_diners_tarjeta_discover,
                             aplicativo_diners_tarjeta_mastercard: self.aplicativo_diners_tarjeta_mastercard,
                             aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
+                            fecha_compromiso_pago: $("#fecha_compromiso_pago").val(),
                         };
                         $('#json').val(JSON.stringify(data));
                         $("#btnGuardar").prop("disabled", true);
@@ -2576,6 +2625,17 @@
                     };
                     $('#jsonNegociacionAutomatica').val(JSON.stringify(data));
                     $('#exportFormNegociacionAutomatica').submit();
+                });
+
+                $(function () {
+                    $('.fecha').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true,
+                        minDate: 0, // 0 days offset = today
+                        maxDate: '+2m',
+                        numberOfMonths: 2,
+                    });
+
                 });
             }
         });

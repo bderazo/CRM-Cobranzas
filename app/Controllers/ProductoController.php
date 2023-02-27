@@ -327,6 +327,7 @@ class ProductoController extends BaseController
 		$cliente = Cliente::porId($model->cliente_id);
 		$institucion = Institucion::porId($model->institucion_id);
 		$catalogos['paleta_nivel_1'] = PaletaArbol::getNivel1($institucion->paleta_id);
+//		printDie($catalogos['paleta_nivel_1']);
 		$catalogos['paleta_nivel_2'] = [];
 		$catalogos['paleta_nivel_3'] = [];
 		$catalogos['paleta_nivel_4'] = [];
@@ -512,10 +513,18 @@ class ProductoController extends BaseController
 			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_4_id']);
 			$con->nivel_4_texto = $paleta_arbol['valor'];
 		}
+		if(isset($seguimiento['fecha_compromiso_pago'])) {
+			$con->fecha_compromiso_pago = $seguimiento['fecha_compromiso_pago'];
+		}
+		if(isset($seguimiento['valor_comprometido'])) {
+			$con->valor_comprometido = $seguimiento['valor_comprometido'];
+		}
 		//MOTIVOS DE NO PAGO
-		$con->nivel_1_motivo_no_pago_id = $seguimiento['nivel_1_motivo_no_pago_id'];
-		$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_1_motivo_no_pago_id']);
-		$con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		if(isset($seguimiento['nivel_1_motivo_no_pago_id'])) {
+			$con->nivel_1_motivo_no_pago_id = $seguimiento['nivel_1_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_1_motivo_no_pago_id']);
+			$con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		}
 		if(isset($seguimiento['nivel_2_motivo_no_pago_id'])) {
 			$con->nivel_2_motivo_no_pago_id = $seguimiento['nivel_2_motivo_no_pago_id'];
 			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_2_motivo_no_pago_id']);
@@ -550,6 +559,7 @@ class ProductoController extends BaseController
 		//GUARDAR SEGUIMIENTO
 		$producto = $data['model'];
 		$seguimiento = $data['seguimiento'];
+		$fecha_compromiso_pago = $data['fecha_compromiso_pago'];
 		$aplicativo_diners = $data['aplicativo_diners'];
 		$institucion = Institucion::porId($producto['institucion_id']);
 		if($seguimiento['id'] > 0) {
@@ -583,10 +593,18 @@ class ProductoController extends BaseController
 			$paleta_arbol = PaletaArbol::porId($seguimiento['nivel_4_id']);
 			$con->nivel_4_texto = $paleta_arbol['valor'];
 		}
+		if($fecha_compromiso_pago != '') {
+			$con->fecha_compromiso_pago = $fecha_compromiso_pago;
+		}
+		if(isset($seguimiento['valor_comprometido'])) {
+			$con->valor_comprometido = $seguimiento['valor_comprometido'];
+		}
 		//MOTIVOS DE NO PAGO
-		$con->nivel_1_motivo_no_pago_id = $seguimiento['nivel_1_motivo_no_pago_id'];
-		$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_1_motivo_no_pago_id']);
-		$con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		if(isset($seguimiento['nivel_1_motivo_no_pago_id'])) {
+			$con->nivel_1_motivo_no_pago_id = $seguimiento['nivel_1_motivo_no_pago_id'];
+			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_1_motivo_no_pago_id']);
+			$con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+		}
 		if(isset($seguimiento['nivel_2_motivo_no_pago_id'])) {
 			$con->nivel_2_motivo_no_pago_id = $seguimiento['nivel_2_motivo_no_pago_id'];
 			$paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_2_motivo_no_pago_id']);
@@ -1535,6 +1553,12 @@ class ProductoController extends BaseController
 		return $this->json($datos_calculados);
 	}
 
+	function verificarCampos() {
+		$nivel_3_id = $_REQUEST['nivel_3_id'];
+		$arbol_campos = PaletaArbol::porId($nivel_3_id);
+		return $this->json($arbol_campos);
+	}
+
 	function cargarDatosHuaicana()
 	{
 		$config = $this->get('config');
@@ -1766,6 +1790,8 @@ class ViewProductoSeguimiento
 	var $nivel_3_motivo_no_pago_id;
 	var $nivel_4_motivo_no_pago_id;
 	var $nivel_5_motivo_no_pago_id;
+	var $fecha_compromiso_pago;
+	var $valor_comprometido;
 	var $observaciones;
 	var $fecha_ingreso;
 	var $fecha_modificacion;

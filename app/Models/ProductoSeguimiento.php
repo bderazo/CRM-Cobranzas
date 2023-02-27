@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string nivel_4_motivo_no_pago_texto
  * @property integer nivel_5_motivo_no_pago_id
  * @property string nivel_5_motivo_no_pago_texto
+ * @property string fecha_compromiso_pago
+ * @property double valor_comprometido
  * @property string observaciones
  * @property integer direccion_id
  * @property integer telefono_id
