@@ -61,6 +61,7 @@ class AplicativoDinersApi extends BaseController
 		if(isset($user['id'])) {
 			//DATA APLICATIVO DINERS
 			$aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
+			$producto = Producto::porId($producto_id);
 			$campos = [
 				[
 					'label' => 'CIUDAD DE GESTIÓN',
@@ -111,7 +112,7 @@ class AplicativoDinersApi extends BaseController
 			$keys = [
 				'aplicativo_diners_id' => $aplicativo_diners['id'],
 				'cliente_id' => $aplicativo_diners['cliente_id'],
-				'institucion_id' => $aplicativo_diners['institucion_id'],
+				'institucion_id' => $producto['institucion_id'],
 				'producto_id' => $aplicativo_diners['producto_id'],
 			];
 
