@@ -40,7 +40,7 @@ class ClienteController extends BaseController {
 		\WebSecurity::secure('cliente.lista');
 		$params = $this->request->getParsedBody();
 		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
-		$lista = Cliente::buscar($params, 'cliente.apellidos', $page, 20);
+		$lista = Cliente::buscar($params, 'cliente.nombres', $page, 20);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
 		foreach ($lista as $listas) {

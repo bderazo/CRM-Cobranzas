@@ -412,7 +412,7 @@ class ProductoApi extends BaseController
 				$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
 				$nivel = [];
 				foreach($paleta_nivel1 as $key => $val) {
-					$nivel[] = ['id' => $key, 'label' => $val];
+					$nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
 				}
 				$retorno['form']['properties']['Nivel1'] = [
 					'type' => 'string',
@@ -488,7 +488,8 @@ class ProductoApi extends BaseController
 				$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
 				$nivel = [];
 				foreach($paleta_nivel1 as $key => $val) {
-					$nivel[] = ['id' => $key, 'label' => $val];
+//					$nivel[] = ['id' => $key, 'label' => $val];
+					$nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
 				}
 				$retorno['form']['properties']['Nivel1MotivoNoPago'] = [
 					'type' => 'string',

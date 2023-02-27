@@ -65,6 +65,7 @@ class Cliente extends Model {
 
 		$q->where('cliente.eliminado', '=', false);
 		$q->orderBy($order, 'asc');
+//		printDie($q->toSql());
 		if($pagina > 0 && $records > 0)
 			return $q->paginate($records, ['*'], 'page', $pagina);
 		return $q->get();
