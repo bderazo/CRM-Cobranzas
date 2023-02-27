@@ -113,7 +113,7 @@ class AplicativoDinersApi extends BaseController
 				'aplicativo_diners_id' => $aplicativo_diners['id'],
 				'cliente_id' => $aplicativo_diners['cliente_id'],
 				'institucion_id' => $producto['institucion_id'],
-				'producto_id' => $aplicativo_diners['producto_id'],
+				'producto_id' => $producto_id,
 			];
 
 			$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
