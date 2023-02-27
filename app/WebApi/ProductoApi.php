@@ -503,7 +503,7 @@ class ProductoApi extends BaseController
 							'message' => 'Este campo no puede estar vacío'
 						]
 					],
-					'required' => 1,
+					'required' => 0,
 					'disabled' => 0,
 					'property_order' => 3,
 					'choices' => $nivel,
@@ -521,7 +521,7 @@ class ProductoApi extends BaseController
 							'MinMessage' => "Debe seleccionar por lo menos una opción."
 						],
 					],
-					'required' => 1,
+					'required' => 0,
 					'disabled' => 0,
 					'property_order' => 4,
 					'choices' => [],
