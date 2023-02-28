@@ -35,11 +35,17 @@
 										{% if seg.nivel4 != '' %}
 											<strong>{{ paleta.titulo_nivel4 }}: </strong><br/> {{ seg.nivel4 }}<br/><br/>
 										{% endif %}
+										{% if seg.fecha_compromiso_pago != '' %}
+											<strong>FECHA COMPROMISO DE PAGO: </strong><br/> {{ seg.fecha_compromiso_pago }}<br/><br/>
+										{% endif %}
+										{% if seg.valor_comprometido != '' %}
+											<strong>VALOR COMPROMETIDO: </strong><br/> {{ seg.valor_comprometido }}<br/><br/>
+										{% endif %}
 										{% if seg.nivel1_motivo_no_pago != '' %}
-											<strong>Motivo No Pago: </strong><br/> {{ seg.nivel1_motivo_no_pago }}<br/><br/>
+											<strong>{{ paleta.titulo_motivo_no_pago_nivel1 }}: </strong><br/> {{ seg.nivel1_motivo_no_pago }}<br/><br/>
 										{% endif %}
 										{% if seg.nivel2_motivo_no_pago != '' %}
-											<strong>Descripción: </strong><br/> {{ seg.nivel2_motivo_no_pago }}<br/><br/>
+											<strong>{{ paleta.titulo_motivo_no_pago_nivel2 }}: </strong><br/> {{ seg.nivel2_motivo_no_pago }}<br/><br/>
 										{% endif %}
 										{% for img in seg.imagenes %}
 											<a href="{{ img }}" target="_blank"><img style="width: auto; max-height: 80px; " src="{{ img }}"/></a>

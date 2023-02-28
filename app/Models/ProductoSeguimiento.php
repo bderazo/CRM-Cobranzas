@@ -163,6 +163,10 @@ class ProductoSeguimiento extends Model
 			$l['nivel2_titulo'] = $pal['titulo_nivel2'];
 			$l['nivel3_titulo'] = $pal['titulo_nivel3'];
 			$l['nivel4_titulo'] = $pal['titulo_nivel4'];
+			$l['titulo_motivo_no_pago_nivel1'] = $pal['titulo_motivo_no_pago_nivel1'];
+			$l['titulo_motivo_no_pago_nivel2'] = $pal['titulo_motivo_no_pago_nivel2'];
+			$l['titulo_motivo_no_pago_nivel3'] = $pal['titulo_motivo_no_pago_nivel3'];
+			$l['titulo_motivo_no_pago_nivel4'] = $pal['titulo_motivo_no_pago_nivel4'];
 			$retorno[$l['producto_id']] = $l;
 		}
 		return $retorno;

@@ -52,11 +52,17 @@
 						{% if l.ultimo_seguimiento.nivel4 != '' %}
 							<strong>{{ l.ultimo_seguimiento.nivel4_titulo }}: </strong><br/>{{ l.ultimo_seguimiento.nivel4 }}<br/>
 						{% endif %}
+						{% if l.ultimo_seguimiento.fecha_compromiso_pago != '' %}
+							<strong>FECHA COMPROMISO DE PAGO: </strong><br/>{{ l.ultimo_seguimiento.fecha_compromiso_pago }}<br/>
+						{% endif %}
+						{% if l.ultimo_seguimiento.valor_comprometido != '' %}
+							<strong>VALOR COMPROMETIDO: </strong><br/>{{ l.ultimo_seguimiento.valor_comprometido }}<br/>
+						{% endif %}
 						{% if l.ultimo_seguimiento.nivel1_motivo_no_pago != '' %}
-							<strong>Motivo No Pago: </strong><br/>{{ l.ultimo_seguimiento.nivel1_motivo_no_pago }}<br/>
+							<strong>{{ l.ultimo_seguimiento.titulo_motivo_no_pago_nivel1 }}: </strong><br/>{{ l.ultimo_seguimiento.nivel1_motivo_no_pago }}<br/>
 						{% endif %}
 						{% if l.ultimo_seguimiento.nivel2_motivo_no_pago != '' %}
-							<strong>Descripción: </strong><br/>{{ l.ultimo_seguimiento.nivel2_motivo_no_pago }}<br/>
+							<strong>{{ l.ultimo_seguimiento.titulo_motivo_no_pago_nivel2 }}: </strong><br/>{{ l.ultimo_seguimiento.nivel2_motivo_no_pago }}<br/>
 						{% endif %}
 						<strong>Usuario: </strong><br/>{{ l.ultimo_seguimiento.usuario }}
 					{% endif %}
