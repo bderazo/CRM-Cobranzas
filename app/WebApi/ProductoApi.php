@@ -415,8 +415,8 @@ class ProductoApi extends BaseController
 //		$institucion_id = 1;
 //		$producto_id = 12596;
 
-//		\Auditor::error("get_form_paleta $institucion_id ", 'Producto', $institucion_id);
-//		\Auditor::error("get_form_paleta $producto_id ", 'Producto', $producto_id);
+		\Auditor::error("get_form_paleta $institucion_id ", 'Producto', $institucion_id);
+		\Auditor::error("get_form_paleta $producto_id ", 'Producto', $producto_id);
 
 		if($institucion_id > 0 && $producto_id > 0) {
 			$session = $this->request->getParam('session');
