@@ -20,6 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string titulo_nivel2
  * @property string titulo_nivel3
  * @property string titulo_nivel4
+ * @property string titulo_motivo_no_pago_nivel1
+ * @property string titulo_motivo_no_pago_nivel2
+ * @property string titulo_motivo_no_pago_nivel3
+ * @property string titulo_motivo_no_pago_nivel4
  * @property string observaciones
  * @property string fecha_ingreso
  * @property string fecha_modificacion

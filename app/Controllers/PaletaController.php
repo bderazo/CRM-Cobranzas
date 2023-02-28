@@ -276,6 +276,14 @@ class ViewPaleta {
 	var $requiere_agendamiento;
 	var $requiere_ingreso_monto;
 	var $requiere_ocultar_motivo;
+	var $titulo_nivel1;
+	var $titulo_nivel2;
+	var $titulo_nivel3;
+	var $titulo_nivel4;
+	var $titulo_motivo_no_pago_nivel1;
+	var $titulo_motivo_no_pago_nivel2;
+	var $titulo_motivo_no_pago_nivel3;
+	var $titulo_motivo_no_pago_nivel4;
 	var $observaciones;
 	var $fecha_ingreso;
 	var $fecha_modificacion;
