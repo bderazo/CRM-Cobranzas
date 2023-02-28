@@ -587,7 +587,7 @@ class ProductoApi extends BaseController
 						'type' => 'string',
 						'title' => 'VALOR COMPROMETIDO',
 						'widget' => 'text',
-						'empty_data' => 0,
+						'empty_data' => null,
 						'full_name' => 'data[valor_comprometido]',
 						'constraints' => [],
 						'required' => 0,
