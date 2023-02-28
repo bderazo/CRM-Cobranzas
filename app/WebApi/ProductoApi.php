@@ -840,6 +840,16 @@ class ProductoApi extends BaseController
 				$con->nivel_4_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
 			}
 
+			if(isset($data['fecha_compromiso_pago'])) {
+				$con->fecha_compromiso_pago = $data['fecha_compromiso_pago'];
+			}
+
+			if(isset($data['valor_comprometido'])) {
+				if($data['valor_comprometido'] > 0) {
+					$con->valor_comprometido = $data['valor_comprometido'];
+				}
+			}
+
 			$con->observaciones = $data['observaciones'];
 			if($data['direccion_visita'] > 0) {
 				$con->direccion_id = $data['direccion_visita'];
