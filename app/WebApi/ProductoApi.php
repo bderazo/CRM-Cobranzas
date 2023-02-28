@@ -363,7 +363,7 @@ class ProductoApi extends BaseController
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
-		$respuesta = PaletaArbol::getNivel3ApiQuery($q, $page, $data);
+		$respuesta = PaletaArbol::getNivel4ApiQuery($q, $page, $data);
 		$retorno['results'] = $respuesta;
 		$retorno['pagination'] = ['more' => true];
 
