@@ -255,59 +255,191 @@
 					<h4 class="card-title">Productos</h4>
 				</div>
 				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+						<table class="table border table-striped table-bordered table-sm mb-0">
 							<thead>
 							<tr>
 								<th>Institución</th>
 								<th>Producto</th>
 								<th>Estado</th>
-								<th>Usuario asignado</th>
 								<th>Último seguimiento</th>
+								<th>Mejor seguimiento</th>
 							</tr>
 							</thead>
 							<tbody>
 							<tr v-for="p in productos">
 								<td>
-									<a :href="'{{ root }}/institucion/editar?id=' + p.institucion_id" target="_blank" style="text-decoration: underline" class="text-primary ms-1">
-										<span v-html="p.institucion_nombre"></span>
-									</a>
+									<span v-html="p.institucion_nombre"></span>
 								</td>
 								<td>
-									<a :href="'{{ root }}/producto/editar?id=' + p.id" target="_blank" style="text-decoration: underline" class="text-primary ms-1">
-										<span v-html="p.producto"></span>
-									</a>
+									<span v-html="p.producto_nombre"></span>
 								</td>
 								<td style="text-transform: uppercase;"><span v-html="p.estado"></span></td>
-								<td style="text-transform: uppercase;">ADMIN</td>
 								<td>
-									<table class="table border text-nowrap text-md-nowrap  mb-0">
+									<table class="table border table-sm mb-0">
 										<tbody>
 										<tr>
-											<th style="width: 20%;">NIVEL1</th>
-											<td>ACUERDO DE PAGO DOCUMENTADO</td>
+											<th style="width: 20%;">Fecha de seguimiento</th>
+											<td><span v-html="p.fecha_ingreso"></span></td>
 										</tr>
+										<template v-if="p.nivel1 !== null">
 										<tr>
-											<th style="width: 20%;">NIVEL2</th>
-											<td>ACUERDO DE PAGO DOC. PARCIAL</td>
+											<th style="width: 20%;"><span v-html="p.nivel1_titulo"></span></th>
+											<td><span v-html="p.nivel1"></span></td>
 										</tr>
-										<tr>
-											<th style="width: 20%;">Observaciones</th>
-											<td>Cliente acuerda el pago parcial de la cuota</td>
-										</tr>
-										<tr>
-											<th style="width: 20%;">Fecha gestión</th>
-											<td>2022-09-15 15:23:16</td>
-										</tr>
+										</template>
+										<template v-if="p.nivel2 !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.nivel2_titulo"></span></th>
+												<td><span v-html="p.nivel2"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel3 !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.nivel3_titulo"></span></th>
+												<td><span v-html="p.nivel3"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel4 !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.nivel4_titulo"></span></th>
+												<td><span v-html="p.nivel4"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.fecha_compromiso_pago !== null">
+											<tr>
+												<th style="width: 20%;">FECHA COMPROMISO DE PAGO</th>
+												<td><span v-html="p.fecha_compromiso_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.valor_comprometido !== null">
+											<tr>
+												<th style="width: 20%;">VALOR COMPROMETIDO</th>
+												<td><span v-html="p.valor_comprometido"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel1_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel1"></span></th>
+												<td><span v-html="p.nivel1_motivo_no_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel2_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel2"></span></th>
+												<td><span v-html="p.nivel2_motivo_no_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel3_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel3"></span></th>
+												<td><span v-html="p.nivel3_motivo_no_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel4_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel4"></span></th>
+												<td><span v-html="p.nivel4_motivo_no_pago"></span></td>
+											</tr>
+										</template>
 										<tr>
 											<th style="width: 20%;">Usuario</th>
-											<td>ADMIN</td>
+											<td><span v-html="p.usuario"></span></td>
 										</tr>
 										<tr>
-											<td colspan="2">
-												<button class="btn btn-sm btn-secondary" type="button">
-													<i class="fa fa-eye" aria-hidden="true"></i> Ver todos los procesos
-												</button>
+											<td colspan="2" style="text-align: center;">
+												<template v-if="p.institucion_id == 1">
+													<a class="btn btn-sm btn-secondary" type="button" :href="'{{ root }}/producto/verSeguimientosDiners?id=' + p.producto_id" target="_blank">
+														<i class="fa fa-eye" aria-hidden="true"></i> Ver todos los seguimientos
+													</a>
+												</template>
+												<template v-else>
+													<a class="btn btn-sm btn-secondary" type="button" :href="'{{ root }}/producto/verSeguimientos?id=' + p.producto_id" target="_blank">
+														<i class="fa fa-eye" aria-hidden="true"></i> Ver todos los seguimientos
+													</a>
+												</template>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</td>
+								<td>
+									<table class="table border table-sm mb-0">
+										<tbody>
+										<tr>
+											<th style="width: 20%;">Fecha de seguimiento</th>
+											<td><span v-html="p.fecha_ingreso"></span></td>
+										</tr>
+										<template v-if="p.nivel1 !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.nivel1_titulo"></span></th>
+												<td><span v-html="p.nivel1"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel2 !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.nivel2_titulo"></span></th>
+												<td><span v-html="p.nivel2"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel3 !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.nivel3_titulo"></span></th>
+												<td><span v-html="p.nivel3"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel4 !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.nivel4_titulo"></span></th>
+												<td><span v-html="p.nivel4"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.fecha_compromiso_pago !== null">
+											<tr>
+												<th style="width: 20%;">FECHA COMPROMISO DE PAGO</th>
+												<td><span v-html="p.fecha_compromiso_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.valor_comprometido !== null">
+											<tr>
+												<th style="width: 20%;">VALOR COMPROMETIDO</th>
+												<td><span v-html="p.valor_comprometido"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel1_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel1"></span></th>
+												<td><span v-html="p.nivel1_motivo_no_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel2_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel2"></span></th>
+												<td><span v-html="p.nivel2_motivo_no_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel3_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel3"></span></th>
+												<td><span v-html="p.nivel3_motivo_no_pago"></span></td>
+											</tr>
+										</template>
+										<template v-if="p.nivel4_motivo_no_pago !== null">
+											<tr>
+												<th style="width: 20%;"><span v-html="p.titulo_motivo_no_pago_nivel4"></span></th>
+												<td><span v-html="p.nivel4_motivo_no_pago"></span></td>
+											</tr>
+										</template>
+										<tr>
+											<th style="width: 20%;">Usuario</th>
+											<td><span v-html="p.usuario"></span></td>
+										</tr>
+										<tr>
+											<td colspan="2" style="text-align: center;">
+												<template v-if="p.institucion_id == 1">
+													<a class="btn btn-sm btn-secondary" type="button" :href="'{{ root }}/producto/verSeguimientosDiners?id=' + p.producto_id" target="_blank">
+														<i class="fa fa-eye" aria-hidden="true"></i> Ver todos los seguimientos
+													</a>
+												</template>
 											</td>
 										</tr>
 										</tbody>
@@ -316,7 +448,6 @@
 							</tr>
 							</tbody>
 						</table>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -310,25 +310,6 @@ class Producto extends Model
 		return $q->get();
 	}
 
-	static function porCliente($cliente_id) {
-		$pdo = self::query()->getConnection()->getPdo();
-		$db = new \FluentPDO($pdo);
-
-		$q = $db->from('producto p')
-			->innerJoin('institucion i ON i.id = p.institucion_id')
-			->select(null)
-			->select('p.*, i.nombre AS institucion_nombre')
-			->where('p.eliminado',0)
-			->where('p.cliente_id',$cliente_id)
-			->orderBy('p.fecha_ingreso DESC');
-		$lista = $q->fetchAll();
-		$retorno = [];
-		foreach ($lista as $l){
-			$retorno[] = $l;
-		}
-		return $retorno;
-	}
-
 	static function getProductoList($data, $page, $user, $config) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

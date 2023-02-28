@@ -16,6 +16,7 @@ use Models\Email;
 use Models\FiltroBusqueda;
 use Models\Paleta;
 use Models\Producto;
+use Models\ProductoSeguimiento;
 use Models\Referencia;
 use Models\Telefono;
 use upload;
@@ -90,7 +91,9 @@ class ClienteController extends BaseController {
 //			printDie($email);
 			$direccion = Direccion::porModulo('cliente', $model->id);
 			$referencia = Referencia::porModulo('cliente', $model->id);
-			$productos = Producto::porCliente($model->id);
+			$productos = ProductoSeguimiento::getUltimoSeguimientoPorCliente($model->id);
+
+//			printDie($productos);
 		}
 
 		$data['productos'] = json_encode($productos);
