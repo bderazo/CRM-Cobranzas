@@ -452,86 +452,90 @@ class ProductoApi extends BaseController
 					'property_order' => 1,
 					'choices' => $nivel,
 				];
-				$retorno['form']['properties']['Nivel2'] = [
-					'type' => 'string',
-					'title' => $paleta['titulo_nivel2'],
-					'widget' => 'picker-select2',
-					'empty_data' => null,
-					'full_name' => 'data[nivel2]',
-					'constraints' => [
-						[
-							'name' => 'Count',
-							'Min' => 1,
-							'MinMessage' => "Debe seleccionar por lo menos una opción."
+				if($paleta['titulo_nivel2'] != '') {
+					$retorno['form']['properties']['Nivel2'] = [
+						'type' => 'string',
+						'title' => $paleta['titulo_nivel2'],
+						'widget' => 'picker-select2',
+						'empty_data' => null,
+						'full_name' => 'data[nivel2]',
+						'constraints' => [
+							[
+								'name' => 'Count',
+								'Min' => 1,
+								'MinMessage' => "Debe seleccionar por lo menos una opción."
+							],
 						],
-					],
-					'required' => 1,
-					'disabled' => 0,
-					'property_order' => 2,
-					'choices' => [],
-					"multiple" => false,
-					'remote_path' => 'api/producto/buscar_listas',
-					'remote_params' => [
-						"list" => "nivel2"
-					],
-					'req_params' => [
-						"data[nivel1]" => "data[nivel1]"
-					],
-				];
-				\Auditor::error("get_form_paleta retorno: ", 'Producto', $retorno);
-				$retorno['form']['properties']['Nivel3'] = [
-					'type' => 'string',
-					'title' => $paleta['titulo_nivel3'],
-					'widget' => 'picker-select2',
-					'empty_data' => null,
-					'full_name' => 'data[nivel3]',
-					'constraints' => [
-						[
-							'name' => 'Count',
-							'Min' => 1,
-							'MinMessage' => "Debe seleccionar por lo menos una opción."
+						'required' => 1,
+						'disabled' => 0,
+						'property_order' => 2,
+						'choices' => [],
+						"multiple" => false,
+						'remote_path' => 'api/producto/buscar_listas',
+						'remote_params' => [
+							"list" => "nivel2"
 						],
-					],
-					'required' => 1,
-					'disabled' => 0,
-					'property_order' => 2,
-					'choices' => [],
-					"multiple" => false,
-					'remote_path' => 'api/producto/buscar_listas_n3',
-					'remote_params' => [
-						"list" => "nivel3"
-					],
-					'req_params' => [
-						"data[nivel2]" => "data[nivel2]"
-					],
-				];
-
-				$retorno['form']['properties']['Nivel4'] = [
-					'type' => 'string',
-					'title' => $paleta['titulo_nivel4'],
-					'widget' => 'picker-select2',
-					'empty_data' => null,
-					'full_name' => 'data[nivel4]',
-					'constraints' => [
-						[
-							'name' => 'Count',
-							'Min' => 1,
-							'MinMessage' => "Debe seleccionar por lo menos una opción."
+						'req_params' => [
+							"data[nivel1]" => "data[nivel1]"
 						],
-					],
-					'required' => 1,
-					'disabled' => 0,
-					'property_order' => 2,
-					'choices' => [],
-					"multiple" => false,
-					'remote_path' => 'api/producto/buscar_listas_n4',
-					'remote_params' => [
-						"list" => "nivel4"
-					],
-					'req_params' => [
-						"data[nivel3]" => "data[nivel3]"
-					],
-				];
+					];
+				}
+				if($paleta['titulo_nivel3'] != '') {
+					$retorno['form']['properties']['Nivel3'] = [
+						'type' => 'string',
+						'title' => $paleta['titulo_nivel3'],
+						'widget' => 'picker-select2',
+						'empty_data' => null,
+						'full_name' => 'data[nivel3]',
+						'constraints' => [
+							[
+								'name' => 'Count',
+								'Min' => 1,
+								'MinMessage' => "Debe seleccionar por lo menos una opción."
+							],
+						],
+						'required' => 1,
+						'disabled' => 0,
+						'property_order' => 2,
+						'choices' => [],
+						"multiple" => false,
+						'remote_path' => 'api/producto/buscar_listas_n3',
+						'remote_params' => [
+							"list" => "nivel3"
+						],
+						'req_params' => [
+							"data[nivel2]" => "data[nivel2]"
+						],
+					];
+				}
+				if($paleta['titulo_nivel4'] != '') {
+					$retorno['form']['properties']['Nivel4'] = [
+						'type' => 'string',
+						'title' => $paleta['titulo_nivel4'],
+						'widget' => 'picker-select2',
+						'empty_data' => null,
+						'full_name' => 'data[nivel4]',
+						'constraints' => [
+							[
+								'name' => 'Count',
+								'Min' => 1,
+								'MinMessage' => "Debe seleccionar por lo menos una opción."
+							],
+						],
+						'required' => 1,
+						'disabled' => 0,
+						'property_order' => 2,
+						'choices' => [],
+						"multiple" => false,
+						'remote_path' => 'api/producto/buscar_listas_n4',
+						'remote_params' => [
+							"list" => "nivel4"
+						],
+						'req_params' => [
+							"data[nivel3]" => "data[nivel3]"
+						],
+					];
+				}
 
 				$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
 				$nivel = [];
