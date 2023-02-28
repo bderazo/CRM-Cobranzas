@@ -521,6 +521,38 @@ class ProductoApi extends BaseController
 					];
 				}
 
+				if($institucion_id == 1){
+					$retorno['form']['properties']['fecha_compromiso_pago'] = [
+						'type' => 'string',
+						'title' => 'FECHA COMPROMISO DE PAGO',
+						'widget' => 'date',
+						'empty_data' => null,
+						'full_name' => 'data[fecha_compromiso_pago]',
+						'constraints' => [],
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 2,
+						'choices' => [],
+					];
+					$retorno['form']['properties']['valor_comprometido'] = [
+						'type' => 'string',
+						'title' => 'VALOR COMPROMETIDO',
+						'widget' => 'text',
+						'empty_data' => 0,
+						'full_name' => 'data[valor_comprometido]',
+						'constraints' => [
+							[
+								'name' => 'Positive',
+								'message' => 'Este campo debe ser un número válido'
+							],
+						],
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 2,
+						'choices' => [],
+					];
+				}
+
 				if($paleta['titulo_motivo_no_pago_nivel1'] != '') {
 					$retorno['form']['properties']['title_1'] = [
 						'title' => 'MOTIVO DE NO PAGO',
@@ -764,7 +796,6 @@ class ProductoApi extends BaseController
 			}
 			$con->lat = $lat;
 			$con->long = $long;
-			$con->observaciones = $data['observaciones'];
 			$con->usuario_ingreso = $user['id'];
 			$con->eliminado = 0;
 			$con->fecha_ingreso = date("Y-m-d H:i:s");
