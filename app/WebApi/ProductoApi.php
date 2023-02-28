@@ -403,17 +403,6 @@ class ProductoApi extends BaseController
 				$institucion = Institucion::porId($institucion_id);
 				$paleta = Paleta::porId($institucion->paleta_id);
 
-				$retorno['form']['properties']['title_5'] = [
-					'title' => 'REGISTRO DE SEGUIMIENTO',
-					'widget' => 'readonly',
-					'full_name' => 'data[title_5]',
-					'constraints' => [],
-					'type_content' => 'title',
-					'required' => 0,
-					'disabled' => 0,
-					'property_order' => 1,
-				];
-
 				$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
 				$nivel = [];
 				foreach($paleta_nivel1 as $key => $val) {
@@ -523,6 +512,16 @@ class ProductoApi extends BaseController
 					];
 				}
 				if($paleta['titulo_nivel4'] != '') {
+					$retorno['form']['properties']['title_9'] = [
+						'title' => $paleta['titulo_nivel4'],
+						'widget' => 'readonly',
+						'full_name' => 'data[title_9]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
+					];
 					$retorno['form']['properties']['Nivel4'] = [
 						'type' => 'string',
 						'title' => $paleta['titulo_nivel4'],
@@ -552,6 +551,16 @@ class ProductoApi extends BaseController
 				}
 
 				if($institucion_id == 1){
+					$retorno['form']['properties']['title_10'] = [
+						'title' => 'FECHA COMPROMISO DE PAGO',
+						'widget' => 'readonly',
+						'full_name' => 'data[title_10]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
+					];
 					$retorno['form']['properties']['fecha_compromiso_pago'] = [
 						'type' => 'string',
 						'title' => 'FECHA COMPROMISO DE PAGO',
@@ -563,6 +572,16 @@ class ProductoApi extends BaseController
 						'disabled' => 0,
 						'property_order' => 2,
 						'choices' => [],
+					];
+					$retorno['form']['properties']['title_11'] = [
+						'title' => 'VALOR COMPROMETIDO',
+						'widget' => 'readonly',
+						'full_name' => 'data[title_11]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
 					];
 					$retorno['form']['properties']['valor_comprometido'] = [
 						'type' => 'string',
@@ -585,7 +604,7 @@ class ProductoApi extends BaseController
 
 				if($paleta['titulo_motivo_no_pago_nivel1'] != '') {
 					$retorno['form']['properties']['title_1'] = [
-						'title' => 'MOTIVO DE NO PAGO',
+						'title' => $paleta['titulo_motivo_no_pago_nivel1'],
 						'widget' => 'readonly',
 						'full_name' => 'data[title_1]',
 						'constraints' => [],
@@ -620,6 +639,16 @@ class ProductoApi extends BaseController
 					];
 				}
 				if($paleta['titulo_motivo_no_pago_nivel2'] != '') {
+					$retorno['form']['properties']['title_12'] = [
+						'title' => $paleta['titulo_motivo_no_pago_nivel2'],
+						'widget' => 'readonly',
+						'full_name' => 'data[title_12]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
+					];
 					$retorno['form']['properties']['Nivel2MotivoNoPago'] = [
 						'type' => 'string',
 						'title' => $paleta['titulo_motivo_no_pago_nivel2'],
