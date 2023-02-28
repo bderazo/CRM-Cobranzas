@@ -627,9 +627,19 @@ class ProductoApi extends BaseController
 					'property_order' => 6,
 					'choices' => [],
 				];
+				$retorno['form']['properties']['title_4'] = [
+					'title' => 'IMÁGENES',
+					'widget' => 'readonly',
+					'full_name' => 'data[title_4]',
+					'constraints' => [],
+					'type_content' => 'title',
+					'required' => 0,
+					'disabled' => 0,
+					'property_order' => 1,
+				];
 				$retorno['form']['properties']['imagenes'] = [
 					'type' => 'string',
-					'title' => 'Imagen1',
+					'title' => 'Imágenes',
 					'widget' => 'file_widget',
 					'empty_data' => '',
 					'full_name' => 'data[imagenes]',
