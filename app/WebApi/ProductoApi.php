@@ -415,8 +415,8 @@ class ProductoApi extends BaseController
 //		$institucion_id = 1;
 //		$producto_id = 12596;
 
-		\Auditor::error("get_form_paleta $institucion_id ", 'Producto', $institucion_id);
-		\Auditor::error("get_form_paleta $producto_id ", 'Producto', $producto_id);
+		\Auditor::error("get_form_paleta institucion_id: $institucion_id ", 'Producto', $institucion_id);
+		\Auditor::error("get_form_paleta producto_id: $producto_id ", 'Producto', $producto_id);
 
 		if($institucion_id > 0 && $producto_id > 0) {
 			$session = $this->request->getParam('session');
@@ -654,17 +654,17 @@ class ProductoApi extends BaseController
 		if(!$this->isPost()) return "save_form_paleta";
 		$res = new RespuestaConsulta();
 		$institucion_id = $this->request->getParam('institucion_id');
-		\Auditor::info('save_form_paleta institucion_id: ' . $institucion_id, 'API', []);
+//		\Auditor::info('save_form_paleta institucion_id: ' . $institucion_id, 'API', []);
 		$producto_id = $this->request->getParam('producto_id');
-		\Auditor::info('save_form_paleta producto_id: ' . $producto_id, 'API', []);
+//		\Auditor::info('save_form_paleta producto_id: ' . $producto_id, 'API', []);
 		$lat = $this->request->getParam('lat');
-		\Auditor::info('save_form_paleta lat: ' . $lat, 'API', []);
+//		\Auditor::info('save_form_paleta lat: ' . $lat, 'API', []);
 		$long = $this->request->getParam('long');
-		\Auditor::info('save_form_paleta long: ' . $long, 'API', []);
+//		\Auditor::info('save_form_paleta long: ' . $long, 'API', []);
 		$data = $this->request->getParam('data');
-		\Auditor::info('save_form_paleta data: ', 'API', $data);
+//		\Auditor::info('save_form_paleta data: ', 'API', $data);
 		$files = $_FILES;
-		\Auditor::info('save_form_paleta files: ', 'API', $files);
+//		\Auditor::info('save_form_paleta files: ', 'API', $files);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 		if(isset($user['id'])) {
