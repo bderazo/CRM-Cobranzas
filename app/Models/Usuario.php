@@ -219,7 +219,7 @@ class Usuario extends Model {
 //		$lista = $q->fetch();
 		$lista = $_SESSION['user'];
 		$usuario_id = $_SESSION['user']['id'];
-		if (!$lista) return [];
+		if (!$lista) return null;
 
 		//OBTENER LA FOTO DE PERFIL
 		$dir = $config['url_images_usuario'];
