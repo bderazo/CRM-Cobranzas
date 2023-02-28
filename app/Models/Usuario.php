@@ -212,12 +212,12 @@ class Usuario extends Model {
 	static function getUsuarioDetalle($usuario_id, $config) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
-//		$q = $db->from('usuario u')
-//			->select(null)
-//			->select("u.username, u.nombres, u.apellidos")
-//			->where('u.id', $usuario_id);
-//		$lista = $q->fetch();
-		$lista = $_SESSION['user'];
+		$q = $db->from('usuario u')
+			->select(null)
+			->select("u.username, u.nombres, u.apellidos")
+			->where('u.id', $usuario_id);
+		$lista = $q->fetch();
+//		$lista = $_SESSION['user'];
 		$usuario_id = $_SESSION['user']['id'];
 		if (!$lista) return null;
 
