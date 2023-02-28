@@ -17,6 +17,7 @@ return [
 	'plaza' => [
 		'AMBATO' => 'AMBATO',
 		'CUENCA' => 'CUENCA',
+		'GALAPAGOS' => 'GALAPAGOS',
 		'GUAYAQUIL' => 'GUAYAQUIL',
 		'MACHALA' => 'MACHALA',
 		'MANABI' => 'MANABI',

@@ -440,6 +440,11 @@
 														<i class="fa fa-eye" aria-hidden="true"></i> Ver todos los seguimientos
 													</a>
 												</template>
+												<template v-else>
+													<a class="btn btn-sm btn-secondary" type="button" :href="'{{ root }}/producto/verSeguimientos?id=' + p.producto_id" target="_blank">
+														<i class="fa fa-eye" aria-hidden="true"></i> Ver todos los seguimientos
+													</a>
+												</template>
 											</td>
 										</tr>
 										</tbody>

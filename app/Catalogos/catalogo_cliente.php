@@ -49,6 +49,7 @@ return [
 		'DATABOOK' => 'DATABOOK',
 		'DINERSCLUB' => 'DINERSCLUB',
 		'SISTEMA' => 'SISTEMA',
+		'CALL CENTER' => 'CALL CENTER',
 	],
 	'tipo_direccion' => [
 		'DOMICILIO' => 'DOMICILIO',
