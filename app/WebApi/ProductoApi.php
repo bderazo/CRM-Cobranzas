@@ -351,6 +351,7 @@ class ProductoApi extends BaseController
 
 	function buscar_listas_n4()
 	{
+		\Auditor::info('buscar_listas_n4 ACA ', 'API', []);
 		if(!$this->isPost()) return "buscar_listas_n4";
 		$res = new RespuestaConsulta();
 
