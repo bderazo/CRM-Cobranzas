@@ -351,16 +351,15 @@ class ProductoApi extends BaseController
 
 	function buscar_listas_n4()
 	{
-		\Auditor::info('buscar_listas_n4 ACA ', 'API', []);
 		if(!$this->isPost()) return "buscar_listas_n4";
 		$res = new RespuestaConsulta();
 
 		$q = $this->request->getParam('q');
-		\Auditor::info('buscar_listas_n4 q: '.$q, 'API', $q);
+//		\Auditor::info('buscar_listas_n4 q: '.$q, 'API', $q);
 		$page = $this->request->getParam('page');
-		\Auditor::info('buscar_listas_n4 page: '.$page, 'API', $page);
+//		\Auditor::info('buscar_listas_n4 page: '.$page, 'API', $page);
 		$data = $this->request->getParam('data');
-		\Auditor::info('buscar_listas_n4 data: '.$data, 'API', $data);
+//		\Auditor::info('buscar_listas_n4 data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
 		$user = UsuarioLogin::getUserBySession($session);
 
