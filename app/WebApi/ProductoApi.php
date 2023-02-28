@@ -478,7 +478,7 @@ class ProductoApi extends BaseController
 						"data[nivel1]" => "data[nivel1]"
 					],
 				];
-
+				\Auditor::error("get_form_paleta retorno: ", 'Producto', $retorno);
 				$retorno['form']['properties']['Nivel3'] = [
 					'type' => 'string',
 					'title' => $paleta['titulo_nivel3'],
