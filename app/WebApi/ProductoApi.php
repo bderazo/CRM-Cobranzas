@@ -403,6 +403,17 @@ class ProductoApi extends BaseController
 				$institucion = Institucion::porId($institucion_id);
 				$paleta = Paleta::porId($institucion->paleta_id);
 
+				$retorno['form']['properties']['title_5'] = [
+					'title' => 'REGISTRO DE SEGUIMIENTO',
+					'widget' => 'readonly',
+					'full_name' => 'data[title_5]',
+					'constraints' => [],
+					'type_content' => 'title',
+					'required' => 0,
+					'disabled' => 0,
+					'property_order' => 1,
+				];
+
 				$paleta_nivel1 = PaletaArbol::getNivel1($institucion->paleta_id);
 				$nivel = [];
 				foreach($paleta_nivel1 as $key => $val) {
