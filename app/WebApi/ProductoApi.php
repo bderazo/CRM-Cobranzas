@@ -419,6 +419,16 @@ class ProductoApi extends BaseController
 				foreach($paleta_nivel1 as $key => $val) {
 					$nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
 				}
+				$retorno['form']['properties']['title_6'] = [
+					'title' => $paleta['titulo_nivel1'],
+					'widget' => 'readonly',
+					'full_name' => 'data[title_6]',
+					'constraints' => [],
+					'type_content' => 'title',
+					'required' => 0,
+					'disabled' => 0,
+					'property_order' => 1,
+				];
 				$retorno['form']['properties']['Nivel1'] = [
 					'type' => 'string',
 					'title' => $paleta['titulo_nivel1'],
@@ -437,6 +447,16 @@ class ProductoApi extends BaseController
 					'choices' => $nivel,
 				];
 				if($paleta['titulo_nivel2'] != '') {
+					$retorno['form']['properties']['title_7'] = [
+						'title' => $paleta['titulo_nivel2'],
+						'widget' => 'readonly',
+						'full_name' => 'data[title_7]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
+					];
 					$retorno['form']['properties']['Nivel2'] = [
 						'type' => 'string',
 						'title' => $paleta['titulo_nivel2'],
@@ -465,6 +485,16 @@ class ProductoApi extends BaseController
 					];
 				}
 				if($paleta['titulo_nivel3'] != '') {
+					$retorno['form']['properties']['title_8'] = [
+						'title' => $paleta['titulo_nivel3'],
+						'widget' => 'readonly',
+						'full_name' => 'data[title_8]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
+					];
 					$retorno['form']['properties']['Nivel3'] = [
 						'type' => 'string',
 						'title' => $paleta['titulo_nivel3'],
