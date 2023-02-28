@@ -155,33 +155,6 @@ class ProductoApi extends BaseController
 		}
 	}
 
-	function get_preguntas_list()
-	{
-		if(!$this->isPost()) return "get_productos_list";
-		$res = new RespuestaConsulta();
-
-		$page = $this->request->getParam('page');
-		$data = $this->request->getParam('data');
-		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
-		if(isset($user['id'])) {
-			$config = $this->get('config');
-
-			//ELIMINAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
-			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
-			foreach($detalle_sin_seguimiento as $ss) {
-				$mod = AplicativoDinersDetalle::porId($ss['id']);
-				$mod->eliminado = 1;
-				$mod->save();
-			}
-
-			$producto = Producto::getProductoList($data, $page, $user, $config);
-			return $this->json($res->conDatos($producto));
-		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
-		}
-	}
-
 	/**
 	 * get_producto_cliente
 	 * @param $producto_id
@@ -609,6 +582,16 @@ class ProductoApi extends BaseController
 					foreach($direcciones as $d) {
 						$dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'], 0, 40)];
 					}
+					$retorno['form']['properties']['title_2'] = [
+						'title' => 'DIRECCIÓN DE VISITA',
+						'widget' => 'readonly',
+						'full_name' => 'data[title_2]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
+					];
 					$retorno['form']['properties']['Direccion'] = [
 						'type' => 'string',
 						'title' => 'Dirección Visita',
@@ -622,6 +605,16 @@ class ProductoApi extends BaseController
 						'choices' => $dir,
 					];
 				}
+				$retorno['form']['properties']['title_3'] = [
+					'title' => 'OBSERVACIONES',
+					'widget' => 'readonly',
+					'full_name' => 'data[title_3]',
+					'constraints' => [],
+					'type_content' => 'title',
+					'required' => 0,
+					'disabled' => 0,
+					'property_order' => 1,
+				];
 				$retorno['form']['properties']['Observaciones'] = [
 					'type' => 'string',
 					'title' => 'Observaciones',
