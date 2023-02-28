@@ -589,12 +589,7 @@ class ProductoApi extends BaseController
 						'widget' => 'text',
 						'empty_data' => 0,
 						'full_name' => 'data[valor_comprometido]',
-						'constraints' => [
-							[
-								'name' => 'Positive',
-								'message' => 'Este campo debe ser un número válido'
-							],
-						],
+						'constraints' => [],
 						'required' => 0,
 						'disabled' => 0,
 						'property_order' => 2,
