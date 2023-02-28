@@ -349,6 +349,27 @@ class ProductoApi extends BaseController
 		return $this->json($retorno);
 	}
 
+	function buscar_listas_n4()
+	{
+		if(!$this->isPost()) return "buscar_listas_n4";
+		$res = new RespuestaConsulta();
+
+		$q = $this->request->getParam('q');
+//		\Auditor::info('buscar_listas_n4 q: '.$q, 'API', $q);
+		$page = $this->request->getParam('page');
+//		\Auditor::info('buscar_listas_n4 page: '.$page, 'API', $page);
+		$data = $this->request->getParam('data');
+//		\Auditor::info('buscar_listas_n4 data: '.$data, 'API', $data);
+		$session = $this->request->getParam('session');
+		$user = UsuarioLogin::getUserBySession($session);
+
+		$respuesta = PaletaArbol::getNivel3ApiQuery($q, $page, $data);
+		$retorno['results'] = $respuesta;
+		$retorno['pagination'] = ['more' => true];
+
+		return $this->json($retorno);
+	}
+
 	/**
 	 * buscar_listas_motivo_no_pago
 	 * @param $session
@@ -482,6 +503,33 @@ class ProductoApi extends BaseController
 					],
 					'req_params' => [
 						"data[nivel2]" => "data[nivel2]"
+					],
+				];
+
+				$retorno['form']['properties']['Nivel4'] = [
+					'type' => 'string',
+					'title' => $paleta['titulo_nivel4'],
+					'widget' => 'picker-select2',
+					'empty_data' => null,
+					'full_name' => 'data[nivel4]',
+					'constraints' => [
+						[
+							'name' => 'Count',
+							'Min' => 1,
+							'MinMessage' => "Debe seleccionar por lo menos una opción."
+						],
+					],
+					'required' => 1,
+					'disabled' => 0,
+					'property_order' => 2,
+					'choices' => [],
+					"multiple" => false,
+					'remote_path' => 'api/producto/buscar_listas_n4',
+					'remote_params' => [
+						"list" => "nivel4"
+					],
+					'req_params' => [
+						"data[nivel3]" => "data[nivel3]"
 					],
 				];
 
