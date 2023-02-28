@@ -538,6 +538,17 @@ class ProductoApi extends BaseController
 				}
 
 				if($paleta['titulo_motivo_no_pago_nivel1'] != '') {
+					$retorno['form']['properties']['title_1'] = [
+						'title' => 'MOTIVO DE NO PAGO',
+						'widget' => 'readonly',
+						'full_name' => 'data[title_1]',
+						'constraints' => [],
+						'type_content' => 'title',
+						'required' => 0,
+						'disabled' => 0,
+						'property_order' => 1,
+					];
+
 					$paleta_nivel1 = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
 					$nivel = [];
 					foreach($paleta_nivel1 as $key => $val) {
