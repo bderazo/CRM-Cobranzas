@@ -104,6 +104,17 @@ class Producto extends Model
 			});
 		}
 
+		if (!empty($post['correo'])){
+			$correo = $post['correo'];
+			$q->whereIn('cliente.id', function(Builder $qq) use ($correo) {
+				$qq->select('modulo_id')
+					->from('email')
+					->whereRaw("UPPER(email) LIKE '%" . strtoupper($correo) . "%'")
+					->where('modulo_relacionado', 'cliente')
+					->where('eliminado', 0);
+			});
+		}
+
 		if(!empty($post['cedula'])) {
 			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
 		}
@@ -228,6 +239,17 @@ class Producto extends Model
 				$qq->select('modulo_id')
 					->from('telefono')
 					->whereRaw("telefono LIKE '%" . $tel . "%'")
+					->where('modulo_relacionado', 'cliente')
+					->where('eliminado', 0);
+			});
+		}
+
+		if (!empty($post['correo'])){
+			$correo = $post['correo'];
+			$q->whereIn('cliente.id', function(Builder $qq) use ($correo) {
+				$qq->select('modulo_id')
+					->from('email')
+					->whereRaw("UPPER(email) LIKE '%" . strtoupper($correo) . "%'")
 					->where('modulo_relacionado', 'cliente')
 					->where('eliminado', 0);
 			});

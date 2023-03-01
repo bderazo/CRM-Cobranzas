@@ -61,6 +61,13 @@
 							</div>
 						</div>
 
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Correo electrónico</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="correo" id="correo" value="{{ filtros.correo }}"/>
+							</div>
+						</div>
+
 						<div class="mb-0 mt-4 ">
 							<div class="col-md-12">
 								<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
@@ -126,6 +133,7 @@
             $("#fecha_inicio").val('');
             $("#fecha_fin").val('');
             $("#seguimiento").val('');
+            $("#correo").val('');
 			cargar(1);
 		}
 
