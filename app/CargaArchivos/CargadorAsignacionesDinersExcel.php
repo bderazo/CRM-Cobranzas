@@ -75,7 +75,7 @@ class CargadorAsignacionesDinersExcel
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1)) {
 					$ultima_posicion_columna = array_key_last($values);
-					for($i = 9; $i <= $ultima_posicion_columna; $i++) {
+					for($i = 11; $i <= $ultima_posicion_columna; $i++) {
 						$cabecera[] = $values[$i];
 					}
 					continue;
@@ -219,6 +219,9 @@ class CargadorAsignacionesDinersExcel
 					$asignaciones->ciclo = $values[6];
 					$asignaciones->nombre_socio = $values[7];
 					$asignaciones->cedula_socio = $values[8];
+					$asignaciones->campana_ece = $values[9];
+					$asignaciones->condonacion_interes = $values[10];
+					$asignaciones->segregacion = $values[11];
 					$asignaciones->campos = json_encode($data_campos, JSON_PRETTY_PRINT);
 					$asignaciones->fecha_ingreso = date("Y-m-d H:i:s");
 					$asignaciones->usuario_ingreso = \WebSecurity::getUserData('id');

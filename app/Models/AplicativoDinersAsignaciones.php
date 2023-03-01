@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer ciclo
  * @property string nombre_socio
  * @property string cedula_socio
+ * @property string campana_ece
+ * @property string condonacion_interes
+ * @property string segregacion
  * @property string estado
  * @property string campos
  * @property string fecha_ingreso
@@ -75,4 +78,18 @@ class AplicativoDinersAsignaciones extends Model
 		return $retorno;
 	}
 
+	static function getAsignacionAplicativo($aplicativo_diners_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('aplicativo_diners_asignaciones')
+			->select(null)
+			->select('*')
+			->where('eliminado',0)
+			->where('aplicativo_diners_id',$aplicativo_diners_id)
+			->orderBy('fecha_ingreso DESC');
+		$lista = $q->fetch();
+		if(!$lista) return [];
+		return $lista;
+	}
 }

@@ -271,85 +271,86 @@
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">PRODUCTO</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
+							<span class="form-control-plaintext" v-html="model.producto"></span>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">CONDONACIÓN DE INTERESES</label>
+						<div class="col-md-4 col-informacion">
+							<span class="form-control-plaintext" v-html="aplicativo_diners_asignacion.condonacion_interes"></span>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">SEGREGACIÓN</label>
+						<div class="col-md-4 col-informacion">
+							<span class="form-control-plaintext" v-html="aplicativo_diners_asignacion.segregacion"></span>
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">CIUDAD DE GESTIÓN</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.ciudad_gestion">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.ciudad_gestion"></span>
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">FECHA DE ELABORACIÓN</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       value="{{ "now"|date("Y-m-d H:i:s") }}">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.fecha_elaboracion"></span>
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">NEGOCIADO POR</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.negociado_por">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.negociado_por"></span>
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">NUMERO DE CEDULA SOCIO</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.cedula_socio">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.cedula_socio"></span>
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">NOMBRE DEL SOCIO</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.nombre_socio">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.nombre_socio"></span>
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">DIRECCIÓN</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.direccion">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.direccion"></span>
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">SEGURO</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.seguro_desgravamen">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.seguro_desgravamen"></span>
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">NÚMEROS DE CONTACTO</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.numero_contactos">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.numero_contactos"></span>
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">MAIL DE CONTACTO</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.mail_contacto">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.mail_contacto"></span>
 						</div>
 					</div>
 
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">CIUDAD DE LA CUENTA</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.ciudad_cuenta">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.ciudad_cuenta"></span>
 						</div>
 
 						<label for="inputName" class="col-md-2 form-label">ZONA DE LA CUENTA</label>
 						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext"
-							       v-model="aplicativo_diners.zona_cuenta">
+							<span class="form-control-plaintext" v-html="aplicativo_diners.zona_cuenta"></span>
 						</div>
 					</div>
 
@@ -2404,8 +2405,8 @@
                 direccion: {{ direccion|raw }},
                 referencia: {{ referencia|raw }},
                 cliente: {{ cliente|raw }},
-                pagos: {{ pagos|raw }},
                 aplicativo_diners: {{ aplicativo_diners|raw }},
+                aplicativo_diners_asignacion: {{ aplicativo_diners_asignacion|raw }},
                 aplicativo_diners_tarjeta_diners: {{ aplicativo_diners_tarjeta_diners|raw }},
                 aplicativo_diners_tarjeta_discover: {{ aplicativo_diners_tarjeta_discover|raw }},
                 aplicativo_diners_tarjeta_interdin: {{ aplicativo_diners_tarjeta_interdin|raw }},

@@ -8,6 +8,7 @@ use General\GeneralHelper;
 use General\Validacion\Utilidades;
 use JasonGrimes\Paginator;
 use Models\AplicativoDiners;
+use Models\AplicativoDinersAsignaciones;
 use Models\AplicativoDinersDetalle;
 use Models\Archivo;
 use Models\Catalogo;
@@ -43,7 +44,7 @@ class ProductoController extends BaseController
 	var $modulo = 'Producto';
 	function init()
 	{
-		\Breadcrumbs::add('/producto', 'Productos y Seguimientos');
+		\Breadcrumbs::add('', 'Productos y Seguimientos');
 	}
 
 	function indexDiners()
@@ -161,130 +162,15 @@ class ProductoController extends BaseController
 		$catalogos['paleta_motivo_no_pago_nivel_4'] = [];
 
 		$paleta = Paleta::porId($institucion->paleta_id);
-//		printDie($paleta_nivel_1);
-
-		$pagos = [];
-		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
-		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
-
-		//DATOS TARJETA DINERS
-		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id'], 'original');
-		$plazo_financiamiento_diners = [];
-		if(count($aplicativo_diners_tarjeta_diners) > 0) {
-			//CALCULO DE ABONO NEGOCIADOR
-			$abono_negociador = $aplicativo_diners_tarjeta_diners['interes_facturado'] - $aplicativo_diners_tarjeta_diners['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$aplicativo_diners_tarjeta_diners['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$aplicativo_diners_tarjeta_diners['abono_negociador'] = 0;
-			}
-
-			$cuotas_pendientes = $aplicativo_diners_tarjeta_diners['numero_cuotas_pendientes'];
-			if($cuotas_pendientes > 0) {
-				for($i = $cuotas_pendientes; $i <= 72; $i++) {
-					$plazo_financiamiento_diners[$i] = $i;
-				}
-			} else {
-				for($i = 1; $i <= 72; $i++) {
-					$plazo_financiamiento_diners[$i] = $i;
-				}
-			}
-		}
-		$catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
-
-		//DATOS TARJETA DISCOVER
-		$aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners['id'], 'original');
-		$plazo_financiamiento_discover = [];
-		if(count($aplicativo_diners_tarjeta_discover) > 0) {
-			//CALCULO DE ABONO NEGOCIADOR
-			$abono_negociador = $aplicativo_diners_tarjeta_discover['interes_facturado'] - $aplicativo_diners_tarjeta_discover['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$aplicativo_diners_tarjeta_discover['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$aplicativo_diners_tarjeta_discover['abono_negociador'] = 0;
-			}
-
-			$cuotas_pendientes = $aplicativo_diners_tarjeta_discover['numero_cuotas_pendientes'];
-			if($cuotas_pendientes > 0) {
-				for($i = $cuotas_pendientes; $i <= 72; $i++) {
-					$plazo_financiamiento_discover[$i] = $i;
-				}
-			} else {
-				for($i = 1; $i <= 72; $i++) {
-					$plazo_financiamiento_discover[$i] = $i;
-				}
-			}
-		}
-		$catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
-
-		//DATOS TARJETA INTERDIN
-		$aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners['id'], 'original');
-		$plazo_financiamiento_interdin = [];
-		if(count($aplicativo_diners_tarjeta_interdin) > 0) {
-			//CALCULO DE ABONO NEGOCIADOR
-			$abono_negociador = $aplicativo_diners_tarjeta_interdin['interes_facturado'] - $aplicativo_diners_tarjeta_interdin['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$aplicativo_diners_tarjeta_interdin['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$aplicativo_diners_tarjeta_interdin['abono_negociador'] = 0;
-			}
-
-			$cuotas_pendientes = $aplicativo_diners_tarjeta_interdin['numero_cuotas_pendientes'];
-			if($cuotas_pendientes > 0) {
-				for($i = $cuotas_pendientes; $i <= 72; $i++) {
-					$plazo_financiamiento_interdin[$i] = $i;
-				}
-			} else {
-				for($i = 1; $i <= 72; $i++) {
-					$plazo_financiamiento_interdin[$i] = $i;
-				}
-			}
-		}
-		$catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
-
-		//DATOS TARJETA MASTERCARD
-		$aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners['id'], 'original');
-		$plazo_financiamiento_mastercard = [];
-		if(count($aplicativo_diners_tarjeta_mastercard) > 0) {
-			//CALCULO DE ABONO NEGOCIADOR
-			$abono_negociador = $aplicativo_diners_tarjeta_mastercard['interes_facturado'] - $aplicativo_diners_tarjeta_mastercard['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$aplicativo_diners_tarjeta_mastercard['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$aplicativo_diners_tarjeta_mastercard['abono_negociador'] = 0;
-			}
-
-			$cuotas_pendientes = $aplicativo_diners_tarjeta_mastercard['numero_cuotas_pendientes'];
-			if($cuotas_pendientes > 0) {
-				for($i = $cuotas_pendientes; $i <= 72; $i++) {
-					$plazo_financiamiento_mastercard[$i] = $i;
-				}
-			} else {
-				for($i = 1; $i <= 72; $i++) {
-					$plazo_financiamiento_mastercard[$i] = $i;
-				}
-			}
-		}
-		$catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
-
-		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 
 		$producto_campos = ProductoCampos::porProductoId($model->id);
 
 		$seguimiento = new ViewProductoSeguimiento();
 		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
 
-		$data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
 		$data['paleta'] = $paleta;
 		$data['producto_campos'] = $producto_campos;
-		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
-		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
-		$data['aplicativo_diners_tarjeta_diners'] = json_encode($aplicativo_diners_tarjeta_diners);
-		$data['aplicativo_diners_tarjeta_discover'] = json_encode($aplicativo_diners_tarjeta_discover);
-		$data['aplicativo_diners_tarjeta_interdin'] = json_encode($aplicativo_diners_tarjeta_interdin);
-		$data['aplicativo_diners_tarjeta_mastercard'] = json_encode($aplicativo_diners_tarjeta_mastercard);
 		$data['seguimiento'] = json_encode($seguimiento);
-		$data['pagos'] = json_encode($pagos);
 		$data['cliente'] = json_encode($cliente);
 		$data['direccion'] = json_encode($direccion);
 		$data['referencia'] = json_encode($referencia);
@@ -339,10 +225,9 @@ class ProductoController extends BaseController
 		$catalogos['paleta_motivo_no_pago_nivel_4'] = [];
 
 		$paleta = Paleta::porId($institucion->paleta_id);
-//		printDie($paleta_nivel_1);
 
-		$pagos = [];
 		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
+		$aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionAplicativo($aplicativo_diners['id']);
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 
 		//DATOS TARJETA DINERS
@@ -457,12 +342,12 @@ class ProductoController extends BaseController
 		$data['producto_campos'] = $producto_campos;
 		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
 		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
+		$data['aplicativo_diners_asignacion'] = json_encode($aplicativo_diners_asignacion);
 		$data['aplicativo_diners_tarjeta_diners'] = json_encode($aplicativo_diners_tarjeta_diners);
 		$data['aplicativo_diners_tarjeta_discover'] = json_encode($aplicativo_diners_tarjeta_discover);
 		$data['aplicativo_diners_tarjeta_interdin'] = json_encode($aplicativo_diners_tarjeta_interdin);
 		$data['aplicativo_diners_tarjeta_mastercard'] = json_encode($aplicativo_diners_tarjeta_mastercard);
 		$data['seguimiento'] = json_encode($seguimiento);
-		$data['pagos'] = json_encode($pagos);
 		$data['cliente'] = json_encode($cliente);
 		$data['direccion'] = json_encode($direccion);
 		$data['referencia'] = json_encode($referencia);

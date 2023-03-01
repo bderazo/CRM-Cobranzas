@@ -9,6 +9,7 @@ use General\Seguridad\PermisosSession;
 use Models\Actividad;
 use Models\ApiUserTokenPushNotifications;
 use Models\AplicativoDiners;
+use Models\AplicativoDinersAsignaciones;
 use Models\AplicativoDinersDetalle;
 use Models\Archivo;
 use Models\Banco;
@@ -61,8 +62,17 @@ class AplicativoDinersApi extends BaseController
 		if(isset($user['id'])) {
 			//DATA APLICATIVO DINERS
 			$aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
+			$aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionAplicativo($aplicativo_diners['id']);
 			$producto = Producto::porId($producto_id);
 			$campos = [
+				[
+					'label' => 'CONDONACIÓN DE INTERESES',
+					'value' => $aplicativo_diners_asignacion['condonacion_interes'],
+				],
+				[
+					'label' => 'SEGREGACIÓN',
+					'value' => $aplicativo_diners_asignacion['segregacion'],
+				],
 				[
 					'label' => 'CIUDAD DE GESTIÓN',
 					'value' => $aplicativo_diners['ciudad_gestion'],
