@@ -2145,7 +2145,7 @@ class AplicativoDinersApi extends BaseController
 			}else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
-			$aplicativo_detalle->tipo = 'procesado';
+			$aplicativo_detalle->tipo = 'gestionado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
@@ -2201,7 +2201,7 @@ class AplicativoDinersApi extends BaseController
 			}else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
-			$aplicativo_detalle->tipo = 'procesado';
+			$aplicativo_detalle->tipo = 'gestionado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
@@ -2257,7 +2257,7 @@ class AplicativoDinersApi extends BaseController
 			}else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
-			$aplicativo_detalle->tipo = 'procesado';
+			$aplicativo_detalle->tipo = 'gestionado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");
@@ -2315,7 +2315,7 @@ class AplicativoDinersApi extends BaseController
 			}else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
-			$aplicativo_detalle->tipo = 'procesado';
+			$aplicativo_detalle->tipo = 'gestionado';
 			$aplicativo_detalle->padre_id = $id_detalle;
 			$aplicativo_detalle->usuario_modificacion = $user['id'];
 			$aplicativo_detalle->fecha_modificacion = date("Y-m-d H:i:s");

@@ -117,7 +117,7 @@ class AplicativoDiners extends Model
 			->where('addet.eliminado',0)
 			->where('addet.producto_seguimiento_id',$producto_seguimiento_id)
 			->where('addet.nombre_tarjeta',$tarjeta)
-			->where('addet.tipo','procesado')
+			->where('addet.tipo','gestionado')
 			->orderBy('addet.id DESC');
 		$lista = $q->fetch();
 		if(!$lista)

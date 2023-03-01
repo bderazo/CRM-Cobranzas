@@ -196,7 +196,7 @@ class AplicativoDinersDetalle extends Model
 			->select(null)
 			->select('det.*')
 			->where('det.eliminado',0)
-			->where('det.tipo','procesado')
+			->where('det.tipo','gestionado')
 			->where('det.usuario_ingreso',$usuario_id)
 			->where('det.producto_seguimiento_id',0);
 		$lista = $q->fetchAll();

@@ -431,7 +431,7 @@ class ProductoController extends BaseController
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
 		$con->save();
 		$producto_obj = Producto::porId($producto['id']);
-		$producto_obj->estado = 'procesado';
+		$producto_obj->estado = 'gestionado';
 		$producto_obj->save();
 
 		\Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
@@ -511,10 +511,10 @@ class ProductoController extends BaseController
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
 		$con->save();
 		$producto_obj = Producto::porId($producto['id']);
-		$producto_obj->estado = 'procesado';
+		$producto_obj->estado = 'gestionado';
 		$producto_obj->save();
 		$aplicativo_diners_obj = AplicativoDiners::porId($aplicativo_diners['id']);
-		$aplicativo_diners_obj->estado = 'procesado';
+		$aplicativo_diners_obj->estado = 'gestionado';
 		$aplicativo_diners_obj->save();
 		\Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
 
@@ -531,7 +531,7 @@ class ProductoController extends BaseController
 			$obj_diners = new AplicativoDinersDetalle();
 			$obj_diners->fill($aplicativo_diners_tarjeta_diners);
 			$obj_diners->producto_seguimiento_id = $con->id;
-			$obj_diners->tipo = 'procesado';
+			$obj_diners->tipo = 'gestionado';
 			$obj_diners->padre_id = $padre_id;
 			$obj_diners->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_diners->fecha_modificacion = date("Y-m-d H:i:s");
@@ -549,7 +549,7 @@ class ProductoController extends BaseController
 			$obj_interdin = new AplicativoDinersDetalle();
 			$obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
 			$obj_interdin->producto_seguimiento_id = $con->id;
-			$obj_interdin->tipo = 'procesado';
+			$obj_interdin->tipo = 'gestionado';
 			$obj_interdin->padre_id = $padre_id;
 			$obj_interdin->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_interdin->fecha_modificacion = date("Y-m-d H:i:s");
@@ -567,7 +567,7 @@ class ProductoController extends BaseController
 			$obj_discover = new AplicativoDinersDetalle();
 			$obj_discover->fill($aplicativo_diners_tarjeta_discover);
 			$obj_discover->producto_seguimiento_id = $con->id;
-			$obj_discover->tipo = 'procesado';
+			$obj_discover->tipo = 'gestionado';
 			$obj_discover->padre_id = $padre_id;
 			$obj_discover->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_discover->fecha_modificacion = date("Y-m-d H:i:s");
@@ -585,7 +585,7 @@ class ProductoController extends BaseController
 			$obj_mastercard = new AplicativoDinersDetalle();
 			$obj_mastercard->fill($aplicativo_diners_tarjeta_mastercard);
 			$obj_mastercard->producto_seguimiento_id = $con->id;
-			$obj_mastercard->tipo = 'procesado';
+			$obj_mastercard->tipo = 'gestionado';
 			$obj_mastercard->padre_id = $padre_id;
 			$obj_mastercard->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_mastercard->fecha_modificacion = date("Y-m-d H:i:s");

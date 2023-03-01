@@ -789,7 +789,7 @@ class ProductoApi extends BaseController
 		if(isset($user['id'])) {
 			$institucion = Institucion::porId($institucion_id);
 			$producto = Producto::porId($producto_id);
-			$producto->estado = 'procesado';
+			$producto->estado = 'gestionado';
 			$producto->save();
 
 			$con = new ProductoSeguimiento();

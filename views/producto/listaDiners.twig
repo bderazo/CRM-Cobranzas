@@ -8,7 +8,7 @@
 			<td style="background-color: #FFFFCC; width: 20px; color: white; border: 1px solid white;"></td>
 			<td style="padding-right: 20px;">Asignado Usuario</td>
 			<td style="background-color: #F8F8F8; width: 20px; color: white; border: 1px solid white;"></td>
-			<td style="padding-right: 20px;">Procesado</td>
+			<td style="padding-right: 20px;">Gestionado</td>
 		</tr>
 	</table>
 	<table class="table border table-striped table-bordered table-sm mb-0">
@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>
 		{% for l in lista %}
-			<tr {% if l.estado == 'asignado_megacob' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_usuario' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'procesado' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
+			<tr {% if l.estado == 'asignado_megacob' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_usuario' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
 				<td>
 					<a href="{{ root }}/producto/editarDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
 						<i class="fa fa-plus"></i>

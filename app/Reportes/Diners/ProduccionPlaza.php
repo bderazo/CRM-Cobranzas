@@ -34,7 +34,7 @@ class ProduccionPlaza {
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
 			->innerJoin('aplicativo_diners ad ON p.id = ad.producto_id AND ad.eliminado = 0')
-			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'procesado'")
+			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
 			->select('ps.*, u.id AS id_usuario, addet.nombre_tarjeta, addet.saldo_actual_facturado_despues_abono,
@@ -204,7 +204,7 @@ class ProduccionPlaza {
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
 			->innerJoin('aplicativo_diners ad ON p.id = ad.producto_id AND ad.eliminado = 0')
-			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'procesado'")
+			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
 			->select('addet.nombre_tarjeta, addet.ciclo, COUNT(ps.id) AS cuentas, 
