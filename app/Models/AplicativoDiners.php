@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string ciudad_cuenta
  * @property string zona_cuenta
  * @property string seguro_desgravamen
+ * @property string fecha_gestionar
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso

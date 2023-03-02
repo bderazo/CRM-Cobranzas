@@ -13,6 +13,7 @@ use Illuminate\Database\Query\Builder;
  * @property integer cliente_id
  * @property string producto
  * @property string estado
+ * @property string fecha_gestionar
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso

@@ -109,7 +109,7 @@ class CargadorAsignacionesGestorDinersExcel
 
 				//PROCESO DE PRODUCTOS
 				$producto_id = 0;
-				$estado_producto = 'no_asignado';
+				$estado_producto = 'asignado_megacob';
 				if(isset($productos_todos[$cliente_id])) {
 					$producto_id = $productos_todos[$cliente_id]['id'];
 					$estado_producto = $productos_todos[$cliente_id]['estado'];
@@ -137,14 +137,14 @@ class CargadorAsignacionesGestorDinersExcel
 					'fecha_modificacion' => date("Y-m-d H:i:s"),
 					'usuario_modificacion' => \WebSecurity::getUserData('id'),
 					'usuario_asignado' => $usuario_id,
-					'estado' => $estado_producto == 'no_asignado' ? 'asignado_usuario' : $estado_producto,
+					'estado' => 'asignado_usuario',
 				];
 				$query = $db->update('producto')->set($set)->where('id', $producto_id)->execute();
 				$set = [
 					'fecha_modificacion' => date("Y-m-d H:i:s"),
 					'usuario_modificacion' => \WebSecurity::getUserData('id'),
 					'usuario_asignado' => $usuario_id,
-					'estado' => $estado_aplicativo_diners == 'no_asignado' ? 'asignado_usuario' : $estado_aplicativo_diners,
+					'estado' => 'asignado_usuario',
 				];
 				$query = $db->update('aplicativo_diners')->set($set)->where('id', $aplicativo_diners_id)->execute();
 

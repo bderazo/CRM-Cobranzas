@@ -72,6 +72,8 @@ class CargadorAplicativoDinersExcel
 			$productos_todos = Producto::porInstitucioVerificar(1);
 			$aplicativo_diners_todos = AplicativoDiners::porInstitucioVerificar(1);
 			$aplicativo_diners_detalle_todos = AplicativoDinersDetalle::porTipo('original');
+			$productos_procesados = [];
+			$aplicativo_diners_procesados = [];
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1))
 					continue;
@@ -282,12 +284,13 @@ class CargadorAplicativoDinersExcel
 							$producto->fecha_ingreso = date("Y-m-d H:i:s");
 							$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 							$producto->eliminado = 0;
-							$producto->estado = 'no_asignado';
+							$producto->estado = 'asignado_megacob';
 							$producto->fecha_modificacion = date("Y-m-d H:i:s");
 							$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 							$producto->usuario_asignado = 0;
 							$producto->save();
 							$producto_id = $producto->id;
+							$productos_procesados[] = $producto_id;
 						} elseif($values[53] > 0) {
 							$producto = new Producto();
 							$producto->institucion_id = 1;
@@ -296,12 +299,13 @@ class CargadorAplicativoDinersExcel
 							$producto->fecha_ingreso = date("Y-m-d H:i:s");
 							$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 							$producto->eliminado = 0;
-							$producto->estado = 'no_asignado';
+							$producto->estado = 'asignado_megacob';
 							$producto->fecha_modificacion = date("Y-m-d H:i:s");
 							$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 							$producto->usuario_asignado = 0;
 							$producto->save();
 							$producto_id = $producto->id;
+							$productos_procesados[] = $producto_id;
 						} elseif($values[91] > 0) {
 							$producto = new Producto();
 							$producto->institucion_id = 1;
@@ -310,12 +314,13 @@ class CargadorAplicativoDinersExcel
 							$producto->fecha_ingreso = date("Y-m-d H:i:s");
 							$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 							$producto->eliminado = 0;
-							$producto->estado = 'no_asignado';
+							$producto->estado = 'asignado_megacob';
 							$producto->fecha_modificacion = date("Y-m-d H:i:s");
 							$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 							$producto->usuario_asignado = 0;
 							$producto->save();
 							$producto_id = $producto->id;
+							$productos_procesados[] = $producto_id;
 						} elseif($values[138] > 0) {
 							$producto = new Producto();
 							$producto->institucion_id = 1;
@@ -324,13 +329,23 @@ class CargadorAplicativoDinersExcel
 							$producto->fecha_ingreso = date("Y-m-d H:i:s");
 							$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 							$producto->eliminado = 0;
-							$producto->estado = 'no_asignado';
+							$producto->estado = 'asignado_megacob';
 							$producto->fecha_modificacion = date("Y-m-d H:i:s");
 							$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 							$producto->usuario_asignado = 0;
 							$producto->save();
 							$producto_id = $producto->id;
+							$productos_procesados[] = $producto_id;
 						}
+					}else{
+						$producto = Producto::porId($producto_id);
+						$producto->estado = 'asignado_megacob';
+						$producto->fecha_modificacion = date("Y-m-d H:i:s");
+						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
+						$producto->usuario_asignado = 0;
+						$producto->fecha_gestionar = null;
+						$producto->save();
+						$productos_procesados[] = $producto_id;
 					}
 
 					//PROCESO DE APLICATIVO DINERS
@@ -343,7 +358,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners->cliente_id = $cliente_id;
 						$aplicativo_diners->institucion_id = 1;
 						$aplicativo_diners->producto_id = $producto_id;
-						$aplicativo_diners->estado = 'no_asignado';
+						$aplicativo_diners->estado = 'asignado_megacob';
 						$aplicativo_diners->ciudad_gestion = $values[10];
 						$aplicativo_diners->fecha_elaboracion = date("Y-m-d H:i:s");
 						$aplicativo_diners->cedula_socio = $cliente_cedula;
@@ -361,6 +376,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners->eliminado = 0;
 						$aplicativo_diners->save();
 						$aplicativo_diners_id = $aplicativo_diners->id;
+						$aplicativo_diners_procesados[] = $aplicativo_diners_id;
 					} else {
 						//MODIFICAR APLICATIVO DINERS
 						$set = [
@@ -373,10 +389,14 @@ class CargadorAplicativoDinersExcel
 							'ciudad_cuenta' => $values[10],
 							'zona_cuenta' => $values[11],
 							'seguro_desgravamen' => $values[132],
+							'estado' => 'asignado_megacob',
+							'fecha_gestionar' => null,
+							'usuario_asignado' => 0,
 							'fecha_modificacion' => date("Y-m-d H:i:s"),
 							'usuario_modificacion' => \WebSecurity::getUserData('id'),
 						];
 						$query = $db->update('aplicativo_diners')->set($set)->where('id', $aplicativo_diners_id)->execute();
+						$aplicativo_diners_procesados[] = $aplicativo_diners_id;
 					}
 
 					//PROCESO DE APLICATIVO DINERS DETALLE
@@ -761,6 +781,34 @@ class CargadorAplicativoDinersExcel
 					}
 
 					$rep['total']++;
+				}
+			}
+
+			//INACTIVAR LOS PRODUCTOS Q NO VIENEN EN EL LISTADO
+			foreach($productos_todos as $pt){
+				if (array_search($pt['id'], $productos_procesados) === FALSE ) {
+					$set = [
+						'estado' => 'inactivo',
+						'fecha_gestionar' => null,
+						'usuario_asignado' => 0,
+						'fecha_modificacion' => date("Y-m-d H:i:s"),
+						'usuario_modificacion' => \WebSecurity::getUserData('id'),
+					];
+					$query = $db->update('producto')->set($set)->where('id', $pt['id'])->execute();
+				}
+			}
+
+			//INACTIVAR LOS APLICATIVO DINERS Q NO VIENEN EN EL LISTADO
+			foreach($aplicativo_diners_todos as $adt){
+				if (array_search($adt['id'], $aplicativo_diners_procesados) === FALSE ) {
+					$set = [
+						'estado' => 'inactivo',
+						'fecha_gestionar' => null,
+						'usuario_asignado' => 0,
+						'fecha_modificacion' => date("Y-m-d H:i:s"),
+						'usuario_modificacion' => \WebSecurity::getUserData('id'),
+					];
+					$query = $db->update('aplicativo_diners')->set($set)->where('id', $adt['id'])->execute();
 				}
 			}
 
