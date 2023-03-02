@@ -280,6 +280,4 @@ class UsuariosController extends BaseController {
 
 		return $this->json(compact('usuarios'));
 	}
-	
-	
 }

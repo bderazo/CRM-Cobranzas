@@ -210,9 +210,9 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 // session middleware
 
 $app->add(new \Slim\Middleware\Session([
-	'name' => 'solvit',
+	'name' => 'megacob',
 	'autorefresh' => true,
-	'lifetime' => '5 hour'
+	'lifetime' => '15 minutes'
 ]));
 
 $app->add(new \RKA\Middleware\IpAddress());
