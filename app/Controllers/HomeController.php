@@ -89,6 +89,7 @@ class HomeController extends BaseController {
 			UsuarioLogin::logout($id);
 		}
 		$this->session->clear();
+		$this->session->destroy();
 		return $this->redirect('home');
 	}
 	

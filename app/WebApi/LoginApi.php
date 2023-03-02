@@ -67,6 +67,7 @@ class LoginApi extends BaseController {
 			UsuarioLogin::logout($id);
 		}
 		$this->session->clear();
+		$this->session->destroy();
 
 
 
