@@ -120,7 +120,8 @@ class ProductoApi extends BaseController
 
 			return $this->json($res->conDatos($retorno));
 		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -157,7 +158,8 @@ class ProductoApi extends BaseController
 			$producto = Producto::getProductoList($data, $page, $user, $config);
 			return $this->json($res->conDatos($producto));
 		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -238,7 +240,8 @@ class ProductoApi extends BaseController
 
 			return $this->json($res->conDatos($retorno));
 		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -279,7 +282,8 @@ class ProductoApi extends BaseController
 
 			return $this->json($res->conDatos($retorno));
 		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -764,7 +768,8 @@ class ProductoApi extends BaseController
 
 				return $this->json($res->conDatos($retorno));
 			} else {
-				return $this->json($res->conError('PARAMETROS INCORRECTOS'));
+				http_response_code(401);
+				die();
 			}
 		} else {
 			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
@@ -927,7 +932,8 @@ class ProductoApi extends BaseController
 
 			return $this->json($res->conDatos($con->toArray()));
 		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 

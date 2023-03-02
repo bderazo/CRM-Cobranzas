@@ -53,14 +53,20 @@ class UsuariosApi extends BaseController
 
 		$usuario_id = \WebSecurity::getUserData('id');
 		$user = Usuario::porId($usuario_id);
+		if(isset($user['id'])) {
 
-		$config = $this->get('config');
-		$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
+			$config = $this->get('config');
+			$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
+
 
 //		http_response_code(401);
 //		die();
 
-		return $this->json($res->conDatos($usuario));
+			return $this->json($res->conDatos($usuario));
+		}else {
+			http_response_code(401);
+			die();
+		}
 	}
 
 	/**
@@ -82,52 +88,57 @@ class UsuariosApi extends BaseController
 
 		$usuario_id = \WebSecurity::getUserData('id');
 		$user = Usuario::porId($usuario_id);
+		if(isset($user['id'])) {
 
-		$data = $this->request->getParam('data');
-		$files = $_FILES;
+			$data = $this->request->getParam('data');
+			$files = $_FILES;
 
 //		\Auditor::error("save_form_usuario API ", 'Files', $files);
 
-		// limpieza
-		$keys = array_keys($data);
-		foreach($keys as $key) {
-			$val = $data[$key];
-			if(is_string($val))
-				$val = trim($val);
-			if($val === null)
-				unset($data[$key]);
-		}
-
-		$usuario = Usuario::porId($user['id']);
-
-		//ASIGNAR CAMPOS
-		$fields = Usuario::getAllColumnsNames();
-		$change_password = false;
-		foreach($data as $k => $v) {
-			if(in_array($k, $fields)) {
-				$usuario->$k = $v;
-			}
-			if($k == 'password') {
-				$change_password = true;
-			}
-		}
-		if($usuario->save($change_password)) {
-			//INSERTAR ARCHIVO DE PERFIL
-			if(isset($files["data"])) {
-				//ARREGLAR ARCHIVOS
-				$archivo['name'] = date("Y_m_d_H_i_s") . '_' . $files["data"]["name"]["images"];
-				$archivo['type'] = $files["data"]["type"]["images"];
-				$archivo['tmp_name'] = $files["data"]["tmp_name"]["images"];
-				$archivo['error'] = $files["data"]["error"]["images"];
-				$archivo['size'] = $files["data"]["size"]["images"];
-				$this->uploadFiles($usuario, $archivo);
+			// limpieza
+			$keys = array_keys($data);
+			foreach($keys as $key) {
+				$val = $data[$key];
+				if(is_string($val))
+					$val = trim($val);
+				if($val === null)
+					unset($data[$key]);
 			}
 
-			$config = $this->get('config');
-			$usuario_detalle = Usuario::getUsuarioDetalle($usuario->id, $config);
-			return $this->json($res->conDatos($usuario_detalle));
-		} else {
-			return $this->json($res->conError('ERROR AL MODIFICAR EL USUARIO'));
+			$usuario = Usuario::porId($user['id']);
+
+			//ASIGNAR CAMPOS
+			$fields = Usuario::getAllColumnsNames();
+			$change_password = false;
+			foreach($data as $k => $v) {
+				if(in_array($k, $fields)) {
+					$usuario->$k = $v;
+				}
+				if($k == 'password') {
+					$change_password = true;
+				}
+			}
+			if($usuario->save($change_password)) {
+				//INSERTAR ARCHIVO DE PERFIL
+				if(isset($files["data"])) {
+					//ARREGLAR ARCHIVOS
+					$archivo['name'] = date("Y_m_d_H_i_s") . '_' . $files["data"]["name"]["images"];
+					$archivo['type'] = $files["data"]["type"]["images"];
+					$archivo['tmp_name'] = $files["data"]["tmp_name"]["images"];
+					$archivo['error'] = $files["data"]["error"]["images"];
+					$archivo['size'] = $files["data"]["size"]["images"];
+					$this->uploadFiles($usuario, $archivo);
+				}
+
+				$config = $this->get('config');
+				$usuario_detalle = Usuario::getUsuarioDetalle($usuario->id, $config);
+				return $this->json($res->conDatos($usuario_detalle));
+			} else {
+				return $this->json($res->conError('ERROR AL MODIFICAR EL USUARIO'));
+			}
+		}else {
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -147,21 +158,27 @@ class UsuariosApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		$user = Usuario::porId($usuario_id);
-		$verificar = ApiUserTokenPushNotifications::verificarPorToken($token, $user['id']);
-		if(!$verificar) {
-			$del_token_anterior = ApiUserTokenPushNotifications::deleteTokenAnterior($user['id'], $dispositive);
-			$user_token = new ApiUserTokenPushNotifications();
-			$user_token->usuario_id = $user['id'];
-			$user_token->token = $token;
-			$user_token->dispositive = $dispositive;
-			$user_token->fecha_ingreso = date("Y-m-d H:i:s");
-			$user_token->fecha_modificacion = date("Y-m-d H:i:s");
-			$user_token->usuario_ingreso = $user['id'];
-			$user_token->usuario_modificacion = $user['id'];
-			$user_token->eliminado = 0;
-			$user_token->save();
+
+		if(isset($user['id'])) {
+			$verificar = ApiUserTokenPushNotifications::verificarPorToken($token, $user['id']);
+			if(!$verificar) {
+				$del_token_anterior = ApiUserTokenPushNotifications::deleteTokenAnterior($user['id'], $dispositive);
+				$user_token = new ApiUserTokenPushNotifications();
+				$user_token->usuario_id = $user['id'];
+				$user_token->token = $token;
+				$user_token->dispositive = $dispositive;
+				$user_token->fecha_ingreso = date("Y-m-d H:i:s");
+				$user_token->fecha_modificacion = date("Y-m-d H:i:s");
+				$user_token->usuario_ingreso = $user['id'];
+				$user_token->usuario_modificacion = $user['id'];
+				$user_token->eliminado = 0;
+				$user_token->save();
+			}
+			return $this->json($res->conMensaje('OK'));
+		}else {
+			http_response_code(401);
+			die();
 		}
-		return $this->json($res->conMensaje('OK'));
 	}
 
 	/**

@@ -188,7 +188,8 @@ class AplicativoDinersApi extends BaseController
 			$retorno['tarjetas'] = $tarjetas;
 			return $this->json($res->conDatos($retorno));
 		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -621,7 +622,8 @@ class AplicativoDinersApi extends BaseController
 
 			return $this->json($res->conDatos($retorno));
 		} else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -1060,7 +1062,8 @@ class AplicativoDinersApi extends BaseController
 
 			return $this->json($res->conDatos($retorno));
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -1498,7 +1501,8 @@ class AplicativoDinersApi extends BaseController
 
 			return $this->json($res->conDatos($retorno));
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -1935,7 +1939,8 @@ class AplicativoDinersApi extends BaseController
 
 			return $this->json($res->conDatos($retorno));
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -1982,7 +1987,8 @@ class AplicativoDinersApi extends BaseController
 			}
 			return $this->json($res->conDatos($respuesta));
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -2028,7 +2034,8 @@ class AplicativoDinersApi extends BaseController
 			}
 			return $this->json($res->conDatos($respuesta));
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -2074,7 +2081,8 @@ class AplicativoDinersApi extends BaseController
 			}
 			return $this->json($res->conDatos($respuesta));
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -2121,7 +2129,8 @@ class AplicativoDinersApi extends BaseController
 
 			return $this->json($res->conDatos($respuesta));
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -2179,7 +2188,8 @@ class AplicativoDinersApi extends BaseController
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -2237,7 +2247,8 @@ class AplicativoDinersApi extends BaseController
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -2297,7 +2308,8 @@ class AplicativoDinersApi extends BaseController
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 
@@ -2355,7 +2367,8 @@ class AplicativoDinersApi extends BaseController
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
 		}else {
-			return $this->json($res->conError('USUARIO NO ENCONTRADO'));
+			http_response_code(401);
+			die();
 		}
 	}
 }
