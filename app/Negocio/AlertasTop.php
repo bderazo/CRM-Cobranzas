@@ -7,22 +7,38 @@ use General\Seguridad\IPermissionCheck;
 use Reportes\ActividadReciente;
 
 class AlertasTop {
-	var $cacheRequest = null;
+	var $cacheRequestRecienteSeguimiento = null;
+	var $cacheRequestRecienteCliente = null;
 	/** @var  \PDO */
 	var $pdo;
 	
-	function consultar() {
-		if (!$this->cacheRequest)
-			$this->crear();
-		return $this->cacheRequest;
+	function consultarRecienteSeguimiento() {
+		if (!$this->cacheRequestRecienteSeguimiento) {
+			$this->crearRecienteSeguimiento();
+		}
+		return $this->cacheRequestRecienteSeguimiento;
+	}
+
+	function consultarRecienteCliente() {
+		if (!$this->cacheRequestRecienteCliente) {
+			$this->crearRecienteCliente();
+		}
+		return $this->cacheRequestRecienteCliente;
 	}
 	
-	function crear() {
+	function crearRecienteSeguimiento() {
 		$act = new ActividadReciente();
 		$act->pdo = $this->pdo;
 		$act->soloHoy = true;
 		$act->usuarioIdActual = \WebSecurity::getUserData('id');
-		$this->cacheRequest = $act->actividadRecienteUsuario();
+		$this->cacheRequestRecienteSeguimiento = $act->actividadRecienteSeguimiento();
 	}
-	
+
+	function crearRecienteCliente() {
+		$act = new ActividadReciente();
+		$act->pdo = $this->pdo;
+		$act->soloHoy = true;
+		$act->usuarioIdActual = \WebSecurity::getUserData('id');
+		$this->cacheRequestRecienteCliente = $act->actividadRecienteCliente();
+	}
 }
