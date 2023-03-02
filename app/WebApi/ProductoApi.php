@@ -58,7 +58,9 @@ class ProductoApi extends BaseController
 		if(!$this->isPost()) return "get_form_busqueda_producto";
 		$res = new RespuestaConsulta();
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
 		if(isset($user['id'])) {
 			$retorno = [];
 
@@ -251,7 +253,9 @@ class ProductoApi extends BaseController
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
 		if(isset($user['id'])) {
 			$producto = Producto::porId($producto_id);
 
@@ -299,7 +303,7 @@ class ProductoApi extends BaseController
 		$data = $this->request->getParam('data');
 //		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
 
 		$respuesta = PaletaArbol::getNivel2ApiQuery($q, $page, $data);
 		$retorno['results'] = $respuesta;
@@ -320,7 +324,7 @@ class ProductoApi extends BaseController
 		$data = $this->request->getParam('data');
 //		\Auditor::info('buscar_listas_n3 data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
 
 		$respuesta = PaletaArbol::getNivel3ApiQuery($q, $page, $data);
 		$retorno['results'] = $respuesta;
@@ -341,7 +345,7 @@ class ProductoApi extends BaseController
 		$data = $this->request->getParam('data');
 //		\Auditor::info('buscar_listas_n4 data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
 
 		$respuesta = PaletaArbol::getNivel4ApiQuery($q, $page, $data);
 		$retorno['results'] = $respuesta;
@@ -370,7 +374,7 @@ class ProductoApi extends BaseController
 		$data = $this->request->getParam('data');
 //		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
 
 		$respuesta = PaletaMotivoNoPago::getNivel2ApiQuery($q, $page, $data);
 		$retorno['results'] = $respuesta;
@@ -395,12 +399,14 @@ class ProductoApi extends BaseController
 //		$institucion_id = 1;
 //		$producto_id = 12596;
 
-		\Auditor::error("get_form_paleta institucion_id: $institucion_id ", 'Producto', $institucion_id);
-		\Auditor::error("get_form_paleta producto_id: $producto_id ", 'Producto', $producto_id);
+//		\Auditor::error("get_form_paleta institucion_id: $institucion_id ", 'Producto', $institucion_id);
+//		\Auditor::error("get_form_paleta producto_id: $producto_id ", 'Producto', $producto_id);
 
 		if($institucion_id > 0 && $producto_id > 0) {
 			$session = $this->request->getParam('session');
-			$user = UsuarioLogin::getUserBySession($session);
+//			$user = UsuarioLogin::getUserBySession($session);
+			$usuario_id = \WebSecurity::getUserData('id');
+			$user = Usuario::porId($usuario_id);
 			if(isset($user['id'])) {
 				$retorno = [];
 
@@ -792,7 +798,9 @@ class ProductoApi extends BaseController
 		$files = $_FILES;
 //		\Auditor::info('save_form_paleta files: ', 'API', $files);
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
 		if(isset($user['id'])) {
 			$institucion = Institucion::porId($institucion_id);
 			$producto = Producto::porId($producto_id);
