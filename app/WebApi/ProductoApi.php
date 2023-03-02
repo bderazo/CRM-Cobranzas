@@ -125,7 +125,7 @@ class ProductoApi extends BaseController
 	}
 
 	/**
-	 * get_preguntas_list
+	 * get_productos_list
 	 * @param $query
 	 * @param $page
 	 * @param $session

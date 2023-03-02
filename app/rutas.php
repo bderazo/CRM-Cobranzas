@@ -47,10 +47,6 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/aplicativo_diners/save_tarjeta_interdin', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'save_tarjeta_interdin', $p));
 	$app->any('/aplicativo_diners/save_tarjeta_discover', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'save_tarjeta_discover', $p));
 	$app->any('/aplicativo_diners/save_tarjeta_mastercard', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'save_tarjeta_mastercard', $p));
-
-
-
-	$app->any('/boton_pago/get_token', $api->createDispatch(\WebApi\BotonPagoApi::class, 'get_token', $p));
 }
 
 $app->group('/api', function() use ($app) {
