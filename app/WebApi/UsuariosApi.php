@@ -49,7 +49,11 @@ class UsuariosApi extends BaseController
 		if(!$this->isPost()) return "get_usuario_detalle";
 		$res = new RespuestaConsulta();
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
+
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
+
 		$config = $this->get('config');
 		$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
 		return $this->json($res->conDatos($usuario));
@@ -70,7 +74,10 @@ class UsuariosApi extends BaseController
 		$res = new RespuestaConsulta();
 
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
+
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
 
 		$data = $this->request->getParam('data');
 		$files = $_FILES;
@@ -133,7 +140,9 @@ class UsuariosApi extends BaseController
 		$session = $this->request->getParam('session');
 		$token = $this->request->getParam('token');
 		$dispositive = $this->request->getParam('dispositive');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
 		$verificar = ApiUserTokenPushNotifications::verificarPorToken($token, $user['id']);
 		if(!$verificar) {
 			$del_token_anterior = ApiUserTokenPushNotifications::deleteTokenAnterior($user['id'], $dispositive);
