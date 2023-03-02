@@ -57,8 +57,8 @@ class UsuariosApi extends BaseController
 		$config = $this->get('config');
 		$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
 
-//		http_response_code(401);
-//		die();
+		http_response_code(401);
+		die();
 
 		return $this->json($res->conDatos($usuario));
 	}
