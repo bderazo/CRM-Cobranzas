@@ -30,9 +30,12 @@ class ActividadReciente {
 			->orderBy('ps.fecha_ingreso desc');
 //			->limit($limit);
 
+		if ($this->usuarioIdActual) {
+			$q->where("ps.usuario_ingreso", $this->usuarioIdActual);
+		}
 		if ($this->soloHoy) {
-			if ($this->usuarioIdActual)
-				$q->where("ps.usuario_ingreso", $this->usuarioIdActual);
+			$hoy = date('Y-m-d');
+			$q->where("DATE(ps.fecha_ingreso)", $hoy);
 		}
 		
 		$lista = $q->fetchAll();
@@ -71,9 +74,12 @@ class ActividadReciente {
 			->orderBy('ps.fecha_ingreso desc');
 //			->limit($limit);
 
+		if ($this->usuarioIdActual) {
+			$q->where("ps.usuario_ingreso", $this->usuarioIdActual);
+		}
 		if ($this->soloHoy) {
-			if ($this->usuarioIdActual)
-				$q->where("ps.usuario_ingreso", $this->usuarioIdActual);
+			$hoy = date('Y-m-d');
+			$q->where("DATE(ps.fecha_ingreso)", $hoy);
 		}
 
 		$lista = $q->fetchAll();

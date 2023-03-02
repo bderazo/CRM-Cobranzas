@@ -21,7 +21,7 @@ return [
 		['text' => 'Saldos Diners', 'link' => '/cargarArchivo/saldosDiners', 'roles' => 'cargar_archivos.saldos_diners', 'icon' => 'fas fa-undo warm-gray'],
 		['text' => 'Asignaciones Diners Megacob', 'link' => '/cargarArchivo/asignacionesDiners', 'roles' => 'cargar_archivos.asignaciones_diners', 'icon' => 'fas fa-undo warm-gray'],
 		['text' => 'Asignaciones Diners Gestor', 'link' => '/cargarArchivo/asignacionesGestorDiners', 'roles' => 'cargar_archivos.asignaciones_gestor_diners', 'icon' => 'fas fa-undo warm-gray'],
-
+		['text' => 'Clientes', 'link' => '/cargarArchivo/clientes', 'roles' => 'cargar_archivos.clientes', 'icon' => 'fas fa-undo warm-gray'],
 		['text' => 'Productos', 'link' => '/cargarArchivo/productos', 'roles' => 'cargar_archivos.productos', 'icon' => 'fas fa-undo warm-gray'],
 	]],
 

@@ -22,20 +22,21 @@
 						</div>
 
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Estado civil</label>
+							<label for="inputName" class="col-md-2 form-label">Ciudad *</label>
 							<div class="col-md-4 col-informacion">
-								<select class="form-control form-select select2" v-autoname v-model="model.estado_civil" placeholder="Seleccione una opción" v-autoname>
-									<option value=""></option>
-									<option v-for="(v,k) in cat.estado_civil" v-html="v" :value="k"></option>
-								</select>
+								<input type="text" class="form-control required" v-model="model.ciudad" placeholder="Ciudad" v-autoname/>
 							</div>
 
-							<label for="inputName" class="col-md-2 form-label">Sexo</label>
+							<label for="inputName" class="col-md-2 form-label">Zona</label>
 							<div class="col-md-4 col-informacion">
-								<select class="form-control form-select select2" v-autoname v-model="model.sexo" placeholder="Seleccione una opción" v-autoname>
-									<option value=""></option>
-									<option v-for="(v,k) in cat.sexo" v-html="v" :value="k"></option>
-								</select>
+								<input type="text" class="form-control" v-model="model.zona" placeholder="Zona" v-autoname/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Lugar de trabajo</label>
+							<div class="col-md-4 col-informacion">
+								<input type="text" class="form-control" v-model="model.lugar_trabajo" placeholder="Lugar de trabajo" v-autoname/>
 							</div>
 						</div>
 

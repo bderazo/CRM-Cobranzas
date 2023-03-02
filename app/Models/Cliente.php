@@ -44,8 +44,8 @@ class Cliente extends Model {
 	{
 		$q = self::query();
 
-		$q->join('producto', 'producto.cliente_id', '=', 'cliente.id');
-		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
+		$q->leftJoin('producto', 'producto.cliente_id', '=', 'cliente.id');
+		$q->leftJoin('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->select(['cliente.*']);
 
 		if (!empty($post['institucion_id'])) $q->where('institucion.id', '=', $post['institucion_id']);

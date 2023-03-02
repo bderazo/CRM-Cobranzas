@@ -72,6 +72,7 @@ return [
 			'saldos_diners' => 'Permitir la carga de archivos de saldos Diners',
 			'asignaciones_diners' => 'Permitir la carga de archivos de asignaciones Diners a Megacob',
 			'asignaciones_gestor_diners' => 'Permitir la carga de archivos de asignaciones Diners a Gestores',
+			'clientes' => 'Permitir la carga de archivos de clientes',
 			'productos' => 'Permitir la carga de archivos de productos',
 		],
 		'mensaje' => 'Operaciones posibles para carga de archivos'

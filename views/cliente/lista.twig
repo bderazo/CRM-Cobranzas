@@ -4,8 +4,8 @@
 		<tr>
 			<th>Nombres</th>
 			<th>Cédula</th>
-			<th>Sexo</th>
-			<th>Estado civil</th>
+			<th>Ciudad</th>
+			<th>Zona</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -15,8 +15,8 @@
 					<a href="{{ root }}/cliente/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.nombres }}</a>
 				</td>
 				<td>{{ l.cedula }} </td>
-				<td>{{ l.sexo|upper }} </td>
-				<td>{{ l.estado_civil|upper }} </td>
+				<td>{{ l.ciudad|upper }} </td>
+				<td>{{ l.zona|upper }} </td>
 			</tr>
 		{% endfor %}
 		</tbody>
