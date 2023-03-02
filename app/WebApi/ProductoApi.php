@@ -136,7 +136,11 @@ class ProductoApi extends BaseController
 		$page = $this->request->getParam('page');
 		$data = $this->request->getParam('data');
 		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$user = UsuarioLogin::getUserBySession($session);
+
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
+
 		if(isset($user['id'])) {
 			$config = $this->get('config');
 
@@ -165,8 +169,11 @@ class ProductoApi extends BaseController
 		if(!$this->isPost()) return "get_producto_cliente";
 		$res = new RespuestaConsulta();
 		$producto_id = $this->request->getParam('producto_id');
-		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
+//		$session = $this->request->getParam('session');
+//		$user = UsuarioLogin::getUserBySession($session);
+
+		$usuario_id = \WebSecurity::getUserData('id');
+		$user = Usuario::porId($usuario_id);
 		if(isset($user['id'])) {
 			$producto = Producto::porId($producto_id);
 
