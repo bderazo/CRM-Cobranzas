@@ -40,11 +40,16 @@
 								<div class="d-flex order-lg-2">
 
 									{% if ambientePruebas %}
-									<div class="dropdown d-flex">
-										<div class="label label-warning">AMBIENTE DE PRUEBAS</div>
-									</div>
+										<div class="dropdown d-flex">
+											<div class="label label-warning">AMBIENTE DE PRUEBAS</div>
+										</div>
 									{% endif %}
 									<!-- AMBIENTE DE PRUEBAS -->
+
+									{% if alertasTop %}
+										{% include('home/alertas.twig') %}
+									{% endif %}
+									<!-- ALERTAS -->
 
 									<div class="dropdown d-flex">
 										<a class="nav-link icon full-screen-link nav-link-bg">

@@ -214,22 +214,33 @@
 						<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel4 }}</label>
 						<div class="col-md-4 col-informacion">
 							<select class="form-control form-select select2"
-							        v-model="seguimiento.nivel_4_id" placeholder="Seleccione una opción" id="nivel_4_id"
+							        v-model="seguimiento.nivel_4_id" placeholder="Seleccione una opción" id="nivel_4_id" v-on:change="verificarCampos(4)"
 							        required v-autoname>
 								<option v-for="item in cat.paleta_nivel_4" v-bind:value="item.nivel4_id" v-html="item.nivel4"></option>
 							</select>
 						</div>
 					</div>
 
-					<h4 class="text-primary">MOTIVO DE NO PAGO</h4>
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel1 }}</label>
-						<div class="col-md-4 col-informacion">
-							<select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2"
-							        v-model="seguimiento.nivel_1_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id"
-							        required v-autoname>
-								<option v-for="item in cat.paleta_motivo_no_pago_nivel_1" v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
-							</select>
+					<div id="div_fecha_compromiso_pago">
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">FECHA COMPROMISO DE PAGO</label>
+							<div class="col-md-4 col-informacion">
+								<input type="text" class="form-control fecha" id="fecha_compromiso_pago" name="fecha_compromiso_pago">
+							</div>
+						</div>
+					</div>
+
+					<div id="div_motivo_no_pago">
+						<h4 class="text-primary">MOTIVO DE NO PAGO</h4>
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel1 }}</label>
+							<div class="col-md-4 col-informacion">
+								<select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2"
+								        v-model="seguimiento.nivel_1_motivo_no_pago_id" placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id"
+								        required v-autoname>
+									<option v-for="item in cat.paleta_motivo_no_pago_nivel_1" v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
+								</select>
+							</div>
 						</div>
 					</div>
 
@@ -355,6 +366,35 @@
                     });
                 },
 
+                verificarCampos: function (nivel) {
+                    var self = this;
+                    var data = {
+                        nivel_1_id: self.seguimiento.nivel_1_id,
+                        nivel_2_id: self.seguimiento.nivel_2_id,
+                        nivel_3_id: self.seguimiento.nivel_3_id,
+                        nivel_4_id: self.seguimiento.nivel_4_id,
+                        nivel: nivel,
+                    };
+                    $.post('{{ root }}/producto/verificarCampos', data, function (res) {
+                        if(res.mostrar_motivo_no_pago == 'si'){
+                            $("#div_motivo_no_pago").show();
+                            $('#nivel_1_motivo_no_pago_id').prop('required',true);
+                        }else{
+                            $("#div_motivo_no_pago").hide();
+                            $('#nivel_1_motivo_no_pago_id').removeAttr('required');
+                        }
+
+                        if(res.mostrar_fecha_compromiso_pago == 'si'){
+                            $("#div_fecha_compromiso_pago").show();
+                            $('#fecha_compromiso_pago').prop('required',true);
+                        }else{
+                            $("#div_fecha_compromiso_pago").hide();
+                            $('#fecha_compromiso_pago').removeAttr('required');
+                        }
+                        console.log(res);
+                    });
+                },
+
                 cargarMotivoNoPagoNivel2: function () {
                     var self = this;
                     var data = {
@@ -368,6 +408,8 @@
             },
             mounted: function () {
                 var self = this;
+                $("#div_fecha_compromiso_pago").hide();
+                $("#div_motivo_no_pago").hide();
                 $('#form-edit-seguimiento').validate({
                     onfocusout: false,
                     onkeyup: false,
@@ -382,6 +424,17 @@
                         form.submit();
                         return false;
                     }
+                });
+
+                $(function () {
+                    $('.fecha').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true,
+                        minDate: 0, // 0 days offset = today
+                        maxDate: '+12m',
+                        numberOfMonths: 2,
+                    });
+
                 });
             }
         });

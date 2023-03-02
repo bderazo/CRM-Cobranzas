@@ -1,30 +1,55 @@
 {% set alertaDiario = alertasTop.consultar() %}
-<li class="dropdown">
-	<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-		<i class="fa fa-envelope"></i> <span class="label label-warning">{{ alertaDiario|length }}</span>
-	</a>
-	<ul class="dropdown-menu dropdown-messages">
-		{% for a in alertaDiario %}
-			<li>
-				<div class="dropdown-messages-box">
-
-					<div class="media-body" style="cursor:pointer" onclick="window.location.href='{{ root }}/proceso/detalle?id={{ a.caso_id }}'">
-						<small class="pull-right">hace {{ a.tiempo }}</small>
-						<strong>Caso #{{ a.caso_id }}</strong><br>
-						{{ a.n_tipo }}
-						<br>
-						<small class="text-muted">{{ a.texto }} por {{ a.usuario }}</small>
-					</div>
-				</div>
-			</li>
-			<li class="divider"></li>
-		{% endfor %}
-		<li>
-			<div class="text-center link-block">
-				<a href="{{ root }}/casopqr/diario">
-					<i class="fa fa-envelope"></i> <strong>Ver actividad diaria</strong>
-				</a>
+<div class="dropdown  d-flex notifications">
+	{% if alertaDiario.data|length >= 0 and alertaDiario.data|length <= 55 %}
+		<a class="nav-link icon" data-bs-toggle="dropdown" style="color: red;">
+			<i class="fa fa-cogs"></i><span class="badge bg-secondary header-badge" style="background: red !important;">{{ alertaDiario.data|length }}</span>
+		</a>
+	{% elseif alertaDiario.data|length >= 56 and alertaDiario.data|length <= 85 %}
+		<a class="nav-link icon" data-bs-toggle="dropdown" style="color: yellow;">
+			<i class="fa fa-cogs"></i><span class="badge bg-secondary header-badge" style="background: yellow !important;">{{ alertaDiario.data|length }}</span>
+		</a>
+	{% elseif alertaDiario.data|length >= 86 and alertaDiario.data|length <= 119 %}
+		<a class="nav-link icon" data-bs-toggle="dropdown" style="color: orange;">
+			<i class="fa fa-cogs"></i><span class="badge bg-secondary header-badge" style="background: orange !important;">{{ alertaDiario.data|length }}</span>
+		</a>
+	{% else %}
+		<a class="nav-link icon" data-bs-toggle="dropdown" style="color: green;">
+			<i class="fa fa-cogs"></i><span class="badge bg-secondary header-badge" style="background: green !important;">{{ alertaDiario.data|length }}</span>
+		</a>
+	{% endif %}
+	<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+		<div class="drop-heading border-bottom">
+			<div class="d-flex">
+				<h6 class="mt-1 mb-0 fs-16 fw-semibold text-dark">Últimas Gestiones de HOY</h6>
 			</div>
-		</li>
-	</ul>
-</li>
+		</div>
+		<div class="notifications-menu">
+			{% for a in alertaDiario.resumen %}
+				{% if a.institucion_id == 1 %}
+					<a class="dropdown-item d-flex" href="{{ root }}/producto/verSeguimientosDiners?id={{ a.producto_id }}">
+						<div class="me-3 notifyimg  bg-secondary brround box-shadow-secondary">
+							<i class="fe fe-check-circle"></i>
+						</div>
+						<div class="mt-1 wd-80p">
+							<h6 class="notification-label mb-1">{{ a.cliente_nombre }}</h6>
+							<span class="notification-subtext">hace&nbsp;{{ a.tiempo }}</span>
+						</div>
+					</a>
+				{% else %}
+					<a class="dropdown-item d-flex" href="{{ root }}/producto/verSeguimientos?id={{ a.producto_id }}">
+						<div class="me-3 notifyimg  bg-secondary brround box-shadow-secondary">
+							<i class="fe fe-check-circle"></i>
+						</div>
+						<div class="mt-1 wd-80p">
+							<h6 class="notification-label mb-1">{{ a.cliente_nombre }}</h6>
+							<span class="notification-subtext">hace&nbsp;{{ a.tiempo }}</span>
+						</div>
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+{#		<div class="dropdown-divider m-0"></div>#}
+{#		<a href="notify-list.php" class="dropdown-item text-center p-3 text-muted">#}
+{#			View all Notification</a>#}
+	</div>
+</div>

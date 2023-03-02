@@ -1440,8 +1440,23 @@ class ProductoController extends BaseController
 	}
 
 	function verificarCampos() {
+		$nivel_1_id = $_REQUEST['nivel_1_id'];
+		$nivel_2_id = $_REQUEST['nivel_2_id'];
 		$nivel_3_id = $_REQUEST['nivel_3_id'];
-		$arbol_campos = PaletaArbol::porId($nivel_3_id);
+		$nivel_4_id = $_REQUEST['nivel_4_id'];
+		$nivel = $_REQUEST['nivel'];
+		if($nivel == 1){
+			$arbol_campos = PaletaArbol::porId($nivel_1_id);
+		}elseif($nivel == 2){
+			$arbol_campos = PaletaArbol::porId($nivel_2_id);
+		}elseif($nivel == 3){
+			$arbol_campos = PaletaArbol::porId($nivel_3_id);
+		}elseif($nivel == 4){
+			$arbol_campos = PaletaArbol::porId($nivel_4_id);
+		}else{
+			$arbol_campos = [];
+		}
+
 		return $this->json($arbol_campos);
 	}
 

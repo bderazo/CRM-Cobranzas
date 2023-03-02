@@ -12,9 +12,9 @@ return [
 
 	['text' => 'Campañas', 'link' => '#', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fa fa-cube'],
 
-	['text' => 'Seguimientos Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fe fe-cpu'],
+	['text' => 'Seguimientos Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-cogs'],
 
-	['text' => 'Seguimientos', 'link' => '/producto', 'roles' => 'producto.lista', 'icon' => 'side-menu__icon fe fe-cpu'],
+	['text' => 'Seguimientos', 'link' => '/producto', 'roles' => 'producto.lista', 'icon' => 'side-menu__icon fa fa-cogs'],
 
 	['text' => 'Carga de Archivos', 'link' => '#', 'roles' => 'cargar_archivos', 'icon' => 'side-menu__icon fa fa-file-excel-o', 'children' => [
 		['text' => 'Aplicativo Diners', 'link' => '/cargarArchivo/aplicativoDiners', 'roles' => 'cargar_archivos.aplicativo_diners', 'icon' => 'fas fa-truck-moving warm-gray'],

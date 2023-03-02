@@ -205,7 +205,7 @@
 					<div class=" row mb-4">
 						<label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
 						<div class="col-md-4 col-informacion">
-							<select class="form-control form-select select2" v-on:change="verificarCampos"
+							<select class="form-control form-select select2" v-on:change="verificarCampos(3)"
 							        v-model="seguimiento.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id"
 							        required v-autoname>
 								<option v-for="item in cat.paleta_nivel_3" v-bind:value="item.nivel3_id" v-html="item.nivel3"></option>
@@ -2439,10 +2439,14 @@
                     });
                 },
 
-                verificarCampos: function () {
+                verificarCampos: function (nivel) {
                     var self = this;
                     var data = {
+                        nivel_1_id: self.seguimiento.nivel_1_id,
+                        nivel_2_id: self.seguimiento.nivel_2_id,
                         nivel_3_id: self.seguimiento.nivel_3_id,
+	                    nivel_4_id: self.seguimiento.nivel_3_id,
+	                    nivel: nivel,
                     };
                     $.post('{{ root }}/producto/verificarCampos', data, function (res) {
                         if(res.mostrar_motivo_no_pago == 'si'){

@@ -2,7 +2,6 @@
 
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
-use Negocio\ApiDatacleaning;
 use Util\TwigExtras;
 
 // Este archivo cofigura con componentes basicos de negocio sin usar la capa web...mucho
@@ -61,14 +60,6 @@ $container['twig'] = function ($container) {
 	return $twig;
 };
 
-$container['flujo'] = function ($c) {
-	$f = new \Negocio\FlujoPqr();
-	$f->persistencia = $c['persistenciaFlujo'];
-	$f->managerFechas = $c['fechasLimite'];
-	$f->notificador = $c['notificador'];
-	return $f;
-};
-
 $container['permisosCheck'] = function () {
 	if (php_sapi_name() == "cli")
 		return new \General\Seguridad\PermisosCheckArray();
@@ -85,15 +76,6 @@ $container['persistenciaFlujo'] = function ($c) {
 	//$f->usuario = WebSecurity::currentUsername();
 	$f->usuario = $nom;
 	return $f;
-};
-
-$container['apiDatacleaning'] = function ($c) {
-	$api = new ApiDatacleaning();
-	$conf = @$c['config']['servicioDatacleaning'];
-	if (!$conf)
-		throw new \Exception("No existe configuracion del servicio Datacleaning");
-	$api->urlBase = $conf['url'];
-	return $api;
 };
 
 $container['catalogoReportes'] = function ($c) {
@@ -174,7 +156,6 @@ $container['escalador'] = function ($c) {
 $container['alertasTop'] = function ($c) {
 	$act = new \Negocio\AlertasTop();
 	$act->pdo = $c['pdo'];
-	$act->permisos = $c['permisosCheck'];
 	return $act;
 };
 
