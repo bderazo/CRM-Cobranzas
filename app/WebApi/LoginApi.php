@@ -61,9 +61,18 @@ class LoginApi extends BaseController {
 	function logout() {
 		if (!$this->isPost()) return "logout";
 		$res = new RespuestaConsulta();
-		$session = $this->request->getParam('session');
-		$user = UsuarioLogin::getUserBySession($session);
-		$logout = UsuarioLogin::logout($user['id']);
+
+		$id = @\WebSecurity::getUserData('id');
+		if ($id) {
+			UsuarioLogin::logout($id);
+		}
+		$this->session->clear();
+
+
+
+//		$session = $this->request->getParam('session');
+//		$user = UsuarioLogin::getUserBySession($session);
+//		$logout = UsuarioLogin::logout($user['id']);
 		return $this->json($res->conMensaje('OK'));
 	}
 }
