@@ -145,6 +145,9 @@ class ProductoApi extends BaseController
 		if($usuario_id > 0){
 			$user = Usuario::porId($usuario_id);
 
+			http_response_code(401);
+			die();
+
 //		if(isset($user['id'])) {
 			$config = $this->get('config');
 
