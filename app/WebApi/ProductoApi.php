@@ -146,6 +146,9 @@ class ProductoApi extends BaseController
 			$user = Usuario::porId($usuario_id);
 			$config = $this->get('config');
 
+			http_response_code(401);
+			die();
+
 			//ELIMINAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
 			$detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
 			foreach($detalle_sin_seguimiento as $ss) {
