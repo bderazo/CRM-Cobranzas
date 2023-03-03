@@ -142,9 +142,10 @@ class ProductoApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0){
+			$user = Usuario::porId($usuario_id);
 
-		if(isset($user['id'])) {
+//		if(isset($user['id'])) {
 			$config = $this->get('config');
 
 			//ELIMINAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
