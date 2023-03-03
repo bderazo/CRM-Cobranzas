@@ -60,8 +60,8 @@ class ProductoApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$retorno = [];
 
 			$retorno['form']['title'] = 'form';
@@ -176,8 +176,8 @@ class ProductoApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$producto = Producto::porId($producto_id);
 
 			//DATA DE CLIENTES
@@ -257,8 +257,8 @@ class ProductoApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$producto = Producto::porId($producto_id);
 
 			//DATA DE CLIENTES
@@ -409,8 +409,8 @@ class ProductoApi extends BaseController
 			$session = $this->request->getParam('session');
 //			$user = UsuarioLogin::getUserBySession($session);
 			$usuario_id = \WebSecurity::getUserData('id');
+			if($usuario_id > 0){
 			$user = Usuario::porId($usuario_id);
-			if(isset($user['id'])) {
 				$retorno = [];
 
 				$retorno['form']['title'] = 'form';
@@ -804,8 +804,8 @@ class ProductoApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$institucion = Institucion::porId($institucion_id);
 			$producto = Producto::porId($producto_id);
 			$producto->estado = 'gestionado';

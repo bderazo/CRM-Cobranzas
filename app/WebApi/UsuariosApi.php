@@ -87,8 +87,8 @@ class UsuariosApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 
 			$data = $this->request->getParam('data');
 			$files = $_FILES;
@@ -157,9 +157,9 @@ class UsuariosApi extends BaseController
 		$dispositive = $this->request->getParam('dispositive');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
 
-		if(isset($user['id'])) {
 			$verificar = ApiUserTokenPushNotifications::verificarPorToken($token, $user['id']);
 			if(!$verificar) {
 				$del_token_anterior = ApiUserTokenPushNotifications::deleteTokenAnterior($user['id'], $dispositive);

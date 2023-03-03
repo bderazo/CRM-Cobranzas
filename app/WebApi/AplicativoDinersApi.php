@@ -60,9 +60,8 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-
-		if(isset($user['id'])) {
 			//DATA APLICATIVO DINERS
 			$aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
 			$aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionAplicativo($aplicativo_diners['id']);
@@ -206,8 +205,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'DINERS';
@@ -640,8 +639,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'INTERDIN';
@@ -1080,8 +1079,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'DISCOVER';
@@ -1519,8 +1518,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'MASTERCARD';
@@ -1960,8 +1959,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$calculos = Producto::calculosTarjetaDiners($data, $aplicativo_diners_id);
 
 			//ALERTAS
@@ -2007,8 +2006,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
 
 			//ALERTAS
@@ -2054,8 +2053,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
 
 			//ALERTAS
@@ -2101,8 +2100,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
 
 			//ALERTAS
@@ -2151,8 +2150,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			\Auditor::info('save_tarjeta_diners data: ', 'API', $data);
 
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
@@ -2210,8 +2209,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 //		\Auditor::info('save_tarjeta_interdin data: ', 'API', $data);
 
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
@@ -2269,8 +2268,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 			$id_detalle = $data['id'];
 
@@ -2330,8 +2329,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+		if($usuario_id > 0){
 		$user = Usuario::porId($usuario_id);
-		if(isset($user['id'])) {
 //		\Auditor::info('save_tarjeta_mastercard data: ', 'API', $data);
 
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
