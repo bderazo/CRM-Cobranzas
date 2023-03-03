@@ -54,14 +54,13 @@ class UsuariosApi extends BaseController
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0){
 			$user = Usuario::porId($usuario_id);
-//		if(isset($user['id'])) {
 
 			$config = $this->get('config');
 			$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
 
 
-//			http_response_code(401);
-//			die();
+			http_response_code(401);
+			die();
 
 			return $this->json($res->conDatos($usuario));
 		}else {
