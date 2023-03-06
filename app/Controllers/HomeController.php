@@ -39,6 +39,19 @@ class HomeController extends BaseController {
 		$chunks = array_chunk($items, 3);
 		$data['menuReportes'] = $chunks;
 
+		//INFO PARA DASHLET
+		$usuario_id = \WebSecurity::getUserData('id');
+		$hoy = date("Y-m-d");
+		$data['hora_inicio_labores'] = Usuario::getHoraInicioLabores($usuario_id, $hoy);
+		$data['hora_primera_gestion'] = Usuario::getHoraPrimeraGestion($usuario_id, $hoy);
+		$data['hora_ultima_gestion'] = Usuario::getHoraUltimaGestion($usuario_id, $hoy);
+
+		$data['total_gestiones'] = 15;
+		$data['total_clientes'] = 12;
+		$data['total_gestiones_contactadas'] = 6;
+		$data['total_gestiones_no_contactadas'] = 9;
+		$data['total_gestiones_compromiso'] = 4;
+
 		
 		return $this->render('/home', $data);
 	}

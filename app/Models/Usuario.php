@@ -276,6 +276,48 @@ class Usuario extends Model {
 		}
 		return $retorno;
 	}
+
+	static function getHoraInicioLabores($usuario_id, $fecha) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('usuario_login')
+			->select(null)
+			->select('MIN(login_time) AS hora_inicio_labores')
+			->where('usuario_id',$usuario_id)
+			->where('DATE(login_time)',$fecha);
+		$lista = $q->fetch();
+		if($lista['hora_inicio_labores'] == '') return ' - ';
+		return date("H:i:s", strtotime($lista['hora_inicio_labores']));
+	}
+
+	static function getHoraPrimeraGestion($usuario_id, $fecha) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('producto_seguimiento')
+			->select(null)
+			->select('MIN(fecha_ingreso) AS hora_primera_gestion')
+			->where('usuario_ingreso',$usuario_id)
+			->where('DATE(fecha_ingreso)',$fecha);
+		$lista = $q->fetch();
+		if($lista['hora_primera_gestion'] == '') return ' - ';
+		return date("H:i:s", strtotime($lista['hora_primera_gestion']));
+	}
+
+	static function getHoraUltimaGestion($usuario_id, $fecha) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('producto_seguimiento')
+			->select(null)
+			->select('MAX(fecha_ingreso) AS hora_ultima_gestion')
+			->where('usuario_ingreso',$usuario_id)
+			->where('DATE(fecha_ingreso)',$fecha);
+		$lista = $q->fetch();
+		if($lista['hora_ultima_gestion'] == '') return ' - ';
+		return date("H:i:s", strtotime($lista['hora_ultima_gestion']));
+	}
 }
 
 

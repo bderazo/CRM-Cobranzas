@@ -7,16 +7,17 @@
 					<div class="card-body">
 						<div class="d-flex">
 							<div class="mt-2">
-								<h6 class="">Total Users</h6>
-								<h2 class="mb-0 number-font">44,278</h2>
+								<h4 class="">INICIO DE LABORES</h4>
+								<h3 class="mb-0 number-font"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ hora_inicio_labores }}</h3><br/>
+								<h4 class="">PRIMERA GESTIÓN</h4>
+								<h3 class="mb-0 number-font"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ hora_primera_gestion }}</h3><br/>
+								<h4 class="">ÚLTIMA GESTIÓN</h4>
+								<h3 class="mb-0 number-font"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ hora_ultima_gestion }}</h3>
 							</div>
-							<div class="ms-auto">
-								<div class="chart-wrapper mt-1">
-									<canvas id="saleschart" class="h-8 w-9 chart-dropshadow"></canvas>
-								</div>
+							<div class="ms-auto" style="font-size: 80px; color: #46B476;">
+								<i class="fa fa-phone-square"></i>
 							</div>
 						</div>
-						<span class="text-muted fs-12"><span class="text-secondary"><i class="fe fe-arrow-up-circle  text-secondary"></i> 5%</span> Last week</span>
 					</div>
 				</div>
 			</div>
@@ -25,15 +26,35 @@
 					<div class="card-body">
 						<div class="d-flex">
 							<div class="mt-2">
-								<h6 class="">Total Profit</h6>
-								<h2 class="mb-0 number-font">67,987</h2>
+								<table id="data-table" class="table table-bordered table-sm mb-0">
+									<tr>
+										<th style="text-align: center;">TOTAL GESTIONES</th>
+										<th style="text-align: center;">TOTAL CLIENTES</th>
+									</tr>
+									<tr>
+										<td style="text-align: center;"><h3 class="mb-0 number-font"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;{{ total_gestiones }}</h3></td>
+										<td style="text-align: center;"><h3 class="mb-0 number-font"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{ total_clientes }}</h3></td>
+									</tr>
+									<tr>
+										<th style="text-align: center;">TOTAL GESTIONES CONTACTADAS</th>
+										<th style="text-align: center;">TOTAL GESTIONES NO CONTACTADAS</th>
+									</tr>
+									<tr>
+										<td style="text-align: center;"><h3 class="mb-0 number-font"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;{{ total_gestiones_contactadas }}</h3></td>
+										<td style="text-align: center;"><h3 class="mb-0 number-font"><i class="fa fa-exclamation" aria-hidden="true"></i>&nbsp;{{ total_gestiones_no_contactadas }}</h3></td>
+									</tr>
+									<tr>
+										<th colspan="2" style="text-align: center;">TOTAL GESTIONES COMPROMISOS</th>
+									</tr>
+									<tr>
+										<td colspan="2" style="text-align: center;"><h3 class="mb-0 number-font"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;{{ total_gestiones_compromiso }}</h3></td>
+									</tr>
+								</table>
 							</div>
-							<div class="ms-auto">
-								<div class="chart-wrapper mt-1"><canvas id="leadschart" class="h-8 w-9 chart-dropshadow"></canvas>
-								</div>
+							<div class="ms-auto" style="font-size: 80px; color: #46B476;">
+								<i class="fa fa-cogs"></i>
 							</div>
 						</div>
-						<span class="text-muted fs-12"><span class="text-pink"><i class="fe fe-arrow-down-circle text-pink"></i> 0.75%</span> Last 6 days</span>
 					</div>
 				</div>
 			</div>
