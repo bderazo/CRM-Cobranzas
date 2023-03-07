@@ -2513,6 +2513,7 @@
                     var data = {
                         data: self.aplicativo_diners_tarjeta_interdin,
                         aplicativo_diners_id: self.aplicativo_diners.id,
+	                    tarjeta: 'INTERDIN',
                     };
                     // self.aplicativo_diners_tarjeta_interdin = [];
                     $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
@@ -2531,6 +2532,7 @@
                     var data = {
                         data: self.aplicativo_diners_tarjeta_discover,
                         aplicativo_diners_id: self.aplicativo_diners.id,
+	                    tarjeta: 'DISCOVER',
                     };
                     // self.aplicativo_diners_tarjeta_discover = [];
                     $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
@@ -2549,6 +2551,7 @@
                     var data = {
                         data: self.aplicativo_diners_tarjeta_mastercard,
                         aplicativo_diners_id: self.aplicativo_diners.id,
+                        tarjeta: 'MASTERCARD',
                     };
                     // self.aplicativo_diners_tarjeta_mastercard = [];
                     $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {

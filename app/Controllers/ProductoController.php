@@ -1435,7 +1435,8 @@ class ProductoController extends BaseController
 	{
 		$data = $_REQUEST['data'];
 		$aplicativo_diners_id = $_REQUEST['aplicativo_diners_id'];
-		$datos_calculados = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
+		$tarjeta = $_REQUEST['tarjeta'];
+		$datos_calculados = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta);
 		return $this->json($datos_calculados);
 	}
 

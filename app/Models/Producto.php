@@ -675,7 +675,17 @@ class Producto extends Model
 		return $data;
 	}
 
-	static function calculosTarjetaGeneral($data, $aplicativo_diners_id) {
+	static function calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta) {
+		if($tarjeta == 'INTERDIN'){
+			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
+		}elseif($tarjeta == 'DISCOVER'){
+			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
+		}elseif($tarjeta == 'MASTERCARD'){
+			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
+		}else{
+			$tarjeta = [];
+		}
+
 		//ABONO TOTAL
 		$abono_efectivo_sistema = 0;
 		if($data['abono_efectivo_sistema'] > 0) {
@@ -809,11 +819,11 @@ class Producto extends Model
 		}
 
 		//CALCULO DE GASTOS DE COBRANZA
-		if($data['total_precancelacion_diferidos'] > 0) {
+		if($tarjeta['total_precancelacion_diferidos'] > 0) {
 			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
-			$total_calculo_precancelacion_diferidos = $data['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$total_calculo_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
 			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
