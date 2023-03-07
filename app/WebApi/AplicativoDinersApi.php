@@ -203,10 +203,8 @@ class AplicativoDinersApi extends BaseController
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
 		$session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$user = Usuario::porId($usuario_id);
 			$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
 			//CALCULO DE ABONO NEGOCIADOR
@@ -643,8 +641,17 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$user = Usuario::porId($usuario_id);
 			$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
+
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $tarjeta_interdin['interes_facturado'] - $tarjeta_interdin['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_interdin['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_interdin['abono_negociador'] = 0;
+			}
+
+			$tarjeta_interdin = Producto::calculosTarjetaGeneral($tarjeta_interdin, $aplicativo_diners_id, 'INTERDIN');
 
 			$seccion1['nombre'] = 'INTERDIN';
 			$seccion1['colorFondo'] = '#e3e3e3';
@@ -861,13 +868,6 @@ class AplicativoDinersApi extends BaseController
 				'colorFondo' => '#f0f0f0',
 			];
 
-			//CALCULO DE ABONO NEGOCIADOR
-			$abono_negociador = $tarjeta_interdin['interes_facturado'] - $tarjeta_interdin['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$tarjeta_interdin['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$tarjeta_interdin['abono_negociador'] = 0;
-			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_interdin['abono_negociador'],
@@ -1082,8 +1082,17 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$user = Usuario::porId($usuario_id);
 			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
+
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $tarjeta_discover['interes_facturado'] - $tarjeta_discover['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_discover['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_discover['abono_negociador'] = 0;
+			}
+
+			$tarjeta_discover = Producto::calculosTarjetaGeneral($tarjeta_discover, $aplicativo_diners_id, 'DISCOVER');
 
 			$seccion1['nombre'] = 'DISCOVER';
 			$seccion1['colorFondo'] = '#ffd09e';
@@ -1300,13 +1309,6 @@ class AplicativoDinersApi extends BaseController
 				'colorFondo' => '#f0f0f0',
 			];
 
-			//CALCULO DE ABONO NEGOCIADOR
-			$abono_negociador = $tarjeta_discover['interes_facturado'] - $tarjeta_discover['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$tarjeta_discover['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$tarjeta_discover['abono_negociador'] = 0;
-			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_discover['abono_negociador'],
@@ -1520,8 +1522,17 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$user = Usuario::porId($usuario_id);
 			$tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
+
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $tarjeta_mastercard['interes_facturado'] - $tarjeta_mastercard['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_mastercard['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_mastercard['abono_negociador'] = 0;
+			}
+
+			$tarjeta_mastercard = Producto::calculosTarjetaGeneral($tarjeta_mastercard, $aplicativo_diners_id, 'MASTERCARD');
 
 			$seccion1['nombre'] = 'MASTERCARD';
 			$seccion1['colorFondo'] = '#deffb8';
@@ -1738,12 +1749,6 @@ class AplicativoDinersApi extends BaseController
 				'colorFondo' => '#f0f0f0',
 			];
 
-			$abono_negociador = $tarjeta_mastercard['interes_facturado'] - $tarjeta_mastercard['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$tarjeta_mastercard['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$tarjeta_mastercard['abono_negociador'] = 0;
-			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_mastercard['abono_negociador'],
