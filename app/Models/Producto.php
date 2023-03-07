@@ -548,8 +548,8 @@ class Producto extends Model
 			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($data['total_precancelacion_diferidos'] > 0) {
-			$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
+		if($tarjeta['total_precancelacion_diferidos'] > 0) {
+			$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
 		}
 		$interes_facturar = 0;
 		if($data['interes_facturar'] > 0) {
@@ -594,14 +594,14 @@ class Producto extends Model
 
 		//CALCULO DE GASTOS DE COBRANZA
 		if($tarjeta['total_precancelacion_diferidos'] > 0) {
-//			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
-//			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
-//
-//			$total_calculo_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-//			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
-//
-//			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-//			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+
+			$total_calculo_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
+
+			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
 		}
 
 		if($data['unificar_deudas'] == 'SI') {
@@ -671,7 +671,7 @@ class Producto extends Model
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		\Auditor::info('calculos_tarjeta_diners despues data: ', 'API', $data);
+//		\Auditor::info('calculos_tarjeta_diners despues data: ', 'API', $data);
 
 		return $data;
 	}
@@ -775,8 +775,8 @@ class Producto extends Model
 			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($data['total_precancelacion_diferidos'] > 0) {
-			$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
+		if($tarjeta['total_precancelacion_diferidos'] > 0) {
+			$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
 		}
 		$interes_facturar = 0;
 		if($data['interes_facturar'] > 0) {

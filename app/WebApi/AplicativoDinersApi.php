@@ -1955,7 +1955,7 @@ class AplicativoDinersApi extends BaseController
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
-		\Auditor::info('calculos_tarjeta_diners antes data: ', 'API', $data);
+//		\Auditor::info('calculos_tarjeta_diners antes data: ', 'API', $data);
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
