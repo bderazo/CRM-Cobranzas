@@ -672,6 +672,8 @@ class Producto extends Model
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
+		\Auditor::info('calculos_tarjeta_diners despues data: ', 'API', $data);
+
 		return $data;
 	}
 
