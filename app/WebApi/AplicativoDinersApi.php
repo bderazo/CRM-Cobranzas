@@ -209,6 +209,17 @@ class AplicativoDinersApi extends BaseController
 			$user = Usuario::porId($usuario_id);
 			$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
+			//CALCULO DE ABONO NEGOCIADOR
+			$abono_negociador = $tarjeta_diners['interes_facturado'] - $tarjeta_diners['abono_efectivo_sistema'];
+			if($abono_negociador > 0) {
+				$tarjeta_diners['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
+			} else {
+				$tarjeta_diners['abono_negociador'] = 0;
+			}
+
+			$tarjeta_diners = Producto::calculosTarjetaDiners($tarjeta_diners, $aplicativo_diners_id);
+
+
 			$seccion1['nombre'] = 'DINERS';
 			$seccion1['colorFondo'] = '#afccfc';
 			$seccion1['contenido'][] = [
@@ -418,13 +429,6 @@ class AplicativoDinersApi extends BaseController
 				'colorFondo' => '#f0f0f0',
 			];
 
-			//CALCULO DE ABONO NEGOCIADOR
-			$abono_negociador = $tarjeta_diners['interes_facturado'] - $tarjeta_diners['abono_efectivo_sistema'];
-			if($abono_negociador > 0) {
-				$tarjeta_diners['abono_negociador'] = number_format($abono_negociador, 2, '.', '');
-			} else {
-				$tarjeta_diners['abono_negociador'] = 0;
-			}
 			$seccion3['contenido'][] = [
 				'etiqueta' => 'ABONO NEGOCIADOR',
 				'valor' => $tarjeta_diners['abono_negociador'],
@@ -2045,7 +2049,7 @@ class AplicativoDinersApi extends BaseController
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
-		\Auditor::info('calculos_tarjeta_discover antes data: ', 'API', $data);
+//		\Auditor::info('calculos_tarjeta_discover antes data: ', 'API', $data);
 
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);

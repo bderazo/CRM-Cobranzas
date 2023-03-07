@@ -60,8 +60,8 @@ class ProductoApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$retorno = [];
 
 			$retorno['form']['title'] = 'form';
@@ -142,7 +142,7 @@ class ProductoApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
+		if($usuario_id > 0) {
 			$user = Usuario::porId($usuario_id);
 			$config = $this->get('config');
 
@@ -176,8 +176,8 @@ class ProductoApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$producto = Producto::porId($producto_id);
 
 			//DATA DE CLIENTES
@@ -257,8 +257,8 @@ class ProductoApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$producto = Producto::porId($producto_id);
 
 			//DATA DE CLIENTES
@@ -409,8 +409,8 @@ class ProductoApi extends BaseController
 			$session = $this->request->getParam('session');
 //			$user = UsuarioLogin::getUserBySession($session);
 			$usuario_id = \WebSecurity::getUserData('id');
-			if($usuario_id > 0){
-			$user = Usuario::porId($usuario_id);
+			if($usuario_id > 0) {
+				$user = Usuario::porId($usuario_id);
 				$retorno = [];
 
 				$retorno['form']['title'] = 'form';
@@ -566,7 +566,7 @@ class ProductoApi extends BaseController
 					];
 				}
 
-				if($institucion_id == 1){
+				if($institucion_id == 1) {
 					$retorno['form']['properties']['title_10'] = [
 						'title' => 'FECHA COMPROMISO DE PAGO',
 						'widget' => 'readonly',
@@ -804,8 +804,8 @@ class ProductoApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$institucion = Institucion::porId($institucion_id);
 			$producto = Producto::porId($producto_id);
 			$producto->estado = 'gestionado';
