@@ -436,6 +436,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['debito_automatico'] = $values[30];
 						$aplicativo_diners_detalle['financiamiento_vigente'] = $values[31];
 						$aplicativo_diners_detalle['total_precancelacion_diferidos'] = $values[32];
+						$aplicativo_diners_detalle['total_calculo_precancelacion_diferidos'] = $values[32];
 						$aplicativo_diners_detalle['numero_diferidos_facturados'] = $values[33];
 						$aplicativo_diners_detalle['nd_facturar'] = $values[34];
 						$aplicativo_diners_detalle['nc_facturar'] = $values[35];
@@ -532,6 +533,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['debito_automatico'] = $values[68];
 						$aplicativo_diners_detalle['financiamiento_vigente'] = $values[69];
 						$aplicativo_diners_detalle['total_precancelacion_diferidos'] = $values[70];
+						$aplicativo_diners_detalle['total_calculo_precancelacion_diferidos'] = $values[70];
 						$aplicativo_diners_detalle['numero_diferidos_facturados'] = $values[71];
 						$aplicativo_diners_detalle['nd_facturar'] = $values[72];
 						$aplicativo_diners_detalle['nc_facturar'] = $values[73];
@@ -627,6 +629,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['debito_automatico'] = $values[106];
 						$aplicativo_diners_detalle['financiamiento_vigente'] = $values[107];
 						$aplicativo_diners_detalle['total_precancelacion_diferidos'] = $values[108];
+						$aplicativo_diners_detalle['total_calculo_precancelacion_diferidos'] = $values[108];
 						$aplicativo_diners_detalle['numero_diferidos_facturados'] = $values[109];
 						$aplicativo_diners_detalle['nd_facturar'] = $values[110];
 						$aplicativo_diners_detalle['nc_facturar'] = $values[111];
@@ -722,6 +725,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['debito_automatico'] = $values[153];
 						$aplicativo_diners_detalle['financiamiento_vigente'] = $values[154];
 						$aplicativo_diners_detalle['total_precancelacion_diferidos'] = $values[155];
+						$aplicativo_diners_detalle['total_calculo_precancelacion_diferidos'] = $values[155];
 						$aplicativo_diners_detalle['numero_diferidos_facturados'] = $values[156];
 						$aplicativo_diners_detalle['nd_facturar'] = $values[157];
 						$aplicativo_diners_detalle['nc_facturar'] = $values[158];

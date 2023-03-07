@@ -47,6 +47,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property double interes_facturado
  * @property integer numero_diferidos_facturados
  * @property double total_precancelacion_diferidos
+ * @property double calculo_gastos_cobranza
+ * @property double total_calculo_precancelacion_diferidos
  * @property double especialidad_venta_vehiculos
  * @property double abono_efectivo_sistema
  * @property double abono_negociador
