@@ -257,6 +257,12 @@ class AplicativoDinersApi extends BaseController
 				'tipo' => 'label',
 			];
 			$seccion1['contenido'][] = [
+				'etiqueta' => 'SALDO TOTAL',
+				'valor' => $tarjeta_diners['saldo_total'],
+				'tipo' => 'label',
+				'colorFondo' => '#f0f0f0'
+			];
+			$seccion1['contenido'][] = [
 				'etiqueta' => 'CAMPAÑA',
 				'valor' => $tarjeta_diners['campana'],
 				'tipo' => 'label',
@@ -690,6 +696,12 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'SCORE',
 				'valor' => $tarjeta_interdin['score'],
 				'tipo' => 'label',
+			];
+			$seccion1['contenido'][] = [
+				'etiqueta' => 'SALDO TOTAL',
+				'valor' => $tarjeta_interdin['saldo_total'],
+				'tipo' => 'label',
+				'colorFondo' => '#f0f0f0'
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CAMPAÑA',
@@ -1133,6 +1145,12 @@ class AplicativoDinersApi extends BaseController
 				'tipo' => 'label',
 			];
 			$seccion1['contenido'][] = [
+				'etiqueta' => 'SALDO TOTAL',
+				'valor' => $tarjeta_discover['saldo_total'],
+				'tipo' => 'label',
+				'colorFondo' => '#f0f0f0'
+			];
+			$seccion1['contenido'][] = [
 				'etiqueta' => 'CAMPAÑA',
 				'valor' => $tarjeta_discover['campana'],
 				'tipo' => 'label',
@@ -1571,6 +1589,12 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'SCORE',
 				'valor' => $tarjeta_mastercard['score'],
 				'tipo' => 'label',
+			];
+			$seccion1['contenido'][] = [
+				'etiqueta' => 'SALDO TOTAL',
+				'valor' => $tarjeta_mastercard['saldo_total'],
+				'tipo' => 'label',
+				'colorFondo' => '#f0f0f0'
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CAMPAÑA',
