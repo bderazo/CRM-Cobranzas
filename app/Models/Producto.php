@@ -548,9 +548,16 @@ class Producto extends Model
 			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($tarjeta['total_precancelacion_diferidos'] > 0) {
-			$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
+		if(isset($data['total_precancelacion_diferidos'])){
+			if($data['total_precancelacion_diferidos'] > 0) {
+				$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
+			}
+		}else{
+			if($tarjeta['total_precancelacion_diferidos'] > 0) {
+				$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
+			}
 		}
+
 		$interes_facturar = 0;
 		if($data['interes_facturar'] > 0) {
 			$interes_facturar = $data['interes_facturar'];
@@ -593,11 +600,11 @@ class Producto extends Model
 		}
 
 		//CALCULO DE GASTOS DE COBRANZA
-		if($tarjeta['total_precancelacion_diferidos'] > 0) {
+		if($total_precancelacion_diferidos > 0) {
 			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
-			$total_calculo_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
 			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
@@ -775,9 +782,17 @@ class Producto extends Model
 			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if($tarjeta['total_precancelacion_diferidos'] > 0) {
-			$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
+		if(isset($data['total_precancelacion_diferidos'])){
+			if($data['total_precancelacion_diferidos'] > 0) {
+				$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
+			}
+		}else{
+			if($tarjeta['total_precancelacion_diferidos'] > 0) {
+				$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
+			}
 		}
+
+
 		$interes_facturar = 0;
 		if($data['interes_facturar'] > 0) {
 			$interes_facturar = $data['interes_facturar'];
@@ -820,11 +835,11 @@ class Producto extends Model
 		}
 
 		//CALCULO DE GASTOS DE COBRANZA
-		if($tarjeta['total_precancelacion_diferidos'] > 0) {
+		if($total_precancelacion_diferidos > 0) {
 			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
-			$total_calculo_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+			$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
 			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');

@@ -568,7 +568,7 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle['plazo_financiamiento'] = $cuotas_pendientes;
 							}
 						}
-						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id);
+						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'INTERDIN');
 
 						//VERIFICAR SI EXISTE
 						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'INTERDIN'])) {
@@ -664,7 +664,7 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle['plazo_financiamiento'] = $cuotas_pendientes;
 							}
 						}
-						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id);
+						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'DISCOVER');
 
 						//VERIFICAR SI EXISTE
 						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DISCOVER'])) {
@@ -760,7 +760,7 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle['plazo_financiamiento'] = $cuotas_pendientes;
 							}
 						}
-						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id);
+						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'MASTERCARD');
 
 						//VERIFICAR SI EXISTE
 						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'MASTERCARD'])) {
