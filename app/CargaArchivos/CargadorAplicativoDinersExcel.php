@@ -472,7 +472,8 @@ class CargadorAplicativoDinersExcel
 							}
 						}
 
-						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['deuda_actual'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$saldo_total = $aplicativo_diners_detalle['deuda_actual'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
 						$datos_calculados = Producto::calculosTarjetaDiners($aplicativo_diners_detalle, $aplicativo_diners_id);
 
@@ -571,7 +572,8 @@ class CargadorAplicativoDinersExcel
 							}
 						}
 
-						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
 						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'INTERDIN');
 
@@ -669,7 +671,8 @@ class CargadorAplicativoDinersExcel
 							}
 						}
 
-						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
 						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'DISCOVER');
 
@@ -767,7 +770,8 @@ class CargadorAplicativoDinersExcel
 							}
 						}
 
-						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
 						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'MASTERCARD');
 
