@@ -60,8 +60,8 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			//DATA APLICATIVO DINERS
 			$aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
 			$aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionAplicativo($aplicativo_diners['id']);
@@ -205,8 +205,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'DINERS';
@@ -406,7 +406,6 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
 				'valor' => $tarjeta_diners['especialidad_venta_vehiculos'],
 				'tipo' => 'label',
-				'name' => 'data[especialidad_venta_vehiculos]',
 			];
 
 			$seccion3['nombre'] = 'PAGOS';
@@ -639,8 +638,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'INTERDIN';
@@ -846,7 +845,6 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
 				'valor' => $tarjeta_interdin['especialidad_venta_vehiculos'],
 				'tipo' => 'label',
-				'name' => 'data[especialidad_venta_vehiculos]',
 			];
 
 			$seccion3['nombre'] = 'PAGOS';
@@ -1060,7 +1058,7 @@ class AplicativoDinersApi extends BaseController
 			$retorno['secciones'][] = $seccion6;
 
 			return $this->json($res->conDatos($retorno));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -1079,8 +1077,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'DISCOVER';
@@ -1286,7 +1284,6 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
 				'valor' => $tarjeta_discover['especialidad_venta_vehiculos'],
 				'tipo' => 'label',
-				'name' => 'data[especialidad_venta_vehiculos]',
 			];
 
 			$seccion3['nombre'] = 'PAGOS';
@@ -1499,7 +1496,7 @@ class AplicativoDinersApi extends BaseController
 			$retorno['secciones'][] = $seccion6;
 
 			return $this->json($res->conDatos($retorno));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -1518,8 +1515,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			$tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
 
 			$seccion1['nombre'] = 'MASTERCARD';
@@ -1725,7 +1722,6 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
 				'valor' => $tarjeta_mastercard['especialidad_venta_vehiculos'],
 				'tipo' => 'label',
-				'name' => 'data[especialidad_venta_vehiculos]',
 			];
 
 			$seccion3['nombre'] = 'PAGOS';
@@ -1937,7 +1933,7 @@ class AplicativoDinersApi extends BaseController
 			$retorno['secciones'][] = $seccion6;
 
 			return $this->json($res->conDatos($retorno));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -1959,7 +1955,7 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
+		if($usuario_id > 0) {
 			$calculos = Producto::calculosTarjetaDiners($data, $aplicativo_diners_id);
 
 			//ALERTAS
@@ -1984,7 +1980,7 @@ class AplicativoDinersApi extends BaseController
 				}
 			}
 			return $this->json($res->conDatos($respuesta));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -2005,9 +2001,9 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
-			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
+			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id,'INTERDIN');
 
 			//ALERTAS
 			$alerta_abono_negociador = '';
@@ -2031,7 +2027,7 @@ class AplicativoDinersApi extends BaseController
 				}
 			}
 			return $this->json($res->conDatos($respuesta));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -2054,9 +2050,9 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
-			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
+			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, 'DISCOVER');
 
 			//ALERTAS
 			$alerta_abono_negociador = '';
@@ -2080,7 +2076,7 @@ class AplicativoDinersApi extends BaseController
 				}
 			}
 			return $this->json($res->conDatos($respuesta));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -2101,9 +2097,9 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
-			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
+			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, 'MASTERCARD');
 
 			//ALERTAS
 			$alerta_abono_negociador = '';
@@ -2128,7 +2124,7 @@ class AplicativoDinersApi extends BaseController
 			}
 
 			return $this->json($res->conDatos($respuesta));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -2151,8 +2147,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			\Auditor::info('save_tarjeta_diners data: ', 'API', $data);
 
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
@@ -2170,9 +2166,9 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			if($seguimiento_id > 0){
+			if($seguimiento_id > 0) {
 				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
-			}else {
+			} else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
 			$aplicativo_detalle->tipo = 'gestionado';
@@ -2187,7 +2183,7 @@ class AplicativoDinersApi extends BaseController
 			} else {
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -2210,8 +2206,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 //		\Auditor::info('save_tarjeta_interdin data: ', 'API', $data);
 
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
@@ -2229,9 +2225,9 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			if($seguimiento_id > 0){
+			if($seguimiento_id > 0) {
 				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
-			}else {
+			} else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
 			$aplicativo_detalle->tipo = 'gestionado';
@@ -2246,7 +2242,7 @@ class AplicativoDinersApi extends BaseController
 			} else {
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -2269,8 +2265,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 			$id_detalle = $data['id'];
 
@@ -2288,9 +2284,9 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			if($seguimiento_id > 0){
+			if($seguimiento_id > 0) {
 				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
-			}else {
+			} else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
 			$aplicativo_detalle->tipo = 'gestionado';
@@ -2307,7 +2303,7 @@ class AplicativoDinersApi extends BaseController
 			} else {
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -2330,8 +2326,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 //		\Auditor::info('save_tarjeta_mastercard data: ', 'API', $data);
 
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
@@ -2349,9 +2345,9 @@ class AplicativoDinersApi extends BaseController
 			foreach($aplicativo_diners_tarjeta as $key => $val) {
 				$aplicativo_detalle->$key = $val;
 			}
-			if($seguimiento_id > 0){
+			if($seguimiento_id > 0) {
 				$aplicativo_detalle->producto_seguimiento_id = $seguimiento_id;
-			}else {
+			} else {
 				$aplicativo_detalle->producto_seguimiento_id = 0;
 			}
 			$aplicativo_detalle->tipo = 'gestionado';
@@ -2366,7 +2362,7 @@ class AplicativoDinersApi extends BaseController
 			} else {
 				return $this->json($res->conError('ERROR AL GUARDAR LA TARJETA'));
 			}
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
