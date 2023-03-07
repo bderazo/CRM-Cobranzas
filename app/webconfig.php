@@ -212,7 +212,7 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 $app->add(new \Slim\Middleware\Session([
 	'name' => 'megacob',
 	'autorefresh' => true,
-	'lifetime' => '15 minutes'
+	'lifetime' => '30 minutes'
 ]));
 
 $app->add(new \RKA\Middleware\IpAddress());
