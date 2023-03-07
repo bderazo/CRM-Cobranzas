@@ -471,6 +471,9 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle['plazo_financiamiento'] = $cuotas_pendientes;
 							}
 						}
+
+						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['deuda_actual'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+
 						$datos_calculados = Producto::calculosTarjetaDiners($aplicativo_diners_detalle, $aplicativo_diners_id);
 
 						//VERIFICAR SI EXISTE
@@ -547,7 +550,6 @@ class CargadorAplicativoDinersExcel
 //						$aplicativo_diners_detalle['abono_negociador'] = 0;
 //					}
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
-
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[76];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[78];
 						$aplicativo_diners_detalle['interes_facturar'] = $values[79];
@@ -568,6 +570,9 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle['plazo_financiamiento'] = $cuotas_pendientes;
 							}
 						}
+
+						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+
 						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'INTERDIN');
 
 						//VERIFICAR SI EXISTE
@@ -643,7 +648,6 @@ class CargadorAplicativoDinersExcel
 //						$aplicativo_diners_detalle['abono_negociador'] = 0;
 //					}
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
-
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[114];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[116];
 						$aplicativo_diners_detalle['interes_facturar'] = $values[117];
@@ -664,6 +668,9 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle['plazo_financiamiento'] = $cuotas_pendientes;
 							}
 						}
+
+						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+
 						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'DISCOVER');
 
 						//VERIFICAR SI EXISTE
@@ -739,7 +746,6 @@ class CargadorAplicativoDinersExcel
 //						$aplicativo_diners_detalle['abono_negociador'] = 0;
 //					}
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
-
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[161];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[163];
 						$aplicativo_diners_detalle['interes_facturar'] = $values[164];
@@ -760,6 +766,9 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle['plazo_financiamiento'] = $cuotas_pendientes;
 							}
 						}
+
+						$aplicativo_diners_detalle['saldo_total'] = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
+
 						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'MASTERCARD');
 
 						//VERIFICAR SI EXISTE
