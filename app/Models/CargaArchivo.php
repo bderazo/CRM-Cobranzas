@@ -47,4 +47,23 @@ class CargaArchivo extends Model {
 		$q->save();
 		return $q;
 	}
+
+	static function getUltimasCargas() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('carga_archivo ca')
+			->innerJoin('usuario u ON u.id = ca.usuario_ingreso')
+			->select(null)
+			->select('ca.*, u.username AS usuario')
+			->where('eliminado',0)
+			->groupBy('tipo')
+			->orderBy('fecha_ingreso DESC');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
 }

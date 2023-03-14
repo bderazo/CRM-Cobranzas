@@ -4,6 +4,7 @@ namespace Controllers;
 
 use General\ListasSistema;
 use General\Seguridad\PermisosSession;
+use Models\CargaArchivo;
 use Models\RedContactosPqr;
 use Models\Usuario;
 use Models\UsuarioLogin;
@@ -51,6 +52,10 @@ class HomeController extends BaseController {
 		$data['total_gestiones_contactadas'] = 6;
 		$data['total_gestiones_no_contactadas'] = 9;
 		$data['total_gestiones_compromiso'] = 4;
+
+		$data['ultimas_cargas'] = CargaArchivo::getUltimasCargas();
+
+//		printDie($data['ultimas_cargas']);
 
 		
 		return $this->render('/home', $data);

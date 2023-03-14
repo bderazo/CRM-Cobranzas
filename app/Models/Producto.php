@@ -11,6 +11,7 @@ use Illuminate\Database\Query\Builder;
  * @property integer id
  * @property integer institucion_id
  * @property integer cliente_id
+ * @property integer campana_id
  * @property string producto
  * @property string estado
  * @property string fecha_gestionar

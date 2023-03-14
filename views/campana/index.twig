@@ -9,23 +9,24 @@
 				<div id="app">
 					<div class="card-body">
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Fecha inicio</label>
+							<label for="inputName" class="col-md-2 form-label">Institución</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control fecha" name="fecha_inicio" id="fecha_inicio" value="{{ filtros.fecha_inicio }}"/>
+								<div class="input-group">
+									<input type="text" class="form-control" name="institucion_nombre" id="institucion_nombre" value="{{ filtros.institucion_nombre }}" readonly>
+									<input type="hidden" class="form-control" name="institucion_id" id="institucion_id" value="{{ filtros.institucion_id }}"/>
+									<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</div>
 							</div>
 
-							<label for="inputName" class="col-md-2 form-label">Fecha fin</label>
+							<label for="inputName" class="col-md-2 form-label">Nombre</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control fecha" name="fecha_fin" id="fecha_fin" value="{{ filtros.fecha_fin }}"/>
+								<input type="text" class="form-control" name="nombre" id="nombre" value="{{ filtros.nombre }}"/>
 							</div>
 						</div>
 
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Producto</label>
-							<div class="col-md-4">
-								<input type="text" class="form-control" name="producto" id="producto" value="{{ filtros.producto }}"/>
-							</div>
-
 							<label for="inputName" class="col-md-2 form-label">Estado</label>
 							<div class="col-md-4">
 								{{ select_tag('estado', listas.estado, '', {class:'form-control form-select select2',prompt: ''} ) }}
@@ -33,38 +34,26 @@
 						</div>
 
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Nombres</label>
+							<label for="inputName" class="col-md-2 form-label">Fecha inicio (desde)</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="nombres" id="nombres" value="{{ filtros.nombres }}"/>
+								<input type="text" class="form-control fecha" name="fecha_inicio_desde" id="fecha_inicio_desde" value="{{ filtros.fecha_inicio_desde }}"/>
 							</div>
 
-							<label for="inputName" class="col-md-2 form-label">Cédula</label>
+							<label for="inputName" class="col-md-2 form-label">Fecha inicio (hasta)</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="cedula" id="cedula" value="{{ filtros.cedula }}"/>
-							</div>
-						</div>
-
-						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Teléfono</label>
-							<div class="col-md-4">
-								<input type="text" class="form-control" name="telefono" id="telefono" value="{{ filtros.telefono }}"/>
-							</div>
-
-							<label for="inputName" class="col-md-2 form-label">Seguimiento</label>
-							<div class="col-md-4">
-								<select class="form-control form-select select2" id="seguimiento" name="seguimiento">
-									<option value=""></option>
-									{% for l in listas.paleta_nivel_1 %}
-										<option value="{{ l.nivel1_id }}">{{ l.nivel1 }}</option>
-									{% endfor %}
-								</select>
+								<input type="text" class="form-control fecha" name="fecha_inicio_hasta" id="fecha_inicio_hasta" value="{{ filtros.fecha_inicio_hasta }}"/>
 							</div>
 						</div>
 
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Correo electrónico</label>
+							<label for="inputName" class="col-md-2 form-label">Fecha fin (desde)</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="correo" id="correo" value="{{ filtros.correo }}"/>
+								<input type="text" class="form-control fecha" name="fecha_fin_desde" id="fecha_fin_desde" value="{{ filtros.fecha_fin_desde }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Fecha fin (hasta)</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control fecha" name="fecha_fin_hasta" id="fecha_fin_hasta" value="{{ filtros.fecha_fin_hasta }}"/>
 							</div>
 						</div>
 
@@ -72,7 +61,7 @@
 							<div class="col-md-12">
 								<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
 								<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
-								<button class="btn btn-default-light" onclick="todos()" type="button"><i class="fa fa-magic"></i> Asignar Seguimiento</button>
+								<a href="{{ root }}/campana/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
 							</div>
 						</div>
 					</div>
@@ -84,7 +73,7 @@
 	<div class="col-md-12 col-xl-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">Lista de Productos</h4>
+				<h4 class="card-title">Lista de Campañas</h4>
 			</div>
 			<div class="card-body">
 				<div id="lista"></div>
@@ -117,30 +106,22 @@
 		var form = $('#filtro');
 		$('.integer').numeric('integer');
 
-        var estado_list = '{{ filtros.estado }}';
-        if(estado_list != ''){
-            $('#estado option[value={{ filtros.estado }}]').attr('selected','selected');
-        }
-
 		function todos() {
 			form[0].reset();
 			$("#institucion_id").val('');
             $("#institucion_nombre").val('');
-            $("#cedula").val('');
-            $("#nombres").val('');
-            $("#producto").val('');
-            $("#telefono").val('');
+            $("#nombre").val('');
             $("#estado").val('');
-            $("#fecha_inicio").val('');
-            $("#fecha_fin").val('');
-            $("#seguimiento").val('');
-            $("#correo").val('');
+            $("#fecha_inicio_desde").val('');
+            $("#fecha_inicio_hasta").val('');
+            $("#fecha_fin_desde").val('');
+            $("#fecha_fin_hasta").val('');
 			cargar(1);
 		}
 
 		function cargar(page) {
 			var data = form.serializeArray();
-			$('#lista').load('{{ root }}/producto/listaDiners?page=' + page, data);
+			$('#lista').load('{{ root }}/campana/lista?page=' + page, data);
 		}
 
 		form.submit(function () {
@@ -181,7 +162,6 @@
                     });
 
                 });
-
 			}
 		});
 	</script>

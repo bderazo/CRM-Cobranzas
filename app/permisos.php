@@ -8,7 +8,6 @@ return [
 			'crear' => 'Crear Institución',
 			'modificar' => 'Modificar Institución',
 			'eliminar' => 'Eliminar Institución',
-			'cargar_archivos' => 'Permitir la carga de archivos',
 		],
 		'mensaje' => 'Operaciones posibles para Instituciones'
 	],
@@ -21,7 +20,6 @@ return [
 			'crear' => 'Crear contacto',
 			'modificar' => 'Modificar contacto',
 			'eliminar' => 'Eliminar contacto',
-			'cargar_archivos' => 'Permitir la carga de archivos',
 		],
 		'mensaje' => 'Operaciones posibles para contactos'
 	],
@@ -47,7 +45,18 @@ return [
 			'crear' => 'Crear cliente',
 			'modificar' => 'Modificar cliente',
 			'eliminar' => 'Eliminar cliente',
-			'cargar_archivos' => 'Permitir la carga de archivos',
+		],
+		'mensaje' => 'Operaciones posibles para clientes'
+	],
+
+	[
+		'key' => 'campana',
+		'text' => 'Campaña',
+		'children' => [
+			'lista' => 'Ver lista de campañas',
+			'crear' => 'Crear campañas',
+			'modificar' => 'Modificar campañas',
+			'eliminar' => 'Eliminar campañas',
 		],
 		'mensaje' => 'Operaciones posibles para clientes'
 	],

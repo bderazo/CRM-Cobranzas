@@ -1461,6 +1461,21 @@ class ProductoController extends BaseController
 		return $this->json($arbol_campos);
 	}
 
+	function buscadorCampana() {
+//		$db = new \FluentPDO($this->get('pdo'));
+		$institucion_id = $_REQUEST['institucion_id'];
+		$institucion = Institucion::porId($institucion_id);
+		$data['paleta_nivel2'] = json_encode(PaletaArbol::getNivel2Todos($institucion['paleta_id']),JSON_PRETTY_PRINT);
+
+		$data['usuarios'] = json_encode(Usuario::getTodosArray(),JSON_PRETTY_PRINT);
+
+		$cat = new CatalogoProducto(true);
+		$listas = $cat->getCatalogo();
+		$data['catalogo_producto'] = json_encode($listas);
+
+		return $this->render('buscadorCampana', $data);
+	}
+
 	function cargarDatosHuaicana()
 	{
 		$config = $this->get('config');

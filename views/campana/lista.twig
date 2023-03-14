@@ -1,0 +1,30 @@
+<div class="table-responsive">
+	<table class="table border text-nowrap text-md-nowrap table-striped table-bordered table-sm mb-0">
+		<thead>
+		<tr>
+			<th>Nombre</th>
+			<th>Institución</th>
+			<th>Estado</th>
+			<th>Fecha inicio</th>
+			<th>Fecha fin</th>
+			<th>Observaciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for l in lista %}
+			<tr>
+				<td>
+					<a href="{{ root }}/campana/editar?id={{ l.id }}" target="_self" style="text-decoration: underline" class="text-primary ms-1">{{ l.nombre }}</a>
+				</td>
+				<td>{{ l.institucion_nombre }} </td>
+				<td>{{ l.estado|upper }} </td>
+				<td>{{ l.fecha_inicio }} </td>
+				<td>{{ l.fecha_fin }} </td>
+				<td>{{ l.observaciones }} </td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+<br/>
+{{ pag|raw }}

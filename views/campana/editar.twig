@@ -1,0 +1,219 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+	<div class="col-md-12 col-xl-12">
+		<form method="POST" action="{{ root }}/campana/guardar" id="form-edit" class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">INFORMACIÓN GENERAL</h4>
+				</div>
+				<div class="card-body">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Nombre *</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" class="form-control required" v-model="model.nombre" placeholder="Nombre" v-autoname/>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Institución *</label>
+						<div class="col-md-4 col-informacion">
+							<div class="input-group">
+								<input type="text" class="form-control required"
+								       placeholder="Seleccione una Institución"
+								       v-model="institucion_nombre" name="institucion_nombre" id="institucion_nombre"
+								       readonly>
+								<input type="hidden" class="form-control" v-model="model.institucion_id"
+								       name="institucion_id" id="institucion_id"/>
+								<button class="btn btn-default" type="button" v-on:click="buscarInstitucion">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Fecha inicio *</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" class="form-control required fecha" v-model="model.fecha_inicio"
+							       placeholder="Fecha inicio" v-autoname/>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Fecha fin *</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" class="form-control required fecha" v-model="model.fecha_fin"
+							       placeholder="Fecha fin" v-autoname/>
+						</div>
+					</div>
+
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Estado *</label>
+						<div class="col-md-4 col-informacion">
+							<select class="form-control form-select select2" v-model="model.estado"
+							        placeholder="Seleccione una opción" id="estado" required v-autoname>
+								<option v-for="(v,k) in cat.estado" v-html="v" :value="k"></option>
+							</select>
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Observaciones</label>
+						<div class="col-md-4 col-informacion">
+						<textarea rows="3" class="form-control" placeholder="Observaciones"
+						          v-model="model.observaciones" v-autoname></textarea>
+						</div>
+					</div>
+
+					<div class="mb-0 mt-4 ">
+						<div class="col-md-12">
+							<input type="hidden" v-model="model.id" id="id" name="id"/>
+							<input type="hidden" name="json" id="json"/>
+
+							<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+								<i class="fa fa-save"></i> Guardar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">ASIGNACIONES</h4>
+			</div>
+			<div class="card-body">
+				<button class="btn btn-lg btn-secondary" type="button" v-on:click="agregarAsignaciones">
+					<i class="fa fa-plus"></i> Agregar Asignaciones
+				</button>
+
+
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalInstitucion" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Instituciones</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="institucionContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalAsignacionProducto" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Asignar Productos</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="asignacionProductoContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+        _autonameVueCount = 0;
+        Vue.directive('autoname', {
+            inserted: function (el, binding, vnode) {
+                _autonameVueCount++;
+                $(el).prop('name', '_auto' + _autonameVueCount);
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                cat: {{ catalogos|raw }},
+                model: {{ model|raw }},
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                buscarInstitucion: function () {
+                    var self = this;
+                    var data = {};
+                    $('#institucionContent').load('{{ root }}/institucion/buscador', data, function () {
+                        callbackInstitucion = function (res) {
+                            $("#institucion_id").val(res.id);
+                            $("#institucion_nombre").val(res.nombre);
+                            self.model.institucion_id = res.id;
+                            $('#modalInstitucion').modal('hide');
+                        };
+                        $('#modalInstitucion').modal('show');
+                    });
+                },
+
+                agregarAsignaciones: function () {
+                    var self = this;
+                    if(self.model.institucion_id > 0) {
+                        var data = {
+                            institucion_id: self.model.institucion_id
+                        };
+                        $('#asignacionProductoContent').load('{{ root }}/producto/buscadorCampana', data, function () {
+                            callbackAsignacionProducto = function (res) {
+
+
+                                $('#modalAsignacionProducto').modal('hide');
+                            };
+                            $('#modalAsignacionProducto').modal('show');
+                        });
+                    }else{
+                        alert("Selecciones una Institución");
+                    }
+                },
+            },
+            mounted: function () {
+                var self = this;
+                $('#form-edit').validate({
+                    onfocusout: false,
+                    onkeyup: false,
+                    onclick: false,
+                    submitHandler: function (form) {
+                        var data = {
+                            model: self.model,
+                            telefono: self.telefono,
+                            del_telefono: self.del_telefono,
+                            email: self.email,
+                            del_email: self.del_email,
+                            direccion: self.direccion,
+                            del_direccion: self.del_direccion,
+                            referencia: self.referencia,
+                            del_referencia: self.del_referencia,
+                        };
+                        $('#json').val(JSON.stringify(data));
+                        $("#btnGuardar").prop("disabled", true);
+                        form.submit();
+                        return false;
+                    }
+                });
+
+                $(function () {
+                    $('.fecha').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true
+                    });
+
+                });
+            }
+        });
+	</script>
+{% endblock %}

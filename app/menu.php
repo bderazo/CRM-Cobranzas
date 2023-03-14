@@ -10,7 +10,7 @@ return [
 
 	['text' => 'Clientes', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
 
-	['text' => 'Campañas', 'link' => '#', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fa fa-cube'],
+	['text' => 'Campañas', 'link' => '/campana', 'roles' => 'campana.lista', 'icon' => 'side-menu__icon fa fa-cube'],
 
 	['text' => 'Seguimientos Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-cogs'],
 
