@@ -54,10 +54,11 @@ class CargaArchivo extends Model {
 
 		$q = $db->from('carga_archivo ca')
 			->innerJoin('usuario u ON u.id = ca.usuario_ingreso')
+			->leftJoin('carga_archivo b ON ca.tipo = b.tipo AND ca.fecha_ingreso < b.fecha_ingreso')
 			->select(null)
 			->select('ca.*, u.username AS usuario')
-			->where('eliminado',0)
-			->groupBy('tipo')
+			->where('ca.eliminado',0)
+			->where('b.fecha_ingreso is NULL')
 			->orderBy('fecha_ingreso DESC');
 		$lista = $q->fetchAll();
 		$retorno = [];
