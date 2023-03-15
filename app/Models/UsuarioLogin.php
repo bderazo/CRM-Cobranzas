@@ -46,7 +46,7 @@ class UsuarioLogin extends Model {
 		$u->username = $username;
 		$u->usuario_id = $userId;
 		$u->logged_in = 1;
-		$u->login_time = $conn->raw('now()');
+		$u->login_time = date("Y-m-d H:i:s");
 		$u->save();
 	}
 
