@@ -225,4 +225,75 @@ class ProductoSeguimiento extends Model
 		return $retorno;
 	}
 
+	static function getHomeSeguimientos($usuario_id, $fecha) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('producto_seguimiento ps')
+			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
+			->innerJoin('cliente cl ON cl.id = ps.cliente_id AND cl.eliminado = 0')
+			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+			->select(null)
+			->select('ps.*, CONCAT(u.apellidos," ",u.nombres) AS usuario, u.username')
+			->where('ps.eliminado',0)
+			->orderBy('ps.fecha_ingreso desc');
+		$usuario = Usuario::porId($usuario_id,['perfiles','instituciones']);
+		$usuario = $usuario->toArray();
+		if($usuario['es_admin'] == 0){
+			//VERIFICO SI EL USUARIO TIENE PERFIL DE SUPERVISOR
+			$es_supervisor = false;
+			$plaza = $usuario['plaza'];
+			foreach($usuario['perfiles'] as $per){
+				if($per['id'] == 16){
+					$es_supervisor = true;
+				}
+			}
+			//SI ES SUPERVISOR VERIFICO LAS INSTITUCIONES DONDE ES SUPERVISOR
+			if($es_supervisor) {
+				$instituciones_usuario = [];
+				foreach($usuario['instituciones'] as $ins) {
+					$instituciones_usuario[] = $ins['id'];
+				}
+				//CONSULTO LOS USUARIOS GESTORES ASIGNADOS A LA INSTITUCION Y PLAZA
+				$usuario_gestor = Usuario::getUsuariosGestoresInstitucionPlaza($instituciones_usuario, $plaza);
+				$usuarios_consulta[] = $usuario_id;
+				foreach($usuario_gestor as $ug){
+					$usuarios_consulta[] = $ug['id'];
+				}
+				$usuarios_consulta_txt = implode(",",$usuarios_consulta);
+				$q->where('ps.usuario_ingreso IN ('.$usuarios_consulta_txt.')');
+			}else{
+				//SI NO ES SUPERVISOR VERIFICO POR USUARIO
+				$q->where("ps.usuario_ingreso", $usuario_id);
+			}
+		}
+		$q->where("DATE(ps.fecha_ingreso)", $fecha);
+		$q->orderBy('u.apellidos');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $row) {
+			$retorno[] = $row;
+		}
+		return $retorno;
+	}
+
+	function formatInterval(\DateInterval $dt) {
+		$format = function ($num, $unidad) {
+			$post = $unidad;
+			if ($num > 1 && $unidad != 'min.' && $unidad != 'sec.') {
+				if ($unidad == 'mes') $post = 'meses';
+				else $post .= 's';
+			}
+			return $num . ' ' . $post;
+		};
+
+		$hace = '';
+		if ($dt->m) $hace = $format($dt->m, 'mes');
+		elseif ($dt->days) $hace = $format($dt->days, 'días');
+		elseif ($dt->h) $hace = $format($dt->h, 'hora');
+		elseif ($dt->i) $hace = $format($dt->i, 'min.');
+		elseif ($dt->s) $hace = $format($dt->s, 'sec.');
+		return $hace;
+	}
+
 }

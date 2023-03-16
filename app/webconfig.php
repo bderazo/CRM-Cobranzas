@@ -194,12 +194,12 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 		$v->offsetSet('breadcrumbs', $crumbs);
 
 		/** @var \General\Seguridad\IPermissionCheck $per */
-		$per = $container['permisosCheck'];
-		if ($per->hasRole('pqr.lista')) {
+//		$per = $container['permisosCheck'];
+//		if ($per->hasRole('pqr.lista')) {
 			// alertas, etc.
 			$alertas = $container['alertasTop'];
 			$v->offsetSet('alertasTop', $alertas);
-		}
+//		}
 	}
 
 	/** @var Response $response */

@@ -261,6 +261,36 @@ class Usuario extends Model {
 		return $lista;
 	}
 
+	static function getUsuariosGestoresInstitucionPlaza($instituciones = [], $plaza = '') {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$inst = '';
+		if(count($instituciones) > 0){
+			$inst = implode(",",$instituciones);
+		}
+
+		$q = $db->from('usuario u')
+			->innerJoin('usuario_perfil up ON u.id = up.usuario_id')
+			->innerJoin('perfil p ON p.id = up.perfil_id')
+			->innerJoin('usuario_institucion ui ON u.id = ui.usuario_id')
+			->innerJoin('institucion i ON i.id = ui.institucion_id')
+			->select(null)
+			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombres")
+			->where('u.activo',1)
+			->where('p.id',15);
+		if($plaza != ''){
+			$q->where('u.plaza',$plaza);
+		}
+		if($inst != ''){
+			$q->where('i.id IN ('.$inst.')');
+		}
+		$q->orderBy('u.apellidos');
+		$lista = $q->fetchAll();
+		if (!$lista) return [];
+		return $lista;
+	}
+
 	static function getTodos() {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
