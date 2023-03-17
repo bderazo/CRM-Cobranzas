@@ -843,8 +843,8 @@ class Producto extends Model
 			$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
-			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+//			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
 		}
 
 		if($data['unificar_deudas'] == 'SI') {
