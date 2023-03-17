@@ -166,7 +166,7 @@ class ProductoController extends BaseController
 		$producto_campos = ProductoCampos::porProductoId($model->id);
 
 		$seguimiento = new ViewProductoSeguimiento();
-		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").'- ';
 
 		$data['paleta'] = $paleta;
 		$data['producto_campos'] = $producto_campos;

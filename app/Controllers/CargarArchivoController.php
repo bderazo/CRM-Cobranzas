@@ -198,7 +198,7 @@ class CargarArchivoController extends BaseController {
 
 	function productos() {
 		\WebSecurity::secure('cargar_archivos.productos');
-		\Breadcrumbs::active('Productos');
+		\Breadcrumbs::active('Operaciones');
 
 		$catalogos = [
 			'ciudades' => Catalogo::ciudades(),
