@@ -831,9 +831,9 @@ class Producto extends Model
 			$data['valor_financiar'] = number_format($deuda_actual, 2, '.', '');
 		} else {
 			$data['total_financiamiento'] = 'SI';
-//			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
+			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar - $nc_facturar;
 
-			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar;
+//			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total + $nd_facturar;
 
 			$data['prueba'] = $deuda_actual .' + '. $total_precancelacion_diferidos .' + '. $interes_facturar .' + '. $corrientes_facturar .' + '. $gastos_cobranza .' + '. $valor_otras_tarjetas .' - '. $abono_total .' + '. $nd_facturar;
 			$data['prueba2'] = $valor_financiar_diners;
