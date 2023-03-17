@@ -216,7 +216,10 @@ class InstitucionController extends BaseController {
 		$lista = $qpro->fetchAll();
 		$institucion = [];
 		foreach ($lista as $l) {
+			$l['paleta_nivel1'] = PaletaArbol::getNivel1Todos($l['paleta_id']);
 			$l['paleta_nivel2'] = PaletaArbol::getNivel2Todos($l['paleta_id']);
+			$l['paleta_nivel3'] = PaletaArbol::getNivel3Todos($l['paleta_id']);
+			$l['paleta_nivel4'] = PaletaArbol::getNivel4Todos($l['paleta_id']);
 
 			$institucion[] = $l;
 		}

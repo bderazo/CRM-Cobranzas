@@ -44,7 +44,7 @@
 								<input type="text" class="form-control" name="nombres" id="nombres" value="{{ filtros.nombres }}"/>
 							</div>
 
-							<label for="inputName" class="col-md-2 form-label">Producto</label>
+							<label for="inputName" class="col-md-2 form-label">Código operación</label>
 							<div class="col-md-4">
 								<input type="text" class="form-control" name="producto" id="producto" value="{{ filtros.producto }}"/>
 							</div>
@@ -58,21 +58,46 @@
 
 							<label for="inputName" class="col-md-2 form-label">Estado</label>
 							<div class="col-md-4">
-								{{ select_tag('estado', listas.estado, '', {class:'form-control form-select select2',prompt: ''} ) }}
+								{{ select_tag('estado', listas.estado, '', {'class':'select2 form-control','prompt': '','multiple':'multiple'} ) }}
 							</div>
 						</div>
 
 						<div class=" row mb-4">
-							<label for="inputName" class="col-md-2 form-label">Seguimiento</label>
+							<label for="inputName" class="col-md-2 form-label">Correo electrónico</label>
 							<div class="col-md-4">
-								<select class="form-control form-select select2" id="seguimiento" name="seguimiento">
+								<input type="text" class="form-control" name="correo" id="correo" value="{{ filtros.correo }}"/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Acción</label>
+							<div class="col-md-4">
+								<select class="select2 form-control" multiple id="nivel1" name="nivel1[]">
 									<option value=""></option>
 								</select>
 							</div>
 
-							<label for="inputName" class="col-md-2 form-label">Correo electrónico</label>
+							<label for="inputName" class="col-md-2 form-label">Respuesta</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" name="correo" id="correo" value="{{ filtros.correo }}"/>
+								<select class="select2 form-control" multiple id="nivel2" name="nivel2[]">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Tipo de contacto</label>
+							<div class="col-md-4">
+								<select class="select2 form-control" multiple id="nivel3" name="nivel3[]">
+									<option value=""></option>
+								</select>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Resultado</label>
+							<div class="col-md-4">
+								<select class="select2 form-control" multiple id="nivel4" name="nivel4[]">
+									<option value=""></option>
+								</select>
 							</div>
 						</div>
 
@@ -91,7 +116,7 @@
 	<div class="col-md-12 col-xl-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">Lista de Productos</h4>
+				<h4 class="card-title">Lista de Operaciones</h4>
 			</div>
 			<div class="card-body">
 				<div id="lista"></div>
@@ -118,7 +143,7 @@
 			</div>
 		</div>
 	</div>
-
+	{{ bundle('select2') }}
 	{{ bundle('validate') }}
 	<script>
 		var form = $('#filtro');
@@ -140,7 +165,25 @@
             $("#estado").val('');
             $("#fecha_inicio").val('');
             $("#fecha_fin").val('');
-            $('#seguimiento')
+            $('#nivel1')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value=""></option>')
+                .val('');
+            $('#nivel2')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value=""></option>')
+                .val('');
+            $('#nivel3')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value=""></option>')
+                .val('');
+            $('#nivel4')
                 .find('option')
                 .remove()
                 .end()
@@ -177,7 +220,20 @@
 							$("#institucion_id").val(res.id);
 							$("#institucion_nombre").val(res.nombre);
 
-                            $('#seguimiento')
+                            $('#nivel1')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .val('');
+
+                            $.each(res.paleta_nivel1, function (key, value) {
+                                $('#nivel1').append($('<option>', {
+                                    value: value.nivel1_id,
+                                    text: value.nivel1
+                                }));
+                            });
+
+                            $('#nivel2')
                                 .find('option')
                                 .remove()
                                 .end()
@@ -185,9 +241,37 @@
                                 .val('');
 
                             $.each(res.paleta_nivel2, function (key, value) {
-                                $('#seguimiento').append($('<option>', {
+                                $('#nivel2').append($('<option>', {
                                     value: value.nivel2_id,
                                     text: value.nivel2
+                                }));
+                            });
+
+                            $('#nivel3')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option value=""></option>')
+                                .val('');
+
+                            $.each(res.paleta_nivel3, function (key, value) {
+                                $('#nivel3').append($('<option>', {
+                                    value: value.nivel3_id,
+                                    text: value.nivel3
+                                }));
+                            });
+
+                            $('#nivel4')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option value=""></option>')
+                                .val('');
+
+                            $.each(res.paleta_nivel4, function (key, value) {
+                                $('#nivel4').append($('<option>', {
+                                    value: value.nivel4_id,
+                                    text: value.nivel4
                                 }));
                             });
 
@@ -202,6 +286,18 @@
 			mounted: function () {
 				$('.integer').numeric("integer");
 				$('.numeric').numeric();
+                $(document).ready(function() {
+                    $('.select2').select2({
+                        theme: "classic"
+                    });
+
+                    $('.fecha').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true,
+                        // changeMonth: true,
+                        // changeYear: true
+                    });
+                });
 			}
 		});
 	</script>
