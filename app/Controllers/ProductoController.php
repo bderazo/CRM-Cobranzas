@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Catalogos\CatalogoCliente;
+use Catalogos\CatalogoInstitucion;
 use Catalogos\CatalogoProducto;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
@@ -67,6 +68,11 @@ class ProductoController extends BaseController
 		$data['filtros'] = FiltroBusqueda::porModuloUsuario('Producto',\WebSecurity::getUserData('id'));
 		$cat = new CatalogoProducto(true);
 		$listas = $cat->getCatalogo();
+		$listas['campana'] = [
+			'campana1' => 'campana1',
+			'campana2' => 'campana2',
+			'campana3' => 'campana3',
+		];
 		$data['listas'] = $listas;
 		return $this->render('index', $data);
 	}
@@ -1469,8 +1475,13 @@ class ProductoController extends BaseController
 
 		$data['usuarios'] = json_encode(Usuario::getTodosArray(),JSON_PRETTY_PRINT);
 
+		$catalogos = [
+			'ciudades' => Catalogo::ciudades(),
+		];
+
 		$cat = new CatalogoProducto(true);
 		$listas = $cat->getCatalogo();
+		$listas['ciudad'] = Catalogo::ciudades();
 		$data['catalogo_producto'] = json_encode($listas);
 
 		return $this->render('buscadorCampana', $data);

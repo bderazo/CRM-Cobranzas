@@ -67,6 +67,11 @@
 							<div class="col-md-4">
 								<input type="text" class="form-control" name="correo" id="correo" value="{{ filtros.correo }}"/>
 							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Campaña</label>
+							<div class="col-md-4">
+								{{ select_tag('campana', listas.campana, '', {'class':'select2 form-control','prompt': '','multiple':'multiple'} ) }}
+							</div>
 						</div>
 
 						<div class=" row mb-4">
@@ -237,7 +242,6 @@
                                 .find('option')
                                 .remove()
                                 .end()
-                                .append('<option value=""></option>')
                                 .val('');
 
                             $.each(res.paleta_nivel2, function (key, value) {
@@ -251,7 +255,6 @@
                                 .find('option')
                                 .remove()
                                 .end()
-                                .append('<option value=""></option>')
                                 .val('');
 
                             $.each(res.paleta_nivel3, function (key, value) {
@@ -265,7 +268,6 @@
                                 .find('option')
                                 .remove()
                                 .end()
-                                .append('<option value=""></option>')
                                 .val('');
 
                             $.each(res.paleta_nivel4, function (key, value) {

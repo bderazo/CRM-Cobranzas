@@ -1,9 +1,20 @@
 <div id="appBuscaCampana" class="small">
 	<div class="col-md-12 col-xl-12">
 		<div class=" row mb-3">
+			<label for="inputName" class="col-md-2 form-label">Fecha inicio</label>
+			<div class="col-md-4">
+				<input type="text" class="form-control fecha" name="fecha_inicio" id="fecha_inicio" value=""/>
+			</div>
+
+			<label for="inputName" class="col-md-2 form-label">Fecha fin</label>
+			<div class="col-md-4">
+				<input type="text" class="form-control fecha" name="fecha_fin" id="fecha_fin" value=""/>
+			</div>
+		</div>
+		<div class=" row mb-3">
 			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Último seguimiento</label>
 			<div class="col-sm-4">
-				<select class="form-control form-control-sm form-select select2" v-model="nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id" v-autoname>
+				<select class="form-control form-control-sm form-select" placeholder="Seleccione una opción" id="nivel_2_id" v-autoname>
 					<option value=""></option>
 					<option v-for="item in paleta_nivel2" v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
 				</select>
@@ -11,7 +22,7 @@
 
 			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Estado seguimiento</label>
 			<div class="col-sm-4">
-				<select class="form-control form-control-sm form-select select2" v-model="estado" placeholder="Seleccione una opción" id="estado" v-autoname>
+				<select class="form-control form-control-sm form-select" placeholder="Seleccione una opción" id="estado" v-autoname>
 					<option value=""></option>
 					<option v-for="(v,k) in cat.estado" v-html="v" :value="k"></option>
 				</select>
@@ -21,19 +32,39 @@
 		<div class=" row mb-3">
 			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Nombres</label>
 			<div class="col-sm-4">
-				<input type="text" class="form-control form-control-sm" v-model="nombres" placeholder="Nombres"/>
+				<input type="text" class="form-control form-control-sm" placeholder="Nombres"/>
 			</div>
 
 			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Cédula</label>
 			<div class="col-sm-4">
-				<input type="text" class="form-control form-control-sm" v-model="cedula" placeholder="Cédula"/>
+				<input type="text" class="form-control form-control-sm" placeholder="Cédula"/>
+			</div>
+		</div>
+
+		<div class=" row mb-3">
+			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Monto adeudado (desde)</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control form-control-sm" placeholder="Monto adeudado (desde)"/>
+			</div>
+
+			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Monto adeudado (hasta)</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control form-control-sm" placeholder="Monto adeudado (hasta)"/>
 			</div>
 		</div>
 
 		<div class=" row mb-3">
 			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Código operación</label>
 			<div class="col-sm-4">
-				<input type="text" class="form-control form-control-sm" v-model="producto" placeholder="Código operación"/>
+				<input type="text" class="form-control form-control-sm" placeholder="Código operación"/>
+			</div>
+
+			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Ciudad</label>
+			<div class="col-sm-4">
+				<select class="form-control form-control-sm form-select" placeholder="Seleccione una opción" id="ciudad" v-autoname>
+					<option value=""></option>
+					<option v-for="(v,k) in cat.ciudad" v-html="v" :value="k"></option>
+				</select>
 			</div>
 		</div>
 
@@ -47,10 +78,11 @@
 	</div>
 	<hr/>
 	<div style="overflow-y: auto;height:300px">
+		<br/>
 		<div class=" row mb-3">
 			<label for="" class="col-sm-2 col-form-label col-form-label-sm">Usuario asignado</label>
 			<div class="col-sm-4">
-				<select class="form-control form-control-sm form-select select2" v-model="usuario_asignado" placeholder="Seleccione una opción" id="usuario_asignado" v-autoname>
+				<select class="select2 form-control"  multiple id="usuario_asignado" name="usuario_asignado[]" style="width: 500px;">
 					<option v-for="item in usuarios" v-bind:value="item.id" v-html="item.username"></option>
 				</select>
 			</div>
@@ -90,7 +122,8 @@
 
 </div>
 
-{{ script('js/lodash.js') }}
+{{ bundle('select2') }}
+	{{ bundle('validate') }}
 <script>
 
     var callbackInstitucion = null;
@@ -147,6 +180,19 @@
                 source: function (request, response) {
                     self.buscar();
                 }
+            });
+
+            $(document).ready(function() {
+                $('.fecha').datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    showButtonPanel: true,
+                    // changeMonth: true,
+                    // changeYear: true
+                });
+
+                $('.select2').select2({
+                    theme: "classic"
+                });
             });
         }
     })

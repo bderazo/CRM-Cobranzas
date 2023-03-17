@@ -18,6 +18,7 @@
 			<th>Código operación</th>
 			<th>Estado</th>
 			<th>Asignado</th>
+			<th>Días sin gestión</th>
 			<th>Último seguimiento</th>
 			<th>Mejor seguimiento</th>
 		</tr>
@@ -38,6 +39,7 @@
 				<td>{{ l.producto }} </td>
 				<td>{{ l.estado|upper }} </td>
 				<td>{{ l.apellidos_usuario_asignado }}&nbsp;{{ l.nombres_usuario_asignado }}</td>
+				<td style="text-align: center;">3</td>
 				<td style="font-size: 11px;">
 					{% if l.ultimo_seguimiento.fecha_ingreso != '' %}
 						<strong>Fecha de seguimiento: </strong><br/>{{ l.ultimo_seguimiento.fecha_ingreso }}<br/>
