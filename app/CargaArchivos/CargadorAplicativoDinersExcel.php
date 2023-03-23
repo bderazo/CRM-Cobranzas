@@ -81,7 +81,7 @@ class CargadorAplicativoDinersExcel
 					continue;
 
 				//No subir registros que tengan ninguna tarjeta asignada a MEGACOB
-				if(($values[48] == 'MEGACOB') || ($values[86] == 'MEGACOB') || ($values[124] == 'MEGACOB')  || ($values[171] == 'MEGACOB')) {
+				if((strpos($values[48], 'MEGACOB') !== false ) || (strpos($values[86], 'MEGACOB') !== false ) || (strpos($values[124], 'MEGACOB') !== false )  || (strpos($values[171], 'MEGACOB') !== false )) {
 
 					//PROCESO DE CLIENTES
 					$cliente_id = 0;
