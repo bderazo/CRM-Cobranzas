@@ -837,8 +837,9 @@ class Producto extends Model
 
 		//CALCULO DE GASTOS DE COBRANZA
 		if($total_precancelacion_diferidos > 0) {
-			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
-			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+//			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+//			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+            $data['calculo_gastos_cobranza'] = $data['valor_financiar'];
 
 			$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
