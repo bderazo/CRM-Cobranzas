@@ -53,10 +53,10 @@ class ExcelDatasetExport {
 			foreach ($data as $ix => $row) {
 				if (!$head) {
 					$head = array_keys($row); // format, etc
-//					$writer->addRow($head);
-					$border = (new BorderBuilder())->setBorderBottom("000000")->build();
-					$styles = (new StyleBuilder())->setBackgroundColor("2B74B3")->setBorder($border)->setFontBold()->setFontColor("FFFFFF")->build();
-					$writer->addRowWithStyle($head,$styles);
+					$writer->addRow($head);
+//					$border = (new BorderBuilder())->setBorderBottom("000000")->build();
+//					$styles = (new StyleBuilder())->setBackgroundColor("2B74B3")->setBorder($border)->setFontBold()->setFontColor("FFFFFF")->build();
+//					$writer->addRowWithStyle($head,$styles);
 				}
 
 				// formateo

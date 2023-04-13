@@ -15,14 +15,14 @@
 								<th>Seguimiento</th>
 								<th>Observaciones</th>
 								<th>Usuario</th>
-								<th>Fecha de seguimiento</th>
+								<th>Fecha</th>
 								<th></th>
 							</tr>
 							</thead>
 							<tbody>
 							{% for seg in seguimientos %}
 								<tr>
-									<td>
+									<td style="width: 35%;">
 										{% if seg.nivel1 != '' %}
 											<strong>{{ paleta.titulo_nivel1 }}: </strong><br/> {{ seg.nivel1 }}<br/><br/>
 										{% endif %}
@@ -58,12 +58,18 @@
 											<strong>Long: </strong> {{ seg.long }}<br/>
 										{% endif %}
 									</td>
-									<td>{{ seg.observaciones }}</td>
-									<td>{{ seg.usuario }}</td>
-									<td>{{ seg.fecha_ingreso }}</td>
-									<td style="vertical-align: middle;">
-										<button class="btn btn-primary-light" type="button" v-on:click="verAcuerdo({{ seg.id }})">
-											<i class="fa fa-file-excel-o"></i>
+									<td style="width: 35%;">{{ seg.observaciones }}</td>
+									<td style="width: 10%;">{{ seg.usuario }}</td>
+									<td style="width: 10%;">{{ seg.fecha_ingreso }}</td>
+									<td style="vertical-align: top; text-align: center; width: 10%;">
+										<button class="btn btn-primary" type="button" v-on:click="verAcuerdo({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
+											<i class="fa fa-file-excel-o"></i> ACUERDO
+										</button><br/>
+										<button class="btn btn-success" type="button" v-on:click="descargarNegociacionManual({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN MANUAL">
+											<i class="fa fa-download"></i> MANUAL
+										</button>
+										<button class="btn btn-info" type="button" v-on:click="descargarNegociacionAutomatica({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN AUTOMÁTICA">
+											<i class="fa fa-download"></i> AUTOMÁTICA
 										</button>
 									</td>
 								</tr>
@@ -170,6 +176,13 @@
 		</div>
 	</div>
 
+	<form id="exportFormNegociacionManual" method="POST" action="{{ root }}/producto/exportNegociacionManual">
+		<input type="hidden" id="jsonNegociacionManual" name="jsonNegociacionManual"/>
+	</form>
+	<form id="exportFormNegociacionAutomatica" method="POST" action="{{ root }}/producto/exportNegociacionAutomatica">
+		<input type="hidden" id="jsonNegociacionAutomatica" name="jsonNegociacionAutomatica"/>
+	</form>
+
 	<!-- MODAL -->
 	<div class="modal fade" id="modalAcuerdo" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-xl" role="document">
@@ -217,6 +230,28 @@
                         $('#modalAcuerdo').modal('show');
                     });
                 },
+
+				descargarNegociacionManual: function (producto_seguimiento_id) {
+					var self = this;
+					var data = {
+						model: self.model,
+						producto_seguimiento_id: producto_seguimiento_id,
+						aplicativo_diners: self.aplicativo_diners,
+					};
+					$('#jsonNegociacionManual').val(JSON.stringify(data));
+					$('#exportFormNegociacionManual').submit();
+				},
+
+				descargarNegociacionAutomatica: function (producto_seguimiento_id) {
+					var self = this;
+					var data = {
+						model: self.model,
+						producto_seguimiento_id: producto_seguimiento_id,
+						aplicativo_diners: self.aplicativo_diners,
+					};
+					$('#jsonNegociacionAutomatica').val(JSON.stringify(data));
+					$('#exportFormNegociacionAutomatica').submit();
+				},
             },
             mounted: function () {
                 var self = this;

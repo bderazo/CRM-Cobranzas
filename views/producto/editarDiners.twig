@@ -2396,12 +2396,19 @@
 							<button class="btn btn-info" type="button" name="btnExportarNegociacionAutomatica" id="btnExportarNegociacionAutomatica">
 								<i class="fa fa-download"></i> NEGOCIACIÓN AUTOMÁTICA
 							</button>
-
-
+							<button class="btn btn-primary" type="button" name="btnRegresar" id="btnRegresar">
+								<i class="fa fa-chevron-left"></i> REGRESAR
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+		</form>
+		<form id="exportFormNegociacionManual" method="POST" action="{{ root }}/producto/exportNegociacionManual">
+			<input type="hidden" id="jsonNegociacionManual" name="jsonNegociacionManual"/>
+		</form>
+		<form id="exportFormNegociacionAutomatica" method="POST" action="{{ root }}/producto/exportNegociacionAutomatica">
+			<input type="hidden" id="jsonNegociacionAutomatica" name="jsonNegociacionAutomatica"/>
 		</form>
 	</div>
 
@@ -2593,6 +2600,11 @@
             mounted: function () {
                 var self = this;
 
+				$("#btnGuardar").show();
+				$("#btnRegresar").hide();
+				$("#btnExportarNegociacionManual").hide();
+				$("#btnExportarNegociacionAutomatica").hide();
+
                 $("#div_motivo_no_pago").hide();
                 $("#div_fecha_compromiso_pago").hide();
                 $("#div_valor_comprometido").hide();
@@ -2629,15 +2641,27 @@
                             aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
                             fecha_compromiso_pago: $("#fecha_compromiso_pago").val(),
                         };
-                        $('#json').val(JSON.stringify(data));
+                        // $('#json').val(JSON.stringify(data));
                         $("#btnGuardar").prop("disabled", true);
-                        form.submit();
-                        return false;
+
+						$.post('{{ root }}/producto/guardarSeguimientoDiners', data, function (res) {
+							console.log(res);
+							$("#btnGuardar").hide();
+							$("#btnRegresar").show();
+							$("#btnExportarNegociacionManual").show();
+							$("#btnExportarNegociacionAutomatica").show();
+						});
+                        // form.submit();
+                        // return false;
                     }
                 });
+				$('#btnRegresar').click(function () {
+					window.open("{{ root }}/producto/indexDiners","_self");
+				});
                 $('#btnExportarNegociacionManual').click(function () {
                     var data = {
                         model: self.model,
+						seguimiento: self.seguimiento,
                         aplicativo_diners: self.aplicativo_diners,
                         aplicativo_diners_tarjeta_diners: self.aplicativo_diners_tarjeta_diners,
                         aplicativo_diners_tarjeta_discover: self.aplicativo_diners_tarjeta_discover,
@@ -2650,6 +2674,7 @@
                 $('#btnExportarNegociacionAutomatica').click(function () {
                     var data = {
                         model: self.model,
+						seguimiento: self.seguimiento,
                         aplicativo_diners: self.aplicativo_diners,
                         aplicativo_diners_tarjeta_diners: self.aplicativo_diners_tarjeta_diners,
                         aplicativo_diners_tarjeta_discover: self.aplicativo_diners_tarjeta_discover,
