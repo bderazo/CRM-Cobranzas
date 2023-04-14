@@ -40,9 +40,9 @@ class InformeJornada {
 			->select(null)
 			->select("u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, u.canal,
 							COUNT(*) 'cuentas',
-							COUNT(IF(ps.nivel_1_id = 1 OR ps.nivel_1_id = 3 OR ps.nivel_1_id = 3 OR ps.nivel_1_id = 5 OR ps.nivel_1_id = 6 OR ps.nivel_1_id = 7 OR ps.nivel_1_id = 8 OR ps.nivel_1_id = 109, 1, NULL)) 'contactadas',
-							COUNT(IF(ps.nivel_1_id = 1 OR ps.nivel_1_id = 6 OR ps.nivel_1_id = 7 OR ps.nivel_1_id = 109, 1, NULL)) 'efectividad',
-							COUNT(IF(ps.nivel_1_id = 7 OR ps.nivel_1_id = 109, 1, NULL)) 'negociaciones'")
+							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855 OR ps.nivel_1_id = 1861, 1, NULL)) 'contactadas',
+							COUNT(IF(ps.nivel_1_id = 1855, 1, NULL)) 'efectividad',
+							COUNT(IF(ps.nivel_1_id = 1855 OR ps.nivel_1_id = 1861, 1, NULL)) 'negociaciones'")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
@@ -72,22 +72,18 @@ class InformeJornada {
 			$fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
 			$q->where('ps.fecha_ingreso <= "'.$fecha.'"');
 		}
+        $q->groupBy('u.id');
+        $q->orderBy('u.plaza, u.apellidos');
 		$lista = $q->fetchAll();
 		$data = [];
 		//SUMAR TOTALES
 		$total_cuentas = 0;
 		$total_asignacion = 0;
-		$total_porcentaje_productividad = 0;
 		$total_contactadas = 0;
 		$total_efectividad = 0;
-		$total_porcentaje_cantactado = 0;
-		$total_porcentaje_efectividad = 0;
 		$total_negociaciones = 0;
-		$total_porcentaje_produccion = 0;
+        $total_ejecutivos = 0;
 		foreach($lista as $seg){
-
-//			printDie($seg);
-
 			$seg['asignacion'] = 0;
 			if($seg['canal'] == 'TELEFONIA'){
 				$seg['asignacion'] = 60;
@@ -110,12 +106,17 @@ class InformeJornada {
 			$total_contactadas = $total_contactadas + $seg['contactadas'];
 			$total_efectividad = $total_efectividad + $seg['efectividad'];
 			$total_negociaciones = $total_negociaciones + $seg['negociaciones'];
+
+            $total_ejecutivos++;
+
 			$data[] = $seg;
 		}
 		$total_porcentaje_productividad = ($total_asignacion > 0) ? ($total_cuentas / $total_asignacion) * 100 : 0;
 		$total_porcentaje_cantactado = ($total_cuentas > 0) ? ($total_contactadas / $total_cuentas) * 100 : 0;
 		$total_porcentaje_efectividad = ($total_contactadas > 0) ? ($total_efectividad / $total_contactadas) * 100 : 0;
 		$total_porcentaje_produccion = ($total_cuentas > 0) ? ($total_negociaciones / $total_cuentas) * 100 : 0;
+
+
 
 //		printDie($data);
 
@@ -130,6 +131,10 @@ class InformeJornada {
 			'total_porcentaje_efectividad' => number_format($total_porcentaje_efectividad,2,'.',','),
 			'total_negociaciones' => $total_negociaciones,
 			'total_porcentaje_produccion' => number_format($total_porcentaje_produccion,2,'.',','),
+            'total_ejecutivos' => $total_ejecutivos,
+            'canal' => 'DOMICILIO EXTERNO',
+            'empresa' => 'MEGACOB',
+            'portafolio' => '',
 		];
 
 		return $retorno;

@@ -75,7 +75,7 @@ class CargadorAsignacionesDinersExcel
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1)) {
 					$ultima_posicion_columna = array_key_last($values);
-					for($i = 11; $i <= $ultima_posicion_columna; $i++) {
+					for($i = 13; $i <= $ultima_posicion_columna; $i++) {
 						$cabecera[] = $values[$i];
 					}
 					continue;
@@ -88,7 +88,7 @@ class CargadorAsignacionesDinersExcel
 				$cliente_cedula = '';
 				$cliente_arr = [];
 				foreach($clientes_todos as $cl) {
-					$existe_cedula = array_search($values[8], $cl);
+					$existe_cedula = array_search($values[9], $cl);
 					if($existe_cedula) {
 						$cliente_id = $cl['id'];
 						$cliente_cedula = $cl['cedula'];
@@ -100,11 +100,11 @@ class CargadorAsignacionesDinersExcel
 				if($cliente_id == 0) {
 					//CREAR CLIENTE
 					$cliente = new Cliente();
-					$cliente->cedula = $values[8];
+					$cliente->cedula = $values[9];
 					$cliente->fecha_ingreso = date("Y-m-d H:i:s");
 					$cliente->usuario_ingreso = \WebSecurity::getUserData('id');
 					$cliente->eliminado = 0;
-					$cliente->nombres = $values[7];
+					$cliente->nombres = $values[8];
 					$cliente->fecha_ingreso = date("Y-m-d H:i:s");
 					$cliente->usuario_ingreso = \WebSecurity::getUserData('id');
 					$cliente->fecha_modificacion = date("Y-m-d H:i:s");
@@ -125,7 +125,7 @@ class CargadorAsignacionesDinersExcel
 					$producto = new Producto();
 					$producto->institucion_id = 1;
 					$producto->cliente_id = $cliente_id;
-					$producto->producto = $values[5];
+					$producto->producto = $values[6];
 					$producto->fecha_ingreso = date("Y-m-d H:i:s");
 					$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 					$producto->usuario_asignado = 0;
@@ -180,26 +180,10 @@ class CargadorAsignacionesDinersExcel
 				if(isset($asignaciones_todos[$aplicativo_diners_id])) {
 					$asignacion_id = $asignaciones_todos[$aplicativo_diners_id]['id'];
 				}
-				if($asignacion_id == 0) {
-
-				}
-//				$asignacion_id = 0;
-//				$buscar_items = [
-//					'mes' => $values[2],
-//					'anio' => $values[3],
-//					'campana' => $values[4],
-//					'marca' => $values[5],
-//					'ciclo' => $values[6],
-//					'cedula_socio' => $values[8],
-//				];
-//				$existe_asignacion = $this->searchArray($asignaciones_todos, $buscar_items);
-//				if(count($existe_asignacion) > 0) {
-//					$asignacion_id = $existe_asignacion[0]['id'];
-//				}
 				//MAPEAR LOS CAMPOS PARA GUARDAR COMO CLAVE VALOR
 				$cont = 0;
 				$data_campos = [];
-				for($i = 9; $i <= $ultima_posicion_columna; $i++) {
+				for($i = 13; $i <= $ultima_posicion_columna; $i++) {
 					if(isset($values[$i])) {
 						$data_campos[$cabecera[$cont]] = $values[$i];
 					}
@@ -210,18 +194,19 @@ class CargadorAsignacionesDinersExcel
 					$asignaciones = new AplicativoDinersAsignaciones();
 					$asignaciones->cliente_id = $cliente_id;
 					$asignaciones->aplicativo_diners_id = $aplicativo_diners_id;
-					$asignaciones->fecha_inicio = $this->getFecha($values[0]);
-					$asignaciones->fecha_fin = $this->getFecha($values[1]);
-					$asignaciones->mes = $values[2];
-					$asignaciones->anio = $values[3];
-					$asignaciones->campana = $values[4];
-					$asignaciones->marca = $values[5];
-					$asignaciones->ciclo = $values[6];
-					$asignaciones->nombre_socio = $values[7];
-					$asignaciones->cedula_socio = $values[8];
-					$asignaciones->campana_ece = $values[9];
-					$asignaciones->condonacion_interes = $values[10];
-					$asignaciones->segregacion = $values[11];
+					$asignaciones->fecha_asignacion = $this->getFecha($values[0]);
+                    $asignaciones->fecha_inicio = $this->getFecha($values[1]);
+					$asignaciones->fecha_fin = $this->getFecha($values[2]);
+					$asignaciones->mes = $values[3];
+					$asignaciones->anio = $values[4];
+					$asignaciones->campana = $values[5];
+					$asignaciones->marca = $values[6];
+					$asignaciones->ciclo = $values[7];
+					$asignaciones->nombre_socio = $values[8];
+					$asignaciones->cedula_socio = $values[9];
+					$asignaciones->campana_ece = $values[10];
+					$asignaciones->condonacion_interes = $values[11];
+					$asignaciones->segregacion = $values[12];
 					$asignaciones->campos = json_encode($data_campos, JSON_PRETTY_PRINT);
 					$asignaciones->fecha_ingreso = date("Y-m-d H:i:s");
 					$asignaciones->usuario_ingreso = \WebSecurity::getUserData('id');
@@ -235,8 +220,9 @@ class CargadorAsignacionesDinersExcel
 						'fecha_modificacion' => date("Y-m-d H:i:s"),
 						'usuario_modificacion' => \WebSecurity::getUserData('id'),
 						'campos' => json_encode($data_campos, JSON_PRETTY_PRINT),
-						'fecha_inicio' => $this->getFecha($values[0]),
-						'fecha_fin' => $this->getFecha($values[1]),
+						'fecha_asignacion' => $this->getFecha($values[0]),
+                        'fecha_inicio' => $this->getFecha($values[1]),
+						'fecha_fin' => $this->getFecha($values[2]),
 					];
 					$query = $db->update('aplicativo_diners_asignaciones')->set($set)->where('id', $asignacion_id)->execute();
 				}

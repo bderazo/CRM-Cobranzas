@@ -31,13 +31,13 @@ class CampoTelefonia {
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
-			->select("u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, COUNT(IF(ps.nivel_1_id = 7, 1, NULL)) 'refinancia',
-							COUNT(IF(ps.nivel_1_id = 5, 1, NULL)) 'notificado', 
-							COUNT(IF(ps.nivel_1_id = 1 OR ps.nivel_1_id = 6, 1, NULL)) 'cierre_efectivo',
-							COUNT(IF(ps.nivel_1_id = 3, 1, NULL)) 'cierre_no_efectivo',
-							COUNT(IF(ps.nivel_1_id = 4, 1, NULL)) 'mensaje_tercero',
-							COUNT(IF(ps.nivel_1_id = 2, 1, NULL)) 'no_ubicado',
-							COUNT(IF(ps.nivel_1_id = 109, 1, NULL)) 'regularizacion'")
+			->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, COUNT(IF(ps.nivel_2_id = 1859, 1, NULL)) 'refinancia',
+							COUNT(IF(ps.nivel_2_id = 1853, 1, NULL)) 'notificado', 
+							COUNT(IF(ps.nivel_1_id = 1855, 1, NULL)) 'cierre_efectivo',
+							COUNT(IF(ps.nivel_1_id = 1839, 1, NULL)) 'cierre_no_efectivo',
+							COUNT(IF(ps.nivel_1_id = 1847, 1, NULL)) 'mensaje_tercero',
+							COUNT(IF(ps.nivel_1_id = 1799, 1, NULL)) 'no_ubicado',
+							COUNT(IF(ps.nivel_1_id = 1873, 1, NULL)) 'regularizacion'")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['canal_usuario']){
@@ -70,6 +70,9 @@ class CampoTelefonia {
 			$fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
 			$q->where('ps.fecha_ingreso <= "'.$fecha.'"');
 		}
+        $q->groupBy('u.id');
+        $q->orderBy('u.plaza, u.apellidos');
+//        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data = [];
 		//SUMAR TOTALES
@@ -108,10 +111,6 @@ class CampoTelefonia {
 			'total_regularizacion' => $total_regularizacion,
 			'total_total' => $total_total,
 		];
-
-
-
-
 
 		return $retorno;
 	}

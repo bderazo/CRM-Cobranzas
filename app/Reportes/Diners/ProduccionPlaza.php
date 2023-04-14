@@ -40,7 +40,7 @@ class ProduccionPlaza {
 			->select('ps.*, u.id AS id_usuario, addet.nombre_tarjeta, addet.saldo_actual_facturado_despues_abono,
 							 addet.saldo_30_facturado_despues_abono, addet.saldo_60_facturado_despues_abono,
 							 addet.saldo_90_facturado_despues_abono')
-			->where('ps.nivel_1_id',7)
+//			->where('ps.nivel_1_id',7)
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
@@ -212,7 +212,7 @@ class ProduccionPlaza {
 							 SUM(addet.saldo_30_facturado_despues_abono) AS d30, 
 							 SUM(addet.saldo_60_facturado_despues_abono) AS d60,
 							 SUM(addet.saldo_90_facturado_despues_abono) AS d90, u.plaza, u.id')
-			->where('ps.nivel_1_id',7)
+//			->where('ps.nivel_1_id',7)
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){

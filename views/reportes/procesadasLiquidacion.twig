@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 {% block content %}
-	{% include "reportes/filtrosCampoTelefonia.twig" %}
+	{% include "reportes/filtrosProcesadasLiquidacion.twig" %}
 	<div id="app">
 		<div class="card">
 			<div class="card-header">
@@ -11,54 +11,48 @@
 					<i class="fa fa-file-excel-o"></i>
 					Exportar
 				</a>
-				<table class="table border table-striped table-bordered table-sm mb-0">
-					<thead>
-					<tr style="background-color: #95b8f6;">
-						<th>PLAZA</th>
-						<th>GESTOR</th>
-						<th>REFINANCIA</th>
-						<th>NOTIFICADO</th>
-						<th>CIERRE EFECTIVO</th>
-						<th>CIERRE NO EFECTIVO</th>
-						<th>MENSAJE A TERCERO</th>
-						<th>NO UBICADO</th>
-						<th>REGULARIZACION</th>
-						<th>TOTAL GENERAL</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr v-for="d in datos">
-						<td v-html="d.plaza"></td>
-						<td v-html="d.gestor"></td>
-						<td style="text-align: center;" v-html="d.refinancia"></td>
-						<td style="text-align: center;" v-html="d.notificado"></td>
-						<td style="text-align: center;" v-html="d.cierre_efectivo"></td>
-						<td style="text-align: center;" v-html="d.cierre_no_efectivo"></td>
-						<td style="text-align: center;" v-html="d.mensaje_tercero"></td>
-						<td style="text-align: center;" v-html="d.no_ubicado"></td>
-						<td style="text-align: center;" v-html="d.regularizacion"></td>
-						<td style="text-align: center;" v-html="d.total"></td>
-					</tr>
-					</tbody>
-					<tfoot>
-					<tr>
-						<td style="font-weight: bold;">TOTAL</td>
-						<td></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_refinancia"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_notificado"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_cierre_efectivo"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_cierre_no_efectivo"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_mensaje_tercero"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_no_ubicado"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_regularizacion"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_total"></td>
-					</tr>
-					</tfoot>
-				</table>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+							<th>FECHA ASIGNAC</th>
+							<th>CUENTA</th>
+							<th>CICLO</th>
+							<th>NOMBRE SOCIO</th>
+							<th>CEDULA</th>
+							<th>EDAD</th>
+							<th>MARCA</th>
+							<th>ECE</th>
+							<th>INICIO</th>
+							<th>FIN</th>
+							<th>FECHA DE ENVIO</th>
+							<th>NEGOCIACION EN ASIGNACION</th>
+							<th>ZONA</th>
+							<th>CAMPAÑA</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td v-html="d.fecha_asignacion"></td>
+							<td v-html="d.cuenta"></td>
+							<td v-html="d.corte"></td>
+							<td v-html="d.nombres"></td>
+							<td v-html="d.cedula"></td>
+							<td v-html="d.edad_cartera"></td>
+							<td v-html="d.nombre_tarjeta"></td>
+							<td v-html="d.campana_ece"></td>
+							<td v-html="d.inicio"></td>
+							<td v-html="d.fin"></td>
+							<td v-html="d.fecha_envio"></td>
+							<td v-html="d.negociacion_asignacion"></td>
+							<td v-html="d.zona_cuenta"></td>
+							<td v-html="d.campana"></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
-
-
 	</div>
 
 	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
@@ -80,8 +74,6 @@
             data: {
                 datos: [],
                 total: [],
-                datos_recupero: [],
-                total_recupero: [],
             },
             watch: {},
             computed: {},
@@ -91,13 +83,34 @@
                     var self = this;
                     var data = form.serializeArray();
                     toggleLoader();
-                    $.post('{{ root }}/reportes/campoTelefonia', data, function (res) {
+                    $.post('{{ root }}/reportes/procesadasLiquidacion', data, function (res) {
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];
                         console.log(res);
                     })
                 },
+
+                calcular: function () {
+                    var self = this;
+                    var total_asignacion = 0;
+                    $.each(self.datos, function (key, value) {
+                        var porcentaje_productividad = 0.00;
+                        if(parseFloat(value.asignacion) > 0){
+                            porcentaje_productividad = (parseFloat(value.cuentas) / parseFloat(value.asignacion)) * 100;
+                        }
+                        self.datos[key].porcentaje_productividad = porcentaje_productividad.toFixed(2);
+                        total_asignacion = total_asignacion + parseFloat(value.asignacion);
+                    });
+                    self.total.total_asignacion = total_asignacion;
+                    var total_porcentaje_productividad = 0;
+                    if(total_asignacion > 0){
+                        total_porcentaje_productividad = (parseFloat(self.total.total_cuentas) / total_asignacion) * 100;
+                    }
+                    self.total.total_porcentaje_productividad = total_porcentaje_productividad.toFixed(2);
+                    // app.$forceUpdate();
+                },
+
             },
             mounted: function () {
                 var form = $('#filtros');

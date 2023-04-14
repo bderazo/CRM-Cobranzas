@@ -13,7 +13,7 @@
 				</a>
 				<table class="table border table-striped table-bordered table-sm mb-0">
 					<thead>
-					<tr>
+					<tr style="background-color: #95b8f6;">
 						<th>ZONA</th>
 						<th>EJECUTIVO</th>
 						<th>CANAL</th>
@@ -26,19 +26,76 @@
 					</thead>
 					<tbody>
 					<tr v-for="d in datos">
-						<template
-								v-if="d.plaza == 'TOTAL AMBATO' || d.plaza == 'TOTAL CUENCA' || d.plaza == 'TOTAL GUAYAQUIL' || d.plaza == 'TOTAL MACHALA' || d.plaza == 'TOTAL MANABI' || d.plaza == 'TOTAL QUITO'">
-							<td style="font-weight: bold;" v-html="d.plaza"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="d.ejecutivo"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="d.canal"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="d.diners"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="d.interdin"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="d.discover"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="d.mastercard"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="d.total_general"></td>
+						<template v-if="d.plaza == 'TOTAL AMBATO'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.plaza"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.diners"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.interdin"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.discover"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.mastercard"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.total_general"></td>
+						</template>
+						<template v-else-if="d.plaza == 'TOTAL CUENCA'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.plaza"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.diners"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.interdin"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.discover"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.mastercard"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.total_general"></td>
+						</template>
+						<template v-else-if="d.plaza == 'TOTAL GUAYAQUIL'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.plaza"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.diners"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.interdin"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.discover"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.mastercard"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.total_general"></td>
+						</template>
+						<template v-else-if="d.plaza == 'TOTAL MACHALA'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.plaza"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.diners"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.interdin"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.discover"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.mastercard"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.total_general"></td>
+						</template>
+						<template v-else-if="d.plaza == 'TOTAL MANABI'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.plaza"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.diners"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.interdin"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.discover"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.mastercard"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.total_general"></td>
+						</template>
+						<template v-else-if="d.plaza == 'TOTAL QUITO'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.plaza"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.diners"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.interdin"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.discover"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.mastercard"></td>
+							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.total_general"></td>
 						</template>
 						<template v-else>
-							<td v-html="d.plaza"></td>
+							<template v-if="d.plaza == 'AMBATO'">
+								<td style="background-color: #95fab9;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'CUENCA'">
+								<td style="background-color: #fdfd96;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'GUAYAQUIL'">
+								<td style="background-color: #b2dafa;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'MACHALA'">
+								<td style="background-color: #dfcae1;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'MANABI'">
+								<td style="background-color: #77dd77;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'QUITO'">
+								<td style="background-color: #f9d99a;" v-html="d.plaza"></td>
+							</template>
+							<template v-else>
+								<td style="background-color: #ffffff;" v-html="d.plaza"></td>
+							</template>
 							<td v-html="d.ejecutivo"></td>
 							<td v-html="d.canal"></td>
 							<td style="text-align: center;" v-html="d.diners"></td>
@@ -51,14 +108,12 @@
 					</tbody>
 					<tfoot>
 					<tr>
-						<td style="font-weight: bold;">TOTAL</td>
-						<td></td>
-						<td></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_diners"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_interdin"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_discover"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_mastercard"></td>
-						<td style="font-weight: bold; text-align: center;" v-html="total.total_general"></td>
+						<td colspan="3" style="font-weight: bold; background-color: #ffbfb0; text-align: center;">TOTAL</td>
+						<td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_diners"></td>
+						<td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_interdin"></td>
+						<td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_discover"></td>
+						<td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_mastercard"></td>
+						<td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_general"></td>
 					</tr>
 					</tfoot>
 				</table>
@@ -72,7 +127,8 @@
 				</a>
 				<table class="table border table-striped table-bordered table-sm mb-0">
 					<thead>
-					<tr>
+					<tr style="background-color: #95b8f6;">
+						<th>PLAZA</th>
 						<th>MARCA</th>
 						<th>CUENTAS</th>
 						<th>ACTUALES</th>

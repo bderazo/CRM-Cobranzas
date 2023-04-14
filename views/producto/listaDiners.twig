@@ -26,9 +26,11 @@
 		{% for l in lista %}
 			<tr {% if l.estado == 'asignado_megacob' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_usuario' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
 				<td>
+					{% if l.estado != 'inactivo' %}
 					<a href="{{ root }}/producto/editarDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
 						<i class="fa fa-plus"></i>
 					</a>
+					{% endif %}
 					<a href="{{ root }}/producto/verSeguimientosDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
 						<i class="fa fa-eye"></i>
 					</a>

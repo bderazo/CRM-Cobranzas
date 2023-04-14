@@ -16,6 +16,7 @@ use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\InformeJornada;
 use Reportes\Diners\NegociacionesEjecutivo;
+use Reportes\Diners\ProcesadasLiquidacion;
 use Reportes\Diners\ProduccionPlaza;
 use Reportes\Export\ExcelDatasetExport;
 use Reportes\Extrusion\InventarioPerchaConforme;
@@ -199,6 +200,21 @@ class ReportesController extends BaseController {
 		$data['titulo'] = $titulo;
 		return $this->render('negociacionesEjecutivo', $data);
 	}
+
+    //PROCESADAS PARA LIQUIDACION
+    function procesadasLiquidacion() {
+        \WebSecurity::secure('reportes.procesadas_liquidacion');
+        if ($this->isPost()) {
+            $rep = new ProcesadasLiquidacion($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Procesadas Para Liquidación';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('procesadasLiquidacion', $data);
+    }
 
 	
 	protected function exportSimple($data, $nombre, $archivo) {

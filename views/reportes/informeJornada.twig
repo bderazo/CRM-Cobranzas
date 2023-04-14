@@ -14,7 +14,7 @@
 				<div class="table-responsive">
 					<table class="table border table-striped table-bordered table-sm mb-0">
 						<thead>
-						<tr>
+						<tr style="background-color: #95b8f6;">
 							<th>PLAZA</th>
 							<th>EJECUTIVO</th>
 							<th>CUENTAS</th>
@@ -71,6 +71,44 @@
 							    v-html="total.total_porcentaje_produccion"></td>
 						</tr>
 						</tfoot>
+					</table>
+				</div>
+				<br/><br/>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+							<th>CANAL</th>
+							<th>EMPRESA</th>
+							<th>EJECUTIVOS</th>
+							<th>CAPACIDAD INSTALADA</th>
+							<th>TOTAL CUENTAS GESTIONADAS</th>
+							<th>NEGOCIACIONES</th>
+							<th>% PRODUCCIÓN</th>
+							<th>PORTAFOLIO</th>
+							<th>% PRODUCTIVIDAD</th>
+							<th>CONTACTABILIDAD</th>
+							<th>EFECTIVIDAD</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td style="text-align: center;" v-html="total.canal"></td>
+							<td style="text-align: center;" v-html="total.empresa"></td>
+							<td style="text-align: center;" v-html="total.total_ejecutivos"></td>
+							<td style="text-align: center;" v-html="total.total_asignacion"></td>
+							<td style="text-align: center;" v-html="total.total_cuentas"></td>
+							<td style="text-align: center;" v-html="total.total_negociaciones"></td>
+							<td style="text-align: center;" v-html="total.total_porcentaje_produccion"></td>
+							<td style="text-align: center;">
+								<input type="text" class="form-control" v-model="total.portafolio"
+									   placeholder="PORTAFOLIO" v-autoname/>
+							</td>
+							<td style="text-align: center;" v-html="total.total_porcentaje_productividad"></td>
+							<td style="text-align: center;" v-html="total.total_porcentaje_cantactado"></td>
+							<td style="text-align: center;" v-html="total.total_porcentaje_efectividad"></td>
+						</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>
