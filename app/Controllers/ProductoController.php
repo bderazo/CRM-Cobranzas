@@ -455,6 +455,7 @@ class ProductoController extends BaseController
 		//GUARDAR SEGUIMIENTO
 		$producto = $data['model'];
 		$seguimiento = $data['seguimiento'];
+        $telefono = $data['telefono'];
 		$fecha_compromiso_pago = $data['fecha_compromiso_pago'];
 		$aplicativo_diners = $data['aplicativo_diners'];
 		$institucion = Institucion::porId($producto['institucion_id']);
@@ -563,9 +564,9 @@ class ProductoController extends BaseController
 			$obj_interdin->padre_id = $padre_id;
 			$obj_interdin->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_interdin->fecha_modificacion = date("Y-m-d H:i:s");
-			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
-			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
-			$obj_diners->eliminado = 0;
+            $obj_interdin->usuario_ingreso = \WebSecurity::getUserData('id');
+            $obj_interdin->fecha_ingreso = date("Y-m-d H:i:s");
+            $obj_interdin->eliminado = 0;
 			$obj_interdin->save();
 			\Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
 		}
@@ -581,10 +582,10 @@ class ProductoController extends BaseController
 			$obj_discover->padre_id = $padre_id;
 			$obj_discover->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_discover->fecha_modificacion = date("Y-m-d H:i:s");
-			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
-			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
-			$obj_diners->eliminado = 0;
-			$obj_discover->save();
+            $obj_discover->usuario_ingreso = \WebSecurity::getUserData('id');
+            $obj_discover->fecha_ingreso = date("Y-m-d H:i:s");
+            $obj_discover->eliminado = 0;
+            $obj_discover->save();
 			\Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
 		}
 
@@ -599,12 +600,20 @@ class ProductoController extends BaseController
 			$obj_mastercard->padre_id = $padre_id;
 			$obj_mastercard->usuario_modificacion = \WebSecurity::getUserData('id');
 			$obj_mastercard->fecha_modificacion = date("Y-m-d H:i:s");
-			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
-			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
-			$obj_diners->eliminado = 0;
-			$obj_mastercard->save();
+            $obj_mastercard->usuario_ingreso = \WebSecurity::getUserData('id');
+            $obj_mastercard->fecha_ingreso = date("Y-m-d H:i:s");
+            $obj_mastercard->eliminado = 0;
+            $obj_mastercard->save();
 			\Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
 		}
+
+        //GUARDAR EL TELEFONO QUE MARCO
+        foreach ($telefono as $tel){
+            $t = Telefono::porId($tel['id']);
+            $t->bandera = $tel['bandera'];
+            $t->fecha_modificacion = date("Y-m-d H:i:s");
+            $t->save();
+        }
 
         return $this->json(['OK']);
 //		return $this->redirectToAction('indexDiners');
