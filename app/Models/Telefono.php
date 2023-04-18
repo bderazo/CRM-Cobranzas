@@ -107,4 +107,23 @@ class Telefono extends Model
 		return $lista;
 	}
 
+    static function banderaCero($modulo_relacionado, $modulo_id) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+        $q = $db->from('telefono t')
+            ->select(null)
+            ->select('t.*')
+            ->where('t.eliminado',0)
+            ->where('t.modulo_relacionado',$modulo_relacionado)
+            ->where('t.modulo_id',$modulo_id);
+        $lista = $q->fetchAll();
+        foreach ($lista as $l){
+            $tel = Telefono::porId($l['id']);
+            $tel->bandera = 0;
+            $tel->fecha_modificacion = date("Y-m-d H:i:s");
+            $tel->save();
+        }
+        return true;
+    }
+
 }

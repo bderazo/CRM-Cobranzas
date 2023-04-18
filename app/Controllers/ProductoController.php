@@ -384,6 +384,7 @@ class ProductoController extends BaseController
 			$con->cliente_id = $producto['cliente_id'];
 			$con->producto_id = $producto['id'];
 			$con->paleta_id = $institucion['paleta_id'];
+            $con->telefono_id = $seguimiento['telefono_id'];
 			$con->canal = 'TELEFONIA';
 			$con->usuario_ingreso = \WebSecurity::getUserData('id');
 			$con->eliminado = 0;
@@ -442,6 +443,18 @@ class ProductoController extends BaseController
 		$producto_obj->estado = 'gestionado';
 		$producto_obj->save();
 
+        //VERIFICAR SI ES NUMERO ORO
+        if($con->telefono_id > 0){
+            $pal = PaletaArbol::porId($seguimiento['nivel_4_id']);
+            if ($pal['valor'] == 'CONTACTADO') {
+                $telefono_bancera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
+                $t = Telefono::porId($con->telefono_id);
+                $t->bandera = 1;
+                $t->fecha_modificacion = date("Y-m-d H:i:s");
+                $t->save();
+            }
+        }
+
 		\Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
 
 		return $this->redirectToAction('index');
@@ -467,6 +480,7 @@ class ProductoController extends BaseController
 			$con->cliente_id = $producto['cliente_id'];
 			$con->producto_id = $producto['id'];
 			$con->paleta_id = $institucion['paleta_id'];
+            $con->telefono_id = $seguimiento['telefono_id'];
 			$con->canal = 'TELEFONIA';
 			$con->usuario_ingreso = \WebSecurity::getUserData('id');
 			$con->eliminado = 0;
@@ -607,14 +621,17 @@ class ProductoController extends BaseController
 			\Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
 		}
 
-        //GUARDAR EL TELEFONO QUE MARCO
-        foreach ($telefono as $tel){
-            $t = Telefono::porId($tel['id']);
-            $t->bandera = $tel['bandera'];
-            $t->fecha_modificacion = date("Y-m-d H:i:s");
-            $t->save();
+        //VERIFICAR SI ES NUMERO ORO
+        if($con->telefono_id > 0){
+            $verificar_contacto = [1839,1855,1873];
+            if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE ) {
+                $telefono_bancera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
+                $t = Telefono::porId($con->telefono_id);
+                $t->bandera = 1;
+                $t->fecha_modificacion = date("Y-m-d H:i:s");
+                $t->save();
+            }
         }
-
         return $this->json(['OK']);
 //		return $this->redirectToAction('indexDiners');
 	}
@@ -1827,6 +1844,10 @@ class ViewProductoSeguimiento
 	var $fecha_compromiso_pago;
 	var $valor_comprometido;
 	var $observaciones;
+    var $direccion_id;
+    var $telefono_id;
+    var $lat;
+    var $long;
 	var $fecha_ingreso;
 	var $fecha_modificacion;
 	var $usuario_ingreso;
