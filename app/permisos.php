@@ -96,6 +96,8 @@ return [
 			'negociaciones_ejecutivo' => 'Negociaciones Por Ejecutivo',
 			'procesadas_liquidacion' => 'Procesadas Para Liquidación',
 			'base_carga' => 'Base De Carga',
+            'reporte_horas' => 'Reporte Por Horas',
+            'contactabilidad' => 'Contactabilidad',
 		],
 		'mensaje' => 'Operaciones para Reportes'
 	],

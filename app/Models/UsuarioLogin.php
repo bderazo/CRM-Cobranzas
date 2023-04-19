@@ -75,4 +75,21 @@ class UsuarioLogin extends Model {
 		if (!$lista) return [];
 		return $lista;
 	}
+
+    static function getTodos() {
+        $pdo = UsuarioLogin::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+        $q = $db->from('usuario_login ul')
+            ->select(null)
+            ->select("usuario_id, DATE(login_time) AS fecha, MIN(login_time) AS hora")
+            ->groupBy('usuario_id, DATE(login_time)')
+            ->orderBy('DATE(login_time)');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $l['hora'] = date("H:i:s",strtotime($l['hora']));
+            $retorno[$l['usuario_id']][$l['fecha']] = $l['hora'];
+        }
+        return $retorno;
+    }
 }

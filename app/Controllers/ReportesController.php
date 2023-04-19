@@ -15,10 +15,12 @@ use Reportes\CorteBobinado\ProduccionDiariaCB;
 use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\BaseCarga;
 use Reportes\Diners\CampoTelefonia;
+use Reportes\Diners\Contactabilidad;
 use Reportes\Diners\InformeJornada;
 use Reportes\Diners\NegociacionesEjecutivo;
 use Reportes\Diners\ProcesadasLiquidacion;
 use Reportes\Diners\ProduccionPlaza;
+use Reportes\Diners\ReporteHoras;
 use Reportes\Export\ExcelDatasetExport;
 use Reportes\Extrusion\InventarioPerchaConforme;
 use Reportes\Extrusion\InventarioPerchaInconforme;
@@ -217,7 +219,7 @@ class ReportesController extends BaseController {
         return $this->render('procesadasLiquidacion', $data);
     }
 
-    //PROCESADAS PARA LIQUIDACION
+    //BASE DE CARGA
     function baseCarga() {
         \WebSecurity::secure('reportes.base_carga');
         if ($this->isPost()) {
@@ -230,6 +232,36 @@ class ReportesController extends BaseController {
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('baseCarga', $data);
+    }
+
+    //REPORTE POR HORAS
+    function reporteHoras() {
+        \WebSecurity::secure('reportes.reporte_horas');
+        if ($this->isPost()) {
+            $rep = new ReporteHoras($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Reporte Por Horas';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('reporteHoras', $data);
+    }
+
+    //CONTACTABILIDAD
+    function contactabilidad() {
+        \WebSecurity::secure('reportes.contactabilidad');
+        if ($this->isPost()) {
+            $rep = new Contactabilidad($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Contactabilidad';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('contactabilidad', $data);
     }
 
 	

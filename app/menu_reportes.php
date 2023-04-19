@@ -43,5 +43,19 @@ return [
 			'icon' => 'fa fa-list-alt',
 			'description' => 'Base de carga'
 		],
+        [
+            'label' => 'Reporte Por Horas',
+            'link' => '/reportes/reporteHoras',
+            'roles' => 'reportes.reporte_horas',
+            'icon' => 'fa fa-clock-o',
+            'description' => 'Reporte por horas'
+        ],
+        [
+            'label' => 'Contactabilidad',
+            'link' => '/reportes/contactabilidad',
+            'roles' => 'reportes.contactabilidad',
+            'icon' => 'fa fa-phone',
+            'description' => 'Contactabilidad'
+        ],
     ],
 ];

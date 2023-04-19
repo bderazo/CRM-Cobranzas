@@ -1,0 +1,40 @@
+<div class="card">
+	<div class="card-header">
+		<h4 class="card-title">Filtros de Búsqueda</h4>
+	</div>
+	<div class="card-body">
+		<form id="filtros">
+			<div class="row ">
+				<div class="col-sm-3">
+					<b>Fecha</b> <br>
+					{{ text_field_tag("fecha_inicio", '', {class:'form-control fecha'}) }}
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="card-footer">
+		<button id="btnFiltro" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+		<button id="btnTodos" class="btn btn-success"><i class="fa fa-eye"></i> Ver todos</button>
+		{% include "reportes/loader.twig" %}
+		<script>
+            var appFiltros = new Vue({
+                el: '#filtros',
+                data: {
+                    canal_usuario: {{ canal_usuario|raw }},
+                    plaza_usuario: {{ plaza_usuario|raw }},
+                    horas: {{ horas|raw }},
+                    minutos: {{ minutos|raw }},
+                },
+                methods: {},
+            });
+
+            $(function () {
+                $('.fecha').datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    showButtonPanel: true
+                });
+
+            });
+		</script>
+	</div>
+</div>

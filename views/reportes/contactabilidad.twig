@@ -1,0 +1,141 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosContactabilidad.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+				<a class="btn btn-default-light" id="btnExportarDetalle">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+							<th>MARCA</th>
+                            <th>CICLO</th>
+							<th>CÉDULA</th>
+							<th>NOMBRE SOCIO</th>
+                            <th>HORA DE LLAMADA </th>
+                            <th>AGENTE</th>
+                            <th>RESULTADO DE GESTIÓN</th>
+                            <th>GESTIÓN</th>
+                            <th>CAMPAÑA</th>
+							<th>EMPRESA - CANAL DE GESTION</th>
+							<th>HORA INGRESO</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td v-html="d.nombre_tarjeta"></td>
+                            <td v-html="d.corte"></td>
+                            <td v-html="d.cedula"></td>
+							<td v-html="d.nombres"></td>
+                            <td v-html="d.hora_llamada"></td>
+                            <td v-html="d.gestor"></td>
+							<td v-html="d.nivel_2_texto"></td>
+							<td v-html="d.observaciones"></td>
+                            <td v-html="d.campana"></td>
+                            <td v-html="d.empresa_canal"></td>
+                            <td v-html="d.hora_ingreso"></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	<form id="exportDetalleForm" method="POST" action="{{ root }}/reportes/exportDetalleInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/contactabilidad', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        console.log(res);
+                    })
+                },
+
+                calcular: function () {
+                    var self = this;
+                    var total_asignacion = 0;
+                    $.each(self.datos, function (key, value) {
+                        var porcentaje_productividad = 0.00;
+                        if(parseFloat(value.asignacion) > 0){
+                            porcentaje_productividad = (parseFloat(value.cuentas) / parseFloat(value.asignacion)) * 100;
+                        }
+                        self.datos[key].porcentaje_productividad = porcentaje_productividad.toFixed(2);
+                        total_asignacion = total_asignacion + parseFloat(value.asignacion);
+                    });
+                    self.total.total_asignacion = total_asignacion;
+                    var total_porcentaje_productividad = 0;
+                    if(total_asignacion > 0){
+                        total_porcentaje_productividad = (parseFloat(self.total.total_cuentas) / total_asignacion) * 100;
+                    }
+                    self.total.total_porcentaje_productividad = total_porcentaje_productividad.toFixed(2);
+                    // app.$forceUpdate();
+                },
+
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportForm').submit();
+                });
+
+                $('#btnExportarDetalle').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportDetalleForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        self.consultar();
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}
