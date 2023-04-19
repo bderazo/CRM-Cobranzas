@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 {% block content %}
-	{% include "reportes/filtrosProcesadasLiquidacion.twig" %}
+	{% include "reportes/filtrosBaseCarga.twig" %}
 	<div id="app">
 		<div class="card">
 			<div class="card-header">
@@ -15,38 +15,76 @@
 					<table class="table border table-striped table-bordered table-sm mb-0">
 						<thead>
 						<tr style="background-color: #95b8f6;">
-							<th>FECHA ASIGNAC</th>
-							<th>CUENTA</th>
-							<th>CICLO</th>
-							<th>NOMBRE SOCIO</th>
-							<th>CEDULA</th>
-							<th>EDAD</th>
 							<th>MARCA</th>
-							<th>ECE</th>
-							<th>INICIO</th>
-							<th>FIN</th>
-							<th>FECHA DE ENVIO</th>
-							<th>NEGOCIACION EN ASIGNACION</th>
+							<th>CICLOF</th>
+							<th>NOMSOC</th>
+							<th>CEDSOC</th>
+							<th>VAPAMI</th>
+							<th>TRIESGO_ORIG</th>
+							<th>EDAD</th>
+							<th>PRODUCTO</th>
+							<th>DIRECCION</th>
+							<th>P1</th>
+							<th>T1</th>
+							<th>P2</th>
+							<th>T2</th>
+							<th>P3</th>
+							<th>T3</th>
+							<th>NOMBRE_CIUDAD</th>
 							<th>ZONA</th>
-							<th>CAMPAÑA</th>
+							<th>MOTIVO ANTERIOR</th>
+							<th>RESULTADO ANTERIOR</th>
+							<th>OBSERVACION ANTERIOR</th>
+							<th>RESULTADO </th>
+							<th>DESCRIPCION</th>
+							<th>OBSERVACION</th>
+							<th>FECHACOMPROMISO</th>
+							<th>ULTIMO TLF CONTACTO </th>
+							<th>TIPOLLAMADA</th>
+							<th>MOTIVO</th>
+							<th>SUB MOTIVO NO PAGO</th>
+							<th>GESTOR</th>
+							<th>EMPRESA</th>
+							<th>CAMPAÑA_CON_ECE</th>
+							<th>HORA DE CONTACTO </th>
+							<th>GEOREFERENCIACION</th>
 						</tr>
 						</thead>
 						<tbody>
 						<tr v-for="d in datos">
-							<td v-html="d.fecha_asignacion"></td>
-							<td v-html="d.cuenta"></td>
+							<td v-html="d.nombre_tarjeta"></td>
 							<td v-html="d.corte"></td>
 							<td v-html="d.nombres"></td>
 							<td v-html="d.cedula"></td>
+							<td v-html="d.minimo_pagar"></td>
+							<td v-html="d.total_riesgo"></td>
 							<td v-html="d.edad_cartera"></td>
-							<td v-html="d.nombre_tarjeta"></td>
-							<td v-html="d.campana_ece"></td>
-							<td v-html="d.inicio"></td>
-							<td v-html="d.fin"></td>
-							<td v-html="d.fecha_envio"></td>
-							<td v-html="d.negociacion_asignacion"></td>
+							<td v-html="d.producto_asignacion"></td>
+							<td v-html="d.direccion_cliente"></td>
+							<td v-html="d.p1"></td>
+							<td v-html="d.t1"></td>
+							<td v-html="d.p2"></td>
+							<td v-html="d.t2"></td>
+							<td v-html="d.p3"></td>
+							<td v-html="d.t3"></td>
+							<td v-html="d.ciudad_cuenta"></td>
 							<td v-html="d.zona_cuenta"></td>
-							<td v-html="d.campana"></td>
+							<td v-html="d.motivo_no_pago_anterior"></td>
+							<td></td>
+							<td v-html="d.observacion_anterior"></td>
+							<td v-html="d.nivel_1_texto"></td>
+							<td v-html="d.nivel_3_texto"></td>
+							<td v-html="d.observaciones"></td>
+							<td v-html="d.fecha_compromiso_pago"></td>
+							<td v-html="d.ultimo_telefono_contacto"></td>
+							<td v-html="d.area_usuario"></td>
+							<td v-html="d.nivel_1_motivo_no_pago_texto"></td>
+							<td v-html="d.nivel_2_motivo_no_pago_texto"></td>
+							<td v-html="d.gestor"></td>
+							<td v-html="d.empresa"></td>
+							<td v-html="d.campana_ece"></td>
+							<td v-html="d.hora_contacto"></td>
+							<td v-html="d.georeferenciacion"></td>
 						</tr>
 						</tbody>
 					</table>
@@ -83,7 +121,7 @@
                     var self = this;
                     var data = form.serializeArray();
                     toggleLoader();
-                    $.post('{{ root }}/reportes/procesadasLiquidacion', data, function (res) {
+                    $.post('{{ root }}/reportes/baseCarga', data, function (res) {
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];

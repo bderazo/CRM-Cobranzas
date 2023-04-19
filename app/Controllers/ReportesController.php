@@ -13,6 +13,7 @@ use Reportes\CorteBobinado\ConsumoRollosMadre;
 use Reportes\CorteBobinado\InventarioProductoTerminado;
 use Reportes\CorteBobinado\ProduccionDiariaCB;
 use Reportes\Desperdicio\BodegaDesperdicio;
+use Reportes\Diners\BaseCarga;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\InformeJornada;
 use Reportes\Diners\NegociacionesEjecutivo;
@@ -214,6 +215,21 @@ class ReportesController extends BaseController {
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('procesadasLiquidacion', $data);
+    }
+
+    //PROCESADAS PARA LIQUIDACION
+    function baseCarga() {
+        \WebSecurity::secure('reportes.base_carga');
+        if ($this->isPost()) {
+            $rep = new BaseCarga($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Base De Carga';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('baseCarga', $data);
     }
 
 	
