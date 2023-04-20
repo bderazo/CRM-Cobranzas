@@ -307,6 +307,24 @@ class Usuario extends Model {
 		return $retorno;
 	}
 
+    static function getTodosTelefonia() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('usuario u')
+            ->select(null)
+            ->select('u.*')
+            ->where('u.activo',1)
+            ->where('u.canal','TELEFONIA')
+            ->orderBy('u.apellidos');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['id']] = $l;
+        }
+        return $retorno;
+    }
+
 	static function getTodosArray() {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

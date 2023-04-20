@@ -98,6 +98,9 @@ return [
 			'base_carga' => 'Base De Carga',
             'reporte_horas' => 'Reporte Por Horas',
             'contactabilidad' => 'Contactabilidad',
+            'llamadas_contactadas' => 'Llamadas Contactadas',
+            'general' => 'General',
+            'gestiones_por_hora' => 'Gestiuones por hora',
 		],
 		'mensaje' => 'Operaciones para Reportes'
 	],

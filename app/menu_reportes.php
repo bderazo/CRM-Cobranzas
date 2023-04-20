@@ -58,4 +58,27 @@ return [
             'description' => 'Contactabilidad'
         ],
     ],
+    'cada_horas' => [
+        [
+            'label' => 'Llamadas Contactadas',
+            'link' => '/reportes/llamadasContactadas',
+            'roles' => 'reportes.llamadas_contactadas',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'Llamadas contactadas'
+        ],
+        [
+            'label' => 'General',
+            'link' => '/reportes/general',
+            'roles' => 'reportes.general',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'General'
+        ],
+        [
+            'label' => 'Gestiones Por Hora',
+            'link' => '/reportes/gestionesPorHora',
+            'roles' => 'reportes.gestiones_por_hora',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'Gestiones Por Hora'
+        ],
+    ],
 ];

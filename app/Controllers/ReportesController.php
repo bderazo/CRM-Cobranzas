@@ -16,7 +16,10 @@ use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\BaseCarga;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
+use Reportes\Diners\General;
+use Reportes\Diners\GestionesPorHora;
 use Reportes\Diners\InformeJornada;
+use Reportes\Diners\LlamadasContactadas;
 use Reportes\Diners\NegociacionesEjecutivo;
 use Reportes\Diners\ProcesadasLiquidacion;
 use Reportes\Diners\ProduccionPlaza;
@@ -262,6 +265,51 @@ class ReportesController extends BaseController {
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('contactabilidad', $data);
+    }
+
+    //LLAMADAS CONTACTADAS
+    function llamadasContactadas() {
+        \WebSecurity::secure('reportes.llamadas_contactadas');
+        if ($this->isPost()) {
+            $rep = new LlamadasContactadas($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Llamadas Contactadas';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('llamadasContactadas', $data);
+    }
+
+    //GENERAL
+    function general() {
+        \WebSecurity::secure('reportes.general');
+        if ($this->isPost()) {
+            $rep = new General($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'General';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('general', $data);
+    }
+
+    //GESTIONES POR HORA
+    function gestionesPorHora() {
+        \WebSecurity::secure('reportes.gestiones_por_hora');
+        if ($this->isPost()) {
+            $rep = new GestionesPorHora($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Gestiones Por Hora';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('gestionesPorHora', $data);
     }
 
 	
