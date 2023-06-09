@@ -67,6 +67,12 @@
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">Direcciones</label>
                         <div class="col-md-10">
+                            <table>
+                                <tr>
+                                    <td style="background-color: #CCFFCC; width: 20px; color: white; border: 1px solid white;"></td>
+                                    <td style="border: 1px solid white;">Dirección ORO</td>
+                                </tr>
+                            </table>
                             <table class="table border table-bordered table-sm mb-0">
                                 <thead>
                                 <tr>
@@ -413,6 +419,16 @@
                                             <table>
                                                 <tbody>
                                                 <tr>
+                                                    <td style="width: 60%;"><strong>REFINANCIA</strong>
+                                                    </td>
+                                                    <td style="width: 40%;">
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.refinancia" v-autoname>
+                                                            <option value="SI">SI</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td style="width: 10%;"><strong>CICLO</strong></td>
                                                     <td style="width: 90%; text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_diners.ciclo"></span>
@@ -491,9 +507,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
-                                                    <td colspan="3"><span
-                                                                v-html="aplicativo_diners_tarjeta_diners.descripcion_gestion"></span>
-                                                    </td>
+                                                    <td colspan="3"><span v-html="aplicativo_diners_tarjeta_diners.descripcion_gestion"></span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
@@ -878,20 +892,18 @@
                                                         <span v-html="aplicativo_diners_tarjeta_diners.valor_financiar"></span>
                                                     </td>
                                                 </tr>
-                                                {% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'DINERS' %}
-                                                    <tr style="background-color: #0066A8; color: white;">
-                                                        <td><strong>UNIFICAR DEUDAS</strong></td>
-                                                        <td>
-                                                            <select class="form-control form-control-sm form-select select2"
-                                                                    v-on:change="calcularValoresDiners"
-                                                                    v-model="aplicativo_diners_tarjeta_diners.unificar_deudas"
-                                                                    placeholder="Seleccione una opción" v-autoname>
-                                                                <option value="NO">NO</option>
-                                                                <option value="SI">SI</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
+                                                <tr style="background-color: #0066A8; color: white;">
+                                                    <td><strong>UNIFICAR DEUDAS</strong></td>
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-select select2"
+                                                                v-on:change="calcularValoresDiners"
+                                                                v-model="aplicativo_diners_tarjeta_diners.unificar_deudas"
+                                                                placeholder="Seleccione una opción" v-autoname>
+                                                            <option value="NO">NO</option>
+                                                            <option value="SI">SI</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr style="background-color: #0066A8; color: white;">
                                                     <td><strong>TOTAL INTERESES</strong></td>
                                                     <td>
@@ -918,6 +930,16 @@
                                         <td style="vertical-align: top;">
                                             <table>
                                                 <tbody>
+                                                <tr>
+                                                    <td style="width: 60%;"><strong>REFINANCIA</strong>
+                                                    </td>
+                                                    <td style="width: 40%;">
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.refinancia" v-autoname>
+                                                            <option value="SI">SI</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td style="width: 10%;"><strong>CICLO</strong></td>
                                                     <td style="width: 90%; text-align: center;"><span
@@ -1152,7 +1174,13 @@
                                                 <tr>
                                                     <td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
                                                     <td>
-                                                        <span v-html="aplicativo_diners_tarjeta_interdin.total_calculo_precancelacion_diferidos"></span><br/>
+                                                        total_precancelacion_diferidos: <span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos"></span><br/>
+                                                        calculo_gastos_cobranza: <span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.calculo_gastos_cobranza"></span><br/>
+                                                        total_calculo_precancelacion_diferidos: <span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.total_calculo_precancelacion_diferidos"></span><br/>
+{#                                                        <span v-html="aplicativo_diners_tarjeta_interdin.total_calculo_precancelacion_diferidos"></span><br/>#}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1374,20 +1402,18 @@
                                                         <span v-html="aplicativo_diners_tarjeta_interdin.valor_financiar"></span>
                                                     </td>
                                                 </tr>
-                                                {% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'INTERDIN' %}
-                                                    <tr style="background-color: #404040; color: white;">
-                                                        <td><strong>UNIFICAR DEUDAS</strong></td>
-                                                        <td>
-                                                            <select class="form-control form-control-sm form-select select2"
-                                                                    v-on:change="calcularValoresInterdin"
-                                                                    v-model="aplicativo_diners_tarjeta_interdin.unificar_deudas"
-                                                                    placeholder="Seleccione una opción" v-autoname>
-                                                                <option value="NO">NO</option>
-                                                                <option value="SI">SI</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
+                                                <tr style="background-color: #404040; color: white;">
+                                                    <td><strong>UNIFICAR DEUDAS</strong></td>
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-select select2"
+                                                                v-on:change="calcularValoresInterdin"
+                                                                v-model="aplicativo_diners_tarjeta_interdin.unificar_deudas"
+                                                                placeholder="Seleccione una opción" v-autoname>
+                                                            <option value="NO">NO</option>
+                                                            <option value="SI">SI</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr style="background-color: #404040; color: white;">
                                                     <td><strong>TOTAL INTERESES</strong></td>
                                                     <td>
@@ -1414,6 +1440,16 @@
                                         <td style="vertical-align: top;">
                                             <table>
                                                 <tbody>
+                                                <tr>
+                                                    <td style="width: 60%;"><strong>REFINANCIA</strong>
+                                                    </td>
+                                                    <td style="width: 40%;">
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.refinancia" v-autoname>
+                                                            <option value="SI">SI</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td style="width: 10%;"><strong>CICLO</strong></td>
                                                     <td style="width: 90%; text-align: center;"><span
@@ -1654,6 +1690,7 @@
                                                                 v-html="aplicativo_diners_tarjeta_discover.calculo_gastos_cobranza"></span><br/>
                                                         total_calculo_precancelacion_diferidos: <span
                                                                 v-html="aplicativo_diners_tarjeta_discover.total_calculo_precancelacion_diferidos"></span><br/>
+{#                                                        <span v-html="aplicativo_diners_tarjeta_discover.total_calculo_precancelacion_diferidos"></span>#}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1875,20 +1912,18 @@
                                                         <span v-html="aplicativo_diners_tarjeta_discover.valor_financiar"></span>
                                                     </td>
                                                 </tr>
-                                                {% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'DISCOVER' %}
-                                                    <tr style="background-color: #E66929; color: white;">
-                                                        <td><strong>UNIFICAR DEUDAS</strong></td>
-                                                        <td>
-                                                            <select class="form-control form-control-sm form-select select2"
-                                                                    v-on:change="calcularValoresDiscover"
-                                                                    v-model="aplicativo_diners_tarjeta_discover.unificar_deudas"
-                                                                    placeholder="Seleccione una opción" v-autoname>
-                                                                <option value="NO">NO</option>
-                                                                <option value="SI">SI</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
+                                                <tr style="background-color: #E66929; color: white;">
+                                                    <td><strong>UNIFICAR DEUDAS</strong></td>
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-select select2"
+                                                                v-on:change="calcularValoresDiscover"
+                                                                v-model="aplicativo_diners_tarjeta_discover.unificar_deudas"
+                                                                placeholder="Seleccione una opción" v-autoname>
+                                                            <option value="NO">NO</option>
+                                                            <option value="SI">SI</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr style="background-color: #E66929; color: white;">
                                                     <td><strong>TOTAL INTERESES</strong></td>
                                                     <td>
@@ -1915,6 +1950,16 @@
                                         <td style="vertical-align: top;">
                                             <table>
                                                 <tbody>
+                                                <tr>
+                                                    <td style="width: 60%;"><strong>REFINANCIA</strong>
+                                                    </td>
+                                                    <td style="width: 40%;">
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_mastercard.refinancia" v-autoname>
+                                                            <option value="SI">SI</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td style="width: 10%;"><strong>CICLO</strong></td>
                                                     <td style="width: 90%; text-align: center;"><span
@@ -2371,20 +2416,17 @@
                                                         <span v-html="aplicativo_diners_tarjeta_mastercard.valor_financiar"></span>
                                                     </td>
                                                 </tr>
-                                                {% if aplicativo_diners_detalle_mayor_deuda.nombre_tarjeta == 'MASTERCARD' %}
-                                                    <tr style="background-color: #A4B706; color: white;">
-                                                        <td><strong>UNIFICAR DEUDAS</strong></td>
-                                                        <td>
-                                                            <select class="form-control form-control-sm form-select select2"
-                                                                    v-on:change="calcularValoresMastercard"
-                                                                    v-model="aplicativo_diners_tarjeta_mastercard.unificar_deudas"
-                                                                    placeholder="Seleccione una opción" v-autoname>
-                                                                <option value="NO">NO</option>
-                                                                <option value="SI">SI</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
+                                                <tr style="background-color: #A4B706; color: white;">
+                                                    <td><strong>UNIFICAR DEUDAS</strong></td>
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-select select2"
+                                                                v-on:change="calcularValoresMastercard"
+                                                                v-model="aplicativo_diners_tarjeta_mastercard.unificar_deudas"
+                                                                placeholder="Seleccione una opción" v-autoname>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr style="background-color: #A4B706; color: white;">
                                                     <td><strong>TOTAL INTERESES</strong></td>
                                                     <td>
@@ -2559,10 +2601,8 @@
                         data: self.aplicativo_diners_tarjeta_diners,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                     };
-                    // self.aplicativo_diners_tarjeta_diners = [];
                     $.post('{{ root }}/producto/calcularTarjetaDiners', data, function (res) {
                         self.aplicativo_diners_tarjeta_diners = res;
-                        // console.log(self.aplicativo_diners_tarjeta_diners);
                         //ALERTAS
                         if (parseFloat(self.aplicativo_diners_tarjeta_diners.abono_total) < parseFloat(self.aplicativo_diners_tarjeta_diners.interes_facturado)) {
                             $("#alerta_abono_diners").show();
@@ -2570,6 +2610,14 @@
                             $("#alerta_abono_diners").hide();
                         }
                     });
+                    if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI') {
+                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                        self.calcularValoresInterdin();
+                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                        self.calcularValoresDiscover();
+                        self.aplicativo_diners_tarjeta_mastercard.unificar_deudas = 'NO';
+                        self.calcularValoresMastercard();
+                    }
                 },
 
                 calcularValoresInterdin: function () {
@@ -2589,6 +2637,14 @@
                             $("#alerta_abono_interdin").hide();
                         }
                     });
+                    if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI') {
+                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                        self.calcularValoresDiners();
+                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                        self.calcularValoresDiscover();
+                        self.aplicativo_diners_tarjeta_mastercard.unificar_deudas = 'NO';
+                        self.calcularValoresMastercard();
+                    }
                 },
 
                 calcularValoresDiscover: function () {
@@ -2608,6 +2664,14 @@
                             $("#alerta_abono_discover").hide();
                         }
                     });
+                    if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI') {
+                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                        self.calcularValoresDiners();
+                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                        self.calcularValoresInterdin();
+                        self.aplicativo_diners_tarjeta_mastercard.unificar_deudas = 'NO';
+                        self.calcularValoresMastercard();
+                    }
                 },
 
                 calcularValoresMastercard: function () {
@@ -2627,6 +2691,14 @@
                             $("#alerta_abono_mastercard").hide();
                         }
                     });
+                    if(self.aplicativo_diners_tarjeta_mastercard.unificar_deudas == 'SI') {
+                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                        self.calcularValoresDiners();
+                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                        self.calcularValoresInterdin();
+                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                        self.calcularValoresDiscover();
+                    }
                 },
             },
             mounted: function () {

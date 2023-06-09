@@ -1,0 +1,129 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosNegociacionesManual.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+				<a class="btn btn-default-light" id="btnExportarDetalle">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th>#</th>
+                            <th>MARCA DONDE SE PROCESA</th>
+                            <th>CEDULA</th>
+                            <th>COD. NEGOCIADOR</th>
+                            <th>SUBAREA</th>
+                            <th>TIPO NEGOCIACIÓN</th>
+                            <th>PLAZO</th>
+                            <th>MESES DE GRACIA</th>
+                            <th>OBSERVACION NEGOCIACION ERE</th>
+                            <th>ABONO AL CORTE DINERS</th>
+                            <th>ABONO AL CORTE VISA</th>
+                            <th>ABONO AL CORTE DISCOVER</th>
+                            <th>ABONO AL CORTE MASTECARD</th>
+                            <th># MOT DE NO PAGO</th>
+                            <th>SOCIO CON ACTIVIDAD ACTUAL</th>
+                            <th>GESTION</th>
+                            <th>CONSOLIDACION DEUDA</th>
+                            <th>TRASLADO DE VALORES DINERS</th>
+                            <th>TRASLADO DE VALORES VISA</th>
+                            <th>TRASLADO DE VALORES DISCOVER</th>
+                            <th>TRASLADO DE VALORES MASTERCARD</th>
+                            <th>INGRESOS</th>
+                            <th>GASTOS</th>
+                            <th>DOCUMENTOS SOPORTES</th>
+                        </tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td style="text-align: left;" v-html="d.gestor"></td>
+                            <td style="text-align: center;" v-html="d.hora_7"></td>
+                            <td style="text-align: center;" v-html="d.hora_8"></td>
+                            <td style="text-align: center;" v-html="d.hora_9"></td>
+                            <td style="text-align: center;" v-html="d.hora_10"></td>
+                            <td style="text-align: center;" v-html="d.hora_11"></td>
+                            <td style="text-align: center;" v-html="d.hora_12"></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	<form id="exportDetalleForm" method="POST" action="{{ root }}/reportes/exportDetalleInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/negociacionesManual', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        console.log(res);
+                    })
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportForm').submit();
+                });
+
+                $('#btnExportarDetalle').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportDetalleForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        self.consultar();
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}

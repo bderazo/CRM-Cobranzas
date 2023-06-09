@@ -18,11 +18,19 @@ use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
 use Reportes\Diners\General;
 use Reportes\Diners\GestionesPorHora;
+use Reportes\Diners\Individual;
 use Reportes\Diners\InformeJornada;
 use Reportes\Diners\LlamadasContactadas;
+use Reportes\Diners\NegociacionesAutomatica;
 use Reportes\Diners\NegociacionesEjecutivo;
+use Reportes\Diners\NegociacionesManual;
 use Reportes\Diners\ProcesadasLiquidacion;
 use Reportes\Diners\ProduccionPlaza;
+use Reportes\Diners\ProductividadDatos;
+use Reportes\Diners\ProductividadResultados;
+use Reportes\Diners\RecuperacionActual;
+use Reportes\Diners\RecuperacionMora;
+use Reportes\Diners\RecuperacionTotal;
 use Reportes\Diners\ReporteHoras;
 use Reportes\Export\ExcelDatasetExport;
 use Reportes\Extrusion\InventarioPerchaConforme;
@@ -310,6 +318,126 @@ class ReportesController extends BaseController {
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('gestionesPorHora', $data);
+    }
+
+    //INDIVIDUAL
+    function individual() {
+        \WebSecurity::secure('reportes.individual');
+        if ($this->isPost()) {
+            $rep = new Individual($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Individual';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('individual', $data);
+    }
+
+    //NEGOCIACIONES MANUAL
+    function negociacionesManual() {
+        \WebSecurity::secure('reportes.negociaciones_manual');
+        if ($this->isPost()) {
+            $rep = new NegociacionesManual($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Negociaciones Manuales';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('negociacionesManual', $data);
+    }
+
+    //NEGOCIACIONES AUTOMÁTICAS
+    function negociacionesAutomatica() {
+        \WebSecurity::secure('reportes.negociaciones_automatica');
+        if ($this->isPost()) {
+            $rep = new NegociacionesAutomatica($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Negociaciones Automáticas';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('negociacionesAutomatica', $data);
+    }
+
+    //PRODUCTIVIDAD DATOS
+    function productividadDatos() {
+        \WebSecurity::secure('reportes.productividad_datos');
+        if ($this->isPost()) {
+            $rep = new ProductividadDatos($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Datos de Productividad';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('productividadDatos', $data);
+    }
+
+    //PRODUCTIVIDAD RESULTADOS
+    function productividadResultados() {
+        \WebSecurity::secure('reportes.productividad_resultados');
+        if ($this->isPost()) {
+            $rep = new ProductividadResultados($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Resultados de Productividad';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('productividadResultados', $data);
+    }
+
+    //RECUPERACION TOTAL
+    function recuperacionTotal() {
+        \WebSecurity::secure('reportes.recuperacion_total');
+        if ($this->isPost()) {
+            $rep = new RecuperacionTotal($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Recuperación Total';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('recuperacionTotal', $data);
+    }
+
+    //RECUPERACION ACTUAL
+    function recuperacionActual() {
+        \WebSecurity::secure('reportes.recuperacion_actual');
+        if ($this->isPost()) {
+            $rep = new RecuperacionActual($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Recuperación Actual';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('recuperacionActual', $data);
+    }
+
+    //RECUPERACION MORA
+    function recuperacionMora() {
+        \WebSecurity::secure('reportes.recuperacion_mora');
+        if ($this->isPost()) {
+            $rep = new RecuperacionMora($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Recuperación Mora';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('recuperacionMora', $data);
     }
 
 	

@@ -1,0 +1,319 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosRecuperacionTotal.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+                <h2>CICLO: </h2>
+				<div class="table-responsive">
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th style="width: 25%; text-align: center;">DIAS LABORABLES POR CERRAR</th>
+                            <th style="color: orange; width: 25%; text-align: center;">TOTAL</th>
+                            <th style="color: cornflowerblue; width: 25%; text-align: center;">ACTUAL</th>
+                            <th style="color: darkgrey; width: 25%; text-align: center;">MORA</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style="text-align: center;">5</td>
+                            <td style="text-align: center;">120,578</td>
+                            <td style="text-align: center;">32,759</td>
+                            <td style="text-align: center;">98,426</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th></th>
+                            <th>CUENTAS</th>
+                            <th>TOTAL PENDIENTE</th>
+                            <th>VALOR FACTURADO</th>
+                            <th>PENDIENTE MORA</th>
+                            <th>PAGO REAL</th>
+                        </tr>
+						</thead>
+						<tbody>
+						<tr>
+                            <td>AUN NO CONTACTADO MAÑANA</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>AUN NO CONTACTADO NOCHE</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>AUN NO CONTACTADO TARDE</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>CONTACTO SIN ARREGLO MEDIATO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>FALLECIDO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>PAGADA</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>MENSAJE A TERCERO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>NOTIFICADO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>OFRECIMIENTO AL CORTE</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>OFRECIMIENTO INCUMPLIDO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>REFINANCIA</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>SIN ARREGLO CLIENTE</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>SIN ARREGLO TERCERO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>SIN GESTION</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+						</tbody>
+                        <tfoot>
+                        <tr>
+                            <td style="font-weight: bold; background-color: #ffbfb0; text-align: center;">TOTAL</td>
+                            <td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_diners"></td>
+                            <td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_interdin"></td>
+                            <td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_discover"></td>
+                            <td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_mastercard"></td>
+                            <td style="font-weight: bold; background-color: #ffbfb0; text-align: center;" v-html="total.total_general"></td>
+                        </tr>
+                        </tfoot>
+					</table>
+                    <br/>
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <tbody>
+                        <tr>
+                            <td style="font-weight: bold;">META</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; color: greenyellow;">RECUPERADO</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; color: orangered;">POR RECUPERAR</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">DINERO POR RECUPERAR</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">% INCREMENTO DEL DIA</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">COMPARATIVO MES ANTERIOR</td>
+                            <td>pendiente</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    <h2>PROYECCIÓN</h2>
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <tbody>
+                        <tr>
+                            <td>$ PROYECTADOS</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>% PROYECTADO</td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    <h2>RECUPERACIÓN DEL DÍA</h2>
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th>DÍA</th>
+                            <th>VALOR</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Viernes, 19 de mayo de 2023</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Lunes, 22 de mayo de 2023</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Martes, 23 de mayo de 2023</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Miércoles, 24 de mayo de 2023</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Jueves, 25 de mayo de 2023</td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+				</div>
+                <br/>
+
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	<form id="exportDetalleForm" method="POST" action="{{ root }}/reportes/exportDetalleInventarioPerchaConforme">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/recuperacionTotal', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        console.log(res);
+                    })
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportForm').submit();
+                });
+
+                $('#btnExportarDetalle').click(function () {
+                    // var data = {
+                    //     filtros: form.serializeForm()
+                    // };
+                    // $('#json').val(JSON.stringify(data));
+                    // $('#exportDetalleForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        self.consultar();
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}

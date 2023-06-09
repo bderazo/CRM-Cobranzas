@@ -249,6 +249,8 @@ class ProductoController extends BaseController
 				$aplicativo_diners_tarjeta_diners['abono_negociador'] = 0;
 			}
 
+            $aplicativo_diners_tarjeta_diners['refinancia'] = 'SI';
+
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_diners['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
 				for($i = $cuotas_pendientes; $i <= 72; $i++) {
@@ -273,6 +275,8 @@ class ProductoController extends BaseController
 			} else {
 				$aplicativo_diners_tarjeta_discover['abono_negociador'] = 0;
 			}
+
+            $aplicativo_diners_tarjeta_discover['refinancia'] = 'SI';
 
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_discover['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
@@ -299,6 +303,8 @@ class ProductoController extends BaseController
 				$aplicativo_diners_tarjeta_interdin['abono_negociador'] = 0;
 			}
 
+            $aplicativo_diners_tarjeta_interdin['refinancia'] = 'SI';
+
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_interdin['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
 				for($i = $cuotas_pendientes; $i <= 72; $i++) {
@@ -323,6 +329,8 @@ class ProductoController extends BaseController
 			} else {
 				$aplicativo_diners_tarjeta_mastercard['abono_negociador'] = 0;
 			}
+
+            $aplicativo_diners_tarjeta_mastercard['refinancia'] = 'SI';
 
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_mastercard['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
@@ -550,75 +558,83 @@ class ProductoController extends BaseController
 		$aplicativo_diners_tarjeta_mastercard = isset($data['aplicativo_diners_tarjeta_mastercard']) ? $data['aplicativo_diners_tarjeta_mastercard'] : [];
 
 		if(count($aplicativo_diners_tarjeta_diners) > 0) {
-//			$obj_diners = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_diners['id']);
-			$padre_id = $aplicativo_diners_tarjeta_diners['id'];
-			unset($aplicativo_diners_tarjeta_diners['id']);
-			$obj_diners = new AplicativoDinersDetalle();
-			$obj_diners->fill($aplicativo_diners_tarjeta_diners);
-			$obj_diners->producto_seguimiento_id = $con->id;
-			$obj_diners->tipo = 'gestionado';
-			$obj_diners->padre_id = $padre_id;
-			$obj_diners->usuario_modificacion = \WebSecurity::getUserData('id');
-			$obj_diners->fecha_modificacion = date("Y-m-d H:i:s");
-			$obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
-			$obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
-			$obj_diners->eliminado = 0;
-			$obj_diners->save();
-			\Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
+            if($aplicativo_diners_tarjeta_diners['refinancia'] == 'SI') {
+                $padre_id = $aplicativo_diners_tarjeta_diners['id'];
+                unset($aplicativo_diners_tarjeta_diners['id']);
+                unset($aplicativo_diners_tarjeta_diners['refinancia']);
+                $obj_diners = new AplicativoDinersDetalle();
+                $obj_diners->fill($aplicativo_diners_tarjeta_diners);
+                $obj_diners->producto_seguimiento_id = $con->id;
+                $obj_diners->tipo = 'gestionado';
+                $obj_diners->padre_id = $padre_id;
+                $obj_diners->usuario_modificacion = \WebSecurity::getUserData('id');
+                $obj_diners->fecha_modificacion = date("Y-m-d H:i:s");
+                $obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
+                $obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
+                $obj_diners->eliminado = 0;
+                $obj_diners->save();
+                \Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
+            }
 		}
 
 		if(count($aplicativo_diners_tarjeta_interdin) > 0) {
-//			$obj_interdin = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_interdin['id']);
-			$padre_id = $aplicativo_diners_tarjeta_interdin['id'];
-			unset($aplicativo_diners_tarjeta_interdin['id']);
-			$obj_interdin = new AplicativoDinersDetalle();
-			$obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
-			$obj_interdin->producto_seguimiento_id = $con->id;
-			$obj_interdin->tipo = 'gestionado';
-			$obj_interdin->padre_id = $padre_id;
-			$obj_interdin->usuario_modificacion = \WebSecurity::getUserData('id');
-			$obj_interdin->fecha_modificacion = date("Y-m-d H:i:s");
-            $obj_interdin->usuario_ingreso = \WebSecurity::getUserData('id');
-            $obj_interdin->fecha_ingreso = date("Y-m-d H:i:s");
-            $obj_interdin->eliminado = 0;
-			$obj_interdin->save();
-			\Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
+            if($aplicativo_diners_tarjeta_interdin['refinancia'] == 'SI') {
+                $padre_id = $aplicativo_diners_tarjeta_interdin['id'];
+                unset($aplicativo_diners_tarjeta_interdin['id']);
+                unset($aplicativo_diners_tarjeta_interdin['refinancia']);
+                $obj_interdin = new AplicativoDinersDetalle();
+                $obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
+                $obj_interdin->producto_seguimiento_id = $con->id;
+                $obj_interdin->tipo = 'gestionado';
+                $obj_interdin->padre_id = $padre_id;
+                $obj_interdin->usuario_modificacion = \WebSecurity::getUserData('id');
+                $obj_interdin->fecha_modificacion = date("Y-m-d H:i:s");
+                $obj_interdin->usuario_ingreso = \WebSecurity::getUserData('id');
+                $obj_interdin->fecha_ingreso = date("Y-m-d H:i:s");
+                $obj_interdin->eliminado = 0;
+                $obj_interdin->save();
+                \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
+            }
 		}
 
 		if(count($aplicativo_diners_tarjeta_discover) > 0) {
-//			$obj_discover = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_discover['id']);
-			$padre_id = $aplicativo_diners_tarjeta_discover['id'];
-			unset($aplicativo_diners_tarjeta_discover['id']);
-			$obj_discover = new AplicativoDinersDetalle();
-			$obj_discover->fill($aplicativo_diners_tarjeta_discover);
-			$obj_discover->producto_seguimiento_id = $con->id;
-			$obj_discover->tipo = 'gestionado';
-			$obj_discover->padre_id = $padre_id;
-			$obj_discover->usuario_modificacion = \WebSecurity::getUserData('id');
-			$obj_discover->fecha_modificacion = date("Y-m-d H:i:s");
-            $obj_discover->usuario_ingreso = \WebSecurity::getUserData('id');
-            $obj_discover->fecha_ingreso = date("Y-m-d H:i:s");
-            $obj_discover->eliminado = 0;
-            $obj_discover->save();
-			\Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
+            if($aplicativo_diners_tarjeta_discover['refinancia'] == 'SI') {
+                $padre_id = $aplicativo_diners_tarjeta_discover['id'];
+                unset($aplicativo_diners_tarjeta_discover['id']);
+                unset($aplicativo_diners_tarjeta_discover['refinancia']);
+                $obj_discover = new AplicativoDinersDetalle();
+                $obj_discover->fill($aplicativo_diners_tarjeta_discover);
+                $obj_discover->producto_seguimiento_id = $con->id;
+                $obj_discover->tipo = 'gestionado';
+                $obj_discover->padre_id = $padre_id;
+                $obj_discover->usuario_modificacion = \WebSecurity::getUserData('id');
+                $obj_discover->fecha_modificacion = date("Y-m-d H:i:s");
+                $obj_discover->usuario_ingreso = \WebSecurity::getUserData('id');
+                $obj_discover->fecha_ingreso = date("Y-m-d H:i:s");
+                $obj_discover->eliminado = 0;
+                $obj_discover->save();
+                \Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
+            }
 		}
 
 		if(count($aplicativo_diners_tarjeta_mastercard) > 0) {
-//			$obj_mastercard = AplicativoDinersDetalle::porId($aplicativo_diners_tarjeta_mastercard['id']);
-			$padre_id = $aplicativo_diners_tarjeta_mastercard['id'];
-			unset($aplicativo_diners_tarjeta_mastercard['id']);
-			$obj_mastercard = new AplicativoDinersDetalle();
-			$obj_mastercard->fill($aplicativo_diners_tarjeta_mastercard);
-			$obj_mastercard->producto_seguimiento_id = $con->id;
-			$obj_mastercard->tipo = 'gestionado';
-			$obj_mastercard->padre_id = $padre_id;
-			$obj_mastercard->usuario_modificacion = \WebSecurity::getUserData('id');
-			$obj_mastercard->fecha_modificacion = date("Y-m-d H:i:s");
-            $obj_mastercard->usuario_ingreso = \WebSecurity::getUserData('id');
-            $obj_mastercard->fecha_ingreso = date("Y-m-d H:i:s");
-            $obj_mastercard->eliminado = 0;
-            $obj_mastercard->save();
-			\Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
+            if($aplicativo_diners_tarjeta_mastercard['refinancia'] == 'SI') {
+                $padre_id = $aplicativo_diners_tarjeta_mastercard['id'];
+                unset($aplicativo_diners_tarjeta_mastercard['id']);
+                unset($aplicativo_diners_tarjeta_mastercard['refinancia']);
+                $obj_mastercard = new AplicativoDinersDetalle();
+                $obj_mastercard->fill($aplicativo_diners_tarjeta_mastercard);
+                $obj_mastercard->producto_seguimiento_id = $con->id;
+                $obj_mastercard->tipo = 'gestionado';
+                $obj_mastercard->padre_id = $padre_id;
+                $obj_mastercard->usuario_modificacion = \WebSecurity::getUserData('id');
+                $obj_mastercard->fecha_modificacion = date("Y-m-d H:i:s");
+                $obj_mastercard->usuario_ingreso = \WebSecurity::getUserData('id');
+                $obj_mastercard->fecha_ingreso = date("Y-m-d H:i:s");
+                $obj_mastercard->eliminado = 0;
+                $obj_mastercard->save();
+                \Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
+            }
 		}
 
         //VERIFICAR SI ES NUMERO ORO

@@ -52,6 +52,98 @@
 								{% endfor %}
 							</div>
 						{% endfor %}
+
+						<h2>REPORTES DE NEGOCIACIONES</h2>
+						{% for chunk in menuReportes['negociaciones'] %}
+							<div class="row">
+								{% for item in chunk %}
+									<div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+										<a href="{{ item.link }}">
+											<div class="card bg-warning img-card">
+												<div class="card-body">
+													<div class="d-flex">
+														<div class="text-white">
+															<h2 style="font-size: 20px;" class="mb-0 number-font">{{ item.label }}</h2>
+															<p class="text-white mb-0">{{ item.description }}</p>
+														</div>
+														<div class="ms-auto"><i class="{{ item.icon }} text-white fa-3x"></i></div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								{% endfor %}
+							</div>
+						{% endfor %}
+
+						<h2>REPORTES DE PRODUCTIVIDAD</h2>
+						{% for chunk in menuReportes['productividad'] %}
+							<div class="row">
+								{% for item in chunk %}
+									<div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+										<a href="{{ item.link }}">
+											<div class="card bg-success-gradient img-card">
+												<div class="card-body">
+													<div class="d-flex">
+														<div class="text-white">
+															<h2 style="font-size: 20px;" class="mb-0 number-font">{{ item.label }}</h2>
+															<p class="text-white mb-0">{{ item.description }}</p>
+														</div>
+														<div class="ms-auto"><i class="{{ item.icon }} text-white fa-3x"></i></div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								{% endfor %}
+							</div>
+						{% endfor %}
+
+						<h2>REPORTES DE RECUPERACIÓN POR EJECUTIVO (PENDIENTE REVISIÓN)</h2>
+						{% for chunk in menuReportes['recuperacion_ejecutivo'] %}
+							<div class="row">
+								{% for item in chunk %}
+									<div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+										<a href="{{ item.link }}">
+											<div class="card bg-info-gradient img-card">
+												<div class="card-body">
+													<div class="d-flex">
+														<div class="text-white">
+															<h2 style="font-size: 20px;" class="mb-0 number-font">{{ item.label }}</h2>
+															<p class="text-white mb-0">{{ item.description }}</p>
+														</div>
+														<div class="ms-auto"><i class="{{ item.icon }} text-white fa-3x"></i></div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								{% endfor %}
+							</div>
+						{% endfor %}
+
+						<h2>REPORTES DE RECUPERACIÓN</h2>
+						{% for chunk in menuReportes['recuperacion'] %}
+							<div class="row">
+								{% for item in chunk %}
+									<div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+										<a href="{{ item.link }}">
+											<div class="card bg-warning-gradient img-card">
+												<div class="card-body">
+													<div class="d-flex">
+														<div class="text-white">
+															<h2 style="font-size: 20px;" class="mb-0 number-font">{{ item.label }}</h2>
+															<p class="text-white mb-0">{{ item.description }}</p>
+														</div>
+														<div class="ms-auto"><i class="{{ item.icon }} text-white fa-3x"></i></div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								{% endfor %}
+							</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>

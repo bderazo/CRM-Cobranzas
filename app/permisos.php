@@ -100,8 +100,28 @@ return [
             'contactabilidad' => 'Contactabilidad',
             'llamadas_contactadas' => 'Llamadas Contactadas',
             'general' => 'General',
-            'gestiones_por_hora' => 'Gestiuones por hora',
+            'gestiones_por_hora' => 'Gestiones por hora',
+            'individual' => 'Individual',
+            'negociaciones_manual' => 'Negociaciones Manuales',
+            'negociaciones_automatica' => 'Negociaciones Automáticas',
+            'productividad_datos' => 'Productividad Datos',
+            'productividad_resultados' => 'Productividad Resultados',
+            'recuperacion_ejecutivo_individual' => 'Recuperación Ejecutivo Individual',
+            'recuperacion_ejecutivo_zona' => 'Recuperación Ejecutivo Por Zona',
+            'recuperacion_total' => 'Recuperación Total',
+            'recuperacion_actual' => 'Recuperación Actual',
+            'recuperacion_mora' => 'Recuperación Mora',
 		],
 		'mensaje' => 'Operaciones para Reportes'
 	],
+
+    [
+        'key' => 'catalogos',
+        'text' => 'Catálogos',
+        'children' => [
+            'dias_habiles' => 'Días Hábiles',
+            'meta_recuperacion' => 'Meta Recuperación',
+        ],
+        'mensaje' => 'Operaciones posibles para Instituciones'
+    ],
 ];
