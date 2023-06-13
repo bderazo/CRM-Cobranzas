@@ -882,6 +882,7 @@ class Producto extends Model
             }
             $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
             $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+            $data['valor_financiar'] = 'ff';
         }
 
 		//TOTAL INTERES
