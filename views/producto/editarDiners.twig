@@ -2568,12 +2568,12 @@
                     if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI') {
                         if(self.aplicativo_diners_tarjeta_interdin.length > 0) {
                             self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                            self.calcularValoresInterdin();
                         }
                         if(self.aplicativo_diners_tarjeta_discover.length > 0) {
                             self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                            self.calcularValoresDiscover();
                         }
-                        self.calcularValoresInterdin();
-                        self.calcularValoresDiscover();
                     }
                     var data = {
                         data: self.aplicativo_diners_tarjeta_diners,
@@ -2596,14 +2596,14 @@
                 calcularValoresInterdin: function () {
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI') {
-                        // if(self.aplicativo_diners_tarjeta_diners.length > 0) {
-                        //     self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                        // }
+                        if(self.aplicativo_diners_tarjeta_diners.length > 0) {
+                            self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                            self.calcularValoresDiners();
+                        }
                         if(self.aplicativo_diners_tarjeta_discover.length > 0) {
                             self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                            self.calcularValoresDiscover();
                         }
-                        self.calcularValoresDiscover();
-                        // self.calcularValoresDiners();
                     }
                     var data = {
                         data: self.aplicativo_diners_tarjeta_interdin,
@@ -2630,12 +2630,12 @@
                     if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI') {
                         if(self.aplicativo_diners_tarjeta_diners.length > 0) {
                             self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                            self.calcularValoresDiners();
                         }
                         if(self.aplicativo_diners_tarjeta_interdin.length > 0) {
                             self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                            self.calcularValoresInterdin();
                         }
-                        self.calcularValoresDiners();
-                        self.calcularValoresInterdin();
                     }
                     var data = {
                         data: self.aplicativo_diners_tarjeta_discover,
