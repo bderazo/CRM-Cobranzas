@@ -215,7 +215,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjeta_diners['abono_negociador'] = 0;
 			}
 
-			$tarjeta_diners = Producto::calculosTarjetaDiners($tarjeta_diners, $aplicativo_diners_id);
+			$tarjeta_diners = Producto::calculosTarjetaDiners($tarjeta_diners, $aplicativo_diners_id,'movil');
 
 
 			$seccion1['nombre'] = 'DINERS';
@@ -657,7 +657,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjeta_interdin['abono_negociador'] = 0;
 			}
 
-			$tarjeta_interdin = Producto::calculosTarjetaGeneral($tarjeta_interdin, $aplicativo_diners_id, 'INTERDIN');
+			$tarjeta_interdin = Producto::calculosTarjetaGeneral($tarjeta_interdin, $aplicativo_diners_id, 'INTERDIN', 'movil');
 
 			$seccion1['nombre'] = 'INTERDIN';
 			$seccion1['colorFondo'] = '#e3e3e3';
@@ -1104,7 +1104,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjeta_discover['abono_negociador'] = 0;
 			}
 
-			$tarjeta_discover = Producto::calculosTarjetaGeneral($tarjeta_discover, $aplicativo_diners_id, 'DISCOVER');
+			$tarjeta_discover = Producto::calculosTarjetaGeneral($tarjeta_discover, $aplicativo_diners_id, 'DISCOVER', 'movil');
 
 			$seccion1['nombre'] = 'DISCOVER';
 			$seccion1['colorFondo'] = '#ffd09e';
@@ -1550,7 +1550,7 @@ class AplicativoDinersApi extends BaseController
 				$tarjeta_mastercard['abono_negociador'] = 0;
 			}
 
-			$tarjeta_mastercard = Producto::calculosTarjetaGeneral($tarjeta_mastercard, $aplicativo_diners_id, 'MASTERCARD');
+			$tarjeta_mastercard = Producto::calculosTarjetaGeneral($tarjeta_mastercard, $aplicativo_diners_id, 'MASTERCARD', 'movil');
 
 			$seccion1['nombre'] = 'MASTERCARD';
 			$seccion1['colorFondo'] = '#deffb8';
@@ -1989,7 +1989,7 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$calculos = Producto::calculosTarjetaDiners($data, $aplicativo_diners_id);
+			$calculos = Producto::calculosTarjetaDiners($data, $aplicativo_diners_id,'movil');
 
 			//ALERTAS
 			$alerta_abono_negociador = '';
@@ -2036,7 +2036,7 @@ class AplicativoDinersApi extends BaseController
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
 			$user = Usuario::porId($usuario_id);
-			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id,'INTERDIN');
+			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id,'INTERDIN', 'movil');
 
 			//ALERTAS
 			$alerta_abono_negociador = '';
@@ -2085,7 +2085,7 @@ class AplicativoDinersApi extends BaseController
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
 			$user = Usuario::porId($usuario_id);
-			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, 'DISCOVER');
+			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, 'DISCOVER', 'movil');
 
 			//ALERTAS
 			$alerta_abono_negociador = '';
@@ -2132,7 +2132,7 @@ class AplicativoDinersApi extends BaseController
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
 			$user = Usuario::porId($usuario_id);
-			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, 'MASTERCARD');
+			$calculos = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, 'MASTERCARD', 'movil');
 
 			//ALERTAS
 			$alerta_abono_negociador = '';

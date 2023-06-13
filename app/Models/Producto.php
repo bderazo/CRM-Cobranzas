@@ -458,7 +458,7 @@ class Producto extends Model
 		return $retorno;
 	}
 
-	static function calculosTarjetaDiners($data, $aplicativo_diners_id) {
+	static function calculosTarjetaDiners($data, $aplicativo_diners_id, $origen_calculo = 'web', $valor_financiar_interdin = 0, $valor_financiar_discover = 0, $valor_financiar_mastercard = 0) {
 		$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
 		//ABONO TOTAL
@@ -600,29 +600,41 @@ class Producto extends Model
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
-		//CALCULO DE GASTOS DE COBRANZA
-		if($total_precancelacion_diferidos > 0) {
-			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
-			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+        //CALCULO DE GASTOS DE COBRANZA
+        if($total_precancelacion_diferidos > 0) {
+            $calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+            $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
-			$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
-			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
+            $total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
+            $data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
-			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
-		}
+            $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+            $data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+        }
 
-		if($data['unificar_deudas'] == 'SI') {
-			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
-			$suma_valor_financiar = 0;
-			foreach($aplicativo_diners_detalle as $add) {
-				if($add['nombre_tarjeta'] != 'DINERS') {
-					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
-				}
-			}
-			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-		}
+
+        if($data['unificar_deudas'] == 'SI') {
+            $suma_valor_financiar = 0;
+            if($valor_financiar_interdin > 0){
+                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_interdin;
+            }
+            if($valor_financiar_discover > 0){
+                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_discover;
+            }
+            if($valor_financiar_mastercard > 0){
+                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_mastercard;
+            }
+//			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
+//
+//			foreach($aplicativo_diners_detalle as $add) {
+//				if($add['nombre_tarjeta'] != 'DINERS') {
+//					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+//				}
+//			}
+            $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+//            printDie($data['valor_financiar']);
+        }
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
@@ -684,7 +696,7 @@ class Producto extends Model
 		return $data;
 	}
 
-	static function calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta) {
+	static function calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta, $origen_calculo = 'web', $valor_financiar_tarjeta_diners = 0, $valor_financiar_tarjeta_interdin = 0, $valor_financiar_tarjeta_discover = 0, $valor_financiar_tarjeta_mastercard = 0) {
 		if($tarjeta == 'INTERDIN'){
 			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 		}elseif($tarjeta == 'DISCOVER'){
@@ -793,7 +805,6 @@ class Producto extends Model
 			}
 		}
 
-
 		$interes_facturar = 0;
 		if($data['interes_facturar'] > 0) {
 			$interes_facturar = $data['interes_facturar'];
@@ -835,29 +846,43 @@ class Producto extends Model
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
-		//CALCULO DE GASTOS DE COBRANZA
-		if($total_precancelacion_diferidos > 0) {
-			$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+        //CALCULO DE GASTOS DE COBRANZA
+        if($total_precancelacion_diferidos > 0) {
+            $calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
 			$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
 			$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
-			$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+            $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 			$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
-		}
+        }
 
-		if($data['unificar_deudas'] == 'SI') {
-			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
-			$suma_valor_financiar = 0;
-			foreach($aplicativo_diners_detalle as $add) {
-				if($add['nombre_tarjeta'] != 'INTERDIN') {
-					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
-				}
-			}
-			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-		}
+        if($data['unificar_deudas'] == 'SI') {
+            $suma_valor_financiar = 0;
+
+            if($origen_calculo == 'web') {
+                if ($tarjeta['nombre_tarjeta'] == 'INTERDIN') {
+                    $suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_discover + $valor_financiar_tarjeta_mastercard;
+                }
+                if ($tarjeta['nombre_tarjeta'] == 'DISCOVER') {
+                    $suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_mastercard;
+                }
+                if ($tarjeta['nombre_tarjeta'] == 'MASTERCARD') {
+                    $suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_discover;
+                }
+            }
+            if($origen_calculo == 'movil') {
+                $aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
+                foreach ($aplicativo_diners_detalle as $add) {
+                    if ($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
+                        $suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+                    }
+                }
+            }
+            $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+        }
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
@@ -888,10 +913,6 @@ class Producto extends Model
 		$data['total_intereses'] = number_format($total_interes, 2, '.', '');
 
 		//TOTAL FINANCIAMIENTO
-		$valor_financiar = 0;
-		if($data['valor_financiar'] > 0) {
-			$valor_financiar = $data['valor_financiar'];
-		}
 		$total_intereses = 0;
 		if($data['total_intereses'] > 0) {
 			$total_intereses = $data['total_intereses'];

@@ -237,6 +237,8 @@ class ProductoController extends BaseController
 		$aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionAplicativo($aplicativo_diners['id']);
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 
+        $numero_tarjetas = 0;
+
 		//DATOS TARJETA DINERS
 		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id'], 'original');
 		$plazo_financiamiento_diners = [];
@@ -249,7 +251,7 @@ class ProductoController extends BaseController
 				$aplicativo_diners_tarjeta_diners['abono_negociador'] = 0;
 			}
 
-            $aplicativo_diners_tarjeta_diners['refinancia'] = 'SI';
+            $aplicativo_diners_tarjeta_diners['refinancia'] = 'NO';
 
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_diners['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
@@ -261,6 +263,7 @@ class ProductoController extends BaseController
 					$plazo_financiamiento_diners[$i] = $i;
 				}
 			}
+            $numero_tarjetas++;
 		}
 		$catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
 
@@ -276,7 +279,7 @@ class ProductoController extends BaseController
 				$aplicativo_diners_tarjeta_discover['abono_negociador'] = 0;
 			}
 
-            $aplicativo_diners_tarjeta_discover['refinancia'] = 'SI';
+            $aplicativo_diners_tarjeta_discover['refinancia'] = 'NO';
 
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_discover['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
@@ -288,6 +291,7 @@ class ProductoController extends BaseController
 					$plazo_financiamiento_discover[$i] = $i;
 				}
 			}
+            $numero_tarjetas++;
 		}
 		$catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
 
@@ -303,7 +307,7 @@ class ProductoController extends BaseController
 				$aplicativo_diners_tarjeta_interdin['abono_negociador'] = 0;
 			}
 
-            $aplicativo_diners_tarjeta_interdin['refinancia'] = 'SI';
+            $aplicativo_diners_tarjeta_interdin['refinancia'] = 'NO';
 
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_interdin['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
@@ -315,6 +319,7 @@ class ProductoController extends BaseController
 					$plazo_financiamiento_interdin[$i] = $i;
 				}
 			}
+            $numero_tarjetas++;
 		}
 		$catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
 
@@ -330,7 +335,7 @@ class ProductoController extends BaseController
 				$aplicativo_diners_tarjeta_mastercard['abono_negociador'] = 0;
 			}
 
-            $aplicativo_diners_tarjeta_mastercard['refinancia'] = 'SI';
+            $aplicativo_diners_tarjeta_mastercard['refinancia'] = 'NO';
 
 			$cuotas_pendientes = $aplicativo_diners_tarjeta_mastercard['numero_cuotas_pendientes'];
 			if($cuotas_pendientes > 0) {
@@ -342,6 +347,7 @@ class ProductoController extends BaseController
 					$plazo_financiamiento_mastercard[$i] = $i;
 				}
 			}
+            $numero_tarjetas++;
 		}
 		$catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
 
@@ -353,8 +359,22 @@ class ProductoController extends BaseController
 		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
         $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
 
+        if($numero_tarjetas == 1){
+            $width_tabla = 100;
+        }elseif($numero_tarjetas == 2){
+            $width_tabla = 50;
+        }elseif($numero_tarjetas == 3){
+            $width_tabla = 33;
+        }elseif($numero_tarjetas == 4){
+            $width_tabla = 25;
+        }else{
+            $width_tabla = 100;
+        }
+
 		$data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
 		$data['paleta'] = $paleta;
+        $data['numero_tarjetas'] = $numero_tarjetas;
+        $data['width_tabla'] = $width_tabla;
 		$data['producto_campos'] = $producto_campos;
 		$data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);
 		$data['aplicativo_diners'] = json_encode($aplicativo_diners);
@@ -468,10 +488,10 @@ class ProductoController extends BaseController
 		return $this->redirectToAction('index');
 	}
 
-	function guardarSeguimientoDiners()
+	function guardarSeguimientoDiners($json)
 	{
-//		$data = json_decode($json, true);
-        $data = $_REQUEST;
+		$data = json_decode($json, true);
+//        $data = $_REQUEST;
 //        printDie($_REQUEST);
 		//GUARDAR SEGUIMIENTO
 		$producto = $data['model'];
@@ -592,7 +612,8 @@ class ProductoController extends BaseController
                 $obj_interdin->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_interdin->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_interdin->eliminado = 0;
-                $obj_interdin->save();
+                $save = $obj_interdin->save();
+                printDie($save);
                 \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
             }
 		}
@@ -648,8 +669,8 @@ class ProductoController extends BaseController
                 $t->save();
             }
         }
-        return $this->json(['OK']);
-//		return $this->redirectToAction('indexDiners');
+//        return $this->json(['OK']);
+		return $this->redirectToAction('indexDiners');
 	}
 
 	function exportNegociacionManual()
@@ -1572,17 +1593,28 @@ class ProductoController extends BaseController
 	{
 		$data = $_REQUEST['data'];
 		$aplicativo_diners_id = $_REQUEST['aplicativo_diners_id'];
-		$datos_calculados = Producto::calculosTarjetaDiners($data, $aplicativo_diners_id);
+        $valor_financiar_interdin = $_REQUEST['valor_financiar_interdin'];
+        $valor_financiar_discover = $_REQUEST['valor_financiar_discover'];
+        $valor_financiar_mastercard = $_REQUEST['valor_financiar_mastercard'];
+		$datos_calculados = Producto::calculosTarjetaDiners($data, $aplicativo_diners_id, 'web', $valor_financiar_interdin, $valor_financiar_discover, $valor_financiar_mastercard);
 		return $this->json($datos_calculados);
 	}
 
 	function calculosTarjetaGeneral()
 	{
-		$data = $_REQUEST['data'];
-		$aplicativo_diners_id = $_REQUEST['aplicativo_diners_id'];
-		$tarjeta = $_REQUEST['tarjeta'];
-		$datos_calculados = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta);
-		return $this->json($datos_calculados);
+        if(isset($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+            $aplicativo_diners_id = $_REQUEST['aplicativo_diners_id'];
+            $valor_financiar_diners = isset($_REQUEST['valor_financiar_diners']) ? $_REQUEST['valor_financiar_diners'] : 0;
+            $valor_financiar_interdin = isset($_REQUEST['valor_financiar_interdin']) ? $_REQUEST['valor_financiar_interdin'] : 0;
+            $valor_financiar_discover = isset($_REQUEST['valor_financiar_discover']) ? $_REQUEST['valor_financiar_discover'] : 0;
+            $valor_financiar_mastercard = isset($_REQUEST['valor_financiar_mastercard']) ? $_REQUEST['valor_financiar_mastercard'] : 0;
+            $tarjeta = $_REQUEST['tarjeta'];
+            $datos_calculados = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta, 'web', $valor_financiar_diners, $valor_financiar_interdin, $valor_financiar_discover, $valor_financiar_mastercard);
+            return $this->json($datos_calculados);
+        }else{
+            return $this->json([]);
+        }
 	}
 
 	function verificarCampos() {

@@ -9,7 +9,7 @@
 				<div class="card-body">
 					<h4 class="text-primary">COBRANZA</h4>
 					<div class="table-responsive">
-						<table class="table border table-striped table-bordered table-sm mb-0">
+						<table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
 							<thead>
 							<tr>
 								<th>Seguimiento</th>
@@ -65,12 +65,12 @@
 										<button class="btn btn-primary" type="button" v-on:click="verAcuerdo({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
 											<i class="fa fa-file-excel-o"></i> ACUERDO
 										</button><br/>
-										<button class="btn btn-success" type="button" v-on:click="descargarNegociacionManual({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN MANUAL">
-											<i class="fa fa-download"></i> MANUAL
-										</button>
-										<button class="btn btn-info" type="button" v-on:click="descargarNegociacionAutomatica({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN AUTOMÁTICA">
-											<i class="fa fa-download"></i> AUTOMÁTICA
-										</button>
+{#										<button class="btn btn-success" type="button" v-on:click="descargarNegociacionManual({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN MANUAL">#}
+{#											<i class="fa fa-download"></i> MANUAL#}
+{#										</button>#}
+{#										<button class="btn btn-info" type="button" v-on:click="descargarNegociacionAutomatica({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN AUTOMÁTICA">#}
+{#											<i class="fa fa-download"></i> AUTOMÁTICA#}
+{#										</button>#}
 									</td>
 								</tr>
 							{% endfor %}

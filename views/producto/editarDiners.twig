@@ -387,26 +387,26 @@
 
                     <div class=" row mb-4">
                         <div class="table-responsive" style="scrollbar-color: red yellow;">
-                            <table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0 font-size: 10px;">
+                            <table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
                                 <thead>
                                 <tr>
                                     <template v-if="aplicativo_diners_tarjeta_diners.length != 0">
-                                        <th style="width: 25%; text-align: center; background-color: #0066A8; color: white;">
+                                        <th style="width: {{ width_tabla }}%; text-align: center; background-color: #0066A8; color: white;">
                                             DINERS
                                         </th>
                                     </template>
                                     <template v-if="aplicativo_diners_tarjeta_interdin.length != 0">
-                                        <th style="width: 25%; text-align: center; background-color: #404040; color: white;">
+                                        <th style="width: {{ width_tabla }}%; text-align: center; background-color: #404040; color: white;">
                                             INTERDIN
                                         </th>
                                     </template>
                                     <template v-if="aplicativo_diners_tarjeta_discover.length != 0">
-                                        <th style="width: 25%; text-align: center; background-color: #E66929; color: white;">
+                                        <th style="width: {{ width_tabla }}%; text-align: center; background-color: #E66929; color: white;">
                                             DISCOVER
                                         </th>
                                     </template>
                                     <template v-if="aplicativo_diners_tarjeta_mastercard.length != 0">
-                                        <th style="width: 25%; text-align: center; background-color: #A4B706; color: white;">
+                                        <th style="width: {{ width_tabla }}%; text-align: center; background-color: #A4B706; color: white;">
                                             MASTERCARD
                                         </th>
                                     </template>
@@ -422,7 +422,7 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.refinancia" v-autoname>
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.refinancia" v-on:change="bloquearCampos" v-autoname>
                                                             <option value="SI">SI</option>
                                                             <option value="NO">NO</option>
                                                         </select>
@@ -512,11 +512,7 @@
                                                 <tr>
                                                     <td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
                                                     <td colspan="3">
-													<textarea rows="3"
-                                                              v-model="aplicativo_diners_tarjeta_diners.observacion_gestion"
-                                                              class="form-control form-control-sm"
-                                                              placeholder="OBSERVACIONES DE GESTIÓN"
-                                                              v-autoname></textarea>
+                                                        <span v-html="aplicativo_diners_tarjeta_diners.observacion_gestion"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -691,7 +687,7 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                                v-on:keyup="calcularValoresDiners"
                                                                v-model="aplicativo_diners_tarjeta_diners.abono_negociador"
-                                                               placeholder="ABONO NEGOCIADOR" v-autoname/>
+                                                               placeholder="ABONO NEGOCIADOR" name="abono_negociador_diners" id="abono_negociador_diners"/>
                                                         <div class="alert alert-danger alert-dismissible fade show mb-0"
                                                              role="alert" id="alerta_abono_diners">
                                                             <span class="alert-inner--text">ABONO NO CUBRE INTERES</span>
@@ -934,7 +930,7 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.refinancia" v-autoname>
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.refinancia" v-on:change="bloquearCampos" v-autoname>
                                                             <option value="SI">SI</option>
                                                             <option value="NO">NO</option>
                                                         </select>
@@ -1019,18 +1015,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
-                                                    <td colspan="3"><span
-                                                                v-html="aplicativo_diners_tarjeta_interdin.descripcion_gestion"></span>
+                                                    <td colspan="3"><span v-html="aplicativo_diners_tarjeta_interdin.descripcion_gestion"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
                                                     <td colspan="3">
-													<textarea rows="3"
-                                                              v-model="aplicativo_diners_tarjeta_interdin.observacion_gestion"
-                                                              class="form-control form-control-sm"
-                                                              placeholder="OBSERVACIONES DE GESTIÓN"
-                                                              v-autoname></textarea>
+                                                        <span v-html="aplicativo_diners_tarjeta_interdin.observacion_gestion"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1174,12 +1165,9 @@
                                                 <tr>
                                                     <td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
                                                     <td>
-                                                        total_precancelacion_diferidos: <span
-                                                                v-html="aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos"></span><br/>
-                                                        calculo_gastos_cobranza: <span
-                                                                v-html="aplicativo_diners_tarjeta_interdin.calculo_gastos_cobranza"></span><br/>
-                                                        total_calculo_precancelacion_diferidos: <span
-                                                                v-html="aplicativo_diners_tarjeta_interdin.total_calculo_precancelacion_diferidos"></span><br/>
+                                                        total_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_interdin.total_precancelacion_diferidos"></span><br/>
+                                                        calculo_gastos_cobranza: <span v-html="aplicativo_diners_tarjeta_interdin.calculo_gastos_cobranza"></span><br/>
+                                                        total_calculo_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_interdin.total_calculo_precancelacion_diferidos"></span><br/>
 {#                                                        <span v-html="aplicativo_diners_tarjeta_interdin.total_calculo_precancelacion_diferidos"></span><br/>#}
                                                     </td>
                                                 </tr>
@@ -1212,7 +1200,7 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                                v-on:keyup="calcularValoresInterdin"
                                                                v-model="aplicativo_diners_tarjeta_interdin.abono_negociador"
-                                                               placeholder="ABONO NEGOCIADOR" v-autoname/>
+                                                               placeholder="ABONO NEGOCIADOR" name="abono_negociador_interdin" id="abono_negociador_interdin"/>
                                                         <div class="alert alert-danger alert-dismissible fade show mb-0"
                                                              role="alert" id="alerta_abono_interdin">
                                                             <span class="alert-inner--text">ABONO NO CUBRE INTERES</span>
@@ -1444,7 +1432,7 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.refinancia" v-autoname>
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.refinancia" v-on:change="bloquearCampos" v-autoname>
                                                             <option value="SI">SI</option>
                                                             <option value="NO">NO</option>
                                                         </select>
@@ -1529,18 +1517,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
-                                                    <td colspan="3"><span
-                                                                v-html="aplicativo_diners_tarjeta_discover.descripcion_gestion"></span>
+                                                    <td colspan="3"><span v-html="aplicativo_diners_tarjeta_discover.descripcion_gestion"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
                                                     <td colspan="3">
-													<textarea rows="3"
-                                                              v-model="aplicativo_diners_tarjeta_discover.observacion_gestion"
-                                                              class="form-control form-control-sm"
-                                                              placeholder="OBSERVACIONES DE GESTIÓN"
-                                                              v-autoname></textarea>
+                                                        <span v-html="aplicativo_diners_tarjeta_discover.observacion_gestion"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1684,12 +1667,9 @@
                                                 <tr>
                                                     <td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
                                                     <td>
-                                                        total_precancelacion_diferidos: <span
-                                                                v-html="aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos"></span><br/>
-                                                        calculo_gastos_cobranza: <span
-                                                                v-html="aplicativo_diners_tarjeta_discover.calculo_gastos_cobranza"></span><br/>
-                                                        total_calculo_precancelacion_diferidos: <span
-                                                                v-html="aplicativo_diners_tarjeta_discover.total_calculo_precancelacion_diferidos"></span><br/>
+                                                        total_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_discover.total_precancelacion_diferidos"></span><br/>
+                                                        calculo_gastos_cobranza: <span v-html="aplicativo_diners_tarjeta_discover.calculo_gastos_cobranza"></span><br/>
+                                                        total_calculo_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_discover.total_calculo_precancelacion_diferidos"></span><br/>
 {#                                                        <span v-html="aplicativo_diners_tarjeta_discover.total_calculo_precancelacion_diferidos"></span>#}
                                                     </td>
                                                 </tr>
@@ -1722,7 +1702,7 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                                v-on:keyup="calcularValoresDiscover"
                                                                v-model="aplicativo_diners_tarjeta_discover.abono_negociador"
-                                                               placeholder="ABONO NEGOCIADOR" v-autoname/>
+                                                               placeholder="ABONO NEGOCIADOR" name="abono_negociador_discover" id="abono_negociador_discover"/>
                                                         <div class="alert alert-danger alert-dismissible fade show mb-0"
                                                              role="alert" id="alerta_abono_discover">
                                                             <span class="alert-inner--text">ABONO NO CUBRE INTERES</span>
@@ -1954,7 +1934,7 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_mastercard.refinancia" v-autoname>
+                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_mastercard.refinancia" v-on:change="bloquearCampos" v-autoname>
                                                             <option value="SI">SI</option>
                                                             <option value="NO">NO</option>
                                                         </select>
@@ -2039,18 +2019,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>DESCRIPCIÓN DE GESTIÓN</strong></td>
-                                                    <td colspan="3"><span
-                                                                v-html="aplicativo_diners_tarjeta_mastercard.descripcion_gestion"></span>
+                                                    <td colspan="3"><span v-html="aplicativo_diners_tarjeta_mastercard.descripcion_gestion"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>OBSERVACIONES DE GESTIÓN</strong></td>
                                                     <td colspan="3">
-													<textarea rows="3"
-                                                              v-model="aplicativo_diners_tarjeta_mastercard.observacion_gestion"
-                                                              class="form-control form-control-sm"
-                                                              placeholder="OBSERVACIONES DE GESTIÓN"
-                                                              v-autoname></textarea>
+                                                        <span v-html="aplicativo_diners_tarjeta_mastercard.observacion_gestion"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -2226,7 +2201,7 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                                v-on:keyup="calcularValoresMastercard"
                                                                v-model="aplicativo_diners_tarjeta_mastercard.abono_negociador"
-                                                               placeholder="ABONO NEGOCIADOR" v-autoname/>
+                                                               placeholder="ABONO NEGOCIADOR" name="abono_negociador_mastercard" id="abono_negociador_mastercard"/>
                                                         <div class="alert alert-danger alert-dismissible fade show mb-0"
                                                              role="alert" id="alerta_abono_mastercard">
                                                             <span class="alert-inner--text">ABONO NO CUBRE INTERES</span>
@@ -2417,15 +2392,8 @@
                                                     </td>
                                                 </tr>
                                                 <tr style="background-color: #A4B706; color: white;">
-                                                    <td><strong>UNIFICAR DEUDAS</strong></td>
-                                                    <td>
-                                                        <select class="form-control form-control-sm form-select select2"
-                                                                v-on:change="calcularValoresMastercard"
-                                                                v-model="aplicativo_diners_tarjeta_mastercard.unificar_deudas"
-                                                                placeholder="Seleccione una opción" v-autoname>
-                                                            <option value="NO">NO</option>
-                                                        </select>
-                                                    </td>
+                                                    <td><strong></strong></td>
+                                                    <td></td>
                                                 </tr>
                                                 <tr style="background-color: #A4B706; color: white;">
                                                     <td><strong>TOTAL INTERESES</strong></td>
@@ -2597,8 +2565,17 @@
 
                 calcularValoresDiners: function () {
                     var self = this;
+                    if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI') {
+                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                        self.calcularValoresInterdin();
+                        self.calcularValoresDiscover();
+                    }
                     var data = {
                         data: self.aplicativo_diners_tarjeta_diners,
+                        valor_financiar_interdin: self.aplicativo_diners_tarjeta_interdin.valor_financiar,
+                        valor_financiar_discover: self.aplicativo_diners_tarjeta_discover.valor_financiar,
+                        valor_financiar_mastercard: self.aplicativo_diners_tarjeta_mastercard.valor_financiar,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                     };
                     $.post('{{ root }}/producto/calcularTarjetaDiners', data, function (res) {
@@ -2610,20 +2587,21 @@
                             $("#alerta_abono_diners").hide();
                         }
                     });
-                    if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI') {
-                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
-                        self.calcularValoresInterdin();
-                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
-                        self.calcularValoresDiscover();
-                        self.aplicativo_diners_tarjeta_mastercard.unificar_deudas = 'NO';
-                        self.calcularValoresMastercard();
-                    }
                 },
 
                 calcularValoresInterdin: function () {
                     var self = this;
+                    if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI') {
+                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                        self.calcularValoresDiscover();
+                        self.calcularValoresDiners();
+                    }
                     var data = {
                         data: self.aplicativo_diners_tarjeta_interdin,
+                        valor_financiar_diners: self.aplicativo_diners_tarjeta_diners.valor_financiar,
+                        valor_financiar_discover: self.aplicativo_diners_tarjeta_discover.valor_financiar,
+                        valor_financiar_mastercard: self.aplicativo_diners_tarjeta_mastercard.valor_financiar,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                         tarjeta: 'INTERDIN',
                     };
@@ -2637,20 +2615,21 @@
                             $("#alerta_abono_interdin").hide();
                         }
                     });
-                    if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI') {
-                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                        self.calcularValoresDiners();
-                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
-                        self.calcularValoresDiscover();
-                        self.aplicativo_diners_tarjeta_mastercard.unificar_deudas = 'NO';
-                        self.calcularValoresMastercard();
-                    }
                 },
 
                 calcularValoresDiscover: function () {
                     var self = this;
+                    if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI') {
+                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                        self.calcularValoresDiners();
+                        self.calcularValoresInterdin();
+                    }
                     var data = {
                         data: self.aplicativo_diners_tarjeta_discover,
+                        valor_financiar_diners: self.aplicativo_diners_tarjeta_diners.valor_financiar,
+                        valor_financiar_interdin: self.aplicativo_diners_tarjeta_interdin.valor_financiar,
+                        valor_financiar_mastercard: self.aplicativo_diners_tarjeta_mastercard.valor_financiar,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                         tarjeta: 'DISCOVER',
                     };
@@ -2664,20 +2643,15 @@
                             $("#alerta_abono_discover").hide();
                         }
                     });
-                    if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI') {
-                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                        self.calcularValoresDiners();
-                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
-                        self.calcularValoresInterdin();
-                        self.aplicativo_diners_tarjeta_mastercard.unificar_deudas = 'NO';
-                        self.calcularValoresMastercard();
-                    }
                 },
 
                 calcularValoresMastercard: function () {
                     var self = this;
                     var data = {
                         data: self.aplicativo_diners_tarjeta_mastercard,
+                        valor_financiar_diners: self.aplicativo_diners_tarjeta_diners.valor_financiar,
+                        valor_financiar_interdin: self.aplicativo_diners_tarjeta_interdin.valor_financiar,
+                        valor_financiar_discover: self.aplicativo_diners_tarjeta_discover.valor_financiar,
                         aplicativo_diners_id: self.aplicativo_diners.id,
                         tarjeta: 'MASTERCARD',
                     };
@@ -2691,13 +2665,29 @@
                             $("#alerta_abono_mastercard").hide();
                         }
                     });
-                    if(self.aplicativo_diners_tarjeta_mastercard.unificar_deudas == 'SI') {
-                        self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                        self.calcularValoresDiners();
-                        self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
-                        self.calcularValoresInterdin();
-                        self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
-                        self.calcularValoresDiscover();
+                },
+
+                bloquearCampos: function(){
+                    var self = this;
+                    if(self.aplicativo_diners_tarjeta_diners.refinancia == 'NO'){
+                        $("#abono_negociador_diners").prop('readonly', true);
+                    }else{
+                        $("#abono_negociador_diners").prop('readonly', false);
+                    }
+                    if(self.aplicativo_diners_tarjeta_interdin.refinancia == 'NO'){
+                        $("#abono_negociador_interdin").prop('readonly', true);
+                    }else{
+                        $("#abono_negociador_interdin").prop('readonly', false);
+                    }
+                    if(self.aplicativo_diners_tarjeta_discover.refinancia == 'NO'){
+                        $("#abono_negociador_discover").prop('readonly', true);
+                    }else{
+                        $("#abono_negociador_discover").prop('readonly', false);
+                    }
+                    if(self.aplicativo_diners_tarjeta_mastercard.refinancia == 'NO'){
+                        $("#abono_negociador_mastercard").prop('readonly', true);
+                    }else{
+                        $("#abono_negociador_mastercard").prop('readonly', false);
                     }
                 },
             },
@@ -2712,6 +2702,8 @@
                 $("#div_motivo_no_pago").hide();
                 $("#div_fecha_compromiso_pago").hide();
                 $("#div_valor_comprometido").hide();
+
+                self.bloquearCampos();
 
                 if (self.aplicativo_diners_tarjeta_diners.length != 0) {
                     self.calcularValoresDiners();
@@ -2746,18 +2738,18 @@
                             aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
                             fecha_compromiso_pago: $("#fecha_compromiso_pago").val(),
                         };
-                        // $('#json').val(JSON.stringify(data));
+                        $('#json').val(JSON.stringify(data));
                         $("#btnGuardar").prop("disabled", true);
 
-                        $.post('{{ root }}/producto/guardarSeguimientoDiners', data, function (res) {
-                            console.log(res);
-                            $("#btnGuardar").hide();
-                            $("#btnRegresar").show();
-                            $("#btnExportarNegociacionManual").show();
-                            $("#btnExportarNegociacionAutomatica").show();
-                        });
-                        // form.submit();
-                        // return false;
+                        {#$.post('{{ root }}/producto/guardarSeguimientoDiners', data, function (res) {#}
+                        {#    console.log(res);#}
+                        {#    $("#btnGuardar").hide();#}
+                        {#    $("#btnRegresar").show();#}
+                        {#    $("#btnExportarNegociacionManual").show();#}
+                        {#    $("#btnExportarNegociacionAutomatica").show();#}
+                        {#});#}
+                        form.submit();
+                        return false;
                     }
                 });
                 $('#btnRegresar').click(function () {
