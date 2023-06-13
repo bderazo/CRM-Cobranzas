@@ -876,15 +876,33 @@ class Producto extends Model
                 $aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
                 foreach ($aplicativo_diners_detalle as $add) {
                     if ($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
-                        $suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
-                        $data['valor_financiar'] = $add['valor_financiar'];
+                        if($add['nombre_tarjeta'] == 'DINERS') {
+                            $tarjeta_calculado = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
+                            //CALCULO DE ABONO NEGOCIADOR
+                            $abono_negociador_calculado = $tarjeta_calculado['interes_facturado'] - $tarjeta_calculado['abono_efectivo_sistema'];
+                            if ($abono_negociador_calculado > 0) {
+                                $tarjeta_calculado['abono_negociador'] = number_format($abono_negociador_calculado, 2, '.', '');
+                            } else {
+                                $tarjeta_calculado['abono_negociador'] = 0;
+                            }
+                            $tarjeta_calculado = Producto::calculosTarjetaDiners($tarjeta_calculado, $aplicativo_diners_id, 'movil');
+                        }else{
+                            $tarjeta_calculado = AplicativoDiners::getAplicativoDinersDetalle($add['nombre_tarjeta'], $aplicativo_diners_id);
+                            //CALCULO DE ABONO NEGOCIADOR
+                            $abono_negociador_calculado = $tarjeta_calculado['interes_facturado'] - $tarjeta_calculado['abono_efectivo_sistema'];
+                            if($abono_negociador_calculado > 0) {
+                                $tarjeta_calculado['abono_negociador'] = number_format($abono_negociador_calculado, 2, '.', '');
+                            } else {
+                                $tarjeta_calculado['abono_negociador'] = 0;
+                            }
+                            $tarjeta_calculado = Producto::calculosTarjetaGeneral($tarjeta_calculado, $aplicativo_diners_id, $add['nombre_tarjeta'], 'movil');
+                        }
+                        $suma_valor_financiar = $suma_valor_financiar + $tarjeta_calculado['valor_financiar'];
                     }
                 }
             }
-
             $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-//            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-
+            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
         }
 
 		//TOTAL INTERES
