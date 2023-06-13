@@ -877,10 +877,11 @@ class Producto extends Model
                 foreach ($aplicativo_diners_detalle as $add) {
                     if ($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
                         $suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+                        $data['valor_financiar'] = $add['valor_financiar'];
                     }
                 }
             }
-            $data['valor_financiar'] = $suma_valor_financiar;
+
             $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
 //            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
 
