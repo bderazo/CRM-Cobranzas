@@ -880,9 +880,10 @@ class Producto extends Model
                     }
                 }
             }
+            $data['valor_financiar'] = $suma_valor_financiar;
             $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-            $data['valor_financiar'] = 'ff';
+//            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+
         }
 
 		//TOTAL INTERES
