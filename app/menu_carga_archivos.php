@@ -23,6 +23,13 @@ return [
             'description' => 'Datos de las asignaciones de Diners a Megacob'
         ],
         [
+            'label' => 'Base a Cargar MEGACOB',
+            'link' => '/cargarArchivo/baseCargarMegacob',
+            'roles' => 'cargar_archivos.base_cargar_megacob',
+            'icon' => 'fa fa-file-excel-o',
+            'description' => 'Datos de la base a cargar Megacob'
+        ],
+        [
             'label' => 'Asignaciones a Gestor',
             'link' => '/cargarArchivo/asignacionesGestorDiners',
             'roles' => 'cargar_archivos.asignaciones_gestor_diners',

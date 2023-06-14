@@ -5,6 +5,7 @@ namespace Controllers;
 use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
 use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
+use CargaArchivos\CargadorBaseCargarMegacobExcel;
 use CargaArchivos\CargadorClientesExcel;
 use CargaArchivos\CargadorProductosExcel;
 use CargaArchivos\CargadorSaldosDinersExcel;
@@ -101,6 +102,8 @@ class CargarArchivoController extends BaseController {
 		return $this->render('reporte', $data);
 	}
 
+    /*-----------------------------------------------------------------*/
+
 	function saldosDiners() {
 		\WebSecurity::secure('cargar_archivos.saldos_diners');
 		\Breadcrumbs::active('Saldos Diners');
@@ -141,6 +144,8 @@ class CargarArchivoController extends BaseController {
 			$data['errorGeneral'] = $rep['errorSistema'];
 		return $this->render('reporte', $data);
 	}
+
+    /*-----------------------------------------------------------------*/
 
 	function asignacionesDiners() {
 		\WebSecurity::secure('cargar_archivos.asignaciones_diners');
@@ -183,6 +188,52 @@ class CargarArchivoController extends BaseController {
 		return $this->render('reporte', $data);
 	}
 
+    /*-----------------------------------------------------------------*/
+
+    function baseCargarMegacob() {
+        \WebSecurity::secure('cargar_archivos.base_cargar_megacob');
+        \Breadcrumbs::active('Base a Cargar Megacob');
+
+        $catalogos = [
+            'ciudades' => Catalogo::ciudades(),
+        ];
+
+        $carga_archivo = new ViewCargaArchivo();
+        $carga_archivo->total_registros = 0;
+        $carga_archivo->total_errores = 0;
+
+        $data['carga_archivo'] = json_encode($carga_archivo);
+        $data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+        return $this->render('baseCargarMegacob', $data);
+    }
+
+    function cargarBaseCargarMegacob() {
+        $post = $this->request->getParsedBody();
+        // try catch, etc.
+        $files = $this->request->getUploadedFiles();
+        if (empty($files['archivo'])) {
+            return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+        }
+        /** @var UploadedFile $archivo */
+        $archivo = $files['archivo'];
+        // mas checks que sea xlsx, etc, tamaño, etc.
+        $fileInfo = [
+            'size' => $archivo->getSize(),
+            'name' => $archivo->getClientFilename(),
+            'mime' => $archivo->getClientMediaType(),
+            'observaciones' => @$post['observaciones'],
+            'fecha' => @$post['fecha'],
+        ];
+        $cargador = new CargadorBaseCargarMegacobExcel($this->get('pdo'));
+        $rep = $cargador->cargar($archivo->file, $fileInfo);
+        $data['reporte'] = $rep;
+        if ($rep['errorSistema'])
+            $data['errorGeneral'] = $rep['errorSistema'];
+        return $this->render('reporte', $data);
+    }
+
+    /*-----------------------------------------------------------------*/
+
 	function asignacionesGestorDiners() {
 		\WebSecurity::secure('cargar_archivos.asignaciones_gestor_diners');
 		\Breadcrumbs::active('Asignaciones Diners Gestor');
@@ -223,6 +274,8 @@ class CargarArchivoController extends BaseController {
 			$data['errorGeneral'] = $rep['errorSistema'];
 		return $this->render('reporte', $data);
 	}
+
+    /*-----------------------------------------------------------------*/
 
 	function productos() {
 		\WebSecurity::secure('cargar_archivos.productos');
@@ -268,6 +321,8 @@ class CargarArchivoController extends BaseController {
 			$data['errorGeneral'] = $rep['errorSistema'];
 		return $this->render('reporte', $data);
 	}
+
+    /*-----------------------------------------------------------------*/
 
 	function clientes() {
 		\WebSecurity::secure('cargar_archivos.clientes');
