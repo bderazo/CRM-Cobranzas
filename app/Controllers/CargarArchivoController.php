@@ -32,6 +32,34 @@ class CargarArchivoController extends BaseController {
 		\Breadcrumbs::add('/cargarArchivo', 'Carga de Archivos');
 	}
 
+    function index() {
+        if (!\WebSecurity::hasUser()) {
+            return $this->login();
+        }
+        \Breadcrumbs::active('Carga de Archivos');
+        $menu = $this->get('menuCargaArchivos');
+        $root = $this->get('root');
+        $items = [];
+        foreach ($menu as $k=>$v) {
+            foreach ($v as $row) {
+                if (!empty($row['roles'])) {
+                    $roles = $row['roles'];
+                    if (!$this->permisos->hasRole($roles))
+                        continue;
+                }
+                $row['link'] = $root . $row['link'];
+                $items[$k][] = $row;
+            }
+        }
+
+        $itemsChunks = [];
+        foreach ($items as $k=>$v) {
+            $itemsChunks[$k] = array_chunk($v, 3);
+        }
+        $data['menuReportes'] = $itemsChunks;
+        return $this->render('index', $data);
+    }
+
 	function aplicativoDiners() {
 		\WebSecurity::secure('cargar_archivos.aplicativo_diners');
 		\Breadcrumbs::active('Aplicativo Diners');

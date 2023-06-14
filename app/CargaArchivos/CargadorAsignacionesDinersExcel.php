@@ -176,10 +176,10 @@ class CargadorAsignacionesDinersExcel
 				}
 
 				//PROCESO DE ASIGNACIONES
-				$asignacion_id = 0;
-				if(isset($asignaciones_todos[$aplicativo_diners_id])) {
-					$asignacion_id = $asignaciones_todos[$aplicativo_diners_id]['id'];
-				}
+//				$asignacion_id = 0;
+//				if(isset($asignaciones_todos[$aplicativo_diners_id])) {
+//					$asignacion_id = $asignaciones_todos[$aplicativo_diners_id]['id'];
+//				}
 				//MAPEAR LOS CAMPOS PARA GUARDAR COMO CLAVE VALOR
 				$cont = 0;
 				$data_campos = [];
@@ -189,7 +189,7 @@ class CargadorAsignacionesDinersExcel
 					}
 					$cont++;
 				}
-				if($asignacion_id == 0) {
+//				if($asignacion_id == 0) {
 					//CREAR ASIGNACION
 					$asignaciones = new AplicativoDinersAsignaciones();
 					$asignaciones->cliente_id = $cliente_id;
@@ -214,18 +214,18 @@ class CargadorAsignacionesDinersExcel
 					$asignaciones->usuario_modificacion = \WebSecurity::getUserData('id');
 					$asignaciones->eliminado = 0;
 					$asignaciones->save();
-				} else {
-					//MODIFICAR SALDOS
-					$set = [
-						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_modificacion' => \WebSecurity::getUserData('id'),
-						'campos' => json_encode($data_campos, JSON_PRETTY_PRINT),
-						'fecha_asignacion' => $this->getFecha($values[0]),
-                        'fecha_inicio' => $this->getFecha($values[1]),
-						'fecha_fin' => $this->getFecha($values[2]),
-					];
-					$query = $db->update('aplicativo_diners_asignaciones')->set($set)->where('id', $asignacion_id)->execute();
-				}
+//				} else {
+//					//MODIFICAR SALDOS
+//					$set = [
+//						'fecha_modificacion' => date("Y-m-d H:i:s"),
+//						'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//						'campos' => json_encode($data_campos, JSON_PRETTY_PRINT),
+//						'fecha_asignacion' => $this->getFecha($values[0]),
+//                        'fecha_inicio' => $this->getFecha($values[1]),
+//						'fecha_fin' => $this->getFecha($values[2]),
+//					];
+//					$query = $db->update('aplicativo_diners_asignaciones')->set($set)->where('id', $asignacion_id)->execute();
+//				}
 				$rep['total']++;
 			}
 

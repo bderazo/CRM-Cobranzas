@@ -113,6 +113,10 @@ $container['menuReportes'] = function () {
 	$menu = include('menu_reportes.php');
 	return $menu;
 };
+$container['menuCargaArchivos'] = function () {
+    $menu = include('menu_carga_archivos.php');
+    return $menu;
+};
 
 $container['listaPermisos'] = include('permisos.php');
 
