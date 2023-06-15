@@ -17,6 +17,13 @@
 							</div>
 
 							<div class=" row mb-4">
+								<label for="inputName" class="col-md-2 form-label">Fecha *</label>
+								<div class="col-md-8 col-informacion">
+									<input type="text" class="form-control fecha" id="fecha" name="fecha" required>
+								</div>
+							</div>
+
+							<div class=" row mb-4">
 								<label for="inputName" class="col-md-2 form-label">Observaciones</label>
 								<div class="col-md-8 col-informacion">
 									<textarea rows="3" name="observaciones" id="observaciones"
@@ -98,6 +105,17 @@
                         return false;
                     }
                 });
+
+				$(function () {
+					$('.fecha').datepicker({
+						dateFormat: 'yy-mm-dd',
+						showButtonPanel: true,
+						// minDate: 0, // 0 days offset = today
+						// maxDate: '+2m',
+						numberOfMonths: 1,
+					});
+
+				});
             }
         });
 

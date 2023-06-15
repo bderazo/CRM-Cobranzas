@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer id
  * @property integer cliente_id
+ * @property string fecha
  * @property string estado
  * @property string campos
  * @property string fecha_ingreso

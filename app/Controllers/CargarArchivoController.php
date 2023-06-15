@@ -135,6 +135,7 @@ class CargarArchivoController extends BaseController {
 			'name' => $archivo->getClientFilename(),
 			'mime' => $archivo->getClientMediaType(),
 			'observaciones' => @$post['observaciones'],
+            'fecha' => @$post['fecha'],
 		];
 		$cargador = new CargadorSaldosDinersExcel($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);

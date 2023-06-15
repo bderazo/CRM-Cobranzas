@@ -299,14 +299,14 @@ class CargadorSaldosDinersExcel
 				}
 
 				//PROCESO DE SALDOS
-				$saldos_id = 0;
-				foreach($saldos_todos as $sal) {
-					$existe_saldo = array_search($values[1], $sal);
-					if($existe_saldo) {
-						$saldos_id = $cl['id'];
-						break;
-					}
-				}
+//				$saldos_id = 0;
+//				foreach($saldos_todos as $sal) {
+//					$existe_saldo = array_search($values[1], $sal);
+//					if($existe_saldo) {
+//						$saldos_id = $cl['id'];
+//						break;
+//					}
+//				}
 				//MAPEAR LOS CAMPOS PARA GUARDAR COMO CLAVE VALOR
 				$cont = 0;
 				$data_campos = [];
@@ -316,10 +316,11 @@ class CargadorSaldosDinersExcel
 					}
 					$cont++;
 				}
-				if($saldos_id == 0){
+//				if($saldos_id == 0){
 					//CREAR SALDOS
 					$saldos = new AplicativoDinersSaldos();
 					$saldos->cliente_id = $cliente_id;
+                    $saldos->fecha = @$extraInfo['fecha'];
 					$saldos->campos = json_encode($data_campos,JSON_PRETTY_PRINT);
 					$saldos->fecha_ingreso = date("Y-m-d H:i:s");
 					$saldos->usuario_ingreso = \WebSecurity::getUserData('id');
@@ -328,18 +329,18 @@ class CargadorSaldosDinersExcel
 					$saldos->eliminado = 0;
 					$saldos->save();
 					$saldos_id = $saldos->id;
-				}else{
-					//MODIFICAR SALDOS
-					$set = [
-						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_modificacion' => \WebSecurity::getUserData('id'),
-						'campos' => json_encode($data_campos,JSON_PRETTY_PRINT),
-					];
-					$query = $db->update('aplicativo_diners_saldos')->set($set)->where('id', $saldos_id)->execute();
-
-					//ELIMINAR CAMPOS ANTERIORES
-//					$query = $db->deleteFrom('aplicativo_diners_saldos_campos')->where('aplicativo_diners_saldos_id', $saldos_id)->execute();
-				}
+//				}else{
+//					//MODIFICAR SALDOS
+//					$set = [
+//						'fecha_modificacion' => date("Y-m-d H:i:s"),
+//						'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//						'campos' => json_encode($data_campos,JSON_PRETTY_PRINT),
+//					];
+//					$query = $db->update('aplicativo_diners_saldos')->set($set)->where('id', $saldos_id)->execute();
+//
+//					//ELIMINAR CAMPOS ANTERIORES
+////					$query = $db->deleteFrom('aplicativo_diners_saldos_campos')->where('aplicativo_diners_saldos_id', $saldos_id)->execute();
+//				}
 
 
 				$rep['total']++;
