@@ -7,6 +7,7 @@ use Models\AplicativoDiners;
 use Models\AplicativoDinersAsignaciones;
 use Models\AplicativoDinersBaseCargarMegacob;
 use Models\AplicativoDinersDetalle;
+use Models\AplicativoDinersFocalizacion;
 use Models\AplicativoDinersSaldos;
 use Models\AplicativoDinersSaldosCampos;
 use Models\CargaArchivo;
@@ -70,8 +71,6 @@ class CargadorFocalizacionExcel
 
             $db = new \FluentPDO($pdo);
             $clientes_todos = Cliente::getTodos();
-            $productos_todos = Producto::porInstitucioVerificar(1);
-            $aplicativo_diners_todos = AplicativoDiners::porInstitucioVerificar(1);
             foreach ($it as $rowIndex => $values) {
                 if (($rowIndex === 1)) {
                     $ultima_posicion_columna = array_key_last($values);
@@ -88,7 +87,7 @@ class CargadorFocalizacionExcel
                 $cliente_cedula = '';
                 $cliente_arr = [];
                 foreach ($clientes_todos as $cl) {
-                    $existe_cedula = array_search($values[3], $cl);
+                    $existe_cedula = array_search($values[1], $cl);
                     if ($existe_cedula) {
                         $cliente_id = $cl['id'];
                         $cliente_cedula = $cl['cedula'];
@@ -100,11 +99,11 @@ class CargadorFocalizacionExcel
                 if ($cliente_id == 0) {
                     //CREAR CLIENTE
                     $cliente = new Cliente();
-                    $cliente->cedula = $values[3];
+                    $cliente->cedula = $values[1];
                     $cliente->fecha_ingreso = date("Y-m-d H:i:s");
                     $cliente->usuario_ingreso = \WebSecurity::getUserData('id');
                     $cliente->eliminado = 0;
-                    $cliente->nombres = $values[2];
+                    $cliente->nombres = $values[0];
                     $cliente->fecha_ingreso = date("Y-m-d H:i:s");
                     $cliente->usuario_ingreso = \WebSecurity::getUserData('id');
                     $cliente->fecha_modificacion = date("Y-m-d H:i:s");
@@ -116,52 +115,6 @@ class CargadorFocalizacionExcel
                     $cliente_arr = $cliente->toArray();
                 }
 
-                //PROCESO DE PRODUCTOS
-                $producto_id = 0;
-                if (isset($productos_todos[$cliente_id])) {
-                    $producto_id = $productos_todos[$cliente_id]['id'];
-                }
-                if ($producto_id == 0) {
-                    $producto = new Producto();
-                    $producto->institucion_id = 1;
-                    $producto->cliente_id = $cliente_id;
-                    $producto->producto = $values[0];
-                    $producto->fecha_ingreso = date("Y-m-d H:i:s");
-                    $producto->usuario_ingreso = \WebSecurity::getUserData('id');
-                    $producto->usuario_asignado = 0;
-                    $producto->eliminado = 0;
-                    $producto->estado = 'asignado_megacob';
-                    $producto->fecha_modificacion = date("Y-m-d H:i:s");
-                    $producto->usuario_modificacion = \WebSecurity::getUserData('id');
-                    $producto->save();
-                    $producto_id = $producto->id;
-                }
-
-                //CAMBIAR EL ESTADO DE APLICACION DINERS
-                $aplicativo_diners_id = 0;
-                if (isset($aplicativo_diners_todos[$cliente_id])) {
-                    $aplicativo_diners_id = $aplicativo_diners_todos[$cliente_id]['id'];
-                }
-                if ($aplicativo_diners_id == 0) {
-                    $aplicativo_diners = new AplicativoDiners();
-                    $aplicativo_diners->cliente_id = $cliente_id;
-                    $aplicativo_diners->institucion_id = 1;
-                    $aplicativo_diners->producto_id = $producto_id;
-                    $aplicativo_diners->estado = 'asignado_megacob';
-                    $aplicativo_diners->fecha_elaboracion = date("Y-m-d H:i:s");
-                    $aplicativo_diners->cedula_socio = $cliente_cedula;
-                    $aplicativo_diners->nombre_socio = $cliente_arr['nombres'];
-                    $aplicativo_diners->ciudad_cuenta = $cliente_arr['ciudad'];
-                    $aplicativo_diners->zona_cuenta = $cliente_arr['zona'];
-                    $aplicativo_diners->fecha_ingreso = date("Y-m-d H:i:s");
-                    $aplicativo_diners->fecha_modificacion = date("Y-m-d H:i:s");
-                    $aplicativo_diners->usuario_ingreso = \WebSecurity::getUserData('id');
-                    $aplicativo_diners->usuario_modificacion = \WebSecurity::getUserData('id');
-                    $aplicativo_diners->usuario_asignado = 0;
-                    $aplicativo_diners->eliminado = 0;
-                    $aplicativo_diners->save();
-                    $aplicativo_diners_id = $aplicativo_diners->id;
-                }
 
                 //MAPEAR LOS CAMPOS PARA GUARDAR COMO CLAVE VALOR
                 $cont = 0;
@@ -173,20 +126,11 @@ class CargadorFocalizacionExcel
                     $cont++;
                 }
                 //CREAR ASIGNACION
-                $base_cargar = new AplicativoDinersBaseCargarMegacob();
+                $base_cargar = new AplicativoDinersFocalizacion();
                 $base_cargar->cliente_id = $cliente_id;
-                $base_cargar->aplicativo_diners_id = $aplicativo_diners_id;
                 $base_cargar->fecha = @$extraInfo['fecha'];
-                $base_cargar->marca = $values[0];
-                $base_cargar->ciclo = $values[1];
-                $base_cargar->nombre_socio = $values[2];
-                $base_cargar->cedula_socio = $values[3];
-                $base_cargar->edad_cartera = $values[6];
-                $base_cargar->producto = $values[7];
-                $base_cargar->ciudad = $values[15];
-                $base_cargar->zona = $values[16];
-                $base_cargar->gestor = $values[28];
-                $base_cargar->campana_ece = $values[30];
+                $base_cargar->nombre_socio = $values[0];
+                $base_cargar->cedula_socio = $values[1];
                 $base_cargar->campos = json_encode($data_campos, JSON_PRETTY_PRINT);
                 $base_cargar->fecha_ingreso = date("Y-m-d H:i:s");
                 $base_cargar->usuario_ingreso = \WebSecurity::getUserData('id');
@@ -206,9 +150,9 @@ class CargadorFocalizacionExcel
             $carga->total_registros = $rep['total'];
             $carga->update();
             $pdo->commit();
-            \Auditor::info("Archivo '$nombreArchivo' cargado", "CargadorBaseCargarMegacobExcel");
+            \Auditor::info("Archivo '$nombreArchivo' cargado", "CargadorFocalizacionExcel");
         } catch (\Exception $ex) {
-            \Auditor::error("Ingreso de carga", "CargadorBaseCargarMegacobExcel", $ex);
+            \Auditor::error("Ingreso de carga", "CargadorFocalizacionExcel", $ex);
             $pdo->rollBack();
             $rep['errorSistema'] = $ex;
         }
