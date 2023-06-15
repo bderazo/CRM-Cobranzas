@@ -30,6 +30,13 @@ return [
             'description' => 'Datos de la base a cargar Megacob'
         ],
         [
+            'label' => 'Focalización',
+            'link' => '/cargarArchivo/focalizacion',
+            'roles' => 'cargar_archivos.focalizacion',
+            'icon' => 'fa fa-file-excel-o',
+            'description' => 'Datos de la focalizacion'
+        ],
+        [
             'label' => 'Asignaciones a Gestor',
             'link' => '/cargarArchivo/asignacionesGestorDiners',
             'roles' => 'cargar_archivos.asignaciones_gestor_diners',
