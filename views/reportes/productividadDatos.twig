@@ -39,13 +39,26 @@
 						</thead>
 						<tbody>
 						<tr v-for="d in datos">
-							<td style="text-align: left;" v-html="d.gestor"></td>
-                            <td style="text-align: center;" v-html="d.hora_7"></td>
-                            <td style="text-align: center;" v-html="d.hora_8"></td>
-                            <td style="text-align: center;" v-html="d.hora_9"></td>
-                            <td style="text-align: center;" v-html="d.hora_10"></td>
-                            <td style="text-align: center;" v-html="d.hora_11"></td>
-                            <td style="text-align: center;" v-html="d.hora_12"></td>
+							<td style="text-align: left;" v-html="d.nombre_tarjeta"></td>
+                            <td style="text-align: center;" v-html="d.ciclo"></td>
+                            <td style="text-align: left;" v-html="d.cedula"></td>
+                            <td style="text-align: left;" v-html="d.nombres"></td>
+                            <td style="text-align: left;" v-html="d.ciudad_gestion"></td>
+                            <td style="text-align: left;" v-html="d.hora_gestion"></td>
+                            <td style="text-align: left;" v-html="d.gestor"></td>
+                            <td style="text-align: left;" v-html="d.nivel_2_texto"></td>
+                            <td style="text-align: left;" v-html="d.nivel_1_motivo_no_pago_texto"></td>
+                            <td style="text-align: left;" v-html="d.nivel_2_motivo_no_pago_texto"></td>
+                            <td style="text-align: left;" v-html="d.observaciones"></td>
+                            <td style="text-align: left;"></td>
+                            <td style="text-align: left;" v-html="d.empresa"></td>
+                            <td style="text-align: left;" v-html="d.nivel_1_texto"></td>
+                            <td style="text-align: left;" v-html="d.usuario_canal"></td>
+                            <td style="text-align: left;" v-html="d.saldo_actual_facturado"></td>
+                            <td style="text-align: left;" v-html="d.saldo_30_facturado"></td>
+                            <td style="text-align: left;" v-html="d.saldo_60_facturado"></td>
+                            <td style="text-align: left;" v-html="d.saldo_90_facturado"></td>
+                            <td style="text-align: left;" v-html="d.saldo_90_facturado"></td>
 						</tr>
 						</tbody>
 					</table>

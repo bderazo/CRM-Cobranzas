@@ -6,6 +6,16 @@
 		<form id="filtros">
 			<div class="row ">
 				<div class="col-sm-3">
+					<b>Canal</b> <br>
+					<div class="input-group">
+						<select class="form-control form-select select2" name="canal_usuario" id="canal_usuario">
+							<option value=""></option>
+							<option v-for="(v,k) in canal_usuario" v-html="v" :value="k"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
 					<b>Plaza</b> <br>
 					<div class="input-group">
 						<select class="form-control form-select select2" name="plaza_usuario" id="plaza_usuario">
@@ -54,6 +64,7 @@
                     plaza_usuario: {{ plaza_usuario|raw }},
                     horas: {{ horas|raw }},
                     minutos: {{ minutos|raw }},
+					canal_usuario: {{ canal_usuario|raw }},
                 },
                 methods: {},
             });
