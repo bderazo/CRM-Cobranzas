@@ -31,7 +31,8 @@ class CampoTelefonia {
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
-			->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, COUNT(IF(ps.nivel_2_id = 1859, 1, NULL)) 'refinancia',
+			->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, 
+			                COUNT(IF(ps.nivel_2_id = 1859, 1, NULL)) 'refinancia',
 							COUNT(IF(ps.nivel_2_id = 1853, 1, NULL)) 'notificado', 
 							COUNT(IF(ps.nivel_1_id = 1855, 1, NULL)) 'cierre_efectivo',
 							COUNT(IF(ps.nivel_1_id = 1839, 1, NULL)) 'cierre_no_efectivo',

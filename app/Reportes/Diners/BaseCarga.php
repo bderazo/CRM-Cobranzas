@@ -118,20 +118,20 @@ class BaseCarga
                 unset($saldos_arr['campos']);
                 $saldos_arr = array_merge($saldos_arr, $campos_saldos);
                 if($seg['nombre_tarjeta'] == 'DINERS'){
-                    $seg['motivo_anterior'] = $saldos_arr['MOTIVO CIERRE DINERS'];
-                    $seg['observacion_anterior'] = $saldos_arr['OBSERVACION CIERRE DINERS'];
+                    $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE DINERS']) ? $saldos_arr['MOTIVO CIERRE DINERS'] : '';
+                    $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE DINERS']) ? $saldos_arr['OBSERVACION CIERRE DINERS'] : '';
                 }
                 if($seg['nombre_tarjeta'] == 'INTERDIN'){
-                    $seg['motivo_anterior'] = $saldos_arr['MOTIVO CIERRE VISA'];
-                    $seg['observacion_anterior'] = $saldos_arr['OBSERVACION CIERRE VISA'];
+                    $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE VISA']) ? $saldos_arr['MOTIVO CIERRE VISA'] : '';
+                    $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE VISA']) ? $saldos_arr['OBSERVACION CIERRE VISA'] : '';
                 }
                 if($seg['nombre_tarjeta'] == 'DISCOVER'){
-                    $seg['motivo_anterior'] = $saldos_arr['MOTIVO CIERRE DISCOVER'];
-                    $seg['observacion_anterior'] = $saldos_arr['OBSERVACION CIERRE DISCOVER'];
+                    $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE DISCOVER']) ? $saldos_arr['MOTIVO CIERRE DISCOVER'] : '';
+                    $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE DISCOVER']) ? $saldos_arr['OBSERVACION CIERRE DISCOVER'] : '';
                 }
                 if($seg['nombre_tarjeta'] == 'MASTERCARD'){
-                    $seg['motivo_anterior'] = $saldos_arr['MOTIVO CIERRE MASTERCARD'];
-                    $seg['observacion_anterior'] = $saldos_arr['OBSERVACION CIERRE MASTERCARD'];
+                    $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE MASTERCARD']) ? $saldos_arr['MOTIVO CIERRE MASTERCARD'] : '';
+                    $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE MASTERCARD']) ? $saldos_arr['OBSERVACION CIERRE MASTERCARD'] : '';
                 }
             }else{
                 $seg['motivo_anterior'] = '';

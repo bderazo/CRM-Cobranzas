@@ -89,35 +89,35 @@ class NegociacionesEjecutivo
 			if(isset($saldos[$seg['id_cliente']])) {
 				$saldos_arr = json_decode($saldos[$seg['id_cliente']]['campos'], true);
 				if($seg['nombre_tarjeta'] == 'DINERS') {
-					$seg['actuales_orig'] = $saldos_arr['ACTUALES FACTURADO DINERS'] > 0 ? $saldos_arr['ACTUALES FACTURADO DINERS'] : 0;
-					$seg['d30_orig'] = $saldos_arr['30 DIAS FACTURADO DINERS'] > 0 ? $saldos_arr['30 DIAS FACTURADO DINERS'] : 0;
-					$seg['d60_orig'] = $saldos_arr['60 DIAS FACTURADO DINERS'] > 0 ? $saldos_arr['60 DIAS FACTURADO DINERS'] : 0;
-					$seg['d90_orig'] = $saldos_arr['90 DIAS FACTURADO DINERS'] > 0 ? $saldos_arr['90 DIAS FACTURADO DINERS'] : 0;
-					$seg['dmas90_orig'] = $saldos_arr['MAS 90 DIAS FACTURADO DINERS'] > 0 ? $saldos_arr['MAS 90 DIAS FACTURADO DINERS'] : 0;
+					$seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO DINERS']) ? $saldos_arr['ACTUALES FACTURADO DINERS'] : 0;
+					$seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO DINERS']) ? $saldos_arr['30 DIAS FACTURADO DINERS'] : 0;
+					$seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO DINERS']) ? $saldos_arr['60 DIAS FACTURADO DINERS'] : 0;
+					$seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO DINERS']) ? $saldos_arr['90 DIAS FACTURADO DINERS'] : 0;
+					$seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO DINERS']) ? $saldos_arr['MAS 90 DIAS FACTURADO DINERS'] : 0;
 					$seg['total'] = (float)$seg['actuales_orig'] + (float)$seg['d30_orig'] + (float)$seg['d60_orig'] + (float)$seg['d90_orig'] + (float)$seg['dmas90_orig'];
 				}
 				if($seg['nombre_tarjeta'] == 'INTERDIN') {
-					$seg['actuales_orig'] = $saldos_arr['ACTUALES FACTURADO VISA'] > 0 ? $saldos_arr['ACTUALES FACTURADO VISA'] : 0;
-					$seg['d30_orig'] = $saldos_arr['30 DIAS FACTURADO VISA'] > 0 ? $saldos_arr['30 DIAS FACTURADO VISA'] : 0;
-					$seg['d60_orig'] = $saldos_arr['60 DIAS FACTURADO VISA'] > 0 ? $saldos_arr['60 DIAS FACTURADO VISA'] : 0;
-					$seg['d90_orig'] = $saldos_arr['90 DIAS FACTURADO VISA'] > 0 ? $saldos_arr['90 DIAS FACTURADO VISA'] : 0;
-					$seg['dmas90_orig'] = $saldos_arr['MAS 90 DIAS FACTURADO VISA'] > 0 ? $saldos_arr['MAS 90 DIAS FACTURADO VISA'] : 0;
+					$seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO VISA']) ? $saldos_arr['ACTUALES FACTURADO VISA'] : 0;
+					$seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO VISA']) ? $saldos_arr['30 DIAS FACTURADO VISA'] : 0;
+					$seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO VISA']) ? $saldos_arr['60 DIAS FACTURADO VISA'] : 0;
+					$seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO VISA']) ? $saldos_arr['90 DIAS FACTURADO VISA'] : 0;
+					$seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO VISA']) ? $saldos_arr['MAS 90 DIAS FACTURADO VISA'] : 0;
 					$seg['total'] = (float)$seg['actuales_orig'] + (float)$seg['d30_orig'] + (float)$seg['d60_orig'] + (float)$seg['d90_orig'] + (float)$seg['dmas90_orig'];
 				}
 				if($seg['nombre_tarjeta'] == 'DISCOVER') {
-					$seg['actuales_orig'] = $saldos_arr['ACTUALES FACTURADO DISCOVER'] > 0 ? $saldos_arr['ACTUALES FACTURADO DISCOVER'] : 0;
-					$seg['d30_orig'] = $saldos_arr['30 DIAS FACTURADO DISCOVER'] > 0 ? $saldos_arr['30 DIAS FACTURADO DISCOVER'] : 0;
-					$seg['d60_orig'] = $saldos_arr['60 DIAS FACTURADO DISCOVER'] > 0 ? $saldos_arr['60 DIAS FACTURADO DISCOVER'] : 0;
-					$seg['d90_orig'] = $saldos_arr['90 DIAS FACTURADO DISCOVER'] > 0 ? $saldos_arr['90 DIAS FACTURADO DISCOVER'] : 0;
-					$seg['dmas90_orig'] = $saldos_arr['MAS 90 DIAS FACTURADO DISCOVER'] > 0 ? $saldos_arr['MAS 90 DIAS FACTURADO DISCOVER'] : 0;
+					$seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO DISCOVER']) ? $saldos_arr['ACTUALES FACTURADO DISCOVER'] : 0;
+					$seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO DISCOVER']) ? $saldos_arr['30 DIAS FACTURADO DISCOVER'] : 0;
+					$seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO DISCOVER']) ? $saldos_arr['60 DIAS FACTURADO DISCOVER'] : 0;
+					$seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO DISCOVER']) ? $saldos_arr['90 DIAS FACTURADO DISCOVER'] : 0;
+					$seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO DISCOVER']) ? $saldos_arr['MAS 90 DIAS FACTURADO DISCOVER'] : 0;
 					$seg['total'] = (float)$seg['actuales_orig'] + (float)$seg['d30_orig'] + (float)$seg['d60_orig'] + (float)$seg['d90_orig'] + (float)$seg['dmas90_orig'];
 				}
 				if($seg['nombre_tarjeta'] == 'MASTERCARD') {
-					$seg['actuales_orig'] = $saldos_arr['ACTUALES FACTURADO MASTERCARD'] > 0 ? $saldos_arr['ACTUALES FACTURADO MASTERCARD'] : 0;
-					$seg['d30_orig'] = $saldos_arr['30 DIAS FACTURADO MASTERCARD'] > 0 ? $saldos_arr['30 DIAS FACTURADO MASTERCARD'] : 0;
-					$seg['d60_orig'] = $saldos_arr['60 DIAS FACTURADO MASTERCARD'] > 0 ? $saldos_arr['60 DIAS FACTURADO MASTERCARD'] : 0;
-					$seg['d90_orig'] = $saldos_arr['90 DIAS FACTURADO MASTERCARD'] > 0 ? $saldos_arr['90 DIAS FACTURADO MASTERCARD'] : 0;
-					$seg['dmas90_orig'] = $saldos_arr['MAS 90 DIAS FACTURADO MASTERCARD'] > 0 ? $saldos_arr['MAS 90 DIAS FACTURADO MASTERCARD'] : 0;
+					$seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO MASTERCARD']) ? $saldos_arr['ACTUALES FACTURADO MASTERCARD'] : 0;
+					$seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['30 DIAS FACTURADO MASTERCARD'] : 0;
+					$seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['60 DIAS FACTURADO MASTERCARD'] : 0;
+					$seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['90 DIAS FACTURADO MASTERCARD'] : 0;
+					$seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['MAS 90 DIAS FACTURADO MASTERCARD'] : 0;
 					$seg['total'] = (float)$seg['actuales_orig'] + (float)$seg['d30_orig'] + (float)$seg['d60_orig'] + (float)$seg['d90_orig'] + (float)$seg['dmas90_orig'];
 				}
 			} else {

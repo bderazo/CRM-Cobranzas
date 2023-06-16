@@ -21,18 +21,18 @@
 							<th>CONTACTABILIDAD</th>
                             <th>EFECTIVIDAD</th>
                             <th>META DIARIA</th>
-                            <th>% META ALCANZADO</th>
+                            <th>% META ALCANZADA</th>
 						</tr>
 						</thead>
 						<tbody>
 						<tr v-for="d in datos">
-							<td style="text-align: left;" v-html="d.gestor"></td>
-                            <td style="text-align: center;" v-html="d.hora_7"></td>
-                            <td style="text-align: center;" v-html="d.hora_8"></td>
-                            <td style="text-align: center;" v-html="d.hora_9"></td>
-                            <td style="text-align: center;" v-html="d.hora_10"></td>
-                            <td style="text-align: center;" v-html="d.hora_11"></td>
-                            <td style="text-align: center;" v-html="d.hora_12"></td>
+							<td style="text-align: center;" v-html="d.gestor"></td>
+                            <td style="text-align: center;" v-html="d.cierre_efectivo"></td>
+                            <td style="text-align: center;" v-html="d.refinancia"></td>
+                            <td style="text-align: center;" v-html="d.contactabilidad"></td>
+                            <td style="text-align: center;" v-html="d.efectividad"></td>
+                            <td style="text-align: center;" v-html="d.meta_diaria"></td>
+                            <td style="text-align: center;" v-html="d.meta_alcanzada"></td>
 						</tr>
 						</tbody>
 					</table>

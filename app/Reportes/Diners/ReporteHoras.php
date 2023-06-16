@@ -73,6 +73,7 @@ class ReporteHoras
 			$fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
 			$q->where('ps.fecha_ingreso <= "' . $fecha . '"');
 		}
+//        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data = [];
 		foreach($lista as $seg) {
