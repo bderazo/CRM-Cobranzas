@@ -12,8 +12,8 @@
 					Exportar
 				</a>
 				<div class="table-responsive">
-					<table class="table border table-striped table-bordered table-sm mb-0">
-						<thead>
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
                         <tr style="background-color: #95b8f6;">
                             <th>#</th>
                             <th>MARCA DONDE SE PROCESA</th>
@@ -40,19 +40,36 @@
                             <th>GASTOS</th>
                             <th>DOCUMENTOS SOPORTES</th>
                         </tr>
-						</thead>
-						<tbody>
-						<tr v-for="d in datos">
-							<td style="text-align: left;" v-html="d.gestor"></td>
-                            <td style="text-align: center;" v-html="d.hora_7"></td>
-                            <td style="text-align: center;" v-html="d.hora_8"></td>
-                            <td style="text-align: center;" v-html="d.hora_9"></td>
-                            <td style="text-align: center;" v-html="d.hora_10"></td>
-                            <td style="text-align: center;" v-html="d.hora_11"></td>
-                            <td style="text-align: center;" v-html="d.hora_12"></td>
-						</tr>
-						</tbody>
-					</table>
+                        </thead>
+                        <tbody>
+                        <tr v-for="d in datos">
+                            <td style="text-align: center;" v-html="d.numero"></td>
+                            <td style="text-align: center;" v-html="d.nombre_tarjeta"></td>
+                            <td style="text-align: center;" v-html="d.cedula"></td>
+                            <td style="text-align: center;" v-html="d.cod_negociador"></td>
+                            <td style="text-align: center;" v-html="d.subarea"></td>
+                            <td style="text-align: center;" v-html="d.tipo_negociacion"></td>
+                            <td style="text-align: center;" v-html="d.plazo_financiamiento"></td>
+                            <td style="text-align: center;" v-html="d.numero_meses_gracia"></td>
+                            <td style="text-align: center;"></td>
+                            <td style="text-align: center;" v-html="d.abono_corte_diners"></td>
+                            <td style="text-align: center;" v-html="d.abono_corte_visa"></td>
+                            <td style="text-align: center;" v-html="d.abono_corte_discover"></td>
+                            <td style="text-align: center;" v-html="d.abono_corte_mastercard"></td>
+                            <td style="text-align: center;" v-html="d.motivo_no_pago_codigo"></td>
+                            <td style="text-align: center;"></td>
+                            <td style="text-align: center;"></td>
+                            <td style="text-align: center;" v-html="d.unificar_deudas"></td>
+                            <td style="text-align: center;" v-html="d.traslado_valores_diners"></td>
+                            <td style="text-align: center;" v-html="d.traslado_valores_visa"></td>
+                            <td style="text-align: center;" v-html="d.traslado_valores_discover"></td>
+                            <td style="text-align: center;" v-html="d.traslado_valores_mastercard"></td>
+                            <td style="text-align: center;"></td>
+                            <td style="text-align: center;"></td>
+                            <td style="text-align: center;"></td>
+                        </tr>
+                        </tbody>
+                    </table>
 				</div>
 			</div>
 		</div>
