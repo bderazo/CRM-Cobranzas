@@ -42,14 +42,12 @@
                                     <td style="text-align: center;">
                                         <label class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
-
                                             <template v-if="t.bandera == 1">
                                                 <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
                                             </template>
                                             <template v-else>
                                                 <span class="custom-control-label" v-html="t.telefono"></span>
                                             </template>
-
                                         </label>
                                     </td>
                                     <td>
@@ -655,7 +653,10 @@
                                                 <tr>
                                                     <td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
                                                     <td>
-                                                        <span v-html="aplicativo_diners_tarjeta_diners.total_calculo_precancelacion_diferidos"></span><br/>
+                                                        total_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_diners.total_precancelacion_diferidos"></span><br/>
+                                                        calculo_gastos_cobranza: <span v-html="aplicativo_diners_tarjeta_diners.calculo_gastos_cobranza"></span><br/>
+                                                        total_calculo_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_diners.total_calculo_precancelacion_diferidos"></span><br/>
+                                                        {#<span v-html="aplicativo_diners_tarjeta_diners.total_calculo_precancelacion_diferidos"></span><br/>#}
                                                     </td>
                                                 </tr>
                                                 <template v-if="aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos == '' || aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos == null">
@@ -2202,7 +2203,10 @@
                                                 <tr>
                                                     <td><strong>TOTAL VALOR PRE CANCELACION DIFERIDOS</strong></td>
                                                     <td>
-                                                        <span v-html="aplicativo_diners_tarjeta_mastercard.total_calculo_precancelacion_diferidos"></span>
+                                                        total_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_mastercard.total_precancelacion_diferidos"></span><br/>
+                                                        calculo_gastos_cobranza: <span v-html="aplicativo_diners_tarjeta_mastercard.calculo_gastos_cobranza"></span><br/>
+                                                        total_calculo_precancelacion_diferidos: <span v-html="aplicativo_diners_tarjeta_mastercard.total_calculo_precancelacion_diferidos"></span><br/>
+                                                        {# <span v-html="aplicativo_diners_tarjeta_mastercard.total_calculo_precancelacion_diferidos"></span>#}
                                                     </td>
                                                 </tr>
                                                 <template v-if="aplicativo_diners_tarjeta_mastercard.especialidad_venta_vehiculos == '' || aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos == null">
