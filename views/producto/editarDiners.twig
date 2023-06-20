@@ -2763,18 +2763,24 @@
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_diners.refinancia == 'NO'){
                         $("#abono_negociador_diners").prop('readonly', true);
+                        $("#unificar_deudas_diners").prop('disabled', 'disabled');
                     }else{
                         $("#abono_negociador_diners").prop('readonly', false);
+                        $("#unificar_deudas_diners").prop('disabled', false);
                     }
                     if(self.aplicativo_diners_tarjeta_interdin.refinancia == 'NO'){
                         $("#abono_negociador_interdin").prop('readonly', true);
+                        $("#unificar_deudas_interdin").prop('disabled', 'disabled');
                     }else{
                         $("#abono_negociador_interdin").prop('readonly', false);
+                        $("#unificar_deudas_interdin").prop('disabled', false);
                     }
                     if(self.aplicativo_diners_tarjeta_discover.refinancia == 'NO'){
                         $("#abono_negociador_discover").prop('readonly', true);
+                        $("#unificar_deudas_interdin").prop('disabled', 'disabled');
                     }else{
                         $("#abono_negociador_discover").prop('readonly', false);
+                        $("#unificar_deudas_interdin").prop('disabled', false);
                     }
                     if(self.aplicativo_diners_tarjeta_mastercard.refinancia == 'NO'){
                         $("#abono_negociador_mastercard").prop('readonly', true);
