@@ -894,7 +894,8 @@
                                                         <select class="form-control form-control-sm form-select select2"
                                                                 v-on:change="calcularValoresDiners"
                                                                 v-model="aplicativo_diners_tarjeta_diners.unificar_deudas"
-                                                                placeholder="Seleccione una opción" v-autoname>
+                                                                placeholder="Seleccione una opción"
+                                                                name="unificar_deudas_diners" id="unificar_deudas_diners" v-autoname>
                                                             <option value="NO">NO</option>
                                                             <option value="SI">SI</option>
                                                         </select>
@@ -1396,7 +1397,8 @@
                                                         <select class="form-control form-control-sm form-select select2"
                                                                 v-on:change="calcularValoresInterdin"
                                                                 v-model="aplicativo_diners_tarjeta_interdin.unificar_deudas"
-                                                                placeholder="Seleccione una opción" v-autoname>
+                                                                placeholder="Seleccione una opción"
+                                                                name="unificar_deudas_interdin" id="unificar_deudas_interdin" v-autoname>
                                                             <option value="NO">NO</option>
                                                             <option value="SI">SI</option>
                                                         </select>
@@ -1898,7 +1900,8 @@
                                                         <select class="form-control form-control-sm form-select select2"
                                                                 v-on:change="calcularValoresDiscover"
                                                                 v-model="aplicativo_diners_tarjeta_discover.unificar_deudas"
-                                                                placeholder="Seleccione una opción" v-autoname>
+                                                                placeholder="Seleccione una opción"
+                                                                name="unificar_deudas_discover" id="unificar_deudas_discover" v-autoname>
                                                             <option value="NO">NO</option>
                                                             <option value="SI">SI</option>
                                                         </select>
@@ -2567,14 +2570,23 @@
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI') {
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
-                            self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
-                            self.calcularValoresInterdin();
-                            app.$forceUpdate();
+                            // self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                            // self.calcularValoresInterdin();
+                            // app.$forceUpdate();
+                            $("#unificar_deudas_interdin").prop('readonly', true);
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
-                            self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
-                            self.calcularValoresDiscover();
-                            app.$forceUpdate();
+                            // self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                            // self.calcularValoresDiscover();
+                            // app.$forceUpdate();
+                            $("#unificar_deudas_discover").prop('readonly', true);
+                        }
+                    }else{
+                        if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
+                            $("#unificar_deudas_interdin").prop('readonly', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
+                            $("#unificar_deudas_discover").prop('readonly', false);
                         }
                     }
                     var data = {
@@ -2599,14 +2611,23 @@
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI') {
                         if(typeof(self.aplicativo_diners_tarjeta_diners.id) != "undefined" && self.aplicativo_diners_tarjeta_diners.id !== null) {
-                            self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                            self.calcularValoresDiners();
-                            app.$forceUpdate();
+                            // self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                            // self.calcularValoresDiners();
+                            // app.$forceUpdate();
+                            $("#unificar_deudas_diners").prop('readonly', true);
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
-                            self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
-                            self.calcularValoresDiscover();
-                            app.$forceUpdate();
+                            // self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
+                            // self.calcularValoresDiscover();
+                            // app.$forceUpdate();
+                            $("#unificar_deudas_discover").prop('readonly', true);
+                        }
+                    }else{
+                        if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
+                            $("#unificar_deudas_diners").prop('readonly', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
+                            $("#unificar_deudas_discover").prop('readonly', false);
                         }
                     }
                     var data = {
@@ -2633,14 +2654,23 @@
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI') {
                         if(typeof(self.aplicativo_diners_tarjeta_diners.id) != "undefined" && self.aplicativo_diners_tarjeta_diners.id !== null) {
-                            self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                            self.calcularValoresDiners();
-                            app.$forceUpdate();
+                            // self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                            // self.calcularValoresDiners();
+                            // app.$forceUpdate();
+                            $("#unificar_deudas_diners").prop('readonly', true);
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
-                            self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
-                            self.calcularValoresInterdin();
-                            app.$forceUpdate();
+                            // self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
+                            // self.calcularValoresInterdin();
+                            // app.$forceUpdate();
+                            $("#unificar_deudas_interdin").prop('readonly', true);
+                        }
+                    }else{
+                        if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
+                            $("#unificar_deudas_diners").prop('readonly', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
+                            $("#unificar_deudas_interdin").prop('readonly', false);
                         }
                     }
                     var data = {
