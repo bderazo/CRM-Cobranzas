@@ -2573,7 +2573,7 @@
                             // self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
                             // self.calcularValoresInterdin();
                             // app.$forceUpdate();
-                            $("#unificar_deudas_interdin").prop('readonly', true);
+                            $("#unificar_deudas_interdin").prop('disabled', 'disabled');
                             console.log('unificar_deudas_interdin: readonly true')
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
@@ -2584,7 +2584,7 @@
                         }
                     }else{
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
-                            $("#unificar_deudas_interdin").prop('readonly', false);
+                            $("#unificar_deudas_interdin").prop('disabled', false);
                             console.log('unificar_deudas_interdin: readonly false')
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
