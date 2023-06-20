@@ -51,10 +51,12 @@ class ProduccionPlaza {
 			if($filtros['hora_inicio'] != ''){
 				$hora = $filtros['hora_inicio'];
 			}
+            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
 			$minuto = '00';
 			if($filtros['minuto_inicio'] != ''){
 				$minuto = $filtros['minuto_inicio'];
 			}
+            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
 			$fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
 			$q->where('ps.fecha_ingreso >= "'.$fecha.'"');
 		}
@@ -63,13 +65,17 @@ class ProduccionPlaza {
 			if($filtros['hora_fin'] != ''){
 				$hora = $filtros['hora_fin'];
 			}
+            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
 			$minuto = '00';
 			if($filtros['minuto_fin'] != ''){
 				$minuto = $filtros['minuto_fin'];
 			}
+            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
 			$fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
 			$q->where('ps.fecha_ingreso <= "'.$fecha.'"');
 		}
+        $q->disableSmartJoin();
+//        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data_contar = [];
 		//CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
@@ -218,32 +224,37 @@ class ProduccionPlaza {
 		if (@$filtros['plaza_usuario']){
 			$q->where('u.plaza',$filtros['plaza_usuario']);
 		}
-		if (@$filtros['fecha_inicio']){
-			$hora = '00';
-			if($filtros['hora_inicio'] != ''){
-				$hora = $filtros['hora_inicio'];
-			}
-			$minuto = '00';
-			if($filtros['minuto_inicio'] != ''){
-				$minuto = $filtros['minuto_inicio'];
-			}
-			$fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-			$q->where('ps.fecha_ingreso >= "'.$fecha.'"');
-		}
-		if (@$filtros['fecha_fin']){
-			$hora = '00';
-			if($filtros['hora_fin'] != ''){
-				$hora = $filtros['hora_fin'];
-			}
-			$minuto = '00';
-			if($filtros['minuto_fin'] != ''){
-				$minuto = $filtros['minuto_fin'];
-			}
-			$fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-			$q->where('ps.fecha_ingreso <= "'.$fecha.'"');
-		}
+        if (@$filtros['fecha_inicio']){
+            $hora = '00';
+            if($filtros['hora_inicio'] != ''){
+                $hora = $filtros['hora_inicio'];
+            }
+            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
+            $minuto = '00';
+            if($filtros['minuto_inicio'] != ''){
+                $minuto = $filtros['minuto_inicio'];
+            }
+            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
+            $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+            $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+        }
+        if (@$filtros['fecha_fin']){
+            $hora = '00';
+            if($filtros['hora_fin'] != ''){
+                $hora = $filtros['hora_fin'];
+            }
+            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
+            $minuto = '00';
+            if($filtros['minuto_fin'] != ''){
+                $minuto = $filtros['minuto_fin'];
+            }
+            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
+            $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+            $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+        }
 		$q->orderBy('addet.nombre_tarjeta, addet.ciclo');
 		$q->groupBy('addet.nombre_tarjeta, addet.ciclo');
+        $q->disableSmartJoin();
 		$lista = $q->fetchAll();
 		$total_cuentas = 0;
 		$total_actuales = 0;

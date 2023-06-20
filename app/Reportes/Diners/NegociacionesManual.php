@@ -50,10 +50,12 @@ class NegociacionesManual {
             if($filtros['hora_inicio'] != ''){
                 $hora = $filtros['hora_inicio'];
             }
+            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
             $minuto = '00';
             if($filtros['minuto_inicio'] != ''){
                 $minuto = $filtros['minuto_inicio'];
             }
+            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
             $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
             $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
         }
@@ -62,14 +64,17 @@ class NegociacionesManual {
             if($filtros['hora_fin'] != ''){
                 $hora = $filtros['hora_fin'];
             }
+            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
             $minuto = '00';
             if($filtros['minuto_fin'] != ''){
                 $minuto = $filtros['minuto_fin'];
             }
+            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
             $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
             $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
         }
         $q->orderBy('ps.fecha_ingreso');
+        $q->disableSmartJoin();
         $lista = $q->fetchAll();
         $data = [];
         $cont = 1;
