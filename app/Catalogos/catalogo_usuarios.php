@@ -1,8 +1,9 @@
 <?php
 return [
 	'canal' => [
+        'CAMPO' => 'CAMPO',
 		'TELEFONIA' => 'TELEFONIA',
-		'CAMPO' => 'CAMPO',
+        'AUXILIAR TELEFONIA' => 'AUXILIAR TELEFONIA',
 	],
 	'campana' => [
 		'CAMPO' => 'CAMPO',
