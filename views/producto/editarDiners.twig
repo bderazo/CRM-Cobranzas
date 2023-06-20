@@ -658,12 +658,22 @@
                                                         <span v-html="aplicativo_diners_tarjeta_diners.total_calculo_precancelacion_diferidos"></span><br/>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
-                                                    <td>
-                                                        <span v-html="aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos"></span>
-                                                    </td>
-                                                </tr>
+                                                <template v-if="aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos == '' || aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos == null">
+                                                    <tr>
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_diners.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 </tbody>
                                             </table>
                                             <br/>
@@ -1172,12 +1182,22 @@
 {#                                                        <span v-html="aplicativo_diners_tarjeta_interdin.total_calculo_precancelacion_diferidos"></span><br/>#}
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
-                                                    <td>
-                                                        <span v-html="aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos"></span>
-                                                    </td>
-                                                </tr>
+                                                <template v-if="aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos == '' || aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos == null">
+                                                    <tr>
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 </tbody>
                                             </table>
                                             <br/>
@@ -1675,12 +1695,22 @@
 {#                                                        <span v-html="aplicativo_diners_tarjeta_discover.total_calculo_precancelacion_diferidos"></span>#}
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
-                                                    <td>
-                                                        <span v-html="aplicativo_diners_tarjeta_discover.especialidad_venta_vehiculos"></span>
-                                                    </td>
-                                                </tr>
+                                                <template v-if="aplicativo_diners_tarjeta_discover.especialidad_venta_vehiculos == '' || aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos == null">
+                                                    <tr>
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_discover.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_discover.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 </tbody>
                                             </table>
                                             <br/>
@@ -2175,12 +2205,22 @@
                                                         <span v-html="aplicativo_diners_tarjeta_mastercard.total_calculo_precancelacion_diferidos"></span>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
-                                                    <td>
-                                                        <span v-html="aplicativo_diners_tarjeta_mastercard.especialidad_venta_vehiculos"></span>
-                                                    </td>
-                                                </tr>
+                                                <template v-if="aplicativo_diners_tarjeta_mastercard.especialidad_venta_vehiculos == '' || aplicativo_diners_tarjeta_interdin.especialidad_venta_vehiculos == null">
+                                                    <tr>
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_mastercard.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_mastercard.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 </tbody>
                                             </table>
                                             <br/>
