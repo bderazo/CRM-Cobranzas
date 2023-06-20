@@ -195,7 +195,7 @@ class ProductoController extends BaseController
 		\WebSecurity::secure('producto.lista_diners');
 
 		$meses_gracia = [];
-		for($i = 1; $i <= 6; $i++) {
+		for($i = 0; $i <= 6; $i++) {
 			$meses_gracia[$i] = $i;
 		}
 		$cat = new CatalogoCliente();
