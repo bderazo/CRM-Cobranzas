@@ -2600,6 +2600,7 @@
                     if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI') {
                         if(self.aplicativo_diners_tarjeta_diners.length > 0) {
                             self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
+                            alert(self.aplicativo_diners_tarjeta_diners.unificar_deudas);
                             self.calcularValoresDiners();
                             app.$forceUpdate();
                         }
