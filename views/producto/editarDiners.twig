@@ -41,7 +41,7 @@
                                 <tr v-for="t in telefono">
                                     <td style="text-align: center;">
                                         <label class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input required" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
+                                            <input type="radio" class="custom-control-input" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
 
                                             <template v-if="t.bandera == 1">
                                                 <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
