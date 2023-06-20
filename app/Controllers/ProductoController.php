@@ -613,7 +613,7 @@ class ProductoController extends BaseController
                 $obj_interdin->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_interdin->eliminado = 0;
                 $save = $obj_interdin->save();
-                printDie($save);
+//                printDie($save);
                 \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
             }
 		}
