@@ -2569,10 +2569,12 @@
                         if(self.aplicativo_diners_tarjeta_interdin.length > 0) {
                             self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
                             self.calcularValoresInterdin();
+                            app.$forceUpdate();
                         }
                         if(self.aplicativo_diners_tarjeta_discover.length > 0) {
                             self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
                             self.calcularValoresDiscover();
+                            app.$forceUpdate();
                         }
                     }
                     var data = {
@@ -2599,10 +2601,12 @@
                         if(self.aplicativo_diners_tarjeta_diners.length > 0) {
                             self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
                             self.calcularValoresDiners();
+                            app.$forceUpdate();
                         }
                         if(self.aplicativo_diners_tarjeta_discover.length > 0) {
                             self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
                             self.calcularValoresDiscover();
+                            app.$forceUpdate();
                         }
                     }
                     var data = {
@@ -2631,10 +2635,12 @@
                         if(self.aplicativo_diners_tarjeta_diners.length > 0) {
                             self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
                             self.calcularValoresDiners();
+                            app.$forceUpdate();
                         }
                         if(self.aplicativo_diners_tarjeta_interdin.length > 0) {
                             self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
                             self.calcularValoresInterdin();
+                            app.$forceUpdate();
                         }
                     }
                     var data = {
