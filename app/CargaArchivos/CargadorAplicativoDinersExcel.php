@@ -453,6 +453,10 @@ class CargadorAplicativoDinersExcel
 
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[38];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[40];
+
+                        $valor_cuota = $values[38] > 0 ? ($values[40] / $values[38]) : 0;
+                        $aplicativo_diners_detalle['valor_cuota'] = number_format($valor_cuota,2,'.','');
+
 						$aplicativo_diners_detalle['interes_facturar'] = $values[41];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[44];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[45];
