@@ -2777,10 +2777,11 @@
                     }
                     if(self.aplicativo_diners_tarjeta_discover.refinancia == 'NO'){
                         $("#abono_negociador_discover").prop('readonly', true);
-                        $("#unificar_deudas_interdin").prop('disabled', 'disabled');
+                        $("#unificar_deudas_discover").prop('disabled', 'disabled');
+
                     }else{
                         $("#abono_negociador_discover").prop('readonly', false);
-                        $("#unificar_deudas_interdin").prop('disabled', false);
+                        $("#unificar_deudas_discover").prop('disabled', false);
                     }
                     if(self.aplicativo_diners_tarjeta_mastercard.refinancia == 'NO'){
                         $("#abono_negociador_mastercard").prop('readonly', true);
