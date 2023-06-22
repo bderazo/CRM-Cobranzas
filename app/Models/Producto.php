@@ -633,6 +633,7 @@ class Producto extends Model
 			}
 			if($origen_calculo == 'movil') {
 				$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDinersUltimos($aplicativo_diners_id);
+				$aux = '';
 				foreach($aplicativo_diners_detalle as $add) {
 					if($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
 						if($add['tipo'] == 'original') {
@@ -646,6 +647,7 @@ class Producto extends Model
 							$add['unificar_deudas'] = 'NO';
 							$tarjeta_calculado = Producto::calculosTarjetaGeneral($add, $aplicativo_diners_id, $add['nombre_tarjeta'], 'movil');
 							$suma_valor_financiar = $suma_valor_financiar + $tarjeta_calculado['valor_financiar'];
+							$aux = 'aux: '.$add['tipo'].' '.$tarjeta_calculado['valor_financiar'];
 						}else{
 							$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
 						}
@@ -653,7 +655,8 @@ class Producto extends Model
 				}
 			}
 			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+//			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+			$data['valor_financiar'] = $aux;
 		}
 
 
