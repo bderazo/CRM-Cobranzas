@@ -1593,9 +1593,9 @@ class ProductoController extends BaseController
 	{
 		$data = $_REQUEST['data'];
 		$aplicativo_diners_id = $_REQUEST['aplicativo_diners_id'];
-        $valor_financiar_interdin = $_REQUEST['valor_financiar_interdin'];
-        $valor_financiar_discover = $_REQUEST['valor_financiar_discover'];
-        $valor_financiar_mastercard = $_REQUEST['valor_financiar_mastercard'];
+        $valor_financiar_interdin = isset($_REQUEST['valor_financiar_interdin']) ? $_REQUEST['valor_financiar_interdin'] : 0;
+        $valor_financiar_discover = isset($_REQUEST['valor_financiar_discover']) ? $_REQUEST['valor_financiar_discover'] : 0;
+        $valor_financiar_mastercard = isset($_REQUEST['valor_financiar_mastercard']) ? $_REQUEST['valor_financiar_mastercard'] : 0;
 		$datos_calculados = Producto::calculosTarjetaDiners($data, $aplicativo_diners_id, 'web', $valor_financiar_interdin, $valor_financiar_discover, $valor_financiar_mastercard);
 		return $this->json($datos_calculados);
 	}

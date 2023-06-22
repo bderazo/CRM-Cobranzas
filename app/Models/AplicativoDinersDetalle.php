@@ -140,6 +140,24 @@ class AplicativoDinersDetalle extends Model
 		return $retorno;
 	}
 
+	static function porAplicativoDinersUltimos($aplicativo_diners_id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q=$db->from('aplicativo_diners_detalle')
+			->select(null)
+			->select('*')
+			->where('eliminado',0)
+			->where('aplicativo_diners_id',$aplicativo_diners_id)
+			->orderBy('fecha_modificacion ASC');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['nombre_tarjeta']] = $l;
+		}
+		return $retorno;
+	}
+
 	static function porMaxTotalRiesgoAplicativoDiners($aplicativo_diners_id) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

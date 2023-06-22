@@ -67,20 +67,20 @@ class Producto extends Model
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->leftJoin('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
 		$q->leftJoin('producto_seguimiento', 'producto_seguimiento.producto_id', '=', 'producto.id');
-		$q->select(['producto.*','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre','usuario.apellidos AS apellidos_usuario_asignado',
-					'usuario.nombres AS nombres_usuario_asignado']);
+		$q->select(['producto.*', 'cliente.nombres AS cliente_nombres', 'institucion.nombre AS institucion_nombre', 'usuario.apellidos AS apellidos_usuario_asignado',
+			'usuario.nombres AS nombres_usuario_asignado']);
 
 		$id_usuario = \WebSecurity::getUserData('id');
-		if (!empty($post['institucion_id'])){
+		if(!empty($post['institucion_id'])) {
 			$q->where('institucion.id', '=', $post['institucion_id']);
-		}else{
+		} else {
 			if(!$esAdmin) {
 				$perfil_valida_institucion = $config['perfil_valida_institucion'];
 				/** @var Usuario $user */
 				$user = Usuario::porId($id_usuario, ['perfiles']);
 				$validar = false;
-				foreach ($user->perfiles as $per) {
-					if (array_search($per->id, $perfil_valida_institucion) !== FALSE ) {
+				foreach($user->perfiles as $per) {
+					if(array_search($per->id, $perfil_valida_institucion) !== FALSE) {
 						$validar = true;
 						break;
 					}
@@ -95,7 +95,7 @@ class Producto extends Model
 			}
 		}
 
-		if (!empty($post['telefono'])){
+		if(!empty($post['telefono'])) {
 			$tel = $post['telefono'];
 			$q->whereIn('cliente.id', function(Builder $qq) use ($tel) {
 				$qq->select('modulo_id')
@@ -106,7 +106,7 @@ class Producto extends Model
 			});
 		}
 
-		if (!empty($post['correo'])){
+		if(!empty($post['correo'])) {
 			$correo = $post['correo'];
 			$q->whereIn('cliente.id', function(Builder $qq) use ($correo) {
 				$qq->select('modulo_id')
@@ -129,7 +129,7 @@ class Producto extends Model
 		if(!empty($post['producto'])) {
 			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
 		}
-		if (!empty($post['estado'])){
+		if(!empty($post['estado'])) {
 			$q->where('producto.estado', '=', $post['estado']);
 		}
 
@@ -149,7 +149,7 @@ class Producto extends Model
 			}
 		}
 
-		if (!empty($post['fecha_inicio'])){
+		if(!empty($post['fecha_inicio'])) {
 			$fecha_inicio = $post['fecha_inicio'];
 			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_inicio) {
 				$qq->select('producto_id')
@@ -159,7 +159,7 @@ class Producto extends Model
 			});
 		}
 
-		if (!empty($post['fecha_fin'])){
+		if(!empty($post['fecha_fin'])) {
 			$fecha_fin = $post['fecha_fin'];
 			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_fin) {
 				$qq->select('producto_id')
@@ -169,7 +169,7 @@ class Producto extends Model
 			});
 		}
 
-		if (!empty($post['seguimiento'])){
+		if(!empty($post['seguimiento'])) {
 			$seguimiento = $post['seguimiento'];
 			$q->whereIn('producto.id', function(Builder $qq) use ($seguimiento) {
 				$qq->select('producto_id')
@@ -179,7 +179,7 @@ class Producto extends Model
 			});
 		}
 
-		$q->whereIn('producto.estado',['no_asignado','asignado_megacob','asignado_usuario','gestionado']);
+		$q->whereIn('producto.estado', ['no_asignado', 'asignado_megacob', 'asignado_usuario', 'gestionado']);
 
 //		$q->where('producto.estado', '<>', 'inactivo');
 
@@ -207,20 +207,20 @@ class Producto extends Model
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->leftJoin('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
-		$q->select(['producto.*','cliente.nombres AS cliente_nombres','institucion.nombre AS institucion_nombre','usuario.apellidos AS apellidos_usuario_asignado',
+		$q->select(['producto.*', 'cliente.nombres AS cliente_nombres', 'institucion.nombre AS institucion_nombre', 'usuario.apellidos AS apellidos_usuario_asignado',
 			'usuario.nombres AS nombres_usuario_asignado']);
 
 		$id_usuario = \WebSecurity::getUserData('id');
-		if (!empty($post['institucion_id'])){
+		if(!empty($post['institucion_id'])) {
 			$q->where('institucion.id', '=', $post['institucion_id']);
-		}else{
+		} else {
 			if(!$esAdmin) {
 				$perfil_valida_institucion = $config['perfil_valida_institucion'];
 				/** @var Usuario $user */
 				$user = Usuario::porId($id_usuario, ['perfiles']);
 				$validar = false;
-				foreach ($user->perfiles as $per) {
-					if (array_search($per->id, $perfil_valida_institucion) !== FALSE ) {
+				foreach($user->perfiles as $per) {
+					if(array_search($per->id, $perfil_valida_institucion) !== FALSE) {
 						$validar = true;
 						break;
 					}
@@ -235,7 +235,7 @@ class Producto extends Model
 			}
 		}
 
-		if (!empty($post['telefono'])){
+		if(!empty($post['telefono'])) {
 			$tel = $post['telefono'];
 			$q->whereIn('cliente.id', function(Builder $qq) use ($tel) {
 				$qq->select('modulo_id')
@@ -246,7 +246,7 @@ class Producto extends Model
 			});
 		}
 
-		if (!empty($post['correo'])){
+		if(!empty($post['correo'])) {
 			$correo = $post['correo'];
 			$q->whereIn('cliente.id', function(Builder $qq) use ($correo) {
 				$qq->select('modulo_id')
@@ -269,7 +269,7 @@ class Producto extends Model
 		if(!empty($post['producto'])) {
 			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
 		}
-		if (!empty($post['estado'])){
+		if(!empty($post['estado'])) {
 			$q->where('producto.estado', '=', $post['estado']);
 		}
 
@@ -289,7 +289,7 @@ class Producto extends Model
 			}
 		}
 
-		if (!empty($post['fecha_inicio'])){
+		if(!empty($post['fecha_inicio'])) {
 			$fecha_inicio = $post['fecha_inicio'];
 			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_inicio) {
 				$qq->select('producto_id')
@@ -299,7 +299,7 @@ class Producto extends Model
 			});
 		}
 
-		if (!empty($post['fecha_fin'])){
+		if(!empty($post['fecha_fin'])) {
 			$fecha_fin = $post['fecha_fin'];
 			$q->whereIn('producto.id', function(Builder $qq) use ($fecha_fin) {
 				$qq->select('producto_id')
@@ -309,7 +309,7 @@ class Producto extends Model
 			});
 		}
 
-		if (!empty($post['seguimiento'])){
+		if(!empty($post['seguimiento'])) {
 			$seguimiento = $post['seguimiento'];
 			$q->whereIn('producto.id', function(Builder $qq) use ($seguimiento) {
 				$qq->select('producto_id')
@@ -319,7 +319,7 @@ class Producto extends Model
 			});
 		}
 
-		$q->whereIn('producto.estado',['no_asignado','asignado_megacob','asignado_usuario','gestionado']);
+		$q->whereIn('producto.estado', ['no_asignado', 'asignado_megacob', 'asignado_usuario', 'gestionado']);
 
 		$q->where('producto.estado', '<>', 'inactivo');
 
@@ -334,7 +334,8 @@ class Producto extends Model
 		return $q->get();
 	}
 
-	static function getProductoList($data, $page, $user, $config) {
+	static function getProductoList($data, $page, $user, $config)
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 		$q = $db->from('producto p')
@@ -358,13 +359,13 @@ class Producto extends Model
 		$lista = $q->fetchAll();
 //		\Auditor::error("getProductoList DATA " . $q->getQuery(), 'Producto', $lista);
 		$retorno = [];
-		foreach($lista as $l){
+		foreach($lista as $l) {
 			//DATA DE DIRECCIONES
 			$direccion = Direccion::porModulo('cliente', $l['cliente_id']);
 			$dir_array = [];
-			foreach ($direccion as $dir){
+			foreach($direccion as $dir) {
 				$aux = [];
-				$aux['tipo'] = substr($dir['tipo'],0,3);
+				$aux['tipo'] = substr($dir['tipo'], 0, 3);
 				$aux['ciudad'] = $dir['ciudad'];
 				$aux['direccion'] = $dir['direccion'];
 				$aux['latitud'] = 0;
@@ -374,8 +375,8 @@ class Producto extends Model
 			$l['direcciones'] = $dir_array;
 
 			$campos = [];
-			foreach($l as $key => $val){
-				if($key == 'institucion_nombre'){
+			foreach($l as $key => $val) {
+				if($key == 'institucion_nombre') {
 					$campos[] = [
 						'titulo' => 'Institución',
 						'contenido' => $val,
@@ -386,7 +387,7 @@ class Producto extends Model
 						'order' => 1,
 					];
 				}
-				if($key == 'cliente_nombres'){
+				if($key == 'cliente_nombres') {
 					$campos[] = [
 						'titulo' => 'Cliente',
 						'contenido' => $val,
@@ -397,7 +398,7 @@ class Producto extends Model
 						'order' => 2,
 					];
 				}
-				if($key == 'producto'){
+				if($key == 'producto') {
 					$campos[] = [
 						'titulo' => 'Producto',
 						'contenido' => $val,
@@ -411,9 +412,9 @@ class Producto extends Model
 			}
 			$l['campos'] = $campos;
 
-			if($l['institucion_id'] == 1){
+			if($l['institucion_id'] == 1) {
 				$l['mostrar_acuerdo_diners'] = true;
-			}else{
+			} else {
 				$l['mostrar_acuerdo_diners'] = false;
 			}
 
@@ -424,41 +425,44 @@ class Producto extends Model
 		return $retorno;
 	}
 
-	static function porInstitucioVerificar($institucion_id) {
+	static function porInstitucioVerificar($institucion_id)
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('producto p')
 			->select(null)
 			->select('p.*')
-			->where('p.eliminado',0)
-			->where('p.institucion_id',$institucion_id);
+			->where('p.eliminado', 0)
+			->where('p.institucion_id', $institucion_id);
 		$lista = $q->fetchAll();
 		$retorno = [];
-		foreach ($lista as $l){
+		foreach($lista as $l) {
 			$retorno[$l['cliente_id']] = $l;
 		}
 		return $retorno;
 	}
 
-	static function porInstitucion($institucion_id) {
+	static function porInstitucion($institucion_id)
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('producto p')
 			->select(null)
 			->select('p.*')
-			->where('p.eliminado',0)
-			->where('p.institucion_id',$institucion_id);
+			->where('p.eliminado', 0)
+			->where('p.institucion_id', $institucion_id);
 		$lista = $q->fetchAll();
 		$retorno = [];
-		foreach ($lista as $l){
+		foreach($lista as $l) {
 			$retorno[] = $l;
 		}
 		return $retorno;
 	}
 
-	static function calculosTarjetaDiners($data, $aplicativo_diners_id, $origen_calculo = 'web', $valor_financiar_interdin = 0, $valor_financiar_discover = 0, $valor_financiar_mastercard = 0) {
+	static function calculosTarjetaDiners($data, $aplicativo_diners_id, $origen_calculo = 'web', $valor_financiar_interdin = 0, $valor_financiar_discover = 0, $valor_financiar_mastercard = 0)
+	{
 		$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
 		//ABONO TOTAL
@@ -549,11 +553,11 @@ class Producto extends Model
 			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if(isset($data['total_precancelacion_diferidos'])){
+		if(isset($data['total_precancelacion_diferidos'])) {
 			if($data['total_precancelacion_diferidos'] > 0) {
 				$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
 			}
-		}else{
+		} else {
 			if($tarjeta['total_precancelacion_diferidos'] > 0) {
 				$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
 			}
@@ -600,43 +604,81 @@ class Producto extends Model
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
-        //CALCULO DE GASTOS DE COBRANZA
-        if($total_precancelacion_diferidos > 0) {
-            if($data['valor_financiar'] < $data['total_riesgo']) {
-                $calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
-                $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+		//CALCULO DE GASTOS DE COBRANZA
+		if($total_precancelacion_diferidos > 0) {
+			if($data['valor_financiar'] < $data['total_riesgo']) {
+				$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+				$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
-                $total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
-                $data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
+				$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
+				$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
-                $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-                $data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
-            }
-        }
+				$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+				$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+			}
+		}
+
+		if($data['unificar_deudas'] == 'SI') {
+			$suma_valor_financiar = 0;
+			if($origen_calculo == 'web') {
+				if($valor_financiar_interdin > 0) {
+					$suma_valor_financiar = $suma_valor_financiar + $valor_financiar_interdin;
+				}
+				if($valor_financiar_discover > 0) {
+					$suma_valor_financiar = $suma_valor_financiar + $valor_financiar_discover;
+				}
+				if($valor_financiar_mastercard > 0) {
+					$suma_valor_financiar = $suma_valor_financiar + $valor_financiar_mastercard;
+				}
+			}
+			if($origen_calculo == 'movil') {
+				$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDinersUltimos($aplicativo_diners_id);
+				foreach($aplicativo_diners_detalle as $add) {
+					if($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
+						if($add['tipo'] == 'original') {
+							//CALCULO DE ABONO NEGOCIADOR
+							$abono_negociador_calculado = $add['interes_facturado'] - $add['abono_efectivo_sistema'];
+							if($abono_negociador_calculado > 0) {
+								$add['abono_negociador'] = number_format($abono_negociador_calculado, 2, '.', '');
+							} else {
+								$add['abono_negociador'] = 0;
+							}
+							$add['unificar_deudas'] = 'NO';
+							$tarjeta_calculado = Producto::calculosTarjetaGeneral($add, $aplicativo_diners_id, $add['nombre_tarjeta'], 'movil');
+							$suma_valor_financiar = $suma_valor_financiar + $tarjeta_calculado['valor_financiar'];
+						}else{
+							$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+						}
+					}
+				}
+			}
+			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+		}
 
 
-        if($data['unificar_deudas'] == 'SI') {
-            $suma_valor_financiar = 0;
-            if($valor_financiar_interdin > 0){
-                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_interdin;
-            }
-            if($valor_financiar_discover > 0){
-                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_discover;
-            }
-            if($valor_financiar_mastercard > 0){
-                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_mastercard;
-            }
-//			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
-//
-//			foreach($aplicativo_diners_detalle as $add) {
-//				if($add['nombre_tarjeta'] != 'DINERS') {
-//					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
-//				}
-//			}
-            $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-//            printDie($data['valor_financiar']);
-        }
+//        if($data['unificar_deudas'] == 'SI') {
+//            $suma_valor_financiar = 0;
+//            if($valor_financiar_interdin > 0){
+//                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_interdin;
+//            }
+//            if($valor_financiar_discover > 0){
+//                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_discover;
+//            }
+//            if($valor_financiar_mastercard > 0){
+//                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_mastercard;
+//            }
+////			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
+////
+////			foreach($aplicativo_diners_detalle as $add) {
+////				if($add['nombre_tarjeta'] != 'DINERS') {
+////					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+////				}
+////			}
+//            $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+//            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+////            printDie($data['valor_financiar']);
+//        }
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
@@ -698,14 +740,15 @@ class Producto extends Model
 		return $data;
 	}
 
-	static function calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta, $origen_calculo = 'web', $valor_financiar_tarjeta_diners = 0, $valor_financiar_tarjeta_interdin = 0, $valor_financiar_tarjeta_discover = 0, $valor_financiar_tarjeta_mastercard = 0) {
-		if($tarjeta == 'INTERDIN'){
+	static function calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta, $origen_calculo = 'web', $valor_financiar_tarjeta_diners = 0, $valor_financiar_tarjeta_interdin = 0, $valor_financiar_tarjeta_discover = 0, $valor_financiar_tarjeta_mastercard = 0)
+	{
+		if($tarjeta == 'INTERDIN') {
 			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
-		}elseif($tarjeta == 'DISCOVER'){
+		} elseif($tarjeta == 'DISCOVER') {
 			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
-		}elseif($tarjeta == 'MASTERCARD'){
+		} elseif($tarjeta == 'MASTERCARD') {
 			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
-		}else{
+		} else {
 			$tarjeta = [];
 		}
 
@@ -797,11 +840,11 @@ class Producto extends Model
 			$deuda_actual = $data['deuda_actual'];
 		}
 		$total_precancelacion_diferidos = 0;
-		if(isset($data['total_precancelacion_diferidos'])){
+		if(isset($data['total_precancelacion_diferidos'])) {
 			if($data['total_precancelacion_diferidos'] > 0) {
 				$total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
 			}
-		}else{
+		} else {
 			if($tarjeta['total_precancelacion_diferidos'] > 0) {
 				$total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
 			}
@@ -848,66 +891,61 @@ class Producto extends Model
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 		}
 
-        //CALCULO DE GASTOS DE COBRANZA
-        if($total_precancelacion_diferidos > 0) {
-            if($data['valor_financiar'] < $data['total_riesgo']) {
-                $calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
-                $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+		//CALCULO DE GASTOS DE COBRANZA
+		if($total_precancelacion_diferidos > 0) {
+			if($data['valor_financiar'] < $data['total_riesgo']) {
+				$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+				$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
-                $total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
-                $data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
+				$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
+				$data['total_calculo_precancelacion_diferidos'] = number_format($total_calculo_precancelacion_diferidos, 2, '.', '');
 
-                $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
-                $data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
-            }
-        }
+				$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
+				$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+			}
+		}
 
-        if($data['unificar_deudas'] == 'SI') {
-            $suma_valor_financiar = 0;
-
-            if($origen_calculo == 'web') {
-                if ($tarjeta['nombre_tarjeta'] == 'INTERDIN') {
-                    $suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_discover + $valor_financiar_tarjeta_mastercard;
-                }
-                if ($tarjeta['nombre_tarjeta'] == 'DISCOVER') {
-                    $suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_mastercard;
-                }
-                if ($tarjeta['nombre_tarjeta'] == 'MASTERCARD') {
-                    $suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_discover;
-                }
-            }
-            if($origen_calculo == 'movil') {
-                $aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
-                foreach ($aplicativo_diners_detalle as $add) {
-                    if ($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
-                        if($add['nombre_tarjeta'] == 'DINERS') {
-                            $tarjeta_calculado = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
-                            //CALCULO DE ABONO NEGOCIADOR
-                            $abono_negociador_calculado = $tarjeta_calculado['interes_facturado'] - $tarjeta_calculado['abono_efectivo_sistema'];
-                            if ($abono_negociador_calculado > 0) {
-                                $tarjeta_calculado['abono_negociador'] = number_format($abono_negociador_calculado, 2, '.', '');
-                            } else {
-                                $tarjeta_calculado['abono_negociador'] = 0;
-                            }
-                            $tarjeta_calculado = Producto::calculosTarjetaDiners($tarjeta_calculado, $aplicativo_diners_id, 'movil');
-                        }else{
-                            $tarjeta_calculado = AplicativoDiners::getAplicativoDinersDetalle($add['nombre_tarjeta'], $aplicativo_diners_id);
-                            //CALCULO DE ABONO NEGOCIADOR
-                            $abono_negociador_calculado = $tarjeta_calculado['interes_facturado'] - $tarjeta_calculado['abono_efectivo_sistema'];
-                            if($abono_negociador_calculado > 0) {
-                                $tarjeta_calculado['abono_negociador'] = number_format($abono_negociador_calculado, 2, '.', '');
-                            } else {
-                                $tarjeta_calculado['abono_negociador'] = 0;
-                            }
-                            $tarjeta_calculado = Producto::calculosTarjetaGeneral($tarjeta_calculado, $aplicativo_diners_id, $add['nombre_tarjeta'], 'movil');
-                        }
-                        $suma_valor_financiar = $suma_valor_financiar + $tarjeta_calculado['valor_financiar'];
-                    }
-                }
-            }
-            $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-        }
+		if($data['unificar_deudas'] == 'SI') {
+			$suma_valor_financiar = 0;
+			if($origen_calculo == 'web') {
+				if($tarjeta['nombre_tarjeta'] == 'INTERDIN') {
+					$suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_discover + $valor_financiar_tarjeta_mastercard;
+				}
+				if($tarjeta['nombre_tarjeta'] == 'DISCOVER') {
+					$suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_mastercard;
+				}
+				if($tarjeta['nombre_tarjeta'] == 'MASTERCARD') {
+					$suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_discover;
+				}
+			}
+			if($origen_calculo == 'movil') {
+				$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDinersUltimos($aplicativo_diners_id);
+				foreach($aplicativo_diners_detalle as $add) {
+					if($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
+						if($add['tipo'] == 'original') {
+							//CALCULO DE ABONO NEGOCIADOR
+							$abono_negociador_calculado = $add['interes_facturado'] - $add['abono_efectivo_sistema'];
+							if($abono_negociador_calculado > 0) {
+								$add['abono_negociador'] = number_format($abono_negociador_calculado, 2, '.', '');
+							} else {
+								$add['abono_negociador'] = 0;
+							}
+							$add['unificar_deudas'] = 'NO';
+							if($add['nombre_tarjeta'] == 'DINERS') {
+								$tarjeta_calculado = Producto::calculosTarjetaDiners($add, $aplicativo_diners_id, 'movil');
+							}else{
+								$tarjeta_calculado = Producto::calculosTarjetaGeneral($add, $aplicativo_diners_id, $add['nombre_tarjeta'], 'movil');
+							}
+							$suma_valor_financiar = $suma_valor_financiar + $tarjeta_calculado['valor_financiar'];
+						}else{
+							$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
+						}
+					}
+				}
+			}
+			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
+			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+		}
 
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;

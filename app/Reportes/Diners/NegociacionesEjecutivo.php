@@ -89,7 +89,7 @@ class NegociacionesEjecutivo
 			if($seg['canal'] == 'CAMPO') {
 				$seg['campana'] = 'Q20000006D';
 			}
-			$seg['tipo_proceso'] = 'ROTATIVO';
+			$seg['tipo_proceso'] = 'ROTATIVO'; //
 
 			if(isset($saldos[$seg['id_cliente']])) {
 				$saldos_arr = json_decode($saldos[$seg['id_cliente']]['campos'], true);
