@@ -599,13 +599,15 @@ class Producto extends Model
 		if($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = number_format($deuda_actual, 2, '.', '');
+			\Auditor::info('valor_financiar2: '.$data['valor_financiar'], 'API', []);
 		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
+			\Auditor::info('valor_financiar3: '.$data['valor_financiar'], 'API', []);
 		}
 
-		\Auditor::info('valor_financiar2: '.$data['valor_financiar'], 'API', []);
+
 
 		//CALCULO DE GASTOS DE COBRANZA
 		if($total_precancelacion_diferidos > 0) {
