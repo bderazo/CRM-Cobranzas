@@ -413,9 +413,9 @@ class AplicativoDinersApi extends BaseController
 			];
 			$seccion2['contenido'][] = [
 				'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
-				'valor' => $tarjeta_diners['total_calculo_precancelacion_diferidos'],
+				'valor' => $tarjeta_diners['total_precancelacion_diferidos'],
 				'tipo' => 'label',
-				'name' => 'data[total_calculo_precancelacion_diferidos]',
+				'name' => 'data[total_precancelacion_diferidos]',
 			];
 			$seccion2['contenido'][] = [
 				'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
@@ -508,14 +508,14 @@ class AplicativoDinersApi extends BaseController
 				'tipo' => 'label',
 				'name' => 'data[nc_facturar]',
 			];
+//			$seccion5['contenido'][] = [
+//				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
+//				'valor' => $tarjeta_diners['gastos_cobranza'],
+//				'tipo' => 'number',
+//				'name' => 'data[gastos_cobranza]',
+//			];
 			$seccion5['contenido'][] = [
-				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
-				'valor' => $tarjeta_diners['gastos_cobranza'],
-				'tipo' => 'number',
-				'name' => 'data[gastos_cobranza]',
-			];
-			$seccion5['contenido'][] = [
-				'etiqueta' => 'VALOR OTRAS TARJETAS',
+				'etiqueta' => 'VALOR OTROS GASTOS',
 				'valor' => $tarjeta_diners['valor_otras_tarjetas'],
 				'tipo' => 'number',
 				'name' => 'data[valor_otras_tarjetas]',
@@ -955,14 +955,14 @@ class AplicativoDinersApi extends BaseController
 				'tipo' => 'label',
 				'name' => 'data[nc_facturar]',
 			];
+//			$seccion5['contenido'][] = [
+//				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
+//				'valor' => $tarjeta_interdin['gastos_cobranza'],
+//				'tipo' => 'number',
+//				'name' => 'data[gastos_cobranza]',
+//			];
 			$seccion5['contenido'][] = [
-				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
-				'valor' => $tarjeta_interdin['gastos_cobranza'],
-				'tipo' => 'number',
-				'name' => 'data[gastos_cobranza]',
-			];
-			$seccion5['contenido'][] = [
-				'etiqueta' => 'VALOR OTRAS TARJETAS',
+				'etiqueta' => 'VALOR OTROS GASTOS',
 				'valor' => $tarjeta_interdin['valor_otras_tarjetas'],
 				'tipo' => 'number',
 				'name' => 'data[valor_otras_tarjetas]',
@@ -1402,14 +1402,14 @@ class AplicativoDinersApi extends BaseController
 				'tipo' => 'label',
 				'name' => 'data[nc_facturar]',
 			];
+//			$seccion5['contenido'][] = [
+//				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
+//				'valor' => $tarjeta_discover['gastos_cobranza'],
+//				'tipo' => 'number',
+//				'name' => 'data[gastos_cobranza]',
+//			];
 			$seccion5['contenido'][] = [
-				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
-				'valor' => $tarjeta_discover['gastos_cobranza'],
-				'tipo' => 'number',
-				'name' => 'data[gastos_cobranza]',
-			];
-			$seccion5['contenido'][] = [
-				'etiqueta' => 'VALOR OTRAS TARJETAS',
+				'etiqueta' => 'VALOR OTROS GASTOS',
 				'valor' => $tarjeta_discover['valor_otras_tarjetas'],
 				'tipo' => 'number',
 				'name' => 'data[valor_otras_tarjetas]',
@@ -1848,14 +1848,14 @@ class AplicativoDinersApi extends BaseController
 				'tipo' => 'label',
 				'name' => 'data[nc_facturar]',
 			];
+//			$seccion5['contenido'][] = [
+//				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
+//				'valor' => $tarjeta_mastercard['gastos_cobranza'],
+//				'tipo' => 'number',
+//				'name' => 'data[gastos_cobranza]',
+//			];
 			$seccion5['contenido'][] = [
-				'etiqueta' => 'GASTOS DE COBRANZA / OTROS',
-				'valor' => $tarjeta_mastercard['gastos_cobranza'],
-				'tipo' => 'number',
-				'name' => 'data[gastos_cobranza]',
-			];
-			$seccion5['contenido'][] = [
-				'etiqueta' => 'VALOR OTRAS TARJETAS',
+				'etiqueta' => 'VALOR OTROS GASTOS',
 				'valor' => $tarjeta_mastercard['valor_otras_tarjetas'],
 				'tipo' => 'number',
 				'name' => 'data[valor_otras_tarjetas]',

@@ -571,12 +571,12 @@ class Producto extends Model
 		if($data['corrientes_facturar'] > 0) {
 			$corrientes_facturar = $data['corrientes_facturar'];
 		}
-		$gastos_cobranza = 0;
-		if(isset($data['gastos_cobranza'])) {
-			if($data['gastos_cobranza'] > 0) {
-				$gastos_cobranza = $data['gastos_cobranza'];
-			}
-		}
+//		$gastos_cobranza = 0;
+//		if(isset($data['gastos_cobranza'])) {
+//			if($data['gastos_cobranza'] > 0) {
+//				$gastos_cobranza = $data['gastos_cobranza'];
+//			}
+//		}
 		$valor_otras_tarjetas = 0;
 		if(isset($data['valor_otras_tarjetas'])) {
 			if($data['valor_otras_tarjetas'] > 0) {
@@ -602,7 +602,7 @@ class Producto extends Model
 			\Auditor::info('valor_financiar2: '.$data['valor_financiar'], 'API', []);
 		} else {
 			$data['total_financiamiento'] = 'SI';
-			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar + $gastos_cobranza + $valor_otras_tarjetas - $abono_total;
+			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar  + $valor_otras_tarjetas - $abono_total;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 			\Auditor::info('valor_financiar3: '.$data['valor_financiar'], 'API', []);
 		}
