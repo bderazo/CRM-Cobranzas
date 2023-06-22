@@ -611,6 +611,7 @@ class Producto extends Model
 
 
 		//CALCULO DE GASTOS DE COBRANZA
+		\Auditor::info('$total_precancelacion_diferidos: '.$total_precancelacion_diferidos, 'API', []);
 		if($total_precancelacion_diferidos > 0) {
 			if($data['valor_financiar'] < $data['total_riesgo']) {
 				$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
