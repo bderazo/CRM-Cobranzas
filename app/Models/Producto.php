@@ -660,6 +660,8 @@ class Producto extends Model
 					}
 				}
 			}
+			\Auditor::info('valor_financiar6: '.$data['valor_financiar'], 'API', []);
+			\Auditor::info('valor_financiar7: '.$suma_valor_financiar.' + '.$data['valor_financiar'], 'API', []);
 //			$aux = 'aux: '.$suma_valor_financiar.' '.$data['valor_financiar'];
 			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
 			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
