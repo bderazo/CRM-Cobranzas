@@ -605,6 +605,7 @@ class Producto extends Model
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar  + $valor_otras_tarjetas - $abono_total;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
 			\Auditor::info('valor_financiar3: '.$deuda_actual. ' + '.$total_precancelacion_diferidos. ' + '.$interes_facturar. ' + '.$corrientes_facturar. ' + '.$valor_otras_tarjetas. ' - '.$abono_total, 'API', []);
+			\Auditor::info('valor_financiar4: '.$data['valor_financiar'], 'API', []);
 		}
 
 
@@ -620,6 +621,7 @@ class Producto extends Model
 
 				$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 				$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
+				\Auditor::info('valor_financiar5: '.$data['valor_financiar'], 'API', []);
 			}
 		}
 
