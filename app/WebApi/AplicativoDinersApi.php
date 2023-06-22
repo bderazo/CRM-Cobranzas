@@ -363,6 +363,7 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'TOTAL RIESGO',
 				'valor' => $tarjeta_diners['total_riesgo'],
 				'tipo' => 'label',
+				'name' => 'data[total_riesgo]',
 				'colorFondo' => '#f0f0f0'
 			];
 
@@ -803,6 +804,7 @@ class AplicativoDinersApi extends BaseController
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'TOTAL RIESGO',
 				'valor' => $tarjeta_interdin['total_riesgo'],
+				'name' => 'data[total_riesgo]',
 				'tipo' => 'label',
 				'colorFondo' => '#f0f0f0'
 			];
@@ -1250,6 +1252,7 @@ class AplicativoDinersApi extends BaseController
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'TOTAL RIESGO',
 				'valor' => $tarjeta_discover['total_riesgo'],
+				'name' => 'data[total_riesgo]',
 				'tipo' => 'label',
 				'colorFondo' => '#f0f0f0'
 			];
@@ -1696,6 +1699,7 @@ class AplicativoDinersApi extends BaseController
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'TOTAL RIESGO',
 				'valor' => $tarjeta_mastercard['total_riesgo'],
+				'name' => 'data[total_riesgo]',
 				'tipo' => 'label',
 				'colorFondo' => '#f0f0f0'
 			];
