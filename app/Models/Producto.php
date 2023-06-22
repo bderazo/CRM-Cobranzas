@@ -653,10 +653,10 @@ class Producto extends Model
 					}
 				}
 			}
-			$aux = 'aux: '.$suma_valor_financiar.' '.$data['valor_financiar'];
+//			$aux = 'aux: '.$suma_valor_financiar.' '.$data['valor_financiar'];
 			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-//			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-			$data['valor_financiar'] = $aux;
+			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
+//			$data['valor_financiar'] = $aux;
 		}
 
 
