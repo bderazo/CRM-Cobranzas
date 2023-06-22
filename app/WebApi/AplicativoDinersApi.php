@@ -1988,7 +1988,7 @@ class AplicativoDinersApi extends BaseController
 		$res = new RespuestaConsulta();
 		$data = $this->request->getParam('data');
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
-		\Auditor::info('calculos_tarjeta_diners antes data: ', 'API', $data);
+//		\Auditor::info('calculos_tarjeta_diners antes data: ', 'API', $data);
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
@@ -2186,7 +2186,7 @@ class AplicativoDinersApi extends BaseController
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
 			$user = Usuario::porId($usuario_id);
-			\Auditor::info('save_tarjeta_diners data: ', 'API', $data);
+//			\Auditor::info('save_tarjeta_diners data: ', 'API', $data);
 
 			//EXTRAER LOS DATOS DE LA ULTIMA CARGA DE DATOS EN LA TARJETA
 			$id_detalle = $data['id'];
@@ -2314,7 +2314,7 @@ class AplicativoDinersApi extends BaseController
 			}
 			unset($aplicativo_diners_tarjeta['id']);
 
-			\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_diners_tarjeta);
+//			\Auditor::info('save_tarjeta_discover data: ', 'API', $aplicativo_diners_tarjeta);
 
 			$aplicativo_detalle = new AplicativoDinersDetalle();
 //		$aplicativo_detalle = AplicativoDinersDetalle::porId($id_detalle);

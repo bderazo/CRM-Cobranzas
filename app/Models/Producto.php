@@ -595,23 +595,23 @@ class Producto extends Model
 		if($data['nc_facturar'] > 0) {
 			$nc_facturar = $data['nc_facturar'];
 		}
-		\Auditor::info('valor_financiar1: '.$data['valor_financiar'], 'API', []);
+//		\Auditor::info('valor_financiar1: '.$data['valor_financiar'], 'API', []);
 		if($data['exigible_financiamiento'] == 'SI') {
 			$data['total_financiamiento'] = 'NO';
 			$data['valor_financiar'] = number_format($deuda_actual, 2, '.', '');
-			\Auditor::info('valor_financiar2: '.$data['valor_financiar'], 'API', []);
+//			\Auditor::info('valor_financiar2: '.$data['valor_financiar'], 'API', []);
 		} else {
 			$data['total_financiamiento'] = 'SI';
 			$valor_financiar_diners = $deuda_actual + $total_precancelacion_diferidos + $interes_facturar + $corrientes_facturar  + $valor_otras_tarjetas - $abono_total;
 			$data['valor_financiar'] = number_format($valor_financiar_diners, 2, '.', '');
-			\Auditor::info('valor_financiar3: '.$deuda_actual. ' + '.$total_precancelacion_diferidos. ' + '.$interes_facturar. ' + '.$corrientes_facturar. ' + '.$valor_otras_tarjetas. ' - '.$abono_total, 'API', []);
-			\Auditor::info('valor_financiar4: '.$data['valor_financiar'], 'API', []);
+//			\Auditor::info('valor_financiar3: '.$deuda_actual. ' + '.$total_precancelacion_diferidos. ' + '.$interes_facturar. ' + '.$corrientes_facturar. ' + '.$valor_otras_tarjetas. ' - '.$abono_total, 'API', []);
+//			\Auditor::info('valor_financiar4: '.$data['valor_financiar'], 'API', []);
 		}
 
 
 
 		//CALCULO DE GASTOS DE COBRANZA
-		\Auditor::info('$total_precancelacion_diferidos: '.$total_precancelacion_diferidos, 'API', []);
+//		\Auditor::info('$total_precancelacion_diferidos: '.$total_precancelacion_diferidos, 'API', []);
 		if($total_precancelacion_diferidos > 0) {
 			if($data['valor_financiar'] < $data['total_riesgo']) {
 				$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
@@ -622,7 +622,7 @@ class Producto extends Model
 
 				$valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 				$data['valor_financiar'] = number_format($valor_financiar, 2, '.', '');
-				\Auditor::info('valor_financiar5: '.$data['valor_financiar'], 'API', []);
+//				\Auditor::info('valor_financiar5: '.$data['valor_financiar'], 'API', []);
 			}
 		}
 
@@ -661,8 +661,8 @@ class Producto extends Model
 					}
 				}
 			}
-			\Auditor::info('valor_financiar6: '.$data['valor_financiar'], 'API', []);
-			\Auditor::info('valor_financiar7: '.$suma_valor_financiar.' + '.$data['valor_financiar'], 'API', []);
+//			\Auditor::info('valor_financiar6: '.$data['valor_financiar'], 'API', []);
+//			\Auditor::info('valor_financiar7: '.$suma_valor_financiar.' + '.$data['valor_financiar'], 'API', []);
 //			$aux = 'aux: '.$suma_valor_financiar.' '.$data['valor_financiar'];
 			$suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
 			$data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
