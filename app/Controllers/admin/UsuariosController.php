@@ -145,7 +145,7 @@ class UsuariosController extends BaseController {
 			$pdo->commit();
 			\Auditor::info("Usuario $user->username actualizado", 'Usuarios');
 			$this->flash->addMessage('confirma', 'Usuario guardado');
-			return $this->redirectToAction('editar', ['id' => $user->id]);
+			return $this->redirectToAction('index');
 		} catch (\Exception $ex) {
 			\Auditor::info("Error guardando usuario", 'Usuarios', $ex);
 			$pdo->rollBack();
