@@ -669,6 +669,11 @@ class ProductoController extends BaseController
                 $t->save();
             }
         }
+
+		$cliente = Cliente::porId($con->cliente_id);
+		$this->flash->addMessage('confirma', 'La GESTIÓN del cliente: '.$cliente->nombres.' con cédula: '.$cliente->cedula.' HA SIDO GUARDADA.');
+
+
 //        return $this->json(['OK']);
 		return $this->redirectToAction('indexDiners');
 	}
