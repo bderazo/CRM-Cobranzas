@@ -1001,6 +1001,20 @@ class Producto extends Model
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
+		if($origen_calculo == 'web') {
+			if($valor_financiar <= 20000){
+				$data['tipo_negociacion'] = 'automatica';
+			}else{
+				$data['tipo_negociacion'] = 'manual';
+			}
+		}else{
+			if($valor_financiar <= 24000){
+				$data['tipo_negociacion'] = 'automatica';
+			}else{
+				$data['tipo_negociacion'] = 'manual';
+			}
+		}
+
 		return $data;
 	}
 
