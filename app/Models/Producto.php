@@ -669,30 +669,6 @@ class Producto extends Model
 //			$data['valor_financiar'] = $aux;
 		}
 
-
-//        if($data['unificar_deudas'] == 'SI') {
-//            $suma_valor_financiar = 0;
-//            if($valor_financiar_interdin > 0){
-//                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_interdin;
-//            }
-//            if($valor_financiar_discover > 0){
-//                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_discover;
-//            }
-//            if($valor_financiar_mastercard > 0){
-//                $suma_valor_financiar = $suma_valor_financiar + $valor_financiar_mastercard;
-//            }
-////			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners_id);
-////
-////			foreach($aplicativo_diners_detalle as $add) {
-////				if($add['nombre_tarjeta'] != 'DINERS') {
-////					$suma_valor_financiar = $suma_valor_financiar + $add['valor_financiar'];
-////				}
-////			}
-//            $suma_valor_financiar = $suma_valor_financiar + $data['valor_financiar'];
-//            $data['valor_financiar'] = number_format($suma_valor_financiar, 2, '.', '');
-////            printDie($data['valor_financiar']);
-//        }
-
 		//TOTAL INTERES
 		$plazo_financiamiento = 0;
 		if($data['plazo_financiamiento'] > 0) {
@@ -747,6 +723,20 @@ class Producto extends Model
 			$cuota_mensual = $total_financiamiento_total / $plazo_financiamiento;
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
+
+		if($origen_calculo == 'web') {
+			if($valor_financiar <= 20000){
+				$data['tipo_negociacion'] = 'automatica';
+			}else{
+				$data['tipo_negociacion'] = 'manual';
+			}
+		}else{
+			if($valor_financiar <= 24000){
+				$data['tipo_negociacion'] = 'automatica';
+			}else{
+				$data['tipo_negociacion'] = 'manual';
+			}
+		}
 
 //		\Auditor::info('calculos_tarjeta_diners despues data: ', 'API', $data);
 

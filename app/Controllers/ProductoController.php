@@ -491,8 +491,6 @@ class ProductoController extends BaseController
 	function guardarSeguimientoDiners($json)
 	{
 		$data = json_decode($json, true);
-//        $data = $_REQUEST;
-//        printDie($_REQUEST);
 		//GUARDAR SEGUIMIENTO
 		$producto = $data['model'];
 		$seguimiento = $data['seguimiento'];
