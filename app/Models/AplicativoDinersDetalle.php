@@ -227,4 +227,22 @@ class AplicativoDinersDetalle extends Model
 		}
 		return $retorno;
 	}
+
+	static function porAplicativoDinersVerificar() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('aplicativo_diners_detalle ad')
+			->select(null)
+			->select('ad.*')
+			->where('ad.eliminado',0)
+			->where('ad.tipo','original')
+			->orderBy('ad.fecha_modificacion ASC');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l){
+			$retorno[$l['aplicativo_diners_id']][$l['nombre_tarjeta']] = $l;
+		}
+		return $retorno;
+	}
 }

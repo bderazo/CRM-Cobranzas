@@ -511,6 +511,7 @@ class CargadorAplicativoDinersExcel
 							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 							$datos_calculados['eliminado'] = 0;
+							$datos_calculados['puede_negociar'] = 'si';
 							$aplicativo_diners_detalle_calculado = new AplicativoDinersDetalle();
 							foreach($datos_calculados as $key => $val) {
 								$aplicativo_diners_detalle_calculado->$key = $val;
@@ -627,6 +628,7 @@ class CargadorAplicativoDinersExcel
 							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 							$datos_calculados['eliminado'] = 0;
+							$datos_calculados['puede_negociar'] = 'si';
 							$aplicativo_diners_detalle_calculado = new AplicativoDinersDetalle();
 							foreach($datos_calculados as $key => $val) {
 								$aplicativo_diners_detalle_calculado->$key = $val;
@@ -742,6 +744,7 @@ class CargadorAplicativoDinersExcel
 							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 							$datos_calculados['eliminado'] = 0;
+							$datos_calculados['puede_negociar'] = 'si';
 							$aplicativo_diners_detalle_calculado = new AplicativoDinersDetalle();
 							foreach($datos_calculados as $key => $val) {
 								$aplicativo_diners_detalle_calculado->$key = $val;
@@ -857,6 +860,7 @@ class CargadorAplicativoDinersExcel
 							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
 							$datos_calculados['eliminado'] = 0;
+							$datos_calculados['puede_negociar'] = 'si';
 							$aplicativo_diners_detalle_calculado = new AplicativoDinersDetalle();
 							foreach($datos_calculados as $key => $val) {
 								$aplicativo_diners_detalle_calculado->$key = $val;

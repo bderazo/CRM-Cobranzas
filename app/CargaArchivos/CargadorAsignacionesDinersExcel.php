@@ -69,9 +69,10 @@ class CargadorAsignacionesDinersExcel
 
 			$db = new \FluentPDO($pdo);
 			$clientes_todos = Cliente::getTodos();
-			$asignaciones_todos = AplicativoDinersAsignaciones::getTodos();
+//			$asignaciones_todos = AplicativoDinersAsignaciones::getTodos();
 			$productos_todos = Producto::porInstitucioVerificar(1);
 			$aplicativo_diners_todos = AplicativoDiners::porInstitucioVerificar(1);
+			$aplicativo_diners_detalle_todos = AplicativoDinersDetalle::porAplicativoDinersVerificar();
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1)) {
 					$ultima_posicion_columna = array_key_last($values);
@@ -135,7 +136,7 @@ class CargadorAsignacionesDinersExcel
 					$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 					$producto->save();
 					$producto_id = $producto->id;
-				}else{
+				} else {
 					//CAMBIAR ESTADO APLICATIVO DINERS
 					$set = [
 						'estado' => 'asignado_megacob',
@@ -190,30 +191,60 @@ class CargadorAsignacionesDinersExcel
 					$cont++;
 				}
 //				if($asignacion_id == 0) {
-					//CREAR ASIGNACION
-					$asignaciones = new AplicativoDinersAsignaciones();
-					$asignaciones->cliente_id = $cliente_id;
-					$asignaciones->aplicativo_diners_id = $aplicativo_diners_id;
-					$asignaciones->fecha_asignacion = $this->getFecha($values[0]);
-                    $asignaciones->fecha_inicio = $this->getFecha($values[1]);
-					$asignaciones->fecha_fin = $this->getFecha($values[2]);
-					$asignaciones->mes = $values[3];
-					$asignaciones->anio = $values[4];
-					$asignaciones->campana = $values[5];
-					$asignaciones->marca = $values[6];
-					$asignaciones->ciclo = $values[7];
-					$asignaciones->nombre_socio = $values[8];
-					$asignaciones->cedula_socio = $values[9];
-					$asignaciones->campana_ece = $values[10];
-					$asignaciones->condonacion_interes = $values[11];
-					$asignaciones->segregacion = $values[12];
-					$asignaciones->campos = json_encode($data_campos, JSON_PRETTY_PRINT);
-					$asignaciones->fecha_ingreso = date("Y-m-d H:i:s");
-					$asignaciones->usuario_ingreso = \WebSecurity::getUserData('id');
-					$asignaciones->fecha_modificacion = date("Y-m-d H:i:s");
-					$asignaciones->usuario_modificacion = \WebSecurity::getUserData('id');
-					$asignaciones->eliminado = 0;
-					$asignaciones->save();
+				//CREAR ASIGNACION
+				$asignaciones = new AplicativoDinersAsignaciones();
+				$asignaciones->cliente_id = $cliente_id;
+				$asignaciones->aplicativo_diners_id = $aplicativo_diners_id;
+				$asignaciones->fecha_asignacion = $this->getFecha($values[0]);
+				$asignaciones->fecha_inicio = $this->getFecha($values[1]);
+				$asignaciones->fecha_fin = $this->getFecha($values[2]);
+				$asignaciones->mes = $values[3];
+				$asignaciones->anio = $values[4];
+				$asignaciones->campana = $values[5];
+				$asignaciones->marca = $values[6];
+				$asignaciones->ciclo = $values[7];
+				$asignaciones->nombre_socio = $values[8];
+				$asignaciones->cedula_socio = $values[9];
+				$asignaciones->campana_ece = $values[10];
+				$asignaciones->condonacion_interes = $values[11];
+				$asignaciones->segregacion = $values[12];
+				$asignaciones->campos = json_encode($data_campos, JSON_PRETTY_PRINT);
+				$asignaciones->fecha_ingreso = date("Y-m-d H:i:s");
+				$asignaciones->usuario_ingreso = \WebSecurity::getUserData('id');
+				$asignaciones->fecha_modificacion = date("Y-m-d H:i:s");
+				$asignaciones->usuario_modificacion = \WebSecurity::getUserData('id');
+				$asignaciones->eliminado = 0;
+				$asignaciones->save();
+
+				//RELACIONAR LA ASIGNACION CON EL APLICATIVO DINERS DETALLE
+				if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id][$values[6]])) {
+					if($values[6] == 'VISA'){
+						$nombre_tarjeta = 'INTERDIN';
+					}else{
+						$nombre_tarjeta = $values[6];
+					}
+					$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id][$nombre_tarjeta]['id'];
+
+					$set = [
+						'aplicativo_diners_asignaciones_id' => $asignaciones->id,
+						'puede_negociar' => 'si'
+					];
+					if(isset($data_campos['PRODUCTO'])){
+						//NEGOCIACION AUTOMATICA
+						$verificar = ['DISCOVER','DISCOVER ME','DISCOVER MORE','DISCOVER ME BSC','DISCOVER MORE BSC','DISCOVER BSC'];
+						if(array_search($data_campos['PRODUCTO'],$verificar) !== false){
+							$set['tipo_negociacion'] = 'automatica';
+						}
+						//NO SE DEBE NEGOCIAR
+						$verificar = ['SPHAERA RESERVE CLUBMILES','CONVENIO VIRTUAL TORREMAR','PUNTA BLANCA MARINA CLUB','LA COSTA COUNTRY CLUB','CONVENIO VIRTUAL DELTA','SALINAS YACHT CLUB','AÑOS DORADOS','SPHAERA RESERVE AADVANTAG','GUAYAQUIL TENIS CLUB VIRT','MANTA YACHT CLUB','ARRAYANES YACHT CLUB','GUAYAQUIL YACHT CLUB','QUITO TENIS YACHT CLUB'];
+						if(array_search($data_campos['PRODUCTO'],$verificar) !== false){
+							$set['puede_negociar'] = 'no';
+						}
+					}
+					$query = $db->update('aplicativo_diners_detalle')->set($set)->where('id', $aplicativo_diners_detalle_id)->execute();
+				}
+
+
 //				} else {
 //					//MODIFICAR SALDOS
 //					$set = [
