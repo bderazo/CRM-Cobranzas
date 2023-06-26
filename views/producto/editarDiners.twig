@@ -420,10 +420,15 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.refinancia" v-on:change="bloquearCampos" v-autoname>
-                                                            <option value="SI">SI</option>
-                                                            <option value="NO">NO</option>
-                                                        </select>
+                                                        <template v-if="aplicativo_diners_tarjeta_diners.puede_negociar == 'si'">
+                                                            <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_diners.refinancia" v-on:change="bloquearCampos" v-autoname>
+                                                                <option value="SI">SI</option>
+                                                                <option value="NO">NO</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span v-html="aplicativo_diners_tarjeta_diners.refinancia"></span>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -942,10 +947,15 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.refinancia" v-on:change="bloquearCampos" v-autoname>
-                                                            <option value="SI">SI</option>
-                                                            <option value="NO">NO</option>
-                                                        </select>
+                                                        <template v-if="aplicativo_diners_tarjeta_interdin.puede_negociar == 'si'">
+                                                            <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_interdin.refinancia" v-on:change="bloquearCampos" v-autoname>
+                                                                <option value="SI">SI</option>
+                                                                <option value="NO">NO</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span v-html="aplicativo_diners_tarjeta_interdin.refinancia"></span>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1455,10 +1465,15 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.refinancia" v-on:change="bloquearCampos" v-autoname>
-                                                            <option value="SI">SI</option>
-                                                            <option value="NO">NO</option>
-                                                        </select>
+                                                        <template v-if="aplicativo_diners_tarjeta_discover.puede_negociar == 'si'">
+                                                            <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_discover.refinancia" v-on:change="bloquearCampos" v-autoname>
+                                                                <option value="SI">SI</option>
+                                                                <option value="NO">NO</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span v-html="aplicativo_diners_tarjeta_discover.refinancia"></span>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1968,10 +1983,15 @@
                                                     <td style="width: 60%;"><strong>REFINANCIA</strong>
                                                     </td>
                                                     <td style="width: 40%;">
-                                                        <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_mastercard.refinancia" v-on:change="bloquearCampos" v-autoname>
-                                                            <option value="SI">SI</option>
-                                                            <option value="NO">NO</option>
-                                                        </select>
+                                                        <template v-if="aplicativo_diners_tarjeta_mastercard.puede_negociar == 'si'">
+                                                            <select class="form-control form-control-sm form-select select2" v-model="aplicativo_diners_tarjeta_mastercard.refinancia" v-on:change="bloquearCampos" v-autoname>
+                                                                <option value="SI">SI</option>
+                                                                <option value="NO">NO</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span v-html="aplicativo_diners_tarjeta_mastercard.refinancia"></span>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr>
