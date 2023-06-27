@@ -81,9 +81,9 @@ class NegociacionesAutomatica {
         foreach($lista as $seg){
             $seg['numero'] = $cont;
             if($seg['usuario_canal'] == 'CAMPO'){
-                $seg['cod_negociador'] = 'Q20000006T';
-            }else{
                 $seg['cod_negociador'] = 'Q20000006D';
+            }else{
+                $seg['cod_negociador'] = 'Q20000006T';
             }
 
             $seg['subarea'] = 'ERE TELEFONIA';
