@@ -48,7 +48,7 @@
 							<td v-html="d.cedula"></td>
 							<td v-html="d.nombres"></td>
 							<td v-html="d.plazo_financiamiento"></td>
-							<td v-html="d.tipo_proceso"></td>
+							<td v-html="d.tipo_negociacion"></td>
 							<td v-html="d.gestor"></td>
 							<td v-html="d.zona"></td>
 							<td style="text-align: right;" v-html="d.actuales_orig"></td>
@@ -87,6 +87,7 @@
 	{{ bundle('validate') }}
 	{{ bundle('boot_select') }}
 	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
 
 	<script type="text/javascript">
         var app = new Vue({
@@ -157,7 +158,35 @@
                     });
                     $('#btnTodos').click(function () {
                         form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
                         self.consultar();
+                    });
+
+                    $('.select2').select2({
+                        theme: "classic"
                     });
                     // self.consultar();
                 });

@@ -44,9 +44,17 @@ class NegociacionesEjecutivo
 			->select(null)
 			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, addet.nombre_tarjeta, cl.cedula, 
 							 addet.ciclo AS corte, u.canal AS canal_usuario, cl.nombres, addet.plazo_financiamiento, 
-							 u.identificador AS area_usuario, u.plaza AS zona, cl.id AS id_cliente")
+							 u.identificador AS area_usuario, u.plaza AS zona, cl.id AS id_cliente, addet.tipo_negociacion")
 			->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
+		if (@$filtros['plaza_usuario']){
+			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+			$q->where('u.plaza IN ('.$fil.')');
+		}
+		if (@$filtros['canal_usuario']){
+			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+			$q->where('u.canal IN ('.$fil.')');
+		}
         if (@$filtros['fecha_inicio']){
             $hora = '00';
             if($filtros['hora_inicio'] != ''){
@@ -89,7 +97,10 @@ class NegociacionesEjecutivo
 			if($seg['canal'] == 'CAMPO') {
 				$seg['campana'] = 'Q20000006D';
 			}
-			$seg['tipo_proceso'] = 'ROTATIVO'; //
+			if($seg['canal'] == 'AUXILIAR TELEFONIA') {
+				$seg['campana'] = 'Q20000006D';
+			}
+			$seg['tipo_negociacion'] = strtoupper($seg['tipo_negociacion']); //
 
 			if(isset($saldos[$seg['id_cliente']])) {
 				$saldos_arr = json_decode($saldos[$seg['id_cliente']]['campos'], true);
