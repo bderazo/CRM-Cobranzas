@@ -16,7 +16,7 @@
 	{% for l in lista %}
 		<tr>
 			<td>
-				<a href="usuarios/editar?id={{ l.id }}">{{ l.username }}</a>
+				<a href="{{ root }}/admin/usuarios/editar?id={{ l.id }}">{{ l.username }}</a>
 			</td>
 			<td>{{ l.apellidos }}&nbsp;{{ l.nombres }}</td>
 			<td>

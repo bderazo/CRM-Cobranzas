@@ -13,7 +13,7 @@ use Models\Telefono;
 use Models\TransformarRollos;
 use Models\Usuario;
 
-class BaseCarga
+class  BaseCarga
 {
 	/** @var \PDO */
 	var $pdo;
