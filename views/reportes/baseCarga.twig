@@ -105,6 +105,7 @@
 	{{ bundle('validate') }}
 	{{ bundle('boot_select') }}
 	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
 
 	<script type="text/javascript">
         var app = new Vue({
@@ -175,9 +176,37 @@
                     });
                     $('#btnTodos').click(function () {
                         form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
                         self.consultar();
                     });
                     // self.consultar();
+                });
+
+                $('.select2').select2({
+                    theme: "classic"
                 });
             }
         });

@@ -227,7 +227,8 @@ class CargadorAsignacionesDinersExcel
 
 					$set = [
 						'aplicativo_diners_asignaciones_id' => $asignaciones->id,
-						'puede_negociar' => 'si'
+						'puede_negociar' => 'si',
+						'campana' => $values[5],
 					];
 					if(isset($data_campos['PRODUCTO'])){
 						//NEGOCIACION AUTOMATICA
