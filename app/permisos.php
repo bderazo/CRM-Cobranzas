@@ -70,6 +70,7 @@ return [
 			'eliminar' => 'Eliminar producto',
 			'registrar_seguimientos' => 'Registrar Seguimientos',
 			'ver_seguimientos' => 'Ver Seguimientos',
+			'eliminar_seguimientos' => 'Eliminar Seguimientos',
 		],
 		'mensaje' => 'Operaciones posibles para productos'
 	],

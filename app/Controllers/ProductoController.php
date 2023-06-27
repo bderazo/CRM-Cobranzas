@@ -1539,6 +1539,7 @@ class ProductoController extends BaseController
 		$direccion = Direccion::porModulo('cliente', $model->cliente_id);
 		$referencia = Referencia::porModulo('cliente', $model->cliente_id);
 		$cliente = Cliente::porId($model->cliente_id);
+		$data['puedeEliminar'] = $this->permisos->hasRole('producto.eliminar_seguimientos');
 
 		$aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
 
@@ -1560,6 +1561,14 @@ class ProductoController extends BaseController
 		$data['modelArr'] = $model;
 		$data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
 		return $this->render('verSeguimientosDiners', $data);
+	}
+
+	function delSeguimiento()
+	{
+		$data = json_decode($_REQUEST['jsonDelSeguimiento'], true);
+		$seguimiento = ProductoSeguimiento::eliminar($data['producto_seguimiento_id']);
+		$this->flash->addMessage('confirma', 'El Seguimiento ha sido eliminado.');
+		return $this->redirectToAction('verSeguimientosDiners',['id'=>$data['model']['id']]);
 	}
 
 	function verAcuerdo()

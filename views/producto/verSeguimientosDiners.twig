@@ -64,7 +64,12 @@
 									<td style="vertical-align: top; text-align: center; width: 10%;">
 										<button class="btn btn-primary" type="button" v-on:click="verAcuerdo({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
 											<i class="fa fa-file-excel-o"></i> ACUERDO
-										</button><br/>
+										</button><br/><br/>
+										{% if puedeEliminar %}
+											<button class="btn btn-danger-light" type="button" v-on:click="delSeguimiento({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
+												<i class="fa fa-trash-o"></i> ELIMINAR
+											</button><br/><br/>
+										{% endif %}
 {#										<button class="btn btn-success" type="button" v-on:click="descargarNegociacionManual({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN MANUAL">#}
 {#											<i class="fa fa-download"></i> MANUAL#}
 {#										</button>#}
@@ -176,6 +181,9 @@
 		</div>
 	</div>
 
+	<form id="delSeguimientoForm" method="POST" action="{{ root }}/producto/delSeguimiento">
+		<input type="hidden" id="jsonDelSeguimiento" name="jsonDelSeguimiento"/>
+	</form>
 	<form id="exportFormNegociacionManual" method="POST" action="{{ root }}/producto/exportNegociacionManual">
 		<input type="hidden" id="jsonNegociacionManual" name="jsonNegociacionManual"/>
 	</form>
@@ -229,6 +237,17 @@
                     $('#acuerdoContent').load('{{ root }}/producto/verAcuerdo', data, function () {
                         $('#modalAcuerdo').modal('show');
                     });
+                },
+
+                delSeguimiento: function (producto_seguimiento_id) {
+                    var self = this;
+                    var data = {
+                        model: self.model,
+                        producto_seguimiento_id: producto_seguimiento_id,
+                        aplicativo_diners: self.aplicativo_diners,
+                    };
+                    $('#jsonDelSeguimiento').val(JSON.stringify(data));
+                    $('#delSeguimientoForm').submit();
                 },
 
 				descargarNegociacionManual: function (producto_seguimiento_id) {
