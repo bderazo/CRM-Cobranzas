@@ -8,7 +8,7 @@
 				<div class="col-sm-3">
 					<b>Canal</b> <br>
 					<div class="input-group">
-						<select class="form-control form-select select2" name="canal_usuario" id="canal_usuario">
+						<select class="form-control select2" name="canal_usuario[]" id="canal_usuario" multiple>
 							<option value=""></option>
 							<option v-for="(v,k) in canal_usuario" v-html="v" :value="k"></option>
 						</select>
@@ -18,7 +18,7 @@
 				<div class="col-sm-3">
 					<b>Plaza</b> <br>
 					<div class="input-group">
-						<select class="form-control form-select select2" name="plaza_usuario" id="plaza_usuario">
+						<select class="form-control select2" name="plaza_usuario[]" id="plaza_usuario" multiple>
 							<option value=""></option>
 							<option v-for="(v,k) in plaza_usuario" v-html="v" :value="k"></option>
 						</select>

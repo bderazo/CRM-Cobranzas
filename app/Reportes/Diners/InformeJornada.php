@@ -27,12 +27,12 @@ class InformeJornada {
 	function consultaBase($filtros) {
 		$db = new \FluentPDO($this->pdo);
 
-		//BUSCAR USUARIOS DINERS CON ROL DE GESTOR
-		$plaza = '';
-		if (@$filtros['plaza_usuario']){
-			$plaza = $filtros['plaza_usuario'];
-		}
-		$usuarios_gestores = Usuario::getUsuariosGestoresDiners($plaza);
+//		//BUSCAR USUARIOS DINERS CON ROL DE GESTOR
+//		$plaza = '';
+//		if (@$filtros['plaza_usuario']){
+//			$plaza = $filtros['plaza_usuario'];
+//		}
+//		$usuarios_gestores = Usuario::getUsuariosGestoresDiners($plaza);
 
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
@@ -46,7 +46,12 @@ class InformeJornada {
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
-			$q->where('u.plaza',$filtros['plaza_usuario']);
+			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+			$q->where('u.plaza IN ('.$fil.')');
+		}
+		if (@$filtros['canal_usuario']){
+			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+			$q->where('u.canal IN ('.$fil.')');
 		}
         if (@$filtros['fecha_inicio']){
             $hora = '00';
@@ -93,7 +98,7 @@ class InformeJornada {
 			if($seg['canal'] == 'TELEFONIA'){
 				$seg['asignacion'] = 60;
 			}
-			if($seg['canal'] == 'CAMPO'){
+			if(($seg['canal'] == 'CAMPO') || ($seg['canal'] == 'AUXILIAR TELEFONIA')){
 				$seg['asignacion'] = 20;
 			}
 			$seg['porcentaje_productividad'] = ($seg['asignacion'] > 0) ? ($seg['cuentas'] / $seg['asignacion']) * 100 : 0;
