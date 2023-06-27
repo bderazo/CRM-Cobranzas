@@ -39,12 +39,16 @@ class ProduccionPlaza {
 			->select(null)
 			->select('ps.*, u.id AS id_usuario, addet.nombre_tarjeta, addet.saldo_actual_facturado_despues_abono,
 							 addet.saldo_30_facturado_despues_abono, addet.saldo_60_facturado_despues_abono,
-							 addet.saldo_90_facturado_despues_abono')
-//			->where('ps.nivel_1_id',7)
+							 addet.saldo_90_facturado_despues_abono, addet.tipo_negociacion, u.plaza, u.canal')
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
-			$q->where('u.plaza',$filtros['plaza_usuario']);
+			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+			$q->where('u.plaza IN ('.$fil.')');
+		}
+		if (@$filtros['canal_usuario']){
+			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+			$q->where('u.canal IN ('.$fil.')');
 		}
 		if (@$filtros['fecha_inicio']){
 			$hora = '00';
@@ -78,59 +82,90 @@ class ProduccionPlaza {
 //        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data_contar = [];
-		//CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
+		$data_contar_tipo_negociacion = [];
 		foreach($lista as $seg){
+			//CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
 			if(isset($data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']])){
 				$data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']]++;
 			}else{
-				$data_contar[$seg['id_usuario']][$seg['canal']]['DINERS'] = 0;
-				$data_contar[$seg['id_usuario']][$seg['canal']]['INTERDIN'] = 0;
-				$data_contar[$seg['id_usuario']][$seg['canal']]['DISCOVER'] = 0;
-				$data_contar[$seg['id_usuario']][$seg['canal']]['MASTERCARD'] = 0;
+				$data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']] = 1;
 			}
+			//CONTAR LOS TIPOS DE NEGOCIACION POR PLAZA
+			if(isset($data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']])){
+				$data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+			}else{
+				$data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+			}
+		}
+
+		ksort($data_contar_tipo_negociacion);
+		$tipo_negociacion = [];
+		foreach($data_contar_tipo_negociacion as $key => $val){
+			$val['plaza'] = $key;
+			if(!isset($val['automatica'])) $val['automatica'] = 0;
+			if(!isset($val['manual'])) $val['manual'] = 0;
+			$tipo_negociacion[] = $val;
 		}
 
 		//UNIR CON LOS ASESORES QUE NO REALIZARON GESTIONES
 		$data = [];
 		foreach($usuarios_gestores as $ug){
-			if(isset($data_contar[$ug['id']])){
-				foreach($data_contar[$ug['id']] as $k => $v){
+			if(isset($data_contar[$ug['id']])) {
+				foreach($data_contar[$ug['id']] as $k => $v) {
 					$d['plaza'] = $ug['plaza'];
 					$d['ejecutivo'] = $ug['nombres'];
 					$d['canal'] = $k;
-					$d['diners'] = $v['DINERS'];
-					$d['interdin'] = $v['INTERDIN'];
-					$d['discover'] = $v['DISCOVER'];
-					$d['mastercard'] = $v['MASTERCARD'];
-					$d['total_general'] = $v['DINERS'] + $v['INTERDIN'] + $v['DISCOVER'] + $v['MASTERCARD'];
-					$data[] = $d;
-				}
-			}else{
-				if (@$filtros['plaza_usuario']){
-					if ($filtros['plaza_usuario'] == $ug['plaza']){
-						$d['plaza'] = $ug['plaza'];
-						$d['ejecutivo'] = $ug['nombres'];
-						$d['canal'] = $ug['canal'];
-						$d['diners'] = 0;
-						$d['interdin'] = 0;
-						$d['discover'] = 0;
-						$d['mastercard'] = 0;
-						$d['total_general'] = 0;
-						$data[] = $d;
-					}
-				}else {
-					$d['plaza'] = $ug['plaza'];
-					$d['ejecutivo'] = $ug['nombres'];
-					$d['canal'] = $ug['canal'];
-					$d['diners'] = 0;
-					$d['interdin'] = 0;
-					$d['discover'] = 0;
-					$d['mastercard'] = 0;
-					$d['total_general'] = 0;
+					$d['diners'] = isset($v['DINERS']) ? $v['DINERS'] : 0;
+					$d['interdin'] = isset($v['INTERDIN']) ? $v['INTERDIN'] : 0;
+					$d['discover'] = isset($v['DISCOVER']) ? $v['DISCOVER'] : 0;
+					$d['mastercard'] = isset($v['MASTERCARD']) ? $v['MASTERCARD'] : 0;
+					$d['total_general'] = $d['diners'] + $d['interdin'] + $d['discover'] + $d['mastercard'];
 					$data[] = $d;
 				}
 			}
+//			}else{
+//				if (@$filtros['plaza_usuario']){
+//					if(array_search($ug['plaza'],$filtros['plaza_usuario'])!== false){
+//						$d['plaza'] = $ug['plaza'];
+//						$d['ejecutivo'] = $ug['nombres'];
+//						$d['canal'] = $ug['canal'];
+//						$d['diners'] = 0;
+//						$d['interdin'] = 0;
+//						$d['discover'] = 0;
+//						$d['mastercard'] = 0;
+//						$d['total_general'] = 0;
+//						$data[] = $d;
+//					}
+//				}else {
+//					$d['plaza'] = $ug['plaza'];
+//					$d['ejecutivo'] = $ug['nombres'];
+//					$d['canal'] = $ug['canal'];
+//					$d['diners'] = 0;
+//					$d['interdin'] = 0;
+//					$d['discover'] = 0;
+//					$d['mastercard'] = 0;
+//					$d['total_general'] = 0;
+//					$data[] = $d;
+//				}
+//			}
 		}
+
+		$telefonia = [];
+		$aux_telefonia = [];
+		$campo = [];
+		$sin_clasificar = [];
+		foreach($data as $d){
+			if($d['canal'] == 'TELEFONIA'){
+				$telefonia[] = $d;
+			}elseif($d['canal'] == 'AUXILIAR TELEFONIA'){
+				$aux_telefonia[] = $d;
+			}elseif($d['canal'] == 'CAMPO'){
+				$campo[] = $d;
+			}else{
+				$sin_clasificar[] = $d;
+			}
+		}
+		$data = array_merge($telefonia,$aux_telefonia,$campo,$sin_clasificar);
 
 		//AGRUPAR POR PLAZA DEL USUARIO
 		$data_plaza = [];
@@ -177,25 +212,19 @@ class ProduccionPlaza {
 		//ORDENAR EL ARRAY PARA IMPRIMIR
 		$data = [];
 		foreach($data_totales as $dt){
-			$numItems = count($dt['data']);
-			$i = 0;
 			foreach($dt['data'] as $dat){
-				if(++$i === $numItems) {
-					$aux['plaza'] = 'TOTAL '.$dt['plaza'];
-					$aux['ejecutivo'] = '';
-					$aux['canal'] = '';
-					$aux['diners'] = $dt['total_plaza_diners'];
-					$aux['interdin'] = $dt['total_plaza_interdin'];
-					$aux['discover'] = $dt['total_plaza_discover'];
-					$aux['mastercard'] = $dt['total_plaza_mastercard'];
-					$aux['total_general'] = $dt['total_plaza_general'];
-					$data[] = $aux;
-				}else{
-					$data[] = $dat;
-				}
+				$data[] = $dat;
 			}
+			$aux['plaza'] = 'TOTAL '.$dt['plaza'];
+			$aux['ejecutivo'] = '';
+			$aux['canal'] = '';
+			$aux['diners'] = $dt['total_plaza_diners'];
+			$aux['interdin'] = $dt['total_plaza_interdin'];
+			$aux['discover'] = $dt['total_plaza_discover'];
+			$aux['mastercard'] = $dt['total_plaza_mastercard'];
+			$aux['total_general'] = $dt['total_plaza_general'];
+			$data[] = $aux;
 		}
-//		printDie($data);
 
 		$retorno['data'] = $data;
 		$retorno['total'] = [
@@ -222,7 +251,12 @@ class ProduccionPlaza {
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
-			$q->where('u.plaza',$filtros['plaza_usuario']);
+			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+			$q->where('u.plaza IN ('.$fil.')');
+		}
+		if (@$filtros['canal_usuario']){
+			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+			$q->where('u.canal IN ('.$fil.')');
 		}
         if (@$filtros['fecha_inicio']){
             $hora = '00';
@@ -303,8 +337,7 @@ class ProduccionPlaza {
 			];
 		}
 
-//		printDie($data_recupero);
-
+		$retorno['tipo_negociacion'] = $tipo_negociacion;
 		$retorno['data_recupero'] = $data_recupero;
 		$retorno['total_recupero'] = [
 			'total_cuentas' => $total_cuentas,
@@ -313,9 +346,6 @@ class ProduccionPlaza {
 			'total_d60' => number_format($total_d60,2,',','.'),
 			'total_d90' => number_format($total_d90,2,',','.'),
 		];
-
-
-
 
 		return $retorno;
 	}

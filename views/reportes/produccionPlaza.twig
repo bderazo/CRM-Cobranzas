@@ -120,6 +120,30 @@
 
 				<br/>
 
+				<h2>TIPO DE NEGOCIACIÓN</h2>
+				<a class="btn btn-default-light" id="btnExportarDetalle">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<table class="table border table-striped table-bordered table-sm mb-0">
+					<thead>
+					<tr style="background-color: #95b8f6;">
+						<th>ZONA</th>
+						<th>NEGOCIACIONES AUTOMÁTICAS</th>
+						<th>NEGOCIACIONES MANUALES</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="tn in tipo_negociacion">
+						<td v-html="tn.plaza"></td>
+						<td style="text-align: center;" v-html="tn.automatica"></td>
+						<td style="text-align: center;" v-html="tn.manual"></td>
+					</tr>
+					</tbody>
+				</table>
+
+				<br/>
+
 				<h2>RECUPERO AL REFINANCIAR</h2>
 				<a class="btn btn-default-light" id="btnExportarDetalle">
 					<i class="fa fa-file-excel-o"></i>
@@ -176,6 +200,7 @@
 	{{ bundle('validate') }}
 	{{ bundle('boot_select') }}
 	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
 
 	<script type="text/javascript">
         var app = new Vue({
@@ -200,6 +225,7 @@
                         self.total = res['total'];
                         self.datos_recupero = res['data_recupero'];
                         self.total_recupero = res['total_recupero'];
+                        self.tipo_negociacion = res['tipo_negociacion'];
                         console.log(res);
                     })
                 },
@@ -229,7 +255,35 @@
                     });
                     $('#btnTodos').click(function () {
                         form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
                         self.consultar();
+                    });
+
+                    $('.select2').select2({
+                        theme: "classic"
                     });
                     // self.consultar();
                 });
