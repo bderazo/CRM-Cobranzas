@@ -93,4 +93,21 @@ class AplicativoDinersAsignaciones extends Model
 		if(!$lista) return [];
 		return $lista;
 	}
+
+    static function getFiltroCampana() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('DISTINCT(ads.campana) as campana')
+            ->where('ads.eliminado',0)
+            ->orderBy('ads.campana ASC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['campana']] = $l['campana'];
+        }
+        return $retorno;
+    }
 }

@@ -137,6 +137,7 @@ class  BaseCarga
                 if($seg['nombre_tarjeta'] == 'INTERDIN'){
                     $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE VISA']) ? $saldos_arr['MOTIVO CIERRE VISA'] : '';
                     $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE VISA']) ? $saldos_arr['OBSERVACION CIERRE VISA'] : '';
+                    $seg['nombre_tarjeta'] = 'VISA';
                 }
                 if($seg['nombre_tarjeta'] == 'DISCOVER'){
                     $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE DISCOVER']) ? $saldos_arr['MOTIVO CIERRE DISCOVER'] : '';
@@ -145,6 +146,7 @@ class  BaseCarga
                 if($seg['nombre_tarjeta'] == 'MASTERCARD'){
                     $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE MASTERCARD']) ? $saldos_arr['MOTIVO CIERRE MASTERCARD'] : '';
                     $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE MASTERCARD']) ? $saldos_arr['OBSERVACION CIERRE MASTERCARD'] : '';
+                    $seg['nombre_tarjeta'] = 'MASTERCA';
                 }
             }else{
                 $seg['motivo_anterior'] = '';

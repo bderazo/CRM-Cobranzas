@@ -41,6 +41,7 @@ class ReporteHoras
 			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('aplicativo_diners_asignaciones asig ON asig.id = addet.aplicativo_diners_asignaciones_id')
 			->select(null)
 			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, addet.nombre_tarjeta, cl.cedula, 
 							 addet.ciclo AS corte, u.canal AS canal_usuario, cl.nombres, addet.plazo_financiamiento, 
@@ -49,10 +50,18 @@ class ReporteHoras
 							 ad.ciudad_cuenta, addet.motivo_no_pago_anterior")
 			->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
+		if (@$filtros['campana']){
+			$fil = '"' . implode('","',$filtros['campana']) . '"';
+			$q->where('asig.campana IN ('.$fil.')');
 		}
+        if (@$filtros['marca']){
+            $fil = '"' . implode('","',$filtros['marca']) . '"';
+            $q->where('addet.nombre_tarjeta IN ('.$fil.')');
+        }
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
+        }
 		if (@$filtros['canal_usuario']){
 			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
 			$q->where('u.canal IN ('.$fil.')');
@@ -91,6 +100,9 @@ class ReporteHoras
 		$data = [];
 		foreach($lista as $seg) {
             $seg['nombre_ere'] = 'MEGACOB';
+            if($seg['nombre_tarjeta'] == 'INTERDIN'){
+                $seg['nombre_tarjeta'] = 'VISA';
+            }
 			$data[] = $seg;
 		}
 

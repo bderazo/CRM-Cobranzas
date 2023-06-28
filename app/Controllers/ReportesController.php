@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Catalogos\CatalogoUsuarios;
 use General\GenerarPDF;
+use Models\AplicativoDinersAsignaciones;
 use Models\Catalogo;
 use Models\Plantilla;
 use Models\ProductoExtrusion;
@@ -65,11 +66,20 @@ class ReportesController extends BaseController {
 		for($i = 0; $i < 60; $i++){
 			$minutos[$i] = $i;
 		}
+        $marca = [
+            'DINERS' => 'DINERS',
+            'INTERDIN' => 'VISA',
+            'DISCOVER' => 'DISCOVER',
+            'MASTERCARD' => 'MASTERCARD',
+        ];
+        $campana_asignacion = AplicativoDinersAsignaciones::getFiltroCampana();
 		return [
 			'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
 			'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
 			'horas' => json_encode($horas),
 			'minutos' => json_encode($minutos),
+            'campana_asignacion' => json_encode($campana_asignacion),
+            'marca' => json_encode($marca),
 		];
 	}
 
