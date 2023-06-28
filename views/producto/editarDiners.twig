@@ -23,7 +23,7 @@
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">Gestionar</label>
                         <div class="col-md-4 col-informacion">
-                            <template v-if="cliente.gestionar == 'si'">
+                            <template v-if="cliente.gestionar != 'no'">
                                 <h3 style="font-weight: bold; text-transform: uppercase;"><span style="color: green;" class="form-control-plaintext" v-html="cliente.gestionar"></span></h3>
                             </template>
                             <template v-else>
@@ -2505,7 +2505,7 @@
                     <div class="mb-0 mt-4 ">
                         <div class="col-md-12">
                             <input type="hidden" name="json" id="json"/>
-                            <template v-if="cliente.gestionar == 'si'">
+                            <template v-if="cliente.gestionar != 'no'">
                                 <button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
                                     <i class="fa fa-save"></i> GUARDAR
                                 </button>
