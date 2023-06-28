@@ -59,13 +59,13 @@ return [
         ],
     ],
     'cada_horas' => [
-        [
-            'label' => 'Llamadas Contactadas',
-            'link' => '/reportes/llamadasContactadas',
-            'roles' => 'reportes.llamadas_contactadas',
-            'icon' => 'fa fa-list-alt',
-            'description' => 'Llamadas contactadas'
-        ],
+//        [
+//            'label' => 'Llamadas Contactadas',
+//            'link' => '/reportes/llamadasContactadas',
+//            'roles' => 'reportes.llamadas_contactadas',
+//            'icon' => 'fa fa-list-alt',
+//            'description' => 'Llamadas contactadas'
+//        ],
         [
             'label' => 'General',
             'link' => '/reportes/general',

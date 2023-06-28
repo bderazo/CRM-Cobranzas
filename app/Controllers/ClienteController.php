@@ -78,6 +78,7 @@ class ClienteController extends BaseController {
 		if ($id == 0) {
 			\Breadcrumbs::active('Crear Cliente');
 			$model = new ViewCliente();
+            $model->gestionar = 'si';
 			$telefono = [];
 			$email = [];
 			$direccion = [];
@@ -302,6 +303,7 @@ class ViewCliente {
 	var $zona;
 	var $profesion_id;
 	var $tipo_referencia_id;
+    var $gestionar;
 	var $fecha_ingreso;
 	var $fecha_modificacion;
 	var $usuario_ingreso;

@@ -38,12 +38,14 @@ class Individual {
 							COUNT(ps.id) 'seguimientos'")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
-        if (@$filtros['canal_usuario']){
-            $q->where('u.canal',$filtros['canal_usuario']);
-        }
-        if (@$filtros['plaza_usuario']){
-            $q->where('u.plaza',$filtros['plaza_usuario']);
-        }
+		if (@$filtros['plaza_usuario']){
+			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+			$q->where('u.plaza IN ('.$fil.')');
+		}
+		if (@$filtros['canal_usuario']){
+			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+			$q->where('u.canal IN ('.$fil.')');
+		}
         if (@$filtros['fecha_inicio']){
             $hora = '00';
             if($filtros['hora_inicio'] != ''){

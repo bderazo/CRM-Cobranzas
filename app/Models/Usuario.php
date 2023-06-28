@@ -307,7 +307,7 @@ class Usuario extends Model {
 		return $retorno;
 	}
 
-    static function getTodosTelefonia() {
+    static function getTodosTelefonia($plaza = [], $canal = []) {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
 
@@ -315,8 +315,16 @@ class Usuario extends Model {
             ->select(null)
             ->select('u.*')
             ->where('u.activo',1)
-            ->where('u.canal','TELEFONIA')
+            ->where('u.canal IN ("TELEFONIA","AUXILIAR TELEFONIA")')
             ->orderBy('u.apellidos');
+		if(count($plaza) > 0){
+			$fil = '"' . implode('","',$plaza) . '"';
+			$q->where('u.plaza IN ('.$fil.')');
+		}
+		if(count($canal) > 0){
+			$fil = '"' . implode('","',$canal) . '"';
+			$q->where('u.canal IN ('.$fil.')');
+		}
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){

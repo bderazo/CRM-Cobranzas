@@ -28,7 +28,15 @@ class GestionesPorHora {
 		$db = new \FluentPDO($this->pdo);
 
         //USUARIOS TELEFONIA TODOS
-        $usuarios_telefonia = Usuario::getTodosTelefonia();
+		$plaza_usuario = [];
+		$canal_usuario = [];
+		if (@$filtros['plaza_usuario']){
+			$plaza_usuario = $filtros['plaza_usuario'];
+		}
+		if (@$filtros['canal_usuario']){
+			$canal_usuario = $filtros['canal_usuario'];
+		}
+        $usuarios_telefonia = Usuario::getTodosTelefonia($plaza_usuario, $canal_usuario);
         $usuarios_telef = [];
         foreach ($usuarios_telefonia as $ut){
             $ut['7'] = 0;
@@ -53,6 +61,14 @@ class GestionesPorHora {
 							COUNT(ps.id) AS cantidad")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
+		if (@$filtros['plaza_usuario']){
+			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+			$q->where('u.plaza IN ('.$fil.')');
+		}
+		if (@$filtros['canal_usuario']){
+			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+			$q->where('u.canal IN ('.$fil.')');
+		}
         if(@$filtros['fecha_inicio']) {
             $q->where('DATE(ps.fecha_ingreso)',$filtros['fecha_inicio']);
         }else{

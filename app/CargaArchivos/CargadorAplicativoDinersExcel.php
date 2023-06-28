@@ -105,6 +105,7 @@ class CargadorAplicativoDinersExcel
 						$cliente->lugar_trabajo = $values[2];
 						$cliente->ciudad = $values[10];
 						$cliente->zona = $values[11];
+                        $cliente->gestionar = 'si';
 						$cliente->fecha_modificacion = date("Y-m-d H:i:s");
 						$cliente->usuario_modificacion = \WebSecurity::getUserData('id');
 						$cliente->fecha_ingreso = date("Y-m-d H:i:s");

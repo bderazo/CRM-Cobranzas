@@ -102,6 +102,7 @@ class CargadorProductosExcel
 					$cliente = new Cliente();
 					$cliente->cedula = $values[1];
 					$cliente->nombres = $values[2];
+                    $cliente->gestionar = 'si';
 					$cliente->fecha_ingreso = date("Y-m-d H:i:s");
 					$cliente->fecha_modificacion = date("Y-m-d H:i:s");
 					$cliente->usuario_ingreso = \WebSecurity::getUserData('id');

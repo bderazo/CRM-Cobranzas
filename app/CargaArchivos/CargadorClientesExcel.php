@@ -97,6 +97,7 @@ class CargadorClientesExcel
 					$cliente->ciudad = trim($values[2]);
 					$cliente->zona = trim($values[3]);
 					$cliente->lugar_trabajo = trim($values[4]);
+                    $cliente->gestionar = 'si';
 					$cliente->fecha_ingreso = date("Y-m-d H:i:s");
 					$cliente->fecha_modificacion = date("Y-m-d H:i:s");
 					$cliente->usuario_ingreso = \WebSecurity::getUserData('id');

@@ -105,6 +105,7 @@ class CargadorBaseCargarMegacobExcel
                     $cliente->usuario_ingreso = \WebSecurity::getUserData('id');
                     $cliente->eliminado = 0;
                     $cliente->nombres = $values[2];
+                    $cliente->gestionar = 'si';
                     $cliente->fecha_ingreso = date("Y-m-d H:i:s");
                     $cliente->usuario_ingreso = \WebSecurity::getUserData('id');
                     $cliente->fecha_modificacion = date("Y-m-d H:i:s");
