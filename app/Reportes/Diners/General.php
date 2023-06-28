@@ -29,6 +29,8 @@ class General {
 
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
+            ->innerJoin("aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
+            ->leftJoin('aplicativo_diners_asignaciones asig ON asig.id = addet.aplicativo_diners_asignaciones_id')
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
 			->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, 
@@ -41,6 +43,10 @@ class General {
 							COUNT(IF(ps.nivel_1_id = 1861, 1, NULL)) 'sin_arreglo'")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
+        if (@$filtros['campana']){
+            $fil = '"' . implode('","',$filtros['campana']) . '"';
+            $q->where('asig.campana IN ('.$fil.')');
+        }
 		if (@$filtros['plaza_usuario']){
 			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
 			$q->where('u.plaza IN ('.$fil.')');

@@ -45,14 +45,19 @@ class Contactabilidad
 			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('aplicativo_diners_asignaciones asig ON asig.id = addet.aplicativo_diners_asignaciones_id')
 			->select(null)
 			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, addet.nombre_tarjeta, cl.cedula, 
 							 addet.ciclo AS corte, u.canal AS canal_usuario, cl.nombres, addet.plazo_financiamiento, 
 							 u.identificador AS area_usuario, u.plaza AS zona, cl.id AS id_cliente,
 							 ad.id AS aplicativo_diners_id, addet.edad_cartera, ad.zona_cuenta, addet.total_riesgo,
-							 ad.ciudad_cuenta, addet.motivo_no_pago_anterior, u.id AS id_usuario")
+							 ad.ciudad_cuenta, addet.motivo_no_pago_anterior, u.id AS id_usuario, u.canal, asig.campana")
 			->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
+        if (@$filtros['campana']){
+            $fil = '"' . implode('","',$filtros['campana']) . '"';
+            $q->where('asig.campana IN ('.$fil.')');
+        }
 		if (@$filtros['plaza_usuario']){
 			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
 			$q->where('u.plaza IN ('.$fil.')');
@@ -66,14 +71,15 @@ class Contactabilidad
 		}else{
             $q->where('DATE(ps.fecha_ingreso)',date("Y-m-d"));
         }
-
+        $q->disableSmartJoin();
+//        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data = [];
 		foreach($lista as $seg) {
             $seg['hora_llamada'] = date("H:i:s",strtotime($seg['fecha_ingreso']));
             $seg['fecha_fecha_ingreso'] = date("Y-m-d",strtotime($seg['fecha_ingreso']));
-            $seg['campana'] = 'PORTAFOLIO';
-            $seg['empresa_canal'] = 'MEGACOB-TELEFONIA';
+//            $seg['campana'] = 'PORTAFOLIO';
+            $seg['empresa_canal'] = 'MEGACOB-'.$seg['canal'];
 
             if(isset($usuario_login[$seg['id_usuario']][$seg['fecha_fecha_ingreso']])){
                 $seg['hora_ingreso'] = $usuario_login[$seg['id_usuario']][$seg['fecha_fecha_ingreso']];
