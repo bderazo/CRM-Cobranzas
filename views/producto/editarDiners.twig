@@ -9,14 +9,26 @@
                 </div>
                 <div class="card-body">
                     <div class=" row mb-4">
-                        <label for="inputName" class="col-md-2 form-label">Nombres *</label>
+                        <label for="inputName" class="col-md-2 form-label">Nombres</label>
                         <div class="col-md-4 col-informacion">
-                            <h3 style="font-weight: bold;"><span v-html="cliente.nombres"></span></h3>
+                            <h3 style="font-weight: bold;"><span class="form-control-plaintext" v-html="cliente.nombres"></span></h3>
                         </div>
 
-                        <label for="inputName" class="col-md-2 form-label">Cédula *</label>
+                        <label for="inputName" class="col-md-2 form-label">Cédula</label>
                         <div class="col-md-4 col-informacion">
-                            <h3 style="font-weight: bold;"><span v-html="cliente.cedula"></span></h3>
+                            <h3 style="font-weight: bold;"><span class="form-control-plaintext" v-html="cliente.cedula"></span></h3>
+                        </div>
+                    </div>
+
+                    <div class=" row mb-4">
+                        <label for="inputName" class="col-md-2 form-label">Gestionar</label>
+                        <div class="col-md-4 col-informacion">
+                            <template v-if="cliente.gestionar == 'si'">
+                                <h3 style="font-weight: bold; text-transform: uppercase;"><span style="color: green;" class="form-control-plaintext" v-html="cliente.gestionar"></span></h3>
+                            </template>
+                            <template v-else>
+                                <h3 style="font-weight: bold; text-transform: uppercase;"><span style="color: red;" class="form-control-plaintext" v-html="cliente.gestionar"></span></h3>
+                            </template>
                         </div>
                     </div>
 
@@ -2493,20 +2505,22 @@
                     <div class="mb-0 mt-4 ">
                         <div class="col-md-12">
                             <input type="hidden" name="json" id="json"/>
-                            <button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
-                                <i class="fa fa-save"></i> GUARDAR
-                            </button>
-                            <button class="btn btn-success" type="button" name="btnExportarNegociacionManual"
-                                    id="btnExportarNegociacionManual">
-                                <i class="fa fa-download"></i> NEGOCIACIÓN MANUAL
-                            </button>
-                            <button class="btn btn-info" type="button" name="btnExportarNegociacionAutomatica"
-                                    id="btnExportarNegociacionAutomatica">
-                                <i class="fa fa-download"></i> NEGOCIACIÓN AUTOMÁTICA
-                            </button>
-                            <button class="btn btn-primary" type="button" name="btnRegresar" id="btnRegresar">
-                                <i class="fa fa-chevron-left"></i> REGRESAR
-                            </button>
+                            <template v-if="cliente.gestionar == 'si'">
+                                <button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+                                    <i class="fa fa-save"></i> GUARDAR
+                                </button>
+                            </template>
+{#                            <button class="btn btn-success" type="button" name="btnExportarNegociacionManual"#}
+{#                                    id="btnExportarNegociacionManual">#}
+{#                                <i class="fa fa-download"></i> NEGOCIACIÓN MANUAL#}
+{#                            </button>#}
+{#                            <button class="btn btn-info" type="button" name="btnExportarNegociacionAutomatica"#}
+{#                                    id="btnExportarNegociacionAutomatica">#}
+{#                                <i class="fa fa-download"></i> NEGOCIACIÓN AUTOMÁTICA#}
+{#                            </button>#}
+{#                            <button class="btn btn-primary" type="button" name="btnRegresar" id="btnRegresar">#}
+{#                                <i class="fa fa-chevron-left"></i> REGRESAR#}
+{#                            </button>#}
                         </div>
                     </div>
                 </div>
