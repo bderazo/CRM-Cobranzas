@@ -83,8 +83,14 @@ class Individual {
         foreach($lista as $seg){
             $contactabilidad = $seg['seguimientos'] > 0 ? (($seg['contactadas'] / $seg['seguimientos']) * 100) : 0;
             $efectividad = $seg['contactadas'] > 0 ? (($seg['cierre_efectivo'] / $seg['contactadas']) * 100) : 0;
-            $meta_diaria = 7;
-            $meta_alcanzada = (($seg['cierre_efectivo'] / 7) * 100);
+            $meta_diaria = 0;
+            if (@$filtros['meta_diaria']){
+                $meta_diaria = $filtros['meta_diaria'];
+            }
+            $meta_alcanzada = 0;
+            if($meta_diaria > 0){
+                $meta_alcanzada = (($seg['cierre_efectivo'] / $meta_diaria) * 100);
+            }
             $seg['contactabilidad'] = number_format($contactabilidad,2,'.',',');
             $seg['efectividad'] = number_format($efectividad,2,'.',',');
             $seg['meta_diaria'] = $meta_diaria;
