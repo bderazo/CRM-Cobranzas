@@ -44,9 +44,10 @@
                             <table class="table border table-bordered table-sm mb-0">
                                 <thead>
                                 <tr>
-                                    <th style="width: 33%;">Marcación / Teléfono</th>
-                                    <th style="width: 33%;">Descripción</th>
-                                    <th style="width: 33%;">Origen</th>
+                                    <th style="width: 10%;"></th>
+                                    <th style="width: 30%;">Marcación / Teléfono</th>
+                                    <th style="width: 30%;">Descripción</th>
+                                    <th style="width: 30%;">Origen</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -55,12 +56,20 @@
                                         <label class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
                                             <template v-if="t.bandera == 1">
-                                                <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                                <span style="background-color: #CCFFCC;" class="custom-control-label"></span>
                                             </template>
                                             <template v-else>
-                                                <span class="custom-control-label" v-html="t.telefono"></span>
+                                                <span class="custom-control-label"></span>
                                             </template>
                                         </label>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <template v-if="t.bandera == 1">
+                                            <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                        </template>
+                                        <template v-else>
+                                            <span class="custom-control-label" v-html="t.telefono"></span>
+                                        </template>
                                     </td>
                                     <td>
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.descripcion"></span>
