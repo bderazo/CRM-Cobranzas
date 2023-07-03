@@ -84,7 +84,7 @@ class ExcelDatasetExport {
 		if ($path)
 			$file = $path;
 		else
-			$file = tempnam(sys_get_temp_dir(), 'polipack_');
+			$file = tempnam(sys_get_temp_dir(), 'megacob_');
 		$writer->openToFile($file);
 		$this->addData($writer, $datasets);
 		$writer->close();

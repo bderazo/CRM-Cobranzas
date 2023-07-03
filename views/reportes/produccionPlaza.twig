@@ -7,7 +7,7 @@
 				<h4 class="card-title">Datos</h4>
 			</div>
 			<div class="card-body">
-				<a class="btn btn-default-light" id="btnExportarDetalle">
+				<a class="btn btn-default-light" id="btnExportar">
 					<i class="fa fa-file-excel-o"></i>
 					Exportar
 				</a>
@@ -121,7 +121,7 @@
 				<br/>
 
 				<h2>TIPO DE NEGOCIACIÓN</h2>
-				<a class="btn btn-default-light" id="btnExportarDetalle">
+				<a class="btn btn-default-light" id="btnExportarTipoNegociacion">
 					<i class="fa fa-file-excel-o"></i>
 					Exportar
 				</a>
@@ -145,7 +145,7 @@
 				<br/>
 
 				<h2>RECUPERO AL REFINANCIAR</h2>
-				<a class="btn btn-default-light" id="btnExportarDetalle">
+				<a class="btn btn-default-light" id="btnExportarRecupero">
 					<i class="fa fa-file-excel-o"></i>
 					Exportar
 				</a>
@@ -188,12 +188,16 @@
 
 	</div>
 
-	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportProduccionPlaza">
 		<input type="hidden" id="json" name="json"/>
 	</form>
 
-	<form id="exportDetalleForm" method="POST" action="{{ root }}/reportes/exportDetalleInventarioPerchaConforme">
-		<input type="hidden" id="json" name="json"/>
+	<form id="exportTipoNegociacionForm" method="POST" action="{{ root }}/reportes/exportProduccionPlazaTipoNegociacion">
+		<input type="hidden" id="jsonTipoNegociacion" name="jsonTipoNegociacion"/>
+	</form>
+
+	<form id="exportFormRecupero" method="POST" action="{{ root }}/reportes/exportProduccionPlazaRecupero">
+		<input type="hidden" id="jsonRecupero" name="jsonRecupero"/>
 	</form>
 
 	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
@@ -234,20 +238,28 @@
                 var form = $('#filtros');
                 var self = this;
                 $('#btnExportar').click(function () {
-                    // var data = {
-                    //     filtros: form.serializeForm()
-                    // };
-                    // $('#json').val(JSON.stringify(data));
-                    // $('#exportForm').submit();
+                    var data = {
+                        filtros: form.serializeForm()
+                    };
+                    $('#json').val(JSON.stringify(data));
+                    $('#exportForm').submit();
                 });
 
-                $('#btnExportarDetalle').click(function () {
-                    // var data = {
-                    //     filtros: form.serializeForm()
-                    // };
-                    // $('#json').val(JSON.stringify(data));
-                    // $('#exportDetalleForm').submit();
-                });
+				$('#btnExportarTipoNegociacion').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#jsonTipoNegociacion').val(JSON.stringify(data));
+					$('#exportTipoNegociacionForm').submit();
+				});
+
+				$('#btnExportarRecupero').click(function () {
+					var data = {
+						filtros: form.serializeForm()
+					};
+					$('#jsonRecupero').val(JSON.stringify(data));
+					$('#exportFormRecupero').submit();
+				});
 
                 $(document).ready(function () {
                     $('#btnFiltro').click(function () {

@@ -49,23 +49,26 @@ use Reportes\Mezclas\Mezclas;
 use Reportes\Venta\VentasConsolidado;
 use Reportes\Venta\VentasDetallado;
 
-class ReportesController extends BaseController {
-	
-	function init() {
-		\Breadcrumbs::add('/reportes', "Reportes");
-		\WebSecurity::secure('reportes');
-	}
-	
-	protected function paramsBasico() {
-		$catalogo_usuario = new CatalogoUsuarios(true);
-		$horas = [];
-		for($i = 0; $i < 24; $i++){
-			$horas[$i] = $i;
-		}
-		$minutos = [];
-		for($i = 0; $i < 60; $i++){
-			$minutos[$i] = $i;
-		}
+class ReportesController extends BaseController
+{
+
+    function init()
+    {
+        \Breadcrumbs::add('/reportes', "Reportes");
+        \WebSecurity::secure('reportes');
+    }
+
+    protected function paramsBasico()
+    {
+        $catalogo_usuario = new CatalogoUsuarios(true);
+        $horas = [];
+        for ($i = 0; $i < 24; $i++) {
+            $horas[$i] = $i;
+        }
+        $minutos = [];
+        for ($i = 0; $i < 60; $i++) {
+            $minutos[$i] = $i;
+        }
         $marca = [
             'DINERS' => 'DINERS',
             'INTERDIN' => 'VISA',
@@ -73,25 +76,26 @@ class ReportesController extends BaseController {
             'MASTERCARD' => 'MASTERCARD',
         ];
         $campana_asignacion = AplicativoDinersAsignaciones::getFiltroCampana();
-		return [
-			'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
-			'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
-			'horas' => json_encode($horas),
-			'minutos' => json_encode($minutos),
+        return [
+            'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
+            'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
+            'horas' => json_encode($horas),
+            'minutos' => json_encode($minutos),
             'campana_asignacion' => json_encode($campana_asignacion),
             'marca' => json_encode($marca),
-		];
-	}
+        ];
+    }
 
-    function index() {
+    function index()
+    {
         if (!\WebSecurity::hasUser()) {
             return $this->login();
         }
-		\Breadcrumbs::active('Reportes');
+        \Breadcrumbs::active('Reportes');
         $menu = $this->get('menuReportes');
         $root = $this->get('root');
         $items = [];
-        foreach ($menu as $k=>$v) {
+        foreach ($menu as $k => $v) {
             foreach ($v as $row) {
                 if (!empty($row['roles'])) {
                     $roles = $row['roles'];
@@ -104,10 +108,9 @@ class ReportesController extends BaseController {
         }
 
         $itemsChunks = [];
-        foreach ($items as $k=>$v) {
+        foreach ($items as $k => $v) {
             $itemsChunks[$k] = array_chunk($v, 3);
         }
-
 
 
 //        $chunks = array_chunk($items, 4);
@@ -116,117 +119,452 @@ class ReportesController extends BaseController {
         return $this->render('index', $data);
     }
 
-	//PRODUCCION PLAZA
-	function produccionPlaza() {
-		\WebSecurity::secure('reportes.produccion_plaza');
-		if ($this->isPost()) {
-			$rep = new ProduccionPlaza($this->get('pdo'));
-			$data = $rep->calcular($this->request->getParsedBody());
-			return $this->json($data);
-		}
-		$titulo = 'Producción Plaza';
-		\Breadcrumbs::active($titulo);
-		$data = $this->paramsBasico();
-		$data['titulo'] = $titulo;
-		return $this->render('produccionPlaza', $data);
-	}
+    //PRODUCCION PLAZA
+    function produccionPlaza()
+    {
+        \WebSecurity::secure('reportes.produccion_plaza');
+        if ($this->isPost()) {
+            $rep = new ProduccionPlaza($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Producción Plaza';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('produccionPlaza', $data);
+    }
 
-	function exportInventarioPerchaConforme($json) {
-		\WebSecurity::secure('reportes.inventario_percha_conforme');
-		$jdata = json_decode($json, true);
-		$filtros = $jdata['filtros'];
-		$rep = new InventarioPerchaConforme($this->get('pdo'));
-		$data = $rep->exportar($filtros);
-		$lista = [];
-		foreach ($data['data'] as $d){
-			$aux['Tipo Producto'] = [
-				'valor' => $d['tipo_material'],
-				'formato' => 'text'
-			];
-			$aux['Producto'] = [
-				'valor' => $d['material'],
-				'formato' => 'text'
-			];
-			$aux['Ordenes'] = [
-				'valor' => $d['ordenes_text'],
-				'formato' => 'text'
-			];
-			$aux['Ancho'] = [
-				'valor' => $d['ancho'],
-				'formato' => 'number'
-			];
-			$aux['Espesor'] = [
-				'valor' => $d['espesor'],
-				'formato' => 'number'
-			];
-			$aux['Unidad'] = [
-				'valor' => $d['unidad'],
-				'formato' => 'text'
-			];
-			$aux['Cantidad'] = [
-				'valor' => $d['cantidad'],
-				'formato' => 'number'
-			];
-			$aux['Kilos Brutos'] = [
-				'valor' => $d['kilos'],
-				'formato' => 'number'
-			];
-			$aux['Kilos Netos'] = [
-				'valor' => $d['kilos_netos'],
-				'formato' => 'number'
-			];
-			$lista[] = $aux;
-		}
-		$this->exportSimple($lista, 'Inventario Percha', 'inventario_percha_conforme.xlsx');
-	}
+    function exportProduccionPlaza($json)
+    {
+        \WebSecurity::secure('reportes.produccion_plaza');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new ProduccionPlaza($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['ZONA'] = [
+                'valor' => $d['plaza'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['ejecutivo'],
+                'formato' => 'text'
+            ];
+            $aux['CANAL'] = [
+                'valor' => $d['canal'],
+                'formato' => 'text'
+            ];
+            $aux['DINERS'] = [
+                'valor' => $d['diners'],
+                'formato' => 'number'
+            ];
+            $aux['VISA'] = [
+                'valor' => $d['interdin'],
+                'formato' => 'number'
+            ];
+            $aux['DISCOVER'] = [
+                'valor' => $d['discover'],
+                'formato' => 'number'
+            ];
+            $aux['MASTERCARD'] = [
+                'valor' => $d['mastercard'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL GENERAL'] = [
+                'valor' => $d['total_general'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'PRODUCCION PLAZA', 'produccion_plaza.xlsx');
+    }
 
-	//CAMPO Y TELEFONIA
-	function campoTelefonia() {
-		\WebSecurity::secure('reportes.campo_telefonia');
-		if ($this->isPost()) {
-			$rep = new CampoTelefonia($this->get('pdo'));
-			$data = $rep->calcular($this->request->getParsedBody());
-			return $this->json($data);
-		}
-		$titulo = 'Campo y Telefonía';
-		\Breadcrumbs::active($titulo);
-		$data = $this->paramsBasico();
-		$data['titulo'] = $titulo;
-		return $this->render('campoTelefonia', $data);
-	}
+    function exportProduccionPlazaTipoNegociacion($jsonTipoNegociacion)
+    {
+        \WebSecurity::secure('reportes.produccion_plaza');
+        $jdata = json_decode($jsonTipoNegociacion, true);
+        $filtros = $jdata['filtros'];
+        $rep = new ProduccionPlaza($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['tipo_negociacion'] as $d) {
+            $aux['ZONA'] = [
+                'valor' => $d['plaza'],
+                'formato' => 'text'
+            ];
+            $aux['NEGOCIACIONES AUTOMÁTICAS'] = [
+                'valor' => $d['automatica'],
+                'formato' => 'number'
+            ];
+            $aux['NEGOCIACIONES MANUALES'] = [
+                'valor' => $d['manual'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'PRODUCCION PLAZA NEGOCIACIÓN', 'produccion_plaza_tipo_negociacion.xlsx');
+    }
 
-	//INFORMES DE JORNADA
-	function informeJornada() {
-		\WebSecurity::secure('reportes.informe_jornada');
-		if ($this->isPost()) {
-			$rep = new InformeJornada($this->get('pdo'));
-			$data = $rep->calcular($this->request->getParsedBody());
-			return $this->json($data);
-		}
-		$titulo = 'Informes de Jornada';
-		\Breadcrumbs::active($titulo);
-		$data = $this->paramsBasico();
-		$data['titulo'] = $titulo;
-		return $this->render('informeJornada', $data);
-	}
+    function exportProduccionPlazaRecupero($jsonRecupero)
+    {
+        \WebSecurity::secure('reportes.produccion_plaza');
+        $jdata = json_decode($jsonRecupero, true);
+        $filtros = $jdata['filtros'];
+        $rep = new ProduccionPlaza($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data_recupero'] as $d) {
+            $aux['MARCA'] = [
+                'valor' => $d['marca'],
+                'formato' => 'text'
+            ];
+            $aux['CUENTAS'] = [
+                'valor' => $d['cuentas'],
+                'formato' => 'text'
+            ];
+            $aux['ACTUALES'] = [
+                'valor' => $d['actuales'],
+                'formato' => 'text'
+            ];
+            $aux['D30'] = [
+                'valor' => $d['d30'],
+                'formato' => 'number'
+            ];
+            $aux['D60'] = [
+                'valor' => $d['d60'],
+                'formato' => 'number'
+            ];
+            $aux['D90'] = [
+                'valor' => $d['d90'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'PRODUCCION PLAZA RECUPERO', 'produccion_plaza_recupero.xlsx');
+    }
 
-	//NEGOCIACIONES POR EJECUTIVO
-	function negociacionesEjecutivo() {
-		\WebSecurity::secure('reportes.negociaciones_ejecutivo');
-		if ($this->isPost()) {
-			$rep = new NegociacionesEjecutivo($this->get('pdo'));
-			$data = $rep->calcular($this->request->getParsedBody());
-			return $this->json($data);
-		}
-		$titulo = 'Negociaciones Por Ejecutivo';
-		\Breadcrumbs::active($titulo);
-		$data = $this->paramsBasico();
-		$data['titulo'] = $titulo;
-		return $this->render('negociacionesEjecutivo', $data);
-	}
+    //CAMPO Y TELEFONIA
+    function campoTelefonia()
+    {
+        \WebSecurity::secure('reportes.campo_telefonia');
+        if ($this->isPost()) {
+            $rep = new CampoTelefonia($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Campo y Telefonía';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('campoTelefonia', $data);
+    }
+
+    function exportCampoTelefonia($json)
+    {
+        \WebSecurity::secure('reportes.campo_telefonia');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new CampoTelefonia($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['PLAZA'] = [
+                'valor' => $d['plaza'],
+                'formato' => 'text'
+            ];
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['REFINANCIA'] = [
+                'valor' => $d['refinancia'],
+                'formato' => 'number'
+            ];
+            $aux['NOTIFICADO'] = [
+                'valor' => $d['notificado'],
+                'formato' => 'number'
+            ];
+            $aux['CIERRE EFECTIVO'] = [
+                'valor' => $d['cierre_efectivo'],
+                'formato' => 'number'
+            ];
+            $aux['CIERRE NO EFECTIVO'] = [
+                'valor' => $d['cierre_no_efectivo'],
+                'formato' => 'number'
+            ];
+            $aux['MENSAJE A TERCERO'] = [
+                'valor' => $d['mensaje_tercero'],
+                'formato' => 'number'
+            ];
+            $aux['NO UBICADO'] = [
+                'valor' => $d['no_ubicado'],
+                'formato' => 'number'
+            ];
+            $aux['REGULARIZACION'] = [
+                'valor' => $d['regularizacion'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL GENERAL'] = [
+                'valor' => $d['total'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'CAMPO Y TELEFONÍA', 'campo_telefonia.xlsx');
+    }
+
+    //INFORMES DE JORNADA
+    function informeJornada()
+    {
+        \WebSecurity::secure('reportes.informe_jornada');
+        if ($this->isPost()) {
+            $rep = new InformeJornada($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Informes de Jornada';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('informeJornada', $data);
+    }
+
+    function exportInformeJornada($json)
+    {
+        \WebSecurity::secure('reportes.informe_jornada');
+        $jdata = json_decode($json, true);
+//        printDie($jdata);
+        $lista = [];
+        foreach ($jdata['datos'] as $d) {
+            $aux['PLAZA'] = [
+                'valor' => $d['plaza'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['CUENTAS'] = [
+                'valor' => $d['cuentas'],
+                'formato' => 'number'
+            ];
+            $aux['ASIGNACION DEL DIA'] = [
+                'valor' => $d['asignacion'],
+                'formato' => 'number'
+            ];
+            $aux['PRODUCTIVIDAD'] = [
+                'valor' => $d['porcentaje_productividad'],
+                'formato' => 'number'
+            ];
+            $aux['OBSERVACIONES'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['CONTACTADAS'] = [
+                'valor' => $d['contactadas'],
+                'formato' => 'number'
+            ];
+            $aux['EFECTIVIDAD'] = [
+                'valor' => $d['efectividad'],
+                'formato' => 'number'
+            ];
+            $aux['% CONTAC'] = [
+                'valor' => $d['porcentaje_contactado'],
+                'formato' => 'number'
+            ];
+            $aux['% EFECTIV'] = [
+                'valor' => $d['porcentaje_efectividad'],
+                'formato' => 'number'
+            ];
+            $aux['NEGOCIACIONES'] = [
+                'valor' => $d['negociaciones'],
+                'formato' => 'number'
+            ];
+            $aux['% PRODUCCION'] = [
+                'valor' => $d['porcentaje_produccion'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+
+        $exportar[] = [
+            'name' => 'INFORME JORNADA',
+            'data' => $lista
+        ];
+
+        $lista = [];
+        $aux = [];
+        $aux['CANAL'] = [
+            'valor' => $jdata['total']['canal'],
+            'formato' => 'text'
+        ];
+        $aux['EMPRESA'] = [
+            'valor' => $jdata['total']['empresa'],
+            'formato' => 'text'
+        ];
+        $aux['EJECUTIVOS'] = [
+            'valor' => $jdata['total']['total_ejecutivos'],
+            'formato' => 'number'
+        ];
+        $aux['CAPACIDAD INSTALADA'] = [
+            'valor' => $jdata['total']['total_asignacion'],
+            'formato' => 'number'
+        ];
+        $aux['TOTAL CUENTAS GESTIONADAS'] = [
+            'valor' => $jdata['total']['total_cuentas'],
+            'formato' => 'number'
+        ];
+        $aux['NEGOCIACIONES'] = [
+            'valor' => $jdata['total']['total_negociaciones'],
+            'formato' => 'number'
+        ];
+        $aux['% PRODUCCIÓN'] = [
+            'valor' => $jdata['total']['total_porcentaje_produccion'],
+            'formato' => 'number'
+        ];
+        $aux['PORTAFOLIO'] = [
+            'valor' => $jdata['total']['portafolio'],
+            'formato' => 'number'
+        ];
+        $aux['% PRODUCTIVIDAD'] = [
+            'valor' => $jdata['total']['total_porcentaje_productividad'],
+            'formato' => 'number'
+        ];
+        $aux['CONTACTABILIDAD'] = [
+            'valor' => $jdata['total']['total_porcentaje_cantactado'],
+            'formato' => 'number'
+        ];
+        $aux['EFECTIVIDAD'] = [
+            'valor' => $jdata['total']['total_porcentaje_efectividad'],
+            'formato' => 'number'
+        ];
+        $lista[] = $aux;
+        $exportar[] = [
+            'name' => 'RESUMEN',
+            'data' => $lista
+        ];
+
+        $this->exportMultiple($exportar, 'informe_jornada.xlsx');
+    }
+
+    //NEGOCIACIONES POR EJECUTIVO
+    function negociacionesEjecutivo()
+    {
+        \WebSecurity::secure('reportes.negociaciones_ejecutivo');
+        if ($this->isPost()) {
+            $rep = new NegociacionesEjecutivo($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Negociaciones Por Ejecutivo';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('negociacionesEjecutivo', $data);
+    }
+
+    function exportNegociacionesEjecutivo($json)
+    {
+        \WebSecurity::secure('reportes.negociaciones_ejecutivo');
+        $jdata = json_decode($json, true);
+//        $filtros = $jdata['filtros'];
+//        $rep = new NegociacionesEjecutivo($this->get('pdo'));
+//        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($jdata['datos'] as $d) {
+            $aux['MARCACEDULA'] = [
+                'valor' => $d['marca_cedula'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA'] = [
+                'valor' => $d['fecha'],
+                'formato' => 'text'
+            ];
+            $aux['MARCA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CORTE'] = [
+                'valor' => $d['corte'],
+                'formato' => 'number'
+            ];
+            $aux['CAMPAÑA'] = [
+                'valor' => $d['campana'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['PLAZO'] = [
+                'valor' => $d['plazo_financiamiento'],
+                'formato' => 'number'
+            ];
+            $aux['TIPO DE PROCESO'] = [
+                'valor' => $d['tipo_negociacion'],
+                'formato' => 'text'
+            ];
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
+                'formato' => 'text'
+            ];
+            $aux['ACTUALES_ORIG'] = [
+                'valor' => $d['actuales_orig'],
+                'formato' => 'number'
+            ];
+            $aux['D30_ORIG'] = [
+                'valor' => $d['d30_orig'],
+                'formato' => 'number'
+            ];
+            $aux['D60_ORIG'] = [
+                'valor' => $d['d60_orig'],
+                'formato' => 'number'
+            ];
+            $aux['D90_ORIG'] = [
+                'valor' => $d['d90_orig'],
+                'formato' => 'number'
+            ];
+            $aux['DMAS90_ORIG'] = [
+                'valor' => $d['dmas90_orig'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL'] = [
+                'valor' => $d['total'],
+                'formato' => 'number'
+            ];
+            $aux['ESTADO'] = [
+                'valor' => $d['estado'],
+                'formato' => 'text'
+            ];
+            $aux['VERIFICACION'] = [
+                'valor' => $d['verificacion'],
+                'formato' => 'text'
+            ];
+            $aux['AREA'] = [
+                'valor' => $d['area_usuario'],
+                'formato' => 'text'
+            ];
+            $aux['TIPO DE RECUPERO'] = [
+                'valor' => $d['tipo_recuperacion'],
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'NEGOCIACIONES POR EJECUTIVO', 'negociaciones_ejecutivo.xlsx');
+    }
 
     //PROCESADAS PARA LIQUIDACION
-    function procesadasLiquidacion() {
+    function procesadasLiquidacion(){
         \WebSecurity::secure('reportes.procesadas_liquidacion');
         if ($this->isPost()) {
             $rep = new ProcesadasLiquidacion($this->get('pdo'));
@@ -240,8 +578,78 @@ class ReportesController extends BaseController {
         return $this->render('procesadasLiquidacion', $data);
     }
 
+    function exportProcesadasLiquidacion($json)
+    {
+        \WebSecurity::secure('reportes.procesadas_liquidacion');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new ProcesadasLiquidacion($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['FECHA ASIGNAC'] = [
+                'valor' => $d['fecha_asignacion'],
+                'formato' => 'text'
+            ];
+            $aux['CUENTA'] = [
+                'valor' => $d['cuenta'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['corte'],
+                'formato' => 'number'
+            ];
+            $aux['NOMBRE SOCIO'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['EDAD'] = [
+                'valor' => $d['edad_cartera'],
+                'formato' => 'number'
+            ];
+            $aux['MARCA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['ECE'] = [
+                'valor' => $d['campana_ece'],
+                'formato' => 'text'
+            ];
+            $aux['INICIO'] = [
+                'valor' => $d['inicio'],
+                'formato' => 'text'
+            ];
+            $aux['FIN'] = [
+                'valor' => $d['fin'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA DE ENVIO'] = [
+                'valor' => $d['fecha_envio'],
+                'formato' => 'text'
+            ];
+            $aux['NEGOCIACION EN ASIGNACION'] = [
+                'valor' => $d['negociacion_asignacion'],
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona_cuenta'],
+                'formato' => 'text'
+            ];
+            $aux['CAMPAÑA'] = [
+                'valor' => $d['campana'],
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'PROCESADAS LIQUIDACION', 'procesadas_liquidacion.xlsx');
+    }
+
     //BASE DE CARGA
-    function baseCarga() {
+    function baseCarga(){
         \WebSecurity::secure('reportes.base_carga');
         if ($this->isPost()) {
             $rep = new BaseCarga($this->get('pdo'));
@@ -255,8 +663,154 @@ class ReportesController extends BaseController {
         return $this->render('baseCarga', $data);
     }
 
+    function exportBaseCarga($json)
+    {
+        \WebSecurity::secure('reportes.base_carga');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new BaseCarga($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['MARCA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CICLOF'] = [
+                'valor' => $d['corte'],
+                'formato' => 'number'
+            ];
+            $aux['NOMSOC'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CEDSOC'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['VAPAMI'] = [
+                'valor' => $d['minimo_pagar'],
+                'formato' => 'number'
+            ];
+            $aux['TRIESGO_ORIG'] = [
+                'valor' => $d['total_riesgo'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD'] = [
+                'valor' => $d['edad_cartera'],
+                'formato' => 'number'
+            ];
+            $aux['PRODUCTO'] = [
+                'valor' => $d['producto_asignacion'],
+                'formato' => 'text'
+            ];
+            $aux['DIRECCION'] = [
+                'valor' => $d['direccion_cliente'],
+                'formato' => 'text'
+            ];
+            $aux['P1'] = [
+                'valor' => $d['p1'],
+                'formato' => 'text'
+            ];
+            $aux['T1'] = [
+                'valor' => $d['t1'],
+                'formato' => 'text'
+            ];
+            $aux['P2'] = [
+                'valor' => $d['p2'],
+                'formato' => 'text'
+            ];
+            $aux['T2'] = [
+                'valor' => $d['t2'],
+                'formato' => 'text'
+            ];
+            $aux['P3'] = [
+                'valor' => $d['p2'],
+                'formato' => 'text'
+            ];
+            $aux['T3'] = [
+                'valor' => $d['t2'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE_CIUDAD'] = [
+                'valor' => $d['ciudad_cuenta'],
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona_cuenta'],
+                'formato' => 'text'
+            ];
+            $aux['MOTIVO ANTERIOR'] = [
+                'valor' => $d['motivo_no_pago_anterior'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO ANTERIOR'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['OBSERVACION ANTERIOR'] = [
+                'valor' => $d['observacion_anterior'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO'] = [
+                'valor' => $d['nivel_1_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCION'] = [
+                'valor' => $d['nivel_3_texto'],
+                'formato' => 'text'
+            ];
+            $aux['OBSERVACION'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['FECHACOMPROMISO'] = [
+                'valor' => $d['fecha_compromiso_pago'],
+                'formato' => 'text'
+            ];
+            $aux['ULTIMO TLF CONTACTO '] = [
+                'valor' => $d['ultimo_telefono_contacto'],
+                'formato' => 'text'
+            ];
+            $aux['TIPOLLAMADA'] = [
+                'valor' => $d['area_usuario'],
+                'formato' => 'text'
+            ];
+            $aux['MOTIVO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['SUB MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['EMPRESA'] = [
+                'valor' => $d['empresa'],
+                'formato' => 'text'
+            ];
+            $aux['CAMPAÑA_CON_ECE'] = [
+                'valor' => $d['campana_ece'],
+                'formato' => 'text'
+            ];
+            $aux['HORA DE CONTACTO '] = [
+                'valor' => $d['hora_contacto'],
+                'formato' => 'text'
+            ];
+            $aux['GEOREFERENCIACION'] = [
+                'valor' => $d['georeferenciacion'],
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'BASE CARGA', 'base_carga.xlsx');
+    }
+
     //REPORTE POR HORAS
-    function reporteHoras() {
+    function reporteHoras(){
         \WebSecurity::secure('reportes.reporte_horas');
         if ($this->isPost()) {
             $rep = new ReporteHoras($this->get('pdo'));
@@ -270,8 +824,54 @@ class ReportesController extends BaseController {
         return $this->render('reporteHoras', $data);
     }
 
+    function exportReporteHoras($json)
+    {
+        \WebSecurity::secure('reportes.reporte_horas');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new ReporteHoras($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['MARCA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CÉDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['corte'],
+                'formato' => 'number'
+            ];
+            $aux['RESULTADO DE GESTIÓN'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['OBSERVACIÓN A DETALLE'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE AGENTE'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE ERE'] = [
+                'valor' => $d['nombre_ere'],
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'REPORTE POR HORAS', 'reporte_horas.xlsx');
+    }
+
     //CONTACTABILIDAD
-    function contactabilidad() {
+    function contactabilidad(){
         \WebSecurity::secure('reportes.contactabilidad');
         if ($this->isPost()) {
             $rep = new Contactabilidad($this->get('pdo'));
@@ -285,8 +885,67 @@ class ReportesController extends BaseController {
         return $this->render('contactabilidad', $data);
     }
 
+    function exportContactabilidad($json)
+    {
+        \WebSecurity::secure('reportes.contactabilidad');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new Contactabilidad($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['MARCA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['corte'],
+                'formato' => 'number'
+            ];
+            $aux['CÉDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE SOCIO'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['HORA DE LLAMADA'] = [
+                'valor' => $d['hora_llamada'],
+                'formato' => 'text'
+            ];
+            $aux['AGENTE'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO DE GESTIÓN'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['GESTIÓN'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['CAMPAÑA'] = [
+                'valor' => $d['campana'],
+                'formato' => 'text'
+            ];
+            $aux['EMPRESA - CANAL DE GESTION'] = [
+                'valor' => $d['empresa_canal'],
+                'formato' => 'text'
+            ];
+            $aux['HORA INGRESO'] = [
+                'valor' => $d['hora_ingreso'],
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'CONTACTABILIDAD', 'contactabilidad.xlsx');
+    }
+
     //LLAMADAS CONTACTADAS
-    function llamadasContactadas() {
+    function llamadasContactadas()
+    {
         \WebSecurity::secure('reportes.llamadas_contactadas');
         if ($this->isPost()) {
             $rep = new LlamadasContactadas($this->get('pdo'));
@@ -301,7 +960,8 @@ class ReportesController extends BaseController {
     }
 
     //GENERAL
-    function general() {
+    function general()
+    {
         \WebSecurity::secure('reportes.general');
         if ($this->isPost()) {
             $rep = new General($this->get('pdo'));
@@ -316,7 +976,8 @@ class ReportesController extends BaseController {
     }
 
     //GESTIONES POR HORA
-    function gestionesPorHora() {
+    function gestionesPorHora()
+    {
         \WebSecurity::secure('reportes.gestiones_por_hora');
         if ($this->isPost()) {
             $rep = new GestionesPorHora($this->get('pdo'));
@@ -331,7 +992,8 @@ class ReportesController extends BaseController {
     }
 
     //INDIVIDUAL
-    function individual() {
+    function individual()
+    {
         \WebSecurity::secure('reportes.individual');
         if ($this->isPost()) {
             $rep = new Individual($this->get('pdo'));
@@ -346,7 +1008,8 @@ class ReportesController extends BaseController {
     }
 
     //NEGOCIACIONES MANUAL
-    function negociacionesManual() {
+    function negociacionesManual()
+    {
         \WebSecurity::secure('reportes.negociaciones_manual');
         if ($this->isPost()) {
             $rep = new NegociacionesManual($this->get('pdo'));
@@ -361,7 +1024,8 @@ class ReportesController extends BaseController {
     }
 
     //NEGOCIACIONES AUTOMÁTICAS
-    function negociacionesAutomatica() {
+    function negociacionesAutomatica()
+    {
         \WebSecurity::secure('reportes.negociaciones_automatica');
         if ($this->isPost()) {
             $rep = new NegociacionesAutomatica($this->get('pdo'));
@@ -376,7 +1040,8 @@ class ReportesController extends BaseController {
     }
 
     //PRODUCTIVIDAD DATOS
-    function productividadDatos() {
+    function productividadDatos()
+    {
         \WebSecurity::secure('reportes.productividad_datos');
         if ($this->isPost()) {
             $rep = new ProductividadDatos($this->get('pdo'));
@@ -391,7 +1056,8 @@ class ReportesController extends BaseController {
     }
 
     //PRODUCTIVIDAD RESULTADOS
-    function productividadResultados() {
+    function productividadResultados()
+    {
         \WebSecurity::secure('reportes.productividad_resultados');
         if ($this->isPost()) {
             $rep = new ProductividadResultados($this->get('pdo'));
@@ -406,7 +1072,8 @@ class ReportesController extends BaseController {
     }
 
     //RECUPERACION TOTAL
-    function recuperacionTotal() {
+    function recuperacionTotal()
+    {
         \WebSecurity::secure('reportes.recuperacion_total');
         if ($this->isPost()) {
             $rep = new RecuperacionTotal($this->get('pdo'));
@@ -421,7 +1088,8 @@ class ReportesController extends BaseController {
     }
 
     //RECUPERACION ACTUAL
-    function recuperacionActual() {
+    function recuperacionActual()
+    {
         \WebSecurity::secure('reportes.recuperacion_actual');
         if ($this->isPost()) {
             $rep = new RecuperacionActual($this->get('pdo'));
@@ -436,7 +1104,8 @@ class ReportesController extends BaseController {
     }
 
     //RECUPERACION MORA
-    function recuperacionMora() {
+    function recuperacionMora()
+    {
         \WebSecurity::secure('reportes.recuperacion_mora');
         if ($this->isPost()) {
             $rep = new RecuperacionMora($this->get('pdo'));
@@ -450,14 +1119,24 @@ class ReportesController extends BaseController {
         return $this->render('recuperacionMora', $data);
     }
 
-	
-	protected function exportSimple($data, $nombre, $archivo) {
-		$export = new ExcelDatasetExport();
-		$set = [
-			['name' => $nombre, 'data' => $data]
-		];
-		$export->sendData($set, $archivo);
-		exit();
-	}
-	
+
+    protected function exportSimple($data, $nombre, $archivo)
+    {
+        $export = new ExcelDatasetExport();
+        $set = [
+            ['name' => $nombre, 'data' => $data]
+        ];
+        $export->sendData($set, $archivo);
+        exit();
+    }
+
+    protected function exportMultiple($set, $archivo)
+    {
+        $export = new ExcelDatasetExport();
+//        $set = [
+//            ['name' => $nombre, 'data' => $data]
+//        ];
+        $export->sendData($set, $archivo);
+        exit();
+    }
 }
