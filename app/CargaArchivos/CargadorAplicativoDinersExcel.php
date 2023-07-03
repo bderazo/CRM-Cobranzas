@@ -410,11 +410,11 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['total_riesgo'] = $values[15];
 						$aplicativo_diners_detalle['ciclo'] = $values[16];
 						$aplicativo_diners_detalle['edad_cartera'] = $values[17];
-						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['saldo_actual_facturado'] = $values[18];
 						$aplicativo_diners_detalle['saldo_30_facturado'] = $values[19];
 						$aplicativo_diners_detalle['saldo_60_facturado'] = $values[20];
@@ -471,17 +471,17 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[126];
 						$aplicativo_diners_detalle['oferta_valor'] = $values[174];
 						$aplicativo_diners_detalle['refinanciaciones_anteriores'] = $values[178];
-						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['cardia'] = $values[182];
-						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['unificar_deudas'] = 'NO';
 						$aplicativo_diners_detalle['exigible_financiamiento'] = 'NO';
 						$cuotas_pendientes = $aplicativo_diners_detalle['numero_cuotas_pendientes'];
@@ -531,11 +531,11 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['total_riesgo'] = $values[52];
 						$aplicativo_diners_detalle['ciclo'] = $values[53];
 						$aplicativo_diners_detalle['edad_cartera'] = $values[54];
-						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['saldo_actual_facturado'] = $values[55];
 						$aplicativo_diners_detalle['saldo_30_facturado'] = $values[56];
 						$aplicativo_diners_detalle['saldo_60_facturado'] = $values[57];
@@ -588,17 +588,17 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[127];
 						$aplicativo_diners_detalle['oferta_valor'] = $values[175];
 						$aplicativo_diners_detalle['refinanciaciones_anteriores'] = $values[179];
-						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['cardia'] = $values[183];
-						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['unificar_deudas'] = 'NO';
 						$aplicativo_diners_detalle['exigible_financiamiento'] = 'NO';
 						$cuotas_pendientes = $aplicativo_diners_detalle['numero_cuotas_pendientes'];
@@ -647,11 +647,11 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['total_riesgo'] = $values[90];
 						$aplicativo_diners_detalle['ciclo'] = $values[91];
 						$aplicativo_diners_detalle['edad_cartera'] = $values[92];
-						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['saldo_actual_facturado'] = $values[93];
 						$aplicativo_diners_detalle['saldo_30_facturado'] = $values[94];
 						$aplicativo_diners_detalle['saldo_60_facturado'] = $values[95];
@@ -704,17 +704,17 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[128];
 						$aplicativo_diners_detalle['oferta_valor'] = $values[176];
 						$aplicativo_diners_detalle['refinanciaciones_anteriores'] = $values[180];
-						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['cardia'] = $values[184];
-						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['unificar_deudas'] = 'NO';
 						$aplicativo_diners_detalle['exigible_financiamiento'] = 'NO';
 						$cuotas_pendientes = $aplicativo_diners_detalle['numero_cuotas_pendientes'];
@@ -763,11 +763,11 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['total_riesgo'] = $values[137];
 						$aplicativo_diners_detalle['ciclo'] = $values[138];
 						$aplicativo_diners_detalle['edad_cartera'] = $values[139];
-						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['saldo_actual_facturado'] = $values[140];
 						$aplicativo_diners_detalle['saldo_30_facturado'] = $values[141];
 						$aplicativo_diners_detalle['saldo_60_facturado'] = $values[142];
@@ -820,17 +820,17 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[173];
 						$aplicativo_diners_detalle['oferta_valor'] = $values[177];
 						$aplicativo_diners_detalle['refinanciaciones_anteriores'] = $values[181];
-						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['cardia'] = $values[185];
-						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-						}else{
-							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-						}
+//						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
+//						}else{
+//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
+//						}
 						$aplicativo_diners_detalle['unificar_deudas'] = 'NO';
 						$aplicativo_diners_detalle['exigible_financiamiento'] = 'NO';
 						$cuotas_pendientes = $aplicativo_diners_detalle['numero_cuotas_pendientes'];

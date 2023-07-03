@@ -233,10 +233,10 @@ class CargadorAsignacionesDinersExcel
 					];
 					if(isset($data_campos['PRODUCTO'])){
 						//NEGOCIACION AUTOMATICA
-						$verificar = ['DISCOVER','DISCOVER ME','DISCOVER MORE','DISCOVER ME BSC','DISCOVER MORE BSC','DISCOVER BSC'];
-						if(array_search($data_campos['PRODUCTO'],$verificar) !== false){
-							$set['tipo_negociacion'] = 'automatica';
-						}
+//						$verificar = ['DISCOVER','DISCOVER ME','DISCOVER MORE','DISCOVER ME BSC','DISCOVER MORE BSC','DISCOVER BSC'];
+//						if(array_search($data_campos['PRODUCTO'],$verificar) !== false){
+//							$set['tipo_negociacion'] = 'automatica';
+//						}
 						//NO SE DEBE NEGOCIAR
 						$verificar = ['SPHAERA RESERVE CLUBMILES','CONVENIO VIRTUAL TORREMAR','PUNTA BLANCA MARINA CLUB','LA COSTA COUNTRY CLUB','CONVENIO VIRTUAL DELTA','SALINAS YACHT CLUB','AÑOS DORADOS','SPHAERA RESERVE AADVANTAG','GUAYAQUIL TENIS CLUB VIRT','MANTA YACHT CLUB','ARRAYANES YACHT CLUB','GUAYAQUIL YACHT CLUB','QUITO TENIS YACHT CLUB'];
 						if(array_search($data_campos['PRODUCTO'],$verificar) !== false){

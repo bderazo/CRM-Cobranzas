@@ -608,8 +608,6 @@ class Producto extends Model
 //			\Auditor::info('valor_financiar4: '.$data['valor_financiar'], 'API', []);
 		}
 
-
-
 		//CALCULO DE GASTOS DE COBRANZA
 //		\Auditor::info('$total_precancelacion_diferidos: '.$total_precancelacion_diferidos, 'API', []);
 		if($total_precancelacion_diferidos > 0) {
@@ -724,7 +722,27 @@ class Producto extends Model
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		if($origen_calculo == 'web') {
+		//TIPOS DE NEGOCIACION
+        if(
+            ($data['financiamiento_vigente'] != 'REESTRUCTURACION') &&
+            ($data['refinanciaciones_anteriores'] <= 4) &&
+            ($data['cardia'] == 'USAR REPROGRAMACION') &&
+            ($valor_financiar <= 24900) &&
+            ($data['edad_cartera'] <= 60) &&
+            ($data['numero_meses_gracia'] <= 2) &&
+            ($data['total_riesgo'] <= 20000) &&
+            ($data['codigo_cancelacion'] != '86')
+        ){
+            $tipo_negociacion = 'automatica';
+        }else{
+            $tipo_negociacion = 'manual';
+        }
+
+
+
+
+
+        if($origen_calculo == 'web') {
 			if($valor_financiar <= 20000){
 				$data['tipo_negociacion'] = 'automatica';
 			}else{

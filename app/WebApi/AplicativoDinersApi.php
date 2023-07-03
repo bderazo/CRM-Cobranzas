@@ -235,11 +235,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'EDAD DE CARTERA',
 				'valor' => $tarjeta_diners['edad_cartera'],
 				'tipo' => 'label',
+                'name' => 'data[edad_cartera]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE CANCELACION',
 				'valor' => $tarjeta_diners['codigo_cancelacion'],
 				'tipo' => 'label',
+                'name' => 'data[codigo_cancelacion]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE BOLETIN',
@@ -317,11 +319,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'REFINANCIACIONES ANTERIORES',
 				'valor' => $tarjeta_diners['refinanciaciones_anteriores'],
 				'tipo' => 'label',
+                'name' => 'data[refinanciaciones_anteriores]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CARDIA',
 				'valor' => $tarjeta_diners['cardia'],
 				'tipo' => 'label',
+                'name' => 'data[cardia]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
@@ -332,6 +336,7 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'FINANCIAMIENTO VIGENTE',
 				'valor' => $tarjeta_diners['financiamiento_vigente'],
 				'tipo' => 'label',
+                'name' => 'data[financiamiento_vigente]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'N° CUOTAS PENDIENTES',
@@ -677,11 +682,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'EDAD DE CARTERA',
 				'valor' => $tarjeta_interdin['edad_cartera'],
 				'tipo' => 'label',
+                'name' => 'data[edad_cartera]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE CANCELACION',
 				'valor' => $tarjeta_interdin['codigo_cancelacion'],
 				'tipo' => 'label',
+                'name' => 'data[codigo_cancelacion]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE BOLETIN',
@@ -759,11 +766,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'REFINANCIACIONES ANTERIORES',
 				'valor' => $tarjeta_interdin['refinanciaciones_anteriores'],
 				'tipo' => 'label',
+                'name' => 'data[refinanciaciones_anteriores]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CARDIA',
 				'valor' => $tarjeta_interdin['cardia'],
 				'tipo' => 'label',
+                'name' => 'data[cardia]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
@@ -774,6 +783,7 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'FINANCIAMIENTO VIGENTE',
 				'valor' => $tarjeta_interdin['financiamiento_vigente'],
 				'tipo' => 'label',
+                'name' => 'data[financiamiento_vigente]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'N° CUOTAS PENDIENTES',
@@ -1125,11 +1135,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'EDAD DE CARTERA',
 				'valor' => $tarjeta_discover['edad_cartera'],
 				'tipo' => 'label',
+                'name' => 'data[edad_cartera]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE CANCELACION',
 				'valor' => $tarjeta_discover['codigo_cancelacion'],
 				'tipo' => 'label',
+                'name' => 'data[codigo_cancelacion]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE BOLETIN',
@@ -1207,11 +1219,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'REFINANCIACIONES ANTERIORES',
 				'valor' => $tarjeta_discover['refinanciaciones_anteriores'],
 				'tipo' => 'label',
+                'name' => 'data[refinanciaciones_anteriores]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CARDIA',
 				'valor' => $tarjeta_discover['cardia'],
 				'tipo' => 'label',
+                'name' => 'data[cardia]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
@@ -1222,6 +1236,7 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'FINANCIAMIENTO VIGENTE',
 				'valor' => $tarjeta_discover['financiamiento_vigente'],
 				'tipo' => 'label',
+                'name' => 'data[financiamiento_vigente]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'N° CUOTAS PENDIENTES',
@@ -1572,11 +1587,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'EDAD DE CARTERA',
 				'valor' => $tarjeta_mastercard['edad_cartera'],
 				'tipo' => 'label',
+                'name' => 'data[edad_cartera]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE CANCELACION',
 				'valor' => $tarjeta_mastercard['codigo_cancelacion'],
 				'tipo' => 'label',
+                'name' => 'data[codigo_cancelacion]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CODIGO DE BOLETIN',
@@ -1654,11 +1671,13 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'REFINANCIACIONES ANTERIORES',
 				'valor' => $tarjeta_mastercard['refinanciaciones_anteriores'],
 				'tipo' => 'label',
+                'name' => 'data[refinanciaciones_anteriores]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'CARDIA',
 				'valor' => $tarjeta_mastercard['cardia'],
 				'tipo' => 'label',
+                'name' => 'data[cardia]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'MOTIVO DE NO PAGO ANTERIOR',
@@ -1669,6 +1688,7 @@ class AplicativoDinersApi extends BaseController
 				'etiqueta' => 'FINANCIAMIENTO VIGENTE',
 				'valor' => $tarjeta_mastercard['financiamiento_vigente'],
 				'tipo' => 'label',
+                'name' => 'data[financiamiento_vigente]',
 			];
 			$seccion1['contenido'][] = [
 				'etiqueta' => 'N° CUOTAS PENDIENTES',

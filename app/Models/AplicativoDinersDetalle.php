@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property integer aplicativo_diners_id
  * @property integer producto_seguimiento_id
+ * @property integer aplicativo_diners_asignaciones_id
  * @property string tipo
+ * @property string tipo_negociacion
+ * @property string puede_negociar
  * @property integer padre_id
  * @property string nombre_tarjeta
  * @property integer ciclo

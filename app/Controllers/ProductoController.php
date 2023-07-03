@@ -590,6 +590,11 @@ class ProductoController extends BaseController
                 $obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_diners->eliminado = 0;
+                if($obj_diners->tipo_negociacion == 'automatica'){
+                    if($con->nivel_2_id == 1844){
+                        $obj_diners->tipo_negociacion = 'manual';
+                    }
+                }
                 $obj_diners->save();
                 \Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
             }
@@ -610,6 +615,11 @@ class ProductoController extends BaseController
                 $obj_interdin->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_interdin->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_interdin->eliminado = 0;
+                if($obj_interdin->tipo_negociacion == 'automatica'){
+                    if($con->nivel_2_id == 1844){
+                        $obj_interdin->tipo_negociacion = 'manual';
+                    }
+                }
                 $save = $obj_interdin->save();
 //                printDie($save);
                 \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
@@ -631,6 +641,11 @@ class ProductoController extends BaseController
                 $obj_discover->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_discover->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_discover->eliminado = 0;
+                if($obj_discover->tipo_negociacion == 'automatica'){
+                    if($con->nivel_2_id == 1844){
+                        $obj_discover->tipo_negociacion = 'manual';
+                    }
+                }
                 $obj_discover->save();
                 \Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
             }
@@ -651,6 +666,11 @@ class ProductoController extends BaseController
                 $obj_mastercard->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_mastercard->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_mastercard->eliminado = 0;
+                if($obj_mastercard->tipo_negociacion == 'automatica'){
+                    if($con->nivel_2_id == 1844){
+                        $obj_mastercard->tipo_negociacion = 'manual';
+                    }
+                }
                 $obj_mastercard->save();
                 \Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
             }
