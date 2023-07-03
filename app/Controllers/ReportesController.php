@@ -1167,8 +1167,7 @@ class ReportesController extends BaseController
     }
 
     //NEGOCIACIONES MANUAL
-    function negociacionesManual()
-    {
+    function negociacionesManual(){
         \WebSecurity::secure('reportes.negociaciones_manual');
         if ($this->isPost()) {
             $rep = new NegociacionesManual($this->get('pdo'));
@@ -1182,9 +1181,118 @@ class ReportesController extends BaseController
         return $this->render('negociacionesManual', $data);
     }
 
-    //NEGOCIACIONES AUTOMÁTICAS
-    function negociacionesAutomatica()
+    function exportNegociacionesManual($json)
     {
+        \WebSecurity::secure('reportes.negociaciones_manual');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new NegociacionesManual($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['#'] = [
+                'valor' => $d['numero'],
+                'formato' => 'number'
+            ];
+            $aux['MARCA DONDE SE PROCESA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['COD. NEGOCIADOR'] = [
+                'valor' => $d['cod_negociador'],
+                'formato' => 'text'
+            ];
+            $aux['SUBAREA'] = [
+                'valor' => $d['subarea'],
+                'formato' => 'text'
+            ];
+            $aux['TIPO NEGOCIACIÓN'] = [
+                'valor' => $d['tipo_negociacion'],
+                'formato' => 'text'
+            ];
+            $aux['PLAZO'] = [
+                'valor' => $d['plazo_financiamiento'],
+                'formato' => 'number'
+            ];
+            $aux['MESES DE GRACIA'] = [
+                'valor' => $d['numero_meses_gracia'],
+                'formato' => 'number'
+            ];
+            $aux['OBSERVACION NEGOCIACION ERE'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['ABONO AL CORTE DINERS'] = [
+                'valor' => $d['abono_corte_diners'],
+                'formato' => 'number'
+            ];
+            $aux['ABONO AL CORTE VISA'] = [
+                'valor' => $d['abono_corte_visa'],
+                'formato' => 'number'
+            ];
+            $aux['ABONO AL CORTE DISCOVER'] = [
+                'valor' => $d['abono_corte_discover'],
+                'formato' => 'number'
+            ];
+            $aux['ABONO AL CORTE MASTECARD'] = [
+                'valor' => $d['abono_corte_mastercard'],
+                'formato' => 'number'
+            ];
+            $aux['# MOT DE NO PAGO'] = [
+                'valor' => $d['motivo_no_pago_codigo'],
+                'formato' => 'number'
+            ];
+            $aux['SOCIO CON ACTIVIDAD ACTUAL'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['GESTION'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['CONSOLIDACION DEUDA'] = [
+                'valor' => $d['unificar_deudas'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES DINERS'] = [
+                'valor' => $d['traslado_valores_diners'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES VISA'] = [
+                'valor' => $d['traslado_valores_visa'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES DISCOVER'] = [
+                'valor' => $d['traslado_valores_discover'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES MASTERCARD'] = [
+                'valor' => $d['traslado_valores_mastercard'],
+                'formato' => 'text'
+            ];
+            $aux['INGRESOS'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['GASTOS'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['DOCUMENTOS SOPORTES'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'NEGOCIACIONES MANUALES', 'negociaciones_manuales.xlsx');
+    }
+
+    //NEGOCIACIONES AUTOMÁTICAS
+    function negociacionesAutomatica(){
         \WebSecurity::secure('reportes.negociaciones_automatica');
         if ($this->isPost()) {
             $rep = new NegociacionesAutomatica($this->get('pdo'));
@@ -1196,6 +1304,116 @@ class ReportesController extends BaseController
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('negociacionesAutomatica', $data);
+    }
+
+    function exportNegociacionesAutomatica($json)
+    {
+        \WebSecurity::secure('reportes.negociaciones_automatica');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new NegociacionesAutomatica($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['#'] = [
+                'valor' => $d['numero'],
+                'formato' => 'number'
+            ];
+            $aux['MARCA DONDE SE PROCESA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['COD. NEGOCIADOR'] = [
+                'valor' => $d['cod_negociador'],
+                'formato' => 'text'
+            ];
+            $aux['SUBAREA'] = [
+                'valor' => $d['subarea'],
+                'formato' => 'text'
+            ];
+            $aux['TIPO NEGOCIACIÓN'] = [
+                'valor' => $d['tipo_negociacion'],
+                'formato' => 'text'
+            ];
+            $aux['PLAZO'] = [
+                'valor' => $d['plazo_financiamiento'],
+                'formato' => 'number'
+            ];
+            $aux['MESES DE GRACIA'] = [
+                'valor' => $d['numero_meses_gracia'],
+                'formato' => 'number'
+            ];
+            $aux['OBSERVACION NEGOCIACION ERE'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['ABONO AL CORTE DINERS'] = [
+                'valor' => $d['abono_corte_diners'],
+                'formato' => 'number'
+            ];
+            $aux['ABONO AL CORTE VISA'] = [
+                'valor' => $d['abono_corte_visa'],
+                'formato' => 'number'
+            ];
+            $aux['ABONO AL CORTE DISCOVER'] = [
+                'valor' => $d['abono_corte_discover'],
+                'formato' => 'number'
+            ];
+            $aux['ABONO AL CORTE MASTECARD'] = [
+                'valor' => $d['abono_corte_mastercard'],
+                'formato' => 'number'
+            ];
+            $aux['# MOT DE NO PAGO'] = [
+                'valor' => $d['motivo_no_pago_codigo'],
+                'formato' => 'number'
+            ];
+            $aux['SOCIO CON ACTIVIDAD ACTUAL'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['GESTION'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['CONSOLIDACION DEUDA'] = [
+                'valor' => $d['unificar_deudas'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES DINERS'] = [
+                'valor' => $d['traslado_valores_diners'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES VISA'] = [
+                'valor' => $d['traslado_valores_visa'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES DISCOVER'] = [
+                'valor' => $d['traslado_valores_discover'],
+                'formato' => 'text'
+            ];
+            $aux['TRASLADO DE VALORES MASTERCARD'] = [
+                'valor' => $d['traslado_valores_mastercard'],
+                'formato' => 'text'
+            ];
+            $aux['INGRESOS'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['GASTOS'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['DOCUMENTOS SOPORTES'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'NEGOCIACIONES AUTOMÁTICAS', 'negociaciones_automaticas.xlsx');
     }
 
     //PRODUCTIVIDAD DATOS

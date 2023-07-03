@@ -7,7 +7,7 @@
 				<h4 class="card-title">Datos</h4>
 			</div>
 			<div class="card-body">
-				<a class="btn btn-default-light" id="btnExportarDetalle">
+				<a class="btn btn-default-light" id="btnExportar">
 					<i class="fa fa-file-excel-o"></i>
 					Exportar
 				</a>
@@ -75,11 +75,7 @@
 		</div>
 	</div>
 
-	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportInventarioPerchaConforme">
-		<input type="hidden" id="json" name="json"/>
-	</form>
-
-	<form id="exportDetalleForm" method="POST" action="{{ root }}/reportes/exportDetalleInventarioPerchaConforme">
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportNegociacionesManual">
 		<input type="hidden" id="json" name="json"/>
 	</form>
 
@@ -115,19 +111,11 @@
                 var form = $('#filtros');
                 var self = this;
                 $('#btnExportar').click(function () {
-                    // var data = {
-                    //     filtros: form.serializeForm()
-                    // };
-                    // $('#json').val(JSON.stringify(data));
-                    // $('#exportForm').submit();
-                });
-
-                $('#btnExportarDetalle').click(function () {
-                    // var data = {
-                    //     filtros: form.serializeForm()
-                    // };
-                    // $('#json').val(JSON.stringify(data));
-                    // $('#exportDetalleForm').submit();
+                    var data = {
+                        filtros: form.serializeForm()
+                    };
+                    $('#json').val(JSON.stringify(data));
+                    $('#exportForm').submit();
                 });
 
                 $(document).ready(function () {
