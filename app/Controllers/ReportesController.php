@@ -960,8 +960,7 @@ class ReportesController extends BaseController
     }
 
     //GENERAL
-    function general()
-    {
+    function general(){
         \WebSecurity::secure('reportes.general');
         if ($this->isPost()) {
             $rep = new General($this->get('pdo'));
@@ -975,9 +974,58 @@ class ReportesController extends BaseController
         return $this->render('general', $data);
     }
 
-    //GESTIONES POR HORA
-    function gestionesPorHora()
+    function exportGeneral($json)
     {
+        \WebSecurity::secure('reportes.general');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new General($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['REFINANCIA'] = [
+                'valor' => $d['refinancia'],
+                'formato' => 'number'
+            ];
+            $aux['NOTIFICADO'] = [
+                'valor' => $d['notificado'],
+                'formato' => 'number'
+            ];
+            $aux['CIERRE EFECTIVO'] = [
+                'valor' => $d['cierre_efectivo'],
+                'formato' => 'number'
+            ];
+            $aux['CIERRE NO EFECTIVO'] = [
+                'valor' => $d['cierre_no_efectivo'],
+                'formato' => 'number'
+            ];
+            $aux['MENSAJE A TERCERO'] = [
+                'valor' => $d['mensaje_tercero'],
+                'formato' => 'number'
+            ];
+            $aux['NO UBICADO'] = [
+                'valor' => $d['no_ubicado'],
+                'formato' => 'number'
+            ];
+            $aux['SIN ARREGLO'] = [
+                'valor' => $d['sin_arreglo'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL GENERAL'] = [
+                'valor' => $d['total'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'GENERAL', 'general.xlsx');
+    }
+
+    //GESTIONES POR HORA
+    function gestionesPorHora(){
         \WebSecurity::secure('reportes.gestiones_por_hora');
         if ($this->isPost()) {
             $rep = new GestionesPorHora($this->get('pdo'));
@@ -991,9 +1039,74 @@ class ReportesController extends BaseController
         return $this->render('gestionesPorHora', $data);
     }
 
-    //INDIVIDUAL
-    function individual()
+    function exportGestionesPorHora($json)
     {
+        \WebSecurity::secure('reportes.gestiones_por_hora');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new GestionesPorHora($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['AGENTE'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['7'] = [
+                'valor' => $d['hora_7'],
+                'formato' => 'number'
+            ];
+            $aux['8'] = [
+                'valor' => $d['hora_8'],
+                'formato' => 'number'
+            ];
+            $aux['9'] = [
+                'valor' => $d['hora_9'],
+                'formato' => 'number'
+            ];
+            $aux['10'] = [
+                'valor' => $d['hora_10'],
+                'formato' => 'number'
+            ];
+            $aux['11'] = [
+                'valor' => $d['hora_11'],
+                'formato' => 'number'
+            ];
+            $aux['12'] = [
+                'valor' => $d['hora_12'],
+                'formato' => 'number'
+            ];
+            $aux['13'] = [
+                'valor' => $d['hora_13'],
+                'formato' => 'number'
+            ];
+            $aux['14'] = [
+                'valor' => $d['hora_14'],
+                'formato' => 'number'
+            ];
+            $aux['15'] = [
+                'valor' => $d['hora_15'],
+                'formato' => 'number'
+            ];
+            $aux['16'] = [
+                'valor' => $d['hora_16'],
+                'formato' => 'number'
+            ];
+            $aux['17'] = [
+                'valor' => $d['hora_17'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL GENERAL'] = [
+                'valor' => $d['total'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'GESTIONES POR HORA', 'gestiones_por_hora.xlsx');
+    }
+
+    //INDIVIDUAL
+    function individual(){
         \WebSecurity::secure('reportes.individual');
         if ($this->isPost()) {
             $rep = new Individual($this->get('pdo'));
@@ -1005,6 +1118,52 @@ class ReportesController extends BaseController
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('individual', $data);
+    }
+
+    function exportIndividual($json)
+    {
+        \WebSecurity::secure('reportes.individual');
+        $jdata = json_decode($json, true);
+//        $filtros = $jdata['filtros'];
+//        $rep = new Individual($this->get('pdo'));
+//        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($jdata['datos'] as $d) {
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['TOTAL NEGOCIACIONES'] = [
+                'valor' => $d['cierre_efectivo'],
+                'formato' => 'number'
+            ];
+            $aux['REFINANCIA'] = [
+                'valor' => $d['refinancia'],
+                'formato' => 'number'
+            ];
+            $aux['NOTIFICADO'] = [
+                'valor' => $d['notificado'],
+                'formato' => 'number'
+            ];
+            $aux['CONTACTABILIDAD'] = [
+                'valor' => $d['contactabilidad'],
+                'formato' => 'number'
+            ];
+            $aux['EFECTIVIDAD'] = [
+                'valor' => $d['efectividad'],
+                'formato' => 'number'
+            ];
+            $aux['META DIARIA'] = [
+                'valor' => $d['meta_diaria'],
+                'formato' => 'number'
+            ];
+            $aux['% META ALCANZADA'] = [
+                'valor' => $d['meta_alcanzada'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'INDIVIDUAL', 'individual.xlsx');
     }
 
     //NEGOCIACIONES MANUAL
