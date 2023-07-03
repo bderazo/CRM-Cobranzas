@@ -1417,8 +1417,7 @@ class ReportesController extends BaseController
     }
 
     //PRODUCTIVIDAD DATOS
-    function productividadDatos()
-    {
+    function productividadDatos(){
         \WebSecurity::secure('reportes.productividad_datos');
         if ($this->isPost()) {
             $rep = new ProductividadDatos($this->get('pdo'));
@@ -1430,6 +1429,100 @@ class ReportesController extends BaseController
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('productividadDatos', $data);
+    }
+
+    function exportProductividadDatos($json)
+    {
+        \WebSecurity::secure('reportes.productividad_datos');
+        $jdata = json_decode($json, true);
+        $filtros = $jdata['filtros'];
+        $rep = new ProductividadDatos($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['MARCA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['ciclo'],
+                'formato' => 'number'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE SOCIO'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE CIUDAD'] = [
+                'valor' => $d['ciudad_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['HORA'] = [
+                'valor' => $d['hora_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['AGENTE'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO DE GESTIÓN'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['SUBMOTIVO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['GESTION'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['CAMPAÑA'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['EMPRESA - CANAL DE GESTIÓN  '] = [
+                'valor' => $d['empresa'],
+                'formato' => 'text'
+            ];
+            $aux['CIERRE'] = [
+                'valor' => $d['nivel_1_texto'],
+                'formato' => 'text'
+            ];
+            $aux['CANAL'] = [
+                'valor' => $d['usuario_canal'],
+                'formato' => 'text'
+            ];
+            $aux['ACTUALES'] = [
+                'valor' => $d['saldo_actual_facturado'],
+                'formato' => 'number'
+            ];
+            $aux['D30'] = [
+                'valor' => $d['saldo_30_facturado'],
+                'formato' => 'number'
+            ];
+            $aux['D60'] = [
+                'valor' => $d['saldo_60_facturado'],
+                'formato' => 'number'
+            ];
+            $aux['D90'] = [
+                'valor' => $d['saldo_90_facturado'],
+                'formato' => 'number'
+            ];
+            $aux['DMAS90'] = [
+                'valor' => $d['saldo_90_facturado'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'DATOS PRODUCTIVIDAD', 'datos_productividad.xlsx');
     }
 
     //PRODUCTIVIDAD RESULTADOS
