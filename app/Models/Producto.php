@@ -733,28 +733,24 @@ class Producto extends Model
             ($data['total_riesgo'] <= 20000) &&
             ($data['codigo_cancelacion'] != '86')
         ){
-            $tipo_negociacion = 'automatica';
+            $data['tipo_negociacion'] = 'automatica';
         }else{
-            $tipo_negociacion = 'manual';
+            $data['tipo_negociacion'] = 'manual';
         }
 
-
-
-
-
-        if($origen_calculo == 'web') {
-			if($valor_financiar <= 20000){
-				$data['tipo_negociacion'] = 'automatica';
-			}else{
-				$data['tipo_negociacion'] = 'manual';
-			}
-		}else{
-			if($valor_financiar <= 24000){
-				$data['tipo_negociacion'] = 'automatica';
-			}else{
-				$data['tipo_negociacion'] = 'manual';
-			}
-		}
+//        if($origen_calculo == 'web') {
+//			if($valor_financiar <= 20000){
+//				$data['tipo_negociacion'] = 'automatica';
+//			}else{
+//				$data['tipo_negociacion'] = 'manual';
+//			}
+//		}else{
+//			if($valor_financiar <= 24000){
+//				$data['tipo_negociacion'] = 'automatica';
+//			}else{
+//				$data['tipo_negociacion'] = 'manual';
+//			}
+//		}
 
 //		\Auditor::info('calculos_tarjeta_diners despues data: ', 'API', $data);
 
@@ -1019,19 +1015,34 @@ class Producto extends Model
 		}
 		$data['valor_cuota_mensual'] = number_format($cuota_mensual, 2, '.', '');
 
-		if($origen_calculo == 'web') {
-			if($valor_financiar <= 20000){
-				$data['tipo_negociacion'] = 'automatica';
-			}else{
-				$data['tipo_negociacion'] = 'manual';
-			}
-		}else{
-			if($valor_financiar <= 24000){
-				$data['tipo_negociacion'] = 'automatica';
-			}else{
-				$data['tipo_negociacion'] = 'manual';
-			}
-		}
+        //TIPOS DE NEGOCIACION
+        if(
+            ($data['financiamiento_vigente'] != 'REESTRUCTURACION') &&
+            ($data['refinanciaciones_anteriores'] <= 4) &&
+            ($data['cardia'] == 'USAR REPROGRAMACION') &&
+            ($valor_financiar <= 24900) &&
+            ($data['edad_cartera'] <= 60) &&
+            ($data['numero_meses_gracia'] <= 2) &&
+            ($data['total_riesgo'] <= 20000) &&
+            ($data['codigo_cancelacion'] != '86')
+        ){
+            $data['tipo_negociacion'] = 'automatica';
+        }else{
+            $data['tipo_negociacion'] = 'manual';
+        }
+//		if($origen_calculo == 'web') {
+//			if($valor_financiar <= 20000){
+//				$data['tipo_negociacion'] = 'automatica';
+//			}else{
+//				$data['tipo_negociacion'] = 'manual';
+//			}
+//		}else{
+//			if($valor_financiar <= 24000){
+//				$data['tipo_negociacion'] = 'automatica';
+//			}else{
+//				$data['tipo_negociacion'] = 'manual';
+//			}
+//		}
 
 		return $data;
 	}
