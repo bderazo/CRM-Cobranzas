@@ -38,6 +38,14 @@
 							{{ select_tag('institucion', instituciones, model.institucion, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
 						</div>
 
+						<label for="inputName" class="col-md-2 form-label">Activo</label>
+						<div class="col-md-4">
+							<select id="activo" name="activo" class="form-control form-select">
+								<option value=""></option>
+								<option value="1">SI</option>
+								<option value="0">NO</option>
+							</select>
+						</div>
 					</div>
 
 					<div class=" row mb-4">

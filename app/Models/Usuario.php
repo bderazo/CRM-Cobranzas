@@ -138,6 +138,14 @@ class Usuario extends Model {
 		if (!empty($post['plaza'])) $q->where('plaza', $post['plaza']);
 		if (!empty($post['campana'])) $q->where('campana', $post['campana']);
 		if (!empty($post['identificador'])) $q->where('identificador', $post['identificador']);
+
+        if (!empty($post['activo'])){
+            if($post['activo'] == 1){
+                $q->where('activo', 1);
+            }else{
+                $q->where('activo',0);
+            }
+        }
 		
 		if (!empty($post['perfil'])) {
 			$idper = $post['perfil'];
