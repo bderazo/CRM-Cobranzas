@@ -29,8 +29,8 @@ class General {
 
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
-            ->innerJoin("aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
-            ->leftJoin('aplicativo_diners_asignaciones asig ON asig.id = addet.aplicativo_diners_asignaciones_id')
+//            ->innerJoin("aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
+//            ->leftJoin('aplicativo_diners_asignaciones asig ON asig.id = addet.aplicativo_diners_asignaciones_id')
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
 			->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, 
