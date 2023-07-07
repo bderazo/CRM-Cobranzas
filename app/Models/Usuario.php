@@ -140,7 +140,7 @@ class Usuario extends Model {
 		if (!empty($post['identificador'])) $q->where('identificador', $post['identificador']);
 
         if (!empty($post['activo'])){
-            if($post['activo'] == 1){
+            if($post['activo'] == 'si'){
                 $q->where('activo', 1);
             }else{
                 $q->where('activo',0);
