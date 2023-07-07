@@ -37,31 +37,57 @@
 						<div class="col-md-4">
 							{{ select_tag('institucion', instituciones, model.institucion, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
 						</div>
+
 					</div>
 
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Canal</label>#}
-{#						<div class="col-md-4">#}
-{#							{{ select_tag('canal', canal, model.canal, {class:'form-control form-select', prompt:''} ) }}#}
-{#						</div>#}
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Canal</label>
+						<div class="col-md-4">
+							<select id="canal" name="canal" class="form-control form-select">
+								<option value=""></option>
+								<option value="CAMPO">CAMPO</option>
+								<option value="TELEFONIA">TELEFONIA</option>
+								<option value="AUXILIAR TELEFONIA">AUXILIAR TELEFONIA</option>
+							</select>
+						</div>
 
-{#						<label for="inputName" class="col-md-2 form-label">Plaza</label>#}
-{#						<div class="col-md-4">#}
-{#							{{ select_tag('plaza', plaza, model.plaza, {prompt:'', class:'form-control form-select'} ) }}#}
-{#						</div>#}
-{#					</div>#}
+						<label for="inputName" class="col-md-2 form-label">Plaza</label>
+						<div class="col-md-4">
+							<select id="plaza" name="plaza" class="form-control form-select">
+								<option value=""></option>
+								<option value="AMBATO">AMBATO</option>
+								<option value="CUENCA">CUENCA</option>
+								<option value="GALAPAGOS">GALAPAGOS</option>
+								<option value="GUAYAQUIL">GUAYAQUIL</option>
+								<option value="MACHALA">MACHALA</option>
+								<option value="MANABI">MANABI</option>
+								<option value="QUITO">QUITO</option>
+							</select>
+						</div>
+					</div>
 
-{#					<div class=" row mb-4">#}
-{#						<label for="inputName" class="col-md-2 form-label">Campaña</label>#}
-{#						<div class="col-md-4">#}
-{#							{{ select_tag('campana', campana, model.campana, {prompt:'', class:'form-control form-select'} ) }}#}
-{#						</div>#}
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Campaña</label>
+						<div class="col-md-4">
+							<select id="campana" name="campana" class="form-control form-select">
+								<option value=""></option>
+								<option value="CAMPO">CAMPO</option>
+								<option value="REF TLF">REF TLF</option>
+								<option value="TELEFONIA">TELEFONIA</option>
+								<option value="OPERATIVO">OPERATIVO</option>
+							</select>
+						</div>
 
-{#						<label for="inputName" class="col-md-2 form-label">Identificador</label>#}
-{#						<div class="col-md-4">#}
-{#							{{ select_tag('identificador', identificador, model.identificador, {prompt:'', class:'form-control form-select'} ) }}#}
-{#						</div>#}
-{#					</div>#}
+						<label for="inputName" class="col-md-2 form-label">Identificador</label>
+						<div class="col-md-4">
+							<select id="identificador" name="identificador" class="form-control form-select">
+								<option value=""></option>
+								<option value="DM">DM</option>
+								<option value="MN">MN</option>
+								<option value="TELF">TELF</option>
+							</select>
+						</div>
+					</div>
 
 					<div class="mb-0 mt-4 ">
 						<div class="col-md-12">

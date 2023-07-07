@@ -134,10 +134,10 @@ class Usuario extends Model {
 		if (!empty($post['apellidos'])) $q->where('apellidos', 'like', '%' . $post['apellidos'] . '%');
 		if (!empty($post['username'])) $q->where('username', 'like', '%' . $post['username'] . '%');
 		if (!empty($post['email'])) $q->where('email', 'like', '%' . $post['email'] . '%');
-//		if (!empty($post['canal'])) $q->where('canal', $post['canal']);
-//		if (!empty($post['plaza'])) $q->where('plaza', $post['plaza']);
-//		if (!empty($post['campana'])) $q->where('campana', $post['campana']);
-//		if (!empty($post['identificador'])) $q->where('identificador', $post['identificador']);
+		if (!empty($post['canal'])) $q->where('canal', $post['canal']);
+		if (!empty($post['plaza'])) $q->where('plaza', $post['plaza']);
+		if (!empty($post['campana'])) $q->where('campana', $post['campana']);
+		if (!empty($post['identificador'])) $q->where('identificador', $post['identificador']);
 		
 		if (!empty($post['perfil'])) {
 			$idper = $post['perfil'];
