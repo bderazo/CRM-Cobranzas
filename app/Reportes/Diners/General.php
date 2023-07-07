@@ -43,10 +43,10 @@ class General {
 							COUNT(IF(ps.nivel_1_id = 1861, 1, NULL)) 'sin_arreglo'")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
-        if (@$filtros['campana']){
-            $fil = '"' . implode('","',$filtros['campana']) . '"';
-            $q->where('asig.campana IN ('.$fil.')');
-        }
+//        if (@$filtros['campana']){
+//            $fil = '"' . implode('","',$filtros['campana']) . '"';
+//            $q->where('asig.campana IN ('.$fil.')');
+//        }
 		if (@$filtros['plaza_usuario']){
 			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
 			$q->where('u.plaza IN ('.$fil.')');
