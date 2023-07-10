@@ -4,12 +4,12 @@ return [
         'CAMPO' => 'CAMPO',
 		'TELEFONIA' => 'TELEFONIA',
         'AUXILIAR TELEFONIA' => 'AUXILIAR TELEFONIA',
+        'OPERATIVO' => 'OPERATIVO',
 	],
 	'campana' => [
 		'CAMPO' => 'CAMPO',
 		'REF TLF' => 'REF TLF',
 		'TELEFONIA' => 'TELEFONIA',
-		'OPERATIVO' => 'OPERATIVO',
 	],
 	'identificador' => [
 		'DM' => 'DM',
