@@ -20,7 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string edad_cartera
  * @property string codigo_cancelacion
  * @property string codigo_boletin
- * @property double debito_automatico
+ * @property string debito_automatico
+ * @property string observaciones_ultimo_pago
+ * @property string observaciones_cheques_devueltos
+ * @property string forma_pago
  * @property double promedio_pago
  * @property string score
  * @property string campana
@@ -34,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double tt_exig_parcial
  * @property string motivo_no_pago_anterior
  * @property string financiamiento_vigente
+ * @property string fecha_vale
  * @property integer numero_cuotas_pendientes
  * @property double tt_cuotas_fact
  * @property double valor_cuotas_pendientes
@@ -83,6 +87,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string abono_sistema
  * @property string incluir_negociacion
  * @property string oferta_valor
+ * @property string observaciones_diferidos_historicos
  * @property integer refinanciaciones_anteriores
  * @property string cardia
  * @property string unificar_deudas

@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer profesion_id
  * @property integer tipo_referencia_id
  * @property string gestionar
+ * @property string experiencia_crediticia
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso

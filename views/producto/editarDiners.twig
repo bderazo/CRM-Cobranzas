@@ -30,6 +30,11 @@
                                 <h3 style="font-weight: bold; text-transform: uppercase;"><span style="color: red;" class="form-control-plaintext" v-html="cliente.gestionar"></span></h3>
                             </template>
                         </div>
+
+                        <label for="inputName" class="col-md-2 form-label">Experiencia crediticia</label>
+                        <div class="col-md-4 col-informacion">
+                            <h3 style="font-weight: bold;"><span class="form-control-plaintext" v-html="cliente.experiencia_crediticia"></span></h3>
+                        </div>
                     </div>
 
                     <div class=" row mb-4">
@@ -483,6 +488,24 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES ÚLTIMO PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_diners.observaciones_ultimo_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>OBSERVACIONES CHEQUES DEVUELTOS</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_diners.observaciones_cheques_devueltos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>FORMA DE PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_diners.forma_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>SCORE</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_diners.score"></span>
@@ -556,6 +579,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES DIFERIDOS HISTÓRICOS</strong></td>
+                                                    <td colspan="3"><span
+                                                                v-html="aplicativo_diners_tarjeta_diners.observaciones_diferidos_historicos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>REFINANCIACIONES ANTERIORES</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_diners.refinanciaciones_anteriores"></span>
@@ -575,8 +604,12 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
-                                                    <td colspan="3"><span
+                                                    <td><span
                                                                 v-html="aplicativo_diners_tarjeta_diners.financiamiento_vigente"></span>
+                                                    </td>
+                                                    <td style="width: 10%;"><strong>FECHA VALE</strong></td>
+                                                    <td>
+                                                        <span v-html="aplicativo_diners_tarjeta_diners.fecha_vale"></span>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -647,8 +680,13 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-decoration: underline;"><strong>DEUDA
-                                                            ACTUAL</strong>
+                                                    <td><strong>MÍNIMO A PAGAR</strong></td>
+                                                    <td>
+                                                        <span v-html="aplicativo_diners_tarjeta_diners.minimo_pagar"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong>
                                                     </td>
                                                     <td>
                                                         <span v-html="aplicativo_diners_tarjeta_diners.deuda_actual"></span>
@@ -1010,6 +1048,24 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES ÚLTIMO PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.observaciones_ultimo_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>OBSERVACIONES CHEQUES DEVUELTOS</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.observaciones_cheques_devueltos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>FORMA DE PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.forma_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>SCORE</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_interdin.score"></span>
@@ -1084,6 +1140,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES DIFERIDOS HISTÓRICOS</strong></td>
+                                                    <td colspan="3"><span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.observaciones_diferidos_historicos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>REFINANCIACIONES ANTERIORES</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_interdin.refinanciaciones_anteriores"></span>
@@ -1103,8 +1165,12 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
-                                                    <td colspan="3"><span
+                                                    <td><span
                                                                 v-html="aplicativo_diners_tarjeta_interdin.financiamiento_vigente"></span>
+                                                    </td>
+                                                    <td style="width: 10%;"><strong>FECHA VALE</strong></td>
+                                                    <td>
+                                                        <span v-html="aplicativo_diners_tarjeta_interdin.fecha_vale"></span>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -1528,6 +1594,24 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES ÚLTIMO PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_discover.observaciones_ultimo_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>OBSERVACIONES CHEQUES DEVUELTOS</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_discover.observaciones_cheques_devueltos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>FORMA DE PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_discover.forma_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>SCORE</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_discover.score"></span>
@@ -1602,6 +1686,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES DIFERIDOS HISTÓRICOS</strong></td>
+                                                    <td colspan="3"><span
+                                                                v-html="aplicativo_diners_tarjeta_discover.observaciones_diferidos_historicos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>REFINANCIACIONES ANTERIORES</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_discover.refinanciaciones_anteriores"></span>
@@ -1621,8 +1711,12 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
-                                                    <td colspan="3"><span
+                                                    <td><span
                                                                 v-html="aplicativo_diners_tarjeta_discover.financiamiento_vigente"></span>
+                                                    </td>
+                                                    <td style="width: 10%;"><strong>FECHA VALE</strong></td>
+                                                    <td>
+                                                        <span v-html="aplicativo_diners_tarjeta_discover.fecha_vale"></span>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -2046,6 +2140,24 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES ÚLTIMO PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_mastercard.observaciones_ultimo_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>OBSERVACIONES CHEQUES DEVUELTOS</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_mastercard.observaciones_cheques_devueltos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>FORMA DE PAGO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_mastercard.forma_pago"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>SCORE</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_mastercard.score"></span>
@@ -2120,6 +2232,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>OBSERVACIONES DIFERIDOS HISTÓRICOS</strong></td>
+                                                    <td colspan="3"><span
+                                                                v-html="aplicativo_diners_tarjeta_mastercard.observaciones_diferidos_historicos"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>REFINANCIACIONES ANTERIORES</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_mastercard.refinanciaciones_anteriores"></span>
@@ -2139,8 +2257,12 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
-                                                    <td colspan="3"><span
+                                                    <td><span
                                                                 v-html="aplicativo_diners_tarjeta_mastercard.financiamiento_vigente"></span>
+                                                    </td>
+                                                    <td style="width: 10%;"><strong>FECHA VALE</strong></td>
+                                                    <td>
+                                                        <span v-html="aplicativo_diners_tarjeta_mastercard.fecha_vale"></span>
                                                     </td>
                                                 </tr>
                                                 </tbody>

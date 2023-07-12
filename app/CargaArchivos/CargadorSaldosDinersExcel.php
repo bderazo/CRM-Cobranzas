@@ -116,16 +116,16 @@ class CargadorSaldosDinersExcel
 					$cliente_cedula = $cliente->cedula;
 				} else {
 					//MODIFICAR CLIENTE
-					$set = [
-						'cedula' => $values[1],
-						'nombres' => $values[0],
-						'lugar_trabajo' => $values[7],
-						'ciudad' => $values[9],
-						'zona' => $values[10],
-						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_modificacion' => \WebSecurity::getUserData('id')
-					];
-					$query = $db->update('cliente')->set($set)->where('id', $cliente_id)->execute();
+//					$set = [
+//						'cedula' => $values[1],
+//						'nombres' => $values[0],
+//						'lugar_trabajo' => $values[7],
+//						'ciudad' => $values[9],
+//						'zona' => $values[10],
+//						'fecha_modificacion' => date("Y-m-d H:i:s"),
+//						'usuario_modificacion' => \WebSecurity::getUserData('id')
+//					];
+//					$query = $db->update('cliente')->set($set)->where('id', $cliente_id)->execute();
 				}
 
 				//PROCESO DE DIRECCIONES
@@ -300,14 +300,6 @@ class CargadorSaldosDinersExcel
 				}
 
 				//PROCESO DE SALDOS
-//				$saldos_id = 0;
-//				foreach($saldos_todos as $sal) {
-//					$existe_saldo = array_search($values[1], $sal);
-//					if($existe_saldo) {
-//						$saldos_id = $cl['id'];
-//						break;
-//					}
-//				}
 				//MAPEAR LOS CAMPOS PARA GUARDAR COMO CLAVE VALOR
 				$cont = 0;
 				$data_campos = [];
