@@ -71,7 +71,10 @@ class CargadorSaldosDinersExcel
 			$telefonos_todos = Telefono::getTodos();
 			$direccion_todos = Direccion::getTodos();
 			$email_todos = Email::getTodos();
-			$saldos_todos = AplicativoDinersSaldos::getTodos();
+//			$saldos_todos = AplicativoDinersSaldos::getTodos();
+
+            $borrar_saldos = AplicativoDinersSaldos::borrarSaldos($extraInfo['fecha']);
+
 			foreach($it as $rowIndex => $values) {
 				if(($rowIndex === 1)) {
 					$ultima_posicion_columna = array_key_last($values);

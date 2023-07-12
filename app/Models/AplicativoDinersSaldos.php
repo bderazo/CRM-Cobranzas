@@ -66,4 +66,12 @@ class AplicativoDinersSaldos extends Model
 		return $retorno;
 	}
 
+    static function borrarSaldos($fecha) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+        $query = $db->deleteFrom('aplicativo_diners_saldos')
+            ->where('fecha', $fecha)->execute();
+        return $query;
+    }
+
 }
