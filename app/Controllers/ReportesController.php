@@ -893,7 +893,7 @@ class ReportesController extends BaseController
         $rep = new Contactabilidad($this->get('pdo'));
         $data = $rep->exportar($filtros);
         $lista = [];
-        foreach ($data['data'] as $d) {
+        foreach ($data['data_hoja1'] as $d) {
             $aux['MARCA'] = [
                 'valor' => $d['nombre_tarjeta'],
                 'formato' => 'text'
@@ -940,7 +940,63 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'CONTACTABILIDAD', 'contactabilidad.xlsx');
+        $exportar[] = [
+            'name' => 'GENERAL',
+            'data' => $lista
+        ];
+        $lista = [];
+        foreach ($data['data_hoja2'] as $d) {
+            $aux['MARCA'] = [
+                'valor' => $d['nombre_tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['corte'],
+                'formato' => 'number'
+            ];
+            $aux['CÉDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE SOCIO'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['HORA DE LLAMADA'] = [
+                'valor' => $d['hora_llamada'],
+                'formato' => 'text'
+            ];
+            $aux['AGENTE'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO DE GESTIÓN'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['GESTIÓN'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['CAMPAÑA'] = [
+                'valor' => $d['campana'],
+                'formato' => 'text'
+            ];
+            $aux['EMPRESA - CANAL DE GESTION'] = [
+                'valor' => $d['empresa_canal'],
+                'formato' => 'text'
+            ];
+            $aux['HORA INGRESO'] = [
+                'valor' => $d['hora_ingreso'],
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $exportar[] = [
+            'name' => 'NOTIFICADO REFINANCIA',
+            'data' => $lista
+        ];
+        $this->exportMultiple($exportar, 'contactabilidad.xlsx');
     }
 
     //LLAMADAS CONTACTADAS
@@ -1021,7 +1077,63 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'GENERAL', 'general.xlsx');
+        $exportar[] = [
+            'name' => 'GENERAL',
+            'data' => $lista
+        ];
+        $lista = [];
+        foreach ($data['resumen'] as $d) {
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['CLIENTE'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA'] = [
+                'valor' => $d['fecha_ingreso'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO'] = [
+                'valor' => $d['nivel_1_texto'],
+                'formato' => 'text'
+            ];
+            $aux['ACCION'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN'] = [
+                'valor' => $d['nivel_3_texto'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA COMPROMISO DE PAGO'] = [
+                'valor' => $d['fecha_compromiso_pago'],
+                'formato' => 'text'
+            ];
+            $aux['VALOR COMPROMETIDO'] = [
+                'valor' => $d['valor_comprometido'],
+                'formato' => 'number'
+            ];
+            $aux['MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['Observaciones'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $lista[] = $aux;
+        }
+        $exportar[] = [
+            'name' => 'RESUMEN',
+            'data' => $lista
+        ];
+        $this->exportMultiple($exportar, 'general.xlsx');
     }
 
     //GESTIONES POR HORA

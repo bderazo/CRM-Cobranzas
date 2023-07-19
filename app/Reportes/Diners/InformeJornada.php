@@ -50,8 +50,14 @@ class InformeJornada {
 			$q->where('u.plaza IN ('.$fil.')');
 		}
 		if (@$filtros['canal_usuario']){
-			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-			$q->where('u.canal IN ('.$fil.')');
+            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
+                $q->where('u.canal',$filtros['canal_usuario'][0]);
+                $q->where('u.campana','TELEFONIA');
+                $q->where('u.identificador','MN');
+            }else{
+                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+                $q->where('u.canal IN ('.$fil.')');
+            }
 		}
         if (@$filtros['fecha_inicio']){
             $hora = '00';

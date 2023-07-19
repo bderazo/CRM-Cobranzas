@@ -36,6 +36,19 @@
 				</div>
 
 				<div class="col-sm-3">
+					<b>Marca</b> <br>
+					<div class="input-group">
+						<select class="form-control select2" name="nombre_tarjeta[]" id="nombre_tarjeta" multiple>
+							<option value=""></option>
+							<option value="DINERS">DINERS</option>
+							<option value="INTERDIN">VISA</option>
+							<option value="DISCOVER">DISCOVER</option>
+							<option value="MASTERCARD">MASTERCARD</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
 					<b>Fecha</b> <br>
 					{{ text_field_tag("fecha_inicio", '', {class:'form-control fecha'}) }}
 				</div>

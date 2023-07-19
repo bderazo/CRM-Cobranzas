@@ -238,6 +238,7 @@ class ProductoController extends BaseController
 		$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 
         $numero_tarjetas = 0;
+        $tarjetas_gestion = [];
 
 		//DATOS TARJETA DINERS
 		$aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id'], 'original');
@@ -264,6 +265,7 @@ class ProductoController extends BaseController
 				}
 			}
             $numero_tarjetas++;
+            $tarjetas_gestion[] = ['id'=>'DINERS','name'=>'DINERS'];
 		}
 		$catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
 
@@ -292,6 +294,7 @@ class ProductoController extends BaseController
 				}
 			}
             $numero_tarjetas++;
+            $tarjetas_gestion[] = ['id'=>'DISCOVER','name'=>'DISCOVER'];
 		}
 		$catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
 
@@ -319,6 +322,7 @@ class ProductoController extends BaseController
 					$plazo_financiamiento_interdin[$i] = $i;
 				}
 			}
+            $tarjetas_gestion[] = ['id'=>'INTERDIN','name'=>'VISA'];
             $numero_tarjetas++;
 		}
 		$catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
@@ -347,9 +351,12 @@ class ProductoController extends BaseController
 					$plazo_financiamiento_mastercard[$i] = $i;
 				}
 			}
+            $tarjetas_gestion[] = ['id'=>'MASTERCARD','name'=>'MASTERCARD'];
             $numero_tarjetas++;
 		}
 		$catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
+
+        $catalogos['tarjetas_gestion'] = $tarjetas_gestion;
 
 		$aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 
@@ -358,6 +365,7 @@ class ProductoController extends BaseController
 		$seguimiento = new ViewProductoSeguimiento();
 		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
         $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
+        $seguimiento->sugerencia_cx88 = 'NO';
 
         if($numero_tarjetas == 1){
             $width_tabla = 100;
@@ -558,6 +566,7 @@ class ProductoController extends BaseController
 			$con->nivel_4_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
 		}
 		$con->observaciones = $seguimiento['observaciones'];
+        $con->sugerencia_cx88 = $seguimiento['sugerencia_cx88'];
 		$con->usuario_modificacion = \WebSecurity::getUserData('id');
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
 		$con->save();
@@ -1924,6 +1933,7 @@ class ViewProductoSeguimiento
 	var $fecha_compromiso_pago;
 	var $valor_comprometido;
 	var $observaciones;
+    var $sugerencia_cx88;
     var $direccion_id;
     var $telefono_id;
     var $lat;
@@ -1933,4 +1943,5 @@ class ViewProductoSeguimiento
 	var $usuario_ingreso;
 	var $usuario_modificacion;
 	var $eliminado;
+    var $tarjetas_gestion;
 }

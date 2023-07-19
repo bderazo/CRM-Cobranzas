@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string fecha_compromiso_pago
  * @property double valor_comprometido
  * @property string observaciones
+ * @property string sugerencia_cx88
  * @property integer direccion_id
  * @property integer telefono_id
  * @property double lat
