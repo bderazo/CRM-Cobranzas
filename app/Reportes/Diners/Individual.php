@@ -3,6 +3,7 @@
 namespace Reportes\Diners;
 
 use General\ListasSistema;
+use Models\AplicativoDinersAsignaciones;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
@@ -27,11 +28,17 @@ class Individual {
 	function consultaBase($filtros) {
 		$db = new \FluentPDO($this->pdo);
 
+        $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
+        $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
+
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
+        $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
+
         //BUSCAR SEGUIMIENTOS
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->select(null)
-            ->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, 
+            ->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, u.campana AS campana_usuario,
 			                COUNT(IF(ps.nivel_2_id = 1859, 1, NULL)) 'refinancia',
 			                COUNT(IF(ps.nivel_2_id = 1853, 1, NULL)) 'notificado',
 							COUNT(IF(ps.nivel_1_id = 1855, 1, NULL)) 'cierre_efectivo', 
@@ -39,11 +46,15 @@ class Individual {
 							COUNT(ps.id) 'seguimientos'")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if (@$filtros['canal_usuario']){
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
+        }
+        if (@$filtros['campana_usuario']){
+            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
+            $q->where('u.campana IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
             if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
                 $q->where('u.canal',$filtros['canal_usuario'][0]);
                 $q->where('u.campana','TELEFONIA');
@@ -52,35 +63,29 @@ class Individual {
                 $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
                 $q->where('u.canal IN ('.$fil.')');
             }
-		}
+        }
         if (@$filtros['fecha_inicio']){
-            $hora = '00';
-            if($filtros['hora_inicio'] != ''){
-                $hora = $filtros['hora_inicio'];
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_inicio'] != ''){
-                $minuto = $filtros['minuto_inicio'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
         }
         if (@$filtros['fecha_fin']){
-            $hora = '00';
-            if($filtros['hora_fin'] != ''){
-                $hora = $filtros['hora_fin'];
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_fin'] != ''){
-                $minuto = $filtros['minuto_fin'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
         }
+        $fil = '"' . implode('","',$clientes_asignacion) . '"';
+        $q->where('ps.cliente_id IN ('.$fil.')');
         $q->groupBy('u.id');
         $q->orderBy('u.plaza, u.apellidos');
         $q->disableSmartJoin();

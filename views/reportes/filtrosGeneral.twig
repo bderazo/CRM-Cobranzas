@@ -6,11 +6,31 @@
 		<form id="filtros">
 			<div class="row ">
 				<div class="col-sm-3">
-					<b>Campaña</b> <br>
+					<b>Canal</b> <br>
 					<div class="input-group">
-						<select class="form-control select2" name="campana[]" id="campana" multiple>
+						<select class="form-control select2" name="canal_usuario[]" id="canal_usuario" multiple>
 							<option value=""></option>
-							<option v-for="(v,k) in campana_asignacion" v-html="v" :value="k"></option>
+							<option v-for="(v,k) in canal_usuario" v-html="v" :value="k"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<b>Campaña con ECE</b> <br>
+					<div class="input-group">
+						<select class="form-control select2" name="campana_ece[]" id="campana_ece" multiple>
+							<option value=""></option>
+							<option v-for="(v,k) in campana_ece" v-html="v" :value="k"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<b>Campaña usuario</b> <br>
+					<div class="input-group">
+						<select class="form-control select2" name="campana_usuario[]" id="campana_usuario" multiple>
+							<option value=""></option>
+							<option v-for="(v,k) in campana_usuario" v-html="v" :value="k"></option>
 						</select>
 					</div>
 				</div>
@@ -26,11 +46,11 @@
 				</div>
 
 				<div class="col-sm-3">
-					<b>Canal</b> <br>
+					<b>Ciclo</b> <br>
 					<div class="input-group">
-						<select class="form-control select2" name="canal_usuario[]" id="canal_usuario" multiple>
+						<select class="form-control select2" name="ciclo[]" id="ciclo" multiple>
 							<option value=""></option>
-							<option v-for="(v,k) in canal_usuario" v-html="v" :value="k"></option>
+							<option v-for="(v,k) in ciclo_asignacion" v-html="v" :value="k"></option>
 						</select>
 					</div>
 				</div>
@@ -39,9 +59,11 @@
 					<b>Fecha Inicio</b> <br>
 					{{ text_field_tag("fecha_inicio", '', {class:'form-control fecha'}) }}
 					<select class="form-control form-select select2" name="hora_inicio" id="hora_inicio" style="width: 60px;">
+						<option value=""></option>
 						<option v-for="(v,k) in horas" v-html="v" :value="k"></option>
 					</select> :
 					<select class="form-control form-select select2" name="minuto_inicio" id="minuto_inicio" style="width: 60px;">
+						<option value=""></option>
 						<option v-for="(v,k) in minutos" v-html="v" :value="k"></option>
 					</select>
 				</div>
@@ -50,9 +72,11 @@
 					<b>Fecha Fin</b> <br>
 					{{ text_field_tag("fecha_fin", '', {class:'form-control fecha'}) }}
 					<select class="form-control form-select select2" name="hora_fin" id="hora_fin" style="width: 60px;">
+						<option value=""></option>
 						<option v-for="(v,k) in horas" v-html="v" :value="k"></option>
 					</select> :
 					<select class="form-control form-select select2" name="minuto_fin" id="minuto_fin" style="width: 60px;">
+						<option value=""></option>
 						<option v-for="(v,k) in minutos" v-html="v" :value="k"></option>
 					</select>
 				</div>
@@ -72,16 +96,19 @@
                     horas: {{ horas|raw }},
                     minutos: {{ minutos|raw }},
 					campana_asignacion: {{ campana_asignacion|raw }},
+					campana_ece: {{ campana_ece|raw }},
+					campana_usuario: {{ campana_usuario|raw }},
 					marca: {{ marca|raw }},
+					ciclo_asignacion: {{ ciclo_asignacion|raw }},
                 },
                 methods: {},
             });
 
             $(function () {
-				$("#hora_inicio").val('0');
-				$("#minuto_inicio").val('0');
-				$("#hora_fin").val('0');
-				$("#minuto_fin").val('0');
+				$("#hora_inicio").val('');
+				$("#minuto_inicio").val('');
+				$("#hora_fin").val('');
+				$("#minuto_fin").val('');
                 $('.fecha').datepicker({
                     dateFormat: 'yy-mm-dd',
                     showButtonPanel: true

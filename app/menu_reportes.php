@@ -71,21 +71,21 @@ return [
             'link' => '/reportes/general',
             'roles' => 'reportes.general',
             'icon' => 'fa fa-list-alt',
-            'description' => 'General'
+            'description' => 'Resultado de gestión por cliente'
         ],
         [
             'label' => 'Gestiones Por Hora',
             'link' => '/reportes/gestionesPorHora',
             'roles' => 'reportes.gestiones_por_hora',
             'icon' => 'fa fa-list-alt',
-            'description' => 'Gestiones Por Hora'
+            'description' => 'Número de gestiones por agente'
         ],
         [
             'label' => 'Individual',
             'link' => '/reportes/individual',
             'roles' => 'reportes.individual',
             'icon' => 'fa fa-list-alt',
-            'description' => 'Individual'
+            'description' => 'Productividad por agente'
         ],
     ],
     'negociaciones' => [

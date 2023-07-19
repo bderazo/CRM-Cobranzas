@@ -110,4 +110,86 @@ class AplicativoDinersAsignaciones extends Model
         }
         return $retorno;
     }
+
+    static function getFiltroCampanaEce() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('DISTINCT(ads.campana_ece) as campana_ece')
+            ->where('ads.eliminado',0)
+            ->orderBy('ads.campana_ece ASC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['campana_ece']] = $l['campana_ece'];
+        }
+        return $retorno;
+    }
+
+    static function getFiltroCiclo() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('DISTINCT(ads.ciclo) as ciclo')
+            ->where('ads.eliminado',0)
+            ->orderBy('ads.ciclo ASC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['ciclo']] = $l['ciclo'];
+        }
+        return $retorno;
+    }
+
+    static function getClientes($campana_ece = [], $ciclo = []) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('ads.*')
+            ->where('ads.eliminado',0);
+        if (count($campana_ece) > 0){
+            $fil = '"' . implode('","',$campana_ece) . '"';
+            $q->where('ads.campana_ece IN ('.$fil.')');
+        }
+        if (count($ciclo) > 0){
+            $fil = '"' . implode('","',$ciclo) . '"';
+            $q->where('ads.ciclo IN ('.$fil.')');
+        }
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[] = $l['cliente_id'];
+        }
+        return $retorno;
+    }
+
+    static function getClientesDetalle($campana_ece = [], $ciclo = []) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('ads.*')
+            ->where('ads.eliminado',0);
+        if (count($campana_ece) > 0){
+            $fil = '"' . implode('","',$campana_ece) . '"';
+            $q->where('ads.campana_ece IN ('.$fil.')');
+        }
+        if (count($ciclo) > 0){
+            $fil = '"' . implode('","',$ciclo) . '"';
+            $q->where('ads.ciclo IN ('.$fil.')');
+        }
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['cliente_id']][] = $l;
+        }
+        return $retorno;
+    }
 }

@@ -6,6 +6,9 @@ use Catalogos\CatalogoUsuarios;
 use General\GenerarPDF;
 use Models\AplicativoDinersAsignaciones;
 use Models\Catalogo;
+use Models\Paleta;
+use Models\PaletaArbol;
+use Models\PaletaMotivoNoPago;
 use Models\Plantilla;
 use Models\ProductoExtrusion;
 use Models\Producto;
@@ -76,13 +79,28 @@ class ReportesController extends BaseController
             'MASTERCARD' => 'MASTERCARD',
         ];
         $campana_asignacion = AplicativoDinersAsignaciones::getFiltroCampana();
+        $campana_ece = AplicativoDinersAsignaciones::getFiltroCampanaEce();
+        $ciclo_asignacion = AplicativoDinersAsignaciones::getFiltroCiclo();
+        $resultado = PaletaArbol::getNivel1Todos(1);
+        $accion = PaletaArbol::getNivel2Todos(1);
+        $descripcion = PaletaArbol::getNivel3Todos(1);
+        $motivo_no_pago = PaletaMotivoNoPago::getNivel1Todos(1);
+        $descripcion_no_pago = PaletaMotivoNoPago::getNivel2Todos(1);
         return [
             'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
             'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
             'horas' => json_encode($horas),
             'minutos' => json_encode($minutos),
             'campana_asignacion' => json_encode($campana_asignacion),
+            'campana_ece' => json_encode($campana_ece),
+            'campana_usuario' => json_encode($catalogo_usuario->getByKey('campana')),
             'marca' => json_encode($marca),
+            'ciclo_asignacion' => json_encode($ciclo_asignacion),
+            'resultado' => json_encode($resultado),
+            'accion' => json_encode($accion),
+            'descripcion' => json_encode($descripcion),
+            'motivo_no_pago' => json_encode($motivo_no_pago),
+            'descripcion_no_pago' => json_encode($descripcion_no_pago),
         ];
     }
 
@@ -1038,6 +1056,7 @@ class ReportesController extends BaseController
         $rep = new General($this->get('pdo'));
         $data = $rep->exportar($filtros);
         $lista = [];
+        $aux = [];
         foreach ($data['data'] as $d) {
             $aux['GESTOR'] = [
                 'valor' => $d['gestor'],
@@ -1082,6 +1101,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
         $lista = [];
+        $aux = [];
         foreach ($data['resumen'] as $d) {
             $aux['GESTOR'] = [
                 'valor' => $d['gestor'],
@@ -1089,6 +1109,42 @@ class ReportesController extends BaseController
             ];
             $aux['CLIENTE'] = [
                 'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['DINERS'] = [
+                'valor' => $d['diners'],
+                'formato' => 'text'
+            ];
+            $aux['VISA'] = [
+                'valor' => $d['visa'],
+                'formato' => 'text'
+            ];
+            $aux['DISCOVER'] = [
+                'valor' => $d['discover'],
+                'formato' => 'text'
+            ];
+            $aux['MASTERCARD'] = [
+                'valor' => $d['mastercard'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO DINERS'] = [
+                'valor' => $d['diners_ciclo'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO VISA'] = [
+                'valor' => $d['visa_ciclo'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO DISCOVER'] = [
+                'valor' => $d['discover_ciclo'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO MASTERCARD'] = [
+                'valor' => $d['mastercard_ciclo'],
                 'formato' => 'text'
             ];
             $aux['FECHA'] = [

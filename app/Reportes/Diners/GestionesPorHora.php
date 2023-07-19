@@ -3,6 +3,7 @@
 namespace Reportes\Diners;
 
 use General\ListasSistema;
+use Models\AplicativoDinersAsignaciones;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
@@ -27,16 +28,25 @@ class GestionesPorHora {
 	function consultaBase($filtros) {
 		$db = new \FluentPDO($this->pdo);
 
+        $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
+        $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
+
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
+
         //USUARIOS TELEFONIA TODOS
 		$plaza_usuario = [];
 		$canal_usuario = [];
+        $campana_usuario = [];
 		if (@$filtros['plaza_usuario']){
 			$plaza_usuario = $filtros['plaza_usuario'];
 		}
 		if (@$filtros['canal_usuario']){
 			$canal_usuario = $filtros['canal_usuario'];
 		}
-        $usuarios_telefonia = Usuario::getTodosTelefonia($plaza_usuario, $canal_usuario);
+        if (@$filtros['campana_usuario']){
+            $campana_usuario = $filtros['campana_usuario'];
+        }
+        $usuarios_telefonia = Usuario::getTodosTelefonia($plaza_usuario, $canal_usuario, $campana_usuario);
         $usuarios_telef = [];
         foreach ($usuarios_telefonia as $ut){
             $ut['7'] = 0;
@@ -61,19 +71,67 @@ class GestionesPorHora {
 							COUNT(ps.id) AS cantidad")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if (@$filtros['canal_usuario']){
-			$fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-			$q->where('u.canal IN ('.$fil.')');
-		}
-        if(@$filtros['fecha_inicio']) {
-            $q->where('DATE(ps.fecha_ingreso)',$filtros['fecha_inicio']);
-        }else{
-            $q->where('DATE(ps.fecha_ingreso)',date("Y-m-d"));
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
         }
+        if (@$filtros['campana_usuario']){
+            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
+            $q->where('u.campana IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
+            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
+                $q->where('u.canal',$filtros['canal_usuario'][0]);
+                $q->where('u.campana','TELEFONIA');
+                $q->where('u.identificador','MN');
+            }else{
+                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+                $q->where('u.canal IN ('.$fil.')');
+            }
+        }
+        if (@$filtros['resultado']){
+            $fil = '"' . implode('","',$filtros['resultado']) . '"';
+            $q->where('ps.nivel_1_id IN ('.$fil.')');
+        }
+        if (@$filtros['accion']){
+            $fil = '"' . implode('","',$filtros['accion']) . '"';
+            $q->where('ps.nivel_2_id IN ('.$fil.')');
+        }
+        if (@$filtros['descripcion']){
+            $fil = '"' . implode('","',$filtros['descripcion']) . '"';
+            $q->where('ps.nivel_3_id IN ('.$fil.')');
+        }
+        if (@$filtros['motivo_no_pago']){
+            $fil = '"' . implode('","',$filtros['motivo_no_pago']) . '"';
+            $q->where('ps.nivel_1_motivo_no_pago_id IN ('.$fil.')');
+        }
+        if (@$filtros['descripcion_no_pago']){
+            $fil = '"' . implode('","',$filtros['descripcion_no_pago']) . '"';
+            $q->where('ps.nivel_2_motivo_no_pago_id IN ('.$fil.')');
+        }
+        if (@$filtros['fecha_inicio']){
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
+            }
+        }
+        if (@$filtros['fecha_fin']){
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
+            }
+        }
+//        $fil = '"' . implode('","',$clientes_asignacion) . '"';
+//        $q->where('ps.cliente_id IN ('.$fil.')');
+        $q->where('ps.cliente_id',$clientes_asignacion);
         $q->groupBy('u.id, HOUR(ps.fecha_ingreso)');
         $q->orderBy('HOUR(ps.fecha_ingreso), u.apellidos');
 //        printDie($q->getQuery());

@@ -54,6 +54,52 @@
                         </tfoot>
 					</table>
 				</div>
+                <br/>
+                <div class="table-responsive">
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th>TIPO</th>
+                            <th>REFINANCIA</th>
+                            <th>CRÉDITOS INMEDIATOS</th>
+                            <th>TOTAL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="r in resumen_totales">
+                            <td style="text-align: left;" v-html="r.campana"></td>
+                            <td style="text-align: center;" v-html="r.refinancia"></td>
+                            <td style="text-align: center;" v-html="r.notificado"></td>
+                            <td style="text-align: center;" v-html="r.total"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td style="text-align: right; font-weight: bold;">TOTAL</td>
+                            <td style="text-align: center; font-weight: bold;" v-html="resumen_totales_foot.refinancia_resumen_total"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="resumen_totales_foot.notificado_resumen_total"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="resumen_totales_foot.resumen_total"></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <br/>
+                <div class="table-responsive">
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th>CONTACTABILIDAD</th>
+                            <th>EFECTIVIDAD</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style="text-align: center;" v-html="total_resumen_totales.contactabilidad"></td>
+                            <td style="text-align: center;" v-html="total_resumen_totales.efectividad"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -87,6 +133,9 @@
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];
+                        self.resumen_totales = res['resumen_totales'];
+                        self.total_resumen_totales = res['total_resumen_totales'];
+                        self.resumen_totales_foot = res['resumen_totales_foot'];
                         console.log(res);
                     })
                 },
