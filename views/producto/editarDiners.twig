@@ -79,13 +79,15 @@
                                         </template>
                                         <template v-else>
                                             <template v-if="t.bandera == 1">
+                                                <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
                                                 <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
-                                                    <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                                    <img src="{{ root }}/img/whatsapp_logo.png" alt="LINK WHATSAPP">
                                                 </a>
                                             </template>
                                             <template v-else>
+                                                <span class="custom-control-label" v-html="t.telefono"></span>
                                                 <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
-                                                    <span class="custom-control-label" v-html="t.telefono"></span>
+                                                   <img src="{{ root }}/img/whatsapp_logo.png" alt="LINK WHATSAPP">
                                                 </a>
                                             </template>
                                         </template>
