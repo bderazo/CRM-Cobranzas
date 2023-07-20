@@ -348,13 +348,19 @@
                         <div class="col-md-4 col-informacion">
                             <span class="form-control-plaintext" v-html="model.producto"></span>
                         </div>
+
+                        <label for="inputName" class="col-md-2 form-label">UNIFICACIÓN DEUDA</label>
+                        <div class="col-md-4 col-informacion">
+                            <span class="form-control-plaintext"
+                                  v-html="aplicativo_diners.unificacion_deuda"></span>
+                        </div>
                     </div>
 
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">CONDONACIÓN DE INTERESES</label>
                         <div class="col-md-4 col-informacion">
                             <span class="form-control-plaintext"
-                                  v-html="aplicativo_diners_asignacion.condonacion_interes"></span>
+                                  v-html="aplicativo_diners.condoncacion_interes"></span>
                         </div>
 
                         <label for="inputName" class="col-md-2 form-label">SEGREGACIÓN</label>
@@ -489,6 +495,12 @@
                                                     <td><strong>EDAD DE CARTERA</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_diners.edad_cartera"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>CRÉDITO INMEDIATO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_diners.credito_inmediato"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1047,6 +1059,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>CRÉDITO INMEDIATO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_interdin.credito_inmediato"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>CODIGO DE CANCELACION</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_interdin.codigo_cancelacion"></span>
@@ -1593,6 +1611,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>CRÉDITO INMEDIATO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_discover.credito_inmediato"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>CODIGO DE CANCELACION</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_discover.codigo_cancelacion"></span>
@@ -2136,6 +2160,12 @@
                                                     <td><strong>EDAD DE CARTERA</strong></td>
                                                     <td style="text-align: center;"><span
                                                                 v-html="aplicativo_diners_tarjeta_mastercard.edad_cartera"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>CRÉDITO INMEDIATO</strong></td>
+                                                    <td style="text-align: center;"><span
+                                                                v-html="aplicativo_diners_tarjeta_mastercard.credito_inmediato"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
