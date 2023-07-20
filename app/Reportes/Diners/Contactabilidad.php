@@ -54,15 +54,15 @@ class Contactabilidad
 							 ad.ciudad_cuenta, addet.motivo_no_pago_anterior, u.id AS id_usuario, u.canal, asig.campana")
 			->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
-        if (@$filtros['campana']){
-            $fil = '"' . implode('","',$filtros['campana']) . '"';
-            $q->where('asig.campana IN ('.$fil.')');
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
         }
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if (@$filtros['canal_usuario']){
+        if (@$filtros['campana_usuario']){
+            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
+            $q->where('u.campana IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
             if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
                 $q->where('u.canal',$filtros['canal_usuario'][0]);
                 $q->where('u.campana','TELEFONIA');
@@ -71,11 +71,34 @@ class Contactabilidad
                 $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
                 $q->where('u.canal IN ('.$fil.')');
             }
-		}
-		if(@$filtros['fecha_inicio']) {
-			$q->where('DATE(ps.fecha_ingreso)',$filtros['fecha_inicio']);
-		}else{
-            $q->where('DATE(ps.fecha_ingreso)',date("Y-m-d"));
+        }
+        if (@$filtros['fecha_inicio']){
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
+            }
+        }
+        if (@$filtros['fecha_fin']){
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
+            }
+        }
+        if (@$filtros['campana_ece']){
+            $fil = '"' . implode('","',$filtros['campana_ece']) . '"';
+            $q->where('asig.campana_ece IN ('.$fil.')');
+        }
+        if (@$filtros['ciclo']){
+            $fil = '"' . implode('","',$filtros['ciclo']) . '"';
+            $q->where('asig.ciclo IN ('.$fil.')');
         }
         if (@$filtros['nombre_tarjeta']){
             $fil = '"' . implode('","',$filtros['nombre_tarjeta']) . '"';

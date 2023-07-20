@@ -69,11 +69,25 @@
                                         </label>
                                     </td>
                                     <td style="text-align: center;">
-                                        <template v-if="t.bandera == 1">
-                                            <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                        <template v-if="t.telefono_link_wh == ''">
+                                            <template v-if="t.bandera == 1">
+                                                <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                            </template>
+                                            <template v-else>
+                                                <span class="custom-control-label" v-html="t.telefono"></span>
+                                            </template>
                                         </template>
                                         <template v-else>
-                                            <span class="custom-control-label" v-html="t.telefono"></span>
+                                            <template v-if="t.bandera == 1">
+                                                <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
+                                                    <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                                </a>
+                                            </template>
+                                            <template v-else>
+                                                <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
+                                                    <span class="custom-control-label" v-html="t.telefono"></span>
+                                                </a>
+                                            </template>
                                         </template>
                                     </td>
                                     <td>

@@ -66,6 +66,11 @@ class Telefono extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
+            $l['telefono_link_wh'] = '';
+            if(strlen($l['telefono']) == 10){
+                $tel = '593' . substr($l['telefono'],1);
+                $l['telefono_link_wh'] = 'https://api.whatsapp.com/send?phone='.$tel;
+            }
 			$retorno[] = $l;
 		}
 		return $retorno;

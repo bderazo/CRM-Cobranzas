@@ -68,21 +68,7 @@ class  BaseCarga
 							 ad.ciudad_cuenta, addet.motivo_no_pago_anterior")
 			->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
-		}
-        if(@$filtros['fecha_inicio']) {
+		if(@$filtros['fecha_inicio']) {
             $q->where('DATE(ps.fecha_ingreso)',$filtros['fecha_inicio']);
         }else{
             $q->where('DATE(ps.fecha_ingreso)',date("Y-m-d"));
@@ -91,6 +77,8 @@ class  BaseCarga
 		$lista = $q->fetchAll();
 		$data = [];
 		foreach($lista as $seg) {
+            $seg['fecha_compromiso_pago_format'] = str_replace("-","",$seg['fecha_compromiso_pago']);
+
             //COMPARO CON ASIGNACIONES
             if(isset($asignacion[$seg['aplicativo_diners_id']])) {
                 $asignacion_arr = $asignacion[$seg['aplicativo_diners_id']];
@@ -201,7 +189,7 @@ class  BaseCarga
             $seg['fecha_asignacion'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
             $seg['hora_contacto'] = date("His", strtotime($seg['fecha_ingreso']));
             $seg['empresa'] = 'MEGACOB';
-            $seg['georeferenciacion'] = $seg['lat'] != '' ? $seg['lat'].','.$seg['long'] : '';
+            $seg['georeferenciacion'] = $seg['lat'] != '' ? $seg['lat'].','.$seg['long'] : " cc ";
 			$data[] = $seg;
 		}
 

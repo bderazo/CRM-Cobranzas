@@ -783,8 +783,8 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['FECHACOMPROMISO'] = [
-                'valor' => $d['fecha_compromiso_pago'],
-                'formato' => 'text'
+                'valor' => $d['fecha_compromiso_pago_format'],
+                'formato' => 'number'
             ];
             $aux['ULTIMO TLF CONTACTO '] = [
                 'valor' => $d['ultimo_telefono_contacto'],
@@ -816,6 +816,50 @@ class ReportesController extends BaseController
             ];
             $aux['HORA DE CONTACTO '] = [
                 'valor' => $d['hora_contacto'],
+                'formato' => 'text'
+            ];
+            $aux['CANAL DE COMUNICACIÓN '] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['HORARIO DE CONTACTO FUTURO '] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['BorrarTelefono1'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['BorrarTelefono2'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['BorrarTelefono3'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['BorrarDireccion'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['TelefonoNuevo1'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['TelefonoNuevo2'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['TelefonoNuevo3'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['DireccionNueva'] = [
+                'valor' => '',
+                'formato' => 'text'
+            ];
+            $aux['CorreoElectronicoNuevo'] = [
+                'valor' => '',
                 'formato' => 'text'
             ];
             $aux['GEOREFERENCIACION'] = [
