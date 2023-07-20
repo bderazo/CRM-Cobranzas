@@ -371,6 +371,8 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners->ciudad_cuenta = $values[10];
 						$aplicativo_diners->zona_cuenta = $values[11];
 						$aplicativo_diners->seguro_desgravamen = $values[132];
+                        $aplicativo_diners->unificacion_deuda = $values[6];
+                        $aplicativo_diners->condoncacion_interes = $values[8];
 						$aplicativo_diners->fecha_ingreso = date("Y-m-d H:i:s");
 						$aplicativo_diners->fecha_modificacion = date("Y-m-d H:i:s");
 						$aplicativo_diners->usuario_ingreso = \WebSecurity::getUserData('id');
@@ -392,6 +394,8 @@ class CargadorAplicativoDinersExcel
 							'ciudad_cuenta' => $values[10],
 							'zona_cuenta' => $values[11],
 							'seguro_desgravamen' => $values[132],
+                            'unificacion_deuda' => $values[6],
+                            'condoncacion_interes' => $values[8],
 							'estado' => 'asignado_megacob',
 							'fecha_gestionar' => null,
 							'usuario_asignado' => 0,
@@ -408,7 +412,8 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle = [];
 						$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners_id;
 						$aplicativo_diners_detalle['nombre_tarjeta'] = 'DINERS';
-						$aplicativo_diners_detalle['corrientes_facturar'] = $values[14];
+						$aplicativo_diners_detalle['credito_inmediato'] = $values[4];
+                        $aplicativo_diners_detalle['corrientes_facturar'] = $values[14];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[15];
 						$aplicativo_diners_detalle['ciclo'] = $values[16];
 						$aplicativo_diners_detalle['edad_cartera'] = $values[17];
@@ -521,6 +526,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle = [];
 						$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners_id;
 						$aplicativo_diners_detalle['nombre_tarjeta'] = 'INTERDIN';
+                        $aplicativo_diners_detalle['credito_inmediato'] = $values[13];
 						$aplicativo_diners_detalle['corrientes_facturar'] = $values[51];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[52];
 						$aplicativo_diners_detalle['ciclo'] = $values[53];
@@ -627,6 +633,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle = [];
 						$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners_id;
 						$aplicativo_diners_detalle['nombre_tarjeta'] = 'DISCOVER';
+                        $aplicativo_diners_detalle['credito_inmediato'] = $values[29];
 						$aplicativo_diners_detalle['corrientes_facturar'] = $values[89];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[90];
 						$aplicativo_diners_detalle['ciclo'] = $values[91];
@@ -754,6 +761,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle = [];
 						$aplicativo_diners_detalle['aplicativo_diners_id'] = $aplicativo_diners_id;
 						$aplicativo_diners_detalle['nombre_tarjeta'] = 'MASTERCARD';
+                        $aplicativo_diners_detalle['credito_inmediato'] = $values[36];
 						$aplicativo_diners_detalle['corrientes_facturar'] = $values[136];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[137];
 						$aplicativo_diners_detalle['ciclo'] = $values[138];

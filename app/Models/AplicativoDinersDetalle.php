@@ -91,7 +91,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer refinanciaciones_anteriores
  * @property string cardia
  * @property string unificar_deudas
- * @property string saldo_total
+ * @property double saldo_total
+ * @property string credito_inmediato
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso
