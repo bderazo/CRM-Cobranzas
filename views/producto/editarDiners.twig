@@ -333,8 +333,9 @@
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">Observaciones</label>
                         <div class="col-md-4 col-informacion">
-						<textarea rows="3" class="form-control" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control" placeholder="Observaciones"
                                   v-model="seguimiento.observaciones" v-autoname></textarea>
+                            <span id="remain">238</span> caracteres restantes.
                         </div>
                     </div>
                 </div>
@@ -3101,6 +3102,15 @@
                         e.preventDefault();
                         return false;
                     }
+                });
+
+                var maxchars = 254;
+                $('textarea').keyup(function () {
+                    var tlength = $(this).val().length;
+                    $(this).val($(this).val().substring(0, maxchars));
+                    var tlength = $(this).val().length;
+                    remain = maxchars - parseInt(tlength);
+                    $('#remain').text(remain);
                 });
 
                 $(function () {

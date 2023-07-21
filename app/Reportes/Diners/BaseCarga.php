@@ -189,7 +189,7 @@ class  BaseCarga
             $seg['fecha_asignacion'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
             $seg['hora_contacto'] = date("His", strtotime($seg['fecha_ingreso']));
             $seg['empresa'] = 'MEGACOB';
-            $seg['georeferenciacion'] = $seg['lat'] != '' ? $seg['lat'].','.$seg['long'] : " cc ";
+            $seg['georeferenciacion'] = $seg['lat'] != '' ? $seg['lat'].','.$seg['long'] : " ";
 			$data[] = $seg;
 		}
 
