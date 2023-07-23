@@ -112,7 +112,7 @@ class General {
         $notificado_resumen_total = 0;
         $resumen_total = 0;
 		foreach($lista as $seg){
-            $total = $seg['refinancia'] + $seg['notificado'] + $seg['cierre_efectivo'] + $seg['cierre_no_efectivo'] + $seg['mensaje_tercero'] + $seg['no_ubicado'] + $seg['sin_arreglo'];
+            $total = $seg['cierre_efectivo'] + $seg['cierre_no_efectivo'] + $seg['mensaje_tercero'] + $seg['no_ubicado'] + $seg['sin_arreglo'];
             $seg['total'] = $total;
 
             $total_refinancia = $total_refinancia + $seg['refinancia'];
@@ -158,8 +158,12 @@ class General {
 			$data[] = $seg;
 		}
         $resumen_total = $refinancia_resumen_total + $notificado_resumen_total;
-        $contactabilidad = $total_seguimientos > 0 ? (($total_contactadas / $total_seguimientos) * 100) : 0;
-        $efectividad = $total_contactadas > 0 ? (($total_cierre_efectivo / $total_contactadas) * 100) : 0;
+//        $contactabilidad = $total_seguimientos > 0 ? (($total_contactadas / $total_seguimientos) * 100) : 0;
+//        $efectividad = $total_contactadas > 0 ? (($total_cierre_efectivo / $total_contactadas) * 100) : 0;
+
+        $contactabilidad = $total_general > 0 ? ((($total_cierre_efectivo + $total_cierre_no_efectivo) / $total_general) * 100) : 0;
+        $efectividad = ($total_cierre_efectivo + $total_cierre_no_efectivo) > 0 ? (($total_cierre_efectivo / ($total_cierre_efectivo + $total_cierre_no_efectivo)) * 100) : 0;
+
         $total_resumen_totales = [
             'contactabilidad' => number_format($contactabilidad,2,'.',','),
             'efectividad' => number_format($efectividad,2,'.',','),
