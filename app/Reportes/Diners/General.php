@@ -155,7 +155,9 @@ class General {
                     $resumen_totales[$seg['campana_usuario']]['total'] = $resumen_totales[$seg['campana_usuario']]['refinancia'] + $resumen_totales[$seg['campana_usuario']]['notificado'];
                 }
             }
-			$data[] = $seg;
+            if($total > 0){
+                $data[] = $seg;
+            }
 		}
         $resumen_total = $refinancia_resumen_total + $notificado_resumen_total;
 //        $contactabilidad = $total_seguimientos > 0 ? (($total_contactadas / $total_seguimientos) * 100) : 0;
