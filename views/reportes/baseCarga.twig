@@ -35,7 +35,7 @@
 							<th>MOTIVO ANTERIOR</th>
 							<th>RESULTADO ANTERIOR</th>
 							<th>OBSERVACION ANTERIOR</th>
-							<th>RESULTADO </th>
+							<th>RESULTADO</th>
 							<th>DESCRIPCION</th>
 							<th>OBSERVACION</th>
 							<th>FECHACOMPROMISO</th>
@@ -56,7 +56,7 @@
 							<td v-html="d.corte"></td>
 							<td v-html="d.nombres"></td>
 							<td v-html="d.cedula"></td>
-							<td v-html="d.minimo_pagar"></td>
+							<td v-html="d.valor_pago_minimo"></td>
 							<td v-html="d.total_riesgo"></td>
 							<td v-html="d.edad_cartera"></td>
 							<td v-html="d.producto_asignacion"></td>
@@ -70,9 +70,9 @@
 							<td v-html="d.ciudad_cuenta"></td>
 							<td v-html="d.zona_cuenta"></td>
 							<td v-html="d.motivo_no_pago_anterior"></td>
-							<td></td>
+							<td v-html="d.resultado_anterior"></td>
 							<td v-html="d.observacion_anterior"></td>
-							<td v-html="d.nivel_1_texto"></td>
+							<td v-html="d.nivel_2_texto"></td>
 							<td v-html="d.nivel_3_texto"></td>
 							<td v-html="d.observaciones"></td>
 							<td v-html="d.fecha_compromiso_pago_format"></td>

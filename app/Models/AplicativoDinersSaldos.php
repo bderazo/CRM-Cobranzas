@@ -66,7 +66,7 @@ class AplicativoDinersSaldos extends Model
 		return $retorno;
 	}
 
-    static function getTodosFecha($fecha) {
+    static function getTodosFecha($fecha = '') {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
 
@@ -75,7 +75,10 @@ class AplicativoDinersSaldos extends Model
             ->select(null)
             ->select('ads.*, cl.cedula')
             ->where('ads.eliminado',0)
-            ->where('ads.fecha',$fecha);
+            ->orderBy('ads.fecha_ingreso ASC');
+        if($fecha != ''){
+            $q->where('ads.fecha',$fecha);
+        }
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){

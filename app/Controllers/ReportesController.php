@@ -707,7 +707,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['VAPAMI'] = [
-                'valor' => $d['minimo_pagar'],
+                'valor' => $d['valor_pago_minimo'],
                 'formato' => 'number'
             ];
             $aux['TRIESGO_ORIG'] = [
@@ -763,7 +763,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['RESULTADO ANTERIOR'] = [
-                'valor' => '',
+                'valor' => $d['resultado_anterior'],
                 'formato' => 'text'
             ];
             $aux['OBSERVACION ANTERIOR'] = [
@@ -771,7 +771,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['RESULTADO'] = [
-                'valor' => $d['nivel_1_texto'],
+                'valor' => $d['nivel_2_texto'],
                 'formato' => 'text'
             ];
             $aux['DESCRIPCION'] = [
@@ -1308,13 +1308,119 @@ class ReportesController extends BaseController
                 'valor' => $d['hora_17'],
                 'formato' => 'number'
             ];
+            $aux['18'] = [
+                'valor' => $d['hora_18'],
+                'formato' => 'number'
+            ];
+            $aux['19'] = [
+                'valor' => $d['hora_19'],
+                'formato' => 'number'
+            ];
             $aux['TOTAL GENERAL'] = [
                 'valor' => $d['total'],
                 'formato' => 'number'
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'GESTIONES POR HORA', 'gestiones_por_hora.xlsx');
+        $exportar[] = [
+            'name' => 'GESTIONES POR HORA',
+            'data' => $lista
+        ];
+        $lista = [];
+        $aux = [];
+        foreach ($data['resumen'] as $d) {
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['CLIENTE'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['DINERS'] = [
+                'valor' => $d['diners'],
+                'formato' => 'text'
+            ];
+            $aux['VISA'] = [
+                'valor' => $d['visa'],
+                'formato' => 'text'
+            ];
+            $aux['DISCOVER'] = [
+                'valor' => $d['discover'],
+                'formato' => 'text'
+            ];
+            $aux['MASTERCARD'] = [
+                'valor' => $d['mastercard'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO DINERS'] = [
+                'valor' => $d['diners_ciclo'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO VISA'] = [
+                'valor' => $d['visa_ciclo'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO DISCOVER'] = [
+                'valor' => $d['discover_ciclo'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO MASTERCARD'] = [
+                'valor' => $d['mastercard_ciclo'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA'] = [
+                'valor' => $d['fecha_ingreso'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO'] = [
+                'valor' => $d['nivel_1_texto'],
+                'formato' => 'text'
+            ];
+            $aux['ACCION'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN'] = [
+                'valor' => $d['nivel_3_texto'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA COMPROMISO DE PAGO'] = [
+                'valor' => $d['fecha_compromiso_pago'],
+                'formato' => 'text'
+            ];
+            $aux['VALOR COMPROMETIDO'] = [
+                'valor' => $d['valor_comprometido'],
+                'formato' => 'number'
+            ];
+            $aux['MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['Observaciones'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['Hora'] = [
+                'valor' => $d['hora'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $exportar[] = [
+            'name' => 'RESUMEN',
+            'data' => $lista
+        ];
+        $this->exportMultiple($exportar, 'gestiones_por_hora.xlsx');
+//        $this->exportSimple($lista, 'GESTIONES POR HORA', 'gestiones_por_hora.xlsx');
     }
 
     //INDIVIDUAL

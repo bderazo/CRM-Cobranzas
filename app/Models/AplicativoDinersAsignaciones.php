@@ -79,6 +79,23 @@ class AplicativoDinersAsignaciones extends Model
 		return $retorno;
 	}
 
+    static function getTodosPorCliente() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->innerJoin('cliente cl ON cl.id = ads.cliente_id')
+            ->select(null)
+            ->select('ads.*, cl.cedula')
+            ->where('ads.eliminado',0);
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['cliente_id']][$l['marca']] = $l;
+        }
+        return $retorno;
+    }
+
 	static function getAsignacionAplicativo($aplicativo_diners_id) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);

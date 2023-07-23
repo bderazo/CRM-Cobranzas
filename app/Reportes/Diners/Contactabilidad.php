@@ -38,6 +38,12 @@ class Contactabilidad
         //USUARIO LOGIN
         $usuario_login = UsuarioLogin::getTodos();
 
+        //OBTENER ASIGNACION
+        $asignacion = AplicativoDinersAsignaciones::getTodosPorCliente();
+
+        //OBTENER SALDOS
+        $saldos = AplicativoDinersSaldos::getTodosFecha();
+
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
@@ -111,6 +117,36 @@ class Contactabilidad
         $data_hoja1 = [];
         $data_hoja2 = [];
 		foreach($lista as $seg) {
+            $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
+            $seg['campana'] = '';
+            //COMPARO CON SALDOS
+            if(isset($saldos[$seg['id_cliente']])) {
+                $saldos_arr = $saldos[$seg['id_cliente']];
+                $campos_saldos = json_decode($saldos_arr['campos'], true);
+                unset($saldos_arr['campos']);
+                $saldos_arr = array_merge($saldos_arr, $campos_saldos);
+                if($seg['nombre_tarjeta'] == 'DINERS'){
+                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DINERS']) ? $saldos_arr['TIPO DE CAMPAÑA DINERS'] : '';
+                }
+                if($seg['nombre_tarjeta'] == 'INTERDIN'){
+                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA VISA']) ? $saldos_arr['TIPO DE CAMPAÑA VISA'] : '';
+                }
+                if($seg['nombre_tarjeta'] == 'DISCOVER'){
+                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DISCOVER']) ? $saldos_arr['TIPO DE CAMPAÑA DISCOVER'] : '';
+                }
+                if($seg['nombre_tarjeta'] == 'MASTERCARD'){
+                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA MASTERCARD']) ? $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'] : '';
+                }
+            }
+
+            //COMPARO CON ASIGNACIONES
+            if(isset($asignacion[$seg['id_cliente']][$seg['nombre_tarjeta']])) {
+                $asignacion_arr = $asignacion[$seg['id_cliente']][$seg['nombre_tarjeta']];
+                $campos_asignacion = json_decode($asignacion_arr['campos'], true);
+                $asignacion_arr = array_merge($asignacion_arr, $campos_asignacion);
+                $seg['campana'] = $asignacion_arr['campana'];
+            }
+
             $seg['hora_llamada'] = date("H:i:s",strtotime($seg['fecha_ingreso']));
             $seg['fecha_fecha_ingreso'] = date("Y-m-d",strtotime($seg['fecha_ingreso']));
             $seg['empresa_canal'] = 'MEGACOB-'.$seg['canal'];
@@ -121,12 +157,11 @@ class Contactabilidad
             }
 			$data[] = $seg;
 
-            if(($seg['nivel_2_texto'] == 'Notificado') || ($seg['nivel_2_texto'] == 'Refinancia')){
+            if(isset($data_hoja1[$seg['cedula'].'_'.$seg['nombre_tarjeta'].'_'.$seg['corte']])){
                 $data_hoja2[] = $seg;
             }else{
-                $data_hoja1[] = $seg;
+                $data_hoja1[$seg['cedula'].'_'.$seg['nombre_tarjeta'].'_'.$seg['corte']] = $seg;
             }
-
 		}
 
 //		printDie($data);
