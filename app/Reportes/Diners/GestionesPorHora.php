@@ -136,7 +136,7 @@ class GestionesPorHora {
         $q->groupBy('u.id, HOUR(ps.fecha_ingreso)');
         $q->orderBy('HOUR(ps.fecha_ingreso), u.apellidos');
         $q->disableSmartJoin();
-        printDie($q->getQuery());
+//        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$total_7 = 0;
 		$total_8 = 0;
