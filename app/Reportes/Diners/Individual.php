@@ -42,7 +42,7 @@ class Individual {
 			                COUNT(IF(ps.nivel_2_id = 1859, 1, NULL)) 'refinancia',
 			                COUNT(IF(ps.nivel_2_id = 1853, 1, NULL)) 'notificado',
 							COUNT(IF(ps.nivel_1_id = 1855, 1, NULL)) 'cierre_efectivo', 
-							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855 OR ps.nivel_1_id = 1861, 1, NULL)) 'contactadas',
+							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855, 1, NULL)) 'contactadas',
 							COUNT(ps.id) 'seguimientos'")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
