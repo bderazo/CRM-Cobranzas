@@ -180,7 +180,14 @@ class General {
             ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula, 
                              cl.id AS id_cliente")
             ->where('ps.institucion_id',1)
-            ->where('ps.nivel_2_id = 1859 OR ps.nivel_2_id = 1853 OR ps.nivel_1_id = 1855 OR ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1847 OR ps.nivel_1_id = 1799 OR ps.nivel_1_id = 1861')
+            ->where('ps.nivel_2_id = 1859 OR 
+                              ps.nivel_2_id = 1853 OR 
+                              ps.nivel_1_id = 1855 OR 
+                              ps.nivel_1_id = 1839 OR 
+                              ps.nivel_1_id = 1847 OR 
+                              ps.nivel_1_id = 1799 OR 
+                              ps.nivel_1_id = 1861
+                              ')
             ->where('ps.eliminado',0);
         if (@$filtros['plaza_usuario']){
             $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
