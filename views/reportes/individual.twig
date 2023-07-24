@@ -81,8 +81,12 @@
                     var self = this;
                     $.each(self.datos, function (key, value) {
                         var meta_alcanzada = 0.00;
+                        var total_negociaciones = 0;
                         if(parseFloat(value.meta_diaria) > 0){
-                            meta_alcanzada = (parseFloat(value.cierre_efectivo) / parseFloat(value.meta_diaria)) * 100;
+                            total_negociaciones = parseFloat(value.refinancia) + parseFloat(value.notificado);
+                            if(parseFloat(value.meta_diaria) > 0){
+                                meta_alcanzada = (total_negociaciones / parseFloat(value.meta_diaria)) * 100;
+                            }
                         }
                         self.datos[key].meta_alcanzada = meta_alcanzada.toFixed(2);
                     });
