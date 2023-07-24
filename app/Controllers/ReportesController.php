@@ -1269,7 +1269,7 @@ class ReportesController extends BaseController
         $filtros = $jdata['filtros'];
         $rep = new GestionesPorHora($this->get('pdo'));
         $data = $rep->exportar($filtros);
-        printDie($filtros);
+//        printDie($filtros);
         $lista = [];
         foreach ($data['data'] as $d) {
             $aux['AGENTE'] = [
