@@ -56,34 +56,26 @@ class ProduccionPlaza {
                 $q->where('u.canal IN ('.$fil.')');
             }
 		}
-		if (@$filtros['fecha_inicio']){
-			$hora = '00';
-			if($filtros['hora_inicio'] != ''){
-				$hora = $filtros['hora_inicio'];
-			}
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-			$minuto = '00';
-			if($filtros['minuto_inicio'] != ''){
-				$minuto = $filtros['minuto_inicio'];
-			}
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-			$fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-			$q->where('ps.fecha_ingreso >= "'.$fecha.'"');
-		}
-		if (@$filtros['fecha_fin']){
-			$hora = '00';
-			if($filtros['hora_fin'] != ''){
-				$hora = $filtros['hora_fin'];
-			}
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-			$minuto = '00';
-			if($filtros['minuto_fin'] != ''){
-				$minuto = $filtros['minuto_fin'];
-			}
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-			$fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-			$q->where('ps.fecha_ingreso <= "'.$fecha.'"');
-		}
+        if (@$filtros['fecha_inicio']){
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
+            }
+        }
+        if (@$filtros['fecha_fin']){
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
+            }
+        }
         $q->disableSmartJoin();
 //        printDie($q->getQuery());
 		$lista = $q->fetchAll();
