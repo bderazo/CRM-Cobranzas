@@ -135,7 +135,7 @@ class GestionesPorHora {
         $q->where('ps.cliente_id',$clientes_asignacion);
         $q->groupBy('u.id, HOUR(ps.fecha_ingreso)');
         $q->orderBy('HOUR(ps.fecha_ingreso), u.apellidos');
-//        printDie($q->getQuery());
+        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$total_7 = 0;
 		$total_8 = 0;
