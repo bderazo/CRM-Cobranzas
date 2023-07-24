@@ -43,7 +43,14 @@ class Individual {
 			                COUNT(IF(ps.nivel_2_id = 1853, 1, NULL)) 'notificado',
 							COUNT(IF(ps.nivel_1_id = 1855, 1, NULL)) 'cierre_efectivo', 
 							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855, 1, NULL)) 'contactadas',
-							COUNT(ps.id) 'seguimientos'")
+							
+							COUNT(IF(ps.nivel_2_id = 1859 OR 
+							         ps.nivel_2_id = 1853 OR
+							         ps.nivel_1_id = 1855 OR
+							         ps.nivel_1_id = 1839 OR
+							         ps.nivel_1_id = 1847 OR
+							         ps.nivel_1_id = 1799 OR
+							         ps.nivel_1_id = 1861 OR , 1, NULL)) 'seguimientos'")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
         if (@$filtros['plaza_usuario']){

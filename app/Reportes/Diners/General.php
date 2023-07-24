@@ -46,7 +46,7 @@ class General {
 							COUNT(IF(ps.nivel_1_id = 1847, 1, NULL)) 'mensaje_tercero',
 							COUNT(IF(ps.nivel_1_id = 1799, 1, NULL)) 'no_ubicado',
 							COUNT(IF(ps.nivel_1_id = 1861, 1, NULL)) 'sin_arreglo',
-							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855 OR ps.nivel_1_id = 1861, 1, NULL)) 'contactadas',
+							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855, 1, NULL)) 'contactadas',
 							COUNT(ps.id) 'seguimientos'")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
