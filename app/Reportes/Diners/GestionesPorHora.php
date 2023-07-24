@@ -127,6 +127,7 @@ class GestionesPorHora {
                 $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
                 $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
                 $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                printDie($fecha);
                 $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
             }else{
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
