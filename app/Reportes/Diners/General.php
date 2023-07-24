@@ -88,8 +88,8 @@ class General {
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
         }
-        $fil = '"' . implode('","',$clientes_asignacion) . '"';
-        $q->where('ps.cliente_id IN ('.$fil.')');
+//        $fil = '"' . implode('","',$clientes_asignacion) . '"';
+//        $q->where('ps.cliente_id IN ('.$fil.')');
         $q->groupBy('u.id');
         $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
@@ -220,8 +220,8 @@ class General {
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
         }
-        $fil = '"' . implode('","',$clientes_asignacion) . '"';
-        $q->where('ps.cliente_id IN ('.$fil.')');
+//        $fil = '"' . implode('","',$clientes_asignacion) . '"';
+//        $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
 //        printDie($q->getQuery());
@@ -236,26 +236,26 @@ class General {
             $res['visa_ciclo'] = '';
             $res['discover_ciclo'] = '';
             $res['mastercard_ciclo'] = '';
-            if(isset($clientes_asignacion_detalle[$res['id_cliente']])) {
-                foreach ($clientes_asignacion_detalle[$res['id_cliente']] as $cl) {
-                    if (substr($cl['marca'], 0, 4) == 'DINE') {
-                        $res['diners'] = 'SI';
-                        $res['diners_ciclo'] = $cl['ciclo'];
-                    }
-                    if (substr($cl['marca'], 0, 4) == 'VISA') {
-                        $res['visa'] = 'SI';
-                        $res['visa_ciclo'] = $cl['ciclo'];
-                    }
-                    if (substr($cl['marca'], 0, 4) == 'DISC') {
-                        $res['discover'] = 'SI';
-                        $res['discover_ciclo'] = $cl['ciclo'];
-                    }
-                    if (substr($cl['marca'], 0, 4) == 'MAST') {
-                        $res['mastercard'] = 'SI';
-                        $res['mastercard_ciclo'] = $cl['ciclo'];
-                    }
-                }
-            }
+//            if(isset($clientes_asignacion_detalle[$res['id_cliente']])) {
+//                foreach ($clientes_asignacion_detalle[$res['id_cliente']] as $cl) {
+//                    if (substr($cl['marca'], 0, 4) == 'DINE') {
+//                        $res['diners'] = 'SI';
+//                        $res['diners_ciclo'] = $cl['ciclo'];
+//                    }
+//                    if (substr($cl['marca'], 0, 4) == 'VISA') {
+//                        $res['visa'] = 'SI';
+//                        $res['visa_ciclo'] = $cl['ciclo'];
+//                    }
+//                    if (substr($cl['marca'], 0, 4) == 'DISC') {
+//                        $res['discover'] = 'SI';
+//                        $res['discover_ciclo'] = $cl['ciclo'];
+//                    }
+//                    if (substr($cl['marca'], 0, 4) == 'MAST') {
+//                        $res['mastercard'] = 'SI';
+//                        $res['mastercard_ciclo'] = $cl['ciclo'];
+//                    }
+//                }
+//            }
             $resumen[] = $res;
         }
 		$retorno['data'] = $data;
