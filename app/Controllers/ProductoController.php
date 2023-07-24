@@ -366,6 +366,7 @@ class ProductoController extends BaseController
 		$seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
         $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento->sugerencia_cx88 = 'NO';
+        $seguimiento->sugerencia_correo = 'NO';
 
         if($numero_tarjetas == 1){
             $width_tabla = 100;
@@ -567,6 +568,7 @@ class ProductoController extends BaseController
 		}
 		$con->observaciones = $seguimiento['observaciones'];
         $con->sugerencia_cx88 = $seguimiento['sugerencia_cx88'];
+        $con->sugerencia_correo = $seguimiento['sugerencia_correo'];
 		$con->usuario_modificacion = \WebSecurity::getUserData('id');
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
 		$con->save();
@@ -1934,6 +1936,7 @@ class ViewProductoSeguimiento
 	var $valor_comprometido;
 	var $observaciones;
     var $sugerencia_cx88;
+    var $sugerencia_correo;
     var $direccion_id;
     var $telefono_id;
     var $lat;

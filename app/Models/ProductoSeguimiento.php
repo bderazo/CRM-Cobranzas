@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double valor_comprometido
  * @property string observaciones
  * @property string sugerencia_cx88
+ * @property string sugerencia_correo
  * @property integer direccion_id
  * @property integer telefono_id
  * @property double lat
