@@ -144,7 +144,9 @@ class Contactabilidad
                 $asignacion_arr = $asignacion[$seg['id_cliente']][$seg['nombre_tarjeta']];
                 $campos_asignacion = json_decode($asignacion_arr['campos'], true);
                 $asignacion_arr = array_merge($asignacion_arr, $campos_asignacion);
-                $seg['campana'] = $asignacion_arr['campana'];
+                if($seg['campana'] == '') {
+                    $seg['campana'] = $asignacion_arr['campana'];
+                }
             }
 
             $seg['hora_llamada'] = date("H:i:s",strtotime($seg['fecha_ingreso']));
