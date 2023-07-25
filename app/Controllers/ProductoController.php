@@ -193,11 +193,20 @@ class ProductoController extends BaseController
 	function editarDiners($id)
 	{
 		\WebSecurity::secure('producto.lista_diners');
+        $config = $this->get('config');
+        $date1 = \DateTime::createFromFormat('H:i:s', date("H:i:s"));
+        $date2 = \DateTime::createFromFormat('H:i:s', $config['hora_inicio_labores']);
+        $date3 = \DateTime::createFromFormat('H:i:s', $config['hora_fin_labores']);
+        if ($date1 >= $date2 && $date1 <= $date3) {}else{
+            $this->flash->addMessage('error', 'NO ES POSIBLE REGISTRAR EL SEGUIMIENTO, RECUERDE QUE LOS HORARIOS DE INGRESO DE DATOS ES DESDE: '.$config['hora_inicio_labores'].' HASTA: '.$config['hora_fin_labores']);
+            return $this->redirectToAction('indexDiners');
+        }
 
 		$meses_gracia = [];
 		for($i = 0; $i <= 6; $i++) {
 			$meses_gracia[$i] = $i;
 		}
+
 		$cat = new CatalogoCliente();
 		$catalogos = [
 			'sexo' => $cat->getByKey('sexo'),
