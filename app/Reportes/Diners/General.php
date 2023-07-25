@@ -4,6 +4,7 @@ namespace Reportes\Diners;
 
 use General\ListasSistema;
 use Models\AplicativoDinersAsignaciones;
+use Models\AplicativoDinersSaldos;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
@@ -34,6 +35,9 @@ class General {
         $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
         $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
 
+        //OBTENER SALDOS
+        $saldos = AplicativoDinersSaldos::getTodosFecha();
+
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
@@ -47,7 +51,13 @@ class General {
 							COUNT(IF(ps.nivel_1_id = 1799, 1, NULL)) 'no_ubicado',
 							COUNT(IF(ps.nivel_1_id = 1861, 1, NULL)) 'sin_arreglo',
 							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855, 1, NULL)) 'contactadas',
-							COUNT(ps.id) 'seguimientos'")
+							COUNT(IF(ps.nivel_2_id = 1859 OR  
+							         ps.nivel_2_id = 1853 OR 
+							         ps.nivel_1_id = 1855 OR
+							         ps.nivel_1_id = 1839 OR
+							         ps.nivel_1_id = 1847 OR
+							         ps.nivel_1_id = 1799 OR
+							         ps.nivel_1_id = 1861 , 1, NULL)) 'seguimientos'")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
@@ -59,14 +69,14 @@ class General {
             $q->where('u.campana IN ('.$fil.')');
         }
 		if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
+//            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
+//                $q->where('u.canal',$filtros['canal_usuario'][0]);
+//                $q->where('u.campana','TELEFONIA');
+//                $q->where('u.identificador','MN');
+//            }else{
                 $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
                 $q->where('u.canal IN ('.$fil.')');
-            }
+//            }
 		}
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
@@ -88,7 +98,7 @@ class General {
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
         }
-        $fil = '"' . implode('","',$clientes_asignacion) . '"';
+        $fil = implode(',',$clientes_asignacion);
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->groupBy('u.id');
         $q->orderBy('u.apellidos');
@@ -177,17 +187,9 @@ class General {
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->select(null)
-            ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula, 
-                             cl.id AS id_cliente")
+            ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula")
+            ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id',1)
-            ->where('ps.nivel_2_id = 1859 OR 
-                              ps.nivel_2_id = 1853 OR 
-                              ps.nivel_1_id = 1855 OR 
-                              ps.nivel_1_id = 1839 OR 
-                              ps.nivel_1_id = 1847 OR 
-                              ps.nivel_1_id = 1799 OR 
-                              ps.nivel_1_id = 1861
-                              ')
             ->where('ps.eliminado',0);
         if (@$filtros['plaza_usuario']){
             $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
@@ -200,8 +202,8 @@ class General {
         if (@$filtros['canal_usuario']){
 //            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
 //                $q->where('u.canal',$filtros['canal_usuario'][0]);
-//                $q->where('u.campana','TELEFONIA');
-//                $q->where('u.identificador','MN');
+////                $q->where('u.campana','TELEFONIA');
+////                $q->where('u.identificador','MN');
 //            }else{
                 $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
                 $q->where('u.canal IN ('.$fil.')');
@@ -227,7 +229,7 @@ class General {
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
         }
-        $fil = '"' . implode('","',$clientes_asignacion) . '"';
+        $fil = implode(',',$clientes_asignacion);
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
@@ -243,8 +245,8 @@ class General {
             $res['visa_ciclo'] = '';
             $res['discover_ciclo'] = '';
             $res['mastercard_ciclo'] = '';
-            if(isset($clientes_asignacion_detalle[$res['id_cliente']])) {
-                foreach ($clientes_asignacion_detalle[$res['id_cliente']] as $cl) {
+            if(isset($clientes_asignacion_detalle[$res['cliente_id']])) {
+                foreach ($clientes_asignacion_detalle[$res['cliente_id']] as $cl) {
                     if (substr($cl['marca'], 0, 4) == 'DINE') {
                         $res['diners'] = 'SI';
                         $res['diners_ciclo'] = $cl['ciclo'];
