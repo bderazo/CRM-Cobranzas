@@ -59,7 +59,7 @@
                                 <tr v-for="t in telefono">
                                     <td style="text-align: center;">
                                         <label class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
+                                            <input type="radio" class="custom-control-input required" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
                                             <template v-if="t.bandera == 1">
                                                 <span style="background-color: #CCFFCC;" class="custom-control-label"></span>
                                             </template>
@@ -237,11 +237,10 @@
                     <h4 class="card-title">SEGUIMIENTO</h4>
                 </div>
                 <div class="card-body">
-                    <h4 class="text-primary">COBRANZA</h4>
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel1 }}</label>
                         <div class="col-md-4 col-informacion">
-                            <select class="form-control form-select select2" v-on:change="cargarNivel2"
+                            <select class="form-control form-select select2" v-on:change="cargarNivel2(); verificarSeguimientosTarjeta();"
                                     v-model="seguimiento.nivel_1_id" placeholder="Seleccione una opción" id="nivel_1_id"
                                     required v-autoname>
                                 <option v-for="item in cat.paleta_nivel_1" v-bind:value="item.nivel1_id"
@@ -249,9 +248,9 @@
                             </select>
                         </div>
 
-                        <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel2 }}</label>
-                        <div class="col-md-4 col-informacion">
-                            <select class="form-control form-select select2" v-on:change="cargarNivel3"
+                        <label for="inputName" class="col-md-2 form-label seguimiento_general">{{ paleta.titulo_nivel2 }}</label>
+                        <div class="col-md-4 col-informacion seguimiento_general">
+                            <select class="form-control form-select select2" v-on:change="cargarNivel3('')"
                                     v-model="seguimiento.nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id"
                                     required v-autoname>
                                 <option v-for="item in cat.paleta_nivel_2" v-bind:value="item.nivel2_id"
@@ -259,40 +258,17 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class=" row mb-4">
+                    <div class="row mb-4 seguimiento_general">
                         <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
                         <div class="col-md-4 col-informacion">
-                            <select class="form-control form-select select2" v-on:change="verificarCampos(3)"
+                            <select class="form-control form-select select2" v-on:change="verificarCampos('')"
                                     v-model="seguimiento.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id"
                                     required v-autoname>
                                 <option v-for="item in cat.paleta_nivel_3" v-bind:value="item.nivel3_id"
                                         v-html="item.nivel3"></option>
                             </select>
                         </div>
-
-                        <label for="inputName" class="col-md-2 form-label">SUGERENCIA CX88</label>
-                        <div class="col-md-4 col-informacion">
-                            <select class="form-control form-select select2" v-model="seguimiento.sugerencia_cx88" id="sugerencia_cx88" v-autoname>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                            </select>
-                        </div>
                     </div>
-
-                    <div class=" row mb-4">
-                        <label for="inputName" class="col-md-2 form-label"></label>
-                        <div class="col-md-4 col-informacion"></div>
-
-                        <label for="inputName" class="col-md-2 form-label">SUGERENCIA CORREO</label>
-                        <div class="col-md-4 col-informacion">
-                            <select class="form-control form-select select2" v-model="seguimiento.sugerencia_correo" id="sugerencia_correo" v-autoname>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <div id="div_fecha_compromiso_pago">
                         <div class=" row mb-4">
                             <label for="inputName" class="col-md-2 form-label">FECHA COMPROMISO DE PAGO</label>
@@ -302,7 +278,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="div_valor_comprometido">
                         <div class=" row mb-4">
                             <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
@@ -312,14 +287,12 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="div_motivo_no_pago">
-                        <h4 class="text-primary">MOTIVO DE NO PAGO</h4>
                         <div class=" row mb-4">
                             <label for="inputName"
                                    class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel1 }}</label>
                             <div class="col-md-4 col-informacion">
-                                <select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2"
+                                <select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2('')"
                                         v-model="seguimiento.nivel_1_motivo_no_pago_id"
                                         placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id"
                                         name="nivel_1_motivo_no_pago_id">
@@ -341,16 +314,454 @@
                             </div>
                         </div>
                     </div>
-
-                    <hr/>
-                    <div class=" row mb-4">
+                    <div class="row mb-4 seguimiento_general">
                         <label for="inputName" class="col-md-2 form-label">Observaciones</label>
                         <div class="col-md-4 col-informacion">
 						    <textarea rows="3" class="form-control" placeholder="Observaciones"
-                                  v-model="seguimiento.observaciones" v-autoname></textarea>
+                                  v-model="seguimiento.observaciones" id="observaciones" v-autoname></textarea>
                             <span id="remain">238</span> caracteres restantes.
                         </div>
                     </div>
+                    <div class="row mb-4 seguimiento_general">
+                        <label for="inputName" class="col-md-2 form-label">SUGERENCIA CX88</label>
+                        <div class="col-md-4 col-informacion">
+                            <select class="form-control form-select select2" v-model="seguimiento.sugerencia_cx88" id="sugerencia_cx88" v-autoname>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+
+                        <label for="inputName" class="col-md-2 form-label">SUGERENCIA CORREO</label>
+                        <div class="col-md-4 col-informacion">
+                            <select class="form-control form-select select2" v-model="seguimiento.sugerencia_correo" id="sugerencia_correo" v-autoname>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div id="div_seguimiento_diners">
+                        <h4 class="text-primary">SEGUIMIENTO TARJETA DINERS</h4>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel1 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel2('diners');"
+                                        v-model="seguimiento_diners.nivel_1_id" placeholder="Seleccione una opción" id="nivel_1_id_diners"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_1_diners" v-bind:value="item.nivel1_id"
+                                            v-html="item.nivel1"></option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel2 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel3('diners')"
+                                        v-model="seguimiento_diners.nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id_diners"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_2_diners" v-bind:value="item.nivel2_id"
+                                            v-html="item.nivel2"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="verificarCampos('diners')"
+                                        v-model="seguimiento_diners.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id_diners"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_3_diners" v-bind:value="item.nivel3_id"
+                                            v-html="item.nivel3"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="div_fecha_compromiso_pago_diners">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">FECHA COMPROMISO DE PAGO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control fecha" id="fecha_compromiso_pago_diners" name="fecha_compromiso_pago_diners">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_valor_comprometido_diners">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_diners.valor_comprometido" id="valor_comprometido_diners" name="valor_comprometido_diners">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_motivo_no_pago_diners">
+                            <div class=" row mb-4">
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel1 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2('diners')"
+                                            v-model="seguimiento_diners.nivel_1_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id_diners"
+                                            name="nivel_1_motivo_no_pago_id_diners">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_1_diners"
+                                                v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel2 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2"
+                                            v-model="seguimiento_diners.nivel_2_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_2_motivo_no_pago_id_diners"
+                                            name="nivel_2_motivo_no_pago_id_diners">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_2_diners"
+                                                v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <div class="col-md-4 col-informacion">
+						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+                                      v-model="seguimiento_diners.observaciones" id="observaciones_diners" v-autoname></textarea>
+                                <span id="remain_diners">238</span> caracteres restantes.
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CX88</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_diners.sugerencia_cx88" id="sugerencia_cx88_diners" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CORREO</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_diners.sugerencia_correo" id="sugerencia_correo_diners" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+
+                    <div id="div_seguimiento_interdin">
+                        <h4 class="text-primary">SEGUIMIENTO TARJETA VISA</h4>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel1 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel2('interdin');"
+                                        v-model="seguimiento_interdin.nivel_1_id" placeholder="Seleccione una opción" id="nivel_1_id_interdin"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_1_interdin" v-bind:value="item.nivel1_id"
+                                            v-html="item.nivel1"></option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel2 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel3('interdin')"
+                                        v-model="seguimiento_interdin.nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id_interdin"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_2_interdin" v-bind:value="item.nivel2_id"
+                                            v-html="item.nivel2"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="verificarCampos('interdin')"
+                                        v-model="seguimiento_interdin.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id_interdin"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_3_interdin" v-bind:value="item.nivel3_id"
+                                            v-html="item.nivel3"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="div_fecha_compromiso_pago_interdin">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">FECHA COMPROMISO DE PAGO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control fecha" id="fecha_compromiso_pago_interdin" name="fecha_compromiso_pago_interdin">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_valor_comprometido_interdin">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_interdin.valor_comprometido" id="valor_comprometido_interdin" name="valor_comprometido_interdin">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_motivo_no_pago_interdin">
+                            <div class=" row mb-4">
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel1 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2('interdin')"
+                                            v-model="seguimiento_interdin.nivel_1_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id_interdin"
+                                            name="nivel_1_motivo_no_pago_id_interdin">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_1_interdin"
+                                                v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel2 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2"
+                                            v-model="seguimiento_interdin.nivel_2_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_2_motivo_no_pago_id_interdin"
+                                            name="nivel_2_motivo_no_pago_id_interdin">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_2_interdin"
+                                                v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <div class="col-md-4 col-informacion">
+						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+                                      v-model="seguimiento_interdin.observaciones" id="observaciones_interdin" v-autoname></textarea>
+                                <span id="remain_interdin">238</span> caracteres restantes.
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CX88</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_interdin.sugerencia_cx88" id="sugerencia_cx88_interdin" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CORREO</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_interdin.sugerencia_correo" id="sugerencia_correo_interdin" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+
+                    <div id="div_seguimiento_discover">
+                        <h4 class="text-primary">SEGUIMIENTO TARJETA DISCOVER</h4>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel1 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel2('discover');"
+                                        v-model="seguimiento_discover.nivel_1_id" placeholder="Seleccione una opción" id="nivel_1_id_discover"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_1_discover" v-bind:value="item.nivel1_id"
+                                            v-html="item.nivel1"></option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel2 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel3('discover')"
+                                        v-model="seguimiento_discover.nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id_discover"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_2_discover" v-bind:value="item.nivel2_id"
+                                            v-html="item.nivel2"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="verificarCampos('discover')"
+                                        v-model="seguimiento_discover.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id_discover"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_3_discover" v-bind:value="item.nivel3_id"
+                                            v-html="item.nivel3"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="div_fecha_compromiso_pago_discover">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">FECHA COMPROMISO DE PAGO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control fecha" id="fecha_compromiso_pago_discover" name="fecha_compromiso_pago_discover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_valor_comprometido_discover">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_discover.valor_comprometido" id="valor_comprometido_discover" name="valor_comprometido_discover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_motivo_no_pago_discover">
+                            <div class=" row mb-4">
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel1 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2('discover')"
+                                            v-model="seguimiento_discover.nivel_1_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id_discover"
+                                            name="nivel_1_motivo_no_pago_id_discover">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_1_discover"
+                                                v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel2 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2"
+                                            v-model="seguimiento_discover.nivel_2_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_2_motivo_no_pago_id_discover"
+                                            name="nivel_2_motivo_no_pago_id_discover">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_2_discover"
+                                                v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <div class="col-md-4 col-informacion">
+						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+                                      v-model="seguimiento_discover.observaciones" id="observaciones_discover" v-autoname></textarea>
+                                <span id="remain_discover">238</span> caracteres restantes.
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CX88</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_discover.sugerencia_cx88" id="sugerencia_cx88_discover" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CORREO</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_discover.sugerencia_correo" id="sugerencia_correo_discover" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+
+                    <div id="div_seguimiento_mastercard">
+                        <h4 class="text-primary">SEGUIMIENTO TARJETA MASTERCARD</h4>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel1 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel2('mastercard');"
+                                        v-model="seguimiento_mastercard.nivel_1_id" placeholder="Seleccione una opción" id="nivel_1_id_mastercard"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_1_mastercard" v-bind:value="item.nivel1_id"
+                                            v-html="item.nivel1"></option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel2 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="cargarNivel3('mastercard')"
+                                        v-model="seguimiento_mastercard.nivel_2_id" placeholder="Seleccione una opción" id="nivel_2_id_mastercard"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_2_mastercard" v-bind:value="item.nivel2_id"
+                                            v-html="item.nivel2"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel3 }}</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-on:change="verificarCampos('mastercard')"
+                                        v-model="seguimiento_mastercard.nivel_3_id" placeholder="Seleccione una opción" id="nivel_3_id_mastercard"
+                                        required v-autoname>
+                                    <option v-for="item in cat.paleta_nivel_3_mastercard" v-bind:value="item.nivel3_id"
+                                            v-html="item.nivel3"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="div_fecha_compromiso_pago_mastercard">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">FECHA COMPROMISO DE PAGO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control fecha" id="fecha_compromiso_pago_mastercard" name="fecha_compromiso_pago_mastercard">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_valor_comprometido_mastercard">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_mastercard.valor_comprometido" id="valor_comprometido_mastercard" name="valor_comprometido_mastercard">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_motivo_no_pago_mastercard">
+                            <div class=" row mb-4">
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel1 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-on:change="cargarMotivoNoPagoNivel2('mastercard')"
+                                            v-model="seguimiento_mastercard.nivel_1_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_1_motivo_no_pago_id_mastercard"
+                                            name="nivel_1_motivo_no_pago_id_mastercard">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_1_mastercard"
+                                                v-bind:value="item.nivel1_id" v-html="item.nivel1"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName"
+                                       class="col-md-2 form-label">{{ paleta.titulo_motivo_no_pago_nivel2 }}</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2"
+                                            v-model="seguimiento_mastercard.nivel_2_motivo_no_pago_id"
+                                            placeholder="Seleccione una opción" id="nivel_2_motivo_no_pago_id_mastercard"
+                                            name="nivel_2_motivo_no_pago_id_mastercard">
+                                        <option v-for="item in cat.paleta_motivo_no_pago_nivel_2_mastercard"
+                                                v-bind:value="item.nivel2_id" v-html="item.nivel2"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <div class="col-md-4 col-informacion">
+						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+                                      v-model="seguimiento_mastercard.observaciones" id="observaciones_mastercard" v-autoname></textarea>
+                                <span id="remain_mastercard">238</span> caracteres restantes.
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CX88</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_mastercard.sugerencia_cx88" id="sugerencia_cx88_mastercard" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">SUGERENCIA CORREO</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento_mastercard.sugerencia_correo" id="sugerencia_correo_mastercard" v-autoname>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+
                 </div>
             </div>
 
@@ -465,7 +876,7 @@
                                     </template>
                                     <template v-if="aplicativo_diners_tarjeta_interdin.length != 0">
                                         <th style="width: {{ width_tabla }}%; text-align: center; background-color: #404040; color: white;">
-                                            INTERDIN
+                                            VISA
                                         </th>
                                     </template>
                                     <template v-if="aplicativo_diners_tarjeta_discover.length != 0">
@@ -2762,98 +3173,416 @@
                 aplicativo_diners_tarjeta_mastercard: {{ aplicativo_diners_tarjeta_mastercard|raw }},
                 aplicativo_diners_porcentaje_interes: {{ aplicativo_diners_porcentaje_interes|raw }},
                 seguimiento: {{ seguimiento|raw }},
+                seguimiento_diners: {{ seguimiento_diners|raw }},
+                seguimiento_interdin: {{ seguimiento_interdin|raw }},
+                seguimiento_discover: {{ seguimiento_discover|raw }},
+                seguimiento_mastercard: {{ seguimiento_mastercard|raw }},
+                bandera_unificar_deuda: 'no',
+                tarjeta_unificar_deuda: '',
             },
             watch: {},
             computed: {},
             methods: {
-                cargarNivel2: function () {
+                verificarSeguimientosTarjeta: function () {
                     var self = this;
-                    var data = {
-                        nivel_1_id: self.seguimiento.nivel_1_id,
-                    };
-                    $.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
-                        self.cat.paleta_nivel_2 = res;
-                        console.log(res);
-                    });
+                    if((self.seguimiento.nivel_1_id == '1855') && (self.bandera_unificar_deuda == 'no')){
+                        $(".seguimiento_general").hide();
+                        if(self.aplicativo_diners_tarjeta_diners.length != 0){
+                            $("#div_seguimiento_diners").show();
+                        }
+                        if(self.aplicativo_diners_tarjeta_interdin.length != 0){
+                            $("#div_seguimiento_interdin").show();
+                        }
+                        if(self.aplicativo_diners_tarjeta_discover.length != 0){
+                            $("#div_seguimiento_discover").show();
+                        }
+                        if(self.aplicativo_diners_tarjeta_mastercard.length != 0){
+                            $("#div_seguimiento_mastercard").show();
+                        }
+                    }else{
+                        $(".seguimiento_general").show();
+                        $("#div_seguimiento_diners").hide();
+                        $("#div_seguimiento_interdin").hide();
+                        $("#div_seguimiento_discover").hide();
+                        $("#div_seguimiento_mastercard").hide();
+                    }
+
+                    self.verificarCampos('diners');
+                    self.verificarCampos('interdin');
+                    self.verificarCampos('discover');
+                    self.verificarCampos('mastercard');
                 },
 
-                cargarNivel3: function () {
+                cargarNivel2: function (tarjeta = '') {
                     var self = this;
-                    var data = {
-                        nivel_2_id: self.seguimiento.nivel_2_id,
-                    };
-                    $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
-                        self.cat.paleta_nivel_3 = res;
-                        console.log(res);
-                    });
+                    if(tarjeta == '') {
+                        var data = {
+                            nivel_1_id: self.seguimiento.nivel_1_id,
+                        };
+                        self.cat.paleta_nivel_2 = [];
+                        self.cat.paleta_nivel_3 = [];
+                        self.seguimiento.nivel_2_id = 0;
+                        self.seguimiento.nivel_3_id = 0;
+                        self.verificarCampos(tarjeta);
+                        $.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
+                            self.cat.paleta_nivel_2 = res;
+                        });
+                    }
+                    if(tarjeta == 'diners') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_diners.nivel_1_id,
+                        };
+                        self.cat.paleta_nivel_2_diners = [];
+                        self.cat.paleta_nivel_3_diners = [];
+                        self.seguimiento_diners.nivel_2_id = 0;
+                        self.seguimiento_diners.nivel_3_id = 0;
+                        self.verificarCampos(tarjeta);
+                        $.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
+                            self.cat.paleta_nivel_2_diners = res;
+                        });
+                    }
+                    if(tarjeta == 'interdin') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_interdin.nivel_1_id,
+                        };
+                        self.cat.paleta_nivel_2_interdin = [];
+                        self.cat.paleta_nivel_3_interdin = [];
+                        self.seguimiento_interdin.nivel_2_id = 0;
+                        self.seguimiento_interdin.nivel_3_id = 0;
+                        self.verificarCampos(tarjeta);
+                        $.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
+                            self.cat.paleta_nivel_2_interdin = res;
+                        });
+                    }
+                    if(tarjeta == 'discover') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_discover.nivel_1_id,
+                        };
+                        self.cat.paleta_nivel_2_discover = [];
+                        self.cat.paleta_nivel_3_discover = [];
+                        self.seguimiento_discover.nivel_2_id = 0;
+                        self.seguimiento_discover.nivel_3_id = 0;
+                        self.verificarCampos(tarjeta);
+                        $.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
+                            self.cat.paleta_nivel_2_discover = res;
+                        });
+                    }
+                    if(tarjeta == 'mastercard') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_mastercard.nivel_1_id,
+                        };
+                        self.cat.paleta_nivel_2_mastercard = [];
+                        self.cat.paleta_nivel_3_mastercard = [];
+                        self.seguimiento_mastercard.nivel_2_id = 0;
+                        self.seguimiento_mastercard.nivel_3_id = 0;
+                        self.verificarCampos(tarjeta);
+                        $.post('{{ root }}/paleta/cargarNivel2', data, function (res) {
+                            self.cat.paleta_nivel_2_mastercard = res;
+                        });
+                    }
                 },
 
-                verificarCampos: function (nivel) {
+                cargarNivel3: function (tarjeta = '') {
                     var self = this;
-                    var data = {
-                        nivel_1_id: self.seguimiento.nivel_1_id,
-                        nivel_2_id: self.seguimiento.nivel_2_id,
-                        nivel_3_id: self.seguimiento.nivel_3_id,
-                        nivel_4_id: self.seguimiento.nivel_3_id,
-                        nivel: nivel,
-                    };
-                    $.post('{{ root }}/producto/verificarCampos', data, function (res) {
-                        if (res.mostrar_motivo_no_pago == 'si') {
-                            $("#div_motivo_no_pago").show();
-                            $('#nivel_1_motivo_no_pago_id').prop('required', true);
-                            $('#nivel_2_motivo_no_pago_id').prop('required', true);
-                        } else {
-                            $("#div_motivo_no_pago").hide();
-                            $('#nivel_1_motivo_no_pago_id').removeAttr('required');
-                            $('#nivel_2_motivo_no_pago_id').removeAttr('required');
-                        }
-
-                        if (res.mostrar_fecha_compromiso_pago == 'si') {
-                            $("#div_fecha_compromiso_pago").show();
-                            $('#fecha_compromiso_pago').prop('required', true);
-                        } else {
-                            $("#div_fecha_compromiso_pago").hide();
-                            $('#fecha_compromiso_pago').removeAttr('required');
-                        }
-
-                        if (res.mostrar_valor_comprometido == 'si') {
-                            $("#div_valor_comprometido").show();
-                            $('#valor_comprometido').prop('required', true);
-                        } else {
-                            $("#div_valor_comprometido").hide();
-                            $('#valor_comprometido').removeAttr('required');
-                        }
-                        console.log(res);
-                    });
+                    if(tarjeta == '') {
+                        var data = {
+                            nivel_2_id: self.seguimiento.nivel_2_id,
+                        };
+                        self.cat.paleta_nivel_3 = [];
+                        self.seguimiento.nivel_3_id = 0;
+                        self.verificarCampos(tarjeta);
+                        $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
+                            self.cat.paleta_nivel_3 = res;
+                        });
+                    }
+                    if(tarjeta == 'diners') {
+                        var data = {
+                            nivel_2_id: self.seguimiento_diners.nivel_2_id,
+                        };
+                        self.cat.paleta_nivel_3_diners = [];
+                        self.seguimiento_diners.nivel_3_id = 0;
+                        self.verificarCampos('diners');
+                        $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
+                            self.cat.paleta_nivel_3_diners = res;
+                        });
+                    }
+                    if(tarjeta == 'interdin') {
+                        var data = {
+                            nivel_2_id: self.seguimiento_interdin.nivel_2_id,
+                        };
+                        self.cat.paleta_nivel_3_interdin = [];
+                        self.seguimiento_interdin.nivel_3_id = 0;
+                        self.verificarCampos('interdin');
+                        $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
+                            self.cat.paleta_nivel_3_interdin = res;
+                        });
+                    }
+                    if(tarjeta == 'discover') {
+                        var data = {
+                            nivel_2_id: self.seguimiento_discover.nivel_2_id,
+                        };
+                        self.cat.paleta_nivel_3_discover = [];
+                        self.seguimiento_discover.nivel_3_id = 0;
+                        self.verificarCampos('discover');
+                        $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
+                            self.cat.paleta_nivel_3_discover = res;
+                        });
+                    }
+                    if(tarjeta == 'mastercard') {
+                        var data = {
+                            nivel_2_id: self.seguimiento_mastercard.nivel_2_id,
+                        };
+                        self.cat.paleta_nivel_3_mastercard = [];
+                        self.seguimiento_mastercard.nivel_3_id = 0;
+                        self.verificarCampos('mastercard');
+                        $.post('{{ root }}/paleta/cargarNivel3', data, function (res) {
+                            self.cat.paleta_nivel_3_mastercard = res;
+                        });
+                    }
                 },
 
-                cargarMotivoNoPagoNivel2: function () {
+                verificarCampos: function (tarjeta = '') {
                     var self = this;
-                    var data = {
-                        nivel_1_motivo_no_pago_id: self.seguimiento.nivel_1_motivo_no_pago_id,
-                    };
-                    $.post('{{ root }}/paleta/cargarMotivoNoPagoNivel2', data, function (res) {
-                        self.cat.paleta_motivo_no_pago_nivel_2 = res;
-                        console.log(res);
-                    });
+                    if(tarjeta == '') {
+                        var data = {
+                            nivel_1_id: self.seguimiento.nivel_1_id,
+                            nivel_2_id: self.seguimiento.nivel_2_id,
+                            nivel_3_id: self.seguimiento.nivel_3_id,
+                            nivel_4_id: self.seguimiento.nivel_4_id,
+                            nivel: 3,
+                        };
+                        $.post('{{ root }}/producto/verificarCampos', data, function (res) {
+                            if (res.mostrar_motivo_no_pago == 'si') {
+                                $("#div_motivo_no_pago").show();
+                                $('#nivel_1_motivo_no_pago_id').prop('required', true);
+                                $('#nivel_2_motivo_no_pago_id').prop('required', true);
+                            } else {
+                                $("#div_motivo_no_pago").hide();
+                                $('#nivel_1_motivo_no_pago_id').removeAttr('required');
+                                $('#nivel_2_motivo_no_pago_id').removeAttr('required');
+                            }
+
+                            if (res.mostrar_fecha_compromiso_pago == 'si') {
+                                $("#div_fecha_compromiso_pago").show();
+                                $('#fecha_compromiso_pago').prop('required', true);
+                            } else {
+                                $("#div_fecha_compromiso_pago").hide();
+                                $('#fecha_compromiso_pago').removeAttr('required');
+                            }
+
+                            if (res.mostrar_valor_comprometido == 'si') {
+                                $("#div_valor_comprometido").show();
+                                $('#valor_comprometido').prop('required', true);
+                            } else {
+                                $("#div_valor_comprometido").hide();
+                                $('#valor_comprometido').removeAttr('required');
+                            }
+                        });
+                    }
+                    if(tarjeta == 'diners') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_diners.nivel_1_id,
+                            nivel_2_id: self.seguimiento_diners.nivel_2_id,
+                            nivel_3_id: self.seguimiento_diners.nivel_3_id,
+                            nivel_4_id: self.seguimiento_diners.nivel_4_id,
+                            nivel: 3,
+                        };
+                        $.post('{{ root }}/producto/verificarCampos', data, function (res) {
+                            if (res.mostrar_motivo_no_pago == 'si') {
+                                $("#div_motivo_no_pago_diners").show();
+                                $('#nivel_1_motivo_no_pago_id_diners').prop('required', true);
+                                $('#nivel_2_motivo_no_pago_id_diners').prop('required', true);
+                            } else {
+                                $("#div_motivo_no_pago_diners").hide();
+                                $('#nivel_1_motivo_no_pago_id_diners').removeAttr('required');
+                                $('#nivel_2_motivo_no_pago_id_diners').removeAttr('required');
+                            }
+
+                            if (res.mostrar_fecha_compromiso_pago == 'si') {
+                                $("#div_fecha_compromiso_pago_diners").show();
+                                $('#fecha_compromiso_pago_diners').prop('required', true);
+                            } else {
+                                $("#div_fecha_compromiso_pago_diners").hide();
+                                $('#fecha_compromiso_pago_diners').removeAttr('required');
+                            }
+
+                            if (res.mostrar_valor_comprometido == 'si') {
+                                $("#div_valor_comprometido_diners").show();
+                                $('#valor_comprometido_diners').prop('required', true);
+                            } else {
+                                $("#div_valor_comprometido_diners").hide();
+                                $('#valor_comprometido_diners').removeAttr('required');
+                            }
+                        });
+                    }
+                    if(tarjeta == 'interdin') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_interdin.nivel_1_id,
+                            nivel_2_id: self.seguimiento_interdin.nivel_2_id,
+                            nivel_3_id: self.seguimiento_interdin.nivel_3_id,
+                            nivel_4_id: self.seguimiento_interdin.nivel_4_id,
+                            nivel: 3,
+                        };
+                        $.post('{{ root }}/producto/verificarCampos', data, function (res) {
+                            if (res.mostrar_motivo_no_pago == 'si') {
+                                $("#div_motivo_no_pago_interdin").show();
+                                $('#nivel_1_motivo_no_pago_id_interdin').prop('required', true);
+                                $('#nivel_2_motivo_no_pago_id_interdin').prop('required', true);
+                            } else {
+                                $("#div_motivo_no_pago_interdin").hide();
+                                $('#nivel_1_motivo_no_pago_id_interdin').removeAttr('required');
+                                $('#nivel_2_motivo_no_pago_id_interdin').removeAttr('required');
+                            }
+
+                            if (res.mostrar_fecha_compromiso_pago == 'si') {
+                                $("#div_fecha_compromiso_pago_interdin").show();
+                                $('#fecha_compromiso_pago_interdin').prop('required', true);
+                            } else {
+                                $("#div_fecha_compromiso_pago_interdin").hide();
+                                $('#fecha_compromiso_pago_interdin').removeAttr('required');
+                            }
+
+                            if (res.mostrar_valor_comprometido == 'si') {
+                                $("#div_valor_comprometido_interdin").show();
+                                $('#valor_comprometido_interdin').prop('required', true);
+                            } else {
+                                $("#div_valor_comprometido_interdin").hide();
+                                $('#valor_comprometido_interdin').removeAttr('required');
+                            }
+                        });
+                    }
+                    if(tarjeta == 'discover') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_discover.nivel_1_id,
+                            nivel_2_id: self.seguimiento_discover.nivel_2_id,
+                            nivel_3_id: self.seguimiento_discover.nivel_3_id,
+                            nivel_4_id: self.seguimiento_discover.nivel_4_id,
+                            nivel: 3,
+                        };
+                        $.post('{{ root }}/producto/verificarCampos', data, function (res) {
+                            if (res.mostrar_motivo_no_pago == 'si') {
+                                $("#div_motivo_no_pago_discover").show();
+                                $('#nivel_1_motivo_no_pago_id_discover').prop('required', true);
+                                $('#nivel_2_motivo_no_pago_id_discover').prop('required', true);
+                            } else {
+                                $("#div_motivo_no_pago_discover").hide();
+                                $('#nivel_1_motivo_no_pago_id_discover').removeAttr('required');
+                                $('#nivel_2_motivo_no_pago_id_discover').removeAttr('required');
+                            }
+
+                            if (res.mostrar_fecha_compromiso_pago == 'si') {
+                                $("#div_fecha_compromiso_pago_discover").show();
+                                $('#fecha_compromiso_pago_discover').prop('required', true);
+                            } else {
+                                $("#div_fecha_compromiso_pago_discover").hide();
+                                $('#fecha_compromiso_pago_discover').removeAttr('required');
+                            }
+
+                            if (res.mostrar_valor_comprometido == 'si') {
+                                $("#div_valor_comprometido_discover").show();
+                                $('#valor_comprometido_discover').prop('required', true);
+                            } else {
+                                $("#div_valor_comprometido_discover").hide();
+                                $('#valor_comprometido_discover').removeAttr('required');
+                            }
+                        });
+                    }
+                    if(tarjeta == 'mastercard') {
+                        var data = {
+                            nivel_1_id: self.seguimiento_mastercard.nivel_1_id,
+                            nivel_2_id: self.seguimiento_mastercard.nivel_2_id,
+                            nivel_3_id: self.seguimiento_mastercard.nivel_3_id,
+                            nivel_4_id: self.seguimiento_mastercard.nivel_4_id,
+                            nivel: 3,
+                        };
+                        $.post('{{ root }}/producto/verificarCampos', data, function (res) {
+                            if (res.mostrar_motivo_no_pago == 'si') {
+                                $("#div_motivo_no_pago_mastercard").show();
+                                $('#nivel_1_motivo_no_pago_id_mastercard').prop('required', true);
+                                $('#nivel_2_motivo_no_pago_id_mastercard').prop('required', true);
+                            } else {
+                                $("#div_motivo_no_pago_mastercard").hide();
+                                $('#nivel_1_motivo_no_pago_id_mastercard').removeAttr('required');
+                                $('#nivel_2_motivo_no_pago_id_mastercard').removeAttr('required');
+                            }
+
+                            if (res.mostrar_fecha_compromiso_pago == 'si') {
+                                $("#div_fecha_compromiso_pago_mastercard").show();
+                                $('#fecha_compromiso_pago_mastercard').prop('required', true);
+                            } else {
+                                $("#div_fecha_compromiso_pago_mastercard").hide();
+                                $('#fecha_compromiso_pago_mastercard').removeAttr('required');
+                            }
+
+                            if (res.mostrar_valor_comprometido == 'si') {
+                                $("#div_valor_comprometido_mastercard").show();
+                                $('#valor_comprometido_mastercard').prop('required', true);
+                            } else {
+                                $("#div_valor_comprometido_mastercard").hide();
+                                $('#valor_comprometido_mastercard').removeAttr('required');
+                            }
+                        });
+                    }
+                },
+
+                cargarMotivoNoPagoNivel2: function (tarjeta = '') {
+                    var self = this;
+                    if(tarjeta == '') {
+                        var data = {
+                            nivel_1_motivo_no_pago_id: self.seguimiento.nivel_1_motivo_no_pago_id,
+                        };
+                        $.post('{{ root }}/paleta/cargarMotivoNoPagoNivel2', data, function (res) {
+                            self.cat.paleta_motivo_no_pago_nivel_2 = res;
+                        });
+                    }
+                    if(tarjeta == 'diners') {
+                        var data = {
+                            nivel_1_motivo_no_pago_id: self.seguimiento_diners.nivel_1_motivo_no_pago_id,
+                        };
+                        $.post('{{ root }}/paleta/cargarMotivoNoPagoNivel2', data, function (res) {
+                            self.cat.paleta_motivo_no_pago_nivel_2_diners = res;
+                        });
+                    }
+                    if(tarjeta == 'interdin') {
+                        var data = {
+                            nivel_1_motivo_no_pago_id: self.seguimiento_interdin.nivel_1_motivo_no_pago_id,
+                        };
+                        $.post('{{ root }}/paleta/cargarMotivoNoPagoNivel2', data, function (res) {
+                            self.cat.paleta_motivo_no_pago_nivel_2_interdin = res;
+                        });
+                    }
+                    if(tarjeta == 'discover') {
+                        var data = {
+                            nivel_1_motivo_no_pago_id: self.seguimiento_discover.nivel_1_motivo_no_pago_id,
+                        };
+                        $.post('{{ root }}/paleta/cargarMotivoNoPagoNivel2', data, function (res) {
+                            self.cat.paleta_motivo_no_pago_nivel_2_discover = res;
+                        });
+                    }
+                    if(tarjeta == 'mastercard') {
+                        var data = {
+                            nivel_1_motivo_no_pago_id: self.seguimiento_mastercard.nivel_1_motivo_no_pago_id,
+                        };
+                        $.post('{{ root }}/paleta/cargarMotivoNoPagoNivel2', data, function (res) {
+                            self.cat.paleta_motivo_no_pago_nivel_2_mastercard = res;
+                        });
+                    }
                 },
 
                 calcularValoresDiners: function () {
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_diners.unificar_deudas == 'SI') {
+                        self.bandera_unificar_deuda = 'si';
+                        self.tarjeta_unificar_deuda = 'DINERS';
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
-                            // self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
-                            // self.calcularValoresInterdin();
-                            // app.$forceUpdate();
                             $("#unificar_deudas_interdin").prop('disabled', 'disabled');
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
-                            // self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
-                            // self.calcularValoresDiscover();
-                            // app.$forceUpdate();
-                            $("#unificar_deudas_discover").prop('disabled', 'disabled');
+                           $("#unificar_deudas_discover").prop('disabled', 'disabled');
                         }
                     }else{
+                        self.bandera_unificar_deuda = 'no';
+                        self.tarjeta_unificar_deuda = '';
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
                             $("#unificar_deudas_interdin").prop('disabled', false);
                         }
@@ -2861,6 +3590,7 @@
                             $("#unificar_deudas_discover").prop('disabled', false);
                         }
                     }
+                    self.verificarSeguimientosTarjeta();
                     var data = {
                         data: self.aplicativo_diners_tarjeta_diners,
                         valor_financiar_interdin: self.aplicativo_diners_tarjeta_interdin.valor_financiar,
@@ -2882,19 +3612,17 @@
                 calcularValoresInterdin: function () {
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_interdin.unificar_deudas == 'SI') {
+                        self.bandera_unificar_deuda = 'si';
+                        self.tarjeta_unificar_deuda = 'INTERDIN';
                         if(typeof(self.aplicativo_diners_tarjeta_diners.id) != "undefined" && self.aplicativo_diners_tarjeta_diners.id !== null) {
-                            // self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                            // self.calcularValoresDiners();
-                            // app.$forceUpdate();
                             $("#unificar_deudas_diners").prop('disabled', 'disabled');
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
-                            // self.aplicativo_diners_tarjeta_discover.unificar_deudas = 'NO';
-                            // self.calcularValoresDiscover();
-                            // app.$forceUpdate();
                             $("#unificar_deudas_discover").prop('disabled', 'disabled');
                         }
                     }else{
+                        self.bandera_unificar_deuda = 'no';
+                        self.tarjeta_unificar_deuda = '';
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
                             $("#unificar_deudas_diners").prop('disabled', false);
                         }
@@ -2902,6 +3630,7 @@
                             $("#unificar_deudas_discover").prop('disabled', false);
                         }
                     }
+                    self.verificarSeguimientosTarjeta();
                     var data = {
                         data: self.aplicativo_diners_tarjeta_interdin,
                         valor_financiar_diners: self.aplicativo_diners_tarjeta_diners.valor_financiar,
@@ -2925,19 +3654,17 @@
                 calcularValoresDiscover: function () {
                     var self = this;
                     if(self.aplicativo_diners_tarjeta_discover.unificar_deudas == 'SI') {
+                        self.bandera_unificar_deuda = 'si';
+                        self.tarjeta_unificar_deuda = 'DISCOVER';
                         if(typeof(self.aplicativo_diners_tarjeta_diners.id) != "undefined" && self.aplicativo_diners_tarjeta_diners.id !== null) {
-                            // self.aplicativo_diners_tarjeta_diners.unificar_deudas = 'NO';
-                            // self.calcularValoresDiners();
-                            // app.$forceUpdate();
                             $("#unificar_deudas_diners").prop('disabled', 'disabled');
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
-                            // self.aplicativo_diners_tarjeta_interdin.unificar_deudas = 'NO';
-                            // self.calcularValoresInterdin();
-                            // app.$forceUpdate();
                             $("#unificar_deudas_interdin").prop('disabled', 'disabled');
                         }
                     }else{
+                        self.bandera_unificar_deuda = 'no';
+                        self.tarjeta_unificar_deuda = '';
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
                             $("#unificar_deudas_diners").prop('disabled', false);
                         }
@@ -2945,6 +3672,7 @@
                             $("#unificar_deudas_interdin").prop('disabled', false);
                         }
                     }
+                    self.verificarSeguimientosTarjeta();
                     var data = {
                         data: self.aplicativo_diners_tarjeta_discover,
                         valor_financiar_diners: self.aplicativo_diners_tarjeta_diners.valor_financiar,
@@ -2975,7 +3703,6 @@
                         aplicativo_diners_id: self.aplicativo_diners.id,
                         tarjeta: 'MASTERCARD',
                     };
-                    // self.aplicativo_diners_tarjeta_mastercard = [];
                     $.post('{{ root }}/producto/calculosTarjetaGeneral', data, function (res) {
                         self.aplicativo_diners_tarjeta_mastercard = res;
                         //ALERTAS
@@ -3029,6 +3756,23 @@
                 $("#div_motivo_no_pago").hide();
                 $("#div_fecha_compromiso_pago").hide();
                 $("#div_valor_comprometido").hide();
+                $("#div_motivo_no_pago_diners").hide();
+                $("#div_fecha_compromiso_pago_diners").hide();
+                $("#div_valor_comprometido_diners").hide();
+                $("#div_motivo_no_pago_interdin").hide();
+                $("#div_fecha_compromiso_pago_interdin").hide();
+                $("#div_valor_comprometido_interdin").hide();
+                $("#div_motivo_no_pago_discover").hide();
+                $("#div_fecha_compromiso_pago_discover").hide();
+                $("#div_valor_comprometido_discover").hide();
+                $("#div_motivo_no_pago_mastercard").hide();
+                $("#div_fecha_compromiso_pago_mastercard").hide();
+                $("#div_valor_comprometido_mastercard").hide();
+
+                $("#div_seguimiento_diners").hide();
+                $("#div_seguimiento_interdin").hide();
+                $("#div_seguimiento_discover").hide();
+                $("#div_seguimiento_mastercard").hide();
 
                 self.bloquearCampos();
 
@@ -3057,6 +3801,10 @@
                         var data = {
                             model: self.model,
                             seguimiento: self.seguimiento,
+                            seguimiento_diners: self.seguimiento_diners,
+                            seguimiento_interdin: self.seguimiento_interdin,
+                            seguimiento_discover: self.seguimiento_discover,
+                            seguimiento_mastercard: self.seguimiento_mastercard,
                             telefono: self.telefono,
                             aplicativo_diners: self.aplicativo_diners,
                             aplicativo_diners_tarjeta_diners: self.aplicativo_diners_tarjeta_diners,
@@ -3064,49 +3812,21 @@
                             aplicativo_diners_tarjeta_mastercard: self.aplicativo_diners_tarjeta_mastercard,
                             aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
                             fecha_compromiso_pago: $("#fecha_compromiso_pago").val(),
+                            fecha_compromiso_pago_diners: $("#fecha_compromiso_pago_diners").val(),
+                            fecha_compromiso_pago_interdin: $("#fecha_compromiso_pago_interdin").val(),
+                            fecha_compromiso_pago_discover: $("#fecha_compromiso_pago_discover").val(),
+                            fecha_compromiso_pago_mastercard: $("#fecha_compromiso_pago_mastercard").val(),
+                            bandera_unificar_deuda: self.bandera_unificar_deuda,
+                            tarjeta_unificar_deuda: self.tarjeta_unificar_deuda,
                         };
                         $('#json').val(JSON.stringify(data));
                         $("#btnGuardar").prop("disabled", true);
-
-                        {#$.post('{{ root }}/producto/guardarSeguimientoDiners', data, function (res) {#}
-                        {#    console.log(res);#}
-                        {#    $("#btnGuardar").hide();#}
-                        {#    $("#btnRegresar").show();#}
-                        {#    $("#btnExportarNegociacionManual").show();#}
-                        {#    $("#btnExportarNegociacionAutomatica").show();#}
-                        {#});#}
                         form.submit();
                         return false;
                     }
                 });
                 $('#btnRegresar').click(function () {
                     window.open("{{ root }}/producto/indexDiners", "_self");
-                });
-                $('#btnExportarNegociacionManual').click(function () {
-                    var data = {
-                        model: self.model,
-                        seguimiento: self.seguimiento,
-                        aplicativo_diners: self.aplicativo_diners,
-                        aplicativo_diners_tarjeta_diners: self.aplicativo_diners_tarjeta_diners,
-                        aplicativo_diners_tarjeta_discover: self.aplicativo_diners_tarjeta_discover,
-                        aplicativo_diners_tarjeta_mastercard: self.aplicativo_diners_tarjeta_mastercard,
-                        aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
-                    };
-                    $('#jsonNegociacionManual').val(JSON.stringify(data));
-                    $('#exportFormNegociacionManual').submit();
-                });
-                $('#btnExportarNegociacionAutomatica').click(function () {
-                    var data = {
-                        model: self.model,
-                        seguimiento: self.seguimiento,
-                        aplicativo_diners: self.aplicativo_diners,
-                        aplicativo_diners_tarjeta_diners: self.aplicativo_diners_tarjeta_diners,
-                        aplicativo_diners_tarjeta_discover: self.aplicativo_diners_tarjeta_discover,
-                        aplicativo_diners_tarjeta_mastercard: self.aplicativo_diners_tarjeta_mastercard,
-                        aplicativo_diners_tarjeta_interdin: self.aplicativo_diners_tarjeta_interdin,
-                    };
-                    $('#jsonNegociacionAutomatica').val(JSON.stringify(data));
-                    $('#exportFormNegociacionAutomatica').submit();
                 });
 
                 $('#form-edit-seguimiento').on('keyup keypress', function(e) {
@@ -3118,12 +3838,44 @@
                 });
 
                 var maxchars = 254;
-                $('textarea').keyup(function () {
+                $('#observaciones').keyup(function () {
                     var tlength = $(this).val().length;
                     $(this).val($(this).val().substring(0, maxchars));
                     var tlength = $(this).val().length;
                     remain = maxchars - parseInt(tlength);
                     $('#remain').text(remain);
+                });
+
+                $('#observaciones_diners').keyup(function () {
+                    var tlength = $(this).val().length;
+                    $(this).val($(this).val().substring(0, maxchars));
+                    var tlength = $(this).val().length;
+                    remain = maxchars - parseInt(tlength);
+                    $('#remain_diners').text(remain);
+                });
+
+                $('#observaciones_interdin').keyup(function () {
+                    var tlength = $(this).val().length;
+                    $(this).val($(this).val().substring(0, maxchars));
+                    var tlength = $(this).val().length;
+                    remain = maxchars - parseInt(tlength);
+                    $('#remain_interdin').text(remain);
+                });
+
+                $('#observaciones_discover').keyup(function () {
+                    var tlength = $(this).val().length;
+                    $(this).val($(this).val().substring(0, maxchars));
+                    var tlength = $(this).val().length;
+                    remain = maxchars - parseInt(tlength);
+                    $('#remain_discover').text(remain);
+                });
+
+                $('#observaciones_mastercard').keyup(function () {
+                    var tlength = $(this).val().length;
+                    $(this).val($(this).val().substring(0, maxchars));
+                    var tlength = $(this).val().length;
+                    remain = maxchars - parseInt(tlength);
+                    $('#remain_mastercard').text(remain);
                 });
 
                 $(function () {
