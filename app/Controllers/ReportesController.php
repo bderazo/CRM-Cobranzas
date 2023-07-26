@@ -1327,6 +1327,86 @@ class ReportesController extends BaseController
                 'valor' => $d['observaciones'],
                 'formato' => 'text'
             ];
+            $aux['PENDIENTE ACTUALES MASTERCARD'] = [
+                'valor' => $d['mastercard_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS MASTERCARD'] = [
+                'valor' => $d['mastercard_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS MASTERCARD'] = [
+                'valor' => $d['mastercard_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS MASTERCARD'] = [
+                'valor' => $d['mastercard_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS MASTERCARD'] = [
+                'valor' => $d['mastercard_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE ACTUALES DINERS'] = [
+                'valor' => $d['diners_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS DINERS'] = [
+                'valor' => $d['diners_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS DINERS'] = [
+                'valor' => $d['diners_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS DINERS'] = [
+                'valor' => $d['diners_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS DINERS'] = [
+                'valor' => $d['diners_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE ACTUALES VISA'] = [
+                'valor' => $d['visa_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS VISA'] = [
+                'valor' => $d['visa_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS VISA'] = [
+                'valor' => $d['visa_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS VISA'] = [
+                'valor' => $d['visa_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS VISA'] = [
+                'valor' => $d['visa_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE ACTUALES DISCOVER'] = [
+                'valor' => $d['discover_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS DISCOVER'] = [
+                'valor' => $d['discover_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS DISCOVER'] = [
+                'valor' => $d['discover_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS DISCOVER'] = [
+                'valor' => $d['discover_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS DISCOVER'] = [
+                'valor' => $d['discover_mas_90'],
+                'formato' => 'number'
+            ];
             $lista[] = $aux;
         }
         $exportar[] = [

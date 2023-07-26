@@ -349,8 +349,48 @@ class General {
                         }
                     }
                 }
+                $res['mastercard_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
+                $res['mastercard_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
+                $res['mastercard_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
+                $res['mastercard_90'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
+                $res['mastercard_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
+                $res['diners_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
+                $res['diners_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
+                $res['diners_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
+                $res['diners_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
+                $res['diners_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
+                $res['visa_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
+                $res['visa_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
+                $res['visa_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
+                $res['visa_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
+                $res['visa_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
+                $res['discover_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
+                $res['discover_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
+                $res['discover_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
+                $res['discover_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
+                $res['discover_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
+            }else{
+                $res['mastercard_actuales'] = '';
+                $res['mastercard_30'] = '';
+                $res['mastercard_60'] = '';
+                $res['mastercard_90'] = '';
+                $res['mastercard_mas_90'] = '';
+                $res['diners_actuales'] = '';
+                $res['diners_30'] = '';
+                $res['diners_60'] = '';
+                $res['diners_90'] = '';
+                $res['diners_mas_90'] = '';
+                $res['visa_actuales'] = '';
+                $res['visa_30'] = '';
+                $res['visa_60'] = '';
+                $res['visa_90'] = '';
+                $res['visa_mas_90'] = '';
+                $res['discover_actuales'] = '';
+                $res['discover_30'] = '';
+                $res['discover_60'] = '';
+                $res['discover_90'] = '';
+                $res['discover_mas_90'] = '';
             }
-
             $resumen[] = $res;
         }
 //        printDie($resumen_totales);
