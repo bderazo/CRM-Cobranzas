@@ -1047,11 +1047,11 @@ class ReportesController extends BaseController
         $lista = [];
         foreach ($data['data_hoja1'] as $d) {
             $aux['MARCA'] = [
-                'valor' => $d['nombre_tarjeta'],
+                'valor' => $d['marca'],
                 'formato' => 'text'
             ];
             $aux['CICLO'] = [
-                'valor' => $d['corte'],
+                'valor' => $d['ciclo'],
                 'formato' => 'number'
             ];
             $aux['CÉDULA'] = [
@@ -1059,7 +1059,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['NOMBRE SOCIO'] = [
-                'valor' => $d['nombres'],
+                'valor' => $d['nombre'],
                 'formato' => 'text'
             ];
             $aux['HORA DE LLAMADA'] = [
@@ -1071,11 +1071,11 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['RESULTADO DE GESTIÓN'] = [
-                'valor' => $d['nivel_2_texto'],
+                'valor' => $d['resultado_gestion'],
                 'formato' => 'text'
             ];
             $aux['GESTIÓN'] = [
-                'valor' => $d['observaciones'],
+                'valor' => $d['gestion'],
                 'formato' => 'text'
             ];
             $aux['CAMPAÑA'] = [
@@ -1099,11 +1099,11 @@ class ReportesController extends BaseController
         $lista = [];
         foreach ($data['data_hoja2'] as $d) {
             $aux['MARCA'] = [
-                'valor' => $d['nombre_tarjeta'],
+                'valor' => $d['marca'],
                 'formato' => 'text'
             ];
             $aux['CICLO'] = [
-                'valor' => $d['corte'],
+                'valor' => $d['ciclo'],
                 'formato' => 'number'
             ];
             $aux['CÉDULA'] = [
@@ -1111,7 +1111,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['NOMBRE SOCIO'] = [
-                'valor' => $d['nombres'],
+                'valor' => $d['nombre'],
                 'formato' => 'text'
             ];
             $aux['HORA DE LLAMADA'] = [
@@ -1123,11 +1123,11 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['RESULTADO DE GESTIÓN'] = [
-                'valor' => $d['nivel_2_texto'],
+                'valor' => $d['resultado_gestion'],
                 'formato' => 'text'
             ];
             $aux['GESTIÓN'] = [
-                'valor' => $d['observaciones'],
+                'valor' => $d['gestion'],
                 'formato' => 'text'
             ];
             $aux['CAMPAÑA'] = [

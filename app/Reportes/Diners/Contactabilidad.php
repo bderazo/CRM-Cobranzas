@@ -38,28 +38,27 @@ class Contactabilidad
         //USUARIO LOGIN
         $usuario_login = UsuarioLogin::getTodos();
 
+        $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
+        $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
+
         //OBTENER ASIGNACION
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
+        $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
+
         $asignacion = AplicativoDinersAsignaciones::getTodosPorCliente();
 
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosFecha();
 
 		//BUSCAR SEGUIMIENTOS
-		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
-			->innerJoin('aplicativo_diners ad ON p.id = ad.producto_id AND ad.eliminado = 0')
-			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
-			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-			->innerJoin('cliente cl ON cl.id = ps.cliente_id')
-            ->leftJoin('aplicativo_diners_asignaciones asig ON asig.id = addet.aplicativo_diners_asignaciones_id')
-			->select(null)
-			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, addet.nombre_tarjeta, cl.cedula, 
-							 addet.ciclo AS corte, u.canal AS canal_usuario, cl.nombres, addet.plazo_financiamiento, 
-							 u.identificador AS area_usuario, u.plaza AS zona, cl.id AS id_cliente,
-							 ad.id AS aplicativo_diners_id, addet.edad_cartera, ad.zona_cuenta, addet.total_riesgo,
-							 ad.ciudad_cuenta, addet.motivo_no_pago_anterior, u.id AS id_usuario, u.canal, asig.campana")
-			->where('ps.institucion_id', 1)
-			->where('ps.eliminado', 0);
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+            ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->select(null)
+            ->select("ps.*, u.id AS id_usuario, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula, u.canal")
+            ->where('ps.nivel_1_id NOT IN (1866, 1873)')
+            ->where('ps.institucion_id',1)
+            ->where('ps.eliminado',0);
         if (@$filtros['plaza_usuario']){
             $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
             $q->where('u.plaza IN ('.$fil.')');
@@ -69,14 +68,8 @@ class Contactabilidad
             $q->where('u.campana IN ('.$fil.')');
         }
         if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
         }
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
@@ -98,71 +91,84 @@ class Contactabilidad
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
         }
-        if (@$filtros['campana_ece']){
-            $fil = '"' . implode('","',$filtros['campana_ece']) . '"';
-            $q->where('asig.campana_ece IN ('.$fil.')');
-        }
-        if (@$filtros['ciclo']){
-            $fil = '"' . implode('","',$filtros['ciclo']) . '"';
-            $q->where('asig.ciclo IN ('.$fil.')');
-        }
-        if (@$filtros['nombre_tarjeta']){
-            $fil = '"' . implode('","',$filtros['nombre_tarjeta']) . '"';
-            $q->where('addet.nombre_tarjeta IN ('.$fil.')');
-        }
+
+//        if (@$filtros['nombre_tarjeta']){
+//            $fil = '"' . implode('","',$filtros['nombre_tarjeta']) . '"';
+//            $q->where('addet.nombre_tarjeta IN ('.$fil.')');
+//        }
+        $fil = implode(',',$clientes_asignacion);
+        $q->where('ps.cliente_id IN ('.$fil.')');
+        $q->orderBy('ps.fecha_ingreso ASC');
         $q->disableSmartJoin();
 //        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data = [];
         $data_hoja1 = [];
         $data_hoja2 = [];
+
 		foreach($lista as $seg) {
-            $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
-            $seg['campana'] = '';
-            //COMPARO CON SALDOS
-            if(isset($saldos[$seg['id_cliente']])) {
-                $saldos_arr = $saldos[$seg['id_cliente']];
-                $campos_saldos = json_decode($saldos_arr['campos'], true);
-                unset($saldos_arr['campos']);
-                $saldos_arr = array_merge($saldos_arr, $campos_saldos);
-                if($seg['nombre_tarjeta'] == 'DINERS'){
-                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DINERS']) ? $saldos_arr['TIPO DE CAMPAÑA DINERS'] : '';
-                }
-                if($seg['nombre_tarjeta'] == 'INTERDIN'){
-                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA VISA']) ? $saldos_arr['TIPO DE CAMPAÑA VISA'] : '';
-                }
-                if($seg['nombre_tarjeta'] == 'DISCOVER'){
-                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DISCOVER']) ? $saldos_arr['TIPO DE CAMPAÑA DISCOVER'] : '';
-                }
-                if($seg['nombre_tarjeta'] == 'MASTERCARD'){
-                    $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA MASTERCARD']) ? $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'] : '';
-                }
-            }
+            if(isset($clientes_asignacion_detalle[$seg['cliente_id']])) {
+                foreach ($clientes_asignacion_detalle[$seg['cliente_id']] as $cl) {
+                    $aux = [];
+                    $aux['marca'] = $cl['marca'];
+                    $aux['ciclo'] = $cl['ciclo'];
+                    $aux['cedula'] = $cl['cedula_socio'];
+                    $aux['nombre'] = $cl['nombre_socio'];
+                    $aux['hora_llamada'] = date("H:i:s",strtotime($seg['fecha_ingreso']));
+                    $aux['gestor'] = $seg['gestor'];
+                    $aux['resultado_gestion'] = $seg['nivel_2_texto'];
+                    $aux['gestion'] = $seg['observaciones'];
+                    $aux['campana'] = $cl['campana'];
+                    if($aux['campana'] == ''){
+                        //COMPARO CON SALDOS
+                        if(isset($saldos[$seg['cliente_id']])) {
+                            $saldos_arr = $saldos[$seg['cliente_id']];
+                            $campos_saldos = json_decode($saldos_arr['campos'], true);
+                            unset($saldos_arr['campos']);
+                            $saldos_arr = array_merge($saldos_arr, $campos_saldos);
+                            if($aux['marca'] == 'DINERS'){
+                                $aux['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DINERS']) ? $saldos_arr['TIPO DE CAMPAÑA DINERS'] : '';
+                            }
+                            if($aux['marca'] == 'INTERDIN'){
+                                $aux['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA VISA']) ? $saldos_arr['TIPO DE CAMPAÑA VISA'] : '';
+                            }
+                            if($aux['marca'] == 'DISCOVER'){
+                                $aux['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DISCOVER']) ? $saldos_arr['TIPO DE CAMPAÑA DISCOVER'] : '';
+                            }
+                            if($aux['marca'] == 'MASTERCARD'){
+                                $aux['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA MASTERCARD']) ? $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'] : '';
+                            }
+                        }
+                    }
+                    $aux['empresa_canal'] = 'MEGACOB-'.$seg['canal'];
+                    $seg['fecha_fecha_ingreso'] = date("Y-m-d",strtotime($seg['fecha_ingreso']));
+                    if(isset($usuario_login[$seg['id_usuario']][$seg['fecha_fecha_ingreso']])){
+                        $aux['hora_ingreso'] = $usuario_login[$seg['id_usuario']][$seg['fecha_fecha_ingreso']];
+                    }else{
+                        $aux['hora_ingreso'] = '';
+                    }
+                    $data[] = $aux;
 
-            //COMPARO CON ASIGNACIONES
-            if(isset($asignacion[$seg['id_cliente']][$seg['nombre_tarjeta']])) {
-                $asignacion_arr = $asignacion[$seg['id_cliente']][$seg['nombre_tarjeta']];
-                $campos_asignacion = json_decode($asignacion_arr['campos'], true);
-                $asignacion_arr = array_merge($asignacion_arr, $campos_asignacion);
-                if($seg['campana'] == '') {
-                    $seg['campana'] = $asignacion_arr['campana'];
+
+
+                    if($seg['nivel_2_id'] == 1859) {
+                        //REFINANCIA
+                        if (isset($data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']])) {
+                            $data_hoja2[] = $aux;
+                        }else{
+                            $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
+                        }
+                    }elseif($seg['nivel_2_id'] == 1853) {
+                        //NOTIFICADO
+                        if (isset($data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']])) {
+                            $data_hoja2[] = $aux;
+                        }else{
+                            $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
+                        }
+                    }else{
+                        $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
+                    }
                 }
-            }
-
-            $seg['hora_llamada'] = date("H:i:s",strtotime($seg['fecha_ingreso']));
-            $seg['fecha_fecha_ingreso'] = date("Y-m-d",strtotime($seg['fecha_ingreso']));
-            $seg['empresa_canal'] = 'MEGACOB-'.$seg['canal'];
-            if(isset($usuario_login[$seg['id_usuario']][$seg['fecha_fecha_ingreso']])){
-                $seg['hora_ingreso'] = $usuario_login[$seg['id_usuario']][$seg['fecha_fecha_ingreso']];
-            }else{
-                $seg['hora_ingreso'] = '';
-            }
-			$data[] = $seg;
-
-            if(isset($data_hoja1[$seg['cedula'].'_'.$seg['nombre_tarjeta'].'_'.$seg['corte']])){
-                $data_hoja2[] = $seg;
-            }else{
-                $data_hoja1[$seg['cedula'].'_'.$seg['nombre_tarjeta'].'_'.$seg['corte']] = $seg;
             }
 		}
 
