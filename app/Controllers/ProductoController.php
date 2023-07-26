@@ -710,10 +710,10 @@ class ProductoController extends BaseController
                     }
                 }
             }
-            if ($aplicativo_diners_tarjeta_diners['refinancia'] == 'SI') {
+//            if ($aplicativo_diners_tarjeta_diners['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_diners['id'];
                 unset($aplicativo_diners_tarjeta_diners['id']);
-                unset($aplicativo_diners_tarjeta_diners['refinancia']);
+//                unset($aplicativo_diners_tarjeta_diners['refinancia']);
                 $obj_diners = new AplicativoDinersDetalle();
                 $obj_diners->fill($aplicativo_diners_tarjeta_diners);
                 $obj_diners->producto_seguimiento_id = $con->id;
@@ -730,8 +730,8 @@ class ProductoController extends BaseController
                     }
                 }
                 $obj_diners->save();
-                \Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
-            }
+//                \Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
+//            }
         }
 
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
@@ -797,10 +797,10 @@ class ProductoController extends BaseController
                     }
                 }
             }
-            if ($aplicativo_diners_tarjeta_interdin['refinancia'] == 'SI') {
+//            if ($aplicativo_diners_tarjeta_interdin['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_interdin['id'];
                 unset($aplicativo_diners_tarjeta_interdin['id']);
-                unset($aplicativo_diners_tarjeta_interdin['refinancia']);
+//                unset($aplicativo_diners_tarjeta_interdin['refinancia']);
                 $obj_interdin = new AplicativoDinersDetalle();
                 $obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
                 $obj_interdin->producto_seguimiento_id = $con->id;
@@ -817,8 +817,8 @@ class ProductoController extends BaseController
                     }
                 }
                 $save = $obj_interdin->save();
-                \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
-            }
+//                \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
+//            }
         }
 
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
@@ -884,10 +884,10 @@ class ProductoController extends BaseController
                     }
                 }
             }
-            if ($aplicativo_diners_tarjeta_discover['refinancia'] == 'SI') {
+//            if ($aplicativo_diners_tarjeta_discover['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_discover['id'];
                 unset($aplicativo_diners_tarjeta_discover['id']);
-                unset($aplicativo_diners_tarjeta_discover['refinancia']);
+//                unset($aplicativo_diners_tarjeta_discover['refinancia']);
                 $obj_discover = new AplicativoDinersDetalle();
                 $obj_discover->fill($aplicativo_diners_tarjeta_discover);
                 $obj_discover->producto_seguimiento_id = $con->id;
@@ -904,8 +904,8 @@ class ProductoController extends BaseController
                     }
                 }
                 $obj_discover->save();
-                \Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
-            }
+//                \Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
+//            }
         }
 
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
@@ -971,10 +971,10 @@ class ProductoController extends BaseController
                     }
                 }
             }
-            if ($aplicativo_diners_tarjeta_mastercard['refinancia'] == 'SI') {
+//            if ($aplicativo_diners_tarjeta_mastercard['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_mastercard['id'];
                 unset($aplicativo_diners_tarjeta_mastercard['id']);
-                unset($aplicativo_diners_tarjeta_mastercard['refinancia']);
+//                unset($aplicativo_diners_tarjeta_mastercard['refinancia']);
                 $obj_mastercard = new AplicativoDinersDetalle();
                 $obj_mastercard->fill($aplicativo_diners_tarjeta_mastercard);
                 $obj_mastercard->producto_seguimiento_id = $con->id;
@@ -992,7 +992,7 @@ class ProductoController extends BaseController
                 }
                 $obj_mastercard->save();
                 \Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
-            }
+//            }
         }
 
         $cliente = Cliente::porId($con->cliente_id);

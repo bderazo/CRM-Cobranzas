@@ -93,6 +93,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string unificar_deudas
  * @property double saldo_total
  * @property string credito_inmediato
+ * @property string refinancia
  * @property string fecha_ingreso
  * @property string fecha_modificacion
  * @property integer usuario_ingreso
