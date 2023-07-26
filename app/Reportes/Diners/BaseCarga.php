@@ -81,6 +81,7 @@ class  BaseCarga
             $seg['fecha_compromiso_pago_format'] = str_replace("-","",$seg['fecha_compromiso_pago']);
 
             //COMPARO CON ASIGNACIONES
+            $seg['campana_ece'] = '';
             if(isset($asignacion[$seg['aplicativo_diners_id']])) {
                 $asignacion_arr = $asignacion[$seg['aplicativo_diners_id']];
                 $campos_asignacion = json_decode($asignacion_arr['campos'],true);
@@ -105,7 +106,6 @@ class  BaseCarga
             $seg['observacion_anterior'] = '0';
             $seg['resultado_anterior'] = '0';
             $seg['valor_pago_minimo'] = 0;
-            $seg['campana_ece'] = '';
             if(isset($saldos[$seg['id_cliente']])) {
                 $saldos_arr = $saldos[$seg['id_cliente']];
                 $campos_saldos = json_decode($saldos_arr['campos'],true);
@@ -239,7 +239,12 @@ class  BaseCarga
             if(isset($telefonos_id[$seg['telefono_id']])) {
                 $seg['ultimo_telefono_contacto'] = $telefonos_id[$seg['telefono_id']]['telefono'];
             }else{
-                $seg['ultimo_telefono_contacto'] = '';
+                if(isset($telefonos[$seg['id_cliente']][0])) {
+                    $telf = $telefonos[$seg['id_cliente']][0]['telefono'];
+                    $seg['ultimo_telefono_contacto'] = $telf;
+                }else{
+                    $seg['ultimo_telefono_contacto'] = '';
+                }
             }
 
             $seg['cuenta'] = $seg['nombre_tarjeta'] . $seg['cedula'];

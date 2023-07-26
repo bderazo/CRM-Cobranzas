@@ -45,8 +45,6 @@ class Contactabilidad
         $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
         $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
 
-        $asignacion = AplicativoDinersAsignaciones::getTodosPorCliente();
-
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosFecha();
 
