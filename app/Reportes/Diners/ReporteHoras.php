@@ -34,83 +34,93 @@ class ReporteHoras
 	{
 		$db = new \FluentPDO($this->pdo);
 
+        $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
+        $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
+        $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
+
 		//BUSCAR SEGUIMIENTOS
-		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
-			->innerJoin('aplicativo_diners ad ON p.id = ad.producto_id AND ad.eliminado = 0')
-			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
-			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-			->innerJoin('cliente cl ON cl.id = ps.cliente_id')
-            ->leftJoin('aplicativo_diners_asignaciones asig ON asig.id = addet.aplicativo_diners_asignaciones_id')
-			->select(null)
-			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, addet.nombre_tarjeta, cl.cedula, 
-							 addet.ciclo AS corte, u.canal AS canal_usuario, cl.nombres, addet.plazo_financiamiento, 
-							 u.identificador AS area_usuario, u.plaza AS zona, cl.id AS id_cliente,
-							 ad.id AS aplicativo_diners_id, addet.edad_cartera, ad.zona_cuenta, addet.total_riesgo,
-							 ad.ciudad_cuenta, addet.motivo_no_pago_anterior")
-			->where('ps.institucion_id', 1)
-			->where('ps.eliminado', 0);
-		if (@$filtros['campana']){
-			$fil = '"' . implode('","',$filtros['campana']) . '"';
-			$q->where('asig.campana IN ('.$fil.')');
-		}
-        if (@$filtros['marca']){
-            $fil = '"' . implode('","',$filtros['marca']) . '"';
-            $q->where('addet.nombre_tarjeta IN ('.$fil.')');
-        }
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+            ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->select(null)
+            ->select("ps.*, u.id AS id_usuario, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula, u.canal")
+            ->where('ps.nivel_1_id NOT IN (1866, 1873)')
+            ->where('ps.institucion_id',1)
+            ->where('ps.eliminado',0);
         if (@$filtros['plaza_usuario']){
             $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
             $q->where('u.plaza IN ('.$fil.')');
         }
-		if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
-		}
+        if (@$filtros['campana_usuario']){
+            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
+            $q->where('u.campana IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
+        }
         if (@$filtros['fecha_inicio']){
-            $hora = '00';
-            if($filtros['hora_inicio'] != ''){
-                $hora = $filtros['hora_inicio'];
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_inicio'] != ''){
-                $minuto = $filtros['minuto_inicio'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
         }
         if (@$filtros['fecha_fin']){
-            $hora = '00';
-            if($filtros['hora_fin'] != ''){
-                $hora = $filtros['hora_fin'];
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_fin'] != ''){
-                $minuto = $filtros['minuto_fin'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
         }
+        $fil = implode(',',$clientes_asignacion);
+        $q->where('ps.cliente_id IN ('.$fil.')');
 //        printDie($q->getQuery());
         $q->disableSmartJoin();
 		$lista = $q->fetchAll();
 		$data = [];
 		foreach($lista as $seg) {
-            $seg['nombre_ere'] = 'MEGACOB';
-            if($seg['nombre_tarjeta'] == 'INTERDIN'){
-                $seg['nombre_tarjeta'] = 'VISA';
+            if(isset($clientes_asignacion_detalle[$seg['cliente_id']])) {
+                foreach ($clientes_asignacion_detalle[$seg['cliente_id']] as $cl) {
+                    $aux = [];
+                    $aux['marca'] = $cl['marca'];
+                    $aux['ciclo'] = $cl['ciclo'];
+                    $aux['cedula'] = $cl['cedula_socio'];
+                    $aux['nombre'] = $cl['nombre_socio'];
+                    $aux['resultado_gestion'] = $seg['nivel_2_texto'];
+                    $aux['gestion'] = $seg['observaciones'];
+                    $aux['gestor'] = $seg['gestor'];
+                    $aux['nombre_ere'] = 'MEGACOB';
+
+                    $data[] = $aux;
+
+//                    if($seg['nivel_2_id'] == 1859) {
+//                        //REFINANCIA
+//                        if (isset($data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']])) {
+//                            $data_hoja2[] = $aux;
+//                        }else{
+//                            $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
+//                        }
+//                    }elseif($seg['nivel_2_id'] == 1853) {
+//                        //NOTIFICADO
+//                        if (isset($data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']])) {
+//                            $data_hoja2[] = $aux;
+//                        }else{
+//                            $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
+//                        }
+//                    }else{
+//                        $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
+//                    }
+                }
             }
-			$data[] = $seg;
-		}
+        }
 
 //		printDie($data);
 

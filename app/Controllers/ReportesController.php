@@ -976,7 +976,7 @@ class ReportesController extends BaseController
         $lista = [];
         foreach ($data['data'] as $d) {
             $aux['MARCA'] = [
-                'valor' => $d['nombre_tarjeta'],
+                'valor' => $d['marca'],
                 'formato' => 'text'
             ];
             $aux['CÉDULA'] = [
@@ -984,19 +984,19 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['NOMBRE'] = [
-                'valor' => $d['nombres'],
+                'valor' => $d['nombre'],
                 'formato' => 'text'
             ];
             $aux['CICLO'] = [
-                'valor' => $d['corte'],
+                'valor' => $d['ciclo'],
                 'formato' => 'number'
             ];
             $aux['RESULTADO DE GESTIÓN'] = [
-                'valor' => $d['nivel_2_texto'],
+                'valor' => $d['resultado_gestion'],
                 'formato' => 'text'
             ];
             $aux['OBSERVACIÓN A DETALLE'] = [
-                'valor' => $d['observaciones'],
+                'valor' => $d['gestion'],
                 'formato' => 'text'
             ];
             $aux['NOMBRE AGENTE'] = [
