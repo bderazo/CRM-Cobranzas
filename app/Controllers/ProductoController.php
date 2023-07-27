@@ -648,68 +648,69 @@ class ProductoController extends BaseController
         $aplicativo_diners_tarjeta_mastercard = isset($data['aplicativo_diners_tarjeta_mastercard']) ? $data['aplicativo_diners_tarjeta_mastercard'] : [];
 
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
-            if($guardar_seguimiento_tarjetas){
-                //GUARDO SEGUIMIENTOS POR TARJETA
-                $con = new ProductoSeguimiento();
-                $con->institucion_id = $producto['institucion_id'];
-                $con->cliente_id = $producto['cliente_id'];
-                $con->producto_id = $producto['id'];
-                $con->paleta_id = $institucion['paleta_id'];
-                $con->telefono_id = $seguimiento['telefono_id'];
-                $con->canal = 'TELEFONIA';
-                $con->usuario_ingreso = \WebSecurity::getUserData('id');
-                $con->eliminado = 0;
-                $con->fecha_ingreso = date("Y-m-d H:i:s");
-                $con->nivel_1_id = $seguimiento_diners['nivel_1_id'];
-                $paleta_arbol = PaletaArbol::porId($seguimiento_diners['nivel_1_id']);
-                $con->nivel_1_texto = $paleta_arbol['valor'];
-                if ($seguimiento_diners['nivel_2_id'] > 0) {
-                    $con->nivel_2_id = $seguimiento_diners['nivel_2_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_diners['nivel_2_id']);
-                    $con->nivel_2_texto = $paleta_arbol['valor'];
-                }
-                if ($seguimiento_diners['nivel_3_id'] > 0) {
-                    $con->nivel_3_id = $seguimiento_diners['nivel_3_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_diners['nivel_3_id']);
-                    $con->nivel_3_texto = $paleta_arbol['valor'];
-                }
-                if ($fecha_compromiso_pago != '') {
-                    $con->fecha_compromiso_pago = $fecha_compromiso_pago_diners;
-                }
-                if (isset($seguimiento_diners['valor_comprometido'])) {
-                    $con->valor_comprometido = $seguimiento_diners['valor_comprometido'];
-                }
-                //MOTIVOS DE NO PAGO
-                if ($seguimiento_diners['nivel_1_motivo_no_pago_id'] > 0) {
-                    $con->nivel_1_motivo_no_pago_id = $seguimiento_diners['nivel_1_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_diners['nivel_1_motivo_no_pago_id']);
-                    $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                if ($seguimiento_diners['nivel_2_motivo_no_pago_id'] > 0) {
-                    $con->nivel_2_motivo_no_pago_id = $seguimiento_diners['nivel_2_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_diners['nivel_2_motivo_no_pago_id']);
-                    $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                $con->observaciones = $seguimiento_diners['observaciones'];
-                $con->sugerencia_cx88 = $seguimiento_diners['sugerencia_cx88'];
-                $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
-                $con->unificar_deudas = $bandera_unificar_deuda;
-                $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
-                $con->usuario_modificacion = \WebSecurity::getUserData('id');
-                $con->fecha_modificacion = date("Y-m-d H:i:s");
-                $con->save();
-                //VERIFICAR SI ES NUMERO ORO
-                if ($con->telefono_id > 0) {
-                    $verificar_contacto = [1839, 1855, 1873];
-                    if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
-                        $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
-                        $t = Telefono::porId($con->telefono_id);
-                        $t->bandera = 1;
-                        $t->fecha_modificacion = date("Y-m-d H:i:s");
-                        $t->save();
+            if($aplicativo_diners_tarjeta_diners['saldo_total'] > 0) {
+                if ($guardar_seguimiento_tarjetas) {
+                    //GUARDO SEGUIMIENTOS POR TARJETA
+                    $con = new ProductoSeguimiento();
+                    $con->institucion_id = $producto['institucion_id'];
+                    $con->cliente_id = $producto['cliente_id'];
+                    $con->producto_id = $producto['id'];
+                    $con->paleta_id = $institucion['paleta_id'];
+                    $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->canal = 'TELEFONIA';
+                    $con->usuario_ingreso = \WebSecurity::getUserData('id');
+                    $con->eliminado = 0;
+                    $con->fecha_ingreso = date("Y-m-d H:i:s");
+                    $con->nivel_1_id = $seguimiento_diners['nivel_1_id'];
+                    $paleta_arbol = PaletaArbol::porId($seguimiento_diners['nivel_1_id']);
+                    $con->nivel_1_texto = $paleta_arbol['valor'];
+                    if ($seguimiento_diners['nivel_2_id'] > 0) {
+                        $con->nivel_2_id = $seguimiento_diners['nivel_2_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_diners['nivel_2_id']);
+                        $con->nivel_2_texto = $paleta_arbol['valor'];
+                    }
+                    if ($seguimiento_diners['nivel_3_id'] > 0) {
+                        $con->nivel_3_id = $seguimiento_diners['nivel_3_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_diners['nivel_3_id']);
+                        $con->nivel_3_texto = $paleta_arbol['valor'];
+                    }
+                    if ($fecha_compromiso_pago != '') {
+                        $con->fecha_compromiso_pago = $fecha_compromiso_pago_diners;
+                    }
+                    if (isset($seguimiento_diners['valor_comprometido'])) {
+                        $con->valor_comprometido = $seguimiento_diners['valor_comprometido'];
+                    }
+                    //MOTIVOS DE NO PAGO
+                    if ($seguimiento_diners['nivel_1_motivo_no_pago_id'] > 0) {
+                        $con->nivel_1_motivo_no_pago_id = $seguimiento_diners['nivel_1_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_diners['nivel_1_motivo_no_pago_id']);
+                        $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    if ($seguimiento_diners['nivel_2_motivo_no_pago_id'] > 0) {
+                        $con->nivel_2_motivo_no_pago_id = $seguimiento_diners['nivel_2_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_diners['nivel_2_motivo_no_pago_id']);
+                        $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    $con->observaciones = $seguimiento_diners['observaciones'];
+                    $con->sugerencia_cx88 = $seguimiento_diners['sugerencia_cx88'];
+                    $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
+                    $con->unificar_deudas = $bandera_unificar_deuda;
+                    $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
+                    $con->usuario_modificacion = \WebSecurity::getUserData('id');
+                    $con->fecha_modificacion = date("Y-m-d H:i:s");
+                    $con->save();
+                    //VERIFICAR SI ES NUMERO ORO
+                    if ($con->telefono_id > 0) {
+                        $verificar_contacto = [1839, 1855, 1873];
+                        if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
+                            $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
+                            $t = Telefono::porId($con->telefono_id);
+                            $t->bandera = 1;
+                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            $t->save();
+                        }
                     }
                 }
-            }
 //            if ($aplicativo_diners_tarjeta_diners['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_diners['id'];
                 unset($aplicativo_diners_tarjeta_diners['id']);
@@ -732,71 +733,73 @@ class ProductoController extends BaseController
                 $obj_diners->save();
 //                \Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
 //            }
+            }
         }
 
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
-            if($guardar_seguimiento_tarjetas){
-                //GUARDO SEGUIMIENTOS POR TARJETA
-                $con = new ProductoSeguimiento();
-                $con->institucion_id = $producto['institucion_id'];
-                $con->cliente_id = $producto['cliente_id'];
-                $con->producto_id = $producto['id'];
-                $con->paleta_id = $institucion['paleta_id'];
-                $con->telefono_id = $seguimiento['telefono_id'];
-                $con->canal = 'TELEFONIA';
-                $con->usuario_ingreso = \WebSecurity::getUserData('id');
-                $con->eliminado = 0;
-                $con->fecha_ingreso = date("Y-m-d H:i:s");
-                $con->nivel_1_id = $seguimiento_interdin['nivel_1_id'];
-                $paleta_arbol = PaletaArbol::porId($seguimiento_interdin['nivel_1_id']);
-                $con->nivel_1_texto = $paleta_arbol['valor'];
-                if ($seguimiento_interdin['nivel_2_id'] > 0) {
-                    $con->nivel_2_id = $seguimiento_interdin['nivel_2_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_interdin['nivel_2_id']);
-                    $con->nivel_2_texto = $paleta_arbol['valor'];
-                }
-                if ($seguimiento_interdin['nivel_3_id'] > 0) {
-                    $con->nivel_3_id = $seguimiento_interdin['nivel_3_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_interdin['nivel_3_id']);
-                    $con->nivel_3_texto = $paleta_arbol['valor'];
-                }
-                if ($fecha_compromiso_pago != '') {
-                    $con->fecha_compromiso_pago = $fecha_compromiso_pago_interdin;
-                }
-                if (isset($seguimiento_interdin['valor_comprometido'])) {
-                    $con->valor_comprometido = $seguimiento_interdin['valor_comprometido'];
-                }
-                //MOTIVOS DE NO PAGO
-                if ($seguimiento_interdin['nivel_1_motivo_no_pago_id'] > 0) {
-                    $con->nivel_1_motivo_no_pago_id = $seguimiento_interdin['nivel_1_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_interdin['nivel_1_motivo_no_pago_id']);
-                    $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                if ($seguimiento_interdin['nivel_2_motivo_no_pago_id'] > 0) {
-                    $con->nivel_2_motivo_no_pago_id = $seguimiento_interdin['nivel_2_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_interdin['nivel_2_motivo_no_pago_id']);
-                    $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                $con->observaciones = $seguimiento_interdin['observaciones'];
-                $con->sugerencia_cx88 = $seguimiento_interdin['sugerencia_cx88'];
-                $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
-                $con->unificar_deudas = $bandera_unificar_deuda;
-                $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
-                $con->usuario_modificacion = \WebSecurity::getUserData('id');
-                $con->fecha_modificacion = date("Y-m-d H:i:s");
-                $con->save();
-                //VERIFICAR SI ES NUMERO ORO
-                if ($con->telefono_id > 0) {
-                    $verificar_contacto = [1839, 1855, 1873];
-                    if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
-                        $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
-                        $t = Telefono::porId($con->telefono_id);
-                        $t->bandera = 1;
-                        $t->fecha_modificacion = date("Y-m-d H:i:s");
-                        $t->save();
+            if($aplicativo_diners_tarjeta_interdin['saldo_total'] > 0) {
+                if ($guardar_seguimiento_tarjetas) {
+                    //GUARDO SEGUIMIENTOS POR TARJETA
+                    $con = new ProductoSeguimiento();
+                    $con->institucion_id = $producto['institucion_id'];
+                    $con->cliente_id = $producto['cliente_id'];
+                    $con->producto_id = $producto['id'];
+                    $con->paleta_id = $institucion['paleta_id'];
+                    $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->canal = 'TELEFONIA';
+                    $con->usuario_ingreso = \WebSecurity::getUserData('id');
+                    $con->eliminado = 0;
+                    $con->fecha_ingreso = date("Y-m-d H:i:s");
+                    $con->nivel_1_id = $seguimiento_interdin['nivel_1_id'];
+                    $paleta_arbol = PaletaArbol::porId($seguimiento_interdin['nivel_1_id']);
+                    $con->nivel_1_texto = $paleta_arbol['valor'];
+                    if ($seguimiento_interdin['nivel_2_id'] > 0) {
+                        $con->nivel_2_id = $seguimiento_interdin['nivel_2_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_interdin['nivel_2_id']);
+                        $con->nivel_2_texto = $paleta_arbol['valor'];
+                    }
+                    if ($seguimiento_interdin['nivel_3_id'] > 0) {
+                        $con->nivel_3_id = $seguimiento_interdin['nivel_3_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_interdin['nivel_3_id']);
+                        $con->nivel_3_texto = $paleta_arbol['valor'];
+                    }
+                    if ($fecha_compromiso_pago != '') {
+                        $con->fecha_compromiso_pago = $fecha_compromiso_pago_interdin;
+                    }
+                    if (isset($seguimiento_interdin['valor_comprometido'])) {
+                        $con->valor_comprometido = $seguimiento_interdin['valor_comprometido'];
+                    }
+                    //MOTIVOS DE NO PAGO
+                    if ($seguimiento_interdin['nivel_1_motivo_no_pago_id'] > 0) {
+                        $con->nivel_1_motivo_no_pago_id = $seguimiento_interdin['nivel_1_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_interdin['nivel_1_motivo_no_pago_id']);
+                        $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    if ($seguimiento_interdin['nivel_2_motivo_no_pago_id'] > 0) {
+                        $con->nivel_2_motivo_no_pago_id = $seguimiento_interdin['nivel_2_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_interdin['nivel_2_motivo_no_pago_id']);
+                        $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    $con->observaciones = $seguimiento_interdin['observaciones'];
+                    $con->sugerencia_cx88 = $seguimiento_interdin['sugerencia_cx88'];
+                    $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
+                    $con->unificar_deudas = $bandera_unificar_deuda;
+                    $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
+                    $con->usuario_modificacion = \WebSecurity::getUserData('id');
+                    $con->fecha_modificacion = date("Y-m-d H:i:s");
+                    $con->save();
+                    //VERIFICAR SI ES NUMERO ORO
+                    if ($con->telefono_id > 0) {
+                        $verificar_contacto = [1839, 1855, 1873];
+                        if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
+                            $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
+                            $t = Telefono::porId($con->telefono_id);
+                            $t->bandera = 1;
+                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            $t->save();
+                        }
                     }
                 }
-            }
 //            if ($aplicativo_diners_tarjeta_interdin['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_interdin['id'];
                 unset($aplicativo_diners_tarjeta_interdin['id']);
@@ -819,71 +822,73 @@ class ProductoController extends BaseController
                 $save = $obj_interdin->save();
 //                \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
 //            }
+            }
         }
 
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
-            if($guardar_seguimiento_tarjetas){
-                //GUARDO SEGUIMIENTOS POR TARJETA
-                $con = new ProductoSeguimiento();
-                $con->institucion_id = $producto['institucion_id'];
-                $con->cliente_id = $producto['cliente_id'];
-                $con->producto_id = $producto['id'];
-                $con->paleta_id = $institucion['paleta_id'];
-                $con->telefono_id = $seguimiento['telefono_id'];
-                $con->canal = 'TELEFONIA';
-                $con->usuario_ingreso = \WebSecurity::getUserData('id');
-                $con->eliminado = 0;
-                $con->fecha_ingreso = date("Y-m-d H:i:s");
-                $con->nivel_1_id = $seguimiento_discover['nivel_1_id'];
-                $paleta_arbol = PaletaArbol::porId($seguimiento_discover['nivel_1_id']);
-                $con->nivel_1_texto = $paleta_arbol['valor'];
-                if ($seguimiento_discover['nivel_2_id'] > 0) {
-                    $con->nivel_2_id = $seguimiento_discover['nivel_2_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_discover['nivel_2_id']);
-                    $con->nivel_2_texto = $paleta_arbol['valor'];
-                }
-                if ($seguimiento_discover['nivel_3_id'] > 0) {
-                    $con->nivel_3_id = $seguimiento_discover['nivel_3_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_discover['nivel_3_id']);
-                    $con->nivel_3_texto = $paleta_arbol['valor'];
-                }
-                if ($fecha_compromiso_pago != '') {
-                    $con->fecha_compromiso_pago = $fecha_compromiso_pago_discover;
-                }
-                if (isset($seguimiento_discover['valor_comprometido'])) {
-                    $con->valor_comprometido = $seguimiento_discover['valor_comprometido'];
-                }
-                //MOTIVOS DE NO PAGO
-                if ($seguimiento_discover['nivel_1_motivo_no_pago_id'] > 0) {
-                    $con->nivel_1_motivo_no_pago_id = $seguimiento_discover['nivel_1_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_discover['nivel_1_motivo_no_pago_id']);
-                    $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                if ($seguimiento_discover['nivel_2_motivo_no_pago_id'] > 0) {
-                    $con->nivel_2_motivo_no_pago_id = $seguimiento_discover['nivel_2_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_discover['nivel_2_motivo_no_pago_id']);
-                    $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                $con->observaciones = $seguimiento_discover['observaciones'];
-                $con->sugerencia_cx88 = $seguimiento_discover['sugerencia_cx88'];
-                $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
-                $con->unificar_deudas = $bandera_unificar_deuda;
-                $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
-                $con->usuario_modificacion = \WebSecurity::getUserData('id');
-                $con->fecha_modificacion = date("Y-m-d H:i:s");
-                $con->save();
-                //VERIFICAR SI ES NUMERO ORO
-                if ($con->telefono_id > 0) {
-                    $verificar_contacto = [1839, 1855, 1873];
-                    if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
-                        $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
-                        $t = Telefono::porId($con->telefono_id);
-                        $t->bandera = 1;
-                        $t->fecha_modificacion = date("Y-m-d H:i:s");
-                        $t->save();
+            if($aplicativo_diners_tarjeta_discover['saldo_total'] > 0) {
+                if ($guardar_seguimiento_tarjetas) {
+                    //GUARDO SEGUIMIENTOS POR TARJETA
+                    $con = new ProductoSeguimiento();
+                    $con->institucion_id = $producto['institucion_id'];
+                    $con->cliente_id = $producto['cliente_id'];
+                    $con->producto_id = $producto['id'];
+                    $con->paleta_id = $institucion['paleta_id'];
+                    $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->canal = 'TELEFONIA';
+                    $con->usuario_ingreso = \WebSecurity::getUserData('id');
+                    $con->eliminado = 0;
+                    $con->fecha_ingreso = date("Y-m-d H:i:s");
+                    $con->nivel_1_id = $seguimiento_discover['nivel_1_id'];
+                    $paleta_arbol = PaletaArbol::porId($seguimiento_discover['nivel_1_id']);
+                    $con->nivel_1_texto = $paleta_arbol['valor'];
+                    if ($seguimiento_discover['nivel_2_id'] > 0) {
+                        $con->nivel_2_id = $seguimiento_discover['nivel_2_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_discover['nivel_2_id']);
+                        $con->nivel_2_texto = $paleta_arbol['valor'];
+                    }
+                    if ($seguimiento_discover['nivel_3_id'] > 0) {
+                        $con->nivel_3_id = $seguimiento_discover['nivel_3_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_discover['nivel_3_id']);
+                        $con->nivel_3_texto = $paleta_arbol['valor'];
+                    }
+                    if ($fecha_compromiso_pago != '') {
+                        $con->fecha_compromiso_pago = $fecha_compromiso_pago_discover;
+                    }
+                    if (isset($seguimiento_discover['valor_comprometido'])) {
+                        $con->valor_comprometido = $seguimiento_discover['valor_comprometido'];
+                    }
+                    //MOTIVOS DE NO PAGO
+                    if ($seguimiento_discover['nivel_1_motivo_no_pago_id'] > 0) {
+                        $con->nivel_1_motivo_no_pago_id = $seguimiento_discover['nivel_1_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_discover['nivel_1_motivo_no_pago_id']);
+                        $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    if ($seguimiento_discover['nivel_2_motivo_no_pago_id'] > 0) {
+                        $con->nivel_2_motivo_no_pago_id = $seguimiento_discover['nivel_2_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_discover['nivel_2_motivo_no_pago_id']);
+                        $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    $con->observaciones = $seguimiento_discover['observaciones'];
+                    $con->sugerencia_cx88 = $seguimiento_discover['sugerencia_cx88'];
+                    $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
+                    $con->unificar_deudas = $bandera_unificar_deuda;
+                    $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
+                    $con->usuario_modificacion = \WebSecurity::getUserData('id');
+                    $con->fecha_modificacion = date("Y-m-d H:i:s");
+                    $con->save();
+                    //VERIFICAR SI ES NUMERO ORO
+                    if ($con->telefono_id > 0) {
+                        $verificar_contacto = [1839, 1855, 1873];
+                        if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
+                            $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
+                            $t = Telefono::porId($con->telefono_id);
+                            $t->bandera = 1;
+                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            $t->save();
+                        }
                     }
                 }
-            }
 //            if ($aplicativo_diners_tarjeta_discover['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_discover['id'];
                 unset($aplicativo_diners_tarjeta_discover['id']);
@@ -906,71 +911,73 @@ class ProductoController extends BaseController
                 $obj_discover->save();
 //                \Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
 //            }
+            }
         }
 
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
-            if($guardar_seguimiento_tarjetas){
-                //GUARDO SEGUIMIENTOS POR TARJETA
-                $con = new ProductoSeguimiento();
-                $con->institucion_id = $producto['institucion_id'];
-                $con->cliente_id = $producto['cliente_id'];
-                $con->producto_id = $producto['id'];
-                $con->paleta_id = $institucion['paleta_id'];
-                $con->telefono_id = $seguimiento['telefono_id'];
-                $con->canal = 'TELEFONIA';
-                $con->usuario_ingreso = \WebSecurity::getUserData('id');
-                $con->eliminado = 0;
-                $con->fecha_ingreso = date("Y-m-d H:i:s");
-                $con->nivel_1_id = $seguimiento_mastercard['nivel_1_id'];
-                $paleta_arbol = PaletaArbol::porId($seguimiento_mastercard['nivel_1_id']);
-                $con->nivel_1_texto = $paleta_arbol['valor'];
-                if ($seguimiento_mastercard['nivel_2_id'] > 0) {
-                    $con->nivel_2_id = $seguimiento_mastercard['nivel_2_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_mastercard['nivel_2_id']);
-                    $con->nivel_2_texto = $paleta_arbol['valor'];
-                }
-                if ($seguimiento_mastercard['nivel_3_id'] > 0) {
-                    $con->nivel_3_id = $seguimiento_mastercard['nivel_3_id'];
-                    $paleta_arbol = PaletaArbol::porId($seguimiento_mastercard['nivel_3_id']);
-                    $con->nivel_3_texto = $paleta_arbol['valor'];
-                }
-                if ($fecha_compromiso_pago != '') {
-                    $con->fecha_compromiso_pago = $fecha_compromiso_pago_mastercard;
-                }
-                if (isset($seguimiento_mastercard['valor_comprometido'])) {
-                    $con->valor_comprometido = $seguimiento_mastercard['valor_comprometido'];
-                }
-                //MOTIVOS DE NO PAGO
-                if ($seguimiento_mastercard['nivel_1_motivo_no_pago_id'] > 0) {
-                    $con->nivel_1_motivo_no_pago_id = $seguimiento_mastercard['nivel_1_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_mastercard['nivel_1_motivo_no_pago_id']);
-                    $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                if ($seguimiento_mastercard['nivel_2_motivo_no_pago_id'] > 0) {
-                    $con->nivel_2_motivo_no_pago_id = $seguimiento_mastercard['nivel_2_motivo_no_pago_id'];
-                    $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_mastercard['nivel_2_motivo_no_pago_id']);
-                    $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-                }
-                $con->observaciones = $seguimiento_mastercard['observaciones'];
-                $con->sugerencia_cx88 = $seguimiento_mastercard['sugerencia_cx88'];
-                $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];
-                $con->unificar_deudas = $bandera_unificar_deuda;
-                $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
-                $con->usuario_modificacion = \WebSecurity::getUserData('id');
-                $con->fecha_modificacion = date("Y-m-d H:i:s");
-                $con->save();
-                //VERIFICAR SI ES NUMERO ORO
-                if ($con->telefono_id > 0) {
-                    $verificar_contacto = [1839, 1855, 1873];
-                    if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
-                        $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
-                        $t = Telefono::porId($con->telefono_id);
-                        $t->bandera = 1;
-                        $t->fecha_modificacion = date("Y-m-d H:i:s");
-                        $t->save();
+            if($aplicativo_diners_tarjeta_mastercard['saldo_total'] > 0) {
+                if ($guardar_seguimiento_tarjetas) {
+                    //GUARDO SEGUIMIENTOS POR TARJETA
+                    $con = new ProductoSeguimiento();
+                    $con->institucion_id = $producto['institucion_id'];
+                    $con->cliente_id = $producto['cliente_id'];
+                    $con->producto_id = $producto['id'];
+                    $con->paleta_id = $institucion['paleta_id'];
+                    $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->canal = 'TELEFONIA';
+                    $con->usuario_ingreso = \WebSecurity::getUserData('id');
+                    $con->eliminado = 0;
+                    $con->fecha_ingreso = date("Y-m-d H:i:s");
+                    $con->nivel_1_id = $seguimiento_mastercard['nivel_1_id'];
+                    $paleta_arbol = PaletaArbol::porId($seguimiento_mastercard['nivel_1_id']);
+                    $con->nivel_1_texto = $paleta_arbol['valor'];
+                    if ($seguimiento_mastercard['nivel_2_id'] > 0) {
+                        $con->nivel_2_id = $seguimiento_mastercard['nivel_2_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_mastercard['nivel_2_id']);
+                        $con->nivel_2_texto = $paleta_arbol['valor'];
+                    }
+                    if ($seguimiento_mastercard['nivel_3_id'] > 0) {
+                        $con->nivel_3_id = $seguimiento_mastercard['nivel_3_id'];
+                        $paleta_arbol = PaletaArbol::porId($seguimiento_mastercard['nivel_3_id']);
+                        $con->nivel_3_texto = $paleta_arbol['valor'];
+                    }
+                    if ($fecha_compromiso_pago != '') {
+                        $con->fecha_compromiso_pago = $fecha_compromiso_pago_mastercard;
+                    }
+                    if (isset($seguimiento_mastercard['valor_comprometido'])) {
+                        $con->valor_comprometido = $seguimiento_mastercard['valor_comprometido'];
+                    }
+                    //MOTIVOS DE NO PAGO
+                    if ($seguimiento_mastercard['nivel_1_motivo_no_pago_id'] > 0) {
+                        $con->nivel_1_motivo_no_pago_id = $seguimiento_mastercard['nivel_1_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_mastercard['nivel_1_motivo_no_pago_id']);
+                        $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    if ($seguimiento_mastercard['nivel_2_motivo_no_pago_id'] > 0) {
+                        $con->nivel_2_motivo_no_pago_id = $seguimiento_mastercard['nivel_2_motivo_no_pago_id'];
+                        $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_mastercard['nivel_2_motivo_no_pago_id']);
+                        $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
+                    }
+                    $con->observaciones = $seguimiento_mastercard['observaciones'];
+                    $con->sugerencia_cx88 = $seguimiento_mastercard['sugerencia_cx88'];
+                    $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];
+                    $con->unificar_deudas = $bandera_unificar_deuda;
+                    $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
+                    $con->usuario_modificacion = \WebSecurity::getUserData('id');
+                    $con->fecha_modificacion = date("Y-m-d H:i:s");
+                    $con->save();
+                    //VERIFICAR SI ES NUMERO ORO
+                    if ($con->telefono_id > 0) {
+                        $verificar_contacto = [1839, 1855, 1873];
+                        if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
+                            $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
+                            $t = Telefono::porId($con->telefono_id);
+                            $t->bandera = 1;
+                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            $t->save();
+                        }
                     }
                 }
-            }
 //            if ($aplicativo_diners_tarjeta_mastercard['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_mastercard['id'];
                 unset($aplicativo_diners_tarjeta_mastercard['id']);
@@ -991,8 +998,9 @@ class ProductoController extends BaseController
                     }
                 }
                 $obj_mastercard->save();
-                \Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
+//                \Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
 //            }
+            }
         }
 
         $cliente = Cliente::porId($con->cliente_id);

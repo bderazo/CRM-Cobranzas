@@ -3188,16 +3188,24 @@
                     if((self.seguimiento.nivel_1_id == '1855') && (self.bandera_unificar_deuda == 'no')){
                         $(".seguimiento_general").hide();
                         if(self.aplicativo_diners_tarjeta_diners.length != 0){
-                            $("#div_seguimiento_diners").show();
+                            if(parseFloat(self.aplicativo_diners_tarjeta_diners.saldo_total) > 0) {
+                                $("#div_seguimiento_diners").show();
+                            }
                         }
                         if(self.aplicativo_diners_tarjeta_interdin.length != 0){
-                            $("#div_seguimiento_interdin").show();
+                            if(parseFloat(self.aplicativo_diners_tarjeta_interdin.saldo_total) > 0) {
+                                $("#div_seguimiento_interdin").show();
+                            }
                         }
                         if(self.aplicativo_diners_tarjeta_discover.length != 0){
-                            $("#div_seguimiento_discover").show();
+                            if(parseFloat(self.aplicativo_diners_tarjeta_discover.saldo_total) > 0) {
+                                $("#div_seguimiento_discover").show();
+                            }
                         }
                         if(self.aplicativo_diners_tarjeta_mastercard.length != 0){
-                            $("#div_seguimiento_mastercard").show();
+                            if(parseFloat(self.aplicativo_diners_tarjeta_mastercard.saldo_total) > 0) {
+                                $("#div_seguimiento_mastercard").show();
+                            }
                         }
                     }else{
                         $(".seguimiento_general").show();
