@@ -1,0 +1,397 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosBaseGeneral.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+                <div class="row mb-6">
+                <div class="col-md-6">
+                    <h3>GESTIONES TELEFÓNICAS</h3>
+                    <div class="table-responsive">
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th>CICLO</th>
+                            <th>CANTIDAD</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="d in data_resumen_telefonia">
+                            <td style="text-align: center;" v-html="d.ciclo"></td>
+                            <td style="text-align: center;" v-html="d.valor"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td style="font-weight: bold; text-align: right;">TOTAL</td>
+                            <td style="font-weight: bold; text-align: center;" v-html="total.data_resumen_telefonia"></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                </div>
+                <div class="col-md-6">
+                    <h3>GESTIONES DOMICILIARIAS</h3>
+                    <div class="table-responsive">
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th>CICLO</th>
+                            <th>CANTIDAD</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="d in data_resumen_domicilio">
+                            <td style="text-align: center;" v-html="d.ciclo"></td>
+                            <td style="text-align: center;" v-html="d.valor"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td style="font-weight: bold; text-align: right;">TOTAL</td>
+                            <td style="font-weight: bold; text-align: center;" v-html="total.data_resumen_domicilio"></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                </div>
+                </div>
+
+                <h3>DETALLE</h3>
+				<a class="btn btn-default-light" id="btnExportar">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+                            <th>NOMBRE SOCIO</th>
+                            <th>CEDULA</th>
+                            <th>TELEFONO ULTIMO CONTACTO</th>
+
+                            <th>TIPO DE CAMPAÑA DINERS</th>
+                            <th>EJECUTIVO DINERS</th>
+                            <th>CICLO DINERS</th>
+                            <th>EDAD FACTURADA DINERS</th>
+                            <th>SALDO TOTAL DEUDA DINERS</th>
+                            <th>RIESGO TOTAL DINERS</th>
+                            <th>INTERESES TOTAL DINERS</th>
+                            <th>RECUPERADO DINERS</th>
+                            <th>PAGO MINIMO DINERS</th>
+                            <th>FECHA MAXIMA PAGO DINERS</th>
+                            <th>NUMERO DIFERIDOS DINERS</th>
+                            <th>NUMERO DE REFINANCIACIONES HISTORICA DINERS</th>
+                            <th>PLAZO DE FINANCIAMIENTO ACTUAL DINERS</th>
+                            <th>MOTIVO CIERRE DINERS</th>
+                            <th>OFERTA VALOR DINERS</th>
+                            <th>PENDIENTE ACTUALES DINERS</th>
+                            <th>PENDIENTE 30 DIAS DINERS</th>
+                            <th>PENDIENTE 60 DIAS DINERS</th>
+                            <th>PENDIENTE 90 DIAS DINERS</th>
+                            <th>PENDIENTE MAS 90 DIAS DINERS</th>
+                            <th>CRÉDITO INMEDIATO DINERS</th>
+                            <th>PRODUCTO DINERS</th>
+
+                            <th>TIPO DE CAMPAÑA VISA</th>
+                            <th>EJECUTIVO VISA</th>
+                            <th>CICLO VISA</th>
+                            <th>EDAD FACTURADA VISA</th>
+                            <th>SALDO TOTAL DEUDA VISA</th>
+                            <th>RIESGO TOTAL VISA</th>
+                            <th>INTERESES TOTAL VISA</th>
+                            <th>RECUPERADO VISA</th>
+                            <th>PAGO MINIMO VISA</th>
+                            <th>FECHA MAXIMA PAGO VISA</th>
+                            <th>NUMERO DIFERIDOS VISA</th>
+                            <th>NUMERO DE REFINANCIACIONES HISTORICA VISA</th>
+                            <th>PLAZO DE FINANCIAMIENTO ACTUAL VISA</th>
+                            <th>MOTIVO CIERRE VISA</th>
+                            <th>OFERTA VALOR VISA</th>
+                            <th>PENDIENTE ACTUALES VISA</th>
+                            <th>PENDIENTE 30 DIAS VISA</th>
+                            <th>PENDIENTE 60 DIAS VISA</th>
+                            <th>PENDIENTE 90 DIAS VISA</th>
+                            <th>PENDIENTE MAS 90 DIAS VISA</th>
+                            <th>CRÉDITO INMEDIATO VISA</th>
+                            <th>PRODUCTO VISA</th>
+
+                            <th>TIPO DE CAMPAÑA DISCOVER</th>
+                            <th>EJECUTIVO DISCOVER</th>
+                            <th>CICLO DISCOVER</th>
+                            <th>EDAD FACTURADA DISCOVER</th>
+                            <th>SALDO TOTAL DEUDA DISCOVER</th>
+                            <th>RIESGO TOTAL DISCOVER</th>
+                            <th>INTERESES TOTAL DISCOVER</th>
+                            <th>RECUPERADO DISCOVER</th>
+                            <th>PAGO MINIMO DISCOVER</th>
+                            <th>FECHA MAXIMA PAGO DISCOVER</th>
+                            <th>NUMERO DIFERIDOS DISCOVER</th>
+                            <th>NUMERO DE REFINANCIACIONES HISTORICA DISCOVER</th>
+                            <th>PLAZO DE FINANCIAMIENTO ACTUAL DISCOVER</th>
+                            <th>MOTIVO CIERRE DISCOVER</th>
+                            <th>OFERTA VALOR DISCOVER</th>
+                            <th>PENDIENTE ACTUALES DISCOVER</th>
+                            <th>PENDIENTE 30 DIAS DISCOVER</th>
+                            <th>PENDIENTE 60 DIAS DISCOVER</th>
+                            <th>PENDIENTE 90 DIAS DISCOVER</th>
+                            <th>PENDIENTE MAS 90 DIAS DISCOVER</th>
+                            <th>CRÉDITO INMEDIATO DISCOVER</th>
+                            <th>PRODUCTO DISCOVER</th>
+
+                            <th>TIPO DE CAMPAÑA MASTERCARD</th>
+                            <th>EJECUTIVO MASTERCARD</th>
+                            <th>CICLO MASTERCARD</th>
+                            <th>EDAD FACTURADA MASTERCARD</th>
+                            <th>SALDO TOTAL DEUDA MASTERCARD</th>
+                            <th>RIESGO TOTAL MASTERCARD</th>
+                            <th>INTERESES TOTAL MASTERCARD</th>
+                            <th>RECUPERADO MASTERCARD</th>
+                            <th>PAGO MINIMO MASTERCARD</th>
+                            <th>FECHA MAXIMA PAGO MASTERCARD</th>
+                            <th>NUMERO DIFERIDOS MASTERCARD</th>
+                            <th>NUMERO DE REFINANCIACIONES HISTORICA MASTERCARD</th>
+                            <th>PLAZO DE FINANCIAMIENTO ACTUAL MASTERCARD</th>
+                            <th>MOTIVO CIERRE MASTERCARD</th>
+                            <th>OFERTA VALOR MASTERCARD</th>
+                            <th>PENDIENTE ACTUALES MASTERCARD</th>
+                            <th>PENDIENTE 30 DIAS MASTERCARD</th>
+                            <th>PENDIENTE 60 DIAS MASTERCARD</th>
+                            <th>PENDIENTE 90 DIAS MASTERCARD</th>
+                            <th>PENDIENTE MAS 90 DIAS MASTERCARD</th>
+                            <th>CRÉDITO INMEDIATO MASTERCARD</th>
+                            <th>PRODUCTO MASTERCARD</th>
+
+                            <th>RESULTADO</th>
+                            <th>ACCION</th>
+                            <th>OBSERVACION</th>
+                            <th>MOTIVO DE NO PAGO</th>
+                            <th>SUB MOTIVO</th>
+                            <th>FECHA PROMESA DE PAGO</th>
+                            <th>EJECUTIVO</th>
+                            <th>HORA DE GESTION</th>
+                            <th>FECHA DE GESTION</th>
+                            <th>VALOR COMPROMETIDO</th>
+                            <th>GEOREFERENCIA</th>
+                            <th>TIPO NEGOCIACION</th>
+                            <th>MEJOR GESTION</th>
+                            <th>ULTIMA GESTION</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td v-html="d.nombres"></td>
+                            <td v-html="d.cedula"></td>
+                            <td v-html="d.telefono_contacto"></td>
+
+                            <td v-html='d.tipo_campana_diners'></td>
+                            <td v-html='d.ejecutivo_diners'></td>
+                            <td v-html='d.ciclo_diners'></td>
+                            <td v-html='d.edad_diners'></td>
+                            <td v-html='d.saldo_total_deuda_diners'></td>
+                            <td v-html='d.riesgo_total_diners'></td>
+                            <td v-html='d.interes_total_diners'></td>
+                            <td v-html='d.recuperado_diners'></td>
+                            <td v-html='d.pago_minimo_diners'></td>
+                            <td v-html='d.fecha_maxima_pago_diners'></td>
+                            <td v-html='d.numero_diferidos_diners'></td>
+                            <td v-html='d.numero_refinanciaciones_historica_diners'></td>
+                            <td v-html='d.plazo_financiamiento_actual_diners'></td>
+                            <td v-html='d.motivo_cierre_diners'></td>
+                            <td v-html='d.oferta_valor_diners'></td>
+                            <td v-html='d.pendiente_actuales_diners'></td>
+                            <td v-html='d.pendiente_30_diners'></td>
+                            <td v-html='d.pendiente_60_diners'></td>
+                            <td v-html='d.pendiente_90_diners'></td>
+                            <td v-html='d.pendiente_mas_90_diners'></td>
+                            <td v-html='d.credito_inmediato_diners'></td>
+                            <td v-html='d.producto_diners'></td>
+
+                            <td v-html='d.tipo_campana_visa'></td>
+                            <td v-html='d.ejecutivo_visa'></td>
+                            <td v-html='d.ciclo_visa'></td>
+                            <td v-html='d.edad_visa'></td>
+                            <td v-html='d.saldo_total_deuda_visa'></td>
+                            <td v-html='d.riesgo_total_visa'></td>
+                            <td v-html='d.interes_total_visa'></td>
+                            <td v-html='d.recuperado_visa'></td>
+                            <td v-html='d.pago_minimo_visa'></td>
+                            <td v-html='d.fecha_maxima_pago_visa'></td>
+                            <td v-html='d.numero_diferidos_visa'></td>
+                            <td v-html='d.numero_refinanciaciones_historica_visa'></td>
+                            <td v-html='d.plazo_financiamiento_actual_visa'></td>
+                            <td v-html='d.motivo_cierre_visa'></td>
+                            <td v-html='d.oferta_valor_visa'></td>
+                            <td v-html='d.pendiente_actuales_visa'></td>
+                            <td v-html='d.pendiente_30_visa'></td>
+                            <td v-html='d.pendiente_60_visa'></td>
+                            <td v-html='d.pendiente_90_visa'></td>
+                            <td v-html='d.pendiente_mas_90_visa'></td>
+                            <td v-html='d.credito_inmediato_visa'></td>
+                            <td v-html='d.producto_visa'></td>
+
+                            <td v-html='d.tipo_campana_discover'></td>
+                            <td v-html='d.ejecutivo_discover'></td>
+                            <td v-html='d.ciclo_discover'></td>
+                            <td v-html='d.edad_discover'></td>
+                            <td v-html='d.saldo_total_deuda_discover'></td>
+                            <td v-html='d.riesgo_total_discover'></td>
+                            <td v-html='d.interes_total_discover'></td>
+                            <td v-html='d.recuperado_discover'></td>
+                            <td v-html='d.pago_minimo_discover'></td>
+                            <td v-html='d.fecha_maxima_pago_discover'></td>
+                            <td v-html='d.numero_diferidos_discover'></td>
+                            <td v-html='d.numero_refinanciaciones_historica_discover'></td>
+                            <td v-html='d.plazo_financiamiento_actual_discover'></td>
+                            <td v-html='d.motivo_cierre_discover'></td>
+                            <td v-html='d.oferta_valor_discover'></td>
+                            <td v-html='d.pendiente_actuales_discover'></td>
+                            <td v-html='d.pendiente_30_discover'></td>
+                            <td v-html='d.pendiente_60_discover'></td>
+                            <td v-html='d.pendiente_90_discover'></td>
+                            <td v-html='d.pendiente_mas_90_discover'></td>
+                            <td v-html='d.credito_inmediato_discover'></td>
+                            <td v-html='d.producto_discover'></td>
+
+                            <td v-html='d.tipo_campana_mastercard'></td>
+                            <td v-html='d.ejecutivo_mastercard'></td>
+                            <td v-html='d.ciclo_mastercard'></td>
+                            <td v-html='d.edad_mastercard'></td>
+                            <td v-html='d.saldo_total_deuda_mastercard'></td>
+                            <td v-html='d.riesgo_total_mastercard'></td>
+                            <td v-html='d.interes_total_mastercard'></td>
+                            <td v-html='d.recuperado_mastercard'></td>
+                            <td v-html='d.pago_minimo_mastercard'></td>
+                            <td v-html='d.fecha_maxima_pago_mastercard'></td>
+                            <td v-html='d.numero_diferidos_mastercard'></td>
+                            <td v-html='d.numero_refinanciaciones_historica_mastercard'></td>
+                            <td v-html='d.plazo_financiamiento_actual_mastercard'></td>
+                            <td v-html='d.motivo_cierre_mastercard'></td>
+                            <td v-html='d.oferta_valor_mastercard'></td>
+                            <td v-html='d.pendiente_actuales_mastercard'></td>
+                            <td v-html='d.pendiente_30_mastercard'></td>
+                            <td v-html='d.pendiente_60_mastercard'></td>
+                            <td v-html='d.pendiente_90_mastercard'></td>
+                            <td v-html='d.pendiente_mas_90_mastercard'></td>
+                            <td v-html='d.credito_inmediato_mastercard'></td>
+                            <td v-html='d.producto_mastercard'></td>
+
+                            <td v-html='d.nivel_1_texto'></td>
+                            <td v-html='d.nivel_2_texto'></td>
+                            <td v-html='d.observaciones'></td>
+                            <td v-html='d.nivel_1_motivo_no_pago_texto'></td>
+                            <td v-html='d.nivel_2_motivo_no_pago_texto'></td>
+                            <td v-html='d.fecha_compromiso_pago'></td>
+                            <td v-html='d.gestor'></td>
+                            <td v-html='d.hora_gestion'></td>
+                            <td v-html='d.fecha_gestion'></td>
+                            <td v-html='d.valor_comprometido'></td>
+                            <td v-html='d.georeferencia'></td>
+                            <td v-html='d.tipo_negociacion'></td>
+
+						</tr>
+						</tbody>
+                        <tfoot>
+                        </tfoot>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportBaseGeneral">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+                data_resumen_domicilio: [],
+                data_resumen_telefonia: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/baseGeneral', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        self.data_resumen_domicilio = res['data_resumen_domicilio'];
+                        self.data_resumen_telefonia = res['data_resumen_telefonia'];
+                    })
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    var data = {
+                        filtros: form.serializeForm()
+                    };
+                    $('#json').val(JSON.stringify(data));
+                    $('#exportForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        self.consultar();
+                    });
+                    $('.select2').select2({
+                        theme: "classic"
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}

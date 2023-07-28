@@ -93,7 +93,8 @@ return [
 		'key' => 'reportes',
 		'text' => 'Reportes',
 		'children' => [
-			'produccion_plaza' => 'Producción Plaza',
+			'base_general' => 'Base General',
+            'produccion_plaza' => 'Producción Plaza',
 			'campo_telefonia' => 'Campo y Telefonía',
 			'informe_jornada' => 'Informes De Jornada',
 			'negociaciones_ejecutivo' => 'Negociaciones Por Ejecutivo',

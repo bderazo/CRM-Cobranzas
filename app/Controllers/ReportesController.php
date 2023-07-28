@@ -18,6 +18,7 @@ use Reportes\CorteBobinado\InventarioProductoTerminado;
 use Reportes\CorteBobinado\ProduccionDiariaCB;
 use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\BaseCarga;
+use Reportes\Diners\BaseGeneral;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
 use Reportes\Diners\General;
@@ -137,6 +138,77 @@ class ReportesController extends BaseController
         return $this->render('index', $data);
     }
 
+    //BASE GENERAL
+    function baseGeneral(){
+        \WebSecurity::secure('reportes.base_general');
+        if ($this->isPost()) {
+            $rep = new BaseGeneral($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Base General';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('baseGeneral', $data);
+    }
+
+    function exportBaseGeneral($json)
+    {
+        \WebSecurity::secure('reportes.produccion_plaza');
+        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+        $json = str_replace('ciclo[]', 'ciclo', $json);
+        $json = str_replace('resultado[]', 'resultado', $json);
+        $json = str_replace('accion[]', 'accion', $json);
+        $json = str_replace('descripcion[]', 'descripcion', $json);
+        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+        $jdata = json_decode(htmlspecialchars_decode($json), true);
+        $filtros = $jdata['filtros'];
+        $rep = new ProduccionPlaza($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['ZONA'] = [
+                'valor' => $d['plaza'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['ejecutivo'],
+                'formato' => 'text'
+            ];
+            $aux['CANAL'] = [
+                'valor' => $d['canal'],
+                'formato' => 'text'
+            ];
+            $aux['DINERS'] = [
+                'valor' => $d['diners'],
+                'formato' => 'number'
+            ];
+            $aux['VISA'] = [
+                'valor' => $d['interdin'],
+                'formato' => 'number'
+            ];
+            $aux['DISCOVER'] = [
+                'valor' => $d['discover'],
+                'formato' => 'number'
+            ];
+            $aux['MASTERCARD'] = [
+                'valor' => $d['mastercard'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL GENERAL'] = [
+                'valor' => $d['total_general'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'PRODUCCION PLAZA', 'produccion_plaza.xlsx');
+    }
+
     //PRODUCCION PLAZA
     function produccionPlaza()
     {
@@ -212,17 +284,17 @@ class ReportesController extends BaseController
     function exportProduccionPlazaTipoNegociacion($jsonTipoNegociacion)
     {
         \WebSecurity::secure('reportes.produccion_plaza');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
+        $jsonTipoNegociacion = str_replace('canal_usuario[]', 'canal_usuario', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('campana_ece[]', 'campana_ece', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('campana_usuario[]', 'campana_usuario', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('plaza_usuario[]', 'plaza_usuario', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('ciclo[]', 'ciclo', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('resultado[]', 'resultado', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('accion[]', 'accion', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('descripcion[]', 'descripcion', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('motivo_no_pago[]', 'motivo_no_pago', $jsonTipoNegociacion);
+        $jsonTipoNegociacion = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $jsonTipoNegociacion);
+        $jdata = json_decode(htmlspecialchars_decode($jsonTipoNegociacion), true);
         $filtros = $jdata['filtros'];
         $rep = new ProduccionPlaza($this->get('pdo'));
         $data = $rep->exportar($filtros);
@@ -248,17 +320,17 @@ class ReportesController extends BaseController
     function exportProduccionPlazaRecupero($jsonRecupero)
     {
         \WebSecurity::secure('reportes.produccion_plaza');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
+        $jsonRecupero = str_replace('canal_usuario[]', 'canal_usuario', $jsonRecupero);
+        $jsonRecupero = str_replace('campana_ece[]', 'campana_ece', $jsonRecupero);
+        $jsonRecupero = str_replace('campana_usuario[]', 'campana_usuario', $jsonRecupero);
+        $jsonRecupero = str_replace('plaza_usuario[]', 'plaza_usuario', $jsonRecupero);
+        $jsonRecupero = str_replace('ciclo[]', 'ciclo', $jsonRecupero);
+        $jsonRecupero = str_replace('resultado[]', 'resultado', $jsonRecupero);
+        $jsonRecupero = str_replace('accion[]', 'accion', $jsonRecupero);
+        $jsonRecupero = str_replace('descripcion[]', 'descripcion', $jsonRecupero);
+        $jsonRecupero = str_replace('motivo_no_pago[]', 'motivo_no_pago', $jsonRecupero);
+        $jsonRecupero = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $jsonRecupero);
+        $jdata = json_decode(htmlspecialchars_decode($jsonRecupero), true);
         $filtros = $jdata['filtros'];
         $rep = new ProduccionPlaza($this->get('pdo'));
         $data = $rep->exportar($filtros);

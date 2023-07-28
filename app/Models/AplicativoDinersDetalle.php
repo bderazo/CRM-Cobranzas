@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package Models
  *
  * @property integer id
+ * @property integer cliente_id
  * @property integer aplicativo_diners_id
  * @property integer producto_seguimiento_id
  * @property integer aplicativo_diners_asignaciones_id
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer ciclo
  * @property string edad_cartera
  * @property string codigo_cancelacion
+ * @property string motivo_cierre
+ * @property string ejecutivo
  * @property string codigo_boletin
  * @property string debito_automatico
  * @property string observaciones_ultimo_pago

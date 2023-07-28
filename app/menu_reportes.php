@@ -1,6 +1,13 @@
 <?php
 return [
     'diners' => [
+        [
+            'label' => 'Base General',
+            'link' => '/reportes/baseGeneral',
+            'roles' => 'reportes.base_general',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'Reporte de Base General'
+        ],
 		[
 			'label' => 'Producción Plaza',
 			'link' => '/reportes/produccionPlaza',
