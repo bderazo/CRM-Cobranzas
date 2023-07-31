@@ -33,6 +33,7 @@ class BaseGeneral {
         $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
         $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
         $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
+        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
 
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosFecha();
@@ -51,7 +52,7 @@ class BaseGeneral {
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->select(null)
             ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula,
-                             addet.tipo_negociacion, u.identificador, addet.ciclo")
+                             addet.tipo_negociacion, addet.nombre_tarjeta AS tarjeta, u.identificador, addet.ciclo")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
@@ -95,130 +96,130 @@ class BaseGeneral {
 		$data = [];
         $resumen_gestiones = [];
         foreach($lista as $res){
-
-            //COMPARO CON TELEFONOS IDS
-            if(isset($telefonos_id[$res['telefono_id']])) {
-                $res['telefono_contacto'] = $telefonos_id[$res['telefono_id']]['telefono'];
-            }else{
-                if(isset($telefonos[$res['cliente_id']][0])) {
-                    $telf = $telefonos[$res['cliente_id']][0]['telefono'];
-                    $res['telefono_contacto'] = $telf;
-                }else{
-                    $res['telefono_contacto'] = '';
+            //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
+            if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])) {
+                //COMPARO CON TELEFONOS IDS
+                if (isset($telefonos_id[$res['telefono_id']])) {
+                    $res['telefono_contacto'] = $telefonos_id[$res['telefono_id']]['telefono'];
+                } else {
+                    if (isset($telefonos[$res['cliente_id']][0])) {
+                        $telf = $telefonos[$res['cliente_id']][0]['telefono'];
+                        $res['telefono_contacto'] = $telf;
+                    } else {
+                        $res['telefono_contacto'] = '';
+                    }
                 }
-            }
+                $res['hora_gestion'] = date("H:i:s", strtotime($res['fecha_ingreso']));
+                $res['fecha_gestion'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
+                $res['georeferencia'] = $res['lat'] != '' ? $res['lat'] . ',' . $res['long'] : " ";
+                $res['tipo_negociacion'] = strtoupper($res['tipo_negociacion']);
+                //BUSCO EN SALDOS
+                if (isset($saldos[$res['cliente_id']])) {
+                    $saldos_arr = $saldos[$res['cliente_id']];
+                    $campos_saldos = json_decode($saldos_arr['campos'], true);
+                    unset($saldos_arr['campos']);
+                    $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
-            $res['hora_gestion'] = date("H:i:s", strtotime($res['fecha_ingreso']));
-            $res['fecha_gestion'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
-            $res['georeferencia'] = $res['lat'] != '' ? $res['lat'].','.$res['long'] : " ";
-            $res['tipo_negociacion'] = strtoupper($res['tipo_negociacion']);
+                    if (isset($resumen_gestiones[$res['identificador']][$res['ciclo']])) {
+                        $resumen_gestiones[$res['identificador']][$res['ciclo']]++;
+                    } else {
+                        $resumen_gestiones[$res['identificador']][$res['ciclo']] = 1;
+                    }
 
-            //BUSCO EN SALDOS
-            if(isset($saldos[$res['cliente_id']])) {
-                $saldos_arr = $saldos[$res['cliente_id']];
-                $campos_saldos = json_decode($saldos_arr['campos'],true);
-                unset($saldos_arr['campos']);
-                $saldos_arr = array_merge($saldos_arr, $campos_saldos);
+                    $res['tipo_campana_diners'] = $saldos_arr['TIPO DE CAMPAÑA DINERS'];
+                    $res['ejecutivo_diners'] = $saldos_arr['EJECUTIVO DINERS'];
+                    $res['ciclo_diners'] = $saldos_arr['CICLO DINERS'];
+                    $res['edad_diners'] = $saldos_arr['EDAD REAL DINERS'];
+                    $res['saldo_total_deuda_diners'] = $saldos_arr['SALDO TOTAL DEUDA DINERS'];
+                    $res['riesgo_total_diners'] = $saldos_arr['RIESGO TOTAL DINERS'];
+                    $res['interes_total_diners'] = $saldos_arr['INTERESES TOTAL DINERS'];
+                    $res['recuperado_diners'] = $saldos_arr['RECUPERADO DINERS'];
+                    $res['pago_minimo_diners'] = $saldos_arr['VALOR PAGO MINIMO DINERS'];
+                    $res['fecha_maxima_pago_diners'] = $saldos_arr['FECHA MAXIMA PAGO DINERS'];
+                    $res['numero_diferidos_diners'] = $saldos_arr['NUMERO DIFERIDOS DINERS'];
+                    $res['numero_refinanciaciones_historica_diners'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA DINERS'];
+                    $res['plazo_financiamiento_actual_diners'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL DINERS'];
+                    $res['motivo_cierre_diners'] = $saldos_arr['MOTIVO CIERRE DINERS'];
+                    $res['oferta_valor_diners'] = $saldos_arr['OFERTA VALOR DINERS'];
+                    $res['pendiente_actuales_diners'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
+                    $res['pendiente_30_diners'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
+                    $res['pendiente_60_diners'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
+                    $res['pendiente_90_diners'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
+                    $res['pendiente_mas_90_diners'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
+                    $res['credito_inmediato_diners'] = $saldos_arr['CRÉDITO INMEDIATO DINERS'];
+                    $res['producto_diners'] = $saldos_arr['PRODUCTO DINERS'];
 
-                if(isset($resumen_gestiones[$res['identificador']][$res['ciclo']])){
-                    $resumen_gestiones[$res['identificador']][$res['ciclo']]++;
-                }else{
-                    $resumen_gestiones[$res['identificador']][$res['ciclo']] = 1;
+                    $res['tipo_campana_visa'] = $saldos_arr['TIPO DE CAMPAÑA VISA'];
+                    $res['ejecutivo_visa'] = $saldos_arr['EJECUTIVO VISA'];
+                    $res['ciclo_visa'] = $saldos_arr['CICLO VISA'];
+                    $res['edad_visa'] = $saldos_arr['EDAD REAL VISA'];
+                    $res['saldo_total_deuda_visa'] = $saldos_arr['SALDO TOTAL DEUDA VISA'];
+                    $res['riesgo_total_visa'] = $saldos_arr['RIESGO TOTAL VISA'];
+                    $res['interes_total_visa'] = $saldos_arr['INTERESES TOTAL VISA'];
+                    $res['recuperado_visa'] = $saldos_arr['RECUPERADO VISA'];
+                    $res['pago_minimo_visa'] = $saldos_arr['VALOR PAGO MINIMO VISA'];
+                    $res['fecha_maxima_pago_visa'] = $saldos_arr['FECHA MAXIMA PAGO VISA'];
+                    $res['numero_diferidos_visa'] = $saldos_arr['NUMERO DIFERIDOS VISA'];
+                    $res['numero_refinanciaciones_historica_visa'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA VISA'];
+                    $res['plazo_financiamiento_actual_visa'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL VISA'];
+                    $res['motivo_cierre_visa'] = $saldos_arr['MOTIVO CIERRE VISA'];
+                    $res['oferta_valor_visa'] = $saldos_arr['OFERTA VALOR VISA'];
+                    $res['pendiente_actuales_visa'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
+                    $res['pendiente_30_visa'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
+                    $res['pendiente_60_visa'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
+                    $res['pendiente_90_visa'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
+                    $res['pendiente_mas_90_visa'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
+                    $res['credito_inmediato_visa'] = $saldos_arr['CRÉDITO INMEDIATO VISA'];
+                    $res['producto_visa'] = $saldos_arr['PRODUCTO VISA'];
+
+                    $res['tipo_campana_discover'] = $saldos_arr['TIPO DE CAMPAÑA DISCOVER'];
+                    $res['ejecutivo_discover'] = $saldos_arr['EJECUTIVO DISCOVER'];
+                    $res['ciclo_discover'] = $saldos_arr['CICLO DISCOVER'];
+                    $res['edad_discover'] = $saldos_arr['EDAD REAL DISCOVER'];
+                    $res['saldo_total_deuda_discover'] = $saldos_arr['SALDO TOTAL DEUDA DISCOVER'];
+                    $res['riesgo_total_discover'] = $saldos_arr['RIESGO TOTAL DISCOVER'];
+                    $res['interes_total_discover'] = $saldos_arr['INTERESES TOTAL DISCOVER'];
+                    $res['recuperado_discover'] = $saldos_arr['RECUPERADO DISCOVER'];
+                    $res['pago_minimo_discover'] = $saldos_arr['VALOR PAGO MINIMO DISCOVER'];
+                    $res['fecha_maxima_pago_discover'] = $saldos_arr['FECHA MAXIMA PAGO DISCOVER'];
+                    $res['numero_diferidos_discover'] = $saldos_arr['NUMERO DIFERIDOS DISCOVER'];
+                    $res['numero_refinanciaciones_historica_discover'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA DISCOVER'];
+                    $res['plazo_financiamiento_actual_discover'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL DISCOVER'];
+                    $res['motivo_cierre_discover'] = $saldos_arr['MOTIVO CIERRE DISCOVER'];
+                    $res['oferta_valor_discover'] = $saldos_arr['OFERTA VALOR DISCOVER'];
+                    $res['pendiente_actuales_discover'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
+                    $res['pendiente_30_discover'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
+                    $res['pendiente_60_discover'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
+                    $res['pendiente_90_discover'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
+                    $res['pendiente_mas_90_discover'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
+                    $res['credito_inmediato_discover'] = $saldos_arr['CRÉDITO INMEDIATO DISCOVER'];
+                    $res['producto_discover'] = $saldos_arr['PRODUCTO DISCOVER'];
+
+                    $res['tipo_campana_mastercard'] = $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'];
+                    $res['ejecutivo_mastercard'] = $saldos_arr['EJECUTIVO MASTERCARD'];
+                    $res['ciclo_mastercard'] = $saldos_arr['CICLO MASTERCARD'];
+                    $res['edad_mastercard'] = $saldos_arr['EDAD REAL MASTERCARD'];
+                    $res['saldo_total_deuda_mastercard'] = $saldos_arr['SALDO TOTAL DEUDA MASTERCARD'];
+                    $res['riesgo_total_mastercard'] = $saldos_arr['RIESGO TOTAL MASTERCARD'];
+                    $res['interes_total_mastercard'] = $saldos_arr['INTERESES TOTAL MASTERCARD'];
+                    $res['recuperado_mastercard'] = $saldos_arr['RECUPERADO MASTERCARD'];
+                    $res['pago_minimo_mastercard'] = $saldos_arr['VALOR PAGO MINIMO MASTERCARD'];
+                    $res['fecha_maxima_pago_mastercard'] = $saldos_arr['FECHA MAXIMA PAGO MASTERCARD'];
+                    $res['numero_diferidos_mastercard'] = $saldos_arr['NUMERO DIFERIDOS MASTERCARD'];
+                    $res['numero_refinanciaciones_historica_mastercard'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA MASTERCARD'];
+                    $res['plazo_financiamiento_actual_mastercard'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL MASTERCARD'];
+                    $res['motivo_cierre_mastercard'] = $saldos_arr['MOTIVO CIERRE MASTERCARD'];
+                    $res['oferta_valor_mastercard'] = $saldos_arr['OFERTA VALOR MASTERCARD'];
+                    $res['pendiente_actuales_mastercard'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
+                    $res['pendiente_30_mastercard'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
+                    $res['pendiente_60_mastercard'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
+                    $res['pendiente_90_mastercard'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
+                    $res['pendiente_mas_90_mastercard'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
+                    $res['credito_inmediato_mastercard'] = $saldos_arr['CRÉDITO INMEDIATO MASTERCARD'];
+                    $res['producto_mastercard'] = $saldos_arr['PRODUCTO MASTERCARD'];
+
+                    $data[] = $res;
                 }
-
-                $res['tipo_campana_diners'] = $saldos_arr['TIPO DE CAMPAÑA DINERS'];
-                $res['ejecutivo_diners'] = $saldos_arr['EJECUTIVO DINERS'];
-                $res['ciclo_diners'] = $saldos_arr['CICLO DINERS'];
-                $res['edad_diners'] = $saldos_arr['EDAD REAL DINERS'];
-                $res['saldo_total_deuda_diners'] = $saldos_arr['SALDO TOTAL DEUDA DINERS'];
-                $res['riesgo_total_diners'] = $saldos_arr['RIESGO TOTAL DINERS'];
-                $res['interes_total_diners'] = $saldos_arr['INTERESES TOTAL DINERS'];
-                $res['recuperado_diners'] = $saldos_arr['RECUPERADO DINERS'];
-                $res['pago_minimo_diners'] = $saldos_arr['VALOR PAGO MINIMO DINERS'];
-                $res['fecha_maxima_pago_diners'] = $saldos_arr['FECHA MAXIMA PAGO DINERS'];
-                $res['numero_diferidos_diners'] = $saldos_arr['NUMERO DIFERIDOS DINERS'];
-                $res['numero_refinanciaciones_historica_diners'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA DINERS'];
-                $res['plazo_financiamiento_actual_diners'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL DINERS'];
-                $res['motivo_cierre_diners'] = $saldos_arr['MOTIVO CIERRE DINERS'];
-                $res['oferta_valor_diners'] = $saldos_arr['OFERTA VALOR DINERS'];
-                $res['pendiente_actuales_diners'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
-                $res['pendiente_30_diners'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
-                $res['pendiente_60_diners'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
-                $res['pendiente_90_diners'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
-                $res['pendiente_mas_90_diners'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
-                $res['credito_inmediato_diners'] = $saldos_arr['CRÉDITO INMEDIATO DINERS'];
-                $res['producto_diners'] = $saldos_arr['PRODUCTO DINERS'];
-
-                $res['tipo_campana_visa'] = $saldos_arr['TIPO DE CAMPAÑA VISA'];
-                $res['ejecutivo_visa'] = $saldos_arr['EJECUTIVO VISA'];
-                $res['ciclo_visa'] = $saldos_arr['CICLO VISA'];
-                $res['edad_visa'] = $saldos_arr['EDAD REAL VISA'];
-                $res['saldo_total_deuda_visa'] = $saldos_arr['SALDO TOTAL DEUDA VISA'];
-                $res['riesgo_total_visa'] = $saldos_arr['RIESGO TOTAL VISA'];
-                $res['interes_total_visa'] = $saldos_arr['INTERESES TOTAL VISA'];
-                $res['recuperado_visa'] = $saldos_arr['RECUPERADO VISA'];
-                $res['pago_minimo_visa'] = $saldos_arr['VALOR PAGO MINIMO VISA'];
-                $res['fecha_maxima_pago_visa'] = $saldos_arr['FECHA MAXIMA PAGO VISA'];
-                $res['numero_diferidos_visa'] = $saldos_arr['NUMERO DIFERIDOS VISA'];
-                $res['numero_refinanciaciones_historica_visa'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA VISA'];
-                $res['plazo_financiamiento_actual_visa'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL VISA'];
-                $res['motivo_cierre_visa'] = $saldos_arr['MOTIVO CIERRE VISA'];
-                $res['oferta_valor_visa'] = $saldos_arr['OFERTA VALOR VISA'];
-                $res['pendiente_actuales_visa'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
-                $res['pendiente_30_visa'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
-                $res['pendiente_60_visa'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
-                $res['pendiente_90_visa'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
-                $res['pendiente_mas_90_visa'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
-                $res['credito_inmediato_visa'] = $saldos_arr['CRÉDITO INMEDIATO VISA'];
-                $res['producto_visa'] = $saldos_arr['PRODUCTO VISA'];
-
-                $res['tipo_campana_discover'] = $saldos_arr['TIPO DE CAMPAÑA DISCOVER'];
-                $res['ejecutivo_discover'] = $saldos_arr['EJECUTIVO DISCOVER'];
-                $res['ciclo_discover'] = $saldos_arr['CICLO DISCOVER'];
-                $res['edad_discover'] = $saldos_arr['EDAD REAL DISCOVER'];
-                $res['saldo_total_deuda_discover'] = $saldos_arr['SALDO TOTAL DEUDA DISCOVER'];
-                $res['riesgo_total_discover'] = $saldos_arr['RIESGO TOTAL DISCOVER'];
-                $res['interes_total_discover'] = $saldos_arr['INTERESES TOTAL DISCOVER'];
-                $res['recuperado_discover'] = $saldos_arr['RECUPERADO DISCOVER'];
-                $res['pago_minimo_discover'] = $saldos_arr['VALOR PAGO MINIMO DISCOVER'];
-                $res['fecha_maxima_pago_discover'] = $saldos_arr['FECHA MAXIMA PAGO DISCOVER'];
-                $res['numero_diferidos_discover'] = $saldos_arr['NUMERO DIFERIDOS DISCOVER'];
-                $res['numero_refinanciaciones_historica_discover'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA DISCOVER'];
-                $res['plazo_financiamiento_actual_discover'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL DISCOVER'];
-                $res['motivo_cierre_discover'] = $saldos_arr['MOTIVO CIERRE DISCOVER'];
-                $res['oferta_valor_discover'] = $saldos_arr['OFERTA VALOR DISCOVER'];
-                $res['pendiente_actuales_discover'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
-                $res['pendiente_30_discover'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
-                $res['pendiente_60_discover'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
-                $res['pendiente_90_discover'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
-                $res['pendiente_mas_90_discover'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
-                $res['credito_inmediato_discover'] = $saldos_arr['CRÉDITO INMEDIATO DISCOVER'];
-                $res['producto_discover'] = $saldos_arr['PRODUCTO DISCOVER'];
-
-                $res['tipo_campana_mastercard'] = $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'];
-                $res['ejecutivo_mastercard'] = $saldos_arr['EJECUTIVO MASTERCARD'];
-                $res['ciclo_mastercard'] = $saldos_arr['CICLO MASTERCARD'];
-                $res['edad_mastercard'] = $saldos_arr['EDAD REAL MASTERCARD'];
-                $res['saldo_total_deuda_mastercard'] = $saldos_arr['SALDO TOTAL DEUDA MASTERCARD'];
-                $res['riesgo_total_mastercard'] = $saldos_arr['RIESGO TOTAL MASTERCARD'];
-                $res['interes_total_mastercard'] = $saldos_arr['INTERESES TOTAL MASTERCARD'];
-                $res['recuperado_mastercard'] = $saldos_arr['RECUPERADO MASTERCARD'];
-                $res['pago_minimo_mastercard'] = $saldos_arr['VALOR PAGO MINIMO MASTERCARD'];
-                $res['fecha_maxima_pago_mastercard'] = $saldos_arr['FECHA MAXIMA PAGO MASTERCARD'];
-                $res['numero_diferidos_mastercard'] = $saldos_arr['NUMERO DIFERIDOS MASTERCARD'];
-                $res['numero_refinanciaciones_historica_mastercard'] = $saldos_arr['NUMERO DE REFINANCIACIONES HISTORICA MASTERCARD'];
-                $res['plazo_financiamiento_actual_mastercard'] = $saldos_arr['PLAZO DE FINANCIAMIENTO ACTUAL MASTERCARD'];
-                $res['motivo_cierre_mastercard'] = $saldos_arr['MOTIVO CIERRE MASTERCARD'];
-                $res['oferta_valor_mastercard'] = $saldos_arr['OFERTA VALOR MASTERCARD'];
-                $res['pendiente_actuales_mastercard'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
-                $res['pendiente_30_mastercard'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
-                $res['pendiente_60_mastercard'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
-                $res['pendiente_90_mastercard'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
-                $res['pendiente_mas_90_mastercard'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
-                $res['credito_inmediato_mastercard'] = $saldos_arr['CRÉDITO INMEDIATO MASTERCARD'];
-                $res['producto_mastercard'] = $saldos_arr['PRODUCTO MASTERCARD'];
-
-                $data[] = $res;
             }
         }
 
