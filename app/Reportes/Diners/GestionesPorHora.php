@@ -32,7 +32,90 @@ class GestionesPorHora {
         $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
 
         $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
-        $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
+        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
+
+        //BUSCAR SEGUIMIENTOS RESUMEN
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
+            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+            ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->select(null)
+            ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, HOUR(ps.fecha_ingreso) AS hora")
+            ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
+            ->where('ps.institucion_id',1)
+            ->where('ps.eliminado',0);
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
+        }
+        if (@$filtros['campana_usuario']){
+            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
+            $q->where('u.campana IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
+        }
+        if (@$filtros['ciclo']){
+            $fil = implode(',',$filtros['ciclo']);
+            $q->where('addet.ciclo IN ('.$fil.')');
+        }
+        if (@$filtros['resultado']){
+            $fil = implode(',',$filtros['resultado']);
+            $q->where('ps.nivel_1_id IN ('.$fil.')');
+        }
+        if (@$filtros['accion']){
+            $fil = implode(',',$filtros['accion']);
+            $q->where('ps.nivel_2_id IN ('.$fil.')');
+        }
+        if (@$filtros['descripcion']){
+            $fil = implode(',',$filtros['descripcion']);
+            $q->where('ps.nivel_3_id IN ('.$fil.')');
+        }
+        if (@$filtros['motivo_no_pago']){
+            $fil = implode(',',$filtros['motivo_no_pago']);
+            $q->where('ps.nivel_1_motivo_no_pago_id IN ('.$fil.')');
+        }
+        if (@$filtros['descripcion_no_pago']){
+            $fil = implode(',',$filtros['descripcion_no_pago']);
+            $q->where('ps.nivel_2_motivo_no_pago_id IN ('.$fil.')');
+        }
+        if (@$filtros['fecha_inicio']){
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
+            }
+        }
+        if (@$filtros['fecha_fin']){
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
+            }
+        }
+        $fil = implode(',',$clientes_asignacion);
+        $q->where('ps.cliente_id IN ('.$fil.')');
+        $q->orderBy('u.apellidos');
+        $q->disableSmartJoin();
+//        printDie($q->getQuery());
+        $resumen = [];
+        $seguimientos_id = [];
+        $lista = $q->fetchAll();
+        foreach($lista as $res) {
+            //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
+            if (isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])) {
+                $resumen[] = $res;
+                $seguimientos_id[$res['id']] = $res['id'];
+            }
+        }
 
         //USUARIOS TELEFONIA TODOS
 		$plaza_usuario = [];
@@ -74,65 +157,8 @@ class GestionesPorHora {
 							COUNT(ps.id) AS cantidad")
 			->where('ps.institucion_id',1)
 			->where('ps.eliminado',0);
-        if (@$filtros['plaza_usuario']){
-            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-            $q->where('u.plaza IN ('.$fil.')');
-        }
-        if (@$filtros['campana_usuario']){
-            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
-            $q->where('u.campana IN ('.$fil.')');
-        }
-        if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
-        }
-        if (@$filtros['resultado']){
-            $fil = '"' . implode('","',$filtros['resultado']) . '"';
-            $q->where('ps.nivel_1_id IN ('.$fil.')');
-        }
-        if (@$filtros['accion']){
-            $fil = '"' . implode('","',$filtros['accion']) . '"';
-            $q->where('ps.nivel_2_id IN ('.$fil.')');
-        }
-        if (@$filtros['descripcion']){
-            $fil = '"' . implode('","',$filtros['descripcion']) . '"';
-            $q->where('ps.nivel_3_id IN ('.$fil.')');
-        }
-        if (@$filtros['motivo_no_pago']){
-            $fil = '"' . implode('","',$filtros['motivo_no_pago']) . '"';
-            $q->where('ps.nivel_1_motivo_no_pago_id IN ('.$fil.')');
-        }
-        if (@$filtros['descripcion_no_pago']){
-            $fil = '"' . implode('","',$filtros['descripcion_no_pago']) . '"';
-            $q->where('ps.nivel_2_motivo_no_pago_id IN ('.$fil.')');
-        }
-        if (@$filtros['fecha_inicio']){
-            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
-                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
-                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
-                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
-            }else{
-                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
-            }
-        }
-        if (@$filtros['fecha_fin']){
-            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
-                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
-                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
-                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
-            }else{
-                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
-            }
-        }
         $q->where('ps.cliente_id',$clientes_asignacion);
+        $q->where('ps.id',$seguimientos_id);
         $q->groupBy('u.id, HOUR(ps.fecha_ingreso)');
         $q->orderBy('HOUR(ps.fecha_ingreso), u.apellidos');
         $q->disableSmartJoin();
@@ -195,94 +221,6 @@ class GestionesPorHora {
                 $data[] = $ut;
             }
         }
-//		printDie($data);
-
-
-        //BUSCAR SEGUIMIENTOS RESUMEN
-        $q = $db->from('producto_seguimiento ps')
-            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-            ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
-            ->select(null)
-            ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula, 
-                             cl.id AS id_cliente, HOUR(ps.fecha_ingreso) AS hora")
-            ->where('ps.institucion_id',1)
-            ->where('ps.eliminado',0);
-        if (@$filtros['plaza_usuario']){
-            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-            $q->where('u.plaza IN ('.$fil.')');
-        }
-        if (@$filtros['campana_usuario']){
-            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
-            $q->where('u.campana IN ('.$fil.')');
-        }
-        if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
-        }
-        if (@$filtros['fecha_inicio']){
-            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
-                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
-                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
-                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
-            }else{
-                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
-            }
-        }
-        if (@$filtros['fecha_fin']){
-            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
-                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
-                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
-                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
-            }else{
-                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
-            }
-        }
-        $q->where('ps.cliente_id',$clientes_asignacion);
-        $q->orderBy('u.apellidos');
-        $q->disableSmartJoin();
-//        printDie($q->getQuery());
-        $lista = $q->fetchAll();
-        $resumen = [];
-        foreach($lista as $res){
-            $res['diners'] = '';
-            $res['visa'] = '';
-            $res['discover'] = '';
-            $res['mastercard'] = '';
-            $res['diners_ciclo'] = '';
-            $res['visa_ciclo'] = '';
-            $res['discover_ciclo'] = '';
-            $res['mastercard_ciclo'] = '';
-            if(isset($clientes_asignacion_detalle[$res['id_cliente']])) {
-                foreach ($clientes_asignacion_detalle[$res['id_cliente']] as $cl) {
-                    if (substr($cl['marca'], 0, 4) == 'DINE') {
-                        $res['diners'] = 'SI';
-                        $res['diners_ciclo'] = $cl['ciclo'];
-                    }
-                    if (substr($cl['marca'], 0, 4) == 'VISA') {
-                        $res['visa'] = 'SI';
-                        $res['visa_ciclo'] = $cl['ciclo'];
-                    }
-                    if (substr($cl['marca'], 0, 4) == 'DISC') {
-                        $res['discover'] = 'SI';
-                        $res['discover_ciclo'] = $cl['ciclo'];
-                    }
-                    if (substr($cl['marca'], 0, 4) == 'MAST') {
-                        $res['mastercard'] = 'SI';
-                        $res['mastercard_ciclo'] = $cl['ciclo'];
-                    }
-                }
-            }
-            $resumen[] = $res;
-        }
-
 		$retorno['data'] = $data;
         $retorno['resumen'] = $resumen;
 		$retorno['total'] = [
