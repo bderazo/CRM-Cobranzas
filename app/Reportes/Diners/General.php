@@ -370,6 +370,8 @@ class General {
             }
         }
 
+        usort($usuario_gestion, fn($a, $b) => $a['gestor'] <=> $b['gestor']);
+
         $contactabilidad = $total_general > 0 ? ((($total_cierre_efectivo + $total_cierre_no_efectivo) / $total_general) * 100) : 0;
         $efectividad = ($total_cierre_efectivo + $total_cierre_no_efectivo) > 0 ? (($total_cierre_efectivo / ($total_cierre_efectivo + $total_cierre_no_efectivo)) * 100) : 0;
 
