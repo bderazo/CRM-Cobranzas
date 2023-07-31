@@ -30,14 +30,14 @@
 						</thead>
 						<tbody>
 						<tr v-for="d in datos">
-							<td v-html="d.marca"></td>
+							<td v-html="d.tarjeta"></td>
                             <td v-html="d.ciclo"></td>
                             <td v-html="d.cedula"></td>
-							<td v-html="d.nombre"></td>
+							<td v-html="d.nombres"></td>
                             <td v-html="d.hora_llamada"></td>
                             <td v-html="d.gestor"></td>
-							<td v-html="d.resultado_gestion"></td>
-							<td v-html="d.gestion"></td>
+							<td v-html="d.nivel_2_texto"></td>
+							<td v-html="d.observaciones"></td>
                             <td v-html="d.campana"></td>
                             <td v-html="d.empresa_canal"></td>
                             <td v-html="d.hora_ingreso"></td>
@@ -148,7 +148,19 @@
                             theme: "classic",
                             initSelection: function(element, callback) {}
                         });
-                        self.consultar();
+                        $("#campana_ece").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#marca").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        // self.consultar();
                     });
                     // self.consultar();
                     $('.select2').select2({

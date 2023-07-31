@@ -86,8 +86,16 @@ class UsuarioLogin extends Model {
             ->orderBy('DATE(login_time)');
         $lista = $q->fetchAll();
         $retorno = [];
+
         foreach ($lista as $l){
             $l['hora'] = date("H:i:s",strtotime($l['hora']));
+
+            $date1 = \DateTime::createFromFormat('H:i:s', $l['hora']);
+            $date3 = \DateTime::createFromFormat('H:i:s', '07:00:00');
+            if ($date1 <= $date3) {
+                $l['hora'] = '07:00:00';
+            }
+
             $retorno[$l['usuario_id']][$l['fecha']] = $l['hora'];
         }
         return $retorno;
