@@ -718,6 +718,7 @@ class ProductoController extends BaseController
                 $obj_diners = new AplicativoDinersDetalle();
                 $obj_diners->fill($aplicativo_diners_tarjeta_diners);
                 $obj_diners->producto_seguimiento_id = $con->id;
+                $obj_diners->cliente_id = $con->cliente_id;
                 $obj_diners->tipo = 'gestionado';
                 $obj_diners->padre_id = $padre_id;
                 $obj_diners->usuario_modificacion = \WebSecurity::getUserData('id');
@@ -806,6 +807,7 @@ class ProductoController extends BaseController
 //                unset($aplicativo_diners_tarjeta_interdin['refinancia']);
                 $obj_interdin = new AplicativoDinersDetalle();
                 $obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
+                $obj_interdin->cliente_id = $con->cliente_id;
                 $obj_interdin->producto_seguimiento_id = $con->id;
                 $obj_interdin->tipo = 'gestionado';
                 $obj_interdin->padre_id = $padre_id;
@@ -895,6 +897,7 @@ class ProductoController extends BaseController
 //                unset($aplicativo_diners_tarjeta_discover['refinancia']);
                 $obj_discover = new AplicativoDinersDetalle();
                 $obj_discover->fill($aplicativo_diners_tarjeta_discover);
+                $obj_discover->cliente_id = $con->cliente_id;
                 $obj_discover->producto_seguimiento_id = $con->id;
                 $obj_discover->tipo = 'gestionado';
                 $obj_discover->padre_id = $padre_id;
@@ -984,6 +987,7 @@ class ProductoController extends BaseController
 //                unset($aplicativo_diners_tarjeta_mastercard['refinancia']);
                 $obj_mastercard = new AplicativoDinersDetalle();
                 $obj_mastercard->fill($aplicativo_diners_tarjeta_mastercard);
+                $obj_mastercard->cliente_id = $con->cliente_id;
                 $obj_mastercard->producto_seguimiento_id = $con->id;
                 $obj_mastercard->tipo = 'gestionado';
                 $obj_mastercard->padre_id = $padre_id;
