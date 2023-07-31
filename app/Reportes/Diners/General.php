@@ -88,6 +88,10 @@ class General {
                 $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
                 $q->where('u.canal IN ('.$fil.')');
         }
+        if (@$filtros['ciclo']){
+            $fil = implode(',',$filtros['ciclo']);
+            $q->where('addet.ciclo IN ('.$fil.')');
+        }
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
                 $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];

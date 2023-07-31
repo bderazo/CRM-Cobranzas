@@ -1453,7 +1453,7 @@ class ReportesController extends BaseController
         $lista = [];
         foreach ($data['data'] as $d) {
             $aux['MARCA'] = [
-                'valor' => $d['marca'],
+                'valor' => $d['tarjeta'],
                 'formato' => 'text'
             ];
             $aux['CÉDULA'] = [
@@ -1461,7 +1461,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['NOMBRE'] = [
-                'valor' => $d['nombre'],
+                'valor' => $d['nombres'],
                 'formato' => 'text'
             ];
             $aux['CICLO'] = [
@@ -1469,11 +1469,11 @@ class ReportesController extends BaseController
                 'formato' => 'number'
             ];
             $aux['RESULTADO DE GESTIÓN'] = [
-                'valor' => $d['resultado_gestion'],
+                'valor' => $d['nivel_2_texto'],
                 'formato' => 'text'
             ];
             $aux['OBSERVACIÓN A DETALLE'] = [
-                'valor' => $d['gestion'],
+                'valor' => $d['observaciones'],
                 'formato' => 'text'
             ];
             $aux['NOMBRE AGENTE'] = [

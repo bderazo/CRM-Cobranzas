@@ -37,14 +37,17 @@ class ReporteHoras
         $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
         $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
         $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
-        $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
+//        $clientes_asignacion_detalle = AplicativoDinersAsignaciones::getClientesDetalle($campana_ece,$ciclo);
+        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
 
 		//BUSCAR SEGUIMIENTOS
         $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->select(null)
-            ->select("ps.*, u.id AS id_usuario, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula, u.canal")
+            ->select("ps.*, u.id AS id_usuario, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
+                             cl.cedula, u.canal, addet.nombre_tarjeta AS tarjeta, addet.ciclo")
             ->where('ps.nivel_1_id NOT IN (1866, 1873)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
@@ -59,6 +62,14 @@ class ReporteHoras
         if (@$filtros['canal_usuario']){
             $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
             $q->where('u.canal IN ('.$fil.')');
+        }
+        if (@$filtros['ciclo']){
+            $fil = implode(',',$filtros['ciclo']);
+            $q->where('addet.ciclo IN ('.$fil.')');
+        }
+        if (@$filtros['marca']){
+            $fil = '"' . implode('","',$filtros['marca']) . '"';
+            $q->where('addet.nombre_tarjeta IN ('.$fil.')');
         }
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
@@ -87,39 +98,32 @@ class ReporteHoras
 		$lista = $q->fetchAll();
 		$data = [];
 		foreach($lista as $seg) {
-            if(isset($clientes_asignacion_detalle[$seg['cliente_id']])) {
-                foreach ($clientes_asignacion_detalle[$seg['cliente_id']] as $cl) {
-                    $aux = [];
-                    $aux['marca'] = $cl['marca'];
-                    $aux['ciclo'] = $cl['ciclo'];
-                    $aux['cedula'] = $cl['cedula_socio'];
-                    $aux['nombre'] = $cl['nombre_socio'];
-                    $aux['resultado_gestion'] = $seg['nivel_2_texto'];
-                    $aux['gestion'] = $seg['observaciones'];
-                    $aux['gestor'] = $seg['gestor'];
-                    $aux['nombre_ere'] = 'MEGACOB';
+            //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
+            if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']])){
+                $seg['nombre_ere'] = 'MEGACOB';
+                $data[] = $seg;
 
-                    $data[] = $aux;
-
-//                    if($seg['nivel_2_id'] == 1859) {
-//                        //REFINANCIA
-//                        if (isset($data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']])) {
-//                            $data_hoja2[] = $aux;
-//                        }else{
-//                            $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
-//                        }
-//                    }elseif($seg['nivel_2_id'] == 1853) {
-//                        //NOTIFICADO
-//                        if (isset($data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']])) {
-//                            $data_hoja2[] = $aux;
-//                        }else{
-//                            $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
-//                        }
-//                    }else{
-//                        $data_hoja1[$aux['cedula'] . '_' . $aux['ciclo'] . '_'.$seg['nivel_2_id']] = $aux;
-//                    }
-                }
             }
+
+
+
+
+
+//            if(isset($clientes_asignacion_detalle[$seg['cliente_id']])) {
+//                foreach ($clientes_asignacion_detalle[$seg['cliente_id']] as $cl) {
+//                    $aux = [];
+//                    $aux['marca'] = $cl['marca'];
+//                    $aux['ciclo'] = $cl['ciclo'];
+//                    $aux['cedula'] = $cl['cedula_socio'];
+//                    $aux['nombre'] = $cl['nombre_socio'];
+//                    $aux['resultado_gestion'] = $seg['nivel_2_texto'];
+//                    $aux['gestion'] = $seg['observaciones'];
+//                    $aux['gestor'] = $seg['gestor'];
+//                    $aux['nombre_ere'] = 'MEGACOB';
+//
+//                    $data[] = $aux;
+//                }
+//            }
         }
 
 //		printDie($data);
