@@ -1717,6 +1717,43 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
+        $aux['GESTOR'] = [
+            'valor' => 'TOTAL',
+            'formato' => 'text'
+        ];
+        $aux['REFINANCIA'] = [
+            'valor' => $data['total']['total_refinancia'],
+            'formato' => 'number'
+        ];
+        $aux['NOTIFICADO'] = [
+            'valor' => $data['total']['total_notificado'],
+            'formato' => 'number'
+        ];
+        $aux['CIERRE EFECTIVO'] = [
+            'valor' => $data['total']['total_cierre_efectivo'],
+            'formato' => 'number'
+        ];
+        $aux['CIERRE NO EFECTIVO'] = [
+            'valor' => $data['total']['total_cierre_no_efectivo'],
+            'formato' => 'number'
+        ];
+        $aux['MENSAJE A TERCERO'] = [
+            'valor' => $data['total']['total_mensaje_tercero'],
+            'formato' => 'number'
+        ];
+        $aux['NO UBICADO'] = [
+            'valor' => $data['total']['total_no_ubicado'],
+            'formato' => 'number'
+        ];
+        $aux['SIN ARREGLO'] = [
+            'valor' => $data['total']['total_sin_arreglo'],
+            'formato' => 'number'
+        ];
+        $aux['TOTAL GENERAL'] = [
+            'valor' => $data['total']['total_general'],
+            'formato' => 'number'
+        ];
+        $lista[] = $aux;
         $exportar[] = [
             'name' => 'GENERAL',
             'data' => $lista
@@ -1858,6 +1895,22 @@ class ReportesController extends BaseController
             ];
             $aux['PENDIENTE MAS 90 DIAS DISCOVER'] = [
                 'valor' => $d['discover_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD CARTERA DINERS'] = [
+                'valor' => $d['edad_cartera_diners'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD CARTERA VISA'] = [
+                'valor' => $d['edad_cartera_visa'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD CARTERA DISCOVER'] = [
+                'valor' => $d['edad_cartera_discover'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD CARTERA MASTERCARD'] = [
+                'valor' => $d['edad_cartera_mastercard'],
                 'formato' => 'number'
             ];
             $lista[] = $aux;

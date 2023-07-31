@@ -347,6 +347,10 @@ class General {
                     $res['discover_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
                     $res['discover_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
                     $res['discover_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
+                    $res['edad_cartera_diners'] = $saldos_arr['EDAD REAL DINERS'];
+                    $res['edad_cartera_visa'] = $saldos_arr['EDAD REAL VISA'];
+                    $res['edad_cartera_discover'] = $saldos_arr['EDAD REAL DISCOVER'];
+                    $res['edad_cartera_mastercard'] = $saldos_arr['EDAD REAL MASTERCARD'];
                 }else{
                     $res['mastercard_actuales'] = '';
                     $res['mastercard_30'] = '';
@@ -368,6 +372,10 @@ class General {
                     $res['discover_60'] = '';
                     $res['discover_90'] = '';
                     $res['discover_mas_90'] = '';
+                    $res['edad_cartera_diners'] = '';
+                    $res['edad_cartera_visa'] = '';
+                    $res['edad_cartera_discover'] = '';
+                    $res['edad_cartera_mastercard'] = '';
                 }
 
                 $resumen[] = $res;
