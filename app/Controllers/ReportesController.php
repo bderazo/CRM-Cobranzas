@@ -1736,37 +1736,13 @@ class ReportesController extends BaseController
                 'valor' => $d['cedula'],
                 'formato' => 'text'
             ];
-            $aux['DINERS'] = [
-                'valor' => $d['diners'],
+            $aux['MARCA'] = [
+                'valor' => $d['tarjeta'],
                 'formato' => 'text'
             ];
-            $aux['VISA'] = [
-                'valor' => $d['visa'],
-                'formato' => 'text'
-            ];
-            $aux['DISCOVER'] = [
-                'valor' => $d['discover'],
-                'formato' => 'text'
-            ];
-            $aux['MASTERCARD'] = [
-                'valor' => $d['mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO DINERS'] = [
-                'valor' => $d['diners_ciclo'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO VISA'] = [
-                'valor' => $d['visa_ciclo'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO DISCOVER'] = [
-                'valor' => $d['discover_ciclo'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO MASTERCARD'] = [
-                'valor' => $d['mastercard_ciclo'],
-                'formato' => 'text'
+            $aux['CICLO'] = [
+                'valor' => $d['ciclo'],
+                'formato' => 'number'
             ];
             $aux['FECHA'] = [
                 'valor' => $d['fecha_ingreso'],

@@ -202,10 +202,36 @@ class AplicativoDinersAsignaciones extends Model
             $fil = '"' . implode('","',$ciclo) . '"';
             $q->where('ads.ciclo IN ('.$fil.')');
         }
+        $q->orderBy('ads.fecha_ingreso ASC');
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
             $retorno[$l['cliente_id']][] = $l;
+        }
+        return $retorno;
+    }
+
+    static function getClientesDetalleMarca($campana_ece = [], $ciclo = []) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('ads.*')
+            ->where('ads.eliminado',0);
+        if (count($campana_ece) > 0){
+            $fil = '"' . implode('","',$campana_ece) . '"';
+            $q->where('ads.campana_ece IN ('.$fil.')');
+        }
+        if (count($ciclo) > 0){
+            $fil = '"' . implode('","',$ciclo) . '"';
+            $q->where('ads.ciclo IN ('.$fil.')');
+        }
+        $q->orderBy('ads.fecha_ingreso ASC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['cliente_id']][$l['marca']] = $l;
         }
         return $retorno;
     }
