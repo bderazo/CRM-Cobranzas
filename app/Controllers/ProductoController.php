@@ -669,7 +669,7 @@ class ProductoController extends BaseController
         $aplicativo_diners_tarjeta_mastercard = isset($data['aplicativo_diners_tarjeta_mastercard']) ? $data['aplicativo_diners_tarjeta_mastercard'] : [];
 
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
-            if($aplicativo_diners_tarjeta_diners['saldo_total'] > 0) {
+            if($aplicativo_diners_tarjeta_diners['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
                     //GUARDO SEGUIMIENTOS POR TARJETA
                     $con = new ProductoSeguimiento();
@@ -759,7 +759,7 @@ class ProductoController extends BaseController
         }
 
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
-            if($aplicativo_diners_tarjeta_interdin['saldo_total'] > 0) {
+            if($aplicativo_diners_tarjeta_interdin['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
                     //GUARDO SEGUIMIENTOS POR TARJETA
                     $con = new ProductoSeguimiento();
@@ -849,7 +849,7 @@ class ProductoController extends BaseController
         }
 
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
-            if($aplicativo_diners_tarjeta_discover['saldo_total'] > 0) {
+            if($aplicativo_diners_tarjeta_discover['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
                     //GUARDO SEGUIMIENTOS POR TARJETA
                     $con = new ProductoSeguimiento();
@@ -939,7 +939,7 @@ class ProductoController extends BaseController
         }
 
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
-            if($aplicativo_diners_tarjeta_mastercard['saldo_total'] > 0) {
+            if($aplicativo_diners_tarjeta_mastercard['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
                     //GUARDO SEGUIMIENTOS POR TARJETA
                     $con = new ProductoSeguimiento();
