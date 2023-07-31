@@ -262,6 +262,7 @@ class ProductoController extends BaseController
         $aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 
         $numero_tarjetas = 0;
+        $todas_tarjetas_pagadas = true;
 
         //DATOS TARJETA DINERS
         $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id'], 'original');
@@ -287,6 +288,9 @@ class ProductoController extends BaseController
                 for ($i = 1; $i <= 72; $i++) {
                     $plazo_financiamiento_diners[$i] = $i;
                 }
+            }
+            if($aplicativo_diners_tarjeta_diners['motivo_cierre'] != 'PAGADA'){
+                $todas_tarjetas_pagadas = false;
             }
             $numero_tarjetas++;
         }
@@ -317,6 +321,9 @@ class ProductoController extends BaseController
                     $plazo_financiamiento_discover[$i] = $i;
                 }
             }
+            if($plazo_financiamiento_discover['motivo_cierre'] != 'PAGADA'){
+                $todas_tarjetas_pagadas = false;
+            }
             $numero_tarjetas++;
         }
         $catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
@@ -345,6 +352,9 @@ class ProductoController extends BaseController
                 for ($i = 1; $i <= 72; $i++) {
                     $plazo_financiamiento_interdin[$i] = $i;
                 }
+            }
+            if($plazo_financiamiento_interdin['motivo_cierre'] != 'PAGADA'){
+                $todas_tarjetas_pagadas = false;
             }
             $numero_tarjetas++;
         }
@@ -375,10 +385,21 @@ class ProductoController extends BaseController
                     $plazo_financiamiento_mastercard[$i] = $i;
                 }
             }
+            if($plazo_financiamiento_mastercard['motivo_cierre'] != 'PAGADA'){
+                $todas_tarjetas_pagadas = false;
+            }
             $numero_tarjetas++;
         }
         $catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
 
+        //SI TODAS LAS TARJETAS ESTAN PAGADAS, SOLO PUEDE HACER LA PALETA INTERNA
+        if($todas_tarjetas_pagadas){
+            unset($catalogos['paleta_nivel_1'][0]);
+            unset($catalogos['paleta_nivel_1'][1]);
+            unset($catalogos['paleta_nivel_1'][3]);
+            unset($catalogos['paleta_nivel_1'][4]);
+            unset($catalogos['paleta_nivel_1'][6]);
+        }
 
         $aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 
