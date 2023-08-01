@@ -634,7 +634,7 @@ class ProductoController extends BaseController
                 $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_2_motivo_no_pago_id']);
                 $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
             }
-            $con->observaciones = $seguimiento['observaciones'];
+            $con->observaciones = Utilidades::normalizeString($seguimiento['observaciones']);
             $con->sugerencia_cx88 = $seguimiento['sugerencia_cx88'];
             $con->sugerencia_correo = $seguimiento['sugerencia_correo'];
             $con->unificar_deudas = $bandera_unificar_deuda;
@@ -712,7 +712,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_diners['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = $seguimiento_diners['observaciones'];
+                    $con->observaciones = Utilidades::normalizeString($seguimiento_diners['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_diners['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
@@ -802,7 +802,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_interdin['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = $seguimiento_interdin['observaciones'];
+                    $con->observaciones = Utilidades::normalizeString($seguimiento_interdin['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_interdin['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
@@ -892,7 +892,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_discover['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = $seguimiento_discover['observaciones'];
+                    $con->observaciones = Utilidades::normalizeString($seguimiento_discover['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_discover['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
@@ -982,7 +982,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_mastercard['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = $seguimiento_mastercard['observaciones'];
+                    $con->observaciones = Utilidades::normalizeString($seguimiento_mastercard['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_mastercard['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];
                     $con->unificar_deudas = $bandera_unificar_deuda;

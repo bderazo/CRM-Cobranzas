@@ -3,6 +3,7 @@
 namespace Reportes\Diners;
 
 use General\ListasSistema;
+use General\Validacion\Utilidades;
 use Models\AplicativoDinersAsignaciones;
 use Models\AplicativoDinersSaldos;
 use Models\Direccion;
@@ -240,7 +241,7 @@ class  BaseCarga
                         $seg['ultimo_telefono_contacto'] = '';
                     }
                 }
-
+                $seg['observaciones'] = Utilidades::normalizeString($seg['observaciones']);
                 $seg['cuenta'] = $seg['nombre_tarjeta'] . $seg['cedula'];
                 $seg['hora_contacto'] = date("His", strtotime($seg['fecha_ingreso']));
                 $seg['empresa'] = 'MEGACOB';
