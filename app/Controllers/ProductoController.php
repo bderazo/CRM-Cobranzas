@@ -410,6 +410,8 @@ class ProductoController extends BaseController
         $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento->sugerencia_cx88 = 'NO';
         $seguimiento->sugerencia_correo = 'NO';
+        $seguimiento->ingresos_cliente = 0;
+        $seguimiento->egresos_cliente = 0;
 
         //DECLARO EL SEGUIMIENTO DE TARJETA
         $seguimiento_diners = new ViewProductoSeguimiento();
@@ -417,21 +419,29 @@ class ProductoController extends BaseController
         $seguimiento_diners->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_diners->sugerencia_cx88 = 'NO';
         $seguimiento_diners->sugerencia_correo = 'NO';
+        $seguimiento_diners->ingresos_cliente = 0;
+        $seguimiento_diners->egresos_cliente = 0;
         $seguimiento_interdin = new ViewProductoSeguimiento();
         $seguimiento_interdin->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
         $seguimiento_interdin->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_interdin->sugerencia_cx88 = 'NO';
         $seguimiento_interdin->sugerencia_correo = 'NO';
+        $seguimiento_interdin->ingresos_cliente = 0;
+        $seguimiento_interdin->egresos_cliente = 0;
         $seguimiento_discover = new ViewProductoSeguimiento();
         $seguimiento_discover->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
         $seguimiento_discover->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_discover->sugerencia_cx88 = 'NO';
         $seguimiento_discover->sugerencia_correo = 'NO';
+        $seguimiento_discover->ingresos_cliente = 0;
+        $seguimiento_discover->egresos_cliente = 0;
         $seguimiento_mastercard = new ViewProductoSeguimiento();
         $seguimiento_mastercard->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
         $seguimiento_mastercard->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_mastercard->sugerencia_cx88 = 'NO';
         $seguimiento_mastercard->sugerencia_correo = 'NO';
+        $seguimiento_mastercard->ingresos_cliente = 0;
+        $seguimiento_mastercard->egresos_cliente = 0;
 
         if ($numero_tarjetas == 1) {
             $width_tabla = 100;
@@ -569,7 +579,7 @@ class ProductoController extends BaseController
     function guardarSeguimientoDiners($json)
     {
         $data = json_decode($json, true);
-//        printDie($data);
+//        printDie($_FILES);
         //GUARDAR SEGUIMIENTO
         $producto = $data['model'];
         $seguimiento = $data['seguimiento'];
@@ -586,6 +596,8 @@ class ProductoController extends BaseController
         $institucion = Institucion::porId($producto['institucion_id']);
         $bandera_unificar_deuda = $data['bandera_unificar_deuda'];
         $tarjeta_unificar_deuda = $data['tarjeta_unificar_deuda'];
+        $file = $_FILES;
+
 
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
         if(($seguimiento['nivel_1_id'] == 1855) && ($bandera_unificar_deuda == 'no')) {
@@ -637,11 +649,15 @@ class ProductoController extends BaseController
             $con->observaciones = Utilidades::normalizeString($seguimiento['observaciones']);
             $con->sugerencia_cx88 = $seguimiento['sugerencia_cx88'];
             $con->sugerencia_correo = $seguimiento['sugerencia_correo'];
+            $con->ingresos_cliente = $seguimiento['ingresos_cliente'];
+            $con->egresos_cliente = $seguimiento['egresos_cliente'];
             $con->unificar_deudas = $bandera_unificar_deuda;
             $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
             $con->usuario_modificacion = \WebSecurity::getUserData('id');
             $con->fecha_modificacion = date("Y-m-d H:i:s");
             $con->save();
+            //GUARDAR ARCHIVO
+            $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo'], 'seguimiento', $con->id, 'anexo_respaldo');
             //VERIFICAR SI ES NUMERO ORO
             if ($con->telefono_id > 0) {
                 $verificar_contacto = [1839, 1855, 1873];
@@ -715,11 +731,15 @@ class ProductoController extends BaseController
                     $con->observaciones = Utilidades::normalizeString($seguimiento_diners['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_diners['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
+                    $con->ingresos_cliente = $seguimiento_diners['ingresos_cliente'];
+                    $con->egresos_cliente = $seguimiento_diners['egresos_cliente'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
                     $con->fecha_modificacion = date("Y-m-d H:i:s");
                     $con->save();
+                    //GUARDAR ARCHIVO
+                    $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_diners'], 'seguimiento', $con->id, 'anexo_respaldo');
                     //VERIFICAR SI ES NUMERO ORO
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
@@ -805,11 +825,15 @@ class ProductoController extends BaseController
                     $con->observaciones = Utilidades::normalizeString($seguimiento_interdin['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_interdin['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
+                    $con->ingresos_cliente = $seguimiento_interdin['ingresos_cliente'];
+                    $con->egresos_cliente = $seguimiento_interdin['egresos_cliente'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
                     $con->fecha_modificacion = date("Y-m-d H:i:s");
                     $con->save();
+                    //GUARDAR ARCHIVO
+                    $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_interdin'], 'seguimiento', $con->id, 'anexo_respaldo');
                     //VERIFICAR SI ES NUMERO ORO
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
@@ -895,11 +919,15 @@ class ProductoController extends BaseController
                     $con->observaciones = Utilidades::normalizeString($seguimiento_discover['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_discover['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
+                    $con->ingresos_cliente = $seguimiento_discover['ingresos_cliente'];
+                    $con->egresos_cliente = $seguimiento_discover['egresos_cliente'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
                     $con->fecha_modificacion = date("Y-m-d H:i:s");
                     $con->save();
+                    //GUARDAR ARCHIVO
+                    $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_discover'], 'seguimiento', $con->id, 'anexo_respaldo');
                     //VERIFICAR SI ES NUMERO ORO
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
@@ -985,11 +1013,15 @@ class ProductoController extends BaseController
                     $con->observaciones = Utilidades::normalizeString($seguimiento_mastercard['observaciones']);
                     $con->sugerencia_cx88 = $seguimiento_mastercard['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];
+                    $con->ingresos_cliente = $seguimiento_mastercard['ingresos_cliente'];
+                    $con->egresos_cliente = $seguimiento_mastercard['egresos_cliente'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
                     $con->fecha_modificacion = date("Y-m-d H:i:s");
                     $con->save();
+                    //GUARDAR ARCHIVO
+                    $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_mastercard'], 'seguimiento', $con->id, 'anexo_respaldo');
                     //VERIFICAR SI ES NUMERO ORO
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
@@ -1031,6 +1063,21 @@ class ProductoController extends BaseController
         $cliente = Cliente::porId($con->cliente_id);
         $this->flash->addMessage('confirma', 'La GESTIÓN del cliente: ' . $cliente->nombres . ' con cédula: ' . $cliente->cedula . ' HA SIDO GUARDADA.');
         return $this->redirectToAction('indexDiners');
+    }
+
+    function guardarArchivo($file, $modulo, $producto_seguimiento_id, $tipo_archivo, $descripcion_archivo = '') {
+        $config = $this->get('config');
+        $dir = $config['folder_archivos_seguimiento'];
+        if($file['name'] != '') {
+            //ARREGLAR ARCHIVOS
+            $archivo['name'] = strtotime(date("Y-m-d H:i:s")) . '_' . $file["name"];
+            $archivo['type'] = $file["type"];
+            $archivo['tmp_name'] = $file["tmp_name"];
+            $archivo['error'] = $file["error"];
+            $archivo['size'] = $file["size"];
+            $mensaje = GeneralHelper::uploadFiles($producto_seguimiento_id, $modulo, $tipo_archivo, $archivo, $descripcion_archivo, $file["name"], $dir);
+        }
+        return true;
     }
 
     function exportNegociacionManual()
@@ -2265,6 +2312,9 @@ class ViewProductoSeguimiento
     var $observaciones;
     var $sugerencia_cx88;
     var $sugerencia_correo;
+    var $ingresos_cliente;
+    var $egresos_cliente;
+    var $unificar_deudas;
     var $direccion_id;
     var $telefono_id;
     var $lat;

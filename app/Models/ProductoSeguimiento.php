@@ -38,6 +38,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string observaciones
  * @property string sugerencia_cx88
  * @property string sugerencia_correo
+ * @property double ingresos_cliente
+ * @property double egresos_cliente
  * @property string unificar_deudas
  * @property string tarjeta_unificar_deudas
  * @property integer direccion_id

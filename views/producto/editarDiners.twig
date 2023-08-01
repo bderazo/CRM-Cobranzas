@@ -276,14 +276,34 @@
                                 <input type="text" class="form-control fecha" id="fecha_compromiso_pago"
                                        name="fecha_compromiso_pago">
                             </div>
-                        </div>
-                    </div>
-                    <div id="div_valor_comprometido">
-                        <div class=" row mb-4">
+
                             <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
                             <div class="col-md-4 col-informacion">
                                 <input type="text" class="form-control number" v-model="seguimiento.valor_comprometido"
                                        id="valor_comprometido" name="valor_comprometido">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div_ingresos_egresos">
+                        <div class=" row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">INGRESOS DEL CLIENTE</label>
+                            <div class="col-md-4 col-informacion">
+                                <input type="text" class="form-control number" v-model="seguimiento.ingresos_cliente"
+                                       id="ingresos_cliente" name="ingresos_cliente">
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">EGRESOS DEL CLIENTE</label>
+                            <div class="col-md-4 col-informacion">
+                                <input type="text" class="form-control number" v-model="seguimiento.egresos_cliente"
+                                       id="egresos_cliente" name="egresos_cliente">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div_anexo_respaldo">
+                        <div class=" row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
+                            <div class="col-md-6 col-informacion">
+                                <input type="file" class="form-control" id="anexo_respaldo" name="anexo_respaldo">
                             </div>
                         </div>
                     </div>
@@ -382,13 +402,33 @@
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control fecha" id="fecha_compromiso_pago_diners" name="fecha_compromiso_pago_diners">
                                 </div>
-                            </div>
-                        </div>
-                        <div id="div_valor_comprometido_diners">
-                            <div class=" row mb-4">
+
                                 <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control number" v-model="seguimiento_diners.valor_comprometido" id="valor_comprometido_diners" name="valor_comprometido_diners">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_ingresos_egresos_diners">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">INGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_diners.ingresos_cliente"
+                                           id="ingresos_cliente_diners" name="ingresos_cliente_diners">
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">EGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_diners.egresos_cliente"
+                                           id="egresos_cliente_diners" name="egresos_cliente_diners">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_anexo_respaldo_diners">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
+                                <div class="col-md-6 col-informacion">
+                                    <input type="file" class="form-control" id="anexo_respaldo_diners" name="anexo_respaldo_diners">
                                 </div>
                             </div>
                         </div>
@@ -487,13 +527,33 @@
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control fecha" id="fecha_compromiso_pago_interdin" name="fecha_compromiso_pago_interdin">
                                 </div>
-                            </div>
-                        </div>
-                        <div id="div_valor_comprometido_interdin">
-                            <div class=" row mb-4">
+
                                 <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control number" v-model="seguimiento_interdin.valor_comprometido" id="valor_comprometido_interdin" name="valor_comprometido_interdin">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_ingresos_egresos_interdin">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">INGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_interdin.ingresos_cliente"
+                                           id="ingresos_cliente_interdin" name="ingresos_cliente_interdin">
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">EGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_interdin.egresos_cliente"
+                                           id="egresos_cliente_interdin" name="egresos_cliente_interdin">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_anexo_respaldo_interdin">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
+                                <div class="col-md-6 col-informacion">
+                                    <input type="file" class="form-control" id="anexo_respaldo_interdin" name="anexo_respaldo_interdin">
                                 </div>
                             </div>
                         </div>
@@ -592,13 +652,33 @@
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control fecha" id="fecha_compromiso_pago_discover" name="fecha_compromiso_pago_discover">
                                 </div>
-                            </div>
-                        </div>
-                        <div id="div_valor_comprometido_discover">
-                            <div class=" row mb-4">
+
                                 <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control number" v-model="seguimiento_discover.valor_comprometido" id="valor_comprometido_discover" name="valor_comprometido_discover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_ingresos_egresos_discover">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">INGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_discover.ingresos_cliente"
+                                           id="ingresos_cliente_discover" name="ingresos_cliente_discover">
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">EGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_discover.egresos_cliente"
+                                           id="egresos_cliente_discover" name="egresos_cliente_discover">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_anexo_respaldo_discover">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
+                                <div class="col-md-6 col-informacion">
+                                    <input type="file" class="form-control" id="anexo_respaldo_discover" name="anexo_respaldo_discover">
                                 </div>
                             </div>
                         </div>
@@ -697,13 +777,33 @@
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control fecha" id="fecha_compromiso_pago_mastercard" name="fecha_compromiso_pago_mastercard">
                                 </div>
-                            </div>
-                        </div>
-                        <div id="div_valor_comprometido_mastercard">
-                            <div class=" row mb-4">
+
                                 <label for="inputName" class="col-md-2 form-label">VALOR COMPROMETIDO</label>
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control number" v-model="seguimiento_mastercard.valor_comprometido" id="valor_comprometido_mastercard" name="valor_comprometido_mastercard">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_ingresos_egresos_mastercard">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">INGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_mastercard.ingresos_cliente"
+                                           id="ingresos_cliente_mastercard" name="ingresos_cliente_mastercard">
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">EGRESOS DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <input type="text" class="form-control number" v-model="seguimiento_mastercard.egresos_cliente"
+                                           id="egresos_cliente_mastercard" name="egresos_cliente_mastercard">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_anexo_respaldo_mastercard">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
+                                <div class="col-md-6 col-informacion">
+                                    <input type="file" class="form-control" id="anexo_respaldo_mastercard" name="anexo_respaldo_mastercard">
                                 </div>
                             </div>
                         </div>
@@ -3373,17 +3473,27 @@
                             if (res.mostrar_fecha_compromiso_pago == 'si') {
                                 $("#div_fecha_compromiso_pago").show();
                                 $('#fecha_compromiso_pago').prop('required', true);
+                                $('#valor_comprometido').prop('required', true);
                             } else {
                                 $("#div_fecha_compromiso_pago").hide();
                                 $('#fecha_compromiso_pago').removeAttr('required');
+                                $('#valor_comprometido').removeAttr('required');
                             }
 
-                            if (res.mostrar_valor_comprometido == 'si') {
-                                $("#div_valor_comprometido").show();
-                                $('#valor_comprometido').prop('required', true);
+                            if (res.mostrar_ingresos_egresos == 'si') {
+                                $("#div_ingresos_egresos").show();
+                                $('#ingresos_cliente').prop('required', true);
+                                $('#egresos_cliente').prop('required', true);
                             } else {
-                                $("#div_valor_comprometido").hide();
-                                $('#valor_comprometido').removeAttr('required');
+                                $("#div_ingresos_egresos").hide();
+                                $('#ingresos_cliente').removeAttr('required');
+                                $('#egresos_cliente').removeAttr('required');
+                            }
+
+                            if (res.mostrar_anexo_respaldo == 'si') {
+                                $("#div_anexo_respaldo").show();
+                            } else {
+                                $("#div_anexo_respaldo").hide();
                             }
                         });
                     }
@@ -3409,17 +3519,27 @@
                             if (res.mostrar_fecha_compromiso_pago == 'si') {
                                 $("#div_fecha_compromiso_pago_diners").show();
                                 $('#fecha_compromiso_pago_diners').prop('required', true);
+                                $('#valor_comprometido_diners').prop('required', true);
                             } else {
                                 $("#div_fecha_compromiso_pago_diners").hide();
                                 $('#fecha_compromiso_pago_diners').removeAttr('required');
+                                $('#valor_comprometido_diners').removeAttr('required');
                             }
 
-                            if (res.mostrar_valor_comprometido == 'si') {
-                                $("#div_valor_comprometido_diners").show();
-                                $('#valor_comprometido_diners').prop('required', true);
+                            if (res.mostrar_ingresos_egresos == 'si') {
+                                $("#div_ingresos_egresos_diners").show();
+                                $('#ingresos_cliente_diners').prop('required', true);
+                                $('#egresos_cliente_diners').prop('required', true);
                             } else {
-                                $("#div_valor_comprometido_diners").hide();
-                                $('#valor_comprometido_diners').removeAttr('required');
+                                $("#div_ingresos_egresos_diners").hide();
+                                $('#ingresos_cliente_diners').removeAttr('required');
+                                $('#egresos_cliente_diners').removeAttr('required');
+                            }
+
+                            if (res.mostrar_anexo_respaldo == 'si') {
+                                $("#div_anexo_respaldo_diners").show();
+                            } else {
+                                $("#div_anexo_respaldo_diners").hide();
                             }
                         });
                     }
@@ -3445,17 +3565,27 @@
                             if (res.mostrar_fecha_compromiso_pago == 'si') {
                                 $("#div_fecha_compromiso_pago_interdin").show();
                                 $('#fecha_compromiso_pago_interdin').prop('required', true);
+                                $('#valor_comprometido_interdin').prop('required', true);
                             } else {
                                 $("#div_fecha_compromiso_pago_interdin").hide();
                                 $('#fecha_compromiso_pago_interdin').removeAttr('required');
+                                $('#valor_comprometido_interdin').removeAttr('required');
                             }
 
-                            if (res.mostrar_valor_comprometido == 'si') {
-                                $("#div_valor_comprometido_interdin").show();
-                                $('#valor_comprometido_interdin').prop('required', true);
+                            if (res.mostrar_ingresos_egresos == 'si') {
+                                $("#div_ingresos_egresos_interdin").show();
+                                $('#ingresos_cliente_interdin').prop('required', true);
+                                $('#egresos_cliente_interdin').prop('required', true);
                             } else {
-                                $("#div_valor_comprometido_interdin").hide();
-                                $('#valor_comprometido_interdin').removeAttr('required');
+                                $("#div_ingresos_egresos_interdin").hide();
+                                $('#ingresos_cliente_interdin').removeAttr('required');
+                                $('#egresos_cliente_interdin').removeAttr('required');
+                            }
+
+                            if (res.mostrar_anexo_respaldo == 'si') {
+                                $("#div_anexo_respaldo_interdin").show();
+                            } else {
+                                $("#div_anexo_respaldo_interdin").hide();
                             }
                         });
                     }
@@ -3481,17 +3611,27 @@
                             if (res.mostrar_fecha_compromiso_pago == 'si') {
                                 $("#div_fecha_compromiso_pago_discover").show();
                                 $('#fecha_compromiso_pago_discover').prop('required', true);
+                                $('#valor_comprometido_discover').prop('required', true);
                             } else {
                                 $("#div_fecha_compromiso_pago_discover").hide();
                                 $('#fecha_compromiso_pago_discover').removeAttr('required');
+                                $('#valor_comprometido_discover').removeAttr('required');
                             }
 
-                            if (res.mostrar_valor_comprometido == 'si') {
-                                $("#div_valor_comprometido_discover").show();
-                                $('#valor_comprometido_discover').prop('required', true);
+                            if (res.mostrar_ingresos_egresos == 'si') {
+                                $("#div_ingresos_egresos_discover").show();
+                                $('#ingresos_cliente_discover').prop('required', true);
+                                $('#egresos_cliente_discover').prop('required', true);
                             } else {
-                                $("#div_valor_comprometido_discover").hide();
-                                $('#valor_comprometido_discover').removeAttr('required');
+                                $("#div_ingresos_egresos_discover").hide();
+                                $('#ingresos_cliente_discover').removeAttr('required');
+                                $('#egresos_cliente_discover').removeAttr('required');
+                            }
+
+                            if (res.mostrar_anexo_respaldo == 'si') {
+                                $("#div_anexo_respaldo_discover").show();
+                            } else {
+                                $("#div_anexo_respaldo_discover").hide();
                             }
                         });
                     }
@@ -3517,17 +3657,27 @@
                             if (res.mostrar_fecha_compromiso_pago == 'si') {
                                 $("#div_fecha_compromiso_pago_mastercard").show();
                                 $('#fecha_compromiso_pago_mastercard').prop('required', true);
+                                $('#valor_comprometido_mastercard').prop('required', true);
                             } else {
                                 $("#div_fecha_compromiso_pago_mastercard").hide();
                                 $('#fecha_compromiso_pago_mastercard').removeAttr('required');
+                                $('#valor_comprometido_mastercard').removeAttr('required');
                             }
 
-                            if (res.mostrar_valor_comprometido == 'si') {
-                                $("#div_valor_comprometido_mastercard").show();
-                                $('#valor_comprometido_mastercard').prop('required', true);
+                            if (res.mostrar_ingresos_egresos == 'si') {
+                                $("#div_ingresos_egresos_mastercard").show();
+                                $('#ingresos_cliente_mastercard').prop('required', true);
+                                $('#egresos_cliente_mastercard').prop('required', true);
                             } else {
-                                $("#div_valor_comprometido_mastercard").hide();
-                                $('#valor_comprometido_mastercard').removeAttr('required');
+                                $("#div_ingresos_egresos_mastercard").hide();
+                                $('#ingresos_cliente_mastercard').removeAttr('required');
+                                $('#egresos_cliente_mastercard').removeAttr('required');
+                            }
+
+                            if (res.mostrar_anexo_respaldo == 'si') {
+                                $("#div_anexo_respaldo_mastercard").show();
+                            } else {
+                                $("#div_anexo_respaldo_mastercard").hide();
                             }
                         });
                     }
@@ -3763,19 +3913,24 @@
 
                 $("#div_motivo_no_pago").hide();
                 $("#div_fecha_compromiso_pago").hide();
-                $("#div_valor_comprometido").hide();
+                $("#div_ingresos_egresos").hide();
+                $("#div_anexo_respaldo").hide();
                 $("#div_motivo_no_pago_diners").hide();
                 $("#div_fecha_compromiso_pago_diners").hide();
-                $("#div_valor_comprometido_diners").hide();
+                $("#div_ingresos_egresos_diners").hide();
+                $("#div_anexo_respaldo_diners").hide();
                 $("#div_motivo_no_pago_interdin").hide();
                 $("#div_fecha_compromiso_pago_interdin").hide();
-                $("#div_valor_comprometido_interdin").hide();
+                $("#div_ingresos_egresos_interdin").hide();
+                $("#div_anexo_respaldo_interdin").hide();
                 $("#div_motivo_no_pago_discover").hide();
                 $("#div_fecha_compromiso_pago_discover").hide();
-                $("#div_valor_comprometido_discover").hide();
+                $("#div_ingresos_egresos_discover").hide();
+                $("#div_anexo_respaldo_discover").hide();
                 $("#div_motivo_no_pago_mastercard").hide();
                 $("#div_fecha_compromiso_pago_mastercard").hide();
-                $("#div_valor_comprometido_mastercard").hide();
+                $("#div_ingresos_egresos_mastercard").hide();
+                $("#div_anexo_respaldo_mastercard").hide();
 
                 $("#div_seguimiento_diners").hide();
                 $("#div_seguimiento_interdin").hide();

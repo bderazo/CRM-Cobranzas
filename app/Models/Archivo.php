@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property integer parent_id
  * @property string parent_type
+ * @property string tipo_archivo
  * @property string nombre
  * @property string nombre_sistema
  * @property integer longitud

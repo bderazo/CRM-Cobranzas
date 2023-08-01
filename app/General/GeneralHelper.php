@@ -14,12 +14,12 @@ class GeneralHelper {
 		return $numero;
 	}
 
-	static function uploadFiles($id_modulo, $modulo, $archivo, $descripcion_archivo, $nombre_archivo, $dir)
+	static function uploadFiles($id_modulo, $modulo, $tipo_archivo, $archivo, $descripcion_archivo, $nombre_archivo, $dir)
 	{
 		$mensaje = '';
 		if(!is_dir($dir)) {
 			$mensaje = "Error Carga Archivo: El directorio $dir de archivos no existe";
-			\Auditor::error($mensaje, $modulo, []);
+			\Auditor::error($mensaje, $modulo, $archivo);
 			return $mensaje;
 		}
 		$upload = new Upload($archivo);
@@ -45,7 +45,8 @@ class GeneralHelper {
 			$arch = new Archivo();
 			$arch->parent_id = $id_modulo;
 			$arch->parent_type = $modulo;
-			$arch->nombre = $nombre_archivo;
+			$arch->tipo_archivo = $tipo_archivo;
+            $arch->nombre = $nombre_archivo;
 			$arch->nombre_sistema = $upload->file_dst_name;
 			$arch->longitud = $archivo['size'];
 			$arch->tipo_mime = $archivo['type'];
