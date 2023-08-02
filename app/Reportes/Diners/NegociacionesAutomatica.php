@@ -3,6 +3,7 @@
 namespace Reportes\Diners;
 
 use General\ListasSistema;
+use Models\AplicativoDinersAsignaciones;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
@@ -28,59 +29,65 @@ class NegociacionesAutomatica {
 	function consultaBase($filtros) {
 		$db = new \FluentPDO($this->pdo);
 
-		//BUSCAR SEGUIMIENTOS
-		$q = $db->from('producto_seguimiento ps')
-            ->innerJoin('aplicativo_diners_detalle dd ON ps.id = dd.producto_seguimiento_id AND dd.tipo = "gestionado"')
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes();
+
+        //BUSCAR SEGUIMIENTOS
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
-			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-			->select(null)
-			->select("ps.*, cl.cedula, u.canal AS usuario_canal, dd.total_financiamiento, dd.plazo_financiamiento,
-			                 dd.nombre_tarjeta, dd.numero_meses_gracia, dd.abono_negociador, dd.unificar_deudas")
-			->where('dd.tipo_negociacion','automatica')
+            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+            ->select(null)
+            ->select("ps.*, cl.cedula, u.canal AS usuario_canal, addet.total_financiamiento, addet.plazo_financiamiento,
+			                 addet.nombre_tarjeta, addet.numero_meses_gracia, addet.abono_negociador, addet.unificar_deudas,
+			                 addet.id AS aplicativo_diners_detalle_id, 
+			                 ps.unificar_deudas AS unificar_deudas_seguimiento, ps.tarjeta_unificar_deudas")
+            ->where('addet.tipo_negociacion','automatica')
+            ->where('ps.nivel_3_id IN (1860)')
             ->where('ps.institucion_id',1)
-			->where('ps.eliminado',0);
-        if (@$filtros['canal_usuario']){
-            $q->where('u.canal',$filtros['canal_usuario']);
-        }
+            ->where('ps.eliminado',0);
         if (@$filtros['plaza_usuario']){
-            $q->where('u.plaza',$filtros['plaza_usuario']);
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
         }
         if (@$filtros['fecha_inicio']){
-            $hora = '00';
-            if($filtros['hora_inicio'] != ''){
-                $hora = $filtros['hora_inicio'];
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_inicio'] != ''){
-                $minuto = $filtros['minuto_inicio'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
         }
         if (@$filtros['fecha_fin']){
-            $hora = '00';
-            if($filtros['hora_fin'] != ''){
-                $hora = $filtros['hora_fin'];
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_fin'] != ''){
-                $minuto = $filtros['minuto_fin'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
         }
+        $fil = implode(',',$clientes_asignacion);
+        $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('ps.fecha_ingreso');
         $q->disableSmartJoin();
         $lista = $q->fetchAll();
         $data = [];
+        $quitar_seguimientos = [];
         $cont = 1;
         foreach($lista as $seg){
+            //CONSULTAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
+            if(($seg['unificar_deudas_seguimiento'] == 'si') && ($seg['tarjeta_unificar_deudas'] != $seg['nombre_tarjeta'])){
+                $quitar_seguimientos[] = $seg['aplicativo_diners_detalle_id'];
+            }
             $seg['numero'] = $cont;
-            if($seg['usuario_canal'] == 'CAMPO'){
+            if(($seg['usuario_canal'] == 'CAMPO') || ($seg['usuario_canal'] == 'AUXILIAR TELEFONIA')){
                 $seg['cod_negociador'] = 'Q20000006D';
             }else{
                 $seg['cod_negociador'] = 'Q20000006T';
@@ -133,10 +140,26 @@ class NegociacionesAutomatica {
             $cont++;
             $data[] = $seg;
         }
+
+        //QUITAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
+        foreach ($quitar_seguimientos as $qs){
+            $id = $this->searchForId($qs, $data);
+            unset($data[$id]);
+        }
+
         $retorno['data'] = $data;
         $retorno['total'] = [];
 		return $retorno;
 	}
+
+    function searchForId($id, $array) {
+        foreach ($array as $key => $val) {
+            if ($val['aplicativo_diners_detalle_id'] === $id) {
+                return $key;
+            }
+        }
+        return null;
+    }
 	
 	function exportar($filtros) {
 		$q = $this->consultaBase($filtros);
