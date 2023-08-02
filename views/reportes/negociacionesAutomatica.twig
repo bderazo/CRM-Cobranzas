@@ -64,9 +64,15 @@
                             <td style="text-align: center;" v-html="d.traslado_valores_visa"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_discover"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_mastercard"></td>
-                            <td style="text-align: center;"></td>
-                            <td style="text-align: center;"></td>
-                            <td style="text-align: center;"></td>
+                            <td style="text-align: center;" v-html="d.ingresos_cliente"></td>
+                            <td style="text-align: center;" v-html="d.egresos_cliente"></td>
+                            <td style="text-align: center;">
+                                <div v-if="d.archivo_link != ''">
+                                    <a class="btn btn-sm btn-secondary" type="button" :href="d.archivo_link" :title="d.archivo_nombre" target="_blank">
+                                        <i class="fa fa-download" aria-hidden="true"></i> DESCARGAR
+                                    </a>
+                                </div>
+                            </td>
 						</tr>
 						</tbody>
 					</table>

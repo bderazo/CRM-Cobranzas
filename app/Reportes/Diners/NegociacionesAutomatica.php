@@ -4,6 +4,7 @@ namespace Reportes\Diners;
 
 use General\ListasSistema;
 use Models\AplicativoDinersAsignaciones;
+use Models\Archivo;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
@@ -21,15 +22,18 @@ class NegociacionesAutomatica {
 	 */
 	public function __construct(\PDO $pdo) { $this->pdo = $pdo; }
 	
-	function calcular($filtros) {
-		$lista = $this->consultaBase($filtros);
+	function calcular($filtros, $config) {
+		$lista = $this->consultaBase($filtros, $config);
 		return $lista;
 	}
 	
-	function consultaBase($filtros) {
+	function consultaBase($filtros, $config) {
 		$db = new \FluentPDO($this->pdo);
 
+
         $clientes_asignacion = AplicativoDinersAsignaciones::getClientes();
+
+        $archivos_seguimiento = Archivo::porTipo('seguimiento','anexo_respaldo',$config['path_archivos_seguimiento']);
 
         //BUSCAR SEGUIMIENTOS
         $q = $db->from('producto_seguimiento ps')
@@ -135,6 +139,13 @@ class NegociacionesAutomatica {
             if($seg['nivel_2_motivo_no_pago_id'] > 0){
                 $paleta_notivo_no_pago = PaletaMotivoNoPago::porId($seg['nivel_2_motivo_no_pago_id']);
                 $seg['motivo_no_pago_codigo'] = $paleta_notivo_no_pago['codigo'];
+            }
+
+            $seg['archivo_link'] = '';
+            $seg['archivo_nombre'] = '';
+            if(isset($archivos_seguimiento[$seg['id']])){
+                $seg['archivo_link'] = $archivos_seguimiento[$seg['id']]['archivo'];
+                $seg['archivo_nombre'] = $archivos_seguimiento[$seg['id']]['nombre'];
             }
 
             $cont++;

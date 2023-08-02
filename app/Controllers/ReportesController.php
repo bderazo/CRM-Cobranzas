@@ -2194,9 +2194,10 @@ class ReportesController extends BaseController
     //NEGOCIACIONES MANUAL
     function negociacionesManual(){
         \WebSecurity::secure('reportes.negociaciones_manual');
+        $config = $this->get('config');
         if ($this->isPost()) {
             $rep = new NegociacionesManual($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
+            $data = $rep->calcular($this->request->getParsedBody(), $config);
             return $this->json($data);
         }
         $titulo = 'Negociaciones Manuales';
@@ -2329,9 +2330,10 @@ class ReportesController extends BaseController
     //NEGOCIACIONES AUTOMÁTICAS
     function negociacionesAutomatica(){
         \WebSecurity::secure('reportes.negociaciones_automatica');
+        $config = $this->get('config');
         if ($this->isPost()) {
             $rep = new NegociacionesAutomatica($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
+            $data = $rep->calcular($this->request->getParsedBody(), $config);
             return $this->json($data);
         }
         $titulo = 'Negociaciones Automáticas';

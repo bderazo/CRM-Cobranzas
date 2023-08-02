@@ -107,4 +107,31 @@ class Archivo extends Model {
 			->execute();
 		return $query;
 	}
+
+    static function porTipo($modulo, $tipo_archivo, $path) {
+        $pdo = Archivo::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q=$db->from('archivo a')
+            ->innerJoin('usuario u ON u.id = a.usuario_ingreso')
+            ->select(null)
+            ->select('a.*, u.username')
+            ->where('eliminado',0)
+            ->where('tipo_archivo',$tipo_archivo)
+            ->where('parent_type',$modulo)
+            ->orderBy('fecha_ingreso ASC');
+        $lista = $q->fetchAll();
+        $currentPath = $_SERVER['PHP_SELF'];
+        $pathInfo = pathinfo($currentPath);
+        $hostName = $_SERVER['HTTP_HOST'];
+        $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https://' ? 'https://' : 'http://';
+        $url = $protocol . $hostName . $pathInfo['dirname'] . $path;
+        $retorno = [];
+        foreach($lista as $l){
+            $l['archivo'] = $url . '/' . $l['nombre_sistema'];
+            $l['thumb'] = $url . '/thumb/' . $l['nombre_sistema'];
+            $retorno[$l['parent_id']] = $l;
+        }
+        return $retorno;
+    }
 }
