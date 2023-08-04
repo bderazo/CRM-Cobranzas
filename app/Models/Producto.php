@@ -731,7 +731,7 @@ class Producto extends Model
             ($data['edad_cartera'] <= 60) &&
             ($data['numero_meses_gracia'] <= 2) &&
             ($data['total_riesgo'] <= 20000) &&
-            ($data['codigo_cancelacion'] != '86')
+            ($data['codigo_cancelacion'] == '86')
         ){
             $data['tipo_negociacion'] = 'automatica';
         }else{
@@ -1024,7 +1024,7 @@ class Producto extends Model
             ($data['edad_cartera'] <= 60) &&
             ($data['numero_meses_gracia'] <= 2) &&
             ($data['total_riesgo'] <= 20000) &&
-            ($data['codigo_cancelacion'] != '86')
+            ($data['codigo_cancelacion'] == '86')
         ){
             $data['tipo_negociacion'] = 'automatica';
         }else{
