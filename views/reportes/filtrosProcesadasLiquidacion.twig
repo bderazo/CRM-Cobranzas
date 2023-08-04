@@ -26,6 +26,16 @@
 				</div>
 
 				<div class="col-sm-3">
+					<b>Ciclo</b> <br>
+					<div class="input-group">
+						<select class="form-control select2" name="ciclo[]" id="ciclo" multiple>
+							<option value=""></option>
+							<option v-for="(v,k) in ciclo_asignacion" v-html="v" :value="k"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
 					<b>Fecha Inicio</b> <br>
 					{{ text_field_tag("fecha_inicio", '', {class:'form-control fecha'}) }}
 					<select class="form-control form-select select2" name="hora_inicio" id="hora_inicio" style="width: 60px;">
@@ -65,6 +75,7 @@
                     plaza_usuario: {{ plaza_usuario|raw }},
                     horas: {{ horas|raw }},
                     minutos: {{ minutos|raw }},
+					ciclo_asignacion: {{ ciclo_asignacion|raw }},
                 },
                 methods: {},
             });

@@ -32,37 +32,39 @@ class ProcesadasLiquidacion
 	{
 		$db = new \FluentPDO($this->pdo);
 
-        //OBTENER ASIGNACION
-        $asignacion = AplicativoDinersAsignaciones::getTodos();
+        $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
+
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes([],$ciclo);
+        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca([],$ciclo);
+
+
 
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
-			->innerJoin('aplicativo_diners ad ON p.id = ad.producto_id AND ad.eliminado = 0')
-			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->innerJoin('cliente cl ON cl.id = ps.cliente_id')
 			->select(null)
-			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, addet.nombre_tarjeta, cl.cedula, 
+			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.cedula, 
 							 addet.ciclo AS corte, u.canal AS canal_usuario, cl.nombres, addet.plazo_financiamiento, 
 							 u.identificador AS area_usuario, u.plaza AS zona, cl.id AS id_cliente,
-							 ad.id AS aplicativo_diners_id, addet.edad_cartera, ad.zona_cuenta")
+							 addet.edad_cartera, cl.zona AS zona_cuenta,
+							 addet.nombre_tarjeta AS tarjeta, addet.ciclo")
+            ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
 			->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
-		}
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
+        }
+        if (@$filtros['ciclo']){
+            $fil = implode(',',$filtros['ciclo']);
+            $q->where('addet.ciclo IN ('.$fil.')');
+        }
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
                 $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
@@ -83,30 +85,25 @@ class ProcesadasLiquidacion
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
         }
+        $fil = implode(',',$clientes_asignacion);
+        $q->where('ps.cliente_id IN ('.$fil.')');
         $q->disableSmartJoin();
 		$lista = $q->fetchAll();
 		$data = [];
 		foreach($lista as $seg) {
-            if(isset($asignacion[$seg['aplicativo_diners_id']])) {
-                $asignacion_arr = $asignacion[$seg['aplicativo_diners_id']];
-                $seg['inicio'] = $asignacion_arr['fecha_inicio'];
-                $seg['fin'] = $asignacion_arr['fecha_fin'];
-                $seg['fecha_envio'] = $asignacion_arr['fecha_asignacion'];
+            //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
+            if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']])){
+                $seg['inicio'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']]['fecha_inicio'];
+                $seg['fin'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']]['fecha_fin'];
+                $seg['fecha_envio'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']]['fecha_asignacion'];
                 $seg['negociacion_asignacion'] = '';
-                $seg['campana'] = $asignacion_arr['campana'];
-                $seg['campana_ece'] = $asignacion_arr['campana_ece'];
-            }else{
-                $seg['inicio'] = '';
-                $seg['fin'] = '';
-                $seg['fecha_envio'] = '';
-                $seg['negociacion_asignacion'] = '';
-                $seg['campana'] = '';
-                $seg['campana_ece'] = '';
-            }
-            $seg['cuenta'] = $seg['nombre_tarjeta'] . $seg['cedula'];
-            $seg['fecha_asignacion'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
+                $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']]['campana'];
+                $seg['campana_ece'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']]['campana_ece'];
+                $seg['cuenta'] = $seg['tarjeta'] . $seg['cedula'];
+                $seg['fecha_asignacion'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']]['fecha_asignacion'];
 
-			$data[] = $seg;
+                $data[] = $seg;
+            }
 		}
 
 //		printDie($data);
