@@ -26,6 +26,7 @@ use Reportes\Diners\GestionesPorHora;
 use Reportes\Diners\Individual;
 use Reportes\Diners\InformeJornada;
 use Reportes\Diners\LlamadasContactadas;
+use Reportes\Diners\MejorUltimaGestion;
 use Reportes\Diners\NegociacionesAutomatica;
 use Reportes\Diners\NegociacionesEjecutivo;
 use Reportes\Diners\NegociacionesManual;
@@ -594,24 +595,120 @@ class ReportesController extends BaseController
                 'valor' => $d['tipo_negociacion'],
                 'formato' => 'text'
             ];
-            $aux['MEJOR GESTION'] = [
-                'valor' => '',
-                'formato' => 'text'
-            ];
-            $aux['ULTIMA GESTION'] = [
-                'valor' => '',
-                'formato' => 'text'
-            ];
-
-
-
-
-
-
-
             $lista[] = $aux;
         }
         $this->exportSimple($lista, 'BASE GENERAL', 'base_general.xlsx');
+    }
+
+    //MEJOR Y ULTIMA GESTION
+    function mejorUltimaGestion(){
+        \WebSecurity::secure('reportes.mejor_ultima_gestion');
+        if ($this->isPost()) {
+            $rep = new MejorUltimaGestion($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Mejor y Última Gestión';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('mejorUltimaGestion', $data);
+    }
+
+    function exportMejorUltimaGestion($json)
+    {
+        \WebSecurity::secure('reportes.mejor_ultima_gestion');
+        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+        $json = str_replace('ciclo[]', 'ciclo', $json);
+        $json = str_replace('resultado[]', 'resultado', $json);
+        $json = str_replace('accion[]', 'accion', $json);
+        $json = str_replace('descripcion[]', 'descripcion', $json);
+        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+        $jdata = json_decode(htmlspecialchars_decode($json), true);
+        $filtros = $jdata['filtros'];
+        $rep = new MejorUltimaGestion($this->get('pdo'));
+        $data = $rep->exportar($filtros);
+        $lista = [];
+        foreach ($data['data'] as $d) {
+            $aux['NOMBRE SOCIO'] = [
+                'valor' => $d['cliente'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['MARCA'] = [
+                'valor' => $d['marca'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['ciclo'],
+                'formato' => 'number'
+            ];
+
+
+            $aux['RESULTADO ÚLTIMA GESTIÓN'] = [
+                'valor' => $d['resultado_ultima_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['ACCIÓN ÚLTIMA GESTIÓN'] = [
+                'valor' => $d['accion_ultima_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['OBSERVACIONES ÚLTIMA GESTIÓN'] = [
+                'valor' => $d['observaciones_ultima_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO ÚLTIMA GESTIÓN'] = [
+                'valor' => $d['ejecutivo_ultima_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA ÚLTIMA GESTIÓN'] = [
+                'valor' => $d['fecha_ultima_gestion'],
+                'formato' => 'text'
+            ];
+
+
+
+
+            $aux['RESULTADO MEJOR GESTIÓN'] = [
+                'valor' => $d['resultado_mejor_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['ACCIÓN MEJOR GESTIÓN'] = [
+                'valor' => $d['accion_mejor_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['OBSERVACIONES MEJOR GESTIÓN'] = [
+                'valor' => $d['observaciones_mejor_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO MEJOR GESTIÓN'] = [
+                'valor' => $d['ejecutivo_mejor_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA MEJOR GESTIÓN'] = [
+                'valor' => $d['fecha_mejor_gestion'],
+                'formato' => 'text'
+            ];
+
+
+            $aux['MN'] = [
+                'valor' => $d['MN'],
+                'formato' => 'number'
+            ];
+            $aux['DM'] = [
+                'valor' => $d['DM'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $this->exportSimple($lista, 'MEJOR ULTIMA GESTION', 'mejor_ultima_gestion.xlsx');
     }
 
     //PRODUCCION PLAZA

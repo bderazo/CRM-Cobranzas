@@ -8,6 +8,13 @@ return [
             'icon' => 'fa fa-list-alt',
             'description' => 'Reporte de Base General'
         ],
+        [
+            'label' => 'Mejor y Última Gestión',
+            'link' => '/reportes/mejorUltimaGestion',
+            'roles' => 'reportes.mejor_ultima_gestion',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'Reporte de Mejor y Última Gestión'
+        ],
 		[
 			'label' => 'Producción Plaza',
 			'link' => '/reportes/produccionPlaza',

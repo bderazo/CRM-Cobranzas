@@ -1,0 +1,173 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosMejorUltimaGestion.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+                <h3>DETALLE</h3>
+				<a class="btn btn-default-light" id="btnExportar">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+                            <th>NOMBRE SOCIO</th>
+                            <th>CEDULA</th>
+                            <th>MARCA</th>
+                            <th>CICLO</th>
+
+                            <th>RESULTADO ÚLTIMA GESTIÓN</th>
+                            <th>ACCIÓN ÚLTIMA GESTIÓN</th>
+                            <th>OBSERVACIONES ÚLTIMA GESTIÓN</th>
+                            <th>EJECUTIVO ÚLTIMA GESTIÓN</th>
+                            <th>FECHA ÚLTIMA GESTIÓN</th>
+
+                            <th>RESULTADO MEJOR GESTIÓN</th>
+                            <th>ACCIÓN MEJOR GESTIÓN</th>
+                            <th>OBSERVACIONES MEJOR GESTIÓN</th>
+                            <th>EJECUTIVO MEJOR GESTIÓN</th>
+                            <th>FECHA MEJOR GESTIÓN</th>
+
+                            <th>MN</th>
+                            <th>DM</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td v-html="d.cliente"></td>
+                            <td v-html="d.cedula"></td>
+                            <td v-html="d.marca"></td>
+                            <td v-html='d.ciclo'></td>
+
+                            <td v-html='d.resultado_ultima_gestion'></td>
+                            <td v-html='d.accion_ultima_gestion'></td>
+                            <td v-html='d.observaciones_ultima_gestion'></td>
+                            <td v-html='d.ejecutivo_ultima_gestion'></td>
+                            <td v-html='d.fecha_ultima_gestion'></td>
+
+                            <td v-html='d.resultado_mejor_gestion'></td>
+                            <td v-html='d.accion_mejor_gestion'></td>
+                            <td v-html='d.observaciones_mejor_gestion'></td>
+                            <td v-html='d.ejecutivo_mejor_gestion'></td>
+                            <td v-html='d.fecha_mejor_gestion'></td>
+
+                            <td style="text-align: right;" v-html='d.MN'></td>
+                            <td style="text-align: right;" v-html='d.DM'></td>
+
+						</tr>
+						</tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="14" style="text-align: right; font-weight: bold;">TOTAL</td>
+                            <td style="text-align: right;" v-html='total.total_mn'></td>
+                            <td style="text-align: right;" v-html='total.total_dm'></td>
+                        </tr>
+                        </tfoot>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportMejorUltimaGestion">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/mejorUltimaGestion', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                    })
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    var data = {
+                        filtros: form.serializeForm()
+                    };
+                    $('#json').val(JSON.stringify(data));
+                    $('#exportForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_ece").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        // self.consultar();
+                    });
+                    $('.select2').select2({
+                        theme: "classic"
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}

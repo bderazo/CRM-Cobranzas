@@ -94,6 +94,7 @@ return [
 		'text' => 'Reportes',
 		'children' => [
 			'base_general' => 'Base General',
+            'mejor_ultima_gestion' => 'Mejor y Última Gestión',
             'produccion_plaza' => 'Producción Plaza',
 			'campo_telefonia' => 'Campo y Telefonía',
 			'informe_jornada' => 'Informes De Jornada',
