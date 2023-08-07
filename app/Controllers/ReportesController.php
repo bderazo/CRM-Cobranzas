@@ -1947,6 +1947,68 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
+        $aux['AGENTE'] = [
+            'valor' => 'TOTAL',
+            'formato' => 'text'
+        ];
+        $aux['7'] = [
+            'valor' => $data['total']['total_7'],
+            'formato' => 'number'
+        ];
+        $aux['8'] = [
+            'valor' => $data['total']['total_8'],
+            'formato' => 'number'
+        ];
+        $aux['9'] = [
+            'valor' => $data['total']['total_9'],
+            'formato' => 'number'
+        ];
+        $aux['10'] = [
+            'valor' => $data['total']['total_10'],
+            'formato' => 'number'
+        ];
+        $aux['11'] = [
+            'valor' => $data['total']['total_11'],
+            'formato' => 'number'
+        ];
+        $aux['12'] = [
+            'valor' => $data['total']['total_12'],
+            'formato' => 'number'
+        ];
+        $aux['13'] = [
+            'valor' => $data['total']['total_13'],
+            'formato' => 'number'
+        ];
+        $aux['14'] = [
+            'valor' => $data['total']['total_14'],
+            'formato' => 'number'
+        ];
+        $aux['15'] = [
+            'valor' => $data['total']['total_15'],
+            'formato' => 'number'
+        ];
+        $aux['16'] = [
+            'valor' => $data['total']['total_16'],
+            'formato' => 'number'
+        ];
+        $aux['17'] = [
+            'valor' => $data['total']['total_17'],
+            'formato' => 'number'
+        ];
+        $aux['18'] = [
+            'valor' => $data['total']['total_18'],
+            'formato' => 'number'
+        ];
+        $aux['19'] = [
+            'valor' => $data['total']['total_19'],
+            'formato' => 'number'
+        ];
+        $aux['TOTAL GENERAL'] = [
+            'valor' => $data['total']['total_general'],
+            'formato' => 'number'
+        ];
+        $lista[] = $aux;
+
         $exportar[] = [
             'name' => 'GESTIONES POR HORA',
             'data' => $lista
@@ -1966,36 +2028,12 @@ class ReportesController extends BaseController
                 'valor' => $d['cedula'],
                 'formato' => 'text'
             ];
-            $aux['DINERS'] = [
-                'valor' => $d['diners'],
+            $aux['MARCA'] = [
+                'valor' => $d['tarjeta'],
                 'formato' => 'text'
             ];
-            $aux['VISA'] = [
-                'valor' => $d['visa'],
-                'formato' => 'text'
-            ];
-            $aux['DISCOVER'] = [
-                'valor' => $d['discover'],
-                'formato' => 'text'
-            ];
-            $aux['MASTERCARD'] = [
-                'valor' => $d['mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO DINERS'] = [
-                'valor' => $d['diners_ciclo'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO VISA'] = [
-                'valor' => $d['visa_ciclo'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO DISCOVER'] = [
-                'valor' => $d['discover_ciclo'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO MASTERCARD'] = [
-                'valor' => $d['mastercard_ciclo'],
+            $aux['CICLO'] = [
+                'valor' => $d['ciclo'],
                 'formato' => 'text'
             ];
             $aux['FECHA'] = [
