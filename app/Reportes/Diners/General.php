@@ -233,6 +233,12 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['notificado'];
                             }
                         }
+                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
+                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
+                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
+                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
+                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
+                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
                     }
                     if($saldos_arr['EJECUTIVO VISA'] != ''){
                         if(isset($resumen_totales[$saldos_arr['EJECUTIVO VISA']])){
@@ -264,6 +270,12 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['notificado'];
                             }
                         }
+                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
+                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
+                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
+                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
+                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
+                        $res['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
                     }
                     if($saldos_arr['EJECUTIVO DISCOVER'] != ''){
                         if(isset($resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']])){
@@ -295,6 +307,12 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['notificado'];
                             }
                         }
+                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
+                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
+                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
+                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
+                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
+                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
                     }
                     if($saldos_arr['EJECUTIVO MASTERCARD'] != ''){
                         if(isset($resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']])){
@@ -326,58 +344,21 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['notificado'];
                             }
                         }
+                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
+                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
+                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
+                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
+                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
+                        $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
                     }
-                    $res['mastercard_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
-                    $res['mastercard_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
-                    $res['mastercard_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
-                    $res['mastercard_90'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
-                    $res['mastercard_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
-                    $res['diners_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
-                    $res['diners_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
-                    $res['diners_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
-                    $res['diners_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
-                    $res['diners_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
-                    $res['visa_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
-                    $res['visa_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
-                    $res['visa_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
-                    $res['visa_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
-                    $res['visa_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
-                    $res['discover_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
-                    $res['discover_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
-                    $res['discover_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
-                    $res['discover_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
-                    $res['discover_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
-                    $res['edad_cartera_diners'] = $saldos_arr['EDAD REAL DINERS'];
-                    $res['edad_cartera_visa'] = $saldos_arr['EDAD REAL VISA'];
-                    $res['edad_cartera_discover'] = $saldos_arr['EDAD REAL DISCOVER'];
-                    $res['edad_cartera_mastercard'] = $saldos_arr['EDAD REAL MASTERCARD'];
                 }else{
-                    $res['mastercard_actuales'] = '';
-                    $res['mastercard_30'] = '';
-                    $res['mastercard_60'] = '';
-                    $res['mastercard_90'] = '';
-                    $res['mastercard_mas_90'] = '';
-                    $res['diners_actuales'] = '';
-                    $res['diners_30'] = '';
-                    $res['diners_60'] = '';
-                    $res['diners_90'] = '';
-                    $res['diners_mas_90'] = '';
-                    $res['visa_actuales'] = '';
-                    $res['visa_30'] = '';
-                    $res['visa_60'] = '';
-                    $res['visa_90'] = '';
-                    $res['visa_mas_90'] = '';
-                    $res['discover_actuales'] = '';
-                    $res['discover_30'] = '';
-                    $res['discover_60'] = '';
-                    $res['discover_90'] = '';
-                    $res['discover_mas_90'] = '';
-                    $res['edad_cartera_diners'] = '';
-                    $res['edad_cartera_visa'] = '';
-                    $res['edad_cartera_discover'] = '';
-                    $res['edad_cartera_mastercard'] = '';
+                    $res['pendiente_actuales'] = '';
+                    $res['pendiente_30'] = '';
+                    $res['pendiente_60'] = '';
+                    $res['pendiente_90'] = '';
+                    $res['pendiente_mas_90'] = '';
+                    $res['edad_cartera'] = 0;
                 }
-
                 $resumen[] = $res;
             }
         }
