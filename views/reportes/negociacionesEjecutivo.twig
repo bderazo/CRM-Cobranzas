@@ -31,8 +31,10 @@
 							<th>D60_ORIG</th>
 							<th>D90_ORIG</th>
 							<th>DMAS90_ORIG</th>
+                            <th>NOTA DE CRÉDITO</th>
+                            <th>PAGO MÍNIMO</th>
 							<th>TOTAL</th>
-							<th>ESTADO</th>
+                            <th>ESTADO</th>
 							<th>VERIFICACION</th>
 							<th>AREA</th>
 							<th>TIPO DE RECUPERO</th>
@@ -42,7 +44,7 @@
 						<tr v-for="d in datos">
 							<td v-html="d.marca_cedula"></td>
 							<td v-html="d.fecha"></td>
-							<td v-html="d.nombre_tarjeta"></td>
+							<td v-html="d.tarjeta"></td>
 							<td v-html="d.corte"></td>
 							<td v-html="d.campana"></td>
 							<td v-html="d.cedula"></td>
@@ -56,7 +58,9 @@
 							<td style="text-align: right;" v-html="d.d60_orig"></td>
 							<td style="text-align: right;" v-html="d.d90_orig"></td>
 							<td style="text-align: right;" v-html="d.dmas90_orig"></td>
-							<td style="text-align: right;" v-html="d.total"></td>
+							<td style="text-align: right;" v-html="d.nota_credito"></td>
+                            <td style="text-align: right;" v-html="d.pago_minimo"></td>
+                            <td style="text-align: right;" v-html="d.total_format"></td>
 							<td style="text-align: center;">
 								<input type="text" class="form-control" v-model="d.estado" style="width: 120px;" v-autoname/>
 							</td>
@@ -171,7 +175,19 @@
                             theme: "classic",
                             initSelection: function(element, callback) {}
                         });
-                        self.consultar();
+                        $("#campana").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_ece").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        // self.consultar();
                     });
 
                     $('.select2').select2({

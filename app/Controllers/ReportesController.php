@@ -1100,20 +1100,7 @@ class ReportesController extends BaseController
     function exportNegociacionesEjecutivo($json)
     {
         \WebSecurity::secure('reportes.negociaciones_ejecutivo');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $jdata = json_decode(htmlspecialchars_decode($json), true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new NegociacionesEjecutivo($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $lista = [];
         foreach ($jdata['datos'] as $d) {
             $aux['MARCACEDULA'] = [
@@ -1125,7 +1112,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['MARCA'] = [
-                'valor' => $d['nombre_tarjeta'],
+                'valor' => $d['tarjeta'],
                 'formato' => 'text'
             ];
             $aux['CORTE'] = [
@@ -1178,6 +1165,14 @@ class ReportesController extends BaseController
             ];
             $aux['DMAS90_ORIG'] = [
                 'valor' => $d['dmas90_orig'],
+                'formato' => 'number'
+            ];
+            $aux['NOTA DE CRÉDITO'] = [
+                'valor' => $d['nota_credito'],
+                'formato' => 'number'
+            ];
+            $aux['PAGO MÍNIMO'] = [
+                'valor' => $d['pago_minimo'],
                 'formato' => 'number'
             ];
             $aux['TOTAL'] = [

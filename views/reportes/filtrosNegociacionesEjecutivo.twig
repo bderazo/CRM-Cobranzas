@@ -54,16 +54,21 @@
 	</div>
 	<div class="card-footer">
 		<button id="btnFiltro" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
-		<button id="btnTodos" class="btn btn-success"><i class="fa fa-eye"></i> Ver todos</button>
+		<button id="btnTodos" class="btn btn-success"><i class="fa fa-eraser"></i> Limpiar filtros</button>
 		{% include "reportes/loader.twig" %}
 		<script>
             var appFiltros = new Vue({
                 el: '#filtros',
                 data: {
-                    canal_usuario: {{ canal_usuario|raw }},
-                    plaza_usuario: {{ plaza_usuario|raw }},
-                    horas: {{ horas|raw }},
-                    minutos: {{ minutos|raw }},
+					canal_usuario: {{ canal_usuario|raw }},
+					plaza_usuario: {{ plaza_usuario|raw }},
+					horas: {{ horas|raw }},
+					minutos: {{ minutos|raw }},
+					campana_asignacion: {{ campana_asignacion|raw }},
+					campana_ece: {{ campana_ece|raw }},
+					campana_usuario: {{ campana_usuario|raw }},
+					marca: {{ marca|raw }},
+					ciclo_asignacion: {{ ciclo_asignacion|raw }},
                 },
                 methods: {},
             });
