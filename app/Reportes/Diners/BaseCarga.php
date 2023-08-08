@@ -60,12 +60,14 @@ class  BaseCarga
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
 			->select(null)
 			->select("ps.*, CONCAT(u.apellidos,' ',u.nombres) AS gestor, addet.nombre_tarjeta, cl.cedula, 
 							 addet.ciclo AS corte, cl.nombres, 
 							 u.identificador AS area_usuario,
 							 addet.edad_cartera, cl.zona AS zona_cuenta, addet.total_riesgo,
-							 cl.ciudad AS ciudad_cuenta, addet.motivo_no_pago_anterior")
+							 cl.ciudad AS ciudad_cuenta, addet.motivo_no_pago_anterior,
+							 pa.peso AS peso_paleta")
             ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
@@ -87,7 +89,7 @@ class  BaseCarga
                 unset($asignacion_arr['campos']);
                 $asignacion_arr = array_merge($asignacion_arr, $campos_asignacion);
                 $seg['fecha_compromiso_pago_format'] = str_replace("-","",$seg['fecha_compromiso_pago']);
-                $seg['campana_ece'] = $asignacion_arr['campana_ece'];
+//                $seg['campana_ece'] = $asignacion_arr['campana_ece'];
                 $seg['inicio'] = $asignacion_arr['fecha_inicio'];
                 $seg['fin'] = $asignacion_arr['fecha_fin'];
                 $seg['fecha_envio'] = $asignacion_arr['fecha_asignacion'];
@@ -101,6 +103,7 @@ class  BaseCarga
                 $seg['observacion_anterior'] = '0';
                 $seg['resultado_anterior'] = '0';
                 $seg['valor_pago_minimo'] = 0;
+                $seg['campana_ece'] = '';
                 if(isset($saldos[$seg['cliente_id']])) {
                     $saldos_arr = $saldos[$seg['cliente_id']];
                     $campos_saldos = json_decode($saldos_arr['campos'],true);
@@ -117,11 +120,11 @@ class  BaseCarga
                         }
                         if($seg['campana_ece'] == ''){
                             $seg['campana_ece'] = $saldos_arr['EJECUTIVO DINERS'];
-                        }
-                        if(strpos($seg['campana_ece'], 'TELEF')){
-                            $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
-                        }elseif(strpos($seg['campana_ece'], 'DOMICI')){
-                            $seg['campana_ece'] = 'CAMPO';
+                            if(strpos($seg['campana_ece'], 'TELEF')){
+                                $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
+                            }elseif(strpos($seg['campana_ece'], 'DOMICI')){
+                                $seg['campana_ece'] = 'CAMPO';
+                            }
                         }
                     }
                     if($seg['nombre_tarjeta'] == 'INTERDIN'){
@@ -135,11 +138,11 @@ class  BaseCarga
                         }
                         if($seg['campana_ece'] == ''){
                             $seg['campana_ece'] = $saldos_arr['EJECUTIVO VISA'];
-                        }
-                        if(strpos($seg['campana_ece'], 'TELEF')){
-                            $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
-                        }elseif(strpos($seg['campana_ece'], 'DOMICI')){
-                            $seg['campana_ece'] = 'CAMPO';
+                            if(strpos($seg['campana_ece'], 'TELEF')){
+                                $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
+                            }elseif(strpos($seg['campana_ece'], 'DOMICI')){
+                                $seg['campana_ece'] = 'CAMPO';
+                            }
                         }
                         $seg['nombre_tarjeta'] = 'VISA';
                     }
@@ -154,11 +157,11 @@ class  BaseCarga
                         }
                         if($seg['campana_ece'] == ''){
                             $seg['campana_ece'] = $saldos_arr['EJECUTIVO DISCOVER'];
-                        }
-                        if(strpos($seg['campana_ece'], 'TELEF')){
-                            $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
-                        }elseif(strpos($seg['campana_ece'], 'DOMICI')){
-                            $seg['campana_ece'] = 'CAMPO';
+                            if(strpos($seg['campana_ece'], 'TELEF')){
+                                $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
+                            }elseif(strpos($seg['campana_ece'], 'DOMICI')){
+                                $seg['campana_ece'] = 'CAMPO';
+                            }
                         }
                     }
                     if($seg['nombre_tarjeta'] == 'MASTERCARD'){
@@ -172,11 +175,11 @@ class  BaseCarga
                         }
                         if($seg['campana_ece'] == ''){
                             $seg['campana_ece'] = $saldos_arr['EJECUTIVO MASTERCARD'];
-                        }
-                        if(strpos($seg['campana_ece'], 'TELEF')){
-                            $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
-                        }elseif(strpos($seg['campana_ece'], 'DOMICI')){
-                            $seg['campana_ece'] = 'CAMPO';
+                            if(strpos($seg['campana_ece'], 'TELEF')){
+                                $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
+                            }elseif(strpos($seg['campana_ece'], 'DOMICI')){
+                                $seg['campana_ece'] = 'CAMPO';
+                            }
                         }
                         $seg['nombre_tarjeta'] = 'MASTERCA';
                     }
@@ -247,16 +250,23 @@ class  BaseCarga
                 $seg['empresa'] = 'MEGACOB';
                 $seg['georeferenciacion'] = $seg['lat'] != '' ? $seg['lat'].','.$seg['long'] : " ";
                 if($seg['valor_pago_minimo'] > 0){
-//                    $data[$seg['nombre_tarjeta'].'_'.$seg['corte'].'_'.$seg['cedula'].'_'.$seg['producto_asignacion']] = $seg;
-                    $data[] = $seg;
+                    $data[$seg['nombre_tarjeta'].'_'.$seg['corte'].'_'.$seg['cedula']][] = $seg;
+//                    $data[] = $seg;
                 }
 
             }
 		}
+        $data_procesada = [];
+        foreach ($data as $d){
+            //MEJOR GESTION
+            usort($d, fn($a, $b) => $a['peso_paleta'] <=> $b['peso_paleta']);
+            $mejor_gestion = $d[0];
+            $data_procesada[] = $mejor_gestion;
+        }
 
-//		printDie($data);
+//		printDie($data_procesada);
 
-		$retorno['data'] = $data;
+		$retorno['data'] = $data_procesada;
 		$retorno['total'] = [];
 
 		return $retorno;
