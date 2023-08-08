@@ -37,8 +37,6 @@ class ProcesadasLiquidacion
         $clientes_asignacion = AplicativoDinersAsignaciones::getClientes([],$ciclo);
         $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca([],$ciclo);
 
-
-
 		//BUSCAR SEGUIMIENTOS
 		$q = $db->from('producto_seguimiento ps')
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
@@ -50,7 +48,7 @@ class ProcesadasLiquidacion
 							 u.identificador AS area_usuario, u.plaza AS zona, cl.id AS id_cliente,
 							 addet.edad_cartera, cl.zona AS zona_cuenta,
 							 addet.nombre_tarjeta AS tarjeta, addet.ciclo")
-            ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
+            ->where('ps.nivel_3_id IN (1860)')
 			->where('ps.institucion_id', 1)
 			->where('ps.eliminado', 0);
         if (@$filtros['plaza_usuario']){
