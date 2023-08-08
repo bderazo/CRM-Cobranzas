@@ -231,7 +231,6 @@
                 </div>
             </div>
 
-
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">SEGUIMIENTO</h4>
@@ -337,8 +336,8 @@
                     <div class="row mb-4 seguimiento_general">
                         <label for="inputName" class="col-md-2 form-label">Observaciones</label>
                         <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control" placeholder="Observaciones"
-                                  v-model="seguimiento.observaciones" id="observaciones" v-autoname></textarea>
+						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
+                                  v-model="seguimiento.observaciones" id="observaciones" required v-autoname></textarea>
                             <span id="remain">238</span> caracteres restantes.
                         </div>
                     </div>
@@ -462,7 +461,7 @@
                         <div class="row mb-4">
                             <label for="inputName" class="col-md-2 form-label">Observaciones</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
                                       v-model="seguimiento_diners.observaciones" id="observaciones_diners" v-autoname></textarea>
                                 <span id="remain_diners">238</span> caracteres restantes.
                             </div>
@@ -587,7 +586,7 @@
                         <div class="row mb-4">
                             <label for="inputName" class="col-md-2 form-label">Observaciones</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
                                       v-model="seguimiento_interdin.observaciones" id="observaciones_interdin" v-autoname></textarea>
                                 <span id="remain_interdin">238</span> caracteres restantes.
                             </div>
@@ -712,7 +711,7 @@
                         <div class="row mb-4">
                             <label for="inputName" class="col-md-2 form-label">Observaciones</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
                                       v-model="seguimiento_discover.observaciones" id="observaciones_discover" v-autoname></textarea>
                                 <span id="remain_discover">238</span> caracteres restantes.
                             </div>
@@ -837,7 +836,7 @@
                         <div class="row mb-4">
                             <label for="inputName" class="col-md-2 form-label">Observaciones</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
                                       v-model="seguimiento_mastercard.observaciones" id="observaciones_mastercard" v-autoname></textarea>
                                 <span id="remain_mastercard">238</span> caracteres restantes.
                             </div>
@@ -3988,6 +3987,15 @@
                         return false;
                     }
                 });
+
+                jQuery.validator.addMethod("specialChar", function(value, element) {
+                    return this.optional(element) || /([0-9a-zA-Z\s])$/.test(value);
+                }, "Este campo no admite símbolos ni caracteres especiales.");
+
+                jQuery.validator.addMethod("lettersonly", function(value, element){
+                    return this.optional(element) || /^[a-z áãâäàéêëèíîïìóõôöòúûüùç]+$/i.test(value);
+                }, "Este campo solo acepta letras y espacios");
+
                 $('#btnRegresar').click(function () {
                     window.open("{{ root }}/producto/indexDiners", "_self");
                 });
