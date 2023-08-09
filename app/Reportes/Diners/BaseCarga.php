@@ -185,6 +185,10 @@ class  BaseCarga
                     }
                 }
 
+                if($seg['campana_ece'] == ''){
+                    $seg['campana_ece'] = $asignacion_arr['campana_ece'];
+                }
+
                 //COMPARO CON DIRECCIONES
                 if(isset($direcciones[$seg['cliente_id']])) {
                     $seg['direccion_cliente'] = $direcciones[$seg['cliente_id']][0]['direccion'];
