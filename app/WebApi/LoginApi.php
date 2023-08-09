@@ -32,26 +32,27 @@ class LoginApi extends BaseController {
 		$res = new RespuestaConsulta();
 		$username = $this->request->getParam('username');
 		$password = $this->request->getParam('password');
-		$check = Usuario::checkLogin($username, $password, []);
-		if ($check->success) {
-			$userdata = $check->userdata;
-			\WebSecurity::setUserData($userdata);
-
-			$id = $userdata['id'];
-			$sessionId = @session_id();
-			\WebSecurity::setSessionId($sessionId);
-			$userdata['session_id'] = $sessionId;
-			UsuarioLogin::recordLogin(\WebSecurity::currentUsername(), $id, $sessionId);
-			/** @var PermisosSession $permisosManager */
-			$permisosManager = $this->get('permisosCheck');
-			$permisosManager->setSessionRoles($check->permisos);
-
-//			\Auditor::error("login SESSION ", 'Producto', $_SESSION);
-
-			return $this->json($res->conDatos($userdata));
-		} else {
-			return $this->json($res->conError($check->error));
-		}
+//		$check = Usuario::checkLogin($username, $password, []);
+//		if ($check->success) {
+//			$userdata = $check->userdata;
+//			\WebSecurity::setUserData($userdata);
+//
+//			$id = $userdata['id'];
+//			$sessionId = @session_id();
+//			\WebSecurity::setSessionId($sessionId);
+//			$userdata['session_id'] = $sessionId;
+//			UsuarioLogin::recordLogin(\WebSecurity::currentUsername(), $id, $sessionId);
+//			/** @var PermisosSession $permisosManager */
+//			$permisosManager = $this->get('permisosCheck');
+//			$permisosManager->setSessionRoles($check->permisos);
+//
+////			\Auditor::error("login SESSION ", 'Producto', $_SESSION);
+//
+//			return $this->json($res->conDatos($userdata));
+//		} else {
+//			return $this->json($res->conError($check->error));
+//		}
+        return $this->json($res->conError('error'));
 	}
 
 	/**
