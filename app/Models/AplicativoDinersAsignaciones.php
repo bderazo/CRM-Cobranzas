@@ -215,7 +215,7 @@ class AplicativoDinersAsignaciones extends Model
         return $retorno;
     }
 
-    static function getClientesDetalleMarca($campana_ece = [], $ciclo = []) {
+    static function getClientesDetalleMarca($campana_ece = [], $ciclo = [], $fecha = '') {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
 
@@ -230,6 +230,10 @@ class AplicativoDinersAsignaciones extends Model
         if (count($ciclo) > 0){
             $fil = '"' . implode('","',$ciclo) . '"';
             $q->where('ads.ciclo IN ('.$fil.')');
+        }
+        if ($fecha != ''){
+            $q->where('ads.fecha_inicio <= "'.$fecha.'"');
+            $q->where('ads.fecha_fin >= "'.$fecha.'"');
         }
         $q->orderBy('ads.fecha_ingreso ASC');
         $lista = $q->fetchAll();
