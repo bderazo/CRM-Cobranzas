@@ -236,6 +236,7 @@ class AplicativoDinersAsignaciones extends Model
             $q->where('ads.fecha_fin >= "'.$fecha.'"');
         }
         $q->orderBy('ads.fecha_ingreso ASC');
+//        printDie($q->getQuery());
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){

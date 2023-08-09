@@ -42,8 +42,8 @@ class  BaseCarga
         }
 
         //OBTENER ASIGNACION
-        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes();
-        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca();
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes([],[],$fecha);
+        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca([],[],$fecha);
 
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosFecha($fecha);
