@@ -162,7 +162,7 @@ class AplicativoDinersAsignaciones extends Model
         return $retorno;
     }
 
-    static function getClientes($campana_ece = [], $ciclo = []) {
+    static function getClientes($campana_ece = [], $ciclo = [], $fecha = '') {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
 
@@ -177,6 +177,10 @@ class AplicativoDinersAsignaciones extends Model
         if (count($ciclo) > 0){
             $fil = '"' . implode('","',$ciclo) . '"';
             $q->where('ads.ciclo IN ('.$fil.')');
+        }
+        if ($fecha != ''){
+            $q->where('ads.fecha_inicio <= "'.$fecha.'"');
+            $q->where('ads.fecha_fin >= "'.$fecha.'"');
         }
         $lista = $q->fetchAll();
         $retorno = [];
