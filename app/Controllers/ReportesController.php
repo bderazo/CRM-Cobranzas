@@ -2061,6 +2061,14 @@ class ReportesController extends BaseController
                 'valor' => $d['cedula'],
                 'formato' => 'text'
             ];
+            $aux['CIUDAD'] = [
+                'valor' => $d['ciudad'],
+                'formato' => 'text'
+            ];
+            $aux['CANAL'] = [
+                'valor' => $d['canal'],
+                'formato' => 'text'
+            ];
             $aux['MARCA'] = [
                 'valor' => $d['tarjeta'],
                 'formato' => 'text'

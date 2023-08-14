@@ -72,7 +72,7 @@ class General {
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, cl.ciudad, u.canal")
             ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
