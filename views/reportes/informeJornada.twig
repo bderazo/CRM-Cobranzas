@@ -133,6 +133,7 @@
             data: {
                 datos: [],
                 total: [],
+				resumen: [],
             },
             watch: {},
             computed: {},
@@ -146,6 +147,7 @@
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];
+						self.resumen = res['resumen'];
                         console.log(res);
                     })
                 },
@@ -178,6 +180,7 @@
                     var data = {
                         datos: self.datos,
 						total: self.total,
+						resumen: self.resumen,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();

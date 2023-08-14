@@ -968,6 +968,7 @@ class ReportesController extends BaseController
         \WebSecurity::secure('reportes.informe_jornada');
         $jdata = json_decode($json, true);
 //        printDie($jdata);
+        $aux = [];
         $lista = [];
         foreach ($jdata['datos'] as $d) {
             $aux['PLAZA'] = [
@@ -1075,6 +1076,97 @@ class ReportesController extends BaseController
         $lista[] = $aux;
         $exportar[] = [
             'name' => 'RESUMEN',
+            'data' => $lista
+        ];
+
+        $aux = [];
+        $lista = [];
+        foreach ($jdata['resumen'] as $d) {
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['CLIENTE'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['MARCA'] = [
+                'valor' => $d['tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['ciclo'],
+                'formato' => 'number'
+            ];
+            $aux['FECHA'] = [
+                'valor' => $d['fecha_ingreso'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO'] = [
+                'valor' => $d['nivel_1_texto'],
+                'formato' => 'text'
+            ];
+            $aux['ACCION'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN'] = [
+                'valor' => $d['nivel_3_texto'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA COMPROMISO DE PAGO'] = [
+                'valor' => $d['fecha_compromiso_pago'],
+                'formato' => 'text'
+            ];
+            $aux['VALOR COMPROMETIDO'] = [
+                'valor' => $d['valor_comprometido'],
+                'formato' => 'number'
+            ];
+            $aux['MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['Observaciones'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['PENDIENTE ACTUALES'] = [
+                'valor' => $d['pendiente_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS'] = [
+                'valor' => $d['pendiente_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS'] = [
+                'valor' => $d['pendiente_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS'] = [
+                'valor' => $d['pendiente_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS'] = [
+                'valor' => $d['pendiente_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD CARTERA'] = [
+                'valor' => $d['edad_cartera'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+
+        $exportar[] = [
+            'name' => 'DETALLE',
             'data' => $lista
         ];
 

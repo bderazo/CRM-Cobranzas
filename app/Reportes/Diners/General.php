@@ -132,8 +132,6 @@ class General {
         $total_no_ubicado = 0;
         $total_sin_arreglo = 0;
         $total_general = 0;
-//        $total_seguimientos = 0;
-//        $total_contactadas = 0;
         foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])){
@@ -188,15 +186,6 @@ class General {
                     $total_sin_arreglo++;
                     $total_general++;
                 }
-//                if(($res['nivel_1_id'] == 1839) || ($res['nivel_1_id'] == 1855)){
-//                    $total_contactadas++;
-//                }
-//                if(($res['nivel_2_id'] == 1859) || ($res['nivel_2_id'] == 1853) ||
-//                    ($res['nivel_1_id'] == 1855) || ($res['nivel_1_id'] == 1839) ||
-//                    ($res['nivel_1_id'] == 1847) || ($res['nivel_1_id'] == 1799) ||
-//                    ($res['nivel_1_id'] == 1861)){
-//                    $total_seguimientos++;
-//                }
 
                 if(isset($saldos[$res['cliente_id']])) {
                     $saldos_arr = $saldos[$res['cliente_id']];
