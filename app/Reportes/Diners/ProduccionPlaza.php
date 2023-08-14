@@ -3,6 +3,8 @@
 namespace Reportes\Diners;
 
 use General\ListasSistema;
+use Models\AplicativoDinersAsignaciones;
+use Models\AplicativoDinersSaldos;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
@@ -27,35 +29,36 @@ class ProduccionPlaza {
 	function consultaBase($filtros) {
 		$db = new \FluentPDO($this->pdo);
 
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes();
+        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca();
+
+        //OBTENER SALDOS
+        $saldos = AplicativoDinersSaldos::getTodosFecha();
+
 		//BUSCAR USUARIOS DINERS CON ROL DE GESTOR
 		$usuarios_gestores = Usuario::getUsuariosGestoresDiners();
 
 		//BUSCAR SEGUIMIENTOS
-		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
-			->innerJoin('aplicativo_diners ad ON p.id = ad.producto_id AND ad.eliminado = 0')
-			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
-			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-			->select(null)
-			->select('ps.*, u.id AS id_usuario, addet.nombre_tarjeta, addet.saldo_actual_facturado_despues_abono,
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
+            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+            ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->select(null)
+            ->select('ps.*, u.id AS id_usuario, addet.nombre_tarjeta, addet.saldo_actual_facturado_despues_abono,
 							 addet.saldo_30_facturado_despues_abono, addet.saldo_60_facturado_despues_abono,
-							 addet.saldo_90_facturado_despues_abono, addet.tipo_negociacion, u.plaza, u.canal')
-			->where('ps.institucion_id',1)
-			->where('ps.eliminado',0);
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
-		}
+							 addet.saldo_90_facturado_despues_abono, addet.tipo_negociacion, u.plaza, u.canal, addet.ciclo,
+							 cl.zona')
+            ->where('ps.nivel_1_id IN (1855, 1839, 1861)')
+            ->where('ps.institucion_id',1)
+            ->where('ps.eliminado',0);
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
+        }
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
                 $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
@@ -76,24 +79,78 @@ class ProduccionPlaza {
                 $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
         }
+        $fil = implode(',',$clientes_asignacion);
+        $q->where('ps.cliente_id IN ('.$fil.')');
+        $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
 //        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data_contar = [];
 		$data_contar_tipo_negociacion = [];
+        $resumen = [];
 		foreach($lista as $seg){
-			//CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
-			if(isset($data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']])){
-				$data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']]++;
-			}else{
-				$data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']] = 1;
-			}
-			//CONTAR LOS TIPOS DE NEGOCIACION POR PLAZA
-			if(isset($data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']])){
-				$data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
-			}else{
-				$data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
-			}
+            //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
+            if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['nombre_tarjeta']])) {
+                //CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
+                if (isset($data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']])) {
+                    $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']]++;
+                } else {
+                    $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']] = 1;
+                }
+                //CONTAR LOS TIPOS DE NEGOCIACION POR PLAZA
+                if (isset($data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']])) {
+                    $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+                } else {
+                    $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+                }
+
+                if(isset($saldos[$seg['cliente_id']])) {
+                    $saldos_arr = $saldos[$seg['cliente_id']];
+                    $campos_saldos = json_decode($saldos_arr['campos'],true);
+                    unset($saldos_arr['campos']);
+                    $saldos_arr = array_merge($saldos_arr, $campos_saldos);
+                    if($saldos_arr['EJECUTIVO DINERS'] != ''){
+                        $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
+                        $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
+                        $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
+                        $seg['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
+                        $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
+                        $seg['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
+                    }
+                    if($saldos_arr['EJECUTIVO VISA'] != ''){
+                        $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
+                        $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
+                        $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
+                        $seg['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
+                        $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
+                        $seg['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
+                    }
+                    if($saldos_arr['EJECUTIVO DISCOVER'] != ''){
+                        $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
+                        $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
+                        $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
+                        $seg['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
+                        $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
+                        $seg['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
+                    }
+                    if($saldos_arr['EJECUTIVO MASTERCARD'] != ''){
+                        $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
+                        $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
+                        $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
+                        $seg['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
+                        $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
+                        $seg['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
+                    }
+                }else{
+                    $seg['pendiente_actuales'] = '';
+                    $seg['pendiente_30'] = '';
+                    $seg['pendiente_60'] = '';
+                    $seg['pendiente_90'] = '';
+                    $seg['pendiente_mas_90'] = '';
+                    $seg['edad_cartera'] = 0;
+                }
+                $resumen[] = $seg;
+            }
 		}
 
 		ksort($data_contar_tipo_negociacion);
@@ -121,31 +178,6 @@ class ProduccionPlaza {
 					$data[] = $d;
 				}
 			}
-//			}else{
-//				if (@$filtros['plaza_usuario']){
-//					if(array_search($ug['plaza'],$filtros['plaza_usuario'])!== false){
-//						$d['plaza'] = $ug['plaza'];
-//						$d['ejecutivo'] = $ug['nombres'];
-//						$d['canal'] = $ug['canal'];
-//						$d['diners'] = 0;
-//						$d['interdin'] = 0;
-//						$d['discover'] = 0;
-//						$d['mastercard'] = 0;
-//						$d['total_general'] = 0;
-//						$data[] = $d;
-//					}
-//				}else {
-//					$d['plaza'] = $ug['plaza'];
-//					$d['ejecutivo'] = $ug['nombres'];
-//					$d['canal'] = $ug['canal'];
-//					$d['diners'] = 0;
-//					$d['interdin'] = 0;
-//					$d['discover'] = 0;
-//					$d['mastercard'] = 0;
-//					$d['total_general'] = 0;
-//					$data[] = $d;
-//				}
-//			}
 		}
 
 		$telefonia = [];
@@ -225,6 +257,7 @@ class ProduccionPlaza {
 		}
 
 		$retorno['data'] = $data;
+        $retorno['resumen'] = $resumen;
 		$retorno['total'] = [
 			'total_diners' => $total_diners,
 			'total_interdin' => $total_interdin,
@@ -234,62 +267,49 @@ class ProduccionPlaza {
 		];
 
 		//BUSCAR RECUPERO AL REFINANCIAR
-		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
-			->innerJoin('aplicativo_diners ad ON p.id = ad.producto_id AND ad.eliminado = 0')
-			->innerJoin("aplicativo_diners_detalle addet ON ad.id = addet.aplicativo_diners_id AND addet.eliminado = 0 AND addet.tipo = 'gestionado'")
-			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-			->select(null)
-			->select('addet.nombre_tarjeta, addet.ciclo, COUNT(ps.id) AS cuentas, 
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
+            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+            ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->select(null)
+            ->select('addet.nombre_tarjeta, addet.ciclo, COUNT(ps.id) AS cuentas, 
 							 SUM(addet.saldo_actual_facturado_despues_abono) AS actuales,
 							 SUM(addet.saldo_30_facturado_despues_abono) AS d30, 
 							 SUM(addet.saldo_60_facturado_despues_abono) AS d60,
 							 SUM(addet.saldo_90_facturado_despues_abono) AS d90, u.plaza, u.id')
-//			->where('ps.nivel_1_id',7)
-			->where('ps.institucion_id',1)
-			->where('ps.eliminado',0);
-		if (@$filtros['plaza_usuario']){
-			$fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if (@$filtros['canal_usuario']){
-            if((count($filtros['canal_usuario']) == 1) && ($filtros['canal_usuario'][0] == 'TELEFONIA')){
-                $q->where('u.canal',$filtros['canal_usuario'][0]);
-                $q->where('u.campana','TELEFONIA');
-                $q->where('u.identificador','MN');
-            }else{
-                $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
-                $q->where('u.canal IN ('.$fil.')');
-            }
-		}
+            ->where('ps.nivel_3_id IN (1860)')
+            ->where('ps.institucion_id',1)
+            ->where('ps.eliminado',0);
+        if (@$filtros['plaza_usuario']){
+            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
+            $q->where('u.plaza IN ('.$fil.')');
+        }
+        if (@$filtros['canal_usuario']){
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
+        }
         if (@$filtros['fecha_inicio']){
-            $hora = '00';
-            if($filtros['hora_inicio'] != ''){
-                $hora = $filtros['hora_inicio'];
+            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_inicio'] != ''){
-                $minuto = $filtros['minuto_inicio'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
         }
         if (@$filtros['fecha_fin']){
-            $hora = '00';
-            if($filtros['hora_fin'] != ''){
-                $hora = $filtros['hora_fin'];
+            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+            }else{
+                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
             }
-            $hora = strlen($hora) == 1 ? '0'.$hora : $hora;
-            $minuto = '00';
-            if($filtros['minuto_fin'] != ''){
-                $minuto = $filtros['minuto_fin'];
-            }
-            $minuto = strlen($minuto) == 1 ? '0'.$minuto : $minuto;
-            $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-            $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
         }
+        $fil = implode(',',$clientes_asignacion);
+        $q->where('ps.cliente_id IN ('.$fil.')');
 		$q->orderBy('addet.nombre_tarjeta, addet.ciclo');
 		$q->groupBy('addet.nombre_tarjeta, addet.ciclo');
         $q->disableSmartJoin();
