@@ -228,6 +228,7 @@ class ProductoController extends BaseController
         $referencia = Referencia::porModulo('cliente', $model->cliente_id);
         $cliente = Cliente::porId($model->cliente_id);
         $institucion = Institucion::porId($model->institucion_id);
+        $asignacion = AplicativoDinersAsignaciones::getPorCliente($model->cliente_id,date("Y-m-d"));
         $catalogos['paleta_nivel_1'] = PaletaArbol::getNivel1($institucion->paleta_id);
         $catalogos['paleta_nivel_2'] = [];
         $catalogos['paleta_nivel_3'] = [];
@@ -321,7 +322,7 @@ class ProductoController extends BaseController
                     $plazo_financiamiento_discover[$i] = $i;
                 }
             }
-            if($plazo_financiamiento_discover['motivo_cierre'] != 'PAGADA'){
+            if($aplicativo_diners_tarjeta_discover['motivo_cierre'] != 'PAGADA'){
                 $todas_tarjetas_pagadas = false;
             }
             $numero_tarjetas++;
@@ -353,7 +354,7 @@ class ProductoController extends BaseController
                     $plazo_financiamiento_interdin[$i] = $i;
                 }
             }
-            if($plazo_financiamiento_interdin['motivo_cierre'] != 'PAGADA'){
+            if($aplicativo_diners_tarjeta_interdin['motivo_cierre'] != 'PAGADA'){
                 $todas_tarjetas_pagadas = false;
             }
             $numero_tarjetas++;
@@ -385,7 +386,7 @@ class ProductoController extends BaseController
                     $plazo_financiamiento_mastercard[$i] = $i;
                 }
             }
-            if($plazo_financiamiento_mastercard['motivo_cierre'] != 'PAGADA'){
+            if($aplicativo_diners_tarjeta_mastercard['motivo_cierre'] != 'PAGADA'){
                 $todas_tarjetas_pagadas = false;
             }
             $numero_tarjetas++;
@@ -455,6 +456,7 @@ class ProductoController extends BaseController
             $width_tabla = 100;
         }
 
+        $data['asignacion'] = json_encode($asignacion);
         $data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
         $data['paleta'] = $paleta;
         $data['numero_tarjetas'] = $numero_tarjetas;
