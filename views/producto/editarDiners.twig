@@ -37,6 +37,21 @@
                         </div>
                     </div>
 
+{#                    <div class=" row mb-4">#}
+{#                        <label for="inputName" class="col-md-2 form-label">Productos</label>#}
+{#                        <div class="col-md-10">#}
+{#                            <table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">#}
+{#                                <thead>#}
+{#                                <tr>#}
+{#                                    <th></th>#}
+{#                                </tr>#}
+{#                                </thead>#}
+{#                            </table>#}
+{#                        </div>#}
+{#                    </div>#}
+
+
+
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">Teléfonos</label>
                         <div class="col-md-10">
@@ -3278,6 +3293,7 @@
                 seguimiento_mastercard: {{ seguimiento_mastercard|raw }},
                 bandera_unificar_deuda: 'no',
                 tarjeta_unificar_deuda: '',
+                asignacion: {{ asignacion|raw }},
             },
             watch: {},
             computed: {},
