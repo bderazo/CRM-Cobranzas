@@ -30,7 +30,7 @@ class ExcelDatasetExport {
 //			return $row;
 //		};
 		$formatNum = function ($row) {
-			$row = $row == null ? '' : floatval($row);
+			$row = $row == null ? 0 : floatval($row);
 			return $row;
 		};
 		

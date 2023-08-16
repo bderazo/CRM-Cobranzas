@@ -94,8 +94,8 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td style="text-align: center;" v-html="total_resumen_totales.contactabilidad"></td>
-                            <td style="text-align: center;" v-html="total_resumen_totales.efectividad"></td>
+                            <td style="text-align: center;"><span v-html="total_resumen_totales.contactabilidad"></span>%</td>
+                            <td style="text-align: center;"><span v-html="total_resumen_totales.efectividad"></span>%</td>
                         </tr>
                         </tbody>
                     </table>
@@ -120,6 +120,7 @@
             data: {
                 datos: [],
                 total: [],
+                resumen: [],
                 resumen_totales: [],
                 total_resumen_totales: [],
                 resumen_totales_foot: [],
@@ -136,6 +137,7 @@
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];
+                        self.resumen = res['resumen'];
                         self.resumen_totales = res['resumen_totales'];
                         self.total_resumen_totales = res['total_resumen_totales'];
                         self.resumen_totales_foot = res['resumen_totales_foot'];
@@ -148,7 +150,9 @@
                 var self = this;
                 $('#btnExportar').click(function () {
                     var data = {
-                        filtros: form.serializeForm()
+                        datos: self.datos,
+                        total: self.total,
+                        resumen: self.resumen,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();
