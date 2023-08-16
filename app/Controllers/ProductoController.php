@@ -731,7 +731,7 @@ class ProductoController extends BaseController
                         $paleta_arbol = PaletaArbol::porId($seguimiento_diners['nivel_3_id']);
                         $con->nivel_3_texto = $paleta_arbol['valor'];
                     }
-                    if ($fecha_compromiso_pago != '') {
+                    if ($fecha_compromiso_pago_diners != '') {
                         $con->fecha_compromiso_pago = $fecha_compromiso_pago_diners;
                     }
                     if (isset($seguimiento_diners['valor_comprometido'])) {
@@ -825,7 +825,7 @@ class ProductoController extends BaseController
                         $paleta_arbol = PaletaArbol::porId($seguimiento_interdin['nivel_3_id']);
                         $con->nivel_3_texto = $paleta_arbol['valor'];
                     }
-                    if ($fecha_compromiso_pago != '') {
+                    if ($fecha_compromiso_pago_interdin != '') {
                         $con->fecha_compromiso_pago = $fecha_compromiso_pago_interdin;
                     }
                     if (isset($seguimiento_interdin['valor_comprometido'])) {
@@ -919,7 +919,7 @@ class ProductoController extends BaseController
                         $paleta_arbol = PaletaArbol::porId($seguimiento_discover['nivel_3_id']);
                         $con->nivel_3_texto = $paleta_arbol['valor'];
                     }
-                    if ($fecha_compromiso_pago != '') {
+                    if ($fecha_compromiso_pago_discover != '') {
                         $con->fecha_compromiso_pago = $fecha_compromiso_pago_discover;
                     }
                     if (isset($seguimiento_discover['valor_comprometido'])) {
@@ -1013,7 +1013,7 @@ class ProductoController extends BaseController
                         $paleta_arbol = PaletaArbol::porId($seguimiento_mastercard['nivel_3_id']);
                         $con->nivel_3_texto = $paleta_arbol['valor'];
                     }
-                    if ($fecha_compromiso_pago != '') {
+                    if ($fecha_compromiso_pago_mastercard != '') {
                         $con->fecha_compromiso_pago = $fecha_compromiso_pago_mastercard;
                     }
                     if (isset($seguimiento_mastercard['valor_comprometido'])) {
