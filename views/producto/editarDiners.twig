@@ -37,20 +37,52 @@
                         </div>
                     </div>
 
-{#                    <div class=" row mb-4">#}
-{#                        <label for="inputName" class="col-md-2 form-label">Productos</label>#}
-{#                        <div class="col-md-10">#}
-{#                            <table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">#}
-{#                                <thead>#}
-{#                                <tr>#}
-{#                                    <th></th>#}
-{#                                </tr>#}
-{#                                </thead>#}
-{#                            </table>#}
-{#                        </div>#}
-{#                    </div>#}
-
-
+                    <div class=" row mb-4">
+                        <label for="inputName" class="col-md-2 form-label">Productos</label>
+                        <div class="col-md-10">
+                            <table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
+                                <thead>
+                                <tr>
+                                    <th style="font-size: 12px;">MARCA</th>
+                                    <th style="font-size: 12px;">CICLO</th>
+                                    <th style="font-size: 12px;">INTERÉS FACTURADO</th>
+                                    <th style="font-size: 12px;">DEUDA ACTUAL</th>
+                                    <th style="font-size: 12px;">TOTAL RIESGO</th>
+                                    <th style="font-size: 12px;">EDAD CARTERA</th>
+                                    <th style="font-size: 12px;">DIFERIDOS FACTURADOS</th>
+                                    <th style="font-size: 12px;">SALDO ACTUAL FACTURADO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="a in asignacion">
+                                    <td style="text-align: center;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.marca"></span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.ciclo"></span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.interes_facturado"></span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.deuda_actual"></span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.total_riesgo"></span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.edad_cartera"></span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.numero_diferidos_facturados"></span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.saldo_actual_facturado"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">Teléfonos</label>

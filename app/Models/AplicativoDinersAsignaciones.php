@@ -206,7 +206,7 @@ class AplicativoDinersAsignaciones extends Model
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
-            $retorno[] = $l;
+            $retorno[$l['marca']] = $l;
         }
         return $retorno;
     }

@@ -293,6 +293,11 @@ class ProductoController extends BaseController
             if($aplicativo_diners_tarjeta_diners['motivo_cierre'] != 'PAGADA'){
                 $todas_tarjetas_pagadas = false;
             }
+
+            //DATOS DE ASIGNACIONES
+            if(isset($asignacion['DINERS'])){
+                $asignacion['DINERS']['aplicativo'] = $aplicativo_diners_tarjeta_diners;
+            }
             $numero_tarjetas++;
         }
         $catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
@@ -324,6 +329,10 @@ class ProductoController extends BaseController
             }
             if($aplicativo_diners_tarjeta_discover['motivo_cierre'] != 'PAGADA'){
                 $todas_tarjetas_pagadas = false;
+            }
+            //DATOS DE ASIGNACIONES
+            if(isset($asignacion['DISCOVER'])){
+                $asignacion['DISCOVER']['aplicativo'] = $aplicativo_diners_tarjeta_discover;
             }
             $numero_tarjetas++;
         }
@@ -357,6 +366,10 @@ class ProductoController extends BaseController
             if($aplicativo_diners_tarjeta_interdin['motivo_cierre'] != 'PAGADA'){
                 $todas_tarjetas_pagadas = false;
             }
+            //DATOS DE ASIGNACIONES
+            if(isset($asignacion['VISA'])){
+                $asignacion['VISA']['aplicativo'] = $aplicativo_diners_tarjeta_interdin;
+            }
             $numero_tarjetas++;
         }
         $catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
@@ -388,6 +401,10 @@ class ProductoController extends BaseController
             }
             if($aplicativo_diners_tarjeta_mastercard['motivo_cierre'] != 'PAGADA'){
                 $todas_tarjetas_pagadas = false;
+            }
+            //DATOS DE ASIGNACIONES
+            if(isset($asignacion['MASTERCARD'])){
+                $asignacion['MASTERCARD']['aplicativo'] = $aplicativo_diners_tarjeta_mastercard;
             }
             $numero_tarjetas++;
         }
@@ -456,6 +473,7 @@ class ProductoController extends BaseController
             $width_tabla = 100;
         }
 
+//        printDie($asignacion);
         $data['asignacion'] = json_encode($asignacion);
         $data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
         $data['paleta'] = $paleta;
