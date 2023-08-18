@@ -53,6 +53,9 @@ class MejorUltimaGestion {
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
+
+            ->innerJoin('aplicativo_diners_asignaciones asig ON cl.id = asig.cliente_id')
+
             ->select(null)
             ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula,
                              addet.tipo_negociacion, addet.nombre_tarjeta AS tarjeta, u.identificador, addet.ciclo,
@@ -76,35 +79,41 @@ class MejorUltimaGestion {
             $q->where('addet.ciclo IN ('.$fil.')');
         }
         if (@$filtros['fecha_inicio']){
-            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
-                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
-                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
-                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
-            }else{
-                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
-            }
+//            if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
+//                $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
+//                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0'.$filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+//                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+//                $q->where('ps.fecha_ingreso >= "'.$fecha.'"');
+//            }else{
+//                $q->where('DATE(ps.fecha_ingreso) >= "'.$filtros['fecha_inicio'].'"');
+//            }
+            $q->where('asig.fecha_asignacion >= "'.$filtros['fecha_inicio'].'"');
         }
         if (@$filtros['fecha_fin']){
-            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
-                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
-                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
-                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
-            }else{
-                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
-            }
+//            if(($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')){
+//                $hora = strlen($filtros['hora_fin']) == 1 ? '0'.$filtros['hora_fin'] : $filtros['hora_fin'];
+//                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0'.$filtros['minuto_fin'] : $filtros['minuto_fin'];
+//                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+//                $q->where('ps.fecha_ingreso <= "'.$fecha.'"');
+//            }else{
+//                $q->where('DATE(ps.fecha_ingreso) <= "'.$filtros['fecha_fin'].'"');
+//            }
+            $q->where('asig.fecha_asignacion <= "'.$filtros['fecha_fin'].'"');
         }
-        $fil = implode(',',$clientes_asignacion);
-        $q->where('ps.cliente_id IN ('.$fil.')');
+//        $fil = implode(',',$clientes_asignacion);
+//        $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('cl.nombres, ps.fecha_ingreso ASC');
         $q->disableSmartJoin();
 //        printDie($q->getQuery());
 		$lista = $q->fetchAll();
+//        printDie($clientes_asignacion_detalle_marca);
 		$data = [];
         $resumen_gestiones = [];
         foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
+            if($res['tarjeta'] == 'INTERDIN'){
+                $res['tarjeta'] = 'VISA';
+            }
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])) {
                 //BUSCO EN SALDOS
                 if (isset($saldos[$res['cliente_id']])) {
@@ -132,7 +141,7 @@ class MejorUltimaGestion {
                 }
             }
         }
-
+//        printDie($data);
         $data_procesada = [];
         $total_dm = 0;
         $total_mn = 0;

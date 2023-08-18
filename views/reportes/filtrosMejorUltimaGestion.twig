@@ -58,27 +58,27 @@
 				<div class="col-sm-3">
 					<b>Fecha Inicio</b> <br>
 					{{ text_field_tag("fecha_inicio", '', {class:'form-control fecha'}) }}
-					<select class="form-control form-select select2" name="hora_inicio" id="hora_inicio" style="width: 60px;">
-						<option value=""></option>
-						<option v-for="(v,k) in horas" v-html="v" :value="k"></option>
-					</select> :
-					<select class="form-control form-select select2" name="minuto_inicio" id="minuto_inicio" style="width: 60px;">
-						<option value=""></option>
-						<option v-for="(v,k) in minutos" v-html="v" :value="k"></option>
-					</select>
+{#					<select class="form-control form-select select2" name="hora_inicio" id="hora_inicio" style="width: 60px;">#}
+{#						<option value=""></option>#}
+{#						<option v-for="(v,k) in horas" v-html="v" :value="k"></option>#}
+{#					</select> :#}
+{#					<select class="form-control form-select select2" name="minuto_inicio" id="minuto_inicio" style="width: 60px;">#}
+{#						<option value=""></option>#}
+{#						<option v-for="(v,k) in minutos" v-html="v" :value="k"></option>#}
+{#					</select>#}
 				</div>
 
 				<div class="col-sm-3">
 					<b>Fecha Fin</b> <br>
 					{{ text_field_tag("fecha_fin", '', {class:'form-control fecha'}) }}
-					<select class="form-control form-select select2" name="hora_fin" id="hora_fin" style="width: 60px;">
-						<option value=""></option>
-						<option v-for="(v,k) in horas" v-html="v" :value="k"></option>
-					</select> :
-					<select class="form-control form-select select2" name="minuto_fin" id="minuto_fin" style="width: 60px;">
-						<option value=""></option>
-						<option v-for="(v,k) in minutos" v-html="v" :value="k"></option>
-					</select>
+{#					<select class="form-control form-select select2" name="hora_fin" id="hora_fin" style="width: 60px;">#}
+{#						<option value=""></option>#}
+{#						<option v-for="(v,k) in horas" v-html="v" :value="k"></option>#}
+{#					</select> :#}
+{#					<select class="form-control form-select select2" name="minuto_fin" id="minuto_fin" style="width: 60px;">#}
+{#						<option value=""></option>#}
+{#						<option v-for="(v,k) in minutos" v-html="v" :value="k"></option>#}
+{#					</select>#}
 				</div>
 			</div>
 		</form>
