@@ -1254,7 +1254,11 @@ class ReportesController extends BaseController
                 'formato' => 'number'
             ];
             $aux['FECHA'] = [
-                'valor' => $d['fecha_ingreso'],
+                'valor' => $d['fecha_ingreso_fecha'],
+                'formato' => 'text'
+            ];
+            $aux['HORA'] = [
+                'valor' => $d['fecha_ingreso_hora'],
                 'formato' => 'text'
             ];
             $aux['RESULTADO'] = [

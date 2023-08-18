@@ -188,6 +188,8 @@ class InformeJornada {
                     $res['pendiente_mas_90'] = '';
                     $res['edad_cartera'] = 0;
                 }
+                $res['fecha_ingreso_fecha'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
+                $res['fecha_ingreso_hora'] = date("His", strtotime($res['fecha_ingreso']));
                 $resumen[] = $res;
             }
 		}
