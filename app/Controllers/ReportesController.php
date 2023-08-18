@@ -157,22 +157,23 @@ class ReportesController extends BaseController
     function exportBaseGeneral($json)
     {
         \WebSecurity::secure('reportes.base_general');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new BaseGeneral($this->get('pdo'));
-        $data = $rep->exportar($filtros);
+//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+//        $json = str_replace('ciclo[]', 'ciclo', $json);
+//        $json = str_replace('resultado[]', 'resultado', $json);
+//        $json = str_replace('accion[]', 'accion', $json);
+//        $json = str_replace('descripcion[]', 'descripcion', $json);
+//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+//        $jdata = json_decode(htmlspecialchars_decode($json), true);
+//        $filtros = $jdata['filtros'];
+//        $rep = new BaseGeneral($this->get('pdo'));
+//        $data = $rep->exportar($filtros);
+        $data = json_decode($json, true);
         $lista = [];
-        foreach ($data['data'] as $d) {
+        foreach ($data['datos'] as $d) {
             $aux['NOMBRE SOCIO'] = [
                 'valor' => $d['nombres'],
                 'formato' => 'text'
@@ -185,364 +186,98 @@ class ReportesController extends BaseController
                 'valor' => $d['telefono_contacto'],
                 'formato' => 'text'
             ];
-
-
-            $aux['TIPO DE CAMPAÑA DINERS'] = [
-                'valor' => $d['tipo_campana_diners'],
-                'formato' => 'text'
-            ];
-            $aux['EJECUTIVO DINERS'] = [
-                'valor' => $d['ejecutivo_diners'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO DINERS'] = [
-                'valor' => $d['ciclo_diners'],
-                'formato' => 'number'
-            ];
-            $aux['EDAD FACTURADA DINERS'] = [
-                'valor' => $d['edad_diners'],
-                'formato' => 'number'
-            ];
-            $aux['SALDO TOTAL DEUDA DINERS'] = [
-                'valor' => $d['saldo_total_deuda_diners'],
-                'formato' => 'number'
-            ];
-            $aux['RIESGO TOTAL DINERS'] = [
-                'valor' => $d['riesgo_total_diners'],
-                'formato' => 'number'
-            ];
-            $aux['INTERESES TOTAL DINERS'] = [
-                'valor' => $d['interes_total_diners'],
-                'formato' => 'number'
-            ];
-            $aux['RECUPERADO DINERS'] = [
-                'valor' => $d['recuperado_diners'],
-                'formato' => 'number'
-            ];
-            $aux['PAGO MINIMO DINERS'] = [
-                'valor' => $d['pago_minimo_diners'],
-                'formato' => 'number'
-            ];
-            $aux['FECHA MAXIMA PAGO DINERS'] = [
-                'valor' => $d['fecha_maxima_pago_diners'],
-                'formato' => 'text'
-            ];
-            $aux['NUMERO DIFERIDOS DINERS'] = [
-                'valor' => $d['numero_diferidos_diners'],
-                'formato' => 'number'
-            ];
-            $aux['NUMERO DE REFINANCIACIONES HISTORICA DINERS'] = [
-                'valor' => $d['numero_refinanciaciones_historica_diners'],
-                'formato' => 'number'
-            ];
-            $aux['PLAZO DE FINANCIAMIENTO ACTUAL DINERS'] = [
-                'valor' => $d['plazo_financiamiento_actual_diners'],
-                'formato' => 'number'
-            ];
-            $aux['MOTIVO CIERRE DINERS'] = [
-                'valor' => $d['motivo_cierre_diners'],
-                'formato' => 'text'
-            ];
-            $aux['OFERTA VALOR DINERS'] = [
-                'valor' => $d['oferta_valor_diners'],
-                'formato' => 'text'
-            ];
-            $aux['PENDIENTE ACTUALES DINERS'] = [
-                'valor' => $d['pendiente_actuales_diners'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 30 DIAS DINERS'] = [
-                'valor' => $d['pendiente_30_diners'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 60 DIAS DINERS'] = [
-                'valor' => $d['pendiente_60_diners'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 90 DIAS DINERS'] = [
-                'valor' => $d['pendiente_90_diners'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE MAS 90 DIAS DINERS'] = [
-                'valor' => $d['pendiente_mas_90_diners'],
-                'formato' => 'number'
-            ];
-            $aux['CRÉDITO INMEDIATO DINERS'] = [
-                'valor' => $d['credito_inmediato_diners'],
-                'formato' => 'text'
-            ];
-            $aux['PRODUCTO DINERS'] = [
-                'valor' => $d['producto_diners'],
+            $aux['MARCA'] = [
+                'valor' => $d['tarjeta'],
                 'formato' => 'text'
             ];
 
 
-            $aux['TIPO DE CAMPAÑA VISA'] = [
-                'valor' => $d['tipo_campana_visa'],
+            $aux['TIPO DE CAMPAÑA'] = [
+                'valor' => $d['tipo_campana'],
                 'formato' => 'text'
             ];
-            $aux['EJECUTIVO VISA'] = [
-                'valor' => $d['ejecutivo_visa'],
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['ejecutivo'],
                 'formato' => 'text'
             ];
-            $aux['CICLO VISA'] = [
-                'valor' => $d['ciclo_visa'],
+            $aux['CICLO'] = [
+                'valor' => $d['ciclo'],
                 'formato' => 'number'
             ];
-            $aux['EDAD FACTURADA VISA'] = [
-                'valor' => $d['edad_visa'],
+            $aux['EDAD FACTURADA'] = [
+                'valor' => $d['edad'],
                 'formato' => 'number'
             ];
-            $aux['SALDO TOTAL DEUDA VISA'] = [
-                'valor' => $d['saldo_total_deuda_visa'],
+            $aux['SALDO TOTAL DEUDA'] = [
+                'valor' => $d['saldo_total_deuda'],
                 'formato' => 'number'
             ];
-            $aux['RIESGO TOTAL VISA'] = [
-                'valor' => $d['riesgo_total_visa'],
+            $aux['RIESGO TOTAL'] = [
+                'valor' => $d['riesgo_total'],
                 'formato' => 'number'
             ];
-            $aux['INTERESES TOTAL VISA'] = [
-                'valor' => $d['interes_total_visa'],
+            $aux['INTERESES TOTAL'] = [
+                'valor' => $d['interes_total'],
                 'formato' => 'number'
             ];
-            $aux['RECUPERADO VISA'] = [
-                'valor' => $d['recuperado_visa'],
+            $aux['RECUPERADO'] = [
+                'valor' => $d['recuperado'],
                 'formato' => 'number'
             ];
-            $aux['PAGO MINIMO VISA'] = [
-                'valor' => $d['pago_minimo_visa'],
+            $aux['PAGO MINIMO'] = [
+                'valor' => $d['pago_minimo'],
                 'formato' => 'number'
             ];
-            $aux['FECHA MAXIMA PAGO VISA'] = [
-                'valor' => $d['fecha_maxima_pago_visa'],
+            $aux['FECHA MAXIMA PAGO'] = [
+                'valor' => $d['fecha_maxima_pago'],
                 'formato' => 'text'
             ];
-            $aux['NUMERO DIFERIDOS VISA'] = [
-                'valor' => $d['numero_diferidos_visa'],
+            $aux['NUMERO DIFERIDOS'] = [
+                'valor' => $d['numero_diferidos'],
                 'formato' => 'number'
             ];
-            $aux['NUMERO DE REFINANCIACIONES HISTORICA VISA'] = [
-                'valor' => $d['numero_refinanciaciones_historica_visa'],
+            $aux['NUMERO DE REFINANCIACIONES HISTORICA'] = [
+                'valor' => $d['numero_refinanciaciones_historica'],
                 'formato' => 'number'
             ];
-            $aux['PLAZO DE FINANCIAMIENTO ACTUAL VISA'] = [
-                'valor' => $d['plazo_financiamiento_actual_visa'],
+            $aux['PLAZO DE FINANCIAMIENTO ACTUAL'] = [
+                'valor' => $d['plazo_financiamiento_actual'],
                 'formato' => 'number'
             ];
-            $aux['MOTIVO CIERRE VISA'] = [
-                'valor' => $d['motivo_cierre_visa'],
+            $aux['MOTIVO CIERRE'] = [
+                'valor' => $d['motivo_cierre'],
                 'formato' => 'text'
             ];
-            $aux['OFERTA VALOR VISA'] = [
-                'valor' => $d['oferta_valor_visa'],
+            $aux['OFERTA VALOR'] = [
+                'valor' => $d['oferta_valor'],
                 'formato' => 'text'
             ];
-            $aux['PENDIENTE ACTUALES VISA'] = [
-                'valor' => $d['pendiente_actuales_visa'],
+            $aux['PENDIENTE ACTUALES'] = [
+                'valor' => $d['pendiente_actuales'],
                 'formato' => 'number'
             ];
-            $aux['PENDIENTE 30 DIAS VISA'] = [
-                'valor' => $d['pendiente_30_visa'],
+            $aux['PENDIENTE 30 DIAS'] = [
+                'valor' => $d['pendiente_30'],
                 'formato' => 'number'
             ];
-            $aux['PENDIENTE 60 DIAS VISA'] = [
-                'valor' => $d['pendiente_60_visa'],
+            $aux['PENDIENTE 60 DIAS'] = [
+                'valor' => $d['pendiente_60'],
                 'formato' => 'number'
             ];
-            $aux['PENDIENTE 90 DIAS VISA'] = [
-                'valor' => $d['pendiente_90_visa'],
+            $aux['PENDIENTE 90 DIAS'] = [
+                'valor' => $d['pendiente_90'],
                 'formato' => 'number'
             ];
-            $aux['PENDIENTE MAS 90 DIAS VISA'] = [
-                'valor' => $d['pendiente_mas_90_visa'],
+            $aux['PENDIENTE MAS 90 DIAS'] = [
+                'valor' => $d['pendiente_mas_90'],
                 'formato' => 'number'
             ];
-            $aux['CRÉDITO INMEDIATO VISA'] = [
-                'valor' => $d['credito_inmediato_visa'],
+            $aux['CRÉDITO INMEDIATO'] = [
+                'valor' => $d['credito_inmediato'],
                 'formato' => 'text'
             ];
-            $aux['PRODUCTO VISA'] = [
-                'valor' => $d['producto_visa'],
-                'formato' => 'text'
-            ];
-
-
-            $aux['TIPO DE CAMPAÑA DISCOVER'] = [
-                'valor' => $d['tipo_campana_discover'],
-                'formato' => 'text'
-            ];
-            $aux['EJECUTIVO DISCOVER'] = [
-                'valor' => $d['ejecutivo_discover'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO DISCOVER'] = [
-                'valor' => $d['ciclo_discover'],
-                'formato' => 'number'
-            ];
-            $aux['EDAD FACTURADA DISCOVER'] = [
-                'valor' => $d['edad_discover'],
-                'formato' => 'number'
-            ];
-            $aux['SALDO TOTAL DEUDA DISCOVER'] = [
-                'valor' => $d['saldo_total_deuda_discover'],
-                'formato' => 'number'
-            ];
-            $aux['RIESGO TOTAL DISCOVER'] = [
-                'valor' => $d['riesgo_total_discover'],
-                'formato' => 'number'
-            ];
-            $aux['INTERESES TOTAL DISCOVER'] = [
-                'valor' => $d['interes_total_discover'],
-                'formato' => 'number'
-            ];
-            $aux['RECUPERADO DISCOVER'] = [
-                'valor' => $d['recuperado_discover'],
-                'formato' => 'number'
-            ];
-            $aux['PAGO MINIMO DISCOVER'] = [
-                'valor' => $d['pago_minimo_discover'],
-                'formato' => 'number'
-            ];
-            $aux['FECHA MAXIMA PAGO DISCOVER'] = [
-                'valor' => $d['fecha_maxima_pago_discover'],
-                'formato' => 'text'
-            ];
-            $aux['NUMERO DIFERIDOS DISCOVER'] = [
-                'valor' => $d['numero_diferidos_discover'],
-                'formato' => 'number'
-            ];
-            $aux['NUMERO DE REFINANCIACIONES HISTORICA DISCOVER'] = [
-                'valor' => $d['numero_refinanciaciones_historica_discover'],
-                'formato' => 'number'
-            ];
-            $aux['PLAZO DE FINANCIAMIENTO ACTUAL DISCOVER'] = [
-                'valor' => $d['plazo_financiamiento_actual_discover'],
-                'formato' => 'number'
-            ];
-            $aux['MOTIVO CIERRE DISCOVER'] = [
-                'valor' => $d['motivo_cierre_discover'],
-                'formato' => 'text'
-            ];
-            $aux['OFERTA VALOR DISCOVER'] = [
-                'valor' => $d['oferta_valor_discover'],
-                'formato' => 'text'
-            ];
-            $aux['PENDIENTE ACTUALES DISCOVER'] = [
-                'valor' => $d['pendiente_actuales_discover'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 30 DIAS DISCOVER'] = [
-                'valor' => $d['pendiente_30_discover'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 60 DIAS DISCOVER'] = [
-                'valor' => $d['pendiente_60_discover'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 90 DIAS DISCOVER'] = [
-                'valor' => $d['pendiente_90_discover'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE MAS 90 DIAS DISCOVER'] = [
-                'valor' => $d['pendiente_mas_90_discover'],
-                'formato' => 'number'
-            ];
-            $aux['CRÉDITO INMEDIATO DISCOVER'] = [
-                'valor' => $d['credito_inmediato_discover'],
-                'formato' => 'text'
-            ];
-            $aux['PRODUCTO DISCOVER'] = [
-                'valor' => $d['producto_discover'],
-                'formato' => 'text'
-            ];
-
-
-            $aux['TIPO DE CAMPAÑA MASTERCARD'] = [
-                'valor' => $d['tipo_campana_mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['EJECUTIVO MASTERCARD'] = [
-                'valor' => $d['ejecutivo_mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['CICLO MASTERCARD'] = [
-                'valor' => $d['ciclo_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['EDAD FACTURADA MASTERCARD'] = [
-                'valor' => $d['edad_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['SALDO TOTAL DEUDA MASTERCARD'] = [
-                'valor' => $d['saldo_total_deuda_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['RIESGO TOTAL MASTERCARD'] = [
-                'valor' => $d['riesgo_total_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['INTERESES TOTAL MASTERCARD'] = [
-                'valor' => $d['interes_total_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['RECUPERADO MASTERCARD'] = [
-                'valor' => $d['recuperado_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['PAGO MINIMO MASTERCARD'] = [
-                'valor' => $d['pago_minimo_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['FECHA MAXIMA PAGO MASTERCARD'] = [
-                'valor' => $d['fecha_maxima_pago_mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['NUMERO DIFERIDOS MASTERCARD'] = [
-                'valor' => $d['numero_diferidos_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['NUMERO DE REFINANCIACIONES HISTORICA MASTERCARD'] = [
-                'valor' => $d['numero_refinanciaciones_historica_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['PLAZO DE FINANCIAMIENTO ACTUAL MASTERCARD'] = [
-                'valor' => $d['plazo_financiamiento_actual_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['MOTIVO CIERRE MASTERCARD'] = [
-                'valor' => $d['motivo_cierre_mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['OFERTA VALOR MASTERCARD'] = [
-                'valor' => $d['oferta_valor_mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['PENDIENTE ACTUALES MASTERCARD'] = [
-                'valor' => $d['pendiente_actuales_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 30 DIAS MASTERCARD'] = [
-                'valor' => $d['pendiente_30_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 60 DIAS MASTERCARD'] = [
-                'valor' => $d['pendiente_60_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE 90 DIAS MASTERCARD'] = [
-                'valor' => $d['pendiente_90_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['PENDIENTE MAS 90 DIAS MASTERCARD'] = [
-                'valor' => $d['pendiente_mas_90_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['CRÉDITO INMEDIATO MASTERCARD'] = [
-                'valor' => $d['credito_inmediato_mastercard'],
-                'formato' => 'text'
-            ];
-            $aux['PRODUCTO MASTERCARD'] = [
-                'valor' => $d['producto_mastercard'],
+            $aux['PRODUCTO'] = [
+                'valor' => $d['producto'],
                 'formato' => 'text'
             ];
 
