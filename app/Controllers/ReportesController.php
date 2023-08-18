@@ -618,22 +618,23 @@ class ReportesController extends BaseController
     function exportMejorUltimaGestion($json)
     {
         \WebSecurity::secure('reportes.mejor_ultima_gestion');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new MejorUltimaGestion($this->get('pdo'));
-        $data = $rep->exportar($filtros);
+//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+//        $json = str_replace('ciclo[]', 'ciclo', $json);
+//        $json = str_replace('resultado[]', 'resultado', $json);
+//        $json = str_replace('accion[]', 'accion', $json);
+//        $json = str_replace('descripcion[]', 'descripcion', $json);
+//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+//        $jdata = json_decode(htmlspecialchars_decode($json), true);
+//        $filtros = $jdata['filtros'];
+//        $rep = new MejorUltimaGestion($this->get('pdo'));
+//        $data = $rep->exportar($filtros);
+        $data = json_decode($json, true);
         $lista = [];
-        foreach ($data['data'] as $d) {
+        foreach ($data['datos'] as $d) {
             $aux['NOMBRE SOCIO'] = [
                 'valor' => $d['cliente'],
                 'formato' => 'text'
@@ -672,6 +673,14 @@ class ReportesController extends BaseController
                 'valor' => $d['fecha_ultima_gestion'],
                 'formato' => 'text'
             ];
+            $aux['HORA ÚLTIMA GESTIÓN'] = [
+                'valor' => $d['hora_ultima_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['TELÉFONO ÚLTIMA GESTIÓN'] = [
+                'valor' => $d['telefono_contacto_ultima_gestion'],
+                'formato' => 'text'
+            ];
 
 
 
@@ -694,6 +703,44 @@ class ReportesController extends BaseController
             ];
             $aux['FECHA MEJOR GESTIÓN'] = [
                 'valor' => $d['fecha_mejor_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['HORA MEJOR GESTIÓN'] = [
+                'valor' => $d['hora_mejor_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['TELÉFONO MEJOR GESTIÓN'] = [
+                'valor' => $d['telefono_contacto_mejor_gestion'],
+                'formato' => 'text'
+            ];
+
+
+            $aux['RESULTADO MEJOR GESTIÓN HISTÓRICO'] = [
+                'valor' => $d['resultado_mejor_gestion_historia'],
+                'formato' => 'text'
+            ];
+            $aux['ACCIÓN MEJOR GESTIÓN HISTÓRICO'] = [
+                'valor' => $d['accion_mejor_gestion_historia'],
+                'formato' => 'text'
+            ];
+            $aux['OBSERVACIONES MEJOR GESTIÓN HISTÓRICO'] = [
+                'valor' => $d['observaciones_mejor_gestion_historia'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO MEJOR GESTIÓN HISTÓRICO'] = [
+                'valor' => $d['ejecutivo_mejor_gestion_historia'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA MEJOR GESTIÓN HISTÓRICO'] = [
+                'valor' => $d['fecha_mejor_gestion_historia'],
+                'formato' => 'text'
+            ];
+            $aux['HORA MEJOR GESTIÓN HISTÓRICO'] = [
+                'valor' => $d['hora_mejor_gestion_historia'],
+                'formato' => 'text'
+            ];
+            $aux['TELÉFONO MEJOR GESTIÓN HISTÓRICO'] = [
+                'valor' => $d['telefono_contacto_mejor_gestion_historia'],
                 'formato' => 'text'
             ];
 

@@ -302,4 +302,31 @@ class ProductoSeguimiento extends Model
 		return $hace;
 	}
 
+    static function getMejorGestionPorCliente() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('paleta_arbol pa ON ps.nivel_3_id = pa.id')
+            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
+            ->innerJoin('(
+                                    SELECT ps1.id, MIN(pa1.peso) peso, u1.id AS id_usuario, CONCAT(u1.apellidos," ",u1.nombres) AS gestor
+                                    FROM producto_seguimiento ps1
+                                        INNER JOIN paleta_arbol pa1 ON ps1.nivel_3_id = pa1.id
+                                        INNER JOIN usuario u1 ON u1.id = ps1.usuario_ingreso
+                                        where ps1.eliminado = 0
+                                    GROUP BY ps1.cliente_id
+                                ) b ON ps.id = b.id AND pa.peso = b.peso AND u.id = b.id_usuario')
+            ->select(null)
+            ->select('ps.*, pa.peso, u.id AS id_usuario, CONCAT(u.apellidos," ",u.nombres) AS gestor')
+            ->where('ps.eliminado',0)
+            ->orderBy('ps.fecha_ingreso DESC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+
+            $retorno[$l['cliente_id']] = $l;
+        }
+        return $retorno;
+    }
 }

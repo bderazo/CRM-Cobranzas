@@ -26,12 +26,24 @@
                             <th>OBSERVACIONES ÚLTIMA GESTIÓN</th>
                             <th>EJECUTIVO ÚLTIMA GESTIÓN</th>
                             <th>FECHA ÚLTIMA GESTIÓN</th>
+                            <th>HORA ÚLTIMA GESTIÓN</th>
+                            <th>TELÉFONO ÚLTIMA GESTIÓN</th>
 
                             <th>RESULTADO MEJOR GESTIÓN</th>
                             <th>ACCIÓN MEJOR GESTIÓN</th>
                             <th>OBSERVACIONES MEJOR GESTIÓN</th>
                             <th>EJECUTIVO MEJOR GESTIÓN</th>
                             <th>FECHA MEJOR GESTIÓN</th>
+                            <th>HORA MEJOR GESTIÓN</th>
+                            <th>TELÉFONO MEJOR GESTIÓN</th>
+
+                            <th>RESULTADO MEJOR GESTIÓN HISTÓRICO</th>
+                            <th>ACCIÓN MEJOR GESTIÓN HISTÓRICO</th>
+                            <th>OBSERVACIONES MEJOR GESTIÓN HISTÓRICO</th>
+                            <th>EJECUTIVO MEJOR GESTIÓN HISTÓRICO</th>
+                            <th>FECHA MEJOR GESTIÓN HISTÓRICO</th>
+                            <th>HORA MEJOR GESTIÓN HISTÓRICO</th>
+                            <th>TELÉFONO MEJOR GESTIÓN HISTÓRICO</th>
 
                             <th>MN</th>
                             <th>DM</th>
@@ -49,12 +61,24 @@
                             <td v-html='d.observaciones_ultima_gestion'></td>
                             <td v-html='d.ejecutivo_ultima_gestion'></td>
                             <td v-html='d.fecha_ultima_gestion'></td>
+                            <td v-html='d.hora_ultima_gestion'></td>
+                            <td v-html='d.telefono_contacto_ultima_gestion'></td>
 
                             <td v-html='d.resultado_mejor_gestion'></td>
                             <td v-html='d.accion_mejor_gestion'></td>
                             <td v-html='d.observaciones_mejor_gestion'></td>
                             <td v-html='d.ejecutivo_mejor_gestion'></td>
                             <td v-html='d.fecha_mejor_gestion'></td>
+                            <td v-html='d.hora_mejor_gestion'></td>
+                            <td v-html='d.telefono_contacto_mejor_gestion'></td>
+
+                            <td v-html='d.resultado_mejor_gestion_historia'></td>
+                            <td v-html='d.accion_mejor_gestion_historia'></td>
+                            <td v-html='d.observaciones_mejor_gestion_historia'></td>
+                            <td v-html='d.ejecutivo_mejor_gestion_historia'></td>
+                            <td v-html='d.fecha_mejor_gestion_historia'></td>
+                            <td v-html='d.hora_mejor_gestion_historia'></td>
+                            <td v-html='d.telefono_contacto_mejor_gestion_historia'></td>
 
                             <td style="text-align: right;" v-html='d.MN'></td>
                             <td style="text-align: right;" v-html='d.DM'></td>
@@ -112,7 +136,8 @@
                 var self = this;
                 $('#btnExportar').click(function () {
                     var data = {
-                        filtros: form.serializeForm()
+                        datos: self.datos,
+                        total: self.total,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();

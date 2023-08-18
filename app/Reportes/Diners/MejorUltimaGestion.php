@@ -8,6 +8,7 @@ use Models\AplicativoDinersSaldos;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
+use Models\ProductoSeguimiento;
 use Models\Telefono;
 use Models\TransformarRollos;
 use Models\Usuario;
@@ -37,6 +38,14 @@ class MejorUltimaGestion {
 
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosFecha();
+
+        //OBTENER MEJORES SEGUIMIENTOS POR CLIENTE
+        $seguimientos_cliente = ProductoSeguimiento::getMejorGestionPorCliente();
+//        printDie($seguimientos_cliente);
+
+        //OBTENER TELEFONOS
+        $telefonos = Telefono::getTodos();
+        $telefonos_id = Telefono::getTodosID();
 
 		//BUSCAR SEGUIMIENTOS
         $q = $db->from('producto_seguimiento ps')
@@ -103,14 +112,22 @@ class MejorUltimaGestion {
                     $campos_saldos = json_decode($saldos_arr['campos'], true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
-
                     if($res['identificador'] == 'DM'){
                         $res['tipo_getion'] = 'domicilio';
                     }else{
                         $res['tipo_getion'] = 'telefonia';
                     }
-
-
+                    //COMPARO CON TELEFONOS IDS
+                    if (isset($telefonos_id[$res['telefono_id']])) {
+                        $res['telefono_contacto'] = $telefonos_id[$res['telefono_id']]['telefono'];
+                    } else {
+                        if (isset($telefonos[$res['cliente_id']][0])) {
+                            $telf = $telefonos[$res['cliente_id']][0]['telefono'];
+                            $res['telefono_contacto'] = $telf;
+                        } else {
+                            $res['telefono_contacto'] = '';
+                        }
+                    }
                     $data[$res['cliente_id']][] = $res;
                 }
             }
@@ -119,7 +136,7 @@ class MejorUltimaGestion {
         $data_procesada = [];
         $total_dm = 0;
         $total_mn = 0;
-        foreach ($data as $d){
+        foreach ($data as $key => $d){
             $ultima_gestion = end($d);
             //MEJOR GESTION
             usort($d, fn($a, $b) => $a['peso_paleta'] <=> $b['peso_paleta']);
@@ -144,13 +161,45 @@ class MejorUltimaGestion {
             $aux['accion_ultima_gestion'] = $ultima_gestion['nivel_2_texto'];
             $aux['observaciones_ultima_gestion'] = $ultima_gestion['observaciones'];
             $aux['ejecutivo_ultima_gestion'] = $ultima_gestion['gestor'];
-            $aux['fecha_ultima_gestion'] = $ultima_gestion['fecha_ingreso'];
+            $aux['hora_ultima_gestion'] = date("H:i:s", strtotime($ultima_gestion['fecha_ingreso']));
+            $aux['fecha_ultima_gestion'] = date("Y-m-d", strtotime($ultima_gestion['fecha_ingreso']));
+            $aux['telefono_contacto_ultima_gestion'] = $ultima_gestion['telefono_contacto'];
 
             $aux['resultado_mejor_gestion'] = $mejor_gestion['nivel_1_texto'];
             $aux['accion_mejor_gestion'] = $mejor_gestion['nivel_2_texto'];
             $aux['observaciones_mejor_gestion'] = $mejor_gestion['observaciones'];
             $aux['ejecutivo_mejor_gestion'] = $mejor_gestion['gestor'];
-            $aux['fecha_mejor_gestion'] = $mejor_gestion['fecha_ingreso'];
+            $aux['hora_mejor_gestion'] = date("H:i:s", strtotime($mejor_gestion['fecha_ingreso']));
+            $aux['fecha_mejor_gestion'] = date("Y-m-d", strtotime($mejor_gestion['fecha_ingreso']));
+            $aux['telefono_contacto_mejor_gestion'] = $mejor_gestion['telefono_contacto'];
+
+            if(isset($seguimientos_cliente[$key])){
+                $aux['resultado_mejor_gestion_historia'] = $seguimientos_cliente[$key]['nivel_1_texto'];
+                $aux['accion_mejor_gestion_historia'] = $seguimientos_cliente[$key]['nivel_2_texto'];
+                $aux['observaciones_mejor_gestion_historia'] = $seguimientos_cliente[$key]['observaciones'];
+                $aux['ejecutivo_mejor_gestion_historia'] = $seguimientos_cliente[$key]['gestor'];
+                $aux['hora_mejor_gestion_historia'] = date("H:i:s", strtotime($seguimientos_cliente[$key]['fecha_ingreso']));
+                $aux['fecha_mejor_gestion_historia'] = date("Y-m-d", strtotime($seguimientos_cliente[$key]['fecha_ingreso']));
+                //COMPARO CON TELEFONOS IDS
+                if (isset($telefonos_id[$seguimientos_cliente[$key]['telefono_id']])) {
+                    $aux['telefono_contacto_mejor_gestion_historia'] = $telefonos_id[$res['telefono_id']]['telefono'];
+                } else {
+                    if (isset($telefonos[$seguimientos_cliente[$key]['cliente_id']][0])) {
+                        $telf = $telefonos[$seguimientos_cliente[$key]['cliente_id']][0]['telefono'];
+                        $aux['telefono_contacto_mejor_gestion_historia'] = $telf;
+                    } else {
+                        $aux['telefono_contacto_mejor_gestion_historia'] = '';
+                    }
+                }
+            }else{
+                $aux['resultado_mejor_gestion_historia'] = '';
+                $aux['accion_mejor_gestion_historia'] = '';
+                $aux['observaciones_mejor_gestion_historia'] = '';
+                $aux['ejecutivo_mejor_gestion_historia'] = '';
+                $aux['hora_mejor_gestion_historia'] = '';
+                $aux['fecha_mejor_gestion_historia'] = '';
+                $aux['telefono_contacto_mejor_gestion_historia'] = '';
+            }
 
             $aux['MN'] = $mn;
             $aux['DM'] = $dm;
