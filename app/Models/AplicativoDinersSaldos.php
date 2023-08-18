@@ -95,4 +95,24 @@ class AplicativoDinersSaldos extends Model
         return $query;
     }
 
+    static function getSaldosPorClienteFecha($cliente_id, $fecha) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_saldos ads')
+            ->innerJoin('cliente cl ON cl.id = ads.cliente_id')
+            ->select(null)
+            ->select('ads.*, cl.cedula')
+            ->where('ads.fecha',$fecha)
+            ->where('ads.cliente_id',$cliente_id)
+            ->where('ads.eliminado',0)
+            ->orderBy('ads.fecha_ingreso DESC');
+        $lista = $q->fetch();
+        if(!$lista) return [];
+        $campos_saldos = json_decode($lista['campos'],true);
+        unset($lista['campos']);
+        $lista = array_merge($lista, $campos_saldos);
+        return $lista;
+    }
+
 }

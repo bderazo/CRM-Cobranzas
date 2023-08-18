@@ -11,6 +11,7 @@ use JasonGrimes\Paginator;
 use Models\AplicativoDiners;
 use Models\AplicativoDinersAsignaciones;
 use Models\AplicativoDinersDetalle;
+use Models\AplicativoDinersSaldos;
 use Models\Archivo;
 use Models\Catalogo;
 use Models\Cliente;
@@ -263,6 +264,7 @@ class ProductoController extends BaseController
         $aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 
         $numero_tarjetas = 0;
+        $tarjeta_unica = 0;
         $todas_tarjetas_pagadas = true;
 
         //DATOS TARJETA DINERS
@@ -299,6 +301,7 @@ class ProductoController extends BaseController
                 $asignacion['DINERS']['aplicativo'] = $aplicativo_diners_tarjeta_diners;
             }
             $numero_tarjetas++;
+            $tarjeta_unica = 'diners';
         }
         $catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
 
@@ -335,6 +338,7 @@ class ProductoController extends BaseController
                 $asignacion['DISCOVER']['aplicativo'] = $aplicativo_diners_tarjeta_discover;
             }
             $numero_tarjetas++;
+            $tarjeta_unica = 'discover';
         }
         $catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
 
@@ -371,6 +375,7 @@ class ProductoController extends BaseController
                 $asignacion['VISA']['aplicativo'] = $aplicativo_diners_tarjeta_interdin;
             }
             $numero_tarjetas++;
+            $tarjeta_unica = 'interdin';
         }
         $catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
 
@@ -407,6 +412,7 @@ class ProductoController extends BaseController
                 $asignacion['MASTERCARD']['aplicativo'] = $aplicativo_diners_tarjeta_mastercard;
             }
             $numero_tarjetas++;
+            $tarjeta_unica = 'mastercard';
         }
         $catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
 
@@ -473,11 +479,268 @@ class ProductoController extends BaseController
             $width_tabla = 100;
         }
 
+        //VALIDAR PALETAS SEGUN MOTIVOS ANTERIORES
+        $saldos = AplicativoDinersSaldos::getSaldosPorClienteFecha($cliente->id, date("Y-m-d"));
+        if($numero_tarjetas == 1){
+            if($tarjeta_unica == 'diners'){
+                $motivo_cierre = $saldos['MOTIVO CIERRE DINERS'];
+            }elseif($tarjeta_unica == 'interdin'){
+                $motivo_cierre = $saldos['MOTIVO CIERRE VISA'];
+            }elseif($tarjeta_unica == 'discover'){
+                $motivo_cierre = $saldos['MOTIVO CIERRE DISCOVER'];
+            }elseif($tarjeta_unica == 'mastercard'){
+                $motivo_cierre = $saldos['MOTIVO CIERRE MASTERCARD'];
+            }
+            if($motivo_cierre == 'SIN GESTION'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+            if(($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') || ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') || ($motivo_cierre == 'AUN NO CONTACTADO TARDE')){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+            if(($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+                ($motivo_cierre == 'NOTIFICADO') ||
+                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+                ($motivo_cierre == 'REFINANCIA')){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+            if($motivo_cierre == 'FALLECIDO'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+            if($motivo_cierre == 'FUERA DEL PAIS'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+            if($motivo_cierre == 'MENSAJE A TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO CLIENTE'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1'][$key]);
+            }
+        }else{
+            //DINERS
+            $motivo_cierre = $saldos['MOTIVO CIERRE DINERS'];
+            if($motivo_cierre == 'SIN GESTION'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+            if(($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') || ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') || ($motivo_cierre == 'AUN NO CONTACTADO TARDE')){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+            if(($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+                ($motivo_cierre == 'NOTIFICADO') ||
+                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+                ($motivo_cierre == 'REFINANCIA')){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+            if($motivo_cierre == 'FALLECIDO'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+            if($motivo_cierre == 'FUERA DEL PAIS'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+            if($motivo_cierre == 'MENSAJE A TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO CLIENTE'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_diners'][$key]);
+            }
+
+            //INTERDIN
+            $motivo_cierre = $saldos['MOTIVO CIERRE VISA'];
+            if($motivo_cierre == 'SIN GESTION'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            if(($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') || ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') || ($motivo_cierre == 'AUN NO CONTACTADO TARDE')){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            if(($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+                ($motivo_cierre == 'NOTIFICADO') ||
+                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+                ($motivo_cierre == 'REFINANCIA')){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            if($motivo_cierre == 'FALLECIDO'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            if($motivo_cierre == 'FUERA DEL PAIS'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            if($motivo_cierre == 'MENSAJE A TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO CLIENTE'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+
+            //DISCOVER
+            $motivo_cierre = $saldos['MOTIVO CIERRE DISCOVER'];
+            if($motivo_cierre == 'SIN GESTION'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+            if(($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') || ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') || ($motivo_cierre == 'AUN NO CONTACTADO TARDE')){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+            if(($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+                ($motivo_cierre == 'NOTIFICADO') ||
+                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+                ($motivo_cierre == 'REFINANCIA')){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+            if($motivo_cierre == 'FALLECIDO'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+            if($motivo_cierre == 'FUERA DEL PAIS'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+            if($motivo_cierre == 'MENSAJE A TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO CLIENTE'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_discover'][$key]);
+            }
+
+            //MASTERCARD
+            $motivo_cierre = $saldos['MOTIVO CIERRE MASTERCARD'];
+            if($motivo_cierre == 'SIN GESTION'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+            if(($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') || ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') || ($motivo_cierre == 'AUN NO CONTACTADO TARDE')){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+            if(($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+                ($motivo_cierre == 'NOTIFICADO') ||
+                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+                ($motivo_cierre == 'REFINANCIA')){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+            if($motivo_cierre == 'FALLECIDO'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+            if($motivo_cierre == 'FUERA DEL PAIS'){
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+            if($motivo_cierre == 'MENSAJE A TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO CLIENTE'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+            if($motivo_cierre == 'SIN ARREGLO TERCERO'){
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
+                unset($catalogos['paleta_nivel_1_mastercard'][$key]);
+            }
+        }
+
 //        printDie($asignacion);
         $data['asignacion'] = json_encode($asignacion);
         $data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
         $data['paleta'] = $paleta;
         $data['numero_tarjetas'] = $numero_tarjetas;
+        $data['tarjeta_unica'] = $tarjeta_unica;
         $data['width_tabla'] = $width_tabla;
         $data['producto_campos'] = $producto_campos;
         $data['aplicativo_diners_porcentaje_interes'] = json_encode($aplicativo_diners_porcentaje_interes);

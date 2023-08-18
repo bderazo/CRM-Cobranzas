@@ -8,6 +8,7 @@ use Catalogos\CatalogoPaleta;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
 use JasonGrimes\Paginator;
+use Models\AplicativoDinersSaldos;
 use Models\Archivo;
 use Models\Catalogo;
 use Models\Contacto;
