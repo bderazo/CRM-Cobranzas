@@ -930,6 +930,7 @@ class ProductoController extends BaseController
                 $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
             }
             $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento['observaciones']);
+            $con->observaciones = substr($con->observaciones, 0, 254);
             $con->sugerencia_cx88 = $seguimiento['sugerencia_cx88'];
             $con->sugerencia_correo = $seguimiento['sugerencia_correo'];
             $con->ingresos_cliente = $seguimiento['ingresos_cliente'];
@@ -1012,6 +1013,7 @@ class ProductoController extends BaseController
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
                     $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_diners['observaciones']);
+                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_diners['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_diners['ingresos_cliente'];
@@ -1106,6 +1108,7 @@ class ProductoController extends BaseController
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
                     $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_interdin['observaciones']);
+                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_interdin['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_interdin['ingresos_cliente'];
@@ -1200,6 +1203,7 @@ class ProductoController extends BaseController
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
                     $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_discover['observaciones']);
+                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_discover['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_discover['ingresos_cliente'];
@@ -1294,6 +1298,7 @@ class ProductoController extends BaseController
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
                     $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_mastercard['observaciones']);
+                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_mastercard['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_mastercard['ingresos_cliente'];
