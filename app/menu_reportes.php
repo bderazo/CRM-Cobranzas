@@ -118,61 +118,61 @@ return [
             'description' => 'Negociaciones Automáticas'
         ],
     ],
-    'productividad' => [
-        [
-            'label' => 'Datos',
-            'link' => '/reportes/productividadDatos',
-            'roles' => 'reportes.productividad_datos',
-            'icon' => 'fa fa-tasks',
-            'description' => 'Datos de productividad'
-        ],
-        [
-            'label' => 'Resultados',
-            'link' => '/reportes/productividadResultados',
-            'roles' => 'reportes.productividad_resultados',
-            'icon' => 'fa fa-tasks',
-            'description' => 'Resultados de productividad'
-        ],
-    ],
-
-    'recuperacion_ejecutivo' => [
-        [
-            'label' => 'Individual',
-            'link' => '/reportes/productividadDatos',
-            'roles' => 'reportes.recuperacion_ejecutivo_individual',
-            'icon' => 'fa fa-money',
-            'description' => 'Recuperación Individual'
-        ],
-        [
-            'label' => 'Por Zona',
-            'link' => '/reportes/productividadResultados',
-            'roles' => 'reportes.recuperacion_ejecutivo_zona',
-            'icon' => 'fa fa-money',
-            'description' => 'Recuperación Por Zona'
-        ],
-    ],
-
-    'recuperacion' => [
-        [
-            'label' => 'Total',
-            'link' => '/reportes/recuperacionTotal',
-            'roles' => 'reportes.recuperacion_total',
-            'icon' => 'fa fa-money',
-            'description' => 'Recuperación Total'
-        ],
-        [
-            'label' => 'Actual',
-            'link' => '/reportes/recuperacionActual',
-            'roles' => 'reportes.recuperacion_actual',
-            'icon' => 'fa fa-money',
-            'description' => 'Recuperación Actual'
-        ],
-        [
-            'label' => 'Mora',
-            'link' => '/reportes/recuperacionMora',
-            'roles' => 'reportes.recuperacion_mora',
-            'icon' => 'fa fa-money',
-            'description' => 'Recuperación Mora'
-        ],
-    ],
+//    'productividad' => [
+//        [
+//            'label' => 'Datos',
+//            'link' => '/reportes/productividadDatos',
+//            'roles' => 'reportes.productividad_datos',
+//            'icon' => 'fa fa-tasks',
+//            'description' => 'Datos de productividad'
+//        ],
+//        [
+//            'label' => 'Resultados',
+//            'link' => '/reportes/productividadResultados',
+//            'roles' => 'reportes.productividad_resultados',
+//            'icon' => 'fa fa-tasks',
+//            'description' => 'Resultados de productividad'
+//        ],
+//    ],
+//
+//    'recuperacion_ejecutivo' => [
+//        [
+//            'label' => 'Individual',
+//            'link' => '/reportes/productividadDatos',
+//            'roles' => 'reportes.recuperacion_ejecutivo_individual',
+//            'icon' => 'fa fa-money',
+//            'description' => 'Recuperación Individual'
+//        ],
+//        [
+//            'label' => 'Por Zona',
+//            'link' => '/reportes/productividadResultados',
+//            'roles' => 'reportes.recuperacion_ejecutivo_zona',
+//            'icon' => 'fa fa-money',
+//            'description' => 'Recuperación Por Zona'
+//        ],
+//    ],
+//
+//    'recuperacion' => [
+//        [
+//            'label' => 'Total',
+//            'link' => '/reportes/recuperacionTotal',
+//            'roles' => 'reportes.recuperacion_total',
+//            'icon' => 'fa fa-money',
+//            'description' => 'Recuperación Total'
+//        ],
+//        [
+//            'label' => 'Actual',
+//            'link' => '/reportes/recuperacionActual',
+//            'roles' => 'reportes.recuperacion_actual',
+//            'icon' => 'fa fa-money',
+//            'description' => 'Recuperación Actual'
+//        ],
+//        [
+//            'label' => 'Mora',
+//            'link' => '/reportes/recuperacionMora',
+//            'roles' => 'reportes.recuperacion_mora',
+//            'icon' => 'fa fa-money',
+//            'description' => 'Recuperación Mora'
+//        ],
+//    ],
 ];
