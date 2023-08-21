@@ -124,6 +124,8 @@ class  BaseCarga
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             }elseif(strpos($seg['campana_ece'], 'DOMICI')){
                                 $seg['campana_ece'] = 'CAMPO';
+                            }elseif(strpos($seg['campana_ece'], 'PREJUR')){
+                                $seg['campana_ece'] = 'PREJURIDICO';
                             }
                         }
                     }
@@ -142,6 +144,8 @@ class  BaseCarga
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             }elseif(strpos($seg['campana_ece'], 'DOMICI')){
                                 $seg['campana_ece'] = 'CAMPO';
+                            }elseif(strpos($seg['campana_ece'], 'PREJUR')){
+                                $seg['campana_ece'] = 'PREJURIDICO';
                             }
                         }
                         $seg['nombre_tarjeta'] = 'VISA';
@@ -161,6 +165,8 @@ class  BaseCarga
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             }elseif(strpos($seg['campana_ece'], 'DOMICI')){
                                 $seg['campana_ece'] = 'CAMPO';
+                            }elseif(strpos($seg['campana_ece'], 'PREJUR')){
+                                $seg['campana_ece'] = 'PREJURIDICO';
                             }
                         }
                     }
@@ -179,6 +185,8 @@ class  BaseCarga
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             }elseif(strpos($seg['campana_ece'], 'DOMICI')){
                                 $seg['campana_ece'] = 'CAMPO';
+                            }elseif(strpos($seg['campana_ece'], 'PREJUR')){
+                                $seg['campana_ece'] = 'PREJURIDICO';
                             }
                         }
                         $seg['nombre_tarjeta'] = 'MASTERCA';
