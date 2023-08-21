@@ -1380,7 +1380,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['MOTIVO ANTERIOR'] = [
-                'valor' => $d['motivo_no_pago_anterior'],
+                'valor' => $d['motivo_anterior'],
                 'formato' => 'text'
             ];
             $aux['RESULTADO ANTERIOR'] = [
