@@ -1978,23 +1978,23 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $aux['TIPO'] = [
-            'valor' => 'TOTAL',
-            'formato' => 'text'
-        ];
-        $aux['REFINANCIA'] = [
-            'valor' => $data['resumen_totales_foot']['refinancia_resumen_total'],
-            'formato' => 'number'
-        ];
-        $aux['CRÉDITOS INMEDIATOS'] = [
-            'valor' => $data['resumen_totales_foot']['notificado_resumen_total'],
-            'formato' => 'number'
-        ];
-        $aux['TOTAL'] = [
-            'valor' => $data['resumen_totales_foot']['resumen_total'],
-            'formato' => 'number'
-        ];
-        $lista[] = $aux;
+//        $aux['TIPO'] = [
+//            'valor' => 'TOTAL',
+//            'formato' => 'text'
+//        ];
+//        $aux['REFINANCIA'] = [
+//            'valor' => $data['resumen_totales_foot']['refinancia_resumen_total'],
+//            'formato' => 'number'
+//        ];
+//        $aux['CRÉDITOS INMEDIATOS'] = [
+//            'valor' => $data['resumen_totales_foot']['notificado_resumen_total'],
+//            'formato' => 'number'
+//        ];
+//        $aux['TOTAL'] = [
+//            'valor' => $data['resumen_totales_foot']['resumen_total'],
+//            'formato' => 'number'
+//        ];
+//        $lista[] = $aux;
         $exportar[] = [
             'name' => 'RESUMEN CAMPANA',
             'data' => $lista
