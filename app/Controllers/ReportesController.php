@@ -1953,53 +1953,27 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
+        $aux['TIPO'] = [
+            'valor' => 'TOTAL',
+            'formato' => 'text'
+        ];
+        $aux['REFINANCIA'] = [
+            'valor' => $data['resumen_totales_foot']['refinancia_resumen_total'],
+            'formato' => 'number'
+        ];
+        $aux['CRÉDITOS INMEDIATOS'] = [
+            'valor' => $data['resumen_totales_foot']['notificado_resumen_total'],
+            'formato' => 'number'
+        ];
+        $aux['TOTAL'] = [
+            'valor' => $data['resumen_totales_foot']['resumen_total'],
+            'formato' => 'number'
+        ];
+        $lista[] = $aux;
         $exportar[] = [
             'name' => 'RESUMEN CAMPANA',
             'data' => $lista
         ];
-
-//        $lista = [];
-//        $aux = [];
-//        foreach ($data['resumen_totales'] as $d) {
-//            $aux['TIPO'] = [
-//                'valor' => $d['campana'],
-//                'formato' => 'text'
-//            ];
-//            $aux['REFINANCIA'] = [
-//                'valor' => $d['refinancia'],
-//                'formato' => 'number'
-//            ];
-//            $aux['CRÉDITOS INMEDIATOS'] = [
-//                'valor' => $d['notificado'],
-//                'formato' => 'number'
-//            ];
-//            $aux['TOTAL'] = [
-//                'valor' => $d['total'],
-//                'formato' => 'number'
-//            ];
-//            $lista[] = $aux;
-//        }
-//        $aux['TIPO'] = [
-//            'valor' => 'TOTAL',
-//            'formato' => 'text'
-//        ];
-//        $aux['REFINANCIA'] = [
-//            'valor' => $data['resumen_totales_foot']['refinancia_resumen_total'],
-//            'formato' => 'number'
-//        ];
-//        $aux['CRÉDITOS INMEDIATOS'] = [
-//            'valor' => $data['resumen_totales_foot']['notificado_resumen_total'],
-//            'formato' => 'number'
-//        ];
-//        $aux['TOTAL'] = [
-//            'valor' => $data['resumen_totales_foot']['resumen_total'],
-//            'formato' => 'number'
-//        ];
-//        $lista[] = $aux;
-//        $exportar[] = [
-//            'name' => 'RESUMEN CAMPANA',
-//            'data' => $lista
-//        ];
 
         $this->exportMultiple($exportar, 'general.xlsx');
     }
