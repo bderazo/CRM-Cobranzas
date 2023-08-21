@@ -1975,6 +1975,24 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
+        $lista = [];
+        $aux = [];
+        $aux['CONTACTABILIDAD'] = [
+            'valor' => $data['total_resumen_totales']['contactabilidad'],
+            'formato' => 'number'
+        ];
+        $aux['EFECTIVIDAD'] = [
+            'valor' => $data['total_resumen_totales']['efectividad'],
+            'formato' => 'number'
+        ];
+        $lista[] = $aux;
+        $exportar[] = [
+            'name' => 'RESUMEN CONTAC EFECT',
+            'data' => $lista
+        ];
+
+
+
         $this->exportMultiple($exportar, 'general.xlsx');
     }
 
