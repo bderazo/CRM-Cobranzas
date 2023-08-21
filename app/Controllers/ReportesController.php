@@ -1751,6 +1751,7 @@ class ReportesController extends BaseController
 //        $rep = new General($this->get('pdo'));
 //        $data = $rep->exportar($filtros);
         $data = json_decode($json, true);
+        printDie($data);
         $lista = [];
         $aux = [];
         foreach ($data['datos'] as $d) {
