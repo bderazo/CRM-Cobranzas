@@ -116,6 +116,7 @@ class Individual {
         $lista = $q->fetchAll();
         $data = [];
         $usuario_gestion = [];
+        $verificar_duplicados = [];
         foreach($lista as $seg){
             if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']])) {
                 if (!isset($usuario_gestion[$seg['usuario_id']])) {
@@ -138,10 +139,18 @@ class Individual {
                     ];
                 }
                 if($seg['nivel_2_id'] == 1859){
-                    $usuario_gestion[$seg['usuario_id']]['refinancia']++;
+                    if(!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])){
+                        $usuario_gestion[$seg['usuario_id']]['refinancia']++;
+
+                        $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                    }
                 }
                 if($seg['nivel_2_id'] == 1853){
-                    $usuario_gestion[$seg['usuario_id']]['notificado']++;
+                    if(!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])){
+                        $usuario_gestion[$seg['usuario_id']]['notificado']++;
+
+                        $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                    }
                 }
                 if($seg['nivel_1_id'] == 1855){
                     $usuario_gestion[$seg['usuario_id']]['cierre_efectivo']++;

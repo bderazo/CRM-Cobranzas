@@ -43,13 +43,14 @@ class Contactabilidad
 
         $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
         $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
+        $fecha = isset($filtros['fecha']) ? $filtros['fecha'] : '';
 
         //OBTENER ASIGNACION
-        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece, $ciclo);
-        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece, $ciclo);
+        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece, $ciclo,$fecha);
+        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece, $ciclo,$fecha);
 
         //OBTENER SALDOS
-        $saldos = AplicativoDinersSaldos::getTodosFecha();
+        $saldos = AplicativoDinersSaldos::getTodosFecha($fecha);
 
         //BUSCAR SEGUIMIENTOS
 //        $q = $db->from('producto_seguimiento ps')
@@ -64,9 +65,10 @@ class Contactabilidad
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, pa.peso AS peso_paleta")
             ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id', 1)
             ->where('ps.eliminado', 0);
@@ -90,26 +92,29 @@ class Contactabilidad
             $fil = '"' . implode('","', $filtros['marca']) . '"';
             $q->where('u.tarjeta IN (' . $fil . ')');
         }
-        if (@$filtros['fecha_inicio']) {
-            if (($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')) {
-                $hora = strlen($filtros['hora_inicio']) == 1 ? '0' . $filtros['hora_inicio'] : $filtros['hora_inicio'];
-                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0' . $filtros['minuto_inicio'] : $filtros['minuto_inicio'];
-                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso >= "' . $fecha . '"');
-            } else {
-                $q->where('DATE(ps.fecha_ingreso) >= "' . $filtros['fecha_inicio'] . '"');
-            }
+        if (@$filtros['fecha']) {
+            $q->where('DATE(ps.fecha_ingreso)',$filtros['fecha']);
         }
-        if (@$filtros['fecha_fin']) {
-            if (($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')) {
-                $hora = strlen($filtros['hora_fin']) == 1 ? '0' . $filtros['hora_fin'] : $filtros['hora_fin'];
-                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0' . $filtros['minuto_fin'] : $filtros['minuto_fin'];
-                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-                $q->where('ps.fecha_ingreso <= "' . $fecha . '"');
-            } else {
-                $q->where('DATE(ps.fecha_ingreso) <= "' . $filtros['fecha_fin'] . '"');
-            }
-        }
+//        if (@$filtros['fecha_inicio']) {
+//            if (($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')) {
+//                $hora = strlen($filtros['hora_inicio']) == 1 ? '0' . $filtros['hora_inicio'] : $filtros['hora_inicio'];
+//                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0' . $filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+//                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+//                $q->where('ps.fecha_ingreso >= "' . $fecha . '"');
+//            } else {
+//                $q->where('DATE(ps.fecha_ingreso) >= "' . $filtros['fecha_inicio'] . '"');
+//            }
+//        }
+//        if (@$filtros['fecha_fin']) {
+//            if (($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')) {
+//                $hora = strlen($filtros['hora_fin']) == 1 ? '0' . $filtros['hora_fin'] : $filtros['hora_fin'];
+//                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0' . $filtros['minuto_fin'] : $filtros['minuto_fin'];
+//                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+//                $q->where('ps.fecha_ingreso <= "' . $fecha . '"');
+//            } else {
+//                $q->where('DATE(ps.fecha_ingreso) <= "' . $filtros['fecha_fin'] . '"');
+//            }
+//        }
         $fil = implode(',', $clientes_asignacion);
         $q->where('ps.cliente_id IN (' . $fil . ')');
         $q->orderBy('u.apellidos');
@@ -119,6 +124,7 @@ class Contactabilidad
         $data = [];
         $data_hoja1 = [];
         $data_hoja2 = [];
+        $verificar_duplicados = [];
         foreach ($lista as $seg) {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']])) {

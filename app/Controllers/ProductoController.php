@@ -261,7 +261,6 @@ class ProductoController extends BaseController
 
         $aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
         $aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionAplicativo($aplicativo_diners['id']);
-        $aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 
         $numero_tarjetas = 0;
         $tarjeta_unica = 0;
@@ -737,7 +736,6 @@ class ProductoController extends BaseController
 
 //        printDie($asignacion);
         $data['asignacion'] = json_encode($asignacion);
-        $data['aplicativo_diners_detalle_mayor_deuda'] = $aplicativo_diners_detalle_mayor_deuda;
         $data['paleta'] = $paleta;
         $data['numero_tarjetas'] = $numero_tarjetas;
         $data['tarjeta_unica'] = $tarjeta_unica;

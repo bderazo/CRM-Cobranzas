@@ -14,18 +14,18 @@ use Models\Usuario;
 class General {
 	/** @var \PDO */
 	var $pdo;
-	
+
 	/**
 	 *
 	 * @param \PDO $pdo
 	 */
 	public function __construct(\PDO $pdo) { $this->pdo = $pdo; }
-	
+
 	function calcular($filtros) {
 		$lista = $this->consultaBase($filtros);
 		return $lista;
 	}
-	
+
 	function consultaBase($filtros) {
 		$db = new \FluentPDO($this->pdo);
 
@@ -132,6 +132,7 @@ class General {
         $total_no_ubicado = 0;
         $total_sin_arreglo = 0;
         $total_general = 0;
+        $verificar_duplicados = [];
         foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])){
@@ -149,12 +150,21 @@ class General {
                     ];
                 }
                 if($res['nivel_2_id'] == 1859){
-                    $usuario_gestion[$res['usuario_id']]['refinancia']++;
-                    $total_refinancia++;
+                    if(!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])){
+                        $usuario_gestion[$res['usuario_id']]['refinancia']++;
+                        $total_refinancia++;
+
+                        $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
+                    }
+
                 }
                 if($res['nivel_2_id'] == 1853){
-                    $usuario_gestion[$res['usuario_id']]['notificado']++;
-                    $total_notificado++;
+                    if(!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])){
+                        $usuario_gestion[$res['usuario_id']]['notificado']++;
+                        $total_notificado++;
+
+                        $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
+                    }
                 }
                 if($res['nivel_1_id'] == 1855){
                     $usuario_gestion[$res['usuario_id']]['cierre_efectivo']++;
@@ -363,7 +373,7 @@ class General {
         ];
 
 
-//        printDie($resumen_totales);
+//        printDie($verificar_duplicados);
         $resumen_total = $refinancia_resumen_total + $notificado_resumen_total;
 		$retorno['data'] = $usuario_gestion;
         $retorno['resumen'] = $resumen;
@@ -386,7 +396,7 @@ class General {
 		];
 		return $retorno;
 	}
-	
+
 	function exportar($filtros) {
 		$q = $this->consultaBase($filtros);
 		return $q;
