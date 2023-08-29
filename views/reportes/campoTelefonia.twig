@@ -101,7 +101,8 @@
                 var self = this;
                 $('#btnExportar').click(function () {
                     var data = {
-                        filtros: form.serializeForm()
+                        datos: self.datos,
+                        total: self.total,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();

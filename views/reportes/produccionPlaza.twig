@@ -214,6 +214,7 @@
                 total: [],
                 datos_recupero: [],
                 total_recupero: [],
+				resumen: [],
             },
             watch: {},
             computed: {},
@@ -230,6 +231,7 @@
                         self.datos_recupero = res['data_recupero'];
                         self.total_recupero = res['total_recupero'];
                         self.tipo_negociacion = res['tipo_negociacion'];
+						self.resumen = res['resumen'];
                         console.log(res);
                     })
                 },
@@ -238,9 +240,14 @@
                 var form = $('#filtros');
                 var self = this;
                 $('#btnExportar').click(function () {
-                    var data = {
-                        filtros: form.serializeForm()
-                    };
+					var data = {
+						datos: self.datos,
+						total: self.total,
+						datos_recupero: self.datos_recupero,
+						total_recupero: self.total_recupero,
+						tipo_negociacion: self.tipo_negociacion,
+						resumen: self.resumen,
+					};
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();
                 });

@@ -516,23 +516,23 @@ class ReportesController extends BaseController
     function exportProduccionPlaza($json)
     {
         \WebSecurity::secure('reportes.produccion_plaza');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new ProduccionPlaza($this->get('pdo'));
-        $data = $rep->exportar($filtros);
+//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+//        $json = str_replace('ciclo[]', 'ciclo', $json);
+//        $json = str_replace('resultado[]', 'resultado', $json);
+//        $json = str_replace('accion[]', 'accion', $json);
+//        $json = str_replace('descripcion[]', 'descripcion', $json);
+//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+        $jdata = json_decode($json, true);
+//        $filtros = $jdata['filtros'];
+//        $rep = new ProduccionPlaza($this->get('pdo'));
+//        $data = $rep->exportar($filtros);
         $lista = [];
         $aux = [];
-        foreach ($data['data'] as $d) {
+        foreach ($jdata['datos'] as $d) {
             $aux['ZONA'] = [
                 'valor' => $d['plaza'],
                 'formato' => 'text'
@@ -573,7 +573,7 @@ class ReportesController extends BaseController
         ];
         $aux = [];
         $lista = [];
-        foreach ($data['resumen'] as $d) {
+        foreach ($jdata['resumen'] as $d) {
             $aux['MARCA'] = [
                 'valor' => $d['nombre_tarjeta'],
                 'formato' => 'text'
@@ -776,22 +776,19 @@ class ReportesController extends BaseController
     function exportCampoTelefonia($json)
     {
         \WebSecurity::secure('reportes.campo_telefonia');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new CampoTelefonia($this->get('pdo'));
-        $data = $rep->exportar($filtros);
+//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+//        $json = str_replace('ciclo[]', 'ciclo', $json);
+//        $json = str_replace('resultado[]', 'resultado', $json);
+//        $json = str_replace('accion[]', 'accion', $json);
+//        $json = str_replace('descripcion[]', 'descripcion', $json);
+//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+        $data = json_decode($json, true);
         $lista = [];
-        foreach ($data['data'] as $d) {
+        foreach ($data['datos'] as $d) {
             $aux['PLAZA'] = [
                 'valor' => $d['plaza'],
                 'formato' => 'text'
@@ -972,18 +969,6 @@ class ReportesController extends BaseController
         $aux = [];
         $lista = [];
         foreach ($jdata['resumen'] as $d) {
-            $aux['GESTOR'] = [
-                'valor' => $d['gestor'],
-                'formato' => 'text'
-            ];
-            $aux['CLIENTE'] = [
-                'valor' => $d['nombres'],
-                'formato' => 'text'
-            ];
-            $aux['CEDULA'] = [
-                'valor' => $d['cedula'],
-                'formato' => 'text'
-            ];
             $aux['MARCA'] = [
                 'valor' => $d['tarjeta'],
                 'formato' => 'text'
@@ -991,6 +976,14 @@ class ReportesController extends BaseController
             $aux['CICLO'] = [
                 'valor' => $d['ciclo'],
                 'formato' => 'number'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['NOMBRE SOCIO'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
             ];
             $aux['FECHA'] = [
                 'valor' => $d['fecha_ingreso_fecha'],
@@ -1000,38 +993,58 @@ class ReportesController extends BaseController
                 'valor' => $d['fecha_ingreso_hora'],
                 'formato' => 'text'
             ];
-            $aux['RESULTADO'] = [
-                'valor' => $d['nivel_1_texto'],
+            $aux['AGENTE'] = [
+                'valor' => $d['gestor'],
                 'formato' => 'text'
             ];
-            $aux['ACCION'] = [
+            $aux['RESULTADO DE GESTIÓN'] = [
                 'valor' => $d['nivel_2_texto'],
                 'formato' => 'text'
             ];
-            $aux['DESCRIPCIÓN'] = [
+            $aux['RESPUESTA'] = [
                 'valor' => $d['nivel_3_texto'],
                 'formato' => 'text'
-            ];
-            $aux['FECHA COMPROMISO DE PAGO'] = [
-                'valor' => $d['fecha_compromiso_pago'],
-                'formato' => 'text'
-            ];
-            $aux['VALOR COMPROMETIDO'] = [
-                'valor' => $d['valor_comprometido'],
-                'formato' => 'number'
             ];
             $aux['MOTIVO NO PAGO'] = [
                 'valor' => $d['nivel_1_motivo_no_pago_texto'],
                 'formato' => 'text'
             ];
-            $aux['DESCRIPCIÓN MOTIVO NO PAGO'] = [
+            $aux['SUB MOTIVO NO PAGO'] = [
                 'valor' => $d['nivel_2_motivo_no_pago_texto'],
                 'formato' => 'text'
             ];
-            $aux['Observaciones'] = [
+            $aux['GESTIÓN'] = [
                 'valor' => $d['observaciones'],
                 'formato' => 'text'
             ];
+            $aux['ÁREA'] = [
+                'valor' => $d['canal'],
+                'formato' => 'text'
+            ];
+            $aux['EMPRESA'] = [
+                'valor' => 'MEGACOB',
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
+                'formato' => 'text'
+            ];
+            $aux['CIERRE'] = [
+                'valor' => $d['nivel_1_texto'],
+                'formato' => 'text'
+            ];
+            $aux['CAMPAÑA'] = [
+                'valor' => $d['campana'],
+                'formato' => 'text'
+            ];
+//            $aux['FECHA COMPROMISO DE PAGO'] = [
+//                'valor' => $d['fecha_compromiso_pago'],
+//                'formato' => 'text'
+//            ];
+//            $aux['VALOR COMPROMETIDO'] = [
+//                'valor' => $d['valor_comprometido'],
+//                'formato' => 'number'
+//            ];
             $aux['PENDIENTE ACTUALES'] = [
                 'valor' => $d['pendiente_actuales'],
                 'formato' => 'number'
@@ -1052,10 +1065,10 @@ class ReportesController extends BaseController
                 'valor' => $d['pendiente_mas_90'],
                 'formato' => 'number'
             ];
-            $aux['EDAD CARTERA'] = [
-                'valor' => $d['edad_cartera'],
-                'formato' => 'number'
-            ];
+//            $aux['EDAD CARTERA'] = [
+//                'valor' => $d['edad_cartera'],
+//                'formato' => 'number'
+//            ];
             $lista[] = $aux;
         }
 

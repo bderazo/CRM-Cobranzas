@@ -53,7 +53,7 @@ class InformeJornada {
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, u.canal, cl.zona")
             ->where('ps.nivel_1_id IN (1855, 1839, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
@@ -190,6 +190,13 @@ class InformeJornada {
                 }
                 $res['fecha_ingreso_fecha'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
                 $res['fecha_ingreso_hora'] = date("His", strtotime($res['fecha_ingreso']));
+
+                if($res['canal'] == 'AUXILIAR TELEFONIA'){
+                    $res['campana'] = 'CAMPO';
+                }else{
+                    $res['campana'] = $res['canal'];
+                }
+
                 $resumen[] = $res;
             }
 		}
@@ -212,10 +219,6 @@ class InformeJornada {
 		$total_porcentaje_cantactado = ($total_cuentas > 0) ? ($total_contactadas / $total_cuentas) * 100 : 0;
 		$total_porcentaje_efectividad = ($total_contactadas > 0) ? ($total_efectividad / $total_contactadas) * 100 : 0;
 		$total_porcentaje_produccion = ($total_cuentas > 0) ? ($total_negociaciones / $total_cuentas) * 100 : 0;
-
-
-
-//		printDie($data);
 
 		$retorno['data'] = $data;
         $retorno['resumen'] = $resumen;
