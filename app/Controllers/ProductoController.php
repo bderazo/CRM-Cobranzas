@@ -483,12 +483,40 @@ class ProductoController extends BaseController
         if($numero_tarjetas == 1){
             if($tarjeta_unica == 'diners'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE DINERS'];
+                $fecha_cobro = $saldos['FECHA MAXIMA PAGO DINERS'];
+                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                if($fecha_cobro != ''){
+                    if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                    }
+                }
             }elseif($tarjeta_unica == 'interdin'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE VISA'];
+                $fecha_cobro = $saldos['FECHA MAXIMA PAGO VISA'];
+                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                if($fecha_cobro != ''){
+                    if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                    }
+                }
             }elseif($tarjeta_unica == 'discover'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE DISCOVER'];
+                $fecha_cobro = $saldos['FECHA MAXIMA PAGO DISCOVER'];
+                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                if($fecha_cobro != ''){
+                    if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                    }
+                }
             }elseif($tarjeta_unica == 'mastercard'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE MASTERCARD'];
+                $fecha_cobro = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
+                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                if($fecha_cobro != ''){
+                    if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                    }
+                }
             }
             if($motivo_cierre == 'SIN GESTION'){
                 //QUITAR: SIN ARREGLO
@@ -585,6 +613,13 @@ class ProductoController extends BaseController
                 $key = array_search('1799', array_column($catalogos['paleta_nivel_1_diners'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1_diners'][$key]);
             }
+            $fecha_cobro = $saldos['FECHA MAXIMA PAGO DINERS'];
+            $fecha_maxima_compromiso_diners = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            if($fecha_cobro != ''){
+                if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                    $fecha_maxima_compromiso_diners = date("Y-m-d",strtotime($fecha_cobro));
+                }
+            }
 
             //INTERDIN
             $motivo_cierre = $saldos['MOTIVO CIERRE VISA'];
@@ -633,6 +668,13 @@ class ProductoController extends BaseController
                 //QUITAR: NO UBICADO
                 $key = array_search('1799', array_column($catalogos['paleta_nivel_1_interdin'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1_interdin'][$key]);
+            }
+            $fecha_cobro = $saldos['FECHA MAXIMA PAGO VISA'];
+            $fecha_maxima_compromiso_interdin = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            if($fecha_cobro != ''){
+                if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                    $fecha_maxima_compromiso_interdin = date("Y-m-d",strtotime($fecha_cobro));
+                }
             }
 
             //DISCOVER
@@ -683,6 +725,13 @@ class ProductoController extends BaseController
                 $key = array_search('1799', array_column($catalogos['paleta_nivel_1_discover'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1_discover'][$key]);
             }
+            $fecha_cobro = $saldos['FECHA MAXIMA PAGO DISCOVER'];
+            $fecha_maxima_compromiso_discover = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            if($fecha_cobro != ''){
+                if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                    $fecha_maxima_compromiso_discover = date("Y-m-d",strtotime($fecha_cobro));
+                }
+            }
 
             //MASTERCARD
             $motivo_cierre = $saldos['MOTIVO CIERRE MASTERCARD'];
@@ -732,6 +781,13 @@ class ProductoController extends BaseController
                 $key = array_search('1799', array_column($catalogos['paleta_nivel_1_mastercard'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1_mastercard'][$key]);
             }
+            $fecha_cobro = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
+            $fecha_maxima_compromiso_mastercard = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            if($fecha_cobro != ''){
+                if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
+                    $fecha_maxima_compromiso_mastercard = date("Y-m-d",strtotime($fecha_cobro));
+                }
+            }
         }
 
 //        printDie($asignacion);
@@ -762,6 +818,11 @@ class ProductoController extends BaseController
         $data['model'] = json_encode($model);
         $data['modelArr'] = $model;
         $data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
+        $data['fecha_maxima_compromiso'] = $fecha_maxima_compromiso;
+        $data['fecha_maxima_compromiso_diners'] = $fecha_maxima_compromiso_diners;
+        $data['fecha_maxima_compromiso_interdin'] = $fecha_maxima_compromiso_interdin;
+        $data['fecha_maxima_compromiso_discover'] = $fecha_maxima_compromiso_discover;
+        $data['fecha_maxima_compromiso_mastercard'] = $fecha_maxima_compromiso_mastercard;
         return $this->render('editarDiners', $data);
     }
 

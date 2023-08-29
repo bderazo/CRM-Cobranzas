@@ -4098,11 +4098,39 @@
                 });
 
                 $(function () {
-                    $('.fecha').datepicker({
+                    $('#fecha_compromiso_pago').datepicker({
                         dateFormat: 'yy-mm-dd',
                         showButtonPanel: true,
                         minDate: 0, // 0 days offset = today
                         maxDate: '+1m',
+                        numberOfMonths: 1,
+                    });
+                    $('#fecha_compromiso_pago_diners').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true,
+                        minDate: 0, // 0 days offset = today
+                        maxDate: '{{ fecha_maxima_compromiso_diners }}',
+                        numberOfMonths: 1,
+                    });
+                    $('#fecha_compromiso_pago_interdin').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true,
+                        minDate: 0, // 0 days offset = today
+                        maxDate: '{{ fecha_maxima_compromiso_interdin }}',
+                        numberOfMonths: 1,
+                    });
+                    $('#fecha_compromiso_pago_discover').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true,
+                        minDate: 0, // 0 days offset = today
+                        maxDate: '{{ fecha_maxima_compromiso_discover }}',
+                        numberOfMonths: 1,
+                    });
+                    $('#fecha_compromiso_pago_mastercard').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true,
+                        minDate: 0, // 0 days offset = today
+                        maxDate: '{{ fecha_maxima_compromiso_mastercard }}',
                         numberOfMonths: 1,
                     });
 
