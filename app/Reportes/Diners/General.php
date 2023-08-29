@@ -72,7 +72,7 @@ class General {
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, cl.ciudad, u.canal")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, cl.ciudad, u.canal, cl.zona")
             ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
@@ -197,6 +197,7 @@ class General {
                     $total_general++;
                 }
 
+                $producto_codigo = '';
                 if(isset($saldos[$res['cliente_id']])) {
                     $saldos_arr = $saldos[$res['cliente_id']];
                     $campos_saldos = json_decode($saldos_arr['campos'],true);
@@ -350,6 +351,23 @@ class General {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
                     }
+
+                    if($res['tarjeta'] == 'DINERS') {
+                        $producto_codigo = 'DINC';
+                    }
+                    if($res['tarjeta'] == 'INTERDIN') {
+                        $producto_codigo = 'VISC';
+                    }
+                    if($res['tarjeta'] == 'DISCOVER') {
+                        if($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER'){
+                            $producto_codigo = 'DISCNOR';
+                        }else{
+                            $producto_codigo = 'DISCCON';
+                        }
+                    }
+                    if($res['tarjeta'] == 'MASTERCARD') {
+                        $producto_codigo = 'MASC';
+                    }
                 }else{
                     $res['pendiente_actuales'] = '';
                     $res['pendiente_30'] = '';
@@ -358,11 +376,12 @@ class General {
                     $res['pendiente_mas_90'] = '';
                     $res['edad_cartera'] = 0;
                 }
+                $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
                 $resumen[] = $res;
             }
         }
 
-        usort($usuario_gestion, fn($a, $b) => $a['gestor'] <=> $b['gestor']);
+        usort($usuario_gestion, fn($a, $b) => $b['refinancia'] <=> $a['refinancia']);
 
         $contactabilidad = $total_general > 0 ? ((($total_cierre_efectivo + $total_cierre_no_efectivo) / $total_general) * 100) : 0;
         $efectividad = ($total_cierre_efectivo + $total_cierre_no_efectivo) > 0 ? (($total_cierre_efectivo / ($total_cierre_efectivo + $total_cierre_no_efectivo)) * 100) : 0;

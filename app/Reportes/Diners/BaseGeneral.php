@@ -116,7 +116,11 @@ class BaseGeneral {
                 $res['hora_gestion'] = date("H:i:s", strtotime($res['fecha_ingreso']));
                 $res['fecha_gestion'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
                 $res['georeferencia'] = $res['lat'] != '' ? $res['lat'] . ',' . $res['long'] : " ";
-                $res['tipo_negociacion'] = strtoupper($res['tipo_negociacion']);
+                if($res['nivel_2_id'] == 1859) {
+                    $res['tipo_negociacion'] = strtoupper($res['tipo_negociacion']);
+                }else{
+                    $res['tipo_negociacion'] = '';
+                }
                 //BUSCO EN SALDOS
                 if (isset($saldos[$res['cliente_id']])) {
                     $saldos_arr = $saldos[$res['cliente_id']];
@@ -129,7 +133,7 @@ class BaseGeneral {
                     } else {
                         $resumen_gestiones[$res['identificador']][$res['ciclo']] = 1;
                     }
-
+                    $producto_codigo = '';
                     if($res['tarjeta'] == 'DINERS') {
                         $res['tipo_campana'] = $saldos_arr['TIPO DE CAMPAÑA DINERS'];
                         $res['ejecutivo'] = $saldos_arr['EJECUTIVO DINERS'];
@@ -153,6 +157,7 @@ class BaseGeneral {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
                         $res['credito_inmediato'] = $saldos_arr['CRÉDITO INMEDIATO DINERS'];
                         $res['producto'] = $saldos_arr['PRODUCTO DINERS'];
+                        $producto_codigo = 'DINC';
                     }
 
                     if($res['tarjeta'] == 'INTERDIN') {
@@ -178,6 +183,7 @@ class BaseGeneral {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
                         $res['credito_inmediato'] = $saldos_arr['CRÉDITO INMEDIATO VISA'];
                         $res['producto'] = $saldos_arr['PRODUCTO VISA'];
+                        $producto_codigo = 'VISC';
                     }
 
                     if($res['tarjeta'] == 'DISCOVER') {
@@ -203,6 +209,11 @@ class BaseGeneral {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
                         $res['credito_inmediato'] = $saldos_arr['CRÉDITO INMEDIATO DISCOVER'];
                         $res['producto'] = $saldos_arr['PRODUCTO DISCOVER'];
+                        if($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER'){
+                            $producto_codigo = 'DISCNOR';
+                        }else{
+                            $producto_codigo = 'DISCCON';
+                        }
                     }
 
                     if($res['tarjeta'] == 'MASTERCARD') {
@@ -228,7 +239,10 @@ class BaseGeneral {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
                         $res['credito_inmediato'] = $saldos_arr['CRÉDITO INMEDIATO MASTERCARD'];
                         $res['producto'] = $saldos_arr['PRODUCTO MASTERCARD'];
+                        $producto_codigo = 'MASC';
                     }
+
+                    $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
 
                     $data[] = $res;
                 }
