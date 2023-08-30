@@ -87,6 +87,28 @@ class AplicativoDinersSaldos extends Model
         return $retorno;
     }
 
+    static function getTodosRangoFecha($fecha_inicio, $fecha_fin) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_saldos ads')
+            ->innerJoin('cliente cl ON cl.id = ads.cliente_id')
+            ->select(null)
+            ->select('ads.*, cl.cedula')
+            ->where('ads.eliminado',0)
+            ->orderBy('ads.fecha_ingreso ASC');
+
+        $q->where('ads.fecha >= ?',$fecha_inicio);
+        $q->where('ads.fecha <= ?',$fecha_fin);
+
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['cliente_id']][$l['fecha']] = $l;
+        }
+        return $retorno;
+    }
+
     static function borrarSaldos($fecha) {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);

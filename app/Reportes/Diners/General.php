@@ -36,7 +36,8 @@ class General {
         $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
 
         //OBTENER SALDOS
-        $saldos = AplicativoDinersSaldos::getTodosFecha();
+//        $saldos = AplicativoDinersSaldos::getTodosFecha();
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
 //		$q = $db->from('producto_seguimiento ps')
 //			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
@@ -70,9 +71,12 @@ class General {
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, cl.ciudad, u.canal, cl.zona")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, cl.ciudad, u.canal, cl.zona,
+                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
+                             pa.peso AS peso_paleta")
             ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
@@ -133,73 +137,14 @@ class General {
         $total_sin_arreglo = 0;
         $total_general = 0;
         $verificar_duplicados = [];
+        $data = [];
+        $refinancia = [];
         foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])){
-                if(!isset($usuario_gestion[$res['usuario_id']])){
-                    $usuario_gestion[$res['usuario_id']] = [
-                        'gestor' => $res['gestor'],
-                        'refinancia' => 0,
-                        'notificado' => 0,
-                        'cierre_efectivo' => 0,
-                        'cierre_no_efectivo' => 0,
-                        'mensaje_tercero' => 0,
-                        'no_ubicado' => 0,
-                        'sin_arreglo' => 0,
-                        'total' => 0,
-                    ];
-                }
-                if($res['nivel_2_id'] == 1859){
-                    if(!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])){
-                        $usuario_gestion[$res['usuario_id']]['refinancia']++;
-                        $total_refinancia++;
-
-                        $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
-                    }
-
-                }
-                if($res['nivel_2_id'] == 1853){
-                    if(!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])){
-                        $usuario_gestion[$res['usuario_id']]['notificado']++;
-                        $total_notificado++;
-
-                        $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
-                    }
-                }
-                if($res['nivel_1_id'] == 1855){
-                    $usuario_gestion[$res['usuario_id']]['cierre_efectivo']++;
-                    $usuario_gestion[$res['usuario_id']]['total']++;
-                    $total_cierre_efectivo++;
-                    $total_general++;
-                }
-                if($res['nivel_1_id'] == 1839){
-                    $usuario_gestion[$res['usuario_id']]['cierre_no_efectivo']++;
-                    $usuario_gestion[$res['usuario_id']]['total']++;
-                    $total_cierre_no_efectivo++;
-                    $total_general++;
-                }
-                if($res['nivel_1_id'] == 1847){
-                    $usuario_gestion[$res['usuario_id']]['mensaje_tercero']++;
-                    $usuario_gestion[$res['usuario_id']]['total']++;
-                    $total_mensaje_tercero++;
-                    $total_general++;
-                }
-                if($res['nivel_1_id'] == 1799){
-                    $usuario_gestion[$res['usuario_id']]['no_ubicado']++;
-                    $usuario_gestion[$res['usuario_id']]['total']++;
-                    $total_no_ubicado++;
-                    $total_general++;
-                }
-                if($res['nivel_1_id'] == 1861){
-                    $usuario_gestion[$res['usuario_id']]['sin_arreglo']++;
-                    $usuario_gestion[$res['usuario_id']]['total']++;
-                    $total_sin_arreglo++;
-                    $total_general++;
-                }
-
                 $producto_codigo = '';
-                if(isset($saldos[$res['cliente_id']])) {
-                    $saldos_arr = $saldos[$res['cliente_id']];
+                if(isset($saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                    $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'],true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
@@ -233,12 +178,6 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['notificado'];
                             }
                         }
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
                     }
                     if($saldos_arr['EJECUTIVO VISA'] != ''){
                         if(isset($resumen_totales[$saldos_arr['EJECUTIVO VISA']])){
@@ -270,12 +209,6 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['notificado'];
                             }
                         }
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
                     }
                     if($saldos_arr['EJECUTIVO DISCOVER'] != ''){
                         if(isset($resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']])){
@@ -307,12 +240,6 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['notificado'];
                             }
                         }
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
                     }
                     if($saldos_arr['EJECUTIVO MASTERCARD'] != ''){
                         if(isset($resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']])){
@@ -344,6 +271,41 @@ class General {
                                 $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['notificado'];
                             }
                         }
+                    }
+
+                    if($res['tarjeta'] == 'DINERS') {
+                        $producto_codigo = 'DINC';
+                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
+                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
+                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
+                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
+                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
+                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
+                    }
+                    if($res['tarjeta'] == 'INTERDIN') {
+                        $producto_codigo = 'VISC';
+                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
+                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
+                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
+                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
+                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
+                        $res['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
+                    }
+                    if($res['tarjeta'] == 'DISCOVER') {
+                        if($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER'){
+                            $producto_codigo = 'DISCNOR';
+                        }else{
+                            $producto_codigo = 'DISCCON';
+                        }
+                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
+                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
+                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
+                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
+                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
+                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
+                    }
+                    if($res['tarjeta'] == 'MASTERCARD') {
+                        $producto_codigo = 'MASC';
                         $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
                         $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
                         $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
@@ -352,34 +314,130 @@ class General {
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
                     }
 
-                    if($res['tarjeta'] == 'DINERS') {
-                        $producto_codigo = 'DINC';
-                    }
-                    if($res['tarjeta'] == 'INTERDIN') {
-                        $producto_codigo = 'VISC';
-                    }
-                    if($res['tarjeta'] == 'DISCOVER') {
-                        if($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER'){
-                            $producto_codigo = 'DISCNOR';
-                        }else{
-                            $producto_codigo = 'DISCCON';
+                    $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
+
+                    if($res['pendiente_actuales'] > 0) {
+//                        $resumen[] = $res;
+                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
+                        $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
+
+                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ ESOS VAN POR TARJETA
+                        if ($res['nivel_2_id'] == 1859){
+                            $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
                         }
                     }
-                    if($res['tarjeta'] == 'MASTERCARD') {
-                        $producto_codigo = 'MASC';
-                    }
-                }else{
-                    $res['pendiente_actuales'] = '';
-                    $res['pendiente_30'] = '';
-                    $res['pendiente_60'] = '';
-                    $res['pendiente_90'] = '';
-                    $res['pendiente_mas_90'] = '';
-                    $res['edad_cartera'] = 0;
                 }
-                $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
-                $resumen[] = $res;
             }
         }
+
+        foreach ($data as $cliente_id => $val){
+            foreach ($val as $fecha_seguimiento => $val1){
+                if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
+                    //SI ESE DIA EL CLIENTE TIENE UN REFINANCIA, SE AGREGA TODOS LOS REFINANCIA DE TODAS LAS TARJETAS DEL CLIENTE EN ESE DIA
+                    foreach ($refinancia[$cliente_id][$fecha_seguimiento] as $ref){
+                        $resumen[] = $ref;
+                    }
+                    break;
+                }else{
+                    //SI NO TIENE REFINANCIA, SE BUSCA LA MEJOR GESTION
+                    usort($val1, function ($a, $b) {
+                        if ($a['peso_paleta'] === $b['peso_paleta']) {
+                            if ($a['edad_cartera'] === $b['edad_cartera']) {
+                                if ($a['pendiente_mas_90'] === $b['pendiente_mas_90']) {
+                                    if ($a['pendiente_90'] === $b['pendiente_90']) {
+                                        if ($a['pendiente_60'] === $b['pendiente_60']) {
+                                            if ($a['pendiente_30'] === $b['pendiente_30']) {
+                                                return $b['pendiente_actuales'] <=> $a['pendiente_actuales'];
+                                            }else {
+                                                return $b['pendiente_30'] <=> $a['pendiente_30'];
+                                            }
+                                        }else {
+                                            return $b['pendiente_60'] <=> $a['pendiente_60'];
+                                        }
+                                    }else {
+                                        return $b['pendiente_90'] <=> $a['pendiente_90'];
+                                    }
+                                }else {
+                                    return $b['pendiente_mas_90'] <=> $a['pendiente_mas_90'];
+                                }
+                            }else {
+                                return $b['edad_cartera'] <=> $a['edad_cartera'];
+                            }
+                        }
+                        return $a['peso_paleta'] <=> $b['peso_paleta'];
+                    });
+                    $resumen[] = $val1[0];
+                }
+            }
+        }
+
+        foreach ($resumen as $res){
+            if (!isset($usuario_gestion[$res['usuario_id']])) {
+                $usuario_gestion[$res['usuario_id']] = [
+                    'gestor' => $res['gestor'],
+                    'refinancia' => 0,
+                    'notificado' => 0,
+                    'cierre_efectivo' => 0,
+                    'cierre_no_efectivo' => 0,
+                    'mensaje_tercero' => 0,
+                    'no_ubicado' => 0,
+                    'sin_arreglo' => 0,
+                    'total' => 0,
+                ];
+            }
+            if ($res['nivel_2_id'] == 1859) {
+                if (!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])) {
+                    $usuario_gestion[$res['usuario_id']]['refinancia']++;
+                    $total_refinancia++;
+
+                    $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
+                }
+
+            }
+            if ($res['nivel_2_id'] == 1853) {
+                if (!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])) {
+                    $usuario_gestion[$res['usuario_id']]['notificado']++;
+                    $total_notificado++;
+
+                    $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
+                }
+            }
+            if ($res['nivel_1_id'] == 1855) {
+                $usuario_gestion[$res['usuario_id']]['cierre_efectivo']++;
+                $usuario_gestion[$res['usuario_id']]['total']++;
+                $total_cierre_efectivo++;
+                $total_general++;
+            }
+            if ($res['nivel_1_id'] == 1839) {
+                $usuario_gestion[$res['usuario_id']]['cierre_no_efectivo']++;
+                $usuario_gestion[$res['usuario_id']]['total']++;
+                $total_cierre_no_efectivo++;
+                $total_general++;
+            }
+            if ($res['nivel_1_id'] == 1847) {
+                $usuario_gestion[$res['usuario_id']]['mensaje_tercero']++;
+                $usuario_gestion[$res['usuario_id']]['total']++;
+                $total_mensaje_tercero++;
+                $total_general++;
+            }
+            if ($res['nivel_1_id'] == 1799) {
+                $usuario_gestion[$res['usuario_id']]['no_ubicado']++;
+                $usuario_gestion[$res['usuario_id']]['total']++;
+                $total_no_ubicado++;
+                $total_general++;
+            }
+            if ($res['nivel_1_id'] == 1861) {
+                $usuario_gestion[$res['usuario_id']]['sin_arreglo']++;
+                $usuario_gestion[$res['usuario_id']]['total']++;
+                $total_sin_arreglo++;
+                $total_general++;
+            }
+        }
+
+
+
+
+
 
         usort($usuario_gestion, fn($a, $b) => $b['refinancia'] <=> $a['refinancia']);
 

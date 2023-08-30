@@ -33,7 +33,8 @@ class InformeJornada {
         $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca();
 
         //OBTENER SALDOS
-        $saldos = AplicativoDinersSaldos::getTodosFecha();
+//        $saldos = AplicativoDinersSaldos::getTodosFecha();
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
 		//BUSCAR SEGUIMIENTOS
 //		$q = $db->from('producto_seguimiento ps')
@@ -51,9 +52,12 @@ class InformeJornada {
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, u.canal, cl.zona")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, u.canal, cl.zona,
+                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
+                             pa.peso AS peso_paleta")
             ->where('ps.nivel_1_id IN (1855, 1839, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
@@ -93,7 +97,6 @@ class InformeJornada {
         $resumen = [];
         $usuario_gestion = [];
         $resumen_totales = [];
-		$data = [];
 		//SUMAR TOTALES
 		$total_cuentas = 0;
 		$total_asignacion = 0;
@@ -101,54 +104,17 @@ class InformeJornada {
 		$total_efectividad = 0;
 		$total_negociaciones = 0;
         $total_ejecutivos = 0;
+        $data = [];
+        $refinancia = [];
 		foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])) {
-                if (!isset($usuario_gestion[$res['usuario_id']])) {
-                    $usuario_gestion[$res['usuario_id']] = [
-                        'plaza' => $res['plaza'],
-                        'gestor' => $res['gestor'],
-                        'cuentas' => 0,
-                        'asignacion' => 0,
-                        'porcentaje_productividad' => 0,
-                        'observaciones' => '',
-                        'contactadas' => 0,
-                        'efectividad' => 0,
-                        'porcentaje_contactado' => 0,
-                        'porcentaje_efectividad' => 0,
-                        'negociaciones' => 0,
-                        'porcentaje_produccion' => 0,
-                    ];
-                }
-                if (($res['nivel_1_id'] == 1839) || ($res['nivel_1_id'] == 1855) || ($res['nivel_1_id'] == 1861)) {
-                    $usuario_gestion[$res['usuario_id']]['contactadas']++;
-                    $total_contactadas++;
-                }
-                if($res['nivel_1_id'] == 1855){
-                    $usuario_gestion[$res['usuario_id']]['efectividad']++;
-                    $total_efectividad++;
-                }
-                if (($res['nivel_1_id'] == 1855) || ($res['nivel_1_id'] == 1861)) {
-                    $usuario_gestion[$res['usuario_id']]['negociaciones']++;
-                    $total_negociaciones++;
-                }
-
-                $usuario_gestion[$res['usuario_id']]['cuentas']++;
-                $total_cuentas++;
-
-                if($res['canal'] == 'TELEFONIA'){
-                    $usuario_gestion[$res['usuario_id']]['asignacion'] = 60;
-                }
-                if(($res['canal'] == 'CAMPO') || ($res['canal'] == 'AUXILIAR TELEFONIA')){
-                    $usuario_gestion[$res['usuario_id']]['asignacion'] = 20;
-                }
-
-                if(isset($saldos[$res['cliente_id']])) {
-                    $saldos_arr = $saldos[$res['cliente_id']];
+                if(isset($saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                    $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'],true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
-                    if($saldos_arr['EJECUTIVO DINERS'] != ''){
+                    if($res['tarjeta'] == 'DINERS'){
                         $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
                         $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
                         $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
@@ -156,7 +122,7 @@ class InformeJornada {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
                     }
-                    if($saldos_arr['EJECUTIVO VISA'] != ''){
+                    if($res['tarjeta'] == 'INTERDIN') {
                         $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
                         $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
                         $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
@@ -164,7 +130,7 @@ class InformeJornada {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
                     }
-                    if($saldos_arr['EJECUTIVO DISCOVER'] != ''){
+                    if($res['tarjeta'] == 'DISCOVER') {
                         $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
                         $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
                         $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
@@ -172,7 +138,7 @@ class InformeJornada {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
                     }
-                    if($saldos_arr['EJECUTIVO MASTERCARD'] != ''){
+                    if($res['tarjeta'] == 'MASTERCARD') {
                         $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
                         $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
                         $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
@@ -180,27 +146,116 @@ class InformeJornada {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
                     }
-                }else{
-                    $res['pendiente_actuales'] = '';
-                    $res['pendiente_30'] = '';
-                    $res['pendiente_60'] = '';
-                    $res['pendiente_90'] = '';
-                    $res['pendiente_mas_90'] = '';
-                    $res['edad_cartera'] = 0;
-                }
-                $res['fecha_ingreso_fecha'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
-                $res['fecha_ingreso_hora'] = date("His", strtotime($res['fecha_ingreso']));
+                    $res['fecha_ingreso_fecha'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
+                    $res['fecha_ingreso_hora'] = date("His", strtotime($res['fecha_ingreso']));
 
-                if($res['canal'] == 'AUXILIAR TELEFONIA'){
-                    $res['campana'] = 'CAMPO';
-                }else{
-                    $res['campana'] = $res['canal'];
-                }
+                    if($res['canal'] == 'AUXILIAR TELEFONIA'){
+                        $res['campana'] = 'CAMPO';
+                    }else{
+                        $res['campana'] = $res['canal'];
+                    }
 
-                $resumen[] = $res;
+//                    $resumen[] = $res;
+                    //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
+                    $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
+
+                    //A LOS REFINANCIA YA LES IDENTIFICO PORQ ESOS VAN POR TARJETA
+                    if ($res['nivel_2_id'] == 1859){
+                        $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
+                    }
+                }
             }
 		}
 
+        foreach ($data as $cliente_id => $val){
+            foreach ($val as $fecha_seguimiento => $val1){
+                if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
+                    //SI ESE DIA EL CLIENTE TIENE UN REFINANCIA, SE AGREGA TODOS LOS REFINANCIA DE TODAS LAS TARJETAS DEL CLIENTE EN ESE DIA
+                    foreach ($refinancia[$cliente_id][$fecha_seguimiento] as $ref){
+                        $resumen[] = $ref;
+                    }
+                    break;
+                }else{
+                    //SI NO TIENE REFINANCIA, SE BUSCA LA MEJOR GESTION
+                    usort($val1, function ($a, $b) {
+                        if ($a['peso_paleta'] === $b['peso_paleta']) {
+                            if ($a['edad_cartera'] === $b['edad_cartera']) {
+                                if ($a['pendiente_mas_90'] === $b['pendiente_mas_90']) {
+                                    if ($a['pendiente_90'] === $b['pendiente_90']) {
+                                        if ($a['pendiente_60'] === $b['pendiente_60']) {
+                                            if ($a['pendiente_30'] === $b['pendiente_30']) {
+                                                return $b['pendiente_actuales'] <=> $a['pendiente_actuales'];
+                                            }else {
+                                                return $b['pendiente_30'] <=> $a['pendiente_30'];
+                                            }
+                                        }else {
+                                            return $b['pendiente_60'] <=> $a['pendiente_60'];
+                                        }
+                                    }else {
+                                        return $b['pendiente_90'] <=> $a['pendiente_90'];
+                                    }
+                                }else {
+                                    return $b['pendiente_mas_90'] <=> $a['pendiente_mas_90'];
+                                }
+                            }else {
+                                return $b['edad_cartera'] <=> $a['edad_cartera'];
+                            }
+                        }
+                        return $a['peso_paleta'] <=> $b['peso_paleta'];
+                    });
+                    $resumen[] = $val1[0];
+                }
+            }
+        }
+
+        foreach ($resumen as $res){
+            if (!isset($usuario_gestion[$res['usuario_id']])) {
+                $usuario_gestion[$res['usuario_id']] = [
+                    'plaza' => $res['plaza'],
+                    'gestor' => $res['gestor'],
+                    'cuentas' => 0,
+                    'asignacion' => 0,
+                    'porcentaje_productividad' => 0,
+                    'observaciones' => '',
+                    'contactadas' => 0,
+                    'efectividad' => 0,
+                    'porcentaje_contactado' => 0,
+                    'porcentaje_efectividad' => 0,
+                    'negociaciones' => 0,
+                    'porcentaje_produccion' => 0,
+                ];
+            }
+            if (($res['nivel_1_id'] == 1839) || ($res['nivel_1_id'] == 1855) || ($res['nivel_1_id'] == 1861)) {
+                $usuario_gestion[$res['usuario_id']]['contactadas']++;
+                $total_contactadas++;
+            }
+            if($res['nivel_1_id'] == 1855){
+                $usuario_gestion[$res['usuario_id']]['efectividad']++;
+                $total_efectividad++;
+            }
+            if (($res['nivel_1_id'] == 1855) || ($res['nivel_1_id'] == 1861)) {
+                $usuario_gestion[$res['usuario_id']]['negociaciones']++;
+                $total_negociaciones++;
+            }
+
+            $usuario_gestion[$res['usuario_id']]['cuentas']++;
+            $total_cuentas++;
+
+//            if($res['canal'] == 'TELEFONIA'){
+//                $usuario_gestion[$res['usuario_id']]['asignacion'] = 60;
+//            }
+//            if(($res['canal'] == 'CAMPO') || ($res['canal'] == 'AUXILIAR TELEFONIA')){
+//                $usuario_gestion[$res['usuario_id']]['asignacion'] = 20;
+//            }
+
+            $usuario_gestion[$res['usuario_id']]['asignacion'] = 0;
+            if (@$filtros['asignacion_dia']){
+                $usuario_gestion[$res['usuario_id']]['asignacion'] = $filtros['asignacion_dia'];
+            }
+
+        }
+
+        $data = [];
         foreach ($usuario_gestion as $ug){
             $ug['porcentaje_productividad'] = ($ug['asignacion'] > 0) ? ($ug['cuentas'] / $ug['asignacion']) * 100 : 0;
             $ug['porcentaje_productividad'] = number_format($ug['porcentaje_productividad'],2,'.',',');
