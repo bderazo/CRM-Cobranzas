@@ -52,7 +52,8 @@ class BaseGeneral {
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
             ->select(null)
             ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula,
-                             addet.tipo_negociacion, addet.nombre_tarjeta AS tarjeta, u.identificador, addet.ciclo")
+                             addet.tipo_negociacion, addet.nombre_tarjeta AS tarjeta, u.identificador, addet.ciclo,
+                             cl.zona, cl.ciudad")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
@@ -209,7 +210,12 @@ class BaseGeneral {
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
                         $res['credito_inmediato'] = $saldos_arr['CRÉDITO INMEDIATO DISCOVER'];
                         $res['producto'] = $saldos_arr['PRODUCTO DISCOVER'];
-                        if($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER'){
+                        if(($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER') ||
+                            ($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER ME') ||
+                            ($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER MORE') ||
+                            ($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER BSC') ||
+                            ($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER BSC ME') ||
+                            ($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER BSC MORE')){
                             $producto_codigo = 'DISCNOR';
                         }else{
                             $producto_codigo = 'DISCCON';

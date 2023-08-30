@@ -194,6 +194,14 @@ class ReportesController extends BaseController
                 'valor' => $d['codigo_operacion'],
                 'formato' => 'text'
             ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
+                'formato' => 'text'
+            ];
+            $aux['CIUDAD'] = [
+                'valor' => $d['ciudad'],
+                'formato' => 'text'
+            ];
 
 
             $aux['TIPO DE CAMPAÑA'] = [
@@ -1866,12 +1874,12 @@ class ReportesController extends BaseController
                 'valor' => $d['cedula'],
                 'formato' => 'text'
             ];
-            $aux['CIUDAD'] = [
-                'valor' => $d['ciudad'],
-                'formato' => 'text'
-            ];
             $aux['ZONA'] = [
                 'valor' => $d['zona'],
+                'formato' => 'text'
+            ];
+            $aux['CIUDAD'] = [
+                'valor' => $d['ciudad'],
                 'formato' => 'text'
             ];
             $aux['CANAL'] = [
