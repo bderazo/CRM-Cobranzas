@@ -33,7 +33,8 @@ class ProduccionPlaza {
         $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca();
 
         //OBTENER SALDOS
-        $saldos = AplicativoDinersSaldos::getTodosFecha();
+//        $saldos = AplicativoDinersSaldos::getTodosFecha();
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
 		//BUSCAR USUARIOS DINERS CON ROL DE GESTOR
 		$usuarios_gestores = Usuario::getUsuariosGestoresDiners();
@@ -43,11 +44,14 @@ class ProduccionPlaza {
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id AS id_usuario, addet.nombre_tarjeta, addet.saldo_actual_facturado_despues_abono,
 							 addet.saldo_30_facturado_despues_abono, addet.saldo_60_facturado_despues_abono,
 							 addet.saldo_90_facturado_despues_abono, addet.tipo_negociacion, u.plaza, u.canal, addet.ciclo,
-							 cl.zona, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula")
+							 cl.zona, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula,
+							 DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
+                             pa.peso AS peso_paleta")
             ->where('ps.nivel_2_id IN (1859)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
@@ -92,25 +96,12 @@ class ProduccionPlaza {
 		foreach($lista as $seg){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['nombre_tarjeta']])) {
-                //CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
-                if (isset($data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']])) {
-                    $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']]++;
-                } else {
-                    $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']] = 1;
-                }
-                //CONTAR LOS TIPOS DE NEGOCIACION POR PLAZA
-                if (isset($data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']])) {
-                    $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
-                } else {
-                    $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
-                }
-
-                if(isset($saldos[$seg['cliente_id']])) {
-                    $saldos_arr = $saldos[$seg['cliente_id']];
+                if(isset($saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+                    $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'],true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
-                    if($saldos_arr['EJECUTIVO DINERS'] != ''){
+                    if($seg['nombre_tarjeta'] == 'DINERS') {
                         $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
                         $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
                         $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
@@ -118,7 +109,7 @@ class ProduccionPlaza {
                         $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
                         $seg['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
                     }
-                    if($saldos_arr['EJECUTIVO VISA'] != ''){
+                    if($seg['nombre_tarjeta'] == 'INTERDIN') {
                         $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
                         $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
                         $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
@@ -126,7 +117,7 @@ class ProduccionPlaza {
                         $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
                         $seg['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
                     }
-                    if($saldos_arr['EJECUTIVO DISCOVER'] != ''){
+                    if($seg['nombre_tarjeta'] == 'DISCOVER') {
                         $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
                         $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
                         $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
@@ -134,7 +125,7 @@ class ProduccionPlaza {
                         $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
                         $seg['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
                     }
-                    if($saldos_arr['EJECUTIVO MASTERCARD'] != ''){
+                    if($seg['nombre_tarjeta'] == 'MASTERCARD') {
                         $seg['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
                         $seg['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
                         $seg['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
@@ -142,29 +133,39 @@ class ProduccionPlaza {
                         $seg['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
                         $seg['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
                     }
-                }else{
-                    $seg['pendiente_actuales'] = '';
-                    $seg['pendiente_30'] = '';
-                    $seg['pendiente_60'] = '';
-                    $seg['pendiente_90'] = '';
-                    $seg['pendiente_mas_90'] = '';
-                    $seg['edad_cartera'] = 0;
-                }
 
-                if(isset($recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']])){
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas']++;
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] + $seg['saldo_actual_facturado_despues_abono'];
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] + $seg['saldo_30_facturado_despues_abono'];
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] + $seg['saldo_60_facturado_despues_abono'];
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] + $seg['saldo_90_facturado_despues_abono'];
-                }else{
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas'] = 1;
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $seg['saldo_actual_facturado_despues_abono'];
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $seg['saldo_30_facturado_despues_abono'];
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $seg['saldo_60_facturado_despues_abono'];
-                    $recupero_refinanciar[$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $seg['saldo_90_facturado_despues_abono'];
+                    //CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
+                    if (isset($data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']])) {
+                        $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']]++;
+                    } else {
+                        $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']] = 1;
+                    }
+                    //CONTAR LOS TIPOS DE NEGOCIACION POR PLAZA
+                    if (isset($data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']])) {
+                        $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+                    } else {
+                        $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+                    }
+
+                    if(isset($recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']])){
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas']++;
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] + $seg['saldo_actual_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] + $seg['saldo_30_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] + $seg['saldo_60_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] + $seg['saldo_90_facturado_despues_abono'];
+                    }else{
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas'] = 1;
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $seg['saldo_actual_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $seg['saldo_30_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $seg['saldo_60_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $seg['saldo_90_facturado_despues_abono'];
+                    }
+
+//                    if($seg['pendiente_actuales'] > 0) {
+                        $resumen[] = $seg;
+//                    }
+
                 }
-                $resumen[] = $seg;
             }
 		}
 
@@ -279,36 +280,47 @@ class ProduccionPlaza {
         $total_d90 = 0;
         $data_recupero_aux = [];
         $data_recupero = [];
-        foreach ($recupero_refinanciar as $key => $val){
-            $tot_cuentas = 0;
-            $tot_actuales = 0;
-            $tot_d30 = 0;
-            $tot_d60 = 0;
-            $tot_d90 = 0;
-            $aux = [];
-            foreach ($val as $key1 => $val1){
-                $val1['marca'] = $key1;
-                $tot_cuentas = $tot_cuentas + $val1['cuentas'];
-                $total_cuentas = $total_cuentas + $val1['cuentas'];
-                $tot_actuales = $tot_actuales + $val1['actuales'];
-                $total_actuales = $total_actuales + $val1['actuales'];
-                $tot_d30 = $tot_d30 + $val1['d30'];
-                $total_d30 = $total_d30 + $val1['d30'];
-                $tot_d60 = $tot_d60 + $val1['d60'];
-                $total_d60 = $total_d60 + $val1['d60'];
-                $tot_d90 = $tot_d90 + $val1['d90'];
-                $total_d90 = $total_d90 + $val1['d90'];
-                $aux[] = $val1;
-            }
-            $aux_recupero['marca'] = $key;
-            $aux_recupero['cuentas'] = $tot_cuentas;
-            $aux_recupero['actuales'] = $tot_actuales;
-            $aux_recupero['d30'] = $tot_d30;
-            $aux_recupero['d60'] = $tot_d60;
-            $aux_recupero['d90'] = $tot_d90;
-            $data_recupero[] = $aux_recupero;
-            foreach ($aux as $a){
-                $data_recupero[] = $a;
+//        printDie($recupero_refinanciar);
+        foreach ($recupero_refinanciar as $key22 => $val22){
+            foreach ($val22 as $key => $val) {
+                $tot_cuentas = 0;
+                $tot_actuales = 0;
+                $tot_d30 = 0;
+                $tot_d60 = 0;
+                $tot_d90 = 0;
+                $aux = [];
+                foreach ($val as $key1 => $val1) {
+                    $val1['marca'] = $key1;
+                    $tot_cuentas = $tot_cuentas + $val1['cuentas'];
+                    $total_cuentas = $total_cuentas + $val1['cuentas'];
+                    $tot_actuales = $tot_actuales + $val1['actuales'];
+                    $total_actuales = $total_actuales + $val1['actuales'];
+                    $tot_d30 = $tot_d30 + $val1['d30'];
+                    $total_d30 = $total_d30 + $val1['d30'];
+                    $tot_d60 = $tot_d60 + $val1['d60'];
+                    $total_d60 = $total_d60 + $val1['d60'];
+                    $tot_d90 = $tot_d90 + $val1['d90'];
+                    $total_d90 = $total_d90 + $val1['d90'];
+                    $aux[] = $val1;
+                }
+                $aux_recupero['marca'] = $key;
+                $aux_recupero['cuentas'] = $tot_cuentas;
+                $aux_recupero['actuales'] = $tot_actuales;
+                $aux_recupero['actuales_format'] = number_format($tot_actuales,2,'.',',');
+                $aux_recupero['d30'] = $tot_d30;
+                $aux_recupero['d30_format'] = number_format($tot_d30,2,'.',',');
+                $aux_recupero['d60'] = $tot_d60;
+                $aux_recupero['d60_format'] = number_format($tot_d60,2,'.',',');
+                $aux_recupero['d90'] = $tot_d90;
+                $aux_recupero['d90_format'] = number_format($tot_d90,2,'.',',');
+                $data_recupero[$key22][] = $aux_recupero;
+                foreach ($aux as $a) {
+                    $a['actuales_format'] = number_format($a['actuales'],2,'.',',');
+                    $a['d30_format'] = number_format($a['d30'],2,'.',',');
+                    $a['d60_format'] = number_format($a['d60'],2,'.',',');
+                    $a['d90_format'] = number_format($a['d90'],2,'.',',');
+                    $data_recupero[$key22][] = $a;
+                }
             }
         }
 //        printDie($data_recupero);

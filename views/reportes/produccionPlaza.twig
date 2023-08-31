@@ -149,38 +149,46 @@
 					<i class="fa fa-file-excel-o"></i>
 					Exportar
 				</a>
-				<table class="table border table-striped table-bordered table-sm mb-0">
-					<thead>
-					<tr style="background-color: #95b8f6;">
-						<th>MARCA</th>
-						<th>CUENTAS</th>
-						<th>ACTUALES</th>
-						<th>D30</th>
-						<th>D60</th>
-						<th>D90</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr v-for="d in datos_recupero">
-						<td v-html="d.marca"></td>
-						<td style="text-align: center;" v-html="d.cuentas"></td>
-						<td style="text-align: right;" v-html="d.actuales"></td>
-						<td style="text-align: right;" v-html="d.d30"></td>
-						<td style="text-align: right;" v-html="d.d60"></td>
-						<td style="text-align: right;" v-html="d.d90"></td>
-					</tr>
-					<tfoot>
-					<tr>
-						<td style="font-weight: bold;">TOTAL GENERAL</td>
-						<td style="font-weight: bold; text-align: center;" v-html="total_recupero.total_cuentas"></td>
-						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_actuales"></td>
-						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d30"></td>
-						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d60"></td>
-						<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d90"></td>
-					</tr>
-					</tfoot>
-					</tbody>
-				</table>
+				<div v-for="(value, key, index) in datos_recupero">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+							<th colspan="6" style="text-align: center; font-weight: bold;">
+								<span v-html="key"></span>
+							</th>
+						</tr>
+						<tr style="background-color: #95b8f6;">
+							<th>MARCA</th>
+							<th>CUENTAS</th>
+							<th>ACTUALES</th>
+							<th>D30</th>
+							<th>D60</th>
+							<th>D90</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in value">
+							<td v-html="d.marca"></td>
+							<td style="text-align: center;" v-html="d.cuentas"></td>
+							<td style="text-align: right;" v-html="d.actuales_format"></td>
+							<td style="text-align: right;" v-html="d.d30_format"></td>
+							<td style="text-align: right;" v-html="d.d60_format"></td>
+							<td style="text-align: right;" v-html="d.d90_format"></td>
+						</tr>
+						<tfoot>
+						<tr>
+							<td style="font-weight: bold;">TOTAL GENERAL</td>
+							<td style="font-weight: bold; text-align: center;" v-html="total_recupero.total_cuentas"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_actuales"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d30"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d60"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d90"></td>
+						</tr>
+						</tfoot>
+						</tbody>
+					</table>
+					<br/><br/>
+				</div>
 
 			</div>
 		</div>
