@@ -224,6 +224,10 @@ class ReportesController extends BaseController
                 'valor' => $d['edad_asignacion'],
                 'formato' => 'number'
             ];
+            $aux['TOTAL ASIGNADO'] = [
+                'valor' => $d['total_asignado'],
+                'formato' => 'number'
+            ];
             $aux['SALDO TOTAL DEUDA'] = [
                 'valor' => $d['saldo_total_deuda'],
                 'formato' => 'number'
