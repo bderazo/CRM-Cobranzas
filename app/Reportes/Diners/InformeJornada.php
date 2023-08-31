@@ -167,6 +167,8 @@ class InformeJornada {
             }
 		}
 
+        printDie($refinancia);
+
         foreach ($data as $cliente_id => $val){
             foreach ($val as $fecha_seguimiento => $val1){
                 if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
