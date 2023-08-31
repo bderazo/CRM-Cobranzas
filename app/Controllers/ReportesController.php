@@ -350,6 +350,11 @@ class ReportesController extends BaseController
                 'valor' => $d['tipo_negociacion'],
                 'formato' => 'text'
             ];
+
+            $aux['TIPO GESTIÓN'] = [
+                'valor' => $d['identificador'],
+                'formato' => 'text'
+            ];
             $lista[] = $aux;
         }
         $this->exportSimple($lista, 'BASE GENERAL', 'base_general.xlsx');
