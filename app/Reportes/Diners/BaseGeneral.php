@@ -104,7 +104,7 @@ class BaseGeneral {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             $tarjeta_verificar = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$tarjeta_verificar])) {
-                $asignacion_arr = $clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']];
+                $asignacion_arr = $clientes_asignacion_detalle_marca[$res['cliente_id']][$tarjeta_verificar];
                 $campos_asignacion = json_decode($asignacion_arr['campos'], true);
                 unset($asignacion_arr['campos']);
                 $asignacion_arr = array_merge($asignacion_arr, $campos_asignacion);
