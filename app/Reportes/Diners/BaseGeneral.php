@@ -258,9 +258,10 @@ class BaseGeneral {
                         $producto_codigo = 'MASC';
                     }
 
-                    printDie($asignacion_arr);
+
 
                     if($res['tipo_campana'] == ''){
+                        printDie($asignacion_arr);
                         $res['tipo_campana'] = $asignacion_arr['campana_ece'];
                     }
 
