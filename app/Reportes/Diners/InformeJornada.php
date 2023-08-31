@@ -93,7 +93,7 @@ class InformeJornada {
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
-        printDie($q->getQuery());
+//        printDie($q->getQuery());
 		$lista = $q->fetchAll();
         $resumen = [];
         $usuario_gestion = [];
@@ -109,7 +109,8 @@ class InformeJornada {
         $refinancia = [];
 		foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
-            if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])) {
+            $tarjeta_verificar = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
+            if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$tarjeta_verificar])) {
                 if(isset($saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
                     $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'],true);
@@ -168,7 +169,7 @@ class InformeJornada {
             }
 		}
 
-        printDie($data[57717]);
+//        printDie($data[57717]);
 
         foreach ($data as $cliente_id => $val){
             foreach ($val as $fecha_seguimiento => $val1){
