@@ -102,13 +102,15 @@ class BaseGeneral {
         $resumen_gestiones = [];
         foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
-            if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])) {
+            $tarjeta_verificar = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
+            if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$tarjeta_verificar])) {
                 $asignacion_arr = $clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']];
                 $campos_asignacion = json_decode($asignacion_arr['campos'], true);
                 unset($asignacion_arr['campos']);
                 $asignacion_arr = array_merge($asignacion_arr, $campos_asignacion);
 
                 $res['edad_asignacion'] = $asignacion_arr['EDAD FACTURADA'];
+                $res['total_asignado'] = $asignacion_arr['VALOR ASIGNADO'];
                 $res['total_asignado'] = $asignacion_arr['VALOR ASIGNADO'];
 
                 //COMPARO CON TELEFONOS IDS
@@ -255,6 +257,9 @@ class BaseGeneral {
                         $res['producto'] = $saldos_arr['PRODUCTO MASTERCARD'];
                         $producto_codigo = 'MASC';
                     }
+
+                    $res['tarjeta'] = $res['tarjeta'] == 'MASTERCARD' ? 'MASTERCA' : $res['tarjeta'];
+                    $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
 
                     $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
 
