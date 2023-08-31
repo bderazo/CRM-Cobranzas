@@ -103,6 +103,13 @@ class BaseGeneral {
         foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])) {
+                $asignacion_arr = $clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']];
+                $campos_asignacion = json_decode($asignacion_arr['campos'], true);
+                unset($asignacion_arr['campos']);
+                $asignacion_arr = array_merge($asignacion_arr, $campos_asignacion);
+
+                $res['edad_asignacion'] = $asignacion_arr['EDAD FACTURADA'];
+
                 //COMPARO CON TELEFONOS IDS
                 if (isset($telefonos_id[$res['telefono_id']])) {
                     $res['telefono_contacto'] = $telefonos_id[$res['telefono_id']]['telefono'];

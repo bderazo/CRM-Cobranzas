@@ -216,8 +216,12 @@ class ReportesController extends BaseController
                 'valor' => $d['ciclo'],
                 'formato' => 'number'
             ];
-            $aux['EDAD FACTURADA'] = [
+            $aux['EDAD REAL'] = [
                 'valor' => $d['edad'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD FACTURADA'] = [
+                'valor' => $d['edad_asignacion'],
                 'formato' => 'number'
             ];
             $aux['SALDO TOTAL DEUDA'] = [
