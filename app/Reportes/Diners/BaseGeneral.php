@@ -258,6 +258,10 @@ class BaseGeneral {
                         $producto_codigo = 'MASC';
                     }
 
+                    if($res['tipo_campana'] == ''){
+                        $res['tipo_campana'] = $asignacion_arr['campana_ece'];
+                    }
+
                     $res['tarjeta'] = $res['tarjeta'] == 'MASTERCARD' ? 'MASTERCA' : $res['tarjeta'];
                     $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
 
