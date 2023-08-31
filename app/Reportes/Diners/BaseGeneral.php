@@ -261,7 +261,7 @@ class BaseGeneral {
 
 
                     if($res['tipo_campana'] == ''){
-                        printDie($asignacion_arr);
+                        printDie($asignacion_arr['campana_ece']);
                         $res['tipo_campana'] = $asignacion_arr['campana_ece'];
                     }
 
