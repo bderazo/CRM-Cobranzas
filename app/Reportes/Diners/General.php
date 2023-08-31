@@ -141,7 +141,8 @@ class General {
         $refinancia = [];
         foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
-            if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$res['tarjeta']])){
+            $tarjeta_verificar = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
+            if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$tarjeta_verificar])){
                 $producto_codigo = '';
                 if(isset($saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
                     $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
