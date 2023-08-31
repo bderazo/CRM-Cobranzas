@@ -94,8 +94,9 @@ class ProduccionPlaza {
         $resumen = [];
         $recupero_refinanciar = [];
 		foreach($lista as $seg){
+            $tarjeta_verificar = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
-            if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['nombre_tarjeta']])) {
+            if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar])) {
                 if(isset($saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
                     $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'],true);
