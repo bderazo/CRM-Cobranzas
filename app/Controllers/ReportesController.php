@@ -310,6 +310,10 @@ class ReportesController extends BaseController
                 'valor' => $d['nivel_2_texto'],
                 'formato' => 'text'
             ];
+            $aux['DESCRIPCIÓN'] = [
+                'valor' => $d['nivel_3_texto'],
+                'formato' => 'text'
+            ];
             $aux['OBSERVACION'] = [
                 'valor' => $d['observaciones'],
                 'formato' => 'text'
