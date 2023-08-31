@@ -387,12 +387,11 @@ class General {
                 ];
             }
             if ($res['nivel_2_id'] == 1859) {
-                if (!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])) {
                     $usuario_gestion[$res['usuario_id']]['refinancia']++;
                     $total_refinancia++;
 
                     $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
-                }
+
 
             }
             if ($res['nivel_2_id'] == 1853) {
