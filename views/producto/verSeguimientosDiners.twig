@@ -14,8 +14,8 @@
 							<tr>
 								<th>Seguimiento</th>
 								<th>Observaciones</th>
-								<th>Usuario</th>
-								<th>Fecha</th>
+								<th>Fecha Gestión</th>
+								<th>Tarjetas Gestionadas</th>
 								<th></th>
 							</tr>
 							</thead>
@@ -47,6 +47,13 @@
 										{% if seg.nivel2_motivo_no_pago != '' %}
 											<strong>{{ paleta.titulo_motivo_no_pago_nivel2 }}: </strong><br/> {{ seg.nivel2_motivo_no_pago }}<br/><br/>
 										{% endif %}
+
+										<strong>UNIFICAR DEUDAS: </strong><br/> {{ seg.unificar_deudas|upper }}<br/><br/>
+
+										{% if seg.tarjeta_unificar_deudas != '' %}
+											<strong>TARJETA UNIFICADA: </strong><br/> {{ seg.tarjeta_unificar_deudas }}<br/><br/>
+										{% endif %}
+
 										{% for img in seg.imagenes %}
 											<a href="{{ img }}" target="_blank"><img style="width: auto; max-height: 80px; " src="{{ img }}"/></a>
 										{% endfor %}
@@ -59,8 +66,8 @@
 										{% endif %}
 									</td>
 									<td style="width: 35%;">{{ seg.observaciones }}</td>
-									<td style="width: 10%;">{{ seg.usuario }}</td>
-									<td style="width: 10%;">{{ seg.fecha_ingreso }}</td>
+									<td style="width: 10%;">{{ seg.usuario }} <br/><br/> {{ seg.fecha_ingreso }}</td>
+									<td style="width: 10%;">{{ seg.tarjetas_gestionadas }}</td>
 									<td style="vertical-align: top; text-align: center; width: 10%;">
 										<button class="btn btn-primary" type="button" v-on:click="verAcuerdo({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
 											<i class="fa fa-file-excel-o"></i> ACUERDO

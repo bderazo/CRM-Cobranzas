@@ -67,4 +67,18 @@ class GeneralHelper {
 			return $mensaje;
 		}
 	}
+
+    static function sumarDiasLaborables($fecha,$dias){
+        $datestart= strtotime($fecha);
+        $datesuma = 15 * 86400;
+        $diasemana = date('N',$datestart);
+        $totaldias = $diasemana+$dias;
+        $findesemana = intval( $totaldias/5) *2 ;
+        $diasabado = $totaldias % 5 ;
+        if ($diasabado==6) $findesemana++;
+        if ($diasabado==0) $findesemana=$findesemana-2;
+
+        $total = (($dias+$findesemana) * 86400)+$datestart ;
+        return date('Y-m-d', $total);
+    }
 }

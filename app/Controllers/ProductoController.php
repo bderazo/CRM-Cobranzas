@@ -484,37 +484,37 @@ class ProductoController extends BaseController
             if($tarjeta_unica == 'diners'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE DINERS'];
                 $fecha_cobro = $saldos['FECHA MAXIMA PAGO DINERS'];
-                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                $fecha_maxima_compromiso_diners = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
                 if($fecha_cobro != ''){
                     if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
-                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                        $fecha_maxima_compromiso_diners = date("Y-m-d",strtotime($fecha_cobro));
                     }
                 }
             }elseif($tarjeta_unica == 'interdin'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE VISA'];
                 $fecha_cobro = $saldos['FECHA MAXIMA PAGO VISA'];
-                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                $fecha_maxima_compromiso_interdin = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
                 if($fecha_cobro != ''){
                     if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
-                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                        $fecha_maxima_compromiso_interdin = date("Y-m-d",strtotime($fecha_cobro));
                     }
                 }
             }elseif($tarjeta_unica == 'discover'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE DISCOVER'];
                 $fecha_cobro = $saldos['FECHA MAXIMA PAGO DISCOVER'];
-                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                $fecha_maxima_compromiso_discover = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
                 if($fecha_cobro != ''){
                     if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
-                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                        $fecha_maxima_compromiso_discover = date("Y-m-d",strtotime($fecha_cobro));
                     }
                 }
             }elseif($tarjeta_unica == 'mastercard'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE MASTERCARD'];
                 $fecha_cobro = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
-                $fecha_maxima_compromiso = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+                $fecha_maxima_compromiso_mastercard = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
                 if($fecha_cobro != ''){
                     if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
-                        $fecha_maxima_compromiso = date("Y-m-d",strtotime($fecha_cobro));
+                        $fecha_maxima_compromiso_mastercard = date("Y-m-d",strtotime($fecha_cobro));
                     }
                 }
             }
@@ -614,7 +614,7 @@ class ProductoController extends BaseController
                 unset($catalogos['paleta_nivel_1_diners'][$key]);
             }
             $fecha_cobro = $saldos['FECHA MAXIMA PAGO DINERS'];
-            $fecha_maxima_compromiso_diners = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            $fecha_maxima_compromiso_diners = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
             if($fecha_cobro != ''){
                 if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
                     $fecha_maxima_compromiso_diners = date("Y-m-d",strtotime($fecha_cobro));
@@ -670,7 +670,8 @@ class ProductoController extends BaseController
                 unset($catalogos['paleta_nivel_1_interdin'][$key]);
             }
             $fecha_cobro = $saldos['FECHA MAXIMA PAGO VISA'];
-            $fecha_maxima_compromiso_interdin = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+//            $fecha_maxima_compromiso_interdin = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            $fecha_maxima_compromiso_interdin = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
             if($fecha_cobro != ''){
                 if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
                     $fecha_maxima_compromiso_interdin = date("Y-m-d",strtotime($fecha_cobro));
@@ -726,7 +727,8 @@ class ProductoController extends BaseController
                 unset($catalogos['paleta_nivel_1_discover'][$key]);
             }
             $fecha_cobro = $saldos['FECHA MAXIMA PAGO DISCOVER'];
-            $fecha_maxima_compromiso_discover = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+//            $fecha_maxima_compromiso_discover = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            $fecha_maxima_compromiso_discover = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
             if($fecha_cobro != ''){
                 if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
                     $fecha_maxima_compromiso_discover = date("Y-m-d",strtotime($fecha_cobro));
@@ -783,6 +785,7 @@ class ProductoController extends BaseController
             }
             $fecha_cobro = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
             $fecha_maxima_compromiso_mastercard = date("Y-m-d",strtotime(date("Y-m-d")."+ 3 days"));
+            $fecha_maxima_compromiso_mastercard = GeneralHelper::sumarDiasLaborables(date("Y-m-d"),3);
             if($fecha_cobro != ''){
                 if(strtotime(date("Y-m-d")) < strtotime($fecha_cobro)){
                     $fecha_maxima_compromiso_mastercard = date("Y-m-d",strtotime($fecha_cobro));
@@ -1489,11 +1492,22 @@ class ProductoController extends BaseController
 
         $config = $this->get('config');
         $seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id, $config);
-//		printDie($seguimientos);
+
+        $aplicativo_diners_detalle_gestionado = AplicativoDinersDetalle::porClienteGestionado($model->cliente_id);
+        $seguimientos_data = [];
+        foreach ($seguimientos as $s){
+            $tarjetas_gestionadas = [];
+            foreach ($aplicativo_diners_detalle_gestionado[$s['id']] as $det){
+                $tarjetas_gestionadas[] = $det['nombre_tarjeta'];
+            }
+            $s['tarjetas_gestionadas'] = implode(", ",$tarjetas_gestionadas);
+            $seguimientos_data[] = $s;
+        }
+//		printDie($seguimientos_data);
 
         $data['aplicativo_diners'] = json_encode($aplicativo_diners);
         $data['paleta'] = $paleta;
-        $data['seguimientos'] = $seguimientos;
+        $data['seguimientos'] = $seguimientos_data;
         $data['cliente'] = json_encode($cliente);
         $data['direccion'] = json_encode($direccion);
         $data['referencia'] = json_encode($referencia);

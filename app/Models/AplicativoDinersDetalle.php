@@ -258,4 +258,22 @@ class AplicativoDinersDetalle extends Model
 		}
 		return $retorno;
 	}
+
+    static function porClienteGestionado($cliente_id) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q=$db->from('aplicativo_diners_detalle')
+            ->select(null)
+            ->select('*')
+            ->where('tipo','gestionado')
+            ->where('eliminado',0)
+            ->where('cliente_id',$cliente_id);
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['producto_seguimiento_id']][] = $l;
+        }
+        return $retorno;
+    }
 }
