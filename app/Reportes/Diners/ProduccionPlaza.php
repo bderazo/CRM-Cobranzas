@@ -143,9 +143,21 @@ class ProduccionPlaza {
                     }
                     //CONTAR LOS TIPOS DE NEGOCIACION POR PLAZA
                     if (isset($data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']])) {
-                        $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+                        if($seg['unificar_deudas'] == 'no'){
+                            $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+                        }else{
+                            if($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta']){
+                                $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+                            }
+                        }
                     } else {
-                        $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+                        if($seg['unificar_deudas'] == 'no'){
+                            $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+                        }else{
+                            if($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta']){
+                                $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+                            }
+                        }
                     }
 
                     if(isset($recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']])){
@@ -274,15 +286,13 @@ class ProduccionPlaza {
 		}
 
         //RECUPERO REFINANCIAR
-        $total_cuentas = 0;
-        $total_actuales = 0;
-        $total_d30 = 0;
-        $total_d60 = 0;
-        $total_d90 = 0;
-        $data_recupero_aux = [];
         $data_recupero = [];
-//        printDie($recupero_refinanciar);
         foreach ($recupero_refinanciar as $key22 => $val22){
+            $total_cuentas = 0;
+            $total_actuales = 0;
+            $total_d30 = 0;
+            $total_d60 = 0;
+            $total_d90 = 0;
             foreach ($val22 as $key => $val) {
                 $tot_cuentas = 0;
                 $tot_actuales = 0;
@@ -314,14 +324,23 @@ class ProduccionPlaza {
                 $aux_recupero['d60_format'] = number_format($tot_d60,2,'.',',');
                 $aux_recupero['d90'] = $tot_d90;
                 $aux_recupero['d90_format'] = number_format($tot_d90,2,'.',',');
-                $data_recupero[$key22][] = $aux_recupero;
+                $data_recupero[$key22]['data'][] = $aux_recupero;
                 foreach ($aux as $a) {
                     $a['actuales_format'] = number_format($a['actuales'],2,'.',',');
                     $a['d30_format'] = number_format($a['d30'],2,'.',',');
                     $a['d60_format'] = number_format($a['d60'],2,'.',',');
                     $a['d90_format'] = number_format($a['d90'],2,'.',',');
-                    $data_recupero[$key22][] = $a;
+                    $data_recupero[$key22]['data'][] = $a;
                 }
+                $data_recupero[$key22]['total']['total_cuentas'] = $total_cuentas;
+                $data_recupero[$key22]['total']['total_actuales'] = $total_actuales;
+                $data_recupero[$key22]['total']['total_d30'] = $total_d30;
+                $data_recupero[$key22]['total']['total_d60'] = $total_d60;
+                $data_recupero[$key22]['total']['total_d90'] = $total_d90;
+                $data_recupero[$key22]['total']['total_actuales_format'] = number_format($total_actuales,2,',','.');
+                $data_recupero[$key22]['total']['total_d30_format'] = number_format($total_d30,2,',','.');
+                $data_recupero[$key22]['total']['total_d60_format'] = number_format($total_d60,2,',','.');
+                $data_recupero[$key22]['total']['total_d90_format'] = number_format($total_d90,2,',','.');
             }
         }
 //        printDie($data_recupero);

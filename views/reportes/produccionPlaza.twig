@@ -167,7 +167,7 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr v-for="d in value">
+						<tr v-for="d in value.data">
 							<td v-html="d.marca"></td>
 							<td style="text-align: center;" v-html="d.cuentas"></td>
 							<td style="text-align: right;" v-html="d.actuales_format"></td>
@@ -178,11 +178,11 @@
 						<tfoot>
 						<tr>
 							<td style="font-weight: bold;">TOTAL GENERAL</td>
-							<td style="font-weight: bold; text-align: center;" v-html="total_recupero.total_cuentas"></td>
-							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_actuales"></td>
-							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d30"></td>
-							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d60"></td>
-							<td style="font-weight: bold; text-align: right;" v-html="total_recupero.total_d90"></td>
+							<td style="font-weight: bold; text-align: center;" v-html="value.total.total_cuentas"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="value.total.total_actuales_format"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="value.total.total_d30_format"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="value.total.total_d60_format"></td>
+							<td style="font-weight: bold; text-align: right;" v-html="value.total.total_d90_format"></td>
 						</tr>
 						</tfoot>
 						</tbody>
@@ -281,32 +281,47 @@
                         self.consultar();
                     });
                     $('#btnTodos').click(function () {
-                        form[0].reset();
-                        $("#plaza_usuario").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#canal_usuario").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#hora_inicio").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#minuto_inicio").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#hora_fin").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#minuto_fin").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        self.consultar();
+						form[0].reset();
+						$("#plaza_usuario").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#canal_usuario").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#hora_inicio").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#minuto_inicio").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#hora_fin").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#minuto_fin").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#campana").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#campana_ece").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#campana_usuario").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#marca").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
                     });
 
                     $('.select2').select2({
