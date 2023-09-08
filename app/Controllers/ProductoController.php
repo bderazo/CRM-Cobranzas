@@ -189,9 +189,25 @@ class ProductoController extends BaseController
         return $this->render('editar', $data);
     }
 
-    function editarDiners($id)
+    function editarDiners()
     {
         \WebSecurity::secure('producto.lista_diners');
+
+        $id = 0;
+        if(isset($_REQUEST['id'])){
+            $id = $_REQUEST['id'];
+        }elseif(isset($_REQUEST['telefono'])){
+            $prod_ver = Producto::getProductoTelefono($_REQUEST['telefono']);
+            if(isset($prod_ver['id'])){
+                $id = $prod_ver['id'];
+            }
+        }
+
+        if($id == 0){
+            $this->flash->addMessage('TELEFONO: ' . $_REQUEST['telefono'] . ' NO EXISTE EN EL SISTEMA');
+            return $this->redirectToAction('indexDiners');
+        }
+
         $config = $this->get('config');
         $date1 = \DateTime::createFromFormat('H:i:s', date("H:i:s"));
         $date2 = \DateTime::createFromFormat('H:i:s', $config['hora_inicio_labores']);

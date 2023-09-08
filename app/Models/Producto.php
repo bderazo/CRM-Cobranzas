@@ -1047,4 +1047,22 @@ class Producto extends Model
 		return $data;
 	}
 
+
+    static function getProductoTelefono($telefono)
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto p')
+            ->innerJoin('cliente cl ON cl.id = p.cliente_id')
+            ->innerJoin('telefono t ON cl.id = t.modulo_id AND t.modulo_relacionado = "cliente" AND t.eliminado = 0')
+            ->select(null)
+            ->select('p.*')
+            ->where('p.eliminado', 0)
+            ->where('p.institucion_id', 1)
+            ->orderBy('p.fecha_modificacion DESC');
+        $lista = $q->fetch();
+        if(!$lista) return [];
+        return $lista;
+    }
 }
