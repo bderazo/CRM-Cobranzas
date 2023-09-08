@@ -88,6 +88,13 @@ return [
             'description' => 'Resultado de gestión por cliente'
         ],
         [
+            'label' => 'General Campo',
+            'link' => '/reportes/generalCampo',
+            'roles' => 'reportes.general_campo',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'Resultado de gestión por cliente de campo'
+        ],
+        [
             'label' => 'Gestiones Por Hora',
             'link' => '/reportes/gestionesPorHora',
             'roles' => 'reportes.gestiones_por_hora',

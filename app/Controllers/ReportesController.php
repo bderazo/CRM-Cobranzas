@@ -22,6 +22,7 @@ use Reportes\Diners\BaseGeneral;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
 use Reportes\Diners\General;
+use Reportes\Diners\GeneralCampo;
 use Reportes\Diners\GestionesPorHora;
 use Reportes\Diners\Individual;
 use Reportes\Diners\InformeJornada;
@@ -2044,6 +2045,223 @@ class ReportesController extends BaseController
 
 
         $this->exportMultiple($exportar, 'general.xlsx');
+    }
+
+    //GENERAL CAMPO
+    function generalCampo(){
+        \WebSecurity::secure('reportes.general_campo');
+        if ($this->isPost()) {
+            $rep = new GeneralCampo($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'General Campo';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('generalCampo', $data);
+    }
+
+    function exportGeneralCampo($json)
+    {
+        \WebSecurity::secure('reportes.general_campo');
+//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+//        $json = str_replace('ciclo[]', 'ciclo', $json);
+//        $json = str_replace('resultado[]', 'resultado', $json);
+//        $json = str_replace('accion[]', 'accion', $json);
+//        $json = str_replace('descripcion[]', 'descripcion', $json);
+//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+//        $jdata = json_decode(htmlspecialchars_decode($json), true);
+//        $filtros = $jdata['filtros'];
+//        $rep = new General($this->get('pdo'));
+//        $data = $rep->exportar($filtros);
+        $data = json_decode($json, true);
+//        printDie($data);
+        $lista = [];
+        $aux = [];
+        foreach ($data['datos'] as $d) {
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['REFINANCIA'] = [
+                'valor' => $d['refinancia'],
+                'formato' => 'number'
+            ];
+            $aux['CIERRE EFECTIVO'] = [
+                'valor' => $d['cierre_efectivo'],
+                'formato' => 'number'
+            ];
+            $aux['CIERRE NO EFECTIVO'] = [
+                'valor' => $d['cierre_no_efectivo'],
+                'formato' => 'number'
+            ];
+            $aux['MENSAJE A TERCERO'] = [
+                'valor' => $d['mensaje_tercero'],
+                'formato' => 'number'
+            ];
+            $aux['NO UBICADO'] = [
+                'valor' => $d['no_ubicado'],
+                'formato' => 'number'
+            ];
+            $aux['SIN ARREGLO'] = [
+                'valor' => $d['sin_arreglo'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL GENERAL'] = [
+                'valor' => $d['total'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $aux['GESTOR'] = [
+            'valor' => 'TOTAL',
+            'formato' => 'text'
+        ];
+        $aux['REFINANCIA'] = [
+            'valor' => $data['total']['total_refinancia'],
+            'formato' => 'number'
+        ];
+        $aux['CIERRE EFECTIVO'] = [
+            'valor' => $data['total']['total_cierre_efectivo'],
+            'formato' => 'number'
+        ];
+        $aux['CIERRE NO EFECTIVO'] = [
+            'valor' => $data['total']['total_cierre_no_efectivo'],
+            'formato' => 'number'
+        ];
+        $aux['MENSAJE A TERCERO'] = [
+            'valor' => $data['total']['total_mensaje_tercero'],
+            'formato' => 'number'
+        ];
+        $aux['NO UBICADO'] = [
+            'valor' => $data['total']['total_no_ubicado'],
+            'formato' => 'number'
+        ];
+        $aux['SIN ARREGLO'] = [
+            'valor' => $data['total']['total_sin_arreglo'],
+            'formato' => 'number'
+        ];
+        $aux['TOTAL GENERAL'] = [
+            'valor' => $data['total']['total_general'],
+            'formato' => 'number'
+        ];
+        $lista[] = $aux;
+        $exportar[] = [
+            'name' => 'GENERAL',
+            'data' => $lista
+        ];
+        $lista = [];
+        $aux = [];
+        foreach ($data['resumen'] as $d) {
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['CLIENTE'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
+                'formato' => 'text'
+            ];
+            $aux['CIUDAD'] = [
+                'valor' => $d['ciudad'],
+                'formato' => 'text'
+            ];
+            $aux['CANAL'] = [
+                'valor' => $d['canal'],
+                'formato' => 'text'
+            ];
+            $aux['MARCA'] = [
+                'valor' => $d['tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CÓDIGO DE OPERACIÓN'] = [
+                'valor' => $d['codigo_operacion'],
+                'formato' => 'text'
+            ];
+            $aux['CICLO'] = [
+                'valor' => $d['ciclo'],
+                'formato' => 'number'
+            ];
+            $aux['FECHA'] = [
+                'valor' => $d['fecha_ingreso'],
+                'formato' => 'text'
+            ];
+            $aux['RESULTADO'] = [
+                'valor' => $d['nivel_1_texto'],
+                'formato' => 'text'
+            ];
+            $aux['ACCION'] = [
+                'valor' => $d['nivel_2_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN'] = [
+                'valor' => $d['nivel_3_texto'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA COMPROMISO DE PAGO'] = [
+                'valor' => $d['fecha_compromiso_pago'],
+                'formato' => 'text'
+            ];
+            $aux['VALOR COMPROMETIDO'] = [
+                'valor' => $d['valor_comprometido'],
+                'formato' => 'number'
+            ];
+            $aux['MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['DESCRIPCIÓN MOTIVO NO PAGO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['Observaciones'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['PENDIENTE ACTUALES'] = [
+                'valor' => $d['pendiente_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS'] = [
+                'valor' => $d['pendiente_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS'] = [
+                'valor' => $d['pendiente_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS'] = [
+                'valor' => $d['pendiente_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS'] = [
+                'valor' => $d['pendiente_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD CARTERA'] = [
+                'valor' => $d['edad_cartera'],
+                'formato' => 'number'
+            ];
+            $lista[] = $aux;
+        }
+        $exportar[] = [
+            'name' => 'RESUMEN',
+            'data' => $lista
+        ];
+
+        $this->exportMultiple($exportar, 'general_campo.xlsx');
     }
 
     //GESTIONES POR HORA

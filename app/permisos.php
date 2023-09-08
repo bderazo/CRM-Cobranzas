@@ -105,6 +105,7 @@ return [
             'contactabilidad' => 'Contactabilidad',
             'llamadas_contactadas' => 'Llamadas Contactadas',
             'general' => 'General',
+            'general_campo' => 'General Campo',
             'gestiones_por_hora' => 'Gestiones por hora',
             'individual' => 'Individual',
             'negociaciones_manual' => 'Negociaciones Manuales',

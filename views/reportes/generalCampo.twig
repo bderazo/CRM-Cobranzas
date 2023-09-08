@@ -1,0 +1,171 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosGeneralCampo.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+				<a class="btn btn-default-light" id="btnExportar">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+							<th>GESTOR</th>
+                            <th>REFINANCIA</th>
+							<th>CIERRE EFECTIVO</th>
+                            <th>CIERRE NO EFECTIVO</th>
+                            <th>MENSAJE A TERCERO</th>
+                            <th>NO UBICADO</th>
+                            <th>SIN ARREGLO</th>
+                            <th>TOTAL GENERAL</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td style="text-align: left;" v-html="d.gestor"></td>
+                            <td style="text-align: center;" v-html="d.refinancia"></td>
+							<td style="text-align: center;" v-html="d.cierre_efectivo"></td>
+                            <td style="text-align: center;" v-html="d.cierre_no_efectivo"></td>
+                            <td style="text-align: center;" v-html="d.mensaje_tercero"></td>
+                            <td style="text-align: center;" v-html="d.no_ubicado"></td>
+                            <td style="text-align: center;" v-html="d.sin_arreglo"></td>
+                            <td style="text-align: center;" v-html="d.total"></td>
+						</tr>
+						</tbody>
+                        <tfoot>
+                        <tr>
+                            <td style="text-align: right; font-weight: bold;">TOTAL</td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total_refinancia"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total_cierre_efectivo"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total_cierre_no_efectivo"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total_mensaje_tercero"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total_no_ubicado"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total_sin_arreglo"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total_general"></td>
+                        </tr>
+                        </tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportGeneralCampo">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+                resumen: [],
+                resumen_totales: [],
+                total_resumen_totales: [],
+                resumen_totales_foot: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/generalCampo', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        self.resumen = res['resumen'];
+                        self.resumen_totales = res['resumen_totales'];
+                        self.total_resumen_totales = res['total_resumen_totales'];
+                        self.resumen_totales_foot = res['resumen_totales_foot'];
+                        console.log(res);
+                    })
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    var data = {
+                        datos: self.datos,
+                        total: self.total,
+                        resumen: self.resumen,
+                        resumen_totales: self.resumen_totales,
+                        total_resumen_totales: self.total_resumen_totales,
+                        resumen_totales_foot: self.resumen_totales_foot,
+                    };
+                    $('#json').val(JSON.stringify(data));
+                    $('#exportForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_ece").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#marca").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        // self.consultar();
+                    });
+                    $('.select2').select2({
+                        theme: "classic"
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}
