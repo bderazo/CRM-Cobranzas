@@ -160,6 +160,8 @@ class ProduccionPlaza {
                         }
                     }
 
+                    $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
+
                     if(isset($recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']])){
                         $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas']++;
                         $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] + $seg['pendiente_actuales'];
