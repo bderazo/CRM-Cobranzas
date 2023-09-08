@@ -1057,7 +1057,7 @@ class Producto extends Model
             ->innerJoin('cliente cl ON cl.id = p.cliente_id')
             ->innerJoin('telefono t ON cl.id = t.modulo_id AND t.modulo_relacionado = "cliente" AND t.eliminado = 0')
             ->select(null)
-            ->select('p.*')
+            ->select('p.*, t.id AS telefono_id')
             ->where('p.eliminado', 0)
             ->where('p.institucion_id', 1)
             ->where('t.telefono',$telefono)

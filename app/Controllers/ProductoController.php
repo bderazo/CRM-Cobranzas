@@ -194,12 +194,14 @@ class ProductoController extends BaseController
         \WebSecurity::secure('producto.lista_diners');
 
         $id = 0;
+        $telefono_verificar_id = 0;
         if(isset($_REQUEST['id'])){
             $id = $_REQUEST['id'];
         }elseif(isset($_REQUEST['telefono'])){
             $prod_ver = Producto::getProductoTelefono($_REQUEST['telefono']);
             if(isset($prod_ver['id'])){
                 $id = $prod_ver['id'];
+                $telefono_verificar_id = $prod_ver['telefono_id'];
             }
         }
 
@@ -451,7 +453,10 @@ class ProductoController extends BaseController
         $seguimiento->sugerencia_correo = 'NO';
         $seguimiento->ingresos_cliente = 0;
         $seguimiento->egresos_cliente = 0;
-
+        if($telefono_verificar_id > 0){
+            $seguimiento->telefono_id = $telefono_verificar_id;
+        }
+        
         //DECLARO EL SEGUIMIENTO DE TARJETA
         $seguimiento_diners = new ViewProductoSeguimiento();
 //        $seguimiento_diners->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
@@ -837,7 +842,7 @@ class ProductoController extends BaseController
         $data['model'] = json_encode($model);
         $data['modelArr'] = $model;
         $data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
-        $data['fecha_maxima_compromiso'] = $fecha_maxima_compromiso;
+//        $data['fecha_maxima_compromiso'] = $fecha_maxima_compromiso;
         $data['fecha_maxima_compromiso_diners'] = $fecha_maxima_compromiso_diners;
         $data['fecha_maxima_compromiso_interdin'] = $fecha_maxima_compromiso_interdin;
         $data['fecha_maxima_compromiso_discover'] = $fecha_maxima_compromiso_discover;
