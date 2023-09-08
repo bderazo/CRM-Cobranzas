@@ -981,6 +981,7 @@ class ProductoController extends BaseController
             $con->producto_id = $producto['id'];
             $con->paleta_id = $institucion['paleta_id'];
             $con->telefono_id = $seguimiento['telefono_id'];
+            $con->origen = $seguimiento['origen'];
             $con->canal = 'TELEFONIA';
             $con->usuario_ingreso = \WebSecurity::getUserData('id');
             $con->eliminado = 0;
@@ -1064,6 +1065,7 @@ class ProductoController extends BaseController
                     $con->producto_id = $producto['id'];
                     $con->paleta_id = $institucion['paleta_id'];
                     $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->origen = $seguimiento['origen'];
                     $con->canal = 'TELEFONIA';
                     $con->usuario_ingreso = \WebSecurity::getUserData('id');
                     $con->eliminado = 0;
@@ -1159,6 +1161,7 @@ class ProductoController extends BaseController
                     $con->producto_id = $producto['id'];
                     $con->paleta_id = $institucion['paleta_id'];
                     $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->origen = $seguimiento['origen'];
                     $con->canal = 'TELEFONIA';
                     $con->usuario_ingreso = \WebSecurity::getUserData('id');
                     $con->eliminado = 0;
@@ -1254,6 +1257,7 @@ class ProductoController extends BaseController
                     $con->producto_id = $producto['id'];
                     $con->paleta_id = $institucion['paleta_id'];
                     $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->origen = $seguimiento['origen'];
                     $con->canal = 'TELEFONIA';
                     $con->usuario_ingreso = \WebSecurity::getUserData('id');
                     $con->eliminado = 0;
@@ -1349,6 +1353,7 @@ class ProductoController extends BaseController
                     $con->producto_id = $producto['id'];
                     $con->paleta_id = $institucion['paleta_id'];
                     $con->telefono_id = $seguimiento['telefono_id'];
+                    $con->origen = $seguimiento['origen'];
                     $con->canal = 'TELEFONIA';
                     $con->usuario_ingreso = \WebSecurity::getUserData('id');
                     $con->eliminado = 0;
