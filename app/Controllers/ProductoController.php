@@ -204,7 +204,7 @@ class ProductoController extends BaseController
         }
 
         if($id == 0){
-            $this->flash->addMessage('TELEFONO: ' . $_REQUEST['telefono'] . ' NO EXISTE EN EL SISTEMA');
+            $this->flash->addMessage('error','TELEFONO: ' . $_REQUEST['telefono'] . ' NO EXISTE EN EL SISTEMA');
             return $this->redirectToAction('indexDiners');
         }
 
