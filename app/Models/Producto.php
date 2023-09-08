@@ -1060,6 +1060,7 @@ class Producto extends Model
             ->select('p.*')
             ->where('p.eliminado', 0)
             ->where('p.institucion_id', 1)
+            ->where('t.telefono',$telefono)
             ->orderBy('p.fecha_modificacion DESC');
         $lista = $q->fetch();
         if(!$lista) return [];
