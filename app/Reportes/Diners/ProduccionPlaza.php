@@ -162,16 +162,16 @@ class ProduccionPlaza {
 
                     if(isset($recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']])){
                         $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas']++;
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] + $seg['saldo_actual_facturado_despues_abono'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] + $seg['saldo_30_facturado_despues_abono'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] + $seg['saldo_60_facturado_despues_abono'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] + $seg['saldo_90_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] + $seg['pendiente_actuales'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] + $seg['pendiente_30'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] + $seg['pendiente_60'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] + $seg['pendiente_90'];
                     }else{
                         $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas'] = 1;
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $seg['saldo_actual_facturado_despues_abono'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $seg['saldo_30_facturado_despues_abono'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $seg['saldo_60_facturado_despues_abono'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $seg['saldo_90_facturado_despues_abono'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $seg['pendiente_actuales'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $seg['pendiente_30'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $seg['pendiente_60'];
+                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $seg['pendiente_90'];
                     }
 
 //                    if($seg['pendiente_actuales'] > 0) {
