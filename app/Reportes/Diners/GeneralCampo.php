@@ -262,6 +262,7 @@ class GeneralCampo {
                         $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
+                        $res['tarjeta'] = 'VISA';
                     }
                     if($res['tarjeta'] == 'DISCOVER') {
                         if($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER'){
