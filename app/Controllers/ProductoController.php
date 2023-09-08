@@ -455,8 +455,11 @@ class ProductoController extends BaseController
         $seguimiento->egresos_cliente = 0;
         if($telefono_verificar_id > 0){
             $seguimiento->telefono_id = $telefono_verificar_id;
+            $seguimiento->origen = 'predictivo';
+        }else{
+            $seguimiento->origen = 'manual_web';
         }
-        
+
         //DECLARO EL SEGUIMIENTO DE TARJETA
         $seguimiento_diners = new ViewProductoSeguimiento();
 //        $seguimiento_diners->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
@@ -1896,4 +1899,5 @@ class ViewProductoSeguimiento
     var $usuario_ingreso;
     var $usuario_modificacion;
     var $eliminado;
+    var $origen;
 }

@@ -51,6 +51,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer usuario_ingreso
  * @property integer usuario_modificacion
  * @property boolean eliminado
+ * @property string origen
  */
 class ProductoSeguimiento extends Model
 {
