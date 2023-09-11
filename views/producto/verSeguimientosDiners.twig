@@ -73,9 +73,11 @@
 											<i class="fa fa-file-excel-o"></i> ACUERDO
 										</button><br/><br/>
 										{% if puedeEliminar %}
-											<button class="btn btn-danger-light" type="button" v-on:click="delSeguimiento({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
-												<i class="fa fa-trash-o"></i> ELIMINAR
-											</button><br/><br/>
+											{% if seg.fecha_ingreso|date("Y-m-d") == "now"|date("Y-m-d") %}
+												<button class="btn btn-danger-light" type="button" v-on:click="delSeguimiento({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
+													<i class="fa fa-trash-o"></i> ELIMINAR
+												</button><br/><br/>
+											{% endif %}
 										{% endif %}
 {#										<button class="btn btn-success" type="button" v-on:click="descargarNegociacionManual({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN MANUAL">#}
 {#											<i class="fa fa-download"></i> MANUAL#}

@@ -1,6 +1,13 @@
 <?php
 return [
-    'diners' => [
+    'diners_general' => [
+        [
+            'label' => 'Base De Carga',
+            'link' => '/reportes/baseCarga',
+            'roles' => 'reportes.base_carga',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'Base de carga'
+        ],
         [
             'label' => 'Base General',
             'link' => '/reportes/baseGeneral',
@@ -9,20 +16,6 @@ return [
             'description' => 'Reporte de Base General'
         ],
         [
-            'label' => 'Mejor y Última Gestión',
-            'link' => '/reportes/mejorUltimaGestion',
-            'roles' => 'reportes.mejor_ultima_gestion',
-            'icon' => 'fa fa-list-alt',
-            'description' => 'Reporte de Mejor y Última Gestión'
-        ],
-		[
-			'label' => 'Producción Plaza',
-			'link' => '/reportes/produccionPlaza',
-			'roles' => 'reportes.produccion_plaza',
-			'icon' => 'fa fa-list-alt',
-			'description' => 'Producción por cada plaza'
-		],
-        [
             'label' => 'Campo y Telefonía',
             'link' => '/reportes/campoTelefonia',
             'roles' => 'reportes.campo_telefonia',
@@ -30,18 +23,11 @@ return [
             'description' => 'Campo y telefonía'
         ],
         [
-            'label' => 'Informes De Jornada',
-            'link' => '/reportes/informeJornada',
-            'roles' => 'reportes.informe_jornada',
+            'label' => 'Mejor y Última Gestión',
+            'link' => '/reportes/mejorUltimaGestion',
+            'roles' => 'reportes.mejor_ultima_gestion',
             'icon' => 'fa fa-list-alt',
-            'description' => 'Informes finales de la jornada'
-        ],
-        [
-            'label' => 'Negociaciones Por Ejecutivo',
-            'link' => '/reportes/negociacionesEjecutivo',
-            'roles' => 'reportes.negociaciones_ejecutivo',
-            'icon' => 'fa fa-list-alt',
-            'description' => 'Negociaciones por ejecutivo'
+            'description' => 'Reporte de Mejor y Última Gestión'
         ],
         [
             'label' => 'Procesadas Para Liquidación',
@@ -50,20 +36,38 @@ return [
             'icon' => 'fa fa-list-alt',
             'description' => 'Procesadas para liquidación'
         ],
-		[
-			'label' => 'Base De Carga',
-			'link' => '/reportes/baseCarga',
-			'roles' => 'reportes.base_carga',
-			'icon' => 'fa fa-list-alt',
-			'description' => 'Base de carga'
-		],
         [
             'label' => 'Reporte Por Horas',
             'link' => '/reportes/reporteHoras',
             'roles' => 'reportes.reporte_horas',
-            'icon' => 'fa fa-clock-o',
+            'icon' => 'fa fa-list-alt',
             'description' => 'Reporte por horas'
         ],
+    ],
+    'diners_campo' => [
+        [
+            'label' => 'General Campo',
+            'link' => '/reportes/generalCampo',
+            'roles' => 'reportes.general_campo',
+            'icon' => 'fa fa-road',
+            'description' => 'Resultado de gestión por cliente de campo'
+        ],
+        [
+            'label' => 'Informes De Jornada',
+            'link' => '/reportes/informeJornada',
+            'roles' => 'reportes.informe_jornada',
+            'icon' => 'fa fa-road',
+            'description' => 'Informes finales de la jornada'
+        ],
+        [
+            'label' => 'Producción Plaza',
+            'link' => '/reportes/produccionPlaza',
+            'roles' => 'reportes.produccion_plaza',
+            'icon' => 'fa fa-road',
+            'description' => 'Producción por cada plaza'
+        ],
+    ],
+    'diners_telefonia' => [
         [
             'label' => 'Contactabilidad',
             'link' => '/reportes/contactabilidad',
@@ -71,60 +75,52 @@ return [
             'icon' => 'fa fa-phone',
             'description' => 'Contactabilidad'
         ],
-    ],
-    'cada_horas' => [
-//        [
-//            'label' => 'Llamadas Contactadas',
-//            'link' => '/reportes/llamadasContactadas',
-//            'roles' => 'reportes.llamadas_contactadas',
-//            'icon' => 'fa fa-list-alt',
-//            'description' => 'Llamadas contactadas'
-//        ],
-        [
-            'label' => 'General',
-            'link' => '/reportes/general',
-            'roles' => 'reportes.general',
-            'icon' => 'fa fa-list-alt',
-            'description' => 'Resultado de gestión por cliente'
-        ],
-        [
-            'label' => 'General Campo',
-            'link' => '/reportes/generalCampo',
-            'roles' => 'reportes.general_campo',
-            'icon' => 'fa fa-list-alt',
-            'description' => 'Resultado de gestión por cliente de campo'
-        ],
         [
             'label' => 'Gestiones Por Hora',
             'link' => '/reportes/gestionesPorHora',
             'roles' => 'reportes.gestiones_por_hora',
-            'icon' => 'fa fa-list-alt',
+            'icon' => 'fa fa-phone',
             'description' => 'Número de gestiones por agente'
+        ],
+        [
+            'label' => 'General',
+            'link' => '/reportes/general',
+            'roles' => 'reportes.general',
+            'icon' => 'fa fa-phone',
+            'description' => 'Resultado de gestión por cliente'
         ],
         [
             'label' => 'Individual',
             'link' => '/reportes/individual',
             'roles' => 'reportes.individual',
-            'icon' => 'fa fa-list-alt',
+            'icon' => 'fa fa-phone',
             'description' => 'Productividad por agente'
         ],
     ],
-    'negociaciones' => [
+    'diners_operativo' => [
         [
-            'label' => 'Manual',
+            'label' => 'Negociaciones Automáticas',
+            'link' => '/reportes/negociacionesAutomatica',
+            'roles' => 'reportes.negociaciones_automatica',
+            'icon' => 'fa fa-briefcase',
+            'description' => 'Negociaciones Automáticas'
+        ],
+        [
+            'label' => 'Negociaciones Manuales',
             'link' => '/reportes/negociacionesManual',
             'roles' => 'reportes.negociaciones_manual',
             'icon' => 'fa fa-briefcase',
             'description' => 'Negociaciones Manuales'
         ],
         [
-            'label' => 'Automática',
-            'link' => '/reportes/negociacionesAutomatica',
-            'roles' => 'reportes.negociaciones_automatica',
+            'label' => 'Negociaciones Por Ejecutivo',
+            'link' => '/reportes/negociacionesEjecutivo',
+            'roles' => 'reportes.negociaciones_ejecutivo',
             'icon' => 'fa fa-briefcase',
-            'description' => 'Negociaciones Automáticas'
+            'description' => 'Negociaciones por ejecutivo'
         ],
     ],
+
 //    'productividad' => [
 //        [
 //            'label' => 'Datos',

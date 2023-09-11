@@ -966,6 +966,7 @@ class ProductoController extends BaseController
         $bandera_unificar_deuda = $data['bandera_unificar_deuda'];
         $tarjeta_unificar_deuda = $data['tarjeta_unificar_deuda'];
         $file = $_FILES;
+        $telf = Telefono::porId($seguimiento['telefono_id']);
 
 
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
@@ -1016,7 +1017,7 @@ class ProductoController extends BaseController
                 $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_2_motivo_no_pago_id']);
                 $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
             }
-            $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento['observaciones']);
+            $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.$telf->telefono.' '.Utilidades::normalizeString($seguimiento['observaciones']);
             $con->observaciones = substr($con->observaciones, 0, 254);
             $con->sugerencia_cx88 = $seguimiento['sugerencia_cx88'];
             $con->sugerencia_correo = $seguimiento['sugerencia_correo'];
@@ -1100,7 +1101,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_diners['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_diners['observaciones']);
+                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.$telf->telefono.' '.Utilidades::normalizeString($seguimiento_diners['observaciones']);
                     $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_diners['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
@@ -1196,7 +1197,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_interdin['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_interdin['observaciones']);
+                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.$telf->telefono.' '.Utilidades::normalizeString($seguimiento_interdin['observaciones']);
                     $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_interdin['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
@@ -1292,7 +1293,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_discover['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_discover['observaciones']);
+                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.$telf->telefono.' '.Utilidades::normalizeString($seguimiento_discover['observaciones']);
                     $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_discover['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
@@ -1388,7 +1389,7 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_mastercard['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.Utilidades::normalizeString($seguimiento_mastercard['observaciones']);
+                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d").' '.$telf->telefono.' '.Utilidades::normalizeString($seguimiento_mastercard['observaciones']);
                     $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_mastercard['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];

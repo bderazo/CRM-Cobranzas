@@ -133,10 +133,9 @@ class ReportesController extends BaseController
             $itemsChunks[$k] = array_chunk($v, 3);
         }
 
-
 //        $chunks = array_chunk($items, 4);
-//        printDie($itemsChunks);
         $data['menuReportes'] = $itemsChunks;
+//        printDie($data);
         return $this->render('index', $data);
     }
 
