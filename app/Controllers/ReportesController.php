@@ -359,6 +359,10 @@ class ReportesController extends BaseController
                 'valor' => $d['identificador'],
                 'formato' => 'text'
             ];
+            $aux['ORIGEN GESTIÓN'] = [
+                'valor' => $d['origen'],
+                'formato' => 'text'
+            ];
             $lista[] = $aux;
         }
         $this->exportSimple($lista, 'BASE GENERAL', 'base_general.xlsx');

@@ -36,7 +36,8 @@ class BaseGeneral {
         $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
 
         //OBTENER SALDOS
-        $saldos = AplicativoDinersSaldos::getTodosFecha();
+//        $saldos = AplicativoDinersSaldos::getTodosFecha();
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
         //OBTENER TELEFONOS
         $telefonos = Telefono::getTodos();
@@ -53,7 +54,8 @@ class BaseGeneral {
             ->select(null)
             ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula,
                              addet.tipo_negociacion, addet.nombre_tarjeta AS tarjeta, u.identificador, addet.ciclo,
-                             cl.zona, cl.ciudad")
+                             cl.zona, cl.ciudad,
+                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
@@ -133,8 +135,8 @@ class BaseGeneral {
                     $res['tipo_negociacion'] = '';
                 }
                 //BUSCO EN SALDOS
-                if (isset($saldos[$res['cliente_id']])) {
-                    $saldos_arr = $saldos[$res['cliente_id']];
+                if (isset($saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                    $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'], true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
@@ -270,10 +272,13 @@ class BaseGeneral {
 
                     $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
 
+                    $res['origen'] = strtoupper($res['origen']);
+
                     $data[] = $res;
                 }
             }
         }
+//        printDie($data);
 
         $data_resumen_domicilio = [];
         $data_resumen_telefonia = [];
