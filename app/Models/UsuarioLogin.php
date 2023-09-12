@@ -100,4 +100,19 @@ class UsuarioLogin extends Model {
         }
         return $retorno;
     }
+
+    static function getUsuariosLogueadosFecha($fecha) {
+        $pdo = UsuarioLogin::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+        $q = $db->from('usuario_login ul')
+            ->select(null)
+            ->select("DISTINCT(ul.usuario_id) AS id")
+            ->where('DATE(login_time)', $fecha);
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[] = $l['id'];
+        }
+        return $retorno;
+    }
 }

@@ -23,26 +23,26 @@ return [
             'description' => 'Datos de las asignaciones de Diners a Megacob'
         ],
         [
-            'label' => 'Focalización',
-            'link' => '/cargarArchivo/focalizacion',
-            'roles' => 'cargar_archivos.focalizacion',
+            'label' => 'Gestiones NO Contestadas',
+            'link' => '/cargarArchivo/gestionesNoContestadas',
+            'roles' => 'cargar_archivos.gestiones_no_contestadas',
             'icon' => 'fa fa-file-excel-o',
-            'description' => 'Datos de la focalizacion'
+            'description' => 'Permitir la carga de datos de Gestiones NO Contestadas'
         ],
-        [
-            'label' => 'Asignaciones a Gestor',
-            'link' => '/cargarArchivo/asignacionesGestorDiners',
-            'roles' => 'cargar_archivos.asignaciones_gestor_diners',
-            'icon' => 'fa fa-file-excel-o',
-            'description' => 'Asignaciones de clientes a Gestores'
-        ],
-		[
-			'label' => 'Operaciones',
-			'link' => '/cargarArchivo/productos',
-			'roles' => 'cargar_archivos.productos',
-			'icon' => 'fa fa-file-excel-o',
-			'description' => 'Carga masiva de operaciones'
-		],
+//        [
+//            'label' => 'Asignaciones a Gestor',
+//            'link' => '/cargarArchivo/asignacionesGestorDiners',
+//            'roles' => 'cargar_archivos.asignaciones_gestor_diners',
+//            'icon' => 'fa fa-file-excel-o',
+//            'description' => 'Asignaciones de clientes a Gestores'
+//        ],
+//		[
+//			'label' => 'Operaciones',
+//			'link' => '/cargarArchivo/productos',
+//			'roles' => 'cargar_archivos.productos',
+//			'icon' => 'fa fa-file-excel-o',
+//			'description' => 'Carga masiva de operaciones'
+//		],
     ],
     'general' => [
         [

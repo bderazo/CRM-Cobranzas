@@ -886,54 +886,26 @@ class ReportesController extends BaseController
 //        printDie($jdata);
         $aux = [];
         $lista = [];
-        foreach ($jdata['datos'] as $d) {
+        foreach ($jdata['data_asesores'] as $d) {
             $aux['PLAZA'] = [
                 'valor' => $d['plaza'],
                 'formato' => 'text'
             ];
             $aux['EJECUTIVO'] = [
-                'valor' => $d['gestor'],
+                'valor' => $d['ejecutivo'],
                 'formato' => 'text'
             ];
-            $aux['CUENTAS'] = [
-                'valor' => $d['cuentas'],
-                'formato' => 'number'
-            ];
-            $aux['ASIGNACION DEL DIA'] = [
-                'valor' => $d['asignacion'],
-                'formato' => 'number'
-            ];
-            $aux['PRODUCTIVIDAD'] = [
-                'valor' => $d['porcentaje_productividad'],
-                'formato' => 'number'
-            ];
-            $aux['OBSERVACIONES'] = [
-                'valor' => $d['observaciones'],
+            $aux['CANAL'] = [
+                'valor' => $d['canal'],
                 'formato' => 'text'
             ];
-            $aux['CONTACTADAS'] = [
-                'valor' => $d['contactadas'],
-                'formato' => 'number'
+            $aux['MARCA - CICLOS'] = [
+                'valor' => $d['marca_ciclo'],
+                'formato' => 'text'
             ];
-            $aux['EFECTIVIDAD'] = [
-                'valor' => $d['efectividad'],
-                'formato' => 'number'
-            ];
-            $aux['% CONTAC'] = [
-                'valor' => $d['porcentaje_contactado'],
-                'formato' => 'number'
-            ];
-            $aux['% EFECTIV'] = [
-                'valor' => $d['porcentaje_efectividad'],
-                'formato' => 'number'
-            ];
-            $aux['NEGOCIACIONES'] = [
-                'valor' => $d['negociaciones'],
-                'formato' => 'number'
-            ];
-            $aux['% PRODUCCION'] = [
-                'valor' => $d['porcentaje_produccion'],
-                'formato' => 'number'
+            $aux['DETALLE GENERAL'] = [
+                'valor' => $d['detalle_general'],
+                'formato' => 'text'
             ];
             $lista[] = $aux;
         }
@@ -943,57 +915,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
-        $lista = [];
-        $aux = [];
-        $aux['CANAL'] = [
-            'valor' => $jdata['total']['canal'],
-            'formato' => 'text'
-        ];
-        $aux['EMPRESA'] = [
-            'valor' => $jdata['total']['empresa'],
-            'formato' => 'text'
-        ];
-        $aux['EJECUTIVOS'] = [
-            'valor' => $jdata['total']['total_ejecutivos'],
-            'formato' => 'number'
-        ];
-        $aux['CAPACIDAD INSTALADA'] = [
-            'valor' => $jdata['total']['total_asignacion'],
-            'formato' => 'number'
-        ];
-        $aux['TOTAL CUENTAS GESTIONADAS'] = [
-            'valor' => $jdata['total']['total_cuentas'],
-            'formato' => 'number'
-        ];
-        $aux['NEGOCIACIONES'] = [
-            'valor' => $jdata['total']['total_negociaciones'],
-            'formato' => 'number'
-        ];
-        $aux['% PRODUCCIÓN'] = [
-            'valor' => $jdata['total']['total_porcentaje_produccion'],
-            'formato' => 'number'
-        ];
-        $aux['PORTAFOLIO'] = [
-            'valor' => $jdata['total']['portafolio'],
-            'formato' => 'number'
-        ];
-        $aux['% PRODUCTIVIDAD'] = [
-            'valor' => $jdata['total']['total_porcentaje_productividad'],
-            'formato' => 'number'
-        ];
-        $aux['CONTACTABILIDAD'] = [
-            'valor' => $jdata['total']['total_porcentaje_cantactado'],
-            'formato' => 'number'
-        ];
-        $aux['EFECTIVIDAD'] = [
-            'valor' => $jdata['total']['total_porcentaje_efectividad'],
-            'formato' => 'number'
-        ];
-        $lista[] = $aux;
-        $exportar[] = [
-            'name' => 'RESUMEN',
-            'data' => $lista
-        ];
+
 
         $aux = [];
         $lista = [];

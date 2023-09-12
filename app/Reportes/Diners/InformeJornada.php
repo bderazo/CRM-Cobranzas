@@ -36,6 +36,9 @@ class InformeJornada {
 //        $saldos = AplicativoDinersSaldos::getTodosFecha();
         $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
+        //BUSCAR USUARIOS DINERS CON ROL DE GESTOR
+        $usuarios_gestores = Usuario::getUsuariosGestoresDiners();
+
 		//BUSCAR SEGUIMIENTOS
 //		$q = $db->from('producto_seguimiento ps')
 //			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
@@ -106,6 +109,7 @@ class InformeJornada {
 		$total_negociaciones = 0;
         $total_ejecutivos = 0;
         $data = [];
+        $data_contar = [];
         $refinancia = [];
 		foreach($lista as $res){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
@@ -164,12 +168,81 @@ class InformeJornada {
                     //A LOS REFINANCIA YA LES IDENTIFICO PORQ ESOS VAN POR TARJETA
                     if ($res['nivel_2_id'] == 1859){
                         $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
+
+                        //CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS REFINANCIA
+                        if($res['tarjeta'] == 'DINERS') $tarjeta_tabla = 'DS';
+                        if($res['tarjeta'] == 'INTERDIN') $tarjeta_tabla = 'VS';
+                        if($res['tarjeta'] == 'DISCOVER') $tarjeta_tabla = 'DC';
+                        if($res['tarjeta'] == 'MASTERCARD') $tarjeta_tabla = 'MC';
+                        if (isset($data_contar[$res['usuario_id']][$res['canal']])) {
+                            $data_contar[$res['usuario_id']][$res['canal']] .= ' - '.$tarjeta_tabla.$res['ciclo'];
+                        } else {
+                            $data_contar[$res['usuario_id']][$res['canal']] = $tarjeta_tabla.$res['ciclo'];
+                        }
                     }
                 }
             }
 		}
+//        printDie($data_contar);
 
-//        printDie($data[57717]);
+        //UNIR CON LOS ASESORES
+        $data_asesores = [];
+        foreach($usuarios_gestores as $ug){
+            if(isset($data_contar[$ug['id']])) {
+                foreach($data_contar[$ug['id']] as $k => $v) {
+                    $d['plaza'] = $ug['plaza'];
+                    $d['ejecutivo'] = $ug['nombres'];
+                    $d['canal'] = $k;
+                    $d['marca_ciclo'] = $v;
+                    $data_asesores[] = $d;
+                }
+            }
+        }
+
+        $telefonia = [];
+        $aux_telefonia = [];
+        $campo = [];
+        $sin_clasificar = [];
+        foreach($data_asesores as $d){
+            if($d['canal'] == 'TELEFONIA'){
+                $telefonia[] = $d;
+            }elseif($d['canal'] == 'AUXILIAR TELEFONIA'){
+                $aux_telefonia[] = $d;
+            }elseif($d['canal'] == 'CAMPO'){
+                $campo[] = $d;
+            }else{
+                $sin_clasificar[] = $d;
+            }
+        }
+        $data_asesores = array_merge($telefonia,$aux_telefonia,$campo,$sin_clasificar);
+
+        //AGRUPAR POR PLAZA DEL USUARIO
+        $data_plaza = [];
+        foreach($data_asesores as $d){
+            $data_plaza[$d['plaza']][] = $d;
+        }
+        ksort($data_plaza);
+
+//        printDie($data_plaza);
+
+        //ORDENAR EL ARRAY PARA IMPRIMIR
+        $data_asesores = [];
+        foreach($data_plaza as $k => $v){
+            foreach ($v as $v1){
+                $aux = explode('-',$v1['marca_ciclo']);
+
+                for($i = 0; $i < count($aux); $i++){
+                    if($i == 0){
+                        $v1['detalle_general'] = 'DIFERIDO';
+                    }else{
+                        $v1['detalle_general'] .= ' - DIFERIDO';
+                    }
+                }
+                $data_asesores[] = $v1;
+            }
+        }
+
+//        printDie($data_asesores);
 
         foreach ($data as $cliente_id => $val){
             foreach ($val as $fecha_seguimiento => $val1){
@@ -280,6 +353,7 @@ class InformeJornada {
 		$total_porcentaje_produccion = ($total_cuentas > 0) ? ($total_negociaciones / $total_cuentas) * 100 : 0;
 
 		$retorno['data'] = $data;
+        $retorno['data_asesores'] = $data_asesores;
         $retorno['resumen'] = $resumen;
 		$retorno['total'] = [
 			'total_cuentas' => $total_cuentas,

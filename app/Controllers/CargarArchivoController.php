@@ -5,7 +5,7 @@ namespace Controllers;
 use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
 use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
-use CargaArchivos\CargadorBaseCargarMegacobExcel;
+use CargaArchivos\CargadorGestionesNoContestadasExcel;
 use CargaArchivos\CargadorClientesExcel;
 use CargaArchivos\CargadorFocalizacionExcel;
 use CargaArchivos\CargadorProductosExcel;
@@ -190,24 +190,19 @@ class CargarArchivoController extends BaseController {
 
     /*-----------------------------------------------------------------*/
 
-    function baseCargarMegacob() {
-        \WebSecurity::secure('cargar_archivos.base_cargar_megacob');
-        \Breadcrumbs::active('Base a Cargar Megacob');
-
-        $catalogos = [
-            'ciudades' => Catalogo::ciudades(),
-        ];
+    function gestionesNoContestadas() {
+        \WebSecurity::secure('cargar_archivos.gestiones_no_contestadas');
+        \Breadcrumbs::active('Gestiones NO Contestadas');
 
         $carga_archivo = new ViewCargaArchivo();
         $carga_archivo->total_registros = 0;
         $carga_archivo->total_errores = 0;
 
         $data['carga_archivo'] = json_encode($carga_archivo);
-        $data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
-        return $this->render('baseCargarMegacob', $data);
+        return $this->render('gestionesNoContestadas', $data);
     }
 
-    function cargarBaseCargarMegacob() {
+    function cargarGestionesNoContestadas() {
         $post = $this->request->getParsedBody();
         // try catch, etc.
         $files = $this->request->getUploadedFiles();
@@ -224,7 +219,7 @@ class CargarArchivoController extends BaseController {
             'observaciones' => @$post['observaciones'],
             'fecha' => @$post['fecha'],
         ];
-        $cargador = new CargadorBaseCargarMegacobExcel($this->get('pdo'));
+        $cargador = new CargadorGestionesNoContestadasExcel($this->get('pdo'));
         $rep = $cargador->cargar($archivo->file, $fileInfo);
         $data['reporte'] = $rep;
         if ($rep['errorSistema'])

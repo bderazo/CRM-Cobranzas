@@ -11,106 +11,46 @@
 					<i class="fa fa-file-excel-o"></i>
 					Exportar
 				</a>
-				<div class="table-responsive">
-					<table class="table border table-striped table-bordered table-sm mb-0">
-						<thead>
-						<tr style="background-color: #95b8f6;">
-							<th>PLAZA</th>
-							<th>EJECUTIVO</th>
-							<th>CUENTAS</th>
-							<th>ASIGNACION DEL DIA</th>
-							<th>PRODUCTIVIDAD</th>
-							<th>OBSERVACIONES</th>
-							<th>CONTACTADAS</th>
-							<th>EFECTIVIDAD</th>
-							<th>% CONTAC</th>
-							<th>% EFECTIV</th>
-							<th>NEGOCIACIONES</th>
-							<th>% PRODUCCION</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr v-for="d in datos">
-							<td v-html="d.plaza"></td>
-							<td v-html="d.gestor"></td>
-							<td style="text-align: center;" v-html="d.cuentas"></td>
-							<td style="text-align: center;">
-								<input type="text" class="form-control" v-on:keyup="calcular" v-model="d.asignacion"
-								       placeholder="ASIGNACION DEL DIA" v-autoname/>
-							</td>
-							<td style="text-align: center;" v-html="d.porcentaje_productividad"></td>
-							<td style="text-align: center;">
-								<textarea rows="3" v-model="d.observaciones" class="form-control form-control-sm"
-								          placeholder="OBSERVACIONES" v-autoname></textarea>
-							</td>
-							<td style="text-align: center;" v-html="d.contactadas"></td>
-							<td style="text-align: center;" v-html="d.efectividad"></td>
-							<td style="text-align: center;" v-html="d.porcentaje_contactado"></td>
-							<td style="text-align: center;" v-html="d.porcentaje_efectividad"></td>
-							<td style="text-align: center;" v-html="d.negociaciones"></td>
-							<td style="text-align: center;" v-html="d.porcentaje_produccion"></td>
-						</tr>
-						</tbody>
-						<tfoot>
-						<tr>
-							<td style="font-weight: bold;">TOTAL</td>
-							<td></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_cuentas"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_asignacion"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_productividad"></td>
-							<td style="font-weight: bold; text-align: center;"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_contactadas"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_efectividad"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_cantactado"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_efectividad"></td>
-							<td style="font-weight: bold; text-align: center;" v-html="total.total_negociaciones"></td>
-							<td style="font-weight: bold; text-align: center;"
-							    v-html="total.total_porcentaje_produccion"></td>
-						</tr>
-						</tfoot>
-					</table>
-				</div>
-				<br/><br/>
-				<div class="table-responsive">
-					<table class="table border table-striped table-bordered table-sm mb-0">
-						<thead>
-						<tr style="background-color: #95b8f6;">
-							<th>CANAL</th>
-							<th>EMPRESA</th>
-							<th>EJECUTIVOS</th>
-							<th>CAPACIDAD INSTALADA</th>
-							<th>TOTAL CUENTAS GESTIONADAS</th>
-							<th>NEGOCIACIONES</th>
-							<th>% PRODUCCIÓN</th>
-							<th>PORTAFOLIO</th>
-							<th>% PRODUCTIVIDAD</th>
-							<th>CONTACTABILIDAD</th>
-							<th>EFECTIVIDAD</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td style="text-align: center;" v-html="total.canal"></td>
-							<td style="text-align: center;" v-html="total.empresa"></td>
-							<td style="text-align: center;" v-html="total.total_ejecutivos"></td>
-							<td style="text-align: center;" v-html="total.total_asignacion"></td>
-							<td style="text-align: center;" v-html="total.total_cuentas"></td>
-							<td style="text-align: center;" v-html="total.total_negociaciones"></td>
-							<td style="text-align: center;" v-html="total.total_porcentaje_produccion"></td>
-							<td style="text-align: center;">
-								<input type="text" class="form-control" v-model="total.portafolio"
-									   placeholder="PORTAFOLIO" v-autoname/>
-							</td>
-							<td style="text-align: center;" v-html="total.total_porcentaje_productividad"></td>
-							<td style="text-align: center;" v-html="total.total_porcentaje_cantactado"></td>
-							<td style="text-align: center;" v-html="total.total_porcentaje_efectividad"></td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
+				<table class="table border table-striped table-bordered table-sm mb-0">
+					<thead>
+					<tr style="background-color: #95b8f6;">
+						<th>ZONA</th>
+						<th>EJECUTIVO</th>
+						<th>CANAL</th>
+						<th>MARCA - CICLOS</th>
+						<th>DETALLE GENERAL</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="d in data_asesores">
+							<template v-if="d.plaza == 'AMBATO'">
+								<td style="background-color: #95fab9;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'CUENCA'">
+								<td style="background-color: #fdfd96;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'GUAYAQUIL'">
+								<td style="background-color: #b2dafa;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'MACHALA'">
+								<td style="background-color: #dfcae1;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'MANABI'">
+								<td style="background-color: #77dd77;" v-html="d.plaza"></td>
+							</template>
+							<template v-else-if="d.plaza == 'QUITO'">
+								<td style="background-color: #f9d99a;" v-html="d.plaza"></td>
+							</template>
+							<template v-else>
+								<td style="background-color: #ffffff;" v-html="d.plaza"></td>
+							</template>
+							<td v-html="d.ejecutivo"></td>
+							<td v-html="d.canal"></td>
+							<td style="text-align: center;" v-html="d.marca_ciclo"></td>
+						<td style="text-align: center;" v-html="d.detalle_general"></td>
+					</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 
@@ -134,6 +74,7 @@
                 datos: [],
                 total: [],
 				resumen: [],
+				data_asesores: [],
             },
             watch: {},
             computed: {},
@@ -148,6 +89,7 @@
                         self.datos = res['data'];
                         self.total = res['total'];
 						self.resumen = res['resumen'];
+						self.data_asesores = res['data_asesores'];
                         console.log(res);
                     })
                 },
@@ -181,6 +123,7 @@
                         datos: self.datos,
 						total: self.total,
 						resumen: self.resumen,
+						data_asesores: self.data_asesores,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();
@@ -190,34 +133,49 @@
                     $('#btnFiltro').click(function () {
                         self.consultar();
                     });
-                    $('#btnTodos').click(function () {
-                        form[0].reset();
-                        $("#plaza_usuario").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#canal_usuario").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#hora_inicio").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#minuto_inicio").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#hora_fin").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#minuto_fin").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        self.consultar();
-                    });
+					$('#btnTodos').click(function () {
+						form[0].reset();
+						$("#plaza_usuario").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#canal_usuario").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#hora_inicio").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#minuto_inicio").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#hora_fin").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#minuto_fin").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#campana").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#campana_ece").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#campana_usuario").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+						$("#marca").select2({
+							theme: "classic",
+							initSelection: function(element, callback) {}
+						});
+					});
                     $('.select2').select2({
                         theme: "classic"
                     });

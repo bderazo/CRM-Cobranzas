@@ -114,4 +114,20 @@ class Cliente extends Model {
 		return $retorno;
 	}
 
+    static function getTodosCedula() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('cliente')
+            ->select(null)
+            ->select('*')
+            ->where('eliminado',0);
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['cedula']] = $l;
+        }
+        return $retorno;
+    }
+
 }

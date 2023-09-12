@@ -9,7 +9,7 @@
 					</div>
 					<div class="card-body">
 						<p style="text-align: justify;">
-							Permite la carga del archivo Base a Cargar Megacob.
+							Permitir la carga de datos de Gestiones NO Contestadas.
 						</p>
 						<fieldset id="campos">
 							<div class=" row mb-4">
@@ -81,7 +81,7 @@
                     onkeyup: false,
                     onclick: false,
                     submitHandler: function (f) {
-                        var url = '{{ root }}/cargarArchivo/cargarBaseCargarMegacob';
+                        var url = '{{ root }}/cargarArchivo/cargarGestionesNoContestadas';
                         var formData = new FormData(form[0]);
                         campos.prop('disabled', 'disabled');
                         resDiv.html('');

@@ -276,4 +276,21 @@ class AplicativoDinersDetalle extends Model
         }
         return $retorno;
     }
+
+    static function porClienteOriginal() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q=$db->from('aplicativo_diners_detalle')
+            ->select(null)
+            ->select('*')
+            ->where('tipo','original')
+            ->where('eliminado',0);
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['cliente_id']][] = $l;
+        }
+        return $retorno;
+    }
 }
