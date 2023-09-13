@@ -72,7 +72,8 @@ class AplicativoDiners extends Model
 			->select(null)
 			->select('ad.*')
 			->where('ad.eliminado',0)
-			->where('ad.producto_id',$producto_id);
+			->where('ad.producto_id',$producto_id)
+            ->orderBy('ad.fecha_ingreso DESC');
 		$lista = $q->fetch();
 		if(!$lista)
 			return [];
@@ -104,6 +105,7 @@ class AplicativoDiners extends Model
 			->where('addet.nombre_tarjeta',$tarjeta)
 			->where('addet.tipo',$tipo)
 			->orderBy('addet.id DESC');
+//        printDie($q->getQuery());
 		$lista = $q->fetch();
 		if(!$lista)
 			return [];

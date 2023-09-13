@@ -286,6 +286,7 @@ class ProductoController extends BaseController
 
         //DATOS TARJETA DINERS
         $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id'], 'original');
+//        printDie($aplicativo_diners);
         $plazo_financiamiento_diners = [];
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
             //CALCULO DE ABONO NEGOCIADOR
