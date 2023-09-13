@@ -66,7 +66,7 @@
 										{% endif %}
 									</td>
 									<td style="width: 35%;">{{ seg.observaciones }}</td>
-									<td style="width: 10%;">{{ seg.usuario }} <br/><br/> {{ seg.fecha_ingreso }}</td>
+									<td style="width: 10%;">{{ seg.usuario }} <br/><br/> {{ seg.fecha_ingreso }} <br/><br/> <span style="font-weight: bold;">ORIGEN:</span>&nbsp;{{ seg.origen|upper }}</td>
 									<td style="width: 10%;">{{ seg.tarjetas_gestionadas }}</td>
 									<td style="vertical-align: top; text-align: center; width: 10%;">
 										<button class="btn btn-primary" type="button" v-on:click="verAcuerdo({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
