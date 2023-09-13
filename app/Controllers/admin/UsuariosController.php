@@ -74,7 +74,7 @@ class UsuariosController extends BaseController {
 		$data['plaza'] = $cat->getByKey('plaza');
 		$data['campana'] = $cat->getByKey('campana');
 		$data['identificador'] = $cat->getByKey('identificador');
-
+        $data['equipo'] = $cat->getByKey('equipo');
 
 		if (!$id) {
 			\Breadcrumbs::active('Crear Usuario');

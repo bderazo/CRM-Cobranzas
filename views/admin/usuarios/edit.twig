@@ -90,6 +90,11 @@
 					</div>
 
 					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Equipo</label>
+						<div class="col-md-4">
+							{{ select_tag('model.equipo', equipo, model.equipo, {'class':'form-control form-select', prompt:''}) }}
+						</div>
+
 						<label for="inputName" class="col-md-2 form-label">Instituciones asignadas</label>
 						<div class="col-md-4">
 							{{ select_tag('instituciones', instituciones, institucionesUsuario,

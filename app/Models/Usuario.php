@@ -26,6 +26,7 @@ use Negocio\EnvioNotificacionesPush;
  * @property string campana
  * @property string identificador
  * @property string plaza
+ * @property string equipo
  * @property Perfil[] perfiles
  * @property Institucion[] instituciones
  */
@@ -138,6 +139,7 @@ class Usuario extends Model {
 		if (!empty($post['plaza'])) $q->where('plaza', $post['plaza']);
 		if (!empty($post['campana'])) $q->where('campana', $post['campana']);
 		if (!empty($post['identificador'])) $q->where('identificador', $post['identificador']);
+        if (!empty($post['equipo'])) $q->where('equipo', $post['equipo']);
 
         if (!empty($post['activo'])){
             if($post['activo'] == 'si'){

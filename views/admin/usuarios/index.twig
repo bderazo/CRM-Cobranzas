@@ -8,38 +8,36 @@
 			</div>
 			<div class="card-body">
 				<form method="post" id="filtro" class="form-horizontal">
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Username</label>
-						<div class="col-md-4">
+					<div class=" row mb-6">
+						<label for="inputName" class="col-sm-2 form-label">Username</label>
+						<div class="col-sm-2">
 							{{ text_field_tag("username", model.username, {class:'form-control', placeholder:'Username'}) }}
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Perfil</label>
-						<div class="col-md-4">
+						<label for="inputName" class="col-sm-2 form-label">Perfil</label>
+						<div class="col-sm-2">
 							{{ select_tag('perfil', perfiles, model.perfil, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
+						</div>
+
+						<label for="inputName" class="col-sm-2 form-label">Institución</label>
+						<div class="col-sm-2">
+							{{ select_tag('institucion', instituciones, model.institucion, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
 						</div>
 					</div>
 
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Nombres</label>
-						<div class="col-md-4">
+					<div class=" row mb-6">
+						<label for="inputName" class="col-sm-2 form-label">Nombres</label>
+						<div class="col-sm-2">
 							{{ text_field_tag("nombres", model.nombres, {class:'form-control', placeholder:'Nombres'}) }}
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Apellidos</label>
-						<div class="col-md-4">
+						<label for="inputName" class="col-sm-2 form-label">Apellidos</label>
+						<div class="col-sm-2">
 							{{ text_field_tag("apellidos", model.apellidos, {class:'form-control', placeholder:'Apellidos'}) }}
 						</div>
-					</div>
 
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Institución</label>
-						<div class="col-md-4">
-							{{ select_tag('institucion', instituciones, model.institucion, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">Activo</label>
-						<div class="col-md-4">
+						<label for="inputName" class="col-sm-2 form-label">Activo</label>
+						<div class="col-sm-2">
 							<select id="activo" name="activo" class="form-control form-select">
 								<option value=""></option>
 								<option value="si">SI</option>
@@ -48,9 +46,9 @@
 						</div>
 					</div>
 
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Canal</label>
-						<div class="col-md-4">
+					<div class=" row mb-6">
+						<label for="inputName" class="col-sm-2 form-label">Canal</label>
+						<div class="col-sm-2">
 							<select id="canal" name="canal" class="form-control form-select">
 								<option value=""></option>
 								<option value="CAMPO">CAMPO</option>
@@ -60,8 +58,8 @@
 							</select>
 						</div>
 
-						<label for="inputName" class="col-md-2 form-label">Plaza</label>
-						<div class="col-md-4">
+						<label for="inputName" class="col-sm-2 form-label">Plaza</label>
+						<div class="col-sm-2">
 							<select id="plaza" name="plaza" class="form-control form-select">
 								<option value=""></option>
 								<option value="AMBATO">AMBATO</option>
@@ -73,11 +71,9 @@
 								<option value="QUITO">QUITO</option>
 							</select>
 						</div>
-					</div>
 
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Campaña</label>
-						<div class="col-md-4">
+						<label for="inputName" class="col-sm-2 form-label">Campaña</label>
+						<div class="col-sm-2">
 							<select id="campana" name="campana" class="form-control form-select">
 								<option value=""></option>
 								<option value="CAMPO">CAMPO</option>
@@ -85,14 +81,29 @@
 								<option value="TELEFONIA">TELEFONIA</option>
 							</select>
 						</div>
+					</div>
 
-						<label for="inputName" class="col-md-2 form-label">Identificador</label>
-						<div class="col-md-4">
+					<div class=" row mb-6">
+						<label for="inputName" class="col-sm-2 form-label">Identificador</label>
+						<div class="col-sm-2">
 							<select id="identificador" name="identificador" class="form-control form-select">
 								<option value=""></option>
 								<option value="DM">DM</option>
 								<option value="MN">MN</option>
 								<option value="TELF">TELF</option>
+							</select>
+						</div>
+
+						<label for="inputName" class="col-sm-2 form-label">Equipo</label>
+						<div class="col-sm-2">
+							<select id="equipo" name="equipo" class="form-control form-select">
+								<option value=""></option>
+								<option value="PLAZAS">PLAZAS</option>
+								<option value="PREJURIDICO">PREJURIDICO</option>
+								<option value="ZONA 1 UIO">ZONA 1 UIO</option>
+								<option value="ZONA 2 UIO">ZONA 2 UIO</option>
+								<option value="ZONA 3 UIO">ZONA 3 UIO</option>
+								<option value="ZONA 4 UIO">ZONA 4 UIO</option>
 							</select>
 						</div>
 					</div>

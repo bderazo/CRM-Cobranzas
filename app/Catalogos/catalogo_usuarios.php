@@ -25,4 +25,12 @@ return [
 		'MANABI' => 'MANABI',
 		'QUITO' => 'QUITO',
 	],
+    'equipo' => [
+        'PLAZAS' => 'PLAZAS',
+        'PREJURIDICO' => 'PREJURIDICO',
+        'ZONA 1 UIO' => 'ZONA 1 UIO',
+        'ZONA 2 UIO' => 'ZONA 2 UIO',
+        'ZONA 3 UIO' => 'ZONA 3 UIO',
+        'ZONA 4 UIO' => 'ZONA 4 UIO',
+    ],
 ];
