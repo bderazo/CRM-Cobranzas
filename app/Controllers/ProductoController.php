@@ -326,6 +326,7 @@ class ProductoController extends BaseController
         //DATOS TARJETA DISCOVER
         $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners['id'], 'original');
         $plazo_financiamiento_discover = [];
+        echo 'test: '.count($aplicativo_diners_tarjeta_discover);
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
             //CALCULO DE ABONO NEGOCIADOR
             $abono_negociador = $aplicativo_diners_tarjeta_discover['interes_facturado'] - $aplicativo_diners_tarjeta_discover['abono_efectivo_sistema'];
