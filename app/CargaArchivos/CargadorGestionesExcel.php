@@ -101,6 +101,7 @@ class CargadorGestionesExcel
                 }
 //                printDie($aplicativo_diners_detalle_cliente[$cliente_id]);
 
+
                 if($aplicativo_detalle_id > 0) {
 //                    printDie($aplicativo_diners_detalle_cliente[$cliente_id]);
 //                    printDie($values);
@@ -185,6 +186,8 @@ class CargadorGestionesExcel
 
 
                     $rep['total']++;
+                } else{
+                    $rep['errorSistema'] = 'cedula: '.$values[2].' sin tarjeta ';
                 }
             }
 
