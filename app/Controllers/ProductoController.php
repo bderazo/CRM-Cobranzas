@@ -91,8 +91,8 @@ class ProductoController extends BaseController
         $retorno = [];
         $seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
         foreach ($lista as $listas) {
-            if (isset($seguimiento_ultimos_todos[$listas['id']])) {
-                $listas['ultimo_seguimiento'] = $seguimiento_ultimos_todos[$listas['id']];
+            if (isset($seguimiento_ultimos_todos[$listas['cliente_id']])) {
+                $listas['ultimo_seguimiento'] = $seguimiento_ultimos_todos[$listas['cliente_id']];
             } else {
                 $listas['ultimo_seguimiento'] = [];
             }
