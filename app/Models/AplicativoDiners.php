@@ -93,7 +93,7 @@ class AplicativoDiners extends Model
 		return $lista;
 	}
 
-	static function getAplicativoDinersDetalle($tarjeta, $aplicativo_diners_id, $tipo = 'original') {
+	static function getAplicativoDinersDetalle($tarjeta, $cliente_id, $tipo = 'original') {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
@@ -101,7 +101,7 @@ class AplicativoDiners extends Model
 			->select(null)
 			->select('addet.*')
 			->where('addet.eliminado',0)
-			->where('addet.aplicativo_diners_id',$aplicativo_diners_id)
+			->where('addet.cliente_id',$cliente_id)
 			->where('addet.nombre_tarjeta',$tarjeta)
 			->where('addet.tipo',$tipo)
 			->orderBy('addet.id DESC');

@@ -285,7 +285,7 @@ class ProductoController extends BaseController
         $todas_tarjetas_pagadas = true;
 
         //DATOS TARJETA DINERS
-        $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners['id'], 'original');
+        $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $model->cliente_id, 'original');
 //        printDie($aplicativo_diners);
         $plazo_financiamiento_diners = [];
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
@@ -324,9 +324,9 @@ class ProductoController extends BaseController
         $catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
 
         //DATOS TARJETA DISCOVER
-        $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners['id'], 'original');
+        $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $model->cliente_id, 'original');
+//        printDie($aplicativo_diners_tarjeta_discover);
         $plazo_financiamiento_discover = [];
-        echo 'test: '.$aplicativo_diners['id'];
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
             //CALCULO DE ABONO NEGOCIADOR
             $abono_negociador = $aplicativo_diners_tarjeta_discover['interes_facturado'] - $aplicativo_diners_tarjeta_discover['abono_efectivo_sistema'];
@@ -362,7 +362,7 @@ class ProductoController extends BaseController
         $catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
 
         //DATOS TARJETA INTERDIN
-        $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners['id'], 'original');
+        $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $model->cliente_id, 'original');
         $plazo_financiamiento_interdin = [];
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
             //CALCULO DE ABONO NEGOCIADOR
@@ -399,7 +399,7 @@ class ProductoController extends BaseController
         $catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
 
         //DATOS TARJETA MASTERCARD
-        $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners['id'], 'original');
+        $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $model->cliente_id, 'original');
         $plazo_financiamiento_mastercard = [];
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
             //CALCULO DE ABONO NEGOCIADOR
