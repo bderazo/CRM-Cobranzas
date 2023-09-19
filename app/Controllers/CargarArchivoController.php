@@ -6,6 +6,7 @@ use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
 use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
 use CargaArchivos\CargadorGestionesNoContestadasExcel;
+use CargaArchivos\CargadorGestionesExcel;
 use CargaArchivos\CargadorClientesExcel;
 use CargaArchivos\CargadorFocalizacionExcel;
 use CargaArchivos\CargadorProductosExcel;
@@ -219,7 +220,7 @@ class CargarArchivoController extends BaseController {
             'observaciones' => @$post['observaciones'],
             'fecha' => @$post['fecha'],
         ];
-        $cargador = new CargadorGestionesNoContestadasExcel($this->get('pdo'));
+        $cargador = new CargadorGestionesExcel($this->get('pdo'));
         $rep = $cargador->cargar($archivo->file, $fileInfo);
         $data['reporte'] = $rep;
         if ($rep['errorSistema'])

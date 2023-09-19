@@ -206,4 +206,32 @@ class PaletaMotivoNoPago extends Model
 //		}
         return $lista;
     }
+
+    static function getNivel2Query($nombre) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('paleta_motivo_no_pago nivel2')
+            ->select(null)
+            ->select('nivel2.valor AS nivel2, nivel2.id AS nivel2_id, nivel2.padre_id, nivel2.codigo')
+            ->where('nivel2.nivel',3)
+            ->where('UPPER(nivel2.valor)',strtoupper($nombre));
+        $lista = $q->fetch();
+        if(!$lista) return false;
+        return $lista;
+    }
+
+    static function getNivel1Query($id) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('paleta_motivo_no_pago nivel1')
+            ->select(null)
+            ->select('nivel1.valor AS nivel1, nivel1.id AS nivel1_id, nivel1.padre_id, nivel1.codigo')
+            ->where('nivel1.nivel',1)
+            ->where('nivel1.id',$id);
+        $lista = $q->fetch();
+        if(!$lista) return false;
+        return $lista;
+    }
 }

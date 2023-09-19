@@ -23,10 +23,9 @@ class ActividadReciente {
 	function actividadRecienteSeguimiento($limit = 10, $fecha = null) {
 		$db = new \FluentPDO($this->pdo);
 		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
 			->innerJoin('cliente cl ON cl.id = ps.cliente_id AND cl.eliminado = 0')
 			->select(null)
-			->select('ps.*, cl.nombres AS cliente_nombre, p.producto AS producto')
+			->select('ps.*, cl.nombres AS cliente_nombre')
 			->where('ps.eliminado',0)
 			->orderBy('ps.fecha_ingreso desc');
 //			->limit($limit);
@@ -96,10 +95,9 @@ class ActividadReciente {
 	function actividadRecienteCliente($limit = 10, $fecha = null) {
 		$db = new \FluentPDO($this->pdo);
 		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
 			->innerJoin('cliente cl ON cl.id = ps.cliente_id AND cl.eliminado = 0')
 			->select(null)
-			->select('ps.*, cl.nombres AS cliente_nombre, p.producto AS producto, cl.id AS cliente_id')
+			->select('ps.*, cl.nombres AS cliente_nombre, cl.id AS cliente_id')
 			->where('ps.eliminado',0)
 			->groupBy('cl.id')
 			->orderBy('ps.fecha_ingreso desc');

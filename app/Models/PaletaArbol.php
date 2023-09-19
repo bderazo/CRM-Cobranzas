@@ -371,4 +371,46 @@ class PaletaArbol extends Model
 		}
 		return $retorno;
 	}
+
+    static function getNivel3Query($nombre) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('paleta_arbol nivel3')
+            ->select(null)
+            ->select('nivel3.valor AS nivel3, nivel3.id AS nivel3_id, nivel3.padre_id')
+            ->where('nivel3.nivel',3)
+            ->where('UPPER(nivel3.valor)',strtoupper($nombre));
+        $lista = $q->fetch();
+        if(!$lista) return false;
+        return $lista;
+    }
+
+    static function getNivel2Query($id) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('paleta_arbol nivel2')
+            ->select(null)
+            ->select('nivel2.valor AS nivel2, nivel2.id AS nivel2_id, nivel2.padre_id')
+            ->where('nivel2.nivel',2)
+            ->where('nivel2.id',$id);
+        $lista = $q->fetch();
+        if(!$lista) return false;
+        return $lista;
+    }
+
+    static function getNivel1Query($id) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('paleta_arbol nivel1')
+            ->select(null)
+            ->select('nivel1.valor AS nivel1, nivel1.id AS nivel1_id, nivel1.padre_id')
+            ->where('nivel1.nivel',1)
+            ->where('nivel1.id',$id);
+        $lista = $q->fetch();
+        if(!$lista) return false;
+        return $lista;
+    }
 }

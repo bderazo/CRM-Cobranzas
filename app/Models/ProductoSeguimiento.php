@@ -237,7 +237,6 @@ class ProductoSeguimiento extends Model
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('producto_seguimiento ps')
-			->innerJoin('producto p ON p.id = ps.producto_id AND p.eliminado = 0')
 			->innerJoin('cliente cl ON cl.id = ps.cliente_id AND cl.eliminado = 0')
 			->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
 			->select(null)
