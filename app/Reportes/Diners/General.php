@@ -388,19 +388,23 @@ class General {
             }
             if ($res['nivel_2_id'] == 1859) {
                     $usuario_gestion[$res['usuario_id']]['refinancia']++;
+                    $usuario_gestion[$res['usuario_id']]['total']++;
                     $total_refinancia++;
+                    $total_general++;
 
                     $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
 
 
             }
             if ($res['nivel_2_id'] == 1853) {
-                if (!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])) {
+//                if (!isset($verificar_duplicados[$res['cliente_id']][$res['ciclo']])) {
                     $usuario_gestion[$res['usuario_id']]['notificado']++;
+                    $usuario_gestion[$res['usuario_id']]['total']++;
                     $total_notificado++;
+                    $total_general++;
 
                     $verificar_duplicados[$res['cliente_id']][$res['ciclo']] = 1;
-                }
+//                }
             }
             if ($res['nivel_1_id'] == 1855) {
                 $usuario_gestion[$res['usuario_id']]['cierre_efectivo']++;
