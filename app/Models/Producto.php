@@ -66,7 +66,7 @@ class Producto extends Model
 		$q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
 		$q->join('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->leftJoin('usuario', 'usuario.id', '=', 'producto.usuario_asignado');
-		$q->leftJoin('producto_seguimiento', 'producto_seguimiento.producto_id', '=', 'producto.id');
+		$q->leftJoin('producto_seguimiento', 'producto_seguimiento.cliente_id', '=', 'cliente.id');
 		$q->select(['producto.*', 'cliente.nombres AS cliente_nombres', 'institucion.nombre AS institucion_nombre', 'usuario.apellidos AS apellidos_usuario_asignado',
 			'usuario.nombres AS nombres_usuario_asignado']);
 
