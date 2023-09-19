@@ -341,33 +341,39 @@ class General {
                     break;
                 }else{
                     //SI NO TIENE REFINANCIA, SE BUSCA LA MEJOR GESTION
-                    usort($val1, function ($a, $b) {
-                        if ($a['peso_paleta'] === $b['peso_paleta']) {
-                            if ($a['edad_cartera'] === $b['edad_cartera']) {
-                                if ($a['pendiente_mas_90'] === $b['pendiente_mas_90']) {
-                                    if ($a['pendiente_90'] === $b['pendiente_90']) {
-                                        if ($a['pendiente_60'] === $b['pendiente_60']) {
-                                            if ($a['pendiente_30'] === $b['pendiente_30']) {
-                                                return $b['pendiente_actuales'] <=> $a['pendiente_actuales'];
-                                            }else {
-                                                return $b['pendiente_30'] <=> $a['pendiente_30'];
-                                            }
-                                        }else {
-                                            return $b['pendiente_60'] <=> $a['pendiente_60'];
-                                        }
-                                    }else {
-                                        return $b['pendiente_90'] <=> $a['pendiente_90'];
-                                    }
-                                }else {
-                                    return $b['pendiente_mas_90'] <=> $a['pendiente_mas_90'];
-                                }
-                            }else {
-                                return $b['edad_cartera'] <=> $a['edad_cartera'];
-                            }
-                        }
-                        return $a['peso_paleta'] <=> $b['peso_paleta'];
-                    });
-                    $resumen[] = $val1[0];
+//                    usort($val1, function ($a, $b) {
+//                        if ($a['peso_paleta'] === $b['peso_paleta']) {
+//                            if ($a['edad_cartera'] === $b['edad_cartera']) {
+//                                if ($a['pendiente_mas_90'] === $b['pendiente_mas_90']) {
+//                                    if ($a['pendiente_90'] === $b['pendiente_90']) {
+//                                        if ($a['pendiente_60'] === $b['pendiente_60']) {
+//                                            if ($a['pendiente_30'] === $b['pendiente_30']) {
+//                                                return $b['pendiente_actuales'] <=> $a['pendiente_actuales'];
+//                                            }else {
+//                                                return $b['pendiente_30'] <=> $a['pendiente_30'];
+//                                            }
+//                                        }else {
+//                                            return $b['pendiente_60'] <=> $a['pendiente_60'];
+//                                        }
+//                                    }else {
+//                                        return $b['pendiente_90'] <=> $a['pendiente_90'];
+//                                    }
+//                                }else {
+//                                    return $b['pendiente_mas_90'] <=> $a['pendiente_mas_90'];
+//                                }
+//                            }else {
+//                                return $b['edad_cartera'] <=> $a['edad_cartera'];
+//                            }
+//                        }
+//                        return $a['peso_paleta'] <=> $b['peso_paleta'];
+//                    });
+//                    $resumen[] = $val1[0];
+
+                    foreach ($val1 as $valf){
+                        $resumen[] = $valf;
+                    }
+
+
                 }
             }
         }
