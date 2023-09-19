@@ -317,7 +317,7 @@ class General {
 
                     $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
 
-                    if($res['pendiente_actuales'] > 0) {
+//                    if($res['pendiente_actuales'] > 0) {
 //                        $resumen[] = $res;
                         //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
                         $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
@@ -326,7 +326,7 @@ class General {
                         if ($res['nivel_2_id'] == 1859){
                             $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
                         }
-                    }
+//                    }
                 }
             }
         }
