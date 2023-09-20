@@ -333,13 +333,13 @@ class General {
 
         foreach ($data as $cliente_id => $val){
             foreach ($val as $fecha_seguimiento => $val1){
-                if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
-                    //SI ESE DIA EL CLIENTE TIENE UN REFINANCIA, SE AGREGA TODOS LOS REFINANCIA DE TODAS LAS TARJETAS DEL CLIENTE EN ESE DIA
-                    foreach ($refinancia[$cliente_id][$fecha_seguimiento] as $ref){
-                        $resumen[] = $ref;
-                    }
-                    break;
-                }else{
+//                if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
+//                    //SI ESE DIA EL CLIENTE TIENE UN REFINANCIA, SE AGREGA TODOS LOS REFINANCIA DE TODAS LAS TARJETAS DEL CLIENTE EN ESE DIA
+//                    foreach ($refinancia[$cliente_id][$fecha_seguimiento] as $ref){
+//                        $resumen[] = $ref;
+//                    }
+//                    break;
+//                }else{
                     //SI NO TIENE REFINANCIA, SE BUSCA LA MEJOR GESTION
 //                    usort($val1, function ($a, $b) {
 //                        if ($a['peso_paleta'] === $b['peso_paleta']) {
@@ -374,7 +374,7 @@ class General {
                     }
 
 
-                }
+//                }
             }
         }
 
