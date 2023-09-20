@@ -363,6 +363,10 @@ class ReportesController extends BaseController
                 'valor' => $d['origen'],
                 'formato' => 'text'
             ];
+            $aux['PESO PALETA'] = [
+                'valor' => $d['peso_paleta'],
+                'formato' => 'text'
+            ];
             $lista[] = $aux;
         }
         $this->exportSimple($lista, 'BASE GENERAL', 'base_general.xlsx');

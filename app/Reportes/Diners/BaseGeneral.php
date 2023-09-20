@@ -69,11 +69,13 @@ class BaseGeneral {
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula,
                              addet.tipo_negociacion, addet.nombre_tarjeta AS tarjeta, u.identificador, addet.ciclo,
                              cl.zona, cl.ciudad,
-                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento")
+                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
+                             pa.peso AS peso_paleta")
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
 		if (@$filtros['plaza_usuario']){
