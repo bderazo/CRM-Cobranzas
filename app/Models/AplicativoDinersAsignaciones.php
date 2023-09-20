@@ -185,7 +185,7 @@ class AplicativoDinersAsignaciones extends Model
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
-            $retorno[] = $l['cliente_id'];
+            $retorno[$l['cliente_id']] = $l['cliente_id'];
         }
         return $retorno;
     }
