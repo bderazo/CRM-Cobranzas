@@ -1106,7 +1106,9 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
+            $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
+
+			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $app_diners->cliente_id);
 
 			//CALCULO DE ABONO NEGOCIADOR
 			$abono_negociador = $tarjeta_discover['interes_facturado'] - $tarjeta_discover['abono_efectivo_sistema'];
