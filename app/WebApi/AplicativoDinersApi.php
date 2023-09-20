@@ -1102,13 +1102,16 @@ class AplicativoDinersApi extends BaseController
 		if(!$this->isPost()) return "campos_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
+
+        return $this->json($res->conDatos($aplicativo_diners_id));
+
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
             $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
 
-            return $this->json($res->conDatos($app_diners));
+//            return $this->json($res->conDatos($app_diners));
 
 			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $app_diners->cliente_id);
 
