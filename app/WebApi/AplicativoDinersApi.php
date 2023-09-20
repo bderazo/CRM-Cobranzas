@@ -205,7 +205,8 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
+            $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
+            $tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $app_diners->cliente_id);
 
 			//CALCULO DE ABONO NEGOCIADOR
 			$abono_negociador = $tarjeta_diners['interes_facturado'] - $tarjeta_diners['abono_efectivo_sistema'];
@@ -653,7 +654,8 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
+            $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
+            $tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $app_diners->cliente_id);
 
 			//CALCULO DE ABONO NEGOCIADOR
 			$abono_negociador = $tarjeta_interdin['interes_facturado'] - $tarjeta_interdin['abono_efectivo_sistema'];
@@ -1102,9 +1104,6 @@ class AplicativoDinersApi extends BaseController
 		if(!$this->isPost()) return "campos_tarjeta_discover";
 		$res = new RespuestaConsulta();
 		$aplicativo_diners_id = $this->request->getParam('aplicativo_diners_id');
-
-//        return $this->json($res->conDatos($aplicativo_diners_id));
-
 		$session = $this->request->getParam('session');
 
         $usuario = UsuarioLogin::getUserBySession($session);
@@ -1112,7 +1111,6 @@ class AplicativoDinersApi extends BaseController
 //		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
             $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
-//            return $this->json($res->conDatos($app_diners));
 			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $app_diners->cliente_id);
 
 			//CALCULO DE ABONO NEGOCIADOR
@@ -1565,7 +1563,8 @@ class AplicativoDinersApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-			$tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
+            $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
+            $tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $app_diners->cliente_id);
 
 			//CALCULO DE ABONO NEGOCIADOR
 			$abono_negociador = $tarjeta_mastercard['interes_facturado'] - $tarjeta_mastercard['abono_efectivo_sistema'];
