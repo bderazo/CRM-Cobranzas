@@ -141,7 +141,7 @@ class General {
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
-//        printDie($q->getQuery());
+        printDie($q->getQuery());
         $lista = $q->fetchAll();
         $resumen = [];
         $refinancia_resumen_total = 0;
