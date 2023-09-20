@@ -1106,22 +1106,13 @@ class AplicativoDinersApi extends BaseController
 //        return $this->json($res->conDatos($aplicativo_diners_id));
 
 		$session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
-		$usuario_id = \WebSecurity::getUserData('id');
 
-        return $this->json($res->conDatos($usuario_id));
-
+        $usuario = UsuarioLogin::getUserBySession($session);
+        $usuario_id = $usuario['id'];
+//		$usuario_id = \WebSecurity::getUserData('id');
 		if($usuario_id > 0) {
-
-
-
             $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
-
-
-
 			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $app_diners->cliente_id);
-
-
 
 			//CALCULO DE ABONO NEGOCIADOR
 			$abono_negociador = $tarjeta_discover['interes_facturado'] - $tarjeta_discover['abono_efectivo_sistema'];
