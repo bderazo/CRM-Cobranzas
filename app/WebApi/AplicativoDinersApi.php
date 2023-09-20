@@ -1108,7 +1108,11 @@ class AplicativoDinersApi extends BaseController
 		if($usuario_id > 0) {
             $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
 
+            return $this->json($res->conDatos($app_diners));
+
 			$tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $app_diners->cliente_id);
+
+
 
 			//CALCULO DE ABONO NEGOCIADOR
 			$abono_negociador = $tarjeta_discover['interes_facturado'] - $tarjeta_discover['abono_efectivo_sistema'];
