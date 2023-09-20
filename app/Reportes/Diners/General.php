@@ -38,7 +38,8 @@ class General {
         $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
 
 
-
+        $clientes_asignacion = [];
+        $clientes_asignacion_detalle_marca = [];
         foreach($daterange as $date){
             $clientes_asignacion = array_merge($clientes_asignacion, AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo,$date->format("Y-m-d")));
 
@@ -51,6 +52,8 @@ class General {
                 }
             }
         }
+
+        printDie($clientes_asignacion);
 
 
 //        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
@@ -141,7 +144,7 @@ class General {
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
-        printDie($q->getQuery());
+//        printDie($q->getQuery());
         $lista = $q->fetchAll();
         $resumen = [];
         $refinancia_resumen_total = 0;
