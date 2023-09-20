@@ -1108,9 +1108,12 @@ class AplicativoDinersApi extends BaseController
 		$session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
+
+        return $this->json($res->conDatos($usuario_id));
+
 		if($usuario_id > 0) {
 
-            return $this->json($res->conDatos($aplicativo_diners_id));
+
 
             $app_diners = AplicativoDiners::porId($aplicativo_diners_id);
 
