@@ -315,6 +315,8 @@ class General {
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
                     }
 
+                    $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
+
                     $res['codigo_operacion'] = $res['cedula'].$producto_codigo.$res['ciclo'];
 
 //                    if($res['pendiente_actuales'] > 0) {
