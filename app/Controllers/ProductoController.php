@@ -320,6 +320,8 @@ class ProductoController extends BaseController
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'diners';
+        }else{
+            unset($asignacion['DINERS']);
         }
         $catalogos['plazo_financiamiento_diners'] = $plazo_financiamiento_diners;
 
@@ -358,6 +360,8 @@ class ProductoController extends BaseController
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'discover';
+        }else{
+            unset($asignacion['DISCOVER']);
         }
         $catalogos['plazo_financiamiento_discover'] = $plazo_financiamiento_discover;
 
@@ -395,6 +399,8 @@ class ProductoController extends BaseController
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'interdin';
+        }else{
+            unset($asignacion['VISA']);
         }
         $catalogos['plazo_financiamiento_interdin'] = $plazo_financiamiento_interdin;
 
@@ -432,6 +438,8 @@ class ProductoController extends BaseController
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'mastercard';
+        }else{
+            unset($asignacion['MASTERCARD']);
         }
         $catalogos['plazo_financiamiento_mastercard'] = $plazo_financiamiento_mastercard;
 
