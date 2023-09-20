@@ -336,7 +336,7 @@ class General {
                 if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
                     //SI ESE DIA EL CLIENTE TIENE UN REFINANCIA, SE AGREGA TODOS LOS REFINANCIA DE TODAS LAS TARJETAS DEL CLIENTE EN ESE DIA
                     foreach ($refinancia[$cliente_id][$fecha_seguimiento] as $ref){
-                        $resumen[] = $ref;
+//                        $resumen[] = $ref;
                     }
                     break;
                 }else{
