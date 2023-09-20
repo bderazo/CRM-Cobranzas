@@ -53,7 +53,7 @@ class General {
             }
         }
 
-        printDie($clientes_asignacion);
+//        printDie($clientes_asignacion);
 
 
 //        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
