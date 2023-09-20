@@ -238,8 +238,8 @@ class ProductoController extends BaseController
             'ciudades' => Catalogo::ciudades(),
             'meses_gracia' => $meses_gracia,
         ];
-
         $model = Producto::porId($id);
+        $saldos = AplicativoDinersSaldos::getSaldosPorClienteFecha($model->cliente_id, date("Y-m-d"));
         \Breadcrumbs::active('Registrar Seguimiento');
         $telefono = Telefono::porModulo('cliente', $model->cliente_id);
         $email = Email::porModulo('cliente', $model->cliente_id);
@@ -317,6 +317,7 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if(isset($asignacion['DINERS'])){
                 $asignacion['DINERS']['aplicativo'] = $aplicativo_diners_tarjeta_diners;
+                $asignacion['DINERS']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO DINERS'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'diners';
@@ -357,6 +358,7 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if(isset($asignacion['DISCOVER'])){
                 $asignacion['DISCOVER']['aplicativo'] = $aplicativo_diners_tarjeta_discover;
+                $asignacion['DISCOVER']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO DISCOVER'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'discover';
@@ -396,6 +398,7 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if(isset($asignacion['VISA'])){
                 $asignacion['VISA']['aplicativo'] = $aplicativo_diners_tarjeta_interdin;
+                $asignacion['VISA']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO VISA'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'interdin';
@@ -435,6 +438,7 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if(isset($asignacion['MASTERCARD'])){
                 $asignacion['MASTERCARD']['aplicativo'] = $aplicativo_diners_tarjeta_mastercard;
+                $asignacion['MASTERCARD']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'mastercard';
@@ -513,7 +517,7 @@ class ProductoController extends BaseController
         }
 
         //VALIDAR PALETAS SEGUN MOTIVOS ANTERIORES
-        $saldos = AplicativoDinersSaldos::getSaldosPorClienteFecha($cliente->id, date("Y-m-d"));
+
         if($numero_tarjetas == 1){
             if($tarjeta_unica == 'diners'){
                 $motivo_cierre = $saldos['MOTIVO CIERRE DINERS'];

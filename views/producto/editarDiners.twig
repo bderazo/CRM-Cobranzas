@@ -53,6 +53,7 @@
                                     <th style="font-size: 10px;">EDAD CARTERA</th>
                                     <th style="font-size: 10px;">DIFERIDOS FACTURADOS</th>
                                     <th style="font-size: 10px;">SALDO ACTUAL FACTURADO</th>
+                                    <th style="font-size: 10px;">FECHA MÁXIMA PAGO</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -103,6 +104,9 @@
                                     </td>
                                     <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.saldo_actual_facturado"></span>
+                                    </td>
+                                    <td style="text-align: right; vertical-align: middle;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.fecha_maxima_pago"></span>
                                     </td>
                                 </tr>
                             </table>
