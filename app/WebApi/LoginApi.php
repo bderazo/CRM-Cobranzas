@@ -32,6 +32,8 @@ class LoginApi extends BaseController {
 		$res = new RespuestaConsulta();
 		$username = $this->request->getParam('username');
 		$password = $this->request->getParam('password');
+        \Auditor::error('prueba login', '$username', $username);
+        \Auditor::error('prueba login', '$password', $password);
 		$check = Usuario::checkLogin($username, $password, []);
 		if ($check->success) {
 			$userdata = $check->userdata;
