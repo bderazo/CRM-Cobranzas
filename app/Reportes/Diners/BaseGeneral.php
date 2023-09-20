@@ -36,7 +36,6 @@ class BaseGeneral {
         $begin = new \DateTime($filtros['fecha_inicio']);
         $end = new \DateTime($filtros['fecha_fin']);
         $end->setTime(0,0,1);
-
         $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
 
         $clientes_asignacion = [];

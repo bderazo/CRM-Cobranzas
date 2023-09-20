@@ -32,8 +32,29 @@ class General {
         $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
         $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
 
-        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
-        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
+        $begin = new \DateTime($filtros['fecha_inicio']);
+        $end = new \DateTime($filtros['fecha_fin']);
+        $end->setTime(0,0,1);
+        $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
+
+
+
+        foreach($daterange as $date){
+            $clientes_asignacion = array_merge($clientes_asignacion, AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo,$date->format("Y-m-d")));
+
+            $clientes_asignacion_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo,$date->format("Y-m-d"));
+            foreach ($clientes_asignacion_marca as $key => $val){
+                foreach ($val as $key1 => $val1){
+                    if(!isset($clientes_asignacion_detalle_marca[$key][$key1])){
+                        $clientes_asignacion_detalle_marca[$key][$key1] = $val1;
+                    }
+                }
+            }
+        }
+
+
+//        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
+//        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
 
         //OBTENER SALDOS
 //        $saldos = AplicativoDinersSaldos::getTodosFecha();
