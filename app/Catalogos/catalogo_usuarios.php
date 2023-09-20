@@ -5,6 +5,7 @@ return [
 		'TELEFONIA' => 'TELEFONIA',
         'AUXILIAR TELEFONIA' => 'AUXILIAR TELEFONIA',
         'OPERATIVO' => 'OPERATIVO',
+        'FALLIDAS' => 'FALLIDAS',
 	],
 	'campana' => [
 		'CAMPO' => 'CAMPO',
