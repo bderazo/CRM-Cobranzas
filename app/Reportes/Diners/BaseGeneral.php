@@ -51,7 +51,6 @@ class BaseGeneral {
                         $clientes_asignacion_detalle_marca[$key][$key1] = $val1;
                     }
                 }
-
             }
         }
 

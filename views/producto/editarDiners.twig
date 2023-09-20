@@ -43,40 +43,65 @@
                             <table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
                                 <thead>
                                 <tr>
-                                    <th style="font-size: 12px;">MARCA</th>
-                                    <th style="font-size: 12px;">CICLO</th>
-                                    <th style="font-size: 12px;">INTERÉS FACTURADO</th>
-                                    <th style="font-size: 12px;">DEUDA ACTUAL</th>
-                                    <th style="font-size: 12px;">TOTAL RIESGO</th>
-                                    <th style="font-size: 12px;">EDAD CARTERA</th>
-                                    <th style="font-size: 12px;">DIFERIDOS FACTURADOS</th>
-                                    <th style="font-size: 12px;">SALDO ACTUAL FACTURADO</th>
+                                    <th style="font-size: 10px;">MARCA</th>
+                                    <th style="font-size: 10px;">CICLO</th>
+                                    <th style="font-size: 10px;">MÍNIMO A PAGAR</th>
+                                    <th style="font-size: 10px;">EJECUTIVO ACTUAL A CARGO DE CUENTA</th>
+                                    <th style="font-size: 10px;">INTERÉS FACTURADO</th>
+                                    <th style="font-size: 10px;">DEUDA ACTUAL</th>
+                                    <th style="font-size: 10px;">TOTAL RIESGO</th>
+                                    <th style="font-size: 10px;">EDAD CARTERA</th>
+                                    <th style="font-size: 10px;">DIFERIDOS FACTURADOS</th>
+                                    <th style="font-size: 10px;">SALDO ACTUAL FACTURADO</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="a in asignacion">
-                                    <td style="text-align: center;">
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.marca"></span>
-                                    </td>
-                                    <td style="text-align: center;">
+                                    <template v-if="a.marca == 'DINERS'">
+                                        <td style="text-align: center; background-color: #0066A8; color: white; vertical-align: middle; font-weight: bold;">
+                                            DINERS
+                                        </td>
+                                    </template>
+                                    <template v-if="a.marca == 'VISA'">
+                                        <td style="text-align: center; background-color: #404040; color: white; vertical-align: middle; font-weight: bold;">
+                                            VISA
+                                        </td>
+                                    </template>
+                                    <template v-if="a.marca == 'DISCOVER'">
+                                        <td style="text-align: center; background-color: #E66929; color: white; vertical-align: middle; font-weight: bold;">
+                                            DISCOVER
+                                        </td>
+                                    </template>
+                                    <template v-if="a.marca == 'MASTERCARD'">
+                                        <td style="text-align: center; background-color: #A4B706; color: white; vertical-align: middle; font-weight: bold;">
+                                            MASTERCARD
+                                        </td>
+                                    </template>
+                                    <td style="text-align: center; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.ciclo"></span>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; vertical-align: middle;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.minimo_pagar"></span>
+                                    </td>
+                                    <td style="text-align: left; vertical-align: middle;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.ejecutivo"></span>
+                                    </td>
+                                    <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.interes_facturado"></span>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.deuda_actual"></span>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.total_riesgo"></span>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.edad_cartera"></span>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.numero_diferidos_facturados"></span>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.saldo_actual_facturado"></span>
                                     </td>
                                 </tr>
@@ -1288,14 +1313,14 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>MÍNIMO A PAGAR</strong></td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_diners.minimo_pagar"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong>
                                                     </td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_diners.deuda_actual"></span>
                                                     </td>
                                                 </tr>
@@ -1850,15 +1875,14 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>MÍNIMO A PAGAR</strong></td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_interdin.minimo_pagar"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-decoration: underline;"><strong>DEUDA
-                                                            ACTUAL</strong>
+                                                    <td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong>
                                                     </td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_interdin.deuda_actual"></span>
                                                     </td>
                                                 </tr>
@@ -2402,15 +2426,14 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>MÍNIMO A PAGAR</strong></td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_discover.minimo_pagar"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-decoration: underline;"><strong>DEUDA
-                                                            ACTUAL</strong>
+                                                    <td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong>
                                                     </td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_discover.deuda_actual"></span>
                                                     </td>
                                                 </tr>
@@ -2954,15 +2977,14 @@
                                                 </tr>
                                                 <tr>
                                                     <td><strong>MÍNIMO A PAGAR</strong></td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_mastercard.minimo_pagar"></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="text-decoration: underline;"><strong>DEUDA
-                                                            ACTUAL</strong>
+                                                    <td style="text-decoration: underline;"><strong>DEUDA ACTUAL</strong>
                                                     </td>
-                                                    <td>
+                                                    <td style="font-weight: bold; font-size: 16px;">
                                                         <span v-html="aplicativo_diners_tarjeta_mastercard.deuda_actual"></span>
                                                     </td>
                                                 </tr>
