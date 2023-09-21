@@ -4,6 +4,7 @@ namespace Reportes\Diners;
 
 use General\ListasSistema;
 use Models\AplicativoDinersAsignaciones;
+use Models\AplicativoDinersSaldos;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
@@ -31,38 +32,39 @@ class Individual {
         $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
         $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
 
-        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece,$ciclo);
-        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece,$ciclo);
+        $begin = new \DateTime($filtros['fecha_inicio']);
+        $end = new \DateTime($filtros['fecha_fin']);
+        $end->setTime(0, 0, 1);
+        $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
+
+        $clientes_asignacion = [];
+        $clientes_asignacion_detalle_marca = [];
+        foreach ($daterange as $date) {
+            $clientes_asignacion = array_merge($clientes_asignacion, AplicativoDinersAsignaciones::getClientes($campana_ece, $ciclo, $date->format("Y-m-d")));
+            $clientes_asignacion_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece, $ciclo, $date->format("Y-m-d"));
+            foreach ($clientes_asignacion_marca as $key => $val) {
+                foreach ($val as $key1 => $val1) {
+                    if (!isset($clientes_asignacion_detalle_marca[$key][$key1])) {
+                        $clientes_asignacion_detalle_marca[$key][$key1] = $val1;
+                    }
+                }
+            }
+        }
+
+        //OBTENER SALDOS
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
         //BUSCAR SEGUIMIENTOS
-//        $q = $db->from('producto_seguimiento ps')
-//            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
-//            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-//            ->select(null)
-//            ->select("u.id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, u.campana AS campana_usuario,
-//			                COUNT(IF(ps.nivel_2_id = 1859, 1, NULL)) 'refinancia',
-//			                COUNT(IF(ps.nivel_2_id = 1853, 1, NULL)) 'notificado',
-//							COUNT(IF(ps.nivel_1_id = 1855, 1, NULL)) 'cierre_efectivo',
-//							COUNT(IF(ps.nivel_1_id = 1839 OR ps.nivel_1_id = 1855, 1, NULL)) 'contactadas',
-//
-//							COUNT(IF(ps.nivel_2_id = 1859 OR
-//							         ps.nivel_2_id = 1853 OR
-//							         ps.nivel_1_id = 1855 OR
-//							         ps.nivel_1_id = 1839 OR
-//							         ps.nivel_1_id = 1847 OR
-//							         ps.nivel_1_id = 1799 OR
-//							         ps.nivel_1_id = 1861 , 1, NULL)) 'seguimientos'")
-//            ->where('ps.institucion_id',1)
-//            ->where('ps.eliminado',0);
-
-
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
             ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
+            ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, cl.ciudad, u.canal, cl.zona,
+                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
+                             pa.peso AS peso_paleta")
             ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
@@ -112,57 +114,64 @@ class Individual {
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('u.apellidos');
         $q->disableSmartJoin();
-//        printDie($q->getQuery());
         $lista = $q->fetchAll();
         $data = [];
         $usuario_gestion = [];
         $verificar_duplicados = [];
         foreach($lista as $seg){
-            if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']])) {
-                if (!isset($usuario_gestion[$seg['usuario_id']])) {
-                    $meta_diaria = 0;
-                    if (@$filtros['meta_diaria']){
-                        $meta_diaria = $filtros['meta_diaria'];
-                    }
-                    $usuario_gestion[$seg['usuario_id']] = [
-                        'gestor' => $seg['gestor'],
-                        'total_negociaciones' => 0,
-                        'refinancia' => 0,
-                        'notificado' => 0,
-                        'cierre_efectivo' => 0,
-                        'contactadas' => 0,
-                        'seguimientos' => 0,
-                        'contactabilidad' => 0,
-                        'efectividad' => 0,
-                        'meta_diaria' => $meta_diaria,
-                        'meta_alcanzada' => 0,
-                    ];
-                }
-                if($seg['nivel_2_id'] == 1859){
-                    if(!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])){
-                        $usuario_gestion[$seg['usuario_id']]['refinancia']++;
+            //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
+            $tarjeta_verificar = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
+            if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar])) {
+                if (isset($saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+                    $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
+                    $campos_saldos = json_decode($saldos_arr['campos'], true);
+                    unset($saldos_arr['campos']);
+                    $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
-                        $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                    if (!isset($usuario_gestion[$seg['usuario_id']])) {
+                        $meta_diaria = 0;
+                        if (@$filtros['meta_diaria']) {
+                            $meta_diaria = $filtros['meta_diaria'];
+                        }
+                        $usuario_gestion[$seg['usuario_id']] = [
+                            'gestor' => $seg['gestor'],
+                            'total_negociaciones' => 0,
+                            'refinancia' => 0,
+                            'notificado' => 0,
+                            'cierre_efectivo' => 0,
+                            'contactadas' => 0,
+                            'seguimientos' => 0,
+                            'contactabilidad' => 0,
+                            'efectividad' => 0,
+                            'meta_diaria' => $meta_diaria,
+                            'meta_alcanzada' => 0,
+                        ];
                     }
-                }
-                if($seg['nivel_2_id'] == 1853){
-                    if(!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])){
-                        $usuario_gestion[$seg['usuario_id']]['notificado']++;
+                    if ($seg['nivel_2_id'] == 1859) {
+                        if (!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])) {
+                            $usuario_gestion[$seg['usuario_id']]['refinancia']++;
 
-                        $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                            $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                        }
                     }
-                }
-                if($seg['nivel_1_id'] == 1855){
-                    $usuario_gestion[$seg['usuario_id']]['cierre_efectivo']++;
-                }
-                if(($seg['nivel_1_id'] == 1839) || ($seg['nivel_1_id'] == 1855)){
-                    $usuario_gestion[$seg['usuario_id']]['contactadas']++;
-                }
-                if(($seg['nivel_2_id'] == 1859) || ($seg['nivel_2_id'] == 1853) ||
-                    ($seg['nivel_1_id'] == 1855) || ($seg['nivel_1_id'] == 1839) ||
-                    ($seg['nivel_1_id'] == 1847) || ($seg['nivel_1_id'] == 1799) ||
-                    ($seg['nivel_1_id'] == 1861)){
-                    $usuario_gestion[$seg['usuario_id']]['seguimientos']++;
+                    if ($seg['nivel_2_id'] == 1853) {
+                        if (!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])) {
+                            $usuario_gestion[$seg['usuario_id']]['notificado']++;
+
+                            $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                        }
+                    }
+                    if ($seg['nivel_1_id'] == 1855) {
+                        $usuario_gestion[$seg['usuario_id']]['cierre_efectivo']++;
+                    }
+                    if (($seg['nivel_1_id'] == 1839) || ($seg['nivel_1_id'] == 1855)) {
+                        $usuario_gestion[$seg['usuario_id']]['contactadas']++; //CIERRE EFECTIVO Y CIERRE NO EFECTIVO
+                    }
+                    if (($seg['nivel_1_id'] == 1839) || ($seg['nivel_1_id'] == 1855) ||
+                        ($seg['nivel_1_id'] == 1847) || ($seg['nivel_1_id'] == 1799) ||
+                        ($seg['nivel_1_id'] == 1861)) {
+                        $usuario_gestion[$seg['usuario_id']]['seguimientos']++;
+                    }
                 }
             }
 		}
