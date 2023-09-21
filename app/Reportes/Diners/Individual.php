@@ -176,6 +176,14 @@ class Individual {
             }
 		}
 
+        $total_negociaciones_total = 0;
+        $total_refinancia_total = 0;
+        $total_notificado_total = 0;
+        $total_contactabilidad_total = 0;
+        $total_efectividad_total = 0;
+        $total_meta_diaria_total = 0;
+        $total_meta_alcanzada_total = 0;
+        $contar_registros = 0;
         foreach ($usuario_gestion as $ug){
             $contactabilidad = $ug['seguimientos'] > 0 ? (($ug['contactadas'] / $ug['seguimientos']) * 100) : 0;
             $efectividad = $ug['contactadas'] > 0 ? (($ug['cierre_efectivo'] / $ug['contactadas']) * 100) : 0;
@@ -189,14 +197,40 @@ class Individual {
             $ug['efectividad'] = number_format($efectividad,2,'.',',');
             $ug['meta_alcanzada'] = number_format($meta_alcanzada,2,'.',',');
             if($ug['seguimientos'] > 0){
+                $total_negociaciones_total = $total_negociaciones_total + $ug['total_negociaciones'];
+                $total_refinancia_total = $total_refinancia_total + $ug['refinancia'];
+                $total_notificado_total = $total_notificado_total + $ug['notificado'];
+                $total_contactabilidad_total = $total_contactabilidad_total + $ug['contactabilidad'];
+                $total_efectividad_total = $total_efectividad_total + $ug['efectividad'];
+                $total_meta_diaria_total = $ug['meta_diaria'] > 0 ? $total_meta_diaria_total + $ug['meta_diaria'] : $total_meta_diaria_total;
+                $total_meta_alcanzada_total = $total_meta_alcanzada_total + $ug['meta_alcanzada'];
+                $contar_registros++;
                 $data[] = $ug;
             }
         }
 
+        $total_contactabilidad_total = $contar_registros > 0 ? $total_contactabilidad_total / $contar_registros : 0;
+        $total_contactabilidad_total = number_format($total_contactabilidad_total,2,'.',',');
+        $total_efectividad_total = $contar_registros > 0 ? $total_efectividad_total / $contar_registros : 0;
+        $total_efectividad_total = number_format($total_efectividad_total,2,'.',',');
+        $total_meta_diaria_total = $contar_registros > 0 ? $total_meta_diaria_total / $contar_registros : 0;
+        $total_meta_diaria_total = number_format($total_meta_diaria_total,2,'.',',');
+        $total_meta_alcanzada_total = $contar_registros > 0 ? $total_meta_alcanzada_total / $contar_registros : 0;
+        $total_meta_alcanzada_total = number_format($total_meta_alcanzada_total,2,'.',',');
+
         usort($data, fn($a, $b) => $b['total_negociaciones'] <=> $a['total_negociaciones']);
 
 		$retorno['data'] = $data;
-		$retorno['total'] = [];
+		$retorno['total'] = [
+            'total_negociaciones_total' => $total_negociaciones_total,
+            'total_refinancia_total' => $total_refinancia_total,
+            'total_notificado_total' => $total_notificado_total,
+            'total_contactabilidad_total' => $total_contactabilidad_total,
+            'total_efectividad_total' => $total_efectividad_total,
+            'total_meta_diaria_total' => $total_meta_diaria_total,
+            'total_meta_alcanzada_total' => $total_meta_alcanzada_total,
+            'contar_registros' => $contar_registros,
+        ];
 		return $retorno;
 	}
 	

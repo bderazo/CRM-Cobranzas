@@ -39,6 +39,18 @@
                             <td style="text-align: center;" v-html="d.meta_alcanzada"></td>
 						</tr>
 						</tbody>
+                        <tfoot>
+                        <tr>
+                            <td>TOTAL</td>
+                            <td style="text-align: center;" v-html="total.total_negociaciones_total"></td>
+                            <td style="text-align: center;" v-html="total.total_refinancia_total"></td>
+                            <td style="text-align: center;" v-html="total.total_notificado_total"></td>
+                            <td style="text-align: center;" v-html="total.total_contactabilidad_total"></td>
+                            <td style="text-align: center;" v-html="total.total_efectividad_total"></td>
+                            <td style="text-align: center;" v-html="total.total_meta_diaria_total"></td>
+                            <td style="text-align: center;" v-html="total.total_meta_alcanzada_total"></td>
+                        </tr>
+                        </tfoot>
 					</table>
 				</div>
 			</div>
@@ -79,6 +91,8 @@
                 },
                 calcular: function () {
                     var self = this;
+                    var total_meta_diaria_total = 0.00;
+                    var total_meta_alcanzada_total = 0.00;
                     $.each(self.datos, function (key, value) {
                         var meta_alcanzada = 0.00;
                         var total_negociaciones = 0;
@@ -86,10 +100,22 @@
                             total_negociaciones = parseFloat(value.refinancia) + parseFloat(value.notificado);
                             if(parseFloat(value.meta_diaria) > 0){
                                 meta_alcanzada = (total_negociaciones / parseFloat(value.meta_diaria)) * 100;
+                                total_meta_diaria_total = total_meta_diaria_total + parseFloat(value.meta_diaria);
+                                total_meta_alcanzada_total = total_meta_alcanzada_total + meta_alcanzada;
                             }
                         }
                         self.datos[key].meta_alcanzada = meta_alcanzada.toFixed(2);
                     });
+
+                    if(parseFloat(self.total.contar_registros) > 0) {
+                        total_meta_diaria_total = total_meta_diaria_total / parseFloat(self.total.contar_registros);
+                        self.total.total_meta_diaria_total = total_meta_diaria_total.toFixed(2);
+                    }
+                    if(parseFloat(self.total.contar_registros) > 0) {
+                        total_meta_alcanzada_total = total_meta_alcanzada_total / parseFloat(self.total.contar_registros);
+                        self.total.total_meta_alcanzada_total = total_meta_alcanzada_total.toFixed(2);
+                    }
+
                     // app.$forceUpdate();
                 },
             },

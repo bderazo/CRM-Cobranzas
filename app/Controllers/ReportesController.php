@@ -2497,6 +2497,41 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
+
+        $aux['GESTOR'] = [
+            'valor' => 'TOTAL',
+            'formato' => 'text'
+        ];
+        $aux['TOTAL NEGOCIACIONES'] = [
+            'valor' => $jdata['total']['total_negociaciones_total'],
+            'formato' => 'number'
+        ];
+        $aux['REFINANCIA'] = [
+            'valor' => $jdata['total']['total_refinancia_total'],
+            'formato' => 'number'
+        ];
+        $aux['NOTIFICADO'] = [
+            'valor' => $jdata['total']['total_notificado_total'],
+            'formato' => 'number'
+        ];
+        $aux['CONTACTABILIDAD'] = [
+            'valor' => $jdata['total']['total_contactabilidad_total'],
+            'formato' => 'number'
+        ];
+        $aux['EFECTIVIDAD'] = [
+            'valor' => $jdata['total']['total_efectividad_total'],
+            'formato' => 'number'
+        ];
+        $aux['META DIARIA'] = [
+            'valor' => $jdata['total']['total_meta_diaria_total'],
+            'formato' => 'number'
+        ];
+        $aux['% META ALCANZADA'] = [
+            'valor' => $jdata['total']['total_meta_alcanzada_total'],
+            'formato' => 'number'
+        ];
+        $lista[] = $aux;
+
         $this->exportSimple($lista, 'INDIVIDUAL', 'individual.xlsx');
     }
 

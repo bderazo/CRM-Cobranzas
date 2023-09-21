@@ -184,12 +184,13 @@ class CargadorAplicativoDinersExcel
 							$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
 							$telefono->eliminado = 0;
 							$telefono->save();
-						}else{
-                            $telefono = Telefono::porId($telefono_id);
-                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                            $telefono->save();
-                        }
+						}
+//                        else{
+//                            $telefono = Telefono::porId($telefono_id);
+//                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
+//                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+//                            $telefono->save();
+//                        }
 					}
 					if($values[7] != 'NANA') {
 						$telefono_id = 0;
@@ -217,12 +218,13 @@ class CargadorAplicativoDinersExcel
 							$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
 							$telefono->eliminado = 0;
 							$telefono->save();
-						}else{
-                            $telefono = Telefono::porId($telefono_id);
-                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                            $telefono->save();
-                        }
+						}
+//                        else{
+//                            $telefono = Telefono::porId($telefono_id);
+//                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
+//                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+//                            $telefono->save();
+//                        }
 					}
 					if($values[9] != 'NANA') {
 						$telefono_id = 0;
@@ -250,12 +252,13 @@ class CargadorAplicativoDinersExcel
 							$telefono->usuario_modificacion = \WebSecurity::getUserData('id');
 							$telefono->eliminado = 0;
 							$telefono->save();
-						}else{
-                            $telefono = Telefono::porId($telefono_id);
-                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                            $telefono->save();
-                        }
+						}
+//                        else{
+//                            $telefono = Telefono::porId($telefono_id);
+//                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
+//                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+//                            $telefono->save();
+//                        }
 					}
 
 					//PROCESO DE EMAILS
