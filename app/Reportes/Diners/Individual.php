@@ -118,6 +118,7 @@ class Individual {
         $data = [];
         $usuario_gestion = [];
         $verificar_duplicados = [];
+        $total_general = 0;
         foreach($lista as $seg){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             $tarjeta_verificar = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
@@ -171,6 +172,7 @@ class Individual {
                         ($seg['nivel_1_id'] == 1847) || ($seg['nivel_1_id'] == 1799) ||
                         ($seg['nivel_1_id'] == 1861)) {
                         $usuario_gestion[$seg['usuario_id']]['seguimientos']++;
+                        $total_general++;
                     }
                 }
             }
@@ -184,6 +186,8 @@ class Individual {
         $total_meta_diaria_total = 0;
         $total_meta_alcanzada_total = 0;
         $contar_registros = 0;
+        $total_contactadas = 0;
+        $total_cierre_efectivo = 0;
         foreach ($usuario_gestion as $ug){
             $contactabilidad = $ug['seguimientos'] > 0 ? (($ug['contactadas'] / $ug['seguimientos']) * 100) : 0;
             $efectividad = $ug['contactadas'] > 0 ? (($ug['cierre_efectivo'] / $ug['contactadas']) * 100) : 0;
@@ -200,18 +204,18 @@ class Individual {
                 $total_negociaciones_total = $total_negociaciones_total + $ug['total_negociaciones'];
                 $total_refinancia_total = $total_refinancia_total + $ug['refinancia'];
                 $total_notificado_total = $total_notificado_total + $ug['notificado'];
-                $total_contactabilidad_total = $total_contactabilidad_total + $ug['contactabilidad'];
-                $total_efectividad_total = $total_efectividad_total + $ug['efectividad'];
                 $total_meta_diaria_total = $ug['meta_diaria'] > 0 ? $total_meta_diaria_total + $ug['meta_diaria'] : $total_meta_diaria_total;
                 $total_meta_alcanzada_total = $total_meta_alcanzada_total + $ug['meta_alcanzada'];
+                $total_contactadas = $total_contactadas + $ug['contactadas'];
+                $total_cierre_efectivo = $total_cierre_efectivo + $ug['cierre_efectivo'];
                 $contar_registros++;
                 $data[] = $ug;
             }
         }
 
-        $total_contactabilidad_total = $contar_registros > 0 ? $total_contactabilidad_total / $contar_registros : 0;
+        $total_contactabilidad_total = $total_general > 0 ? ((($total_contactadas) / $total_general) * 100) : 0;
         $total_contactabilidad_total = number_format($total_contactabilidad_total,2,'.',',');
-        $total_efectividad_total = $contar_registros > 0 ? $total_efectividad_total / $contar_registros : 0;
+        $total_efectividad_total = ($total_contactadas) > 0 ? (($total_cierre_efectivo / ($total_contactadas)) * 100) : 0;
         $total_efectividad_total = number_format($total_efectividad_total,2,'.',',');
         $total_meta_diaria_total = $contar_registros > 0 ? $total_meta_diaria_total / $contar_registros : 0;
         $total_meta_diaria_total = number_format($total_meta_diaria_total,2,'.',',');
