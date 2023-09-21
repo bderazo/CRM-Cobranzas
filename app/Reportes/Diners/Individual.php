@@ -192,6 +192,9 @@ class Individual {
                 $data[] = $ug;
             }
         }
+
+        usort($data, fn($a, $b) => $b['total_negociaciones'] <=> $a['total_negociaciones']);
+
 		$retorno['data'] = $data;
 		$retorno['total'] = [];
 		return $retorno;
