@@ -59,10 +59,11 @@ class Telefono extends Model
 
 		$q=$db->from('telefono t')
 			->select(null)
-			->select('t.*')
+			->select('t.*, DATE(t.fecha_modificacion) AS fecha_modificacion_fecha, CURDATE() AS fecha_hoy')
 			->where('t.eliminado',0)
 			->where('t.modulo_relacionado',$modulo_relacionado)
-			->where('t.modulo_id',$modulo_id);
+			->where('t.modulo_id',$modulo_id)
+            ->orderBy('t.fecha_modificacion DESC, t.telefono');
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){

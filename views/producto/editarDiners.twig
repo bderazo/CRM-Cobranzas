@@ -129,11 +129,12 @@
                                     <th style="width: 30%;">Marcación / Teléfono</th>
                                     <th style="width: 30%;">Descripción</th>
                                     <th style="width: 30%;">Origen</th>
+                                    <th style="width: 30%;">Observaciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="t in telefono">
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center; vertical-align: middle;">
                                         <label class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input required" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
                                             <template v-if="t.bandera == 1">
@@ -144,7 +145,7 @@
                                             </template>
                                         </label>
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center; vertical-align: middle;">
                                         <template v-if="t.telefono_link_wh == ''">
                                             <template v-if="t.bandera == 1">
                                                 <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
@@ -168,11 +169,19 @@
                                             </template>
                                         </template>
                                     </td>
-                                    <td>
+                                    <td style="vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.descripcion"></span>
                                     </td>
-                                    <td>
+                                    <td style="vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.origen"></span>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <template v-if="t.fecha_modificacion_fecha == t.fecha_hoy">
+                                            <span class="custom-control-label" style="background-color: #CCFFCC;">ACTUAL</span>
+                                        </template>
+                                        <template v-else>
+                                            HISTÓRICO (<span class="custom-control-label" v-html="t.fecha_modificacion_fecha"></span>)
+                                        </template>
                                     </td>
                                 </tr>
                                 </tbody>
