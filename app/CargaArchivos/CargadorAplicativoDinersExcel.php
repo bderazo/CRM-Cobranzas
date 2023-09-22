@@ -186,10 +186,11 @@ class CargadorAplicativoDinersExcel
 							$telefono->save();
 						}
                         else{
-                            $telefono = Telefono::porId($telefono_id);
-                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                            $telefono->save();
+                            $set = [
+                                'fecha_modificacion' => date("Y-m-d H:i:s"),
+                                'usuario_modificacion' => \WebSecurity::getUserData('id'),
+                            ];
+                            $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
                         }
 					}
 					if($values[7] != 'NANA') {
@@ -220,10 +221,11 @@ class CargadorAplicativoDinersExcel
 							$telefono->save();
 						}
                         else{
-                            $telefono = Telefono::porId($telefono_id);
-                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                            $telefono->save();
+                            $set = [
+                                'fecha_modificacion' => date("Y-m-d H:i:s"),
+                                'usuario_modificacion' => \WebSecurity::getUserData('id'),
+                            ];
+                            $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
                         }
 					}
 					if($values[9] != 'NANA') {
@@ -254,10 +256,11 @@ class CargadorAplicativoDinersExcel
 							$telefono->save();
 						}
                         else{
-                            $telefono = Telefono::porId($telefono_id);
-                            $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                            $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                            $telefono->save();
+                            $set = [
+                                'fecha_modificacion' => date("Y-m-d H:i:s"),
+                                'usuario_modificacion' => \WebSecurity::getUserData('id'),
+                            ];
+                            $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
                         }
 					}
 
