@@ -209,8 +209,10 @@ class Individual {
 
         $total_contactabilidad_total = $total_general > 0 ? ((($total_contactadas) / $total_general) * 100) : 0;
         $total_contactabilidad_total = number_format($total_contactabilidad_total,2,'.',',');
+
         $total_efectividad_total = ($total_contactadas) > 0 ? (($total_cierre_efectivo / ($total_contactadas)) * 100) : 0;
         $total_efectividad_total = number_format($total_efectividad_total,2,'.',',');
+
         $total_meta_diaria_total = $contar_registros > 0 ? $total_meta_diaria_total / $contar_registros : 0;
         $total_meta_diaria_total = number_format($total_meta_diaria_total,2,'.',',');
         $total_meta_alcanzada_total = $contar_registros > 0 ? $total_meta_alcanzada_total / $contar_registros : 0;

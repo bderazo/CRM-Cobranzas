@@ -31,12 +31,12 @@
                             <td style="text-align: center;" v-html="d.total_negociaciones"></td>
                             <td style="text-align: center;" v-html="d.refinancia"></td>
                             <td style="text-align: center;" v-html="d.notificado"></td>
-                            <td style="text-align: center;" v-html="d.contactabilidad"></td>
-                            <td style="text-align: center;" v-html="d.efectividad"></td>
+                            <td style="text-align: center;"><span v-html="d.contactabilidad"></span>%</td>
+                            <td style="text-align: center;"><span v-html="d.efectividad"></span>%</td>
                             <td style="text-align: center;">
                                 <input type="text" class="form-control" v-on:keyup="calcular" v-model="d.meta_diaria" v-autoname/>
                             </td>
-                            <td style="text-align: center;" v-html="d.meta_alcanzada"></td>
+                            <td style="text-align: center;"><span v-html="d.meta_alcanzada"></span>%</td>
 						</tr>
 						</tbody>
                         <tfoot>
@@ -45,10 +45,10 @@
                             <td style="text-align: center;" v-html="total.total_negociaciones_total"></td>
                             <td style="text-align: center;" v-html="total.total_refinancia_total"></td>
                             <td style="text-align: center;" v-html="total.total_notificado_total"></td>
-                            <td style="text-align: center;" v-html="total.total_contactabilidad_total"></td>
-                            <td style="text-align: center;" v-html="total.total_efectividad_total"></td>
+                            <td style="text-align: center;"><span v-html="total.total_contactabilidad_total"></span>%</td>
+                            <td style="text-align: center;"><span v-html="total.total_efectividad_total"></span>%</td>
                             <td style="text-align: center;" v-html="total.total_meta_diaria_total"></td>
-                            <td style="text-align: center;" v-html="total.total_meta_alcanzada_total"></td>
+                            <td style="text-align: center;"><span v-html="total.total_meta_alcanzada_total"></span>%</td>
                         </tr>
                         </tfoot>
 					</table>
