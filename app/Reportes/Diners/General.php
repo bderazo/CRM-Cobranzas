@@ -60,7 +60,7 @@ class General
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
-        //BUSCAR SEGUIMIENTOS RESUMEN
+        //BUSCAR SEGUIMIENTOS
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')

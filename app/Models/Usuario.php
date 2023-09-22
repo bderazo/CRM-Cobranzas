@@ -342,6 +342,7 @@ class Usuario extends Model {
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
+            $l['nombre_completo'] = $l['apellidos'] . ' ' . $l['nombres'];
             $retorno[$l['id']] = $l;
         }
         return $retorno;

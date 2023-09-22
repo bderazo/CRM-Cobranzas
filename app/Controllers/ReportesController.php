@@ -1708,22 +1708,7 @@ class ReportesController extends BaseController
     function exportGeneral($json)
     {
         \WebSecurity::secure('reportes.general');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-//        $jdata = json_decode(htmlspecialchars_decode($json), true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new General($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $data = json_decode($json, true);
-//        printDie($data);
         $lista = [];
         $aux = [];
         foreach ($data['datos'] as $d) {
@@ -2210,26 +2195,13 @@ class ReportesController extends BaseController
 
     function exportGestionesPorHora($json)
     {
-        \WebSecurity::secure('reportes.gestiones_por_hora');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new GestionesPorHora($this->get('pdo'));
-        $data = $rep->exportar($filtros);
-//        printDie($filtros);
+        \WebSecurity::secure('reportes.general');
+        $data = json_decode($json, true);
         $lista = [];
-        foreach ($data['data'] as $d) {
+        $aux = [];
+        foreach ($data['datos'] as $d) {
             $aux['AGENTE'] = [
-                'valor' => $d['gestor'],
+                'valor' => $d['nombre_completo'],
                 'formato' => 'text'
             ];
             $aux['7'] = [
@@ -2347,13 +2319,12 @@ class ReportesController extends BaseController
             'formato' => 'number'
         ];
         $aux['TOTAL GENERAL'] = [
-            'valor' => $data['total']['total_general'],
+            'valor' => $data['total']['total'],
             'formato' => 'number'
         ];
         $lista[] = $aux;
-
         $exportar[] = [
-            'name' => 'GESTIONES POR HORA',
+            'name' => 'GENERAL',
             'data' => $lista
         ];
         $lista = [];
@@ -2425,8 +2396,9 @@ class ReportesController extends BaseController
             'name' => 'RESUMEN',
             'data' => $lista
         ];
-        $this->exportMultiple($exportar, 'gestiones_por_hora.xlsx');
-//        $this->exportSimple($lista, 'GESTIONES POR HORA', 'gestiones_por_hora.xlsx');
+
+
+        $this->exportMultiple($exportar, 'gestiones_hora.xlsx');
     }
 
     //INDIVIDUAL

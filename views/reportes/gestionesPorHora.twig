@@ -34,7 +34,7 @@
 						</thead>
 						<tbody>
 						<tr v-for="d in datos">
-							<td style="text-align: left;" v-html="d.gestor"></td>
+							<td style="text-align: left;" v-html="d.nombre_completo"></td>
                             <td style="text-align: center;" v-html="d.hora_7"></td>
                             <td style="text-align: center;" v-html="d.hora_8"></td>
                             <td style="text-align: center;" v-html="d.hora_9"></td>
@@ -67,7 +67,7 @@
                             <td style="text-align: center; font-weight: bold;" v-html="total.total_17"></td>
                             <td style="text-align: center; font-weight: bold;" v-html="total.total_18"></td>
                             <td style="text-align: center; font-weight: bold;" v-html="total.total_19"></td>
-                            <td style="text-align: center; font-weight: bold;" v-html="total.total_general"></td>
+                            <td style="text-align: center; font-weight: bold;" v-html="total.total"></td>
                         </tr>
                         </tfoot>
 					</table>
@@ -114,7 +114,9 @@
                 var self = this;
                 $('#btnExportar').click(function () {
                     var data = {
-                        filtros: form.serializeForm()
+                        datos: self.datos,
+                        total: self.total,
+                        resumen: self.resumen,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();
