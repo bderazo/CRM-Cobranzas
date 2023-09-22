@@ -362,13 +362,14 @@ class CargadorAplicativoDinersExcel
 							$productos_procesados[] = $producto_id;
 						}
 					}else{
-						$producto = Producto::porId($producto_id);
-						$producto->estado = 'asignado_megacob';
-						$producto->fecha_modificacion = date("Y-m-d H:i:s");
-						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-						$producto->usuario_asignado = 0;
-						$producto->fecha_gestionar = null;
-						$producto->save();
+                        $set = [
+                            'estado' => 'asignado_megacob',
+                            'fecha_modificacion' => date("Y-m-d H:i:s"),
+                            'usuario_modificacion' => \WebSecurity::getUserData('id'),
+                            'usuario_asignado' => 0,
+                            'fecha_gestionar' => null,
+                        ];
+                        $query = $db->update('producto')->set($set)->where('id', $producto_id)->execute();
 						$productos_procesados[] = $producto_id;
 					}
 
