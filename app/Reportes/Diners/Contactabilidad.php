@@ -155,7 +155,7 @@ class Contactabilidad
                         $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA MASTERCARD']) ? $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'] : '';
                     }
                     if ($seg['campana'] == '') {
-                        $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar]['campana'];
+                        $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar]['campana_ece'];
                     }
                     $seg['empresa_canal'] = 'MEGACOB-' . $seg['canal'];
                     $seg['fecha_fecha_ingreso'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
@@ -164,6 +164,7 @@ class Contactabilidad
                     } else {
                         $seg['hora_ingreso'] = '';
                     }
+                    $seg['tarjeta'] = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
 
 //                    if ($seg['nivel_2_id'] == 1859) {
 //                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
