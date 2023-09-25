@@ -43,24 +43,32 @@ class Contactabilidad
 
         $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
         $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
-        $fecha = isset($filtros['fecha']) ? $filtros['fecha'] : '';
+
+        $begin = new \DateTime($filtros['fecha_inicio']);
+        $end = new \DateTime($filtros['fecha_fin']);
+        $end->setTime(0, 0, 1);
+        $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
 
         //OBTENER ASIGNACION
-        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes($campana_ece, $ciclo,$fecha);
-        $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece, $ciclo,$fecha);
+        $clientes_asignacion = [];
+        $clientes_asignacion_detalle_marca = [];
+        foreach ($daterange as $date) {
+            $clientes_asignacion = array_merge($clientes_asignacion, AplicativoDinersAsignaciones::getClientes($campana_ece, $ciclo, $date->format("Y-m-d")));
+            $clientes_asignacion_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca($campana_ece, $ciclo, $date->format("Y-m-d"));
+            foreach ($clientes_asignacion_marca as $key => $val) {
+                foreach ($val as $key1 => $val1) {
+                    if (!isset($clientes_asignacion_detalle_marca[$key][$key1])) {
+                        $clientes_asignacion_detalle_marca[$key][$key1] = $val1;
+                    }
+                }
+            }
+        }
 
         //OBTENER SALDOS
-        $saldos = AplicativoDinersSaldos::getTodosFecha($fecha);
+        //OBTENER SALDOS
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
         //BUSCAR SEGUIMIENTOS
-//        $q = $db->from('producto_seguimiento ps')
-//            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-//            ->innerJoin('cliente cl ON cl.id = ps.cliente_id')
-//            ->select(null)
-//            ->select("ps.*, u.id AS id_usuario, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, cl.cedula, u.canal")
-//            ->where('ps.nivel_1_id NOT IN (1866, 1873)')
-//            ->where('ps.institucion_id',1)
-//            ->where('ps.eliminado',0);
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id AND addet.eliminado = 0')
             ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
@@ -68,7 +76,9 @@ class Contactabilidad
             ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, pa.peso AS peso_paleta")
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo,
+                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
+                             pa.peso AS peso_paleta")
             ->where('ps.nivel_1_id IN (1855, 1839, 1847, 1799, 1861)')
             ->where('ps.institucion_id', 1)
             ->where('ps.eliminado', 0);
@@ -92,29 +102,26 @@ class Contactabilidad
             $fil = '"' . implode('","', $filtros['marca']) . '"';
             $q->where('u.tarjeta IN (' . $fil . ')');
         }
-        if (@$filtros['fecha']) {
-            $q->where('DATE(ps.fecha_ingreso)',$filtros['fecha']);
+        if (@$filtros['fecha_inicio']) {
+            if (($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')) {
+                $hora = strlen($filtros['hora_inicio']) == 1 ? '0' . $filtros['hora_inicio'] : $filtros['hora_inicio'];
+                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0' . $filtros['minuto_inicio'] : $filtros['minuto_inicio'];
+                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso >= "' . $fecha . '"');
+            } else {
+                $q->where('DATE(ps.fecha_ingreso) >= "' . $filtros['fecha_inicio'] . '"');
+            }
         }
-//        if (@$filtros['fecha_inicio']) {
-//            if (($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')) {
-//                $hora = strlen($filtros['hora_inicio']) == 1 ? '0' . $filtros['hora_inicio'] : $filtros['hora_inicio'];
-//                $minuto = strlen($filtros['minuto_inicio']) == 1 ? '0' . $filtros['minuto_inicio'] : $filtros['minuto_inicio'];
-//                $fecha = $filtros['fecha_inicio'] . ' ' . $hora . ':' . $minuto . ':00';
-//                $q->where('ps.fecha_ingreso >= "' . $fecha . '"');
-//            } else {
-//                $q->where('DATE(ps.fecha_ingreso) >= "' . $filtros['fecha_inicio'] . '"');
-//            }
-//        }
-//        if (@$filtros['fecha_fin']) {
-//            if (($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')) {
-//                $hora = strlen($filtros['hora_fin']) == 1 ? '0' . $filtros['hora_fin'] : $filtros['hora_fin'];
-//                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0' . $filtros['minuto_fin'] : $filtros['minuto_fin'];
-//                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
-//                $q->where('ps.fecha_ingreso <= "' . $fecha . '"');
-//            } else {
-//                $q->where('DATE(ps.fecha_ingreso) <= "' . $filtros['fecha_fin'] . '"');
-//            }
-//        }
+        if (@$filtros['fecha_fin']) {
+            if (($filtros['hora_fin'] != '') && ($filtros['minuto_fin'] != '')) {
+                $hora = strlen($filtros['hora_fin']) == 1 ? '0' . $filtros['hora_fin'] : $filtros['hora_fin'];
+                $minuto = strlen($filtros['minuto_fin']) == 1 ? '0' . $filtros['minuto_fin'] : $filtros['minuto_fin'];
+                $fecha = $filtros['fecha_fin'] . ' ' . $hora . ':' . $minuto . ':00';
+                $q->where('ps.fecha_ingreso <= "' . $fecha . '"');
+            } else {
+                $q->where('DATE(ps.fecha_ingreso) <= "' . $filtros['fecha_fin'] . '"');
+            }
+        }
         $fil = implode(',', $clientes_asignacion);
         $q->where('ps.cliente_id IN (' . $fil . ')');
         $q->orderBy('u.apellidos');
@@ -127,14 +134,16 @@ class Contactabilidad
         $verificar_duplicados = [];
         foreach ($lista as $seg) {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
-            if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']])) {
-                $seg['hora_llamada'] = date("H:i:s", strtotime($seg['fecha_ingreso']));
-                //COMPARO CON SALDOS
-                if (isset($saldos[$seg['cliente_id']])) {
-                    $saldos_arr = $saldos[$seg['cliente_id']];
+            $tarjeta_verificar = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
+            if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar])) {
+                if (isset($saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+                    $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'], true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
+
+                    $seg['hora_llamada'] = date("H:i:s", strtotime($seg['fecha_ingreso']));
+
                     if ($seg['tarjeta'] == 'DINERS') {
                         $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DINERS']) ? $saldos_arr['TIPO DE CAMPAÑA DINERS'] : '';
                     }
@@ -149,7 +158,7 @@ class Contactabilidad
                     }
                 }
                 if ($seg['campana'] == '') {
-                    $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']]['campana'];
+                    $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar]['campana'];
                 }
                 $seg['empresa_canal'] = 'MEGACOB-' . $seg['canal'];
                 $seg['fecha_fecha_ingreso'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
