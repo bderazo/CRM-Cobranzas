@@ -8,6 +8,7 @@ use Models\AplicativoDinersSaldos;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
+use Models\ProductoSeguimiento;
 use Models\TransformarRollos;
 use Models\Usuario;
 
@@ -58,7 +59,8 @@ class General
         }
 
         //OBTENER EL CICLO Y REFINANCIAS DEL CICLO EN ESE RANGO DE FECHAS PARA COMPARA Y NO MOSTRAR
-
+        $refinancia_ciclo = ProductoSeguimiento::getRefinanciaCiclo();
+        $notificado_ciclo = ProductoSeguimiento::getNotificadoCiclo();
 
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
@@ -316,12 +318,12 @@ class General
 
                     if ($res['nivel_2_id'] == 1859) {
                         //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-                        if(!isset($refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                        if(!isset($refinancia_ciclo[$res['cliente_id']][$res['ciclo']])) {
                             $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
                         }
                     }elseif ($res['nivel_2_id'] == 1853) {
                         //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-                        if(!isset($notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                        if(!isset($notificado_ciclo[$res['cliente_id']][$res['ciclo']])) {
                             $notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
                         }
                     }else{

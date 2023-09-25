@@ -329,4 +329,42 @@ class ProductoSeguimiento extends Model
         }
         return $retorno;
     }
+
+    static function getRefinanciaCiclo() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->select(null)
+            ->select('ps.*, addet.ciclo')
+            ->where('ps.eliminado',0)
+            ->where('nivel_2_id',1859);
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['ciclo']][$l['cliente_id']] = $l;
+        }
+        return $retorno;
+    }
+
+    static function getNotificadoCiclo() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->select(null)
+            ->select('ps.*, addet.ciclo')
+            ->where('ps.eliminado',0)
+            ->where('nivel_2_id',1853);
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['ciclo']][$l['cliente_id']] = $l;
+        }
+        return $retorno;
+    }
 }
