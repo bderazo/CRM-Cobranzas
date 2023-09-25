@@ -123,54 +123,92 @@ class Individual {
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
-                    if (!isset($usuario_gestion[$seg['usuario_id']])) {
-                        $meta_diaria = 0;
-                        if (@$filtros['meta_diaria']) {
-                            $meta_diaria = $filtros['meta_diaria'];
-                        }
-                        $usuario_gestion[$seg['usuario_id']] = [
-                            'gestor' => $seg['gestor'],
-                            'total_negociaciones' => 0,
-                            'refinancia' => 0,
-                            'notificado' => 0,
-                            'cierre_efectivo' => 0,
-                            'contactadas' => 0,
-                            'seguimientos' => 0,
-                            'contactabilidad' => 0,
-                            'efectividad' => 0,
-                            'meta_diaria' => $meta_diaria,
-                            'meta_alcanzada' => 0,
-                        ];
-                    }
                     if ($seg['nivel_2_id'] == 1859) {
-                        if (!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])) {
-                            $usuario_gestion[$seg['usuario_id']]['refinancia']++;
-
-                            $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if(!isset($refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+                            $refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
                         }
-                    }
-                    if ($seg['nivel_2_id'] == 1853) {
-                        if (!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])) {
-                            $usuario_gestion[$seg['usuario_id']]['notificado']++;
-
-                            $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                    }elseif ($seg['nivel_2_id'] == 1853) {
+                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if(!isset($notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+                            $notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
                         }
-                    }
-                    if ($seg['nivel_1_id'] == 1855) {
-                        $usuario_gestion[$seg['usuario_id']]['cierre_efectivo']++;
-                    }
-                    if (($seg['nivel_1_id'] == 1839) || ($seg['nivel_1_id'] == 1855)) {
-                        $usuario_gestion[$seg['usuario_id']]['contactadas']++; //CIERRE EFECTIVO Y CIERRE NO EFECTIVO
-                    }
-                    if (($seg['nivel_1_id'] == 1839) || ($seg['nivel_1_id'] == 1855) ||
-                        ($seg['nivel_1_id'] == 1847) || ($seg['nivel_1_id'] == 1799) ||
-                        ($seg['nivel_1_id'] == 1861)) {
-                        $usuario_gestion[$seg['usuario_id']]['seguimientos']++;
-                        $total_general++;
+                    }else{
+                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
+                        $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
                     }
                 }
             }
 		}
+
+        $data1 = [];
+        foreach ($data as $cliente_id => $val) {
+            foreach ($val as $fecha_seguimiento => $val1) {
+                foreach ($val1 as $valf) {
+                    $data1[] = $valf;
+                }
+            }
+        }
+        foreach ($refinancia as $val) {
+            foreach ($val as $val1) {
+                $data1[] = $val1;
+            }
+        }
+        foreach ($notificado as $val) {
+            foreach ($val as $val1) {
+                $data1[] = $val1;
+            }
+        }
+
+        foreach ($data1 as $seg){
+            if (!isset($usuario_gestion[$seg['usuario_id']])) {
+                $meta_diaria = 0;
+                if (@$filtros['meta_diaria']) {
+                    $meta_diaria = $filtros['meta_diaria'];
+                }
+                $usuario_gestion[$seg['usuario_id']] = [
+                    'gestor' => $seg['gestor'],
+                    'total_negociaciones' => 0,
+                    'refinancia' => 0,
+                    'notificado' => 0,
+                    'cierre_efectivo' => 0,
+                    'contactadas' => 0,
+                    'seguimientos' => 0,
+                    'contactabilidad' => 0,
+                    'efectividad' => 0,
+                    'meta_diaria' => $meta_diaria,
+                    'meta_alcanzada' => 0,
+                ];
+            }
+            if ($seg['nivel_2_id'] == 1859) {
+                if (!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])) {
+                    $usuario_gestion[$seg['usuario_id']]['refinancia']++;
+
+                    $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                }
+            }
+            if ($seg['nivel_2_id'] == 1853) {
+                if (!isset($verificar_duplicados[$seg['cliente_id']][$seg['ciclo']])) {
+                    $usuario_gestion[$seg['usuario_id']]['notificado']++;
+
+                    $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
+                }
+            }
+            if ($seg['nivel_1_id'] == 1855) {
+                $usuario_gestion[$seg['usuario_id']]['cierre_efectivo']++;
+            }
+            if (($seg['nivel_1_id'] == 1839) || ($seg['nivel_1_id'] == 1855)) {
+                $usuario_gestion[$seg['usuario_id']]['contactadas']++; //CIERRE EFECTIVO Y CIERRE NO EFECTIVO
+            }
+            if (($seg['nivel_1_id'] == 1839) || ($seg['nivel_1_id'] == 1855) ||
+                ($seg['nivel_1_id'] == 1847) || ($seg['nivel_1_id'] == 1799) ||
+                ($seg['nivel_1_id'] == 1861)) {
+                $usuario_gestion[$seg['usuario_id']]['seguimientos']++;
+                $total_general++;
+            }
+        }
+
+
 
         $total_negociaciones_total = 0;
         $total_refinancia_total = 0;
@@ -182,6 +220,7 @@ class Individual {
         $contar_registros = 0;
         $total_contactadas = 0;
         $total_cierre_efectivo = 0;
+        $data = [];
         foreach ($usuario_gestion as $ug){
             $contactabilidad = $ug['seguimientos'] > 0 ? (($ug['contactadas'] / $ug['seguimientos']) * 100) : 0;
             $efectividad = $ug['contactadas'] > 0 ? (($ug['cierre_efectivo'] / $ug['contactadas']) * 100) : 0;

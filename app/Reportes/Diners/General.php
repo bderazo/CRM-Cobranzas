@@ -132,6 +132,7 @@ class General
         $verificar_duplicados = [];
         $data = [];
         $refinancia = [];
+        $notificado = [];
         foreach ($lista as $res) {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             $tarjeta_verificar = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
@@ -309,11 +310,20 @@ class General
 
                     $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
                     $res['codigo_operacion'] = $res['cedula'] . $producto_codigo . $res['ciclo'];
-                    //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
-                    $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
-                    //A LOS REFINANCIA YA LES IDENTIFICO PORQ ESOS VAN POR TARJETA
+
                     if ($res['nivel_2_id'] == 1859) {
-                        $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
+                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if(!isset($refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                            $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
+                        }
+                    }elseif ($res['nivel_2_id'] == 1853) {
+                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if(!isset($notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                            $notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
+                        }
+                    }else{
+                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
+                        $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
                     }
                 }
             }
@@ -324,6 +334,16 @@ class General
                 foreach ($val1 as $valf) {
                     $resumen[] = $valf;
                 }
+            }
+        }
+        foreach ($refinancia as $val) {
+            foreach ($val as $val1) {
+                $resumen[] = $val1;
+            }
+        }
+        foreach ($notificado as $val) {
+            foreach ($val as $val1) {
+                $resumen[] = $val1;
             }
         }
 
@@ -392,6 +412,8 @@ class General
             'contactabilidad' => number_format($contactabilidad, 2, '.', ','),
             'efectividad' => number_format($efectividad, 2, '.', ','),
         ];
+
+//        printDie($usuario_gestion);
 
         $resumen_total = $refinancia_resumen_total + $notificado_resumen_total;
         $retorno['data'] = $usuario_gestion;
