@@ -64,6 +64,8 @@
             el: '#app',
             data: {
                 datos: [],
+                data_hoja1: [],
+                data_hoja2: [],
                 total: [],
             },
             watch: {},
@@ -77,42 +79,27 @@
                     $.post('{{ root }}/reportes/contactabilidad', data, function (res) {
                         toggleLoader();
                         self.datos = res['data'];
+                        self.data_hoja1 = res['data_hoja1'];
+                        self.data_hoja2 = res['data_hoja2'];
                         self.total = res['total'];
                         console.log(res);
                     })
                 },
-
-                calcular: function () {
-                    var self = this;
-                    var total_asignacion = 0;
-                    $.each(self.datos, function (key, value) {
-                        var porcentaje_productividad = 0.00;
-                        if(parseFloat(value.asignacion) > 0){
-                            porcentaje_productividad = (parseFloat(value.cuentas) / parseFloat(value.asignacion)) * 100;
-                        }
-                        self.datos[key].porcentaje_productividad = porcentaje_productividad.toFixed(2);
-                        total_asignacion = total_asignacion + parseFloat(value.asignacion);
-                    });
-                    self.total.total_asignacion = total_asignacion;
-                    var total_porcentaje_productividad = 0;
-                    if(total_asignacion > 0){
-                        total_porcentaje_productividad = (parseFloat(self.total.total_cuentas) / total_asignacion) * 100;
-                    }
-                    self.total.total_porcentaje_productividad = total_porcentaje_productividad.toFixed(2);
-                    // app.$forceUpdate();
-                },
-
             },
             mounted: function () {
                 var form = $('#filtros');
                 var self = this;
+
                 $('#btnExportar').click(function () {
                     var data = {
-                        filtros: form.serializeForm()
+                        datos: self.datos,
+                        total: self.total,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();
                 });
+
+
 
                 $(document).ready(function () {
                     $('#btnFiltro').click(function () {

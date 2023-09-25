@@ -369,7 +369,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'BASE GENERAL', 'base_general.xlsx');
+        $this->exportSimple($lista, 'BASE GENERAL', 'base_general'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //MEJOR Y ULTIMA GESTION
@@ -527,7 +527,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'MEJOR ULTIMA GESTION', 'mejor_ultima_gestion.xlsx');
+        $this->exportSimple($lista, 'MEJOR ULTIMA GESTION', 'mejor_ultima_gestion'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //PRODUCCION PLAZA
@@ -703,7 +703,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
-        $this->exportMultiple($exportar, 'produccion_plaza.xlsx');
+        $this->exportMultiple($exportar, 'produccion_plaza'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     function exportProduccionPlazaTipoNegociacion($jsonTipoNegociacion)
@@ -739,7 +739,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'PRODUCCION PLAZA NEGOCIACIÓN', 'produccion_plaza_tipo_negociacion.xlsx');
+        $this->exportSimple($lista, 'PRODUCCION PLAZA NEGOCIACIÓN', 'produccion_plaza_tipo_negociacion'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     function exportProduccionPlazaRecupero($jsonRecupero)
@@ -787,7 +787,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'PRODUCCION PLAZA RECUPERO', 'produccion_plaza_recupero.xlsx');
+        $this->exportSimple($lista, 'PRODUCCION PLAZA RECUPERO', 'produccion_plaza_recupero'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //CAMPO Y TELEFONIA
@@ -864,7 +864,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'CAMPO Y TELEFONÍA', 'campo_telefonia.xlsx');
+        $this->exportSimple($lista, 'CAMPO Y TELEFONÍA', 'campo_telefonia'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //INFORMES DE JORNADA
@@ -1032,7 +1032,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
-        $this->exportMultiple($exportar, 'informe_jornada.xlsx');
+        $this->exportMultiple($exportar, 'informe_jornada'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //NEGOCIACIONES POR EJECUTIVO
@@ -1151,7 +1151,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'NEGOCIACIONES POR EJECUTIVO', 'negociaciones_ejecutivo.xlsx');
+        $this->exportSimple($lista, 'NEGOCIACIONES POR EJECUTIVO', 'negociaciones_ejecutivo'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //PROCESADAS PARA LIQUIDACION
@@ -1246,7 +1246,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'PROCESADAS LIQUIDACION', 'procesadas_liquidacion.xlsx');
+        $this->exportSimple($lista, 'PROCESADAS LIQUIDACION', 'procesadas_liquidacion'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //BASE DE CARGA
@@ -1461,7 +1461,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'BASE CARGA', 'base_carga.xlsx');
+        $this->exportSimple($lista, 'BASE CARGA', 'base_carga'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //REPORTE POR HORAS
@@ -1532,7 +1532,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'REPORTE POR HORAS', 'reporte_horas.xlsx');
+        $this->exportSimple($lista, 'REPORTE POR HORAS', 'reporte_horas'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //CONTACTABILIDAD
@@ -1553,22 +1553,22 @@ class ReportesController extends BaseController
     function exportContactabilidad($json)
     {
         \WebSecurity::secure('reportes.contactabilidad');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
+//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
+//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
+//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
+//        $json = str_replace('ciclo[]', 'ciclo', $json);
+//        $json = str_replace('resultado[]', 'resultado', $json);
+//        $json = str_replace('accion[]', 'accion', $json);
+//        $json = str_replace('descripcion[]', 'descripcion', $json);
+//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
+//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new Contactabilidad($this->get('pdo'));
-        $data = $rep->exportar($filtros);
+//        $filtros = $jdata['filtros'];
+//        $rep = new Contactabilidad($this->get('pdo'));
+//        $data = $rep->exportar($filtros);
         $lista = [];
-        foreach ($data['data_hoja1'] as $d) {
+        foreach ($jdata['data_hoja1'] as $d) {
             $aux['MARCA'] = [
                 'valor' => $d['tarjeta'],
                 'formato' => 'text'
@@ -1620,7 +1620,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
         $lista = [];
-        foreach ($data['data_hoja2'] as $d) {
+        foreach ($jdata['data_hoja2'] as $d) {
             $aux['MARCA'] = [
                 'valor' => $d['tarjeta'],
                 'formato' => 'text'
@@ -1671,7 +1671,7 @@ class ReportesController extends BaseController
             'name' => 'NOTIFICADO REFINANCIA',
             'data' => $lista
         ];
-        $this->exportMultiple($exportar, 'contactabilidad.xlsx');
+        $this->exportMultiple($exportar, 'contactabilidad'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //LLAMADAS CONTACTADAS
@@ -1958,7 +1958,7 @@ class ReportesController extends BaseController
 
 
 
-        $this->exportMultiple($exportar, 'general.xlsx');
+        $this->exportMultiple($exportar, 'general'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //GENERAL CAMPO
@@ -2175,7 +2175,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
-        $this->exportMultiple($exportar, 'general_campo.xlsx');
+        $this->exportMultiple($exportar, 'general_campo'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //GESTIONES POR HORA
@@ -2398,7 +2398,7 @@ class ReportesController extends BaseController
         ];
 
 
-        $this->exportMultiple($exportar, 'gestiones_hora.xlsx');
+        $this->exportMultiple($exportar, 'gestiones_hora'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //INDIVIDUAL
@@ -2504,7 +2504,7 @@ class ReportesController extends BaseController
         ];
         $lista[] = $aux;
 
-        $this->exportSimple($lista, 'INDIVIDUAL', 'individual.xlsx');
+        $this->exportSimple($lista, 'INDIVIDUAL', 'individual'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //NEGOCIACIONES MANUAL
@@ -2640,7 +2640,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'NEGOCIACIONES MANUALES', 'negociaciones_manuales.xlsx');
+        $this->exportSimple($lista, 'NEGOCIACIONES MANUALES', 'negociaciones_manuales'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //NEGOCIACIONES AUTOMÁTICAS
@@ -2776,7 +2776,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'NEGOCIACIONES AUTOMÁTICAS', 'negociaciones_automaticas.xlsx');
+        $this->exportSimple($lista, 'NEGOCIACIONES AUTOMÁTICAS', 'negociaciones_automaticas'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //PRODUCTIVIDAD DATOS
@@ -2895,7 +2895,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'DATOS PRODUCTIVIDAD', 'datos_productividad.xlsx');
+        $this->exportSimple($lista, 'DATOS PRODUCTIVIDAD', 'datos_productividad'.date("Y-m-d H-i-s").'.xlsx');
     }
 
     //PRODUCTIVIDAD RESULTADOS

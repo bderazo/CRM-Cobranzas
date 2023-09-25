@@ -65,7 +65,6 @@ class Contactabilidad
         }
 
         //OBTENER SALDOS
-        //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
         //BUSCAR SEGUIMIENTOS
@@ -143,7 +142,6 @@ class Contactabilidad
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
                     $seg['hora_llamada'] = date("H:i:s", strtotime($seg['fecha_ingreso']));
-
                     if ($seg['tarjeta'] == 'DINERS') {
                         $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DINERS']) ? $saldos_arr['TIPO DE CAMPAÑA DINERS'] : '';
                     }
@@ -156,36 +154,76 @@ class Contactabilidad
                     if ($seg['tarjeta'] == 'MASTERCARD') {
                         $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA MASTERCARD']) ? $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'] : '';
                     }
-                }
-                if ($seg['campana'] == '') {
-                    $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar]['campana'];
-                }
-                $seg['empresa_canal'] = 'MEGACOB-' . $seg['canal'];
-                $seg['fecha_fecha_ingreso'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
-                if (isset($usuario_login[$seg['usuario_id']][$seg['fecha_fecha_ingreso']])) {
-                    $seg['hora_ingreso'] = $usuario_login[$seg['usuario_id']][$seg['fecha_fecha_ingreso']];
-                } else {
-                    $seg['hora_ingreso'] = '';
-                }
-                $data[] = $seg;
-
-                if(($seg['nivel_3_id'] == 1860) || ($seg['nivel_3_id'] == 1876)){
-                    if(isset($data_hoja1[$seg['cliente_id'].'_'.$seg['tarjeta'].'_'.$seg['ciclo'].'_'.$seg['nivel_3_id']])){
-                        $data_hoja2[] = $seg;
-                    }else{
-                        $data_hoja1[$seg['cliente_id'].'_'.$seg['tarjeta'].'_'.$seg['ciclo'].'_'.$seg['nivel_3_id']] = $seg;
+                    if ($seg['campana'] == '') {
+                        $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar]['campana'];
                     }
-                }else{
-                    $data_hoja1[] = $seg;
+                    $seg['empresa_canal'] = 'MEGACOB-' . $seg['canal'];
+                    $seg['fecha_fecha_ingreso'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
+                    if (isset($usuario_login[$seg['usuario_id']][$seg['fecha_fecha_ingreso']])) {
+                        $seg['hora_ingreso'] = $usuario_login[$seg['usuario_id']][$seg['fecha_fecha_ingreso']];
+                    } else {
+                        $seg['hora_ingreso'] = '';
+                    }
+
+//                    if ($seg['nivel_2_id'] == 1859) {
+//                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+//                        if(!isset($refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+//                            $refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
+//                        }
+//                    }elseif ($seg['nivel_2_id'] == 1853) {
+//                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+//                        if(!isset($notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+//                            $notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
+//                        }
+//                    }else{
+//                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
+                        $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
+//                    }
+
+//                    $data[] = $seg;
+
+//                    if(($seg['nivel_3_id'] == 1860) || ($seg['nivel_3_id'] == 1876)){
+//                        if(isset($data_hoja1[$seg['cliente_id'].'_'.$seg['tarjeta'].'_'.$seg['ciclo'].'_'.$seg['nivel_3_id']])){
+//                            $data_hoja2[] = $seg;
+//                        }else{
+//                            $data_hoja1[$seg['cliente_id'].'_'.$seg['tarjeta'].'_'.$seg['ciclo'].'_'.$seg['nivel_3_id']] = $seg;
+//                        }
+//                    }else{
+//                        $data_hoja1[] = $seg;
+//                    }
+
                 }
             }
         }
 
-//		printDie($data);
+        $resumen = [];
+        foreach ($data as $cliente_id => $val){
+            foreach ($val as $fecha_seguimiento => $val1){
+                if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
+                    //SI ESE DIA EL CLIENTE TIENE UN REFINANCIA, SE AGREGA TODOS LOS REFINANCIA DE TODAS LAS TARJETAS DEL CLIENTE EN ESE DIA
+                    foreach ($refinancia[$cliente_id][$fecha_seguimiento] as $ref){
+                        $resumen[] = $ref;
+                    }
+                    break;
+                }else{
+                    //SI NO TIENE REFINANCIA, SE BUSCA LA MEJOR GESTION
+                    usort($val1, function ($a, $b) {
+                        if ($a['peso_paleta'] === $b['peso_paleta']) {
+                            return $b['fecha_ingreso'] <=> $a['fecha_ingreso'];
+                        }
+                        return $a['peso_paleta'] <=> $b['peso_paleta'];
+                    });
+                    $resumen[] = $val1[0];
+                }
+            }
+        }
 
-        $retorno['data'] = $data;
+
+//		printDie($resumen);
+
+        $retorno['data'] = $resumen;
         $retorno['total'] = [];
-        $retorno['data_hoja1'] = $data_hoja1;
+        $retorno['data_hoja1'] = $resumen;
         $retorno['data_hoja2'] = $data_hoja2;
 
         return $retorno;
