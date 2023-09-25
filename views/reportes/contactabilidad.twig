@@ -93,8 +93,8 @@
                 $('#btnExportar').click(function () {
                     var data = {
                         datos: self.datos,
-                        self.data_hoja1 = res['data_hoja1'];
-                        self.data_hoja2 = res['data_hoja2'];
+                        self.data_hoja1 = res['data_hoja1'],
+                        self.data_hoja2 = res['data_hoja2'],
                         total: self.total,
                     };
                     $('#json').val(JSON.stringify(data));

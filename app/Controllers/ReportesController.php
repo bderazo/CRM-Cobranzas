@@ -1568,7 +1568,7 @@ class ReportesController extends BaseController
 //        $rep = new Contactabilidad($this->get('pdo'));
 //        $data = $rep->exportar($filtros);
         $lista = [];
-        printDie($jdata);
+//        printDie($jdata);
         foreach ($jdata['data_hoja1'] as $d) {
             $aux['MARCA'] = [
                 'valor' => $d['tarjeta'],
