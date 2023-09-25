@@ -45,8 +45,8 @@ class CargadorAplicativoDinersExcel
 		$hoytxt = $hoy->format('Y-m-d H:i:s');
 
 		$pdo = $this->pdo;
-		$pdo->beginTransaction();
-		try {
+//		$pdo->beginTransaction();
+//		try {
 			$time_start = microtime(true);
 
 			$carga = new CargaArchivo();
@@ -71,7 +71,9 @@ class CargadorAplicativoDinersExcel
 			$email_todos = Email::getTodos();
 			$productos_todos = Producto::porInstitucioVerificar(1);
 			$aplicativo_diners_todos = AplicativoDiners::porInstitucioVerificar(1);
-			$aplicativo_diners_detalle_todos = AplicativoDinersDetalle::porTipo('original');
+//			$aplicativo_diners_detalle_todos = AplicativoDinersDetalle::porTipo('original');
+            //ELIMINAR LOS ORIGINALES DE APLICATIVO DINERS DETALLE
+            $query = $db->deleteFrom('aplicativo_diners_detalle')->where('tipo', 'original')->execute();
 			$productos_procesados = [];
 			$aplicativo_diners_procesados = [];
 			foreach($it as $rowIndex => $values) {
@@ -520,16 +522,16 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['deuda_actual'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaDiners($aplicativo_diners_detalle, $aplicativo_diners_id);
+						$datos_calculados = Producto::calculosTarjetaDinersCargaAplicativo($aplicativo_diners_detalle);
 
 						//VERIFICAR SI EXISTE
-						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DINERS'])) {
-							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DINERS']['id'];
-							//MODIFICAR APLICATIVO DINERS
-							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-						} else {
+//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DINERS'])) {
+//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DINERS']['id'];
+//							//MODIFICAR APLICATIVO DINERS
+//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
+//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
+//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
+//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -542,7 +544,7 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-						}
+//						}
 
 					}
 
@@ -631,16 +633,16 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'INTERDIN');
+						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle);
 
 						//VERIFICAR SI EXISTE
-						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'INTERDIN'])) {
-							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'INTERDIN']['id'];
-							//MODIFICAR APLICATIVO DINERS
-							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-						} else {
+//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'INTERDIN'])) {
+//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'INTERDIN']['id'];
+//							//MODIFICAR APLICATIVO DINERS
+//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
+//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
+//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
+//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -653,7 +655,7 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-						}
+//						}
 					}
 
 					//TARJETA DISCOVER
@@ -762,16 +764,16 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'DISCOVER');
+						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle);
 
 						//VERIFICAR SI EXISTE
-						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DISCOVER'])) {
-							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DISCOVER']['id'];
-							//MODIFICAR APLICATIVO DINERS
-							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-						} else {
+//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DISCOVER'])) {
+//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DISCOVER']['id'];
+//							//MODIFICAR APLICATIVO DINERS
+//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
+//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
+//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
+//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -784,7 +786,7 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-						}
+//						}
 					}
 
 					//TARJETA MASTERCARD
@@ -893,16 +895,16 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaGeneral($aplicativo_diners_detalle, $aplicativo_diners_id, 'MASTERCARD');
+						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle);
 
 						//VERIFICAR SI EXISTE
-						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'MASTERCARD'])) {
-							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'MASTERCARD']['id'];
-							//MODIFICAR APLICATIVO DINERS
-							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-						} else {
+//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'MASTERCARD'])) {
+//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'MASTERCARD']['id'];
+//							//MODIFICAR APLICATIVO DINERS
+//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
+//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
+//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
+//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -915,7 +917,7 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-						}
+//						}
 					}
 
 					$rep['total']++;
@@ -958,13 +960,13 @@ class CargadorAplicativoDinersExcel
 			$rep['idcarga'] = $carga->id;
 			$carga->total_registros = $rep['total'];
 			$carga->update();
-			$pdo->commit();
-			\Auditor::info("Archivo '$nombreArchivo'' cargado", "CargadorAplicativoDinersExcel");
-		} catch(\Exception $ex) {
-			\Auditor::error("Ingreso de carga", "CargadorAplicativoDinersExcel", $ex);
-			$pdo->rollBack();
-			$rep['errorSistema'] = $ex;
-		}
+//			$pdo->commit();
+//			\Auditor::info("Archivo '$nombreArchivo'' cargado", "CargadorAplicativoDinersExcel");
+//		} catch(\Exception $ex) {
+//			\Auditor::error("Ingreso de carga", "CargadorAplicativoDinersExcel", $ex);
+//			$pdo->rollBack();
+//			$rep['errorSistema'] = $ex;
+//		}
 		return $rep;
 	}
 
