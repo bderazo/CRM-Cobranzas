@@ -182,6 +182,7 @@ class GestionesPorHora {
         $resumen = [];
         $seguimientos_id = [];
         $lista = $q->fetchAll();
+        $data = [];
         foreach($lista as $res) {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             $tarjeta_verificar = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
@@ -192,19 +193,56 @@ class GestionesPorHora {
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
-                    if(isset($usuarios_telefonia[$res['usuario_id']]['hora_'.$res['hora_ingreso_seguimiento']])){
-                        $usuarios_telefonia[$res['usuario_id']]['hora_'.$res['hora_ingreso_seguimiento']]++;
-                        $usuarios_telefonia[$res['usuario_id']]['total']++;
+                    if ($res['nivel_2_id'] == 1859) {
+                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if(!isset($refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                            $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
+                        }
+                    }elseif ($res['nivel_2_id'] == 1853) {
+                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if(!isset($notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                            $notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
+                        }
+                    }else{
+                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
+                        $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
                     }
-
-                    if(isset($totales_hora['total_'.$res['hora_ingreso_seguimiento']])){
-                        $totales_hora['total_'.$res['hora_ingreso_seguimiento']]++;
-                        $totales_hora['total']++;
-                    }
-                    $resumen[] = $res;
                 }
             }
         }
+
+        $data1 = [];
+        foreach ($data as $cliente_id => $val) {
+            foreach ($val as $fecha_seguimiento => $val1) {
+                foreach ($val1 as $valf) {
+                    $data1[] = $valf;
+                }
+            }
+        }
+        foreach ($refinancia as $val) {
+            foreach ($val as $val1) {
+                $data1[] = $val1;
+            }
+        }
+        foreach ($notificado as $val) {
+            foreach ($val as $val1) {
+                $data1[] = $val1;
+            }
+        }
+
+        foreach ($data1 as $res){
+            if(isset($usuarios_telefonia[$res['usuario_id']]['hora_'.$res['hora_ingreso_seguimiento']])){
+                $usuarios_telefonia[$res['usuario_id']]['hora_'.$res['hora_ingreso_seguimiento']]++;
+                $usuarios_telefonia[$res['usuario_id']]['total']++;
+            }
+
+            if(isset($totales_hora['total_'.$res['hora_ingreso_seguimiento']])){
+                $totales_hora['total_'.$res['hora_ingreso_seguimiento']]++;
+                $totales_hora['total']++;
+            }
+            $resumen[] = $res;
+        }
+
 
         usort($usuarios_telefonia, fn($a, $b) => $a['nombre_completo'] <=> $b['nombre_completo']);
 
