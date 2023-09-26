@@ -907,13 +907,13 @@ class Producto extends Model
 		if($data['unificar_deudas'] == 'SI') {
 			$suma_valor_financiar = 0;
 			if($origen_calculo == 'web') {
-				if($tarjeta['nombre_tarjeta'] == 'INTERDIN') {
+				if($nombre_tarjeta == 'INTERDIN') {
 					$suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_discover + $valor_financiar_tarjeta_mastercard;
 				}
-				if($tarjeta['nombre_tarjeta'] == 'DISCOVER') {
+				if($nombre_tarjeta == 'DISCOVER') {
 					$suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_mastercard;
 				}
-				if($tarjeta['nombre_tarjeta'] == 'MASTERCARD') {
+				if($nombre_tarjeta == 'MASTERCARD') {
 					$suma_valor_financiar = $valor_financiar_tarjeta_diners + $valor_financiar_tarjeta_interdin + $valor_financiar_tarjeta_discover;
 				}
 			}
