@@ -571,12 +571,6 @@ class Producto extends Model
 		if($data['corrientes_facturar'] > 0) {
 			$corrientes_facturar = $data['corrientes_facturar'];
 		}
-//		$gastos_cobranza = 0;
-//		if(isset($data['gastos_cobranza'])) {
-//			if($data['gastos_cobranza'] > 0) {
-//				$gastos_cobranza = $data['gastos_cobranza'];
-//			}
-//		}
 		$valor_otras_tarjetas = 0;
 		if(isset($data['valor_otras_tarjetas'])) {
 			if($data['valor_otras_tarjetas'] > 0) {
@@ -612,7 +606,8 @@ class Producto extends Model
 //		\Auditor::info('$total_precancelacion_diferidos: '.$total_precancelacion_diferidos, 'API', []);
 		if($total_precancelacion_diferidos > 0) {
 			if($data['valor_financiar'] < $data['total_riesgo']) {
-				$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+//                $calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+                $calculo_gastos_cobranza = Producto::getGastoCobranza('DINERS', $data['edad_cartera'], $data['valor_financiar']);
 				$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
 				$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
@@ -737,21 +732,6 @@ class Producto extends Model
         }else{
             $data['tipo_negociacion'] = 'manual';
         }
-
-//        if($origen_calculo == 'web') {
-//			if($valor_financiar <= 20000){
-//				$data['tipo_negociacion'] = 'automatica';
-//			}else{
-//				$data['tipo_negociacion'] = 'manual';
-//			}
-//		}else{
-//			if($valor_financiar <= 24000){
-//				$data['tipo_negociacion'] = 'automatica';
-//			}else{
-//				$data['tipo_negociacion'] = 'manual';
-//			}
-//		}
-
 //		\Auditor::info('calculos_tarjeta_diners despues data: ', 'API', $data);
 
 		return $data;
@@ -759,6 +739,7 @@ class Producto extends Model
 
 	static function calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta, $origen_calculo = 'web', $valor_financiar_tarjeta_diners = 0, $valor_financiar_tarjeta_interdin = 0, $valor_financiar_tarjeta_discover = 0, $valor_financiar_tarjeta_mastercard = 0)
 	{
+        $nombre_tarjeta = $tarjeta;
 		if($tarjeta == 'INTERDIN') {
 			$tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
 		} elseif($tarjeta == 'DISCOVER') {
@@ -911,7 +892,8 @@ class Producto extends Model
 		//CALCULO DE GASTOS DE COBRANZA
 		if($total_precancelacion_diferidos > 0) {
 			if($data['valor_financiar'] < $data['total_riesgo']) {
-				$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+//				$calculo_gastos_cobranza = ((250 * $data['valor_financiar']) / 5000) + 50;
+                $calculo_gastos_cobranza = Producto::getGastoCobranza($nombre_tarjeta, $data['edad_cartera'], $data['valor_financiar']);
 				$data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
 				$total_calculo_precancelacion_diferidos = $total_precancelacion_diferidos + number_format($calculo_gastos_cobranza, 2, '.', '');
@@ -1047,6 +1029,11 @@ class Producto extends Model
 		return $data;
 	}
 
+    static function getGastoCobranza($tarjeta, $edad_cartera, $valor_financiar){
+        $gasto_cobranza = GastoCobranza::getGastoCobranza($tarjeta, $edad_cartera, $valor_financiar);
+        $calculo_gastos_cobranza = ((250 * $valor_financiar) / 5000) + $gasto_cobranza;
+        return $calculo_gastos_cobranza;
+    }
 
     static function calculosTarjetaDinersCargaAplicativo($data)
     {
