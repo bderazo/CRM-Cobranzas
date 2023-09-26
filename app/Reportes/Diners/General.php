@@ -59,8 +59,8 @@ class General
         }
 
         //OBTENER EL CICLO Y REFINANCIAS DEL CICLO EN ESE RANGO DE FECHAS PARA COMPARA Y NO MOSTRAR
-        $refinancia_ciclo = ProductoSeguimiento::getRefinanciaCiclo();
-        $notificado_ciclo = ProductoSeguimiento::getNotificadoCiclo();
+        $refinancia_ciclo = ProductoSeguimiento::getRefinanciaCiclo($filtros['fecha_inicio']);
+        $notificado_ciclo = ProductoSeguimiento::getNotificadoCiclo($filtros['fecha_inicio']);
 
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);

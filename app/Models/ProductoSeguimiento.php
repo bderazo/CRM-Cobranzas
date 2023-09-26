@@ -330,7 +330,7 @@ class ProductoSeguimiento extends Model
         return $retorno;
     }
 
-    static function getRefinanciaCiclo() {
+    static function getRefinanciaCiclo($fecha_verificar) {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
 
@@ -340,16 +340,24 @@ class ProductoSeguimiento extends Model
             ->select(null)
             ->select('ps.*, addet.ciclo')
             ->where('ps.eliminado',0)
-            ->where('nivel_2_id',1859);
+            ->where('ps.fecha_ingreso < ?',$fecha_verificar)
+            ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
+            ->orderBy('ps.fecha_ingreso ASC');
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
-            $retorno[$l['ciclo']][$l['cliente_id']] = $l;
+            if($l['nivel_1_id'] == 1866){
+                if(isset($retorno[$l['cliente_id']][$l['ciclo']])){
+                    unset($retorno[$l['cliente_id']][$l['ciclo']]);
+                }
+            }else {
+                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+            }
         }
         return $retorno;
     }
 
-    static function getNotificadoCiclo() {
+    static function getNotificadoCiclo($fecha_verificar) {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
 
@@ -359,11 +367,19 @@ class ProductoSeguimiento extends Model
             ->select(null)
             ->select('ps.*, addet.ciclo')
             ->where('ps.eliminado',0)
-            ->where('nivel_2_id',1853);
+            ->where('ps.fecha_ingreso < ?',$fecha_verificar)
+            ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
+            ->orderBy('ps.fecha_ingreso ASC');
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
-            $retorno[$l['ciclo']][$l['cliente_id']] = $l;
+            if($l['nivel_1_id'] == 1866){
+                if(isset($retorno[$l['cliente_id']][$l['ciclo']])){
+                    unset($retorno[$l['cliente_id']][$l['ciclo']]);
+                }
+            }else {
+                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+            }
         }
         return $retorno;
     }
