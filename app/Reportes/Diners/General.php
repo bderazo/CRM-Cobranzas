@@ -147,7 +147,6 @@ class General
                     $campos_saldos = json_decode($saldos_arr['campos'], true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
-                    
                     $producto_codigo = '';
                     if ($res['tarjeta'] == 'DINERS') {
                         $producto_codigo = 'DINC';
@@ -189,11 +188,9 @@ class General
                         $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
                         $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
                     }
-
                     $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
                     $res['codigo_operacion'] = $res['cedula'] . $producto_codigo . $res['ciclo'];
                     $res['saldos_arr'] = $saldos_arr;
-
                     if ($res['nivel_2_id'] == 1859) {
                         //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
                         if(!isset($refinancia_ciclo[$res['cliente_id']][$res['ciclo']])) {
