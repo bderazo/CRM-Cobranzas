@@ -192,51 +192,23 @@ class Contactabilidad
                         }
                     } else {
                         //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
-                        if(!isset($refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])){
-                            $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
-                        }
+                        $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
                     }
-
-//                    if ($seg['nivel_2_id'] == 1859) {
-//                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-//                        if(!isset($refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
-//                            $refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
-//                        }
-//                    }elseif ($seg['nivel_2_id'] == 1853) {
-//                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-//                        if(!isset($notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
-//                            $notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
-//                        }
-//                    }else{
-//                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
-//                        $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
-//                    }
-
-//                    $data[] = $seg;
-
-//                    if(($seg['nivel_3_id'] == 1860) || ($seg['nivel_3_id'] == 1876)){
-//                        if(isset($data_hoja1[$seg['cliente_id'].'_'.$seg['tarjeta'].'_'.$seg['ciclo'].'_'.$seg['nivel_3_id']])){
-//                            $data_hoja2[] = $seg;
-//                        }else{
-//                            $data_hoja1[$seg['cliente_id'].'_'.$seg['tarjeta'].'_'.$seg['ciclo'].'_'.$seg['nivel_3_id']] = $seg;
-//                        }
-//                    }else{
-//                        $data_hoja1[] = $seg;
-//                    }
-
                 }
             }
         }
 
         $resumen = [];
-        foreach ($refinancia as $val) {
-            foreach ($val as $val1) {
+        foreach ($refinancia as $key => $val) {
+            foreach ($val as $key1 => $val1) {
                 $resumen[] = $val1;
+                unset($data[$key][$key1]);
             }
         }
-        foreach ($notificado as $val) {
-            foreach ($val as $val1) {
+        foreach ($notificado as $key => $val) {
+            foreach ($val as $key1 => $val1) {
                 $resumen[] = $val1;
+                unset($data[$key][$key1]);
             }
         }
 
