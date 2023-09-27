@@ -192,7 +192,7 @@ class Contactabilidad
                         }
                     } else {
                         //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
-                        if((!isset($refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) && (!isset($notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']]))){
+                        if(!isset($refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])){
                             $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
                         }
                     }
