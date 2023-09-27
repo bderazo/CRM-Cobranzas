@@ -9,6 +9,7 @@ use Models\Direccion;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
+use Models\ProductoSeguimiento;
 use Models\Telefono;
 use Models\TransformarRollos;
 use Models\Usuario;
@@ -66,6 +67,10 @@ class Contactabilidad
 
         //OBTENER SALDOS
         $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
+
+        //OBTENER EL CICLO Y REFINANCIAS DEL CICLO EN ESE RANGO DE FECHAS PARA COMPARA Y NO MOSTRAR
+        $refinancia_ciclo = ProductoSeguimiento::getRefinanciaCiclo($filtros['fecha_inicio']);
+        $notificado_ciclo = ProductoSeguimiento::getNotificadoCiclo($filtros['fecha_inicio']);
 
         //BUSCAR SEGUIMIENTOS
         $q = $db->from('producto_seguimiento ps')
@@ -159,12 +164,36 @@ class Contactabilidad
                     }
                     $seg['empresa_canal'] = 'MEGACOB-' . $seg['canal'];
                     $seg['fecha_fecha_ingreso'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
+                    $seg['hora_ingreso'] = '';
                     if (isset($usuario_login[$seg['usuario_id']][$seg['fecha_fecha_ingreso']])) {
                         $seg['hora_ingreso'] = $usuario_login[$seg['usuario_id']][$seg['fecha_fecha_ingreso']];
-                    } else {
-                        $seg['hora_ingreso'] = '';
                     }
                     $seg['tarjeta'] = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
+
+                    if ($seg['nivel_2_id'] == 1859) {
+                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if (!isset($refinancia_ciclo[$seg['cliente_id']][$seg['ciclo']])) {
+                            if (isset($refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+                                $data_hoja2[] = $refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
+                            }
+                            $refinancia[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
+                        } else {
+                            $data_hoja2[] = $seg;
+                        }
+                    } elseif ($seg['nivel_2_id'] == 1853) {
+                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+                        if (!isset($notificado_ciclo[$seg['cliente_id']][$seg['ciclo']])) {
+                            if (isset($notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
+                                $data_hoja2[] = $notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
+                            }
+                            $notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
+                        } else {
+                            $data_hoja2[] = $seg;
+                        }
+                    } else {
+                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
+                        $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
+                    }
 
 //                    if ($seg['nivel_2_id'] == 1859) {
 //                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
@@ -178,7 +207,7 @@ class Contactabilidad
 //                        }
 //                    }else{
 //                        //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
-                        $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
+//                        $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
 //                    }
 
 //                    $data[] = $seg;
@@ -198,24 +227,28 @@ class Contactabilidad
         }
 
         $resumen = [];
-        foreach ($data as $cliente_id => $val){
-            foreach ($val as $fecha_seguimiento => $val1){
-                if(isset($refinancia[$cliente_id][$fecha_seguimiento])){
-                    //SI ESE DIA EL CLIENTE TIENE UN REFINANCIA, SE AGREGA TODOS LOS REFINANCIA DE TODAS LAS TARJETAS DEL CLIENTE EN ESE DIA
-                    foreach ($refinancia[$cliente_id][$fecha_seguimiento] as $ref){
-                        $resumen[] = $ref;
+        foreach ($refinancia as $val) {
+            foreach ($val as $val1) {
+                $resumen[] = $val1;
+            }
+        }
+        foreach ($notificado as $val) {
+            foreach ($val as $val1) {
+                $resumen[] = $val1;
+            }
+        }
+
+
+        foreach ($data as $cliente_id => $val) {
+            foreach ($val as $fecha_seguimiento => $val1) {
+                //SI NO TIENE REFINANCIA, SE BUSCA LA MEJOR GESTION
+                usort($val1, function ($a, $b) {
+                    if ($a['peso_paleta'] === $b['peso_paleta']) {
+                        return $b['fecha_ingreso'] <=> $a['fecha_ingreso'];
                     }
-                    break;
-                }else{
-                    //SI NO TIENE REFINANCIA, SE BUSCA LA MEJOR GESTION
-                    usort($val1, function ($a, $b) {
-                        if ($a['peso_paleta'] === $b['peso_paleta']) {
-                            return $b['fecha_ingreso'] <=> $a['fecha_ingreso'];
-                        }
-                        return $a['peso_paleta'] <=> $b['peso_paleta'];
-                    });
-                    $resumen[] = $val1[0];
-                }
+                    return $a['peso_paleta'] <=> $b['peso_paleta'];
+                });
+                $resumen[] = $val1[0];
             }
         }
 
