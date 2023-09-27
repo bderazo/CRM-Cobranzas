@@ -1267,28 +1267,15 @@ class ReportesController extends BaseController
     function exportBaseCarga($json)
     {
         \WebSecurity::secure('reportes.base_carga');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new BaseCarga($this->get('pdo'));
-        $data = $rep->exportar($filtros);
         $lista = [];
-        foreach ($data['data'] as $d) {
+        foreach ($jdata['datos'] as $d) {
             $aux['MARCA'] = [
-                'valor' => $d['nombre_tarjeta'],
+                'valor' => $d['tarjeta'],
                 'formato' => 'text'
             ];
             $aux['CICLOF'] = [
-                'valor' => $d['corte'],
+                'valor' => $d['ciclo'],
                 'formato' => 'number'
             ];
             $aux['NOMSOC'] = [
@@ -1348,7 +1335,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['ZONA'] = [
-                'valor' => $d['zona_cuenta'],
+                'valor' => $d['zona'],
                 'formato' => 'text'
             ];
             $aux['MOTIVO ANTERIOR'] = [

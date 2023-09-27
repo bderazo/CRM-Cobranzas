@@ -52,8 +52,8 @@
 						</thead>
 						<tbody>
 						<tr v-for="d in datos">
-							<td v-html="d.nombre_tarjeta"></td>
-							<td v-html="d.corte"></td>
+							<td v-html="d.tarjeta"></td>
+							<td v-html="d.ciclo"></td>
 							<td v-html="d.nombres"></td>
 							<td v-html="d.cedula"></td>
 							<td v-html="d.valor_pago_minimo"></td>
@@ -68,7 +68,7 @@
 							<td v-html="d.p3"></td>
 							<td v-html="d.t3"></td>
 							<td v-html="d.ciudad_cuenta"></td>
-							<td v-html="d.zona_cuenta"></td>
+							<td v-html="d.zona"></td>
 							<td v-html="d.motivo_anterior"></td>
 							<td v-html="d.resultado_anterior"></td>
 							<td v-html="d.observacion_anterior"></td>
@@ -125,34 +125,14 @@
                         console.log(res);
                     })
                 },
-
-                calcular: function () {
-                    var self = this;
-                    var total_asignacion = 0;
-                    $.each(self.datos, function (key, value) {
-                        var porcentaje_productividad = 0.00;
-                        if(parseFloat(value.asignacion) > 0){
-                            porcentaje_productividad = (parseFloat(value.cuentas) / parseFloat(value.asignacion)) * 100;
-                        }
-                        self.datos[key].porcentaje_productividad = porcentaje_productividad.toFixed(2);
-                        total_asignacion = total_asignacion + parseFloat(value.asignacion);
-                    });
-                    self.total.total_asignacion = total_asignacion;
-                    var total_porcentaje_productividad = 0;
-                    if(total_asignacion > 0){
-                        total_porcentaje_productividad = (parseFloat(self.total.total_cuentas) / total_asignacion) * 100;
-                    }
-                    self.total.total_porcentaje_productividad = total_porcentaje_productividad.toFixed(2);
-                    // app.$forceUpdate();
-                },
-
             },
             mounted: function () {
                 var form = $('#filtros');
                 var self = this;
                 $('#btnExportar').click(function () {
                     var data = {
-                        filtros: form.serializeForm()
+						datos: self.datos,
+						total: self.total,
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();
