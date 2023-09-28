@@ -1032,7 +1032,7 @@ class Producto extends Model
     static function getGastoCobranza($tarjeta, $edad_cartera, $valor_financiar){
         $gasto_cobranza = GastoCobranza::getGastoCobranza($tarjeta, $edad_cartera, $valor_financiar);
         $calculo_gastos_cobranza = ((250 * $valor_financiar) / 5000) + $gasto_cobranza;
-        return $calculo_gastos_cobranza;
+        return $valor_financiar;
     }
 
     static function calculosTarjetaDinersCargaAplicativo($data)
