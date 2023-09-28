@@ -156,7 +156,7 @@ class InformeJornada {
                     $res['fecha_ingreso_hora'] = date("His", strtotime($res['fecha_ingreso']));
 
                     if($res['canal'] == 'AUXILIAR TELEFONIA'){
-                        $res['campana'] = 'CAMPO';
+                        $res['campana'] = 'TELEFONIA';
                     }else{
                         $res['campana'] = $res['canal'];
                     }
