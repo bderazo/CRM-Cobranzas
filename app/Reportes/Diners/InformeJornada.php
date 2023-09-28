@@ -162,7 +162,6 @@ class InformeJornada {
                     }
 
                     if($res['pendiente_actuales'] > 0) {
-
                         //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
                         $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
                         $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;

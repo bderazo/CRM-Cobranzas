@@ -268,9 +268,14 @@ class ProduccionPlaza {
 			$data_totales[$k]['total_zona_mastercard'] = $total_zona_mastercard;
 			$data_totales[$k]['total_zona_general'] = $total_zona_general;
 			$data_totales[$k]['zona'] = $k;
+
+            usort($v, function ($a, $b) {
+                return $b['total_general'] <=> $a['total_general'];
+            });
+
 			$data_totales[$k]['data'] = $v;
 		}
-
+        
 		//ORDENAR EL ARRAY PARA IMPRIMIR
 		$data = [];
 		foreach($data_totales as $dt){

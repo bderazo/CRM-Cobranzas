@@ -36,13 +36,6 @@ return [
             'icon' => 'fa fa-list-alt',
             'description' => 'Procesadas para liquidación'
         ],
-        [
-            'label' => 'Reporte Por Horas',
-            'link' => '/reportes/reporteHoras',
-            'roles' => 'reportes.reporte_horas',
-            'icon' => 'fa fa-list-alt',
-            'description' => 'Reporte por horas'
-        ],
     ],
     'diners_campo' => [
         [
@@ -95,6 +88,13 @@ return [
             'roles' => 'reportes.individual',
             'icon' => 'fa fa-phone',
             'description' => 'Productividad por agente'
+        ],
+        [
+            'label' => 'Reporte Por Horas',
+            'link' => '/reportes/reporteHoras',
+            'roles' => 'reportes.reporte_horas',
+            'icon' => 'fa fa-list-alt',
+            'description' => 'Reporte por horas'
         ],
     ],
     'diners_operativo' => [
