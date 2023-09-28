@@ -4,11 +4,13 @@ namespace Reportes\Diners;
 
 use General\ListasSistema;
 use Models\AplicativoDinersAsignaciones;
+use Models\AplicativoDinersSaldos;
 use Models\Archivo;
 use Models\GenerarPercha;
 use Models\OrdenExtrusion;
 use Models\OrdenCB;
 use Models\PaletaMotivoNoPago;
+use Models\ProductoSeguimiento;
 use Models\TransformarRollos;
 use Models\Usuario;
 
@@ -30,8 +32,26 @@ class NegociacionesAutomatica {
 	function consultaBase($filtros, $config) {
 		$db = new \FluentPDO($this->pdo);
 
+        $campana_ece = isset($filtros['campana_ece']) ? $filtros['campana_ece'] : [];
+        $ciclo = isset($filtros['ciclo']) ? $filtros['ciclo'] : [];
 
-        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes();
+        $begin = new \DateTime($filtros['fecha_inicio']);
+        $end = new \DateTime($filtros['fecha_fin']);
+        $end->setTime(0, 0, 1);
+        $daterange = new \DatePeriod($begin, new \DateInterval('P1D'), $end);
+
+        $clientes_asignacion = [];
+        foreach ($daterange as $date) {
+            $clientes_asignacion = array_merge($clientes_asignacion, AplicativoDinersAsignaciones::getClientes($campana_ece, $ciclo, $date->format("Y-m-d")));
+        }
+
+       //OBTENER SALDOS
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
+
+
+
+
+//        $clientes_asignacion = AplicativoDinersAsignaciones::getClientes();
 
         $archivos_seguimiento = Archivo::porTipo('seguimiento','anexo_respaldo',$config['path_archivos_seguimiento']);
 

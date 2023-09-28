@@ -33,7 +33,6 @@ class ProduccionPlaza {
         $clientes_asignacion_detalle_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca();
 
         //OBTENER SALDOS
-//        $saldos = AplicativoDinersSaldos::getTodosFecha();
         $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
 		//BUSCAR USUARIOS DINERS CON ROL DE GESTOR
@@ -55,9 +54,9 @@ class ProduccionPlaza {
             ->where('ps.nivel_2_id IN (1859)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
-        if (@$filtros['plaza_usuario']){
-            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-            $q->where('u.plaza IN ('.$fil.')');
+        if (@$filtros['zona_cliente']){
+            $fil = '"' . implode('","',$filtros['zona_cliente']) . '"';
+            $q->where('cl.zona IN ('.$fil.')');
         }
         if (@$filtros['canal_usuario']){
             $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
@@ -136,44 +135,44 @@ class ProduccionPlaza {
                     }
 
                     //CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS
-                    if (isset($data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']])) {
-                        $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']]++;
+                    if (isset($data_contar[$seg['id_usuario']][$seg['zona']][$seg['canal']][$seg['nombre_tarjeta']])) {
+                        $data_contar[$seg['id_usuario']][$seg['zona']][$seg['canal']][$seg['nombre_tarjeta']]++;
                     } else {
-                        $data_contar[$seg['id_usuario']][$seg['canal']][$seg['nombre_tarjeta']] = 1;
+                        $data_contar[$seg['id_usuario']][$seg['zona']][$seg['canal']][$seg['nombre_tarjeta']] = 1;
                     }
                     //CONTAR LOS TIPOS DE NEGOCIACION POR PLAZA
-                    if (isset($data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']])) {
+                    if (isset($data_contar_tipo_negociacion[$seg['zona']][$seg['tipo_negociacion']])) {
                         if($seg['unificar_deudas'] == 'no'){
-                            $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+                            $data_contar_tipo_negociacion[$seg['zona']][$seg['tipo_negociacion']]++;
                         }else{
                             if($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta']){
-                                $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']]++;
+                                $data_contar_tipo_negociacion[$seg['zona']][$seg['tipo_negociacion']]++;
                             }
                         }
                     } else {
                         if($seg['unificar_deudas'] == 'no'){
-                            $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+                            $data_contar_tipo_negociacion[$seg['zona']][$seg['tipo_negociacion']] = 1;
                         }else{
                             if($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta']){
-                                $data_contar_tipo_negociacion[$seg['plaza']][$seg['tipo_negociacion']] = 1;
+                                $data_contar_tipo_negociacion[$seg['zona']][$seg['tipo_negociacion']] = 1;
                             }
                         }
                     }
 
                     $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
 
-                    if(isset($recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']])){
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas']++;
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] + $seg['pendiente_actuales'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] + $seg['pendiente_30'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] + $seg['pendiente_60'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] + $seg['pendiente_90'];
+                    if(isset($recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']])){
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas']++;
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] + $seg['pendiente_actuales'];
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] + $seg['pendiente_30'];
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] + $seg['pendiente_60'];
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] + $seg['pendiente_90'];
                     }else{
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas'] = 1;
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $seg['pendiente_actuales'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $seg['pendiente_30'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $seg['pendiente_60'];
-                        $recupero_refinanciar[$seg['plaza']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $seg['pendiente_90'];
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['cuentas'] = 1;
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['actuales'] = $seg['pendiente_actuales'];
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d30'] = $seg['pendiente_30'];
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d60'] = $seg['pendiente_60'];
+                        $recupero_refinanciar[$seg['zona']][$seg['nombre_tarjeta']][$seg['ciclo']]['d90'] = $seg['pendiente_90'];
                     }
 
 //                    if($seg['pendiente_actuales'] > 0) {
@@ -187,26 +186,28 @@ class ProduccionPlaza {
 		ksort($data_contar_tipo_negociacion);
 		$tipo_negociacion = [];
 		foreach($data_contar_tipo_negociacion as $key => $val){
-			$val['plaza'] = $key;
+			$val['zona'] = $key;
 			if(!isset($val['automatica'])) $val['automatica'] = 0;
 			if(!isset($val['manual'])) $val['manual'] = 0;
 			$tipo_negociacion[] = $val;
 		}
 
-		//UNIR CON LOS ASESORES QUE NO REALIZARON GESTIONES
+		//UNIR CON LOS ASESORES
 		$data = [];
 		foreach($usuarios_gestores as $ug){
 			if(isset($data_contar[$ug['id']])) {
 				foreach($data_contar[$ug['id']] as $k => $v) {
-					$d['plaza'] = $ug['plaza'];
-					$d['ejecutivo'] = $ug['nombres'];
-					$d['canal'] = $k;
-					$d['diners'] = isset($v['DINERS']) ? $v['DINERS'] : 0;
-					$d['interdin'] = isset($v['INTERDIN']) ? $v['INTERDIN'] : 0;
-					$d['discover'] = isset($v['DISCOVER']) ? $v['DISCOVER'] : 0;
-					$d['mastercard'] = isset($v['MASTERCARD']) ? $v['MASTERCARD'] : 0;
-					$d['total_general'] = $d['diners'] + $d['interdin'] + $d['discover'] + $d['mastercard'];
-					$data[] = $d;
+                    foreach($v as $k1 => $v1) {
+                        $d['zona'] = $k;
+                        $d['ejecutivo'] = $ug['nombres'];
+                        $d['canal'] = $k1;
+                        $d['diners'] = isset($v1['DINERS']) ? $v1['DINERS'] : 0;
+                        $d['interdin'] = isset($v1['INTERDIN']) ? $v1['INTERDIN'] : 0;
+                        $d['discover'] = isset($v1['DISCOVER']) ? $v1['DISCOVER'] : 0;
+                        $d['mastercard'] = isset($v1['MASTERCARD']) ? $v1['MASTERCARD'] : 0;
+                        $d['total_general'] = $d['diners'] + $d['interdin'] + $d['discover'] + $d['mastercard'];
+                        $data[] = $d;
+                    }
 				}
 			}
 		}
@@ -228,12 +229,12 @@ class ProduccionPlaza {
 		}
 		$data = array_merge($telefonia,$aux_telefonia,$campo,$sin_clasificar);
 
-		//AGRUPAR POR PLAZA DEL USUARIO
-		$data_plaza = [];
+		//AGRUPAR POR CANAL
+		$data_zona = [];
 		foreach($data as $d){
-			$data_plaza[$d['plaza']][] = $d;
+            $data_zona[$d['zona']][] = $d;
 		}
-		ksort($data_plaza);
+		ksort($data_zona);
 
 		//TOTALES POR PLAZA
 		$total_diners = 0;
@@ -242,12 +243,12 @@ class ProduccionPlaza {
 		$total_mastercard = 0;
 		$total_general = 0;
 		$data_totales = [];
-		foreach($data_plaza as $k => $v){
-			$total_plaza_diners = 0;
-			$total_plaza_interdin = 0;
-			$total_plaza_discover = 0;
-			$total_plaza_mastercard = 0;
-			$total_plaza_general = 0;
+		foreach($data_zona as $k => $v){
+			$total_zona_diners = 0;
+			$total_zona_interdin = 0;
+			$total_zona_discover = 0;
+			$total_zona_mastercard = 0;
+			$total_zona_general = 0;
 			foreach($v as $vd){
 				$total_diners = $total_diners + $vd['diners'];
 				$total_interdin = $total_interdin + $vd['interdin'];
@@ -255,18 +256,18 @@ class ProduccionPlaza {
 				$total_mastercard = $total_mastercard + $vd['mastercard'];
 				$total_general = $total_general + $vd['total_general'];
 
-				$total_plaza_diners = $total_plaza_diners + $vd['diners'];
-				$total_plaza_interdin = $total_plaza_interdin + $vd['interdin'];
-				$total_plaza_discover = $total_plaza_discover + $vd['discover'];
-				$total_plaza_mastercard = $total_plaza_mastercard + $vd['mastercard'];
-				$total_plaza_general = $total_plaza_general + $vd['total_general'];
+				$total_zona_diners = $total_zona_diners + $vd['diners'];
+				$total_zona_interdin = $total_zona_interdin + $vd['interdin'];
+				$total_zona_discover = $total_zona_discover + $vd['discover'];
+				$total_zona_mastercard = $total_zona_mastercard + $vd['mastercard'];
+				$total_zona_general = $total_zona_general + $vd['total_general'];
 			}
-			$data_totales[$k]['total_plaza_diners'] = $total_plaza_diners;
-			$data_totales[$k]['total_plaza_interdin'] = $total_plaza_interdin;
-			$data_totales[$k]['total_plaza_discover'] = $total_plaza_discover;
-			$data_totales[$k]['total_plaza_mastercard'] = $total_plaza_mastercard;
-			$data_totales[$k]['total_plaza_general'] = $total_plaza_general;
-			$data_totales[$k]['plaza'] = $k;
+			$data_totales[$k]['total_zona_diners'] = $total_zona_diners;
+			$data_totales[$k]['total_zona_interdin'] = $total_zona_interdin;
+			$data_totales[$k]['total_zona_discover'] = $total_zona_discover;
+			$data_totales[$k]['total_zona_mastercard'] = $total_zona_mastercard;
+			$data_totales[$k]['total_zona_general'] = $total_zona_general;
+			$data_totales[$k]['zona'] = $k;
 			$data_totales[$k]['data'] = $v;
 		}
 
@@ -276,14 +277,14 @@ class ProduccionPlaza {
 			foreach($dt['data'] as $dat){
 				$data[] = $dat;
 			}
-			$aux['plaza'] = 'TOTAL '.$dt['plaza'];
+			$aux['zona'] = 'TOTAL '.$dt['zona'];
 			$aux['ejecutivo'] = '';
 			$aux['canal'] = '';
-			$aux['diners'] = $dt['total_plaza_diners'];
-			$aux['interdin'] = $dt['total_plaza_interdin'];
-			$aux['discover'] = $dt['total_plaza_discover'];
-			$aux['mastercard'] = $dt['total_plaza_mastercard'];
-			$aux['total_general'] = $dt['total_plaza_general'];
+			$aux['diners'] = $dt['total_zona_diners'];
+			$aux['interdin'] = $dt['total_zona_interdin'];
+			$aux['discover'] = $dt['total_zona_discover'];
+			$aux['mastercard'] = $dt['total_zona_mastercard'];
+			$aux['total_general'] = $dt['total_zona_general'];
 			$data[] = $aux;
 		}
 

@@ -26,48 +26,48 @@
 					</thead>
 					<tbody>
 					<tr v-for="d in datos">
-						<template v-if="d.plaza == 'TOTAL AMBATO'">
-							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.plaza"></td>
+						<template v-if="d.zona == 'TOTAL d) ZONA AMBATO'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.zona"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.diners"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.interdin"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.discover"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.mastercard"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #95fab9;" v-html="d.total_general"></td>
 						</template>
-						<template v-else-if="d.plaza == 'TOTAL CUENCA'">
-							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.plaza"></td>
+						<template v-else-if="d.zona == 'TOTAL c) ZONA CUENCA'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.zona"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.diners"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.interdin"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.discover"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.mastercard"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #fdfd96;" v-html="d.total_general"></td>
 						</template>
-						<template v-else-if="d.plaza == 'TOTAL GUAYAQUIL'">
-							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.plaza"></td>
+						<template v-else-if="d.zona == 'TOTAL b) ZONA GUAYAQUIL'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.zona"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.diners"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.interdin"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.discover"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.mastercard"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #b2dafa;" v-html="d.total_general"></td>
 						</template>
-						<template v-else-if="d.plaza == 'TOTAL MACHALA'">
-							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.plaza"></td>
+						<template v-else-if="d.zona == 'TOTAL e) ZONA MACHALA'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.zona"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.diners"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.interdin"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.discover"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.mastercard"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #dfcae1;" v-html="d.total_general"></td>
 						</template>
-						<template v-else-if="d.plaza == 'TOTAL MANABI'">
-							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.plaza"></td>
+						<template v-else-if="d.zona == 'TOTAL f) ZONA MANABI'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.zona"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.diners"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.interdin"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.discover"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.mastercard"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #77dd77;" v-html="d.total_general"></td>
 						</template>
-						<template v-else-if="d.plaza == 'TOTAL QUITO'">
-							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.plaza"></td>
+						<template v-else-if="d.zona == 'TOTAL a) ZONA QUITO'">
+							<td colspan="3" style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.zona"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.diners"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.interdin"></td>
 							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.discover"></td>
@@ -75,26 +75,26 @@
 							<td style="font-weight: bold; text-align: center; background-color: #f9d99a;" v-html="d.total_general"></td>
 						</template>
 						<template v-else>
-							<template v-if="d.plaza == 'AMBATO'">
-								<td style="background-color: #95fab9;" v-html="d.plaza"></td>
+							<template v-if="d.zona == 'd) ZONA AMBATO'">
+								<td style="background-color: #95fab9;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'CUENCA'">
-								<td style="background-color: #fdfd96;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'c) ZONA CUENCA'">
+								<td style="background-color: #fdfd96;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'GUAYAQUIL'">
-								<td style="background-color: #b2dafa;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'b) ZONA GUAYAQUIL'">
+								<td style="background-color: #b2dafa;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'MACHALA'">
-								<td style="background-color: #dfcae1;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'e) ZONA MACHALA'">
+								<td style="background-color: #dfcae1;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'MANABI'">
-								<td style="background-color: #77dd77;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'f) ZONA MANABI'">
+								<td style="background-color: #77dd77;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'QUITO'">
-								<td style="background-color: #f9d99a;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'a) ZONA QUITO'">
+								<td style="background-color: #f9d99a;" v-html="d.zona"></td>
 							</template>
 							<template v-else>
-								<td style="background-color: #ffffff;" v-html="d.plaza"></td>
+								<td style="background-color: #ffffff;" v-html="d.zona"></td>
 							</template>
 							<td v-html="d.ejecutivo"></td>
 							<td v-html="d.canal"></td>
@@ -135,7 +135,7 @@
 					</thead>
 					<tbody>
 					<tr v-for="tn in tipo_negociacion">
-						<td v-html="tn.plaza"></td>
+						<td v-html="tn.zona"></td>
 						<td style="text-align: center;" v-html="tn.automatica"></td>
 						<td style="text-align: center;" v-html="tn.manual"></td>
 					</tr>
@@ -282,7 +282,7 @@
                     });
                     $('#btnTodos').click(function () {
 						form[0].reset();
-						$("#plaza_usuario").select2({
+						$("#zona_cliente").select2({
 							theme: "classic",
 							initSelection: function(element, callback) {}
 						});

@@ -6,6 +6,7 @@ use Catalogos\CatalogoUsuarios;
 use General\GenerarPDF;
 use Models\AplicativoDinersAsignaciones;
 use Models\Catalogo;
+use Models\Cliente;
 use Models\Paleta;
 use Models\PaletaArbol;
 use Models\PaletaMotivoNoPago;
@@ -82,6 +83,7 @@ class ReportesController extends BaseController
             'MASTERCARD' => 'MASTERCARD',
         ];
         $campana_asignacion = AplicativoDinersAsignaciones::getFiltroCampana();
+        $zona_cliente = Cliente::getFiltroZona();
         $campana_ece = AplicativoDinersAsignaciones::getFiltroCampanaEce();
         $ciclo_asignacion = AplicativoDinersAsignaciones::getFiltroCiclo();
         $resultado = PaletaArbol::getNivel1Todos(1);
@@ -95,6 +97,7 @@ class ReportesController extends BaseController
             'horas' => json_encode($horas),
             'minutos' => json_encode($minutos),
             'campana_asignacion' => json_encode($campana_asignacion),
+            'zona_cliente' => json_encode($zona_cliente),
             'campana_ece' => json_encode($campana_ece),
             'campana_usuario' => json_encode($catalogo_usuario->getByKey('campana')),
             'marca' => json_encode($marca),
@@ -549,25 +552,12 @@ class ReportesController extends BaseController
     function exportProduccionPlaza($json)
     {
         \WebSecurity::secure('reportes.produccion_plaza');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $jdata = json_decode($json, true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new ProduccionPlaza($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $lista = [];
         $aux = [];
         foreach ($jdata['datos'] as $d) {
             $aux['ZONA'] = [
-                'valor' => $d['plaza'],
+                'valor' => $d['zona'],
                 'formato' => 'text'
             ];
             $aux['EJECUTIVO'] = [

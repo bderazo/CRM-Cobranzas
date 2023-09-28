@@ -130,4 +130,21 @@ class Cliente extends Model {
         return $retorno;
     }
 
+    static function getFiltroZona() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('cliente')
+            ->select(null)
+            ->select('DISTINCT(zona) as zona')
+            ->where('eliminado',0)
+            ->orderBy('zona ASC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['zona']] = $l['zona'];
+        }
+        return $retorno;
+    }
+
 }
