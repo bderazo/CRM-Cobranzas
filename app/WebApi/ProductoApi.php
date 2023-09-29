@@ -34,12 +34,6 @@ use Models\UsuarioSuscripcion;
 use Negocio\EnvioNotificacionesPush;
 use Slim\Container;
 use upload;
-
-/**
- * Class ProductoApi
- * @package Controllers\api
- * Aqui se ejecuta la logica de productos
- */
 class ProductoApi extends BaseController
 {
 	var $test = false;
@@ -49,10 +43,6 @@ class ProductoApi extends BaseController
 		if(@$p['test']) $this->test = true;
 	}
 
-	/**
-	 * get_form_busqueda_producto
-	 * @param $session
-	 */
 	function get_form_busqueda_producto()
 	{
 		if(!$this->isPost()) return "get_form_busqueda_producto";
@@ -125,12 +115,6 @@ class ProductoApi extends BaseController
 		}
 	}
 
-	/**
-	 * get_productos_list
-	 * @param $query
-	 * @param $page
-	 * @param $session
-	 */
 	function get_productos_list()
 	{
 		if(!$this->isPost()) return "get_productos_list";
@@ -162,11 +146,6 @@ class ProductoApi extends BaseController
 		}
 	}
 
-	/**
-	 * get_producto_cliente
-	 * @param $producto_id
-	 * @param $session
-	 */
 	function get_producto_cliente()
 	{
 		if(!$this->isPost()) return "get_producto_cliente";
@@ -244,11 +223,6 @@ class ProductoApi extends BaseController
 		}
 	}
 
-	/**
-	 * get_producto_producto
-	 * @param $producto_id
-	 * @param $session
-	 */
 	function get_producto_producto()
 	{
 		if(!$this->isPost()) return "get_producto_producto";
@@ -286,14 +260,6 @@ class ProductoApi extends BaseController
 		}
 	}
 
-	/**
-	 * buscar_listas
-	 * @param $session
-	 * @param $list
-	 * @param $q
-	 * @param $page
-	 * @param $data
-	 */
 	function buscar_listas()
 	{
 		if(!$this->isPost()) return "buscar_listas";
@@ -357,14 +323,6 @@ class ProductoApi extends BaseController
 		return $this->json($retorno);
 	}
 
-	/**
-	 * buscar_listas_motivo_no_pago
-	 * @param $session
-	 * @param $list
-	 * @param $q
-	 * @param $page
-	 * @param $data
-	 */
 	function buscar_listas_motivo_no_pago()
 	{
 		if(!$this->isPost()) return "buscar_listas_motivo_no_pago";
@@ -386,12 +344,6 @@ class ProductoApi extends BaseController
 		return $this->json($retorno);
 	}
 
-	/**
-	 * get_form_paleta
-	 * @param $session
-	 * @param $institucion_id
-	 * @param $producto_id
-	 */
 	function get_form_paleta()
 	{
 		if(!$this->isPost()) return "get_form_paleta";
@@ -775,16 +727,6 @@ class ProductoApi extends BaseController
 		}
 	}
 
-	/**
-	 * save_form_paleta
-	 * @param $session
-	 * @param $institucion_id
-	 * @param $producto_id
-	 * @param $lat
-	 * @param $long
-	 * @param $data
-	 * @param $_FILE
-	 */
 	function save_form_paleta()
 	{
 		if(!$this->isPost()) return "save_form_paleta";

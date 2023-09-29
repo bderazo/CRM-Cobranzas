@@ -344,7 +344,6 @@ class Producto extends Model
             ->select(null)
             ->select("p.*, cl.nombres AS cliente_nombres, i.nombre AS institucion_nombre, i.id AS institucion_id")
             ->where('p.eliminado', 0);
-//			->where('p.usuario_asignado', 1);
         if (count($data) > 0) {
             foreach ($data as $key => $val) {
                 if ($val != '') {
@@ -355,10 +354,10 @@ class Producto extends Model
         $q->orderBy('cl.nombres ASC')
             ->limit(10)
             ->offset($page * 10);
-//		\Auditor::error("getProductoList Query " . $q->getQuery(), 'Producto', []);
         $lista = $q->fetchAll();
-//		\Auditor::error("getProductoList DATA " . $q->getQuery(), 'Producto', $lista);
         $retorno = [];
+        $seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
+        $asignacion = AplicativoDinersAsignaciones::getTodosPorClienteAPI(date("Y-m-d"));
         foreach ($lista as $l) {
             //DATA DE DIRECCIONES
             $direccion = Direccion::porModulo('cliente', $l['cliente_id']);
@@ -379,6 +378,15 @@ class Producto extends Model
                 if ($key == 'institucion_nombre') {
                     $campos[] = [
                         'titulo' => 'Institución',
+                        'contenido' => $val,
+                        'titulo_color_texto' => '#000000',
+                        'titulo_color_fondo' => '#FFFFFF',
+                        'contenido_color_texto' => '#FFFFFF',
+                        'contenido_color_fondo' => '#499B70',
+                        'order' => 1,
+                    ];
+                    $campos[] = [
+                        'titulo' => 'Institución2',
                         'contenido' => $val,
                         'titulo_color_texto' => '#000000',
                         'titulo_color_fondo' => '#FFFFFF',

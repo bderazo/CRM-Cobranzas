@@ -211,6 +211,26 @@ class AplicativoDinersAsignaciones extends Model
         return $retorno;
     }
 
+    static function getTodosPorClienteAPI($fecha = '') {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('ads.*')
+            ->where('ads.eliminado',0);
+        if ($fecha != ''){
+            $q->where('ads.fecha_inicio <= "'.$fecha.'"');
+            $q->where('ads.fecha_fin >= "'.$fecha.'"');
+        }
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['cliente_id']][] = $l;
+        }
+        return $retorno;
+    }
+
     static function getClientesDetalle($campana_ece = [], $ciclo = []) {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
