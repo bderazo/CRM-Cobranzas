@@ -375,17 +375,7 @@ class Producto extends Model
 
             $campos = [];
             foreach ($l as $key => $val) {
-                if ($key == 'institucion_nombre') {
-                    $campos[] = [
-                        'titulo' => 'Institución',
-                        'contenido' => $val.'<p>aaa</p>',
-                        'titulo_color_texto' => '#000000',
-                        'titulo_color_fondo' => '#FFFFFF',
-                        'contenido_color_texto' => '#FFFFFF',
-                        'contenido_color_fondo' => '#499B70',
-                        'order' => 1,
-                    ];
-                }
+
                 if ($key == 'cliente_nombres') {
                     $campos[] = [
                         'titulo' => 'Cliente',
@@ -397,18 +387,35 @@ class Producto extends Model
                         'order' => 2,
                     ];
                 }
-                if ($key == 'producto') {
-                    $campos[] = [
-                        'titulo' => 'Producto',
-                        'contenido' => $val,
-                        'titulo_color_texto' => '#000000',
-                        'titulo_color_fondo' => '#FFFFFF',
-                        'contenido_color_texto' => '#000000',
-                        'contenido_color_fondo' => '#FFFFFF',
-                        'order' => 3,
-                    ];
+//                if ($key == 'producto') {
+//                    $campos[] = [
+//                        'titulo' => 'Producto',
+//                        'contenido' => $val,
+//                        'titulo_color_texto' => '#000000',
+//                        'titulo_color_fondo' => '#FFFFFF',
+//                        'contenido_color_texto' => '#000000',
+//                        'contenido_color_fondo' => '#FFFFFF',
+//                        'order' => 3,
+//                    ];
+//                }
+            }
+            $tarjetas_asignadas = [];
+            if (isset($asignacion[$l['cliente_id']])) {
+                foreach ($asignacion[$l['cliente_id']] as $asig) {
+                    $tarjetas_asignadas[] = $asig['marca'] . '(' . $asig['ciclo'] . ')';
                 }
             }
+            $campos[] = [
+                'titulo' => 'Tarjetas Asignadas',
+                'contenido' => implode(' | ',$tarjetas_asignadas),
+                'titulo_color_texto' => '#000000',
+                'titulo_color_fondo' => '#FFFFFF',
+                'contenido_color_texto' => '#FFFFFF',
+                'contenido_color_fondo' => '#499B70',
+                'order' => 1,
+            ];
+
+
             $l['campos'] = $campos;
 
             if ($l['institucion_id'] == 1) {
