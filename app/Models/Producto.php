@@ -378,16 +378,7 @@ class Producto extends Model
                 if ($key == 'institucion_nombre') {
                     $campos[] = [
                         'titulo' => 'Institución',
-                        'contenido' => $val,
-                        'titulo_color_texto' => '#000000',
-                        'titulo_color_fondo' => '#FFFFFF',
-                        'contenido_color_texto' => '#FFFFFF',
-                        'contenido_color_fondo' => '#499B70',
-                        'order' => 1,
-                    ];
-                    $campos[] = [
-                        'titulo' => 'Institución2',
-                        'contenido' => $val,
+                        'contenido' => $val.'<p>aaa</p>',
                         'titulo_color_texto' => '#000000',
                         'titulo_color_fondo' => '#FFFFFF',
                         'contenido_color_texto' => '#FFFFFF',
