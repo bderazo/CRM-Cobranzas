@@ -440,7 +440,9 @@ class Producto extends Model
 
             $l['tarjeta_fondo'] = '#FFFFFF';
 
-            $retorno[] = $l;
+            if (isset($asignacion[$l['cliente_id']])) {
+                $retorno[] = $l;
+            }
         }
         return $retorno;
     }
