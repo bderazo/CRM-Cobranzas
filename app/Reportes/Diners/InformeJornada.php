@@ -58,7 +58,7 @@ class InformeJornada {
             ->leftJoin('paleta_arbol pa ON pa.id = ps.nivel_3_id')
             ->select(null)
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
-                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, u.canal, cl.zona,
+                             cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, u.canal, cl.zona, addet.edad_cartera,
                              DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
                              pa.peso AS peso_paleta")
             ->where('ps.nivel_1_id IN (1855, 1839, 1861)')
