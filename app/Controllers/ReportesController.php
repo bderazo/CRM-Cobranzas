@@ -1010,10 +1010,10 @@ class ReportesController extends BaseController
                 'valor' => $d['pendiente_mas_90'],
                 'formato' => 'number'
             ];
-//            $aux['EDAD CARTERA'] = [
-//                'valor' => $d['edad_cartera'],
-//                'formato' => 'number'
-//            ];
+            $aux['EDAD REAL'] = [
+                'valor' => $d['edad_cartera'],
+                'formato' => 'number'
+            ];
             $lista[] = $aux;
         }
 
