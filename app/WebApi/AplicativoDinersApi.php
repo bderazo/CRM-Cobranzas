@@ -31,12 +31,6 @@ use Models\UsuarioSuscripcion;
 use Negocio\EnvioNotificacionesPush;
 use Slim\Container;
 use upload;
-
-/**
- * Class AplicativoDinersApi
- * @package Controllers\api
- * Aqui se ejecuta la logica de AplicativoDiners
- */
 class AplicativoDinersApi extends BaseController
 {
 	var $test = false;
@@ -46,11 +40,6 @@ class AplicativoDinersApi extends BaseController
 		if(@$p['test']) $this->test = true;
 	}
 
-	/**
-	 * campos_aplicativo_diners
-	 * @param $producto_id
-	 * @param $session
-	 */
 	function campos_aplicativo_diners()
 	{
 		if(!$this->isPost()) return "campos_aplicativo_diners";
@@ -128,7 +117,6 @@ class AplicativoDinersApi extends BaseController
 				'producto_id' => $producto_id,
 			];
 
-			$aplicativo_diners_detalle_mayor_deuda = AplicativoDinersDetalle::porMaxTotalRiesgoAplicativoDiners($aplicativo_diners['id']);
 			$aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDiners($aplicativo_diners['id']);
 			foreach($aplicativo_diners_detalle as $add) {
 				if($add['nombre_tarjeta'] == 'DINERS') {
@@ -137,23 +125,17 @@ class AplicativoDinersApi extends BaseController
 						'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
 						'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id=' . $aplicativo_diners['id'],
 						'guardar' => 'api/aplicativo_diners/save_tarjeta_diners',
-						'background-color' => '#4C5EF7',
+						'background-color' => '#0066A8',
 					];
-					if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DINERS') {
-						$dat['background-color'] = '#499B70';
-					}
 					$tarjetas[] = $dat;
 				} elseif($add['nombre_tarjeta'] == 'INTERDIN') {
 					$dat = [
-						'nombre' => 'INTERDIN | CICLO: ' . $add['ciclo'] . ' | EDAD: ' . $add['edad_cartera'] . ' | PENDIENTE: ' . $add['total_pendiente_facturado_despues_abono'],
+						'nombre' => 'VISA | CICLO: ' . $add['ciclo'] . ' | EDAD: ' . $add['edad_cartera'] . ' | PENDIENTE: ' . $add['total_pendiente_facturado_despues_abono'],
 						'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
 						'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id=' . $aplicativo_diners['id'],
 						'guardar' => 'api/aplicativo_diners/save_tarjeta_interdin',
-						'background-color' => '#4C5EF7',
+						'background-color' => '#404040',
 					];
-					if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'INTERDIN') {
-						$dat['background-color'] = '#499B70';
-					}
 					$tarjetas[] = $dat;
 				} elseif($add['nombre_tarjeta'] == 'DISCOVER') {
 					$dat = [
@@ -161,11 +143,8 @@ class AplicativoDinersApi extends BaseController
 						'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
 						'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id=' . $aplicativo_diners['id'],
 						'guardar' => 'api/aplicativo_diners/save_tarjeta_discover',
-						'background-color' => '#4C5EF7',
+						'background-color' => '#E66929',
 					];
-					if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'DISCOVER') {
-						$dat['background-color'] = '#499B70';
-					}
 					$tarjetas[] = $dat;
 				} elseif($add['nombre_tarjeta'] == 'MASTERCARD') {
 					$dat = [
@@ -173,11 +152,8 @@ class AplicativoDinersApi extends BaseController
 						'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
 						'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id=' . $aplicativo_diners['id'],
 						'guardar' => 'api/aplicativo_diners/save_tarjeta_mastercard',
-						'background-color' => '#4C5EF7',
+						'background-color' => '#A4B706',
 					];
-					if($aplicativo_diners_detalle_mayor_deuda['nombre_tarjeta'] == 'MASTERCARD') {
-						$dat['background-color'] = '#499B70';
-					}
 					$tarjetas[] = $dat;
 				}
 			}
@@ -192,11 +168,6 @@ class AplicativoDinersApi extends BaseController
 		}
 	}
 
-	/**
-	 * campos_tarjeta_diners
-	 * @param $aplicativo_diners_id
-	 * @param $session
-	 */
 	function campos_tarjeta_diners()
 	{
 		if(!$this->isPost()) return "campos_tarjeta_diners";
