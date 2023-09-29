@@ -364,7 +364,7 @@ class Producto extends Model
             $dir_array = [];
             foreach ($direccion as $dir) {
                 $aux = [];
-                $aux['tipo'] = substr($dir['tipo'], 0, 3);
+//                $aux['tipo'] = substr($dir['tipo'], 0, 3);
                 $aux['ciudad'] = $dir['ciudad'];
                 $aux['direccion'] = $dir['direccion'];
                 $aux['latitud'] = 0;
