@@ -425,7 +425,7 @@ class Producto extends Model
                 'titulo_color_texto' => '#000000',
                 'titulo_color_fondo' => '#FFFFFF',
                 'contenido_color_texto' => '#FFFFFF',
-                'contenido_color_fondo' => '#499B70',
+                'contenido_color_fondo' => '#4FD4FC',
                 'order' => 1,
             ];
 
