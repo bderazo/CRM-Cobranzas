@@ -415,6 +415,20 @@ class Producto extends Model
                 'order' => 1,
             ];
 
+            $ultimo_seguimiento = '';
+            if (isset($seguimiento_ultimos_todos[$l['cliente_id']])) {
+                $ultimo_seguimiento = $seguimiento_ultimos_todos[$l['cliente_id']]['nivel_3_texto'] . '(' . $seguimiento_ultimos_todos[$l['cliente_id']]['fecha_ingreso'] . ')';
+            }
+            $campos[] = [
+                'titulo' => 'Último Seguimiento',
+                'contenido' => $ultimo_seguimiento,
+                'titulo_color_texto' => '#000000',
+                'titulo_color_fondo' => '#FFFFFF',
+                'contenido_color_texto' => '#FFFFFF',
+                'contenido_color_fondo' => '#499B70',
+                'order' => 1,
+            ];
+
 
             $l['campos'] = $campos;
 
