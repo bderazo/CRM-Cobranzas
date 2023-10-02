@@ -496,7 +496,7 @@ class Producto extends Model
 
     static function calculosTarjetaDiners($data, $aplicativo_diners_id, $origen_calculo = 'web', $valor_financiar_interdin = 0, $valor_financiar_discover = 0, $valor_financiar_mastercard = 0)
     {
-        $tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
+//        $tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $aplicativo_diners_id);
 
         //ABONO TOTAL
         $abono_efectivo_sistema = 0;
@@ -590,11 +590,12 @@ class Producto extends Model
             if ($data['total_precancelacion_diferidos'] > 0) {
                 $total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
             }
-        } else {
-            if ($tarjeta['total_precancelacion_diferidos'] > 0) {
-                $total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
-            }
         }
+//        else {
+//            if ($tarjeta['total_precancelacion_diferidos'] > 0) {
+//                $total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
+//            }
+//        }
 
         $interes_facturar = 0;
         if ($data['interes_facturar'] > 0) {
@@ -668,8 +669,7 @@ class Producto extends Model
             if ($origen_calculo == 'movil') {
                 $aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDinersUltimos($aplicativo_diners_id);
                 foreach ($aplicativo_diners_detalle as $add) {
-                    \Auditor::info($add['nombre_tarjeta'], 'API', $tarjeta['nombre_tarjeta']);
-                    if ($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
+                    if ($add['nombre_tarjeta'] != 'DINERS') {
                         if ($add['tipo'] == 'original') {
                             //CALCULO DE ABONO NEGOCIADOR
                             $abono_negociador_calculado = $add['interes_facturado'] - $add['abono_efectivo_sistema'];
