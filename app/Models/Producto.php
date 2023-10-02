@@ -927,11 +927,9 @@ class Producto extends Model
         }
 
         //CALCULO DE GASTOS DE COBRANZA
-        \Auditor::info('$total_precancelacion_diferidos', 'API', $total_precancelacion_diferidos);
         if ($total_precancelacion_diferidos > 0) {
             $calculo_gastos_cobranza = Producto::getGastoCobranza($nombre_tarjeta, $data['edad_cartera'], $data['valor_financiar']);
             $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
-            \Auditor::info('calculo_gastos_cobranza', 'API', $data['calculo_gastos_cobranza']);
 
             $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 
