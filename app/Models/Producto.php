@@ -667,9 +667,11 @@ class Producto extends Model
             }
             if ($origen_calculo == 'movil') {
                 $aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDinersUltimos($aplicativo_diners_id);
-                $aux = '';
                 foreach ($aplicativo_diners_detalle as $add) {
                     if ($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
+
+                        \Auditor::info($add['nombre_tarjeta'], 'API', $add['valor_financiar']);
+
                         if ($add['tipo'] == 'original') {
                             //CALCULO DE ABONO NEGOCIADOR
                             $abono_negociador_calculado = $add['interes_facturado'] - $add['abono_efectivo_sistema'];
