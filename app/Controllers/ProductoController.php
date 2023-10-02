@@ -994,8 +994,6 @@ class ProductoController extends BaseController
             }
         }
 
-        \Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
-
         return $this->redirectToAction('index');
     }
 
@@ -1102,7 +1100,6 @@ class ProductoController extends BaseController
         $aplicativo_diners_obj = AplicativoDiners::porId($aplicativo_diners['id']);
         $aplicativo_diners_obj->estado = 'gestionado';
         $aplicativo_diners_obj->save();
-        \Auditor::info("Producto Seguimiento $con->id ingresado", 'ProductoSeguimiento');
 
         //GUARDAR APLICATIVO DINERS
         $aplicativo_diners_tarjeta_diners = isset($data['aplicativo_diners_tarjeta_diners']) ? $data['aplicativo_diners_tarjeta_diners'] : [];
