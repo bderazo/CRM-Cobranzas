@@ -878,11 +878,12 @@ class Producto extends Model
             if ($data['total_precancelacion_diferidos'] > 0) {
                 $total_precancelacion_diferidos = $data['total_precancelacion_diferidos'];
             }
-        } else {
-            if ($tarjeta['total_precancelacion_diferidos'] > 0) {
-                $total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
-            }
         }
+//        else {
+//            if ($tarjeta['total_precancelacion_diferidos'] > 0) {
+//                $total_precancelacion_diferidos = $tarjeta['total_precancelacion_diferidos'];
+//            }
+//        }
 
         $interes_facturar = 0;
         if ($data['interes_facturar'] > 0) {
@@ -929,6 +930,7 @@ class Producto extends Model
         if ($total_precancelacion_diferidos > 0) {
             $calculo_gastos_cobranza = Producto::getGastoCobranza($nombre_tarjeta, $data['edad_cartera'], $data['valor_financiar']);
             $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
+            \Auditor::info('calculo_gastos_cobranza', 'API', $data['calculo_gastos_cobranza']);
 
             $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
 

@@ -611,11 +611,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * campos_tarjeta_interdin
-     * @param $aplicativo_diners_id
-     * @param $session
-     */
     function campos_tarjeta_interdin()
     {
         if (!$this->isPost()) return "campos_tarjeta_interdin";
