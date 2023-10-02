@@ -1016,11 +1016,7 @@ class AplicativoDinersApi extends BaseController
                 'valor' => $tarjeta_interdin['valor_financiar'],
                 'tipo' => 'label',
                 'name' => 'data[valor_financiar]',
-//                'colorFondo' => '#e3e3e3',
-                'titulo_color_texto' => '#000000',
-                'titulo_color_fondo' => '#FFFFFF',
-                'contenido_color_texto' => '#FFFFFF',
-                'contenido_color_fondo' => '#499B70',
+                'colorFondo' => '#e3e3e3',
             ];
             $seccion6['contenido'][] = [
                 'etiqueta' => 'UNIFICAR DEUDAS',
