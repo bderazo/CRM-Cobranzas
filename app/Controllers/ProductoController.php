@@ -1089,7 +1089,7 @@ class ProductoController extends BaseController
                     $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                     $t = Telefono::porId($con->telefono_id);
                     $t->bandera = 1;
-                    $t->fecha_modificacion = date("Y-m-d H:i:s");
+//                    $t->fecha_modificacion = date("Y-m-d H:i:s");
                     $t->save();
                 }
             }
@@ -1172,7 +1172,7 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
@@ -1268,7 +1268,7 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
@@ -1364,7 +1364,7 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
@@ -1460,7 +1460,7 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
