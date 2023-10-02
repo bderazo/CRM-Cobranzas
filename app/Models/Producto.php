@@ -638,7 +638,7 @@ class Producto extends Model
 
         //CALCULO DE GASTOS DE COBRANZA
         if ($total_precancelacion_diferidos > 0) {
-            $calculo_gastos_cobranza = Producto::getGastoCobranza('DINERS', $data['edad_cartera'], $data['deuda_actual']);
+            $calculo_gastos_cobranza = Producto::getGastoCobranza('DINERS', $data['edad_cartera'], $data['valor_financiar'], $data['deuda_actual']);
             $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
             $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
@@ -919,7 +919,7 @@ class Producto extends Model
 
         //CALCULO DE GASTOS DE COBRANZA
         if ($total_precancelacion_diferidos > 0) {
-            $calculo_gastos_cobranza = Producto::getGastoCobranza($nombre_tarjeta, $data['edad_cartera'], $data['deuda_actual']);
+            $calculo_gastos_cobranza = Producto::getGastoCobranza($nombre_tarjeta, $data['edad_cartera'], $data['valor_financiar'], $data['deuda_actual']);
             $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
             $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
@@ -1059,9 +1059,9 @@ class Producto extends Model
         return $data;
     }
 
-    static function getGastoCobranza($tarjeta, $edad_cartera, $valor_financiar)
+    static function getGastoCobranza($tarjeta, $edad_cartera, $valor_financiar, $deuda_actual)
     {
-        $gasto_cobranza = GastoCobranza::getGastoCobranza($tarjeta, $edad_cartera, $valor_financiar);
+        $gasto_cobranza = GastoCobranza::getGastoCobranza($tarjeta, $edad_cartera, $deuda_actual);
         $calculo_gastos_cobranza = ((250 * $valor_financiar) / 5000) + $gasto_cobranza;
         return $calculo_gastos_cobranza;
     }
