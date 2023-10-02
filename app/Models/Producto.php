@@ -638,7 +638,7 @@ class Producto extends Model
 
         //CALCULO DE GASTOS DE COBRANZA
         if ($total_precancelacion_diferidos > 0) {
-            $calculo_gastos_cobranza = Producto::getGastoCobranza('DINERS', $data['edad_cartera'], $data['valor_financiar']);
+            $calculo_gastos_cobranza = Producto::getGastoCobranza('DINERS', $data['edad_cartera'], $data['deuda_actual']);
             $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
             $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
@@ -776,15 +776,6 @@ class Producto extends Model
     static function calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta, $origen_calculo = 'web', $valor_financiar_tarjeta_diners = 0, $valor_financiar_tarjeta_interdin = 0, $valor_financiar_tarjeta_discover = 0, $valor_financiar_tarjeta_mastercard = 0)
     {
         $nombre_tarjeta = $tarjeta;
-        if ($tarjeta == 'INTERDIN') {
-            $tarjeta = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $aplicativo_diners_id);
-        } elseif ($tarjeta == 'DISCOVER') {
-            $tarjeta = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $aplicativo_diners_id);
-        } elseif ($tarjeta == 'MASTERCARD') {
-            $tarjeta = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $aplicativo_diners_id);
-        } else {
-            $tarjeta = [];
-        }
 
         //ABONO TOTAL
         $abono_efectivo_sistema = 0;
@@ -928,7 +919,7 @@ class Producto extends Model
 
         //CALCULO DE GASTOS DE COBRANZA
         if ($total_precancelacion_diferidos > 0) {
-            $calculo_gastos_cobranza = Producto::getGastoCobranza($nombre_tarjeta, $data['edad_cartera'], $data['valor_financiar']);
+            $calculo_gastos_cobranza = Producto::getGastoCobranza($nombre_tarjeta, $data['edad_cartera'], $data['deuda_actual']);
             $data['calculo_gastos_cobranza'] = number_format($calculo_gastos_cobranza, 2, '.', '');
 
             $valor_financiar = $data['valor_financiar'] + number_format($calculo_gastos_cobranza, 2, '.', '');
