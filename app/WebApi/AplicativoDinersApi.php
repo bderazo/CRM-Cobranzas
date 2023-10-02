@@ -840,9 +840,9 @@ class AplicativoDinersApi extends BaseController
             ];
             $seccion2['contenido'][] = [
                 'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
-                'valor' => $tarjeta_interdin['total_calculo_precancelacion_diferidos'],
+                'valor' => $tarjeta_interdin['total_precancelacion_diferidos'],
                 'tipo' => 'label',
-                'name' => 'data[total_calculo_precancelacion_diferidos]',
+                'name' => 'data[total_precancelacion_diferidos]',
             ];
             $seccion2['contenido'][] = [
                 'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
@@ -1293,9 +1293,9 @@ class AplicativoDinersApi extends BaseController
             ];
             $seccion2['contenido'][] = [
                 'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
-                'valor' => $tarjeta_discover['total_calculo_precancelacion_diferidos'],
+                'valor' => $tarjeta_discover['total_precancelacion_diferidos'],
                 'tipo' => 'label',
-                'name' => 'data[total_calculo_precancelacion_diferidos]',
+                'name' => 'data[total_precancelacion_diferidos]',
             ];
             $seccion2['contenido'][] = [
                 'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
@@ -1743,9 +1743,9 @@ class AplicativoDinersApi extends BaseController
             ];
             $seccion2['contenido'][] = [
                 'etiqueta' => 'TOTAL VALOR PRE CANCELACION DIFERIDOS',
-                'valor' => $tarjeta_mastercard['total_calculo_precancelacion_diferidos'],
+                'valor' => $tarjeta_mastercard['total_precancelacion_diferidos'],
                 'tipo' => 'label',
-                'name' => 'data[total_calculo_precancelacion_diferidos]',
+                'name' => 'data[total_precancelacion_diferidos]',
             ];
             $seccion2['contenido'][] = [
                 'etiqueta' => 'ESPECIALIDAD VENTA VEHICULOS',
