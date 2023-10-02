@@ -416,8 +416,10 @@ class Producto extends Model
             ];
 
             $ultimo_seguimiento = '';
+            $ultimo_seguimiento_observaciones = '';
             if (isset($seguimiento_ultimos_todos[$l['cliente_id']])) {
                 $ultimo_seguimiento = $seguimiento_ultimos_todos[$l['cliente_id']]['nivel_3_texto'] . '(' . $seguimiento_ultimos_todos[$l['cliente_id']]['fecha_ingreso'] . ')';
+                $ultimo_seguimiento_observaciones = $seguimiento_ultimos_todos[$l['cliente_id']]['observaciones'];
             }
             $campos[] = [
                 'titulo' => 'Último Seguimiento',
@@ -426,6 +428,15 @@ class Producto extends Model
                 'titulo_color_fondo' => '#FFFFFF',
                 'contenido_color_texto' => '#FFFFFF',
                 'contenido_color_fondo' => '#4FD4FC',
+                'order' => 1,
+            ];
+            $campos[] = [
+                'titulo' => 'Último Seguimiento (Observaciones)',
+                'contenido' => $ultimo_seguimiento_observaciones,
+                'titulo_color_texto' => '#000000',
+                'titulo_color_fondo' => '#FFFFFF',
+                'contenido_color_texto' => '#000000',
+                'contenido_color_fondo' => '#FFFFFF',
                 'order' => 1,
             ];
 
