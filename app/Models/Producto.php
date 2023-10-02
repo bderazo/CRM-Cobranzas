@@ -668,6 +668,7 @@ class Producto extends Model
             if ($origen_calculo == 'movil') {
                 $aplicativo_diners_detalle = AplicativoDinersDetalle::porAplicativoDinersUltimos($aplicativo_diners_id);
                 foreach ($aplicativo_diners_detalle as $add) {
+                    \Auditor::info($add['nombre_tarjeta'], 'API', $tarjeta['nombre_tarjeta']);
                     if ($add['nombre_tarjeta'] != $tarjeta['nombre_tarjeta']) {
                         if ($add['tipo'] == 'original') {
                             //CALCULO DE ABONO NEGOCIADOR
@@ -680,7 +681,7 @@ class Producto extends Model
                             $add['unificar_deudas'] = 'NO';
                             $tarjeta_calculado = Producto::calculosTarjetaGeneral($add, $aplicativo_diners_id, $add['nombre_tarjeta'], 'movil');
 
-                            \Auditor::info($add['nombre_tarjeta'], 'API', floatval($tarjeta_calculado['valor_financiar']));
+//                            \Auditor::info($add['nombre_tarjeta'], 'API', floatval($tarjeta_calculado['valor_financiar']));
 
                             $suma_valor_financiar = $suma_valor_financiar +  floatval($tarjeta_calculado['valor_financiar']);
                         } else {
