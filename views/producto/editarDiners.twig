@@ -1379,6 +1379,22 @@
                                                         </td>
                                                     </tr>
                                                 </template>
+                                                <template v-if="aplicativo_diners_tarjeta_diners.prenda_vehicular == '' || aplicativo_diners_tarjeta_diners.prenda_vehicular == null">
+                                                    <tr>
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_diners.prenda_vehicular"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_diners.prenda_vehicular"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 </tbody>
                                             </table>
                                             <br/>
@@ -1941,6 +1957,22 @@
                                                         </td>
                                                     </tr>
                                                 </template>
+                                                <template v-if="aplicativo_diners_tarjeta_interdin.prenda_vehicular == '' || aplicativo_diners_tarjeta_interdin.prenda_vehicular == null">
+                                                    <tr>
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_interdin.prenda_vehicular"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_interdin.prenda_vehicular"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 </tbody>
                                             </table>
                                             <br/>
@@ -2492,6 +2524,22 @@
                                                         </td>
                                                     </tr>
                                                 </template>
+                                                <template v-if="aplicativo_diners_tarjeta_discover.prenda_vehicular == '' || aplicativo_diners_tarjeta_discover.prenda_vehicular == null">
+                                                    <tr>
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_discover.prenda_vehicular"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_discover.prenda_vehicular"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 </tbody>
                                             </table>
                                             <br/>
@@ -3040,6 +3088,22 @@
                                                         <td><strong>ESPECIALIDAD VENTA VEHICULOS</strong></td>
                                                         <td>
                                                             <span v-html="aplicativo_diners_tarjeta_mastercard.especialidad_venta_vehiculos"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-if="aplicativo_diners_tarjeta_mastercard.prenda_vehicular == '' || aplicativo_diners_tarjeta_mastercard.prenda_vehicular == null">
+                                                    <tr>
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_mastercard.prenda_vehicular"></span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template v-else>
+                                                    <tr style="background-color: yellow;">
+                                                        <td><strong>PRENDA VEHICULAR</strong></td>
+                                                        <td>
+                                                            <span v-html="aplicativo_diners_tarjeta_mastercard.prenda_vehicular"></span>
                                                         </td>
                                                     </tr>
                                                 </template>

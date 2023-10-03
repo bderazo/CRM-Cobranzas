@@ -501,6 +501,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['interes_facturar'] = $values[41];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[44];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[45];
+                        $aplicativo_diners_detalle['prenda_vehicular'] = $values[129];
 						$aplicativo_diners_detalle['codigo_cancelacion'] = $values[46];
 						$aplicativo_diners_detalle['codigo_boletin'] = $values[47];
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[126];
@@ -612,6 +613,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['interes_facturar'] = $values[79];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[82];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[83];
+                        $aplicativo_diners_detalle['prenda_vehicular'] = $values[160];
 						$aplicativo_diners_detalle['codigo_cancelacion'] = $values[84];
 						$aplicativo_diners_detalle['codigo_boletin'] = $values[85];
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[127];
@@ -733,6 +735,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['interes_facturar'] = $values[117];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[120];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[121];
+                        $aplicativo_diners_detalle['prenda_vehicular'] = $values[162];
 						$aplicativo_diners_detalle['codigo_cancelacion'] = $values[122];
 						$aplicativo_diners_detalle['codigo_boletin'] = $values[123];
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[128];
@@ -864,6 +867,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['interes_facturar'] = $values[164];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[167];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[168];
+                        $aplicativo_diners_detalle['prenda_vehicular'] = $values[165];
 						$aplicativo_diners_detalle['codigo_cancelacion'] = $values[169];
 						$aplicativo_diners_detalle['codigo_boletin'] = $values[170];
 						$aplicativo_diners_detalle['tt_cuotas_fact'] = $values[173];

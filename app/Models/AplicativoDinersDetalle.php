@@ -59,7 +59,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property double total_precancelacion_diferidos
  * @property double calculo_gastos_cobranza
  * @property double total_calculo_precancelacion_diferidos
- * @property double especialidad_venta_vehiculos
+ * @property string especialidad_venta_vehiculos
+ * @property string prenda_vehicular
  * @property double abono_efectivo_sistema
  * @property double abono_negociador
  * @property double abono_total
