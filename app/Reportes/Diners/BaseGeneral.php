@@ -94,6 +94,22 @@ class BaseGeneral {
             $fil = implode(',',$filtros['ciclo']);
             $q->where('addet.ciclo IN ('.$fil.')');
         }
+        if (@$filtros['resultado']){
+            $fil = implode(',',$filtros['resultado']);
+            $q->where('ps.nivel_1_id IN ('.$fil.')');
+        }
+        if (@$filtros['accion']){
+            $fil = implode(',',$filtros['accion']);
+            $q->where('ps.nivel_2_id IN ('.$fil.')');
+        }
+        if (@$filtros['descripcion']){
+            $fil = implode(',',$filtros['descripcion']);
+            $q->where('ps.nivel_3_id IN ('.$fil.')');
+        }
+        if (@$filtros['gestor']){
+            $fil = implode(',',$filtros['gestor']);
+            $q->where('ps.usuario_ingreso IN ('.$fil.')');
+        }
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
                 $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];

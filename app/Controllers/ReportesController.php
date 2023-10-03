@@ -14,6 +14,7 @@ use Models\Plantilla;
 use Models\ProductoExtrusion;
 use Models\Producto;
 use Models\TipoMaterial;
+use Models\Usuario;
 use Reportes\CorteBobinado\ConsumoRollosMadre;
 use Reportes\CorteBobinado\InventarioProductoTerminado;
 use Reportes\CorteBobinado\ProduccionDiariaCB;
@@ -91,6 +92,7 @@ class ReportesController extends BaseController
         $descripcion = PaletaArbol::getNivel3Todos(1);
         $motivo_no_pago = PaletaMotivoNoPago::getNivel1Todos(1);
         $descripcion_no_pago = PaletaMotivoNoPago::getNivel2Todos(1);
+        $gestor = Usuario::getTodosFiltro();
         return [
             'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
             'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
@@ -107,6 +109,7 @@ class ReportesController extends BaseController
             'descripcion' => json_encode($descripcion),
             'motivo_no_pago' => json_encode($motivo_no_pago),
             'descripcion_no_pago' => json_encode($descripcion_no_pago),
+            'gestor' => json_encode($gestor),
         ];
     }
 
