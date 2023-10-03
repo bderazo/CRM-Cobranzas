@@ -159,6 +159,10 @@ class GestionesPorHora {
             $fil = implode(',',$filtros['descripcion_no_pago']);
             $q->where('ps.nivel_2_motivo_no_pago_id IN ('.$fil.')');
         }
+        if (@$filtros['gestor']){
+            $fil = implode(',',$filtros['gestor']);
+            $q->where('ps.usuario_ingreso IN ('.$fil.')');
+        }
         if (@$filtros['fecha_inicio']){
             if(($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')){
                 $hora = strlen($filtros['hora_inicio']) == 1 ? '0'.$filtros['hora_inicio'] : $filtros['hora_inicio'];
