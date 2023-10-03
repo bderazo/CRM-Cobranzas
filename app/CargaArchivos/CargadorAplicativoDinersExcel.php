@@ -440,6 +440,7 @@ class CargadorAplicativoDinersExcel
                         $aplicativo_diners_detalle['motivo_cierre'] = $values[27];
                         $aplicativo_diners_detalle['ejecutivo'] = $values[48];
 						$aplicativo_diners_detalle['credito_inmediato'] = $values[4];
+                        $aplicativo_diners_detalle['campana'] = $values[49];
                         $aplicativo_diners_detalle['corrientes_facturar'] = $values[14];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[15];
 						$aplicativo_diners_detalle['ciclo'] = $values[16];
@@ -558,6 +559,7 @@ class CargadorAplicativoDinersExcel
                         $aplicativo_diners_detalle['motivo_cierre'] = $values[65];
                         $aplicativo_diners_detalle['ejecutivo'] = $values[86];
                         $aplicativo_diners_detalle['credito_inmediato'] = $values[13];
+                        $aplicativo_diners_detalle['campana'] = $values[87];
 						$aplicativo_diners_detalle['corrientes_facturar'] = $values[51];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[52];
 						$aplicativo_diners_detalle['ciclo'] = $values[53];
@@ -669,6 +671,7 @@ class CargadorAplicativoDinersExcel
                         $aplicativo_diners_detalle['motivo_cierre'] = $values[103];
                         $aplicativo_diners_detalle['ejecutivo'] = $values[124];
                         $aplicativo_diners_detalle['credito_inmediato'] = $values[29];
+                        $aplicativo_diners_detalle['campana'] = $values[125];
 						$aplicativo_diners_detalle['corrientes_facturar'] = $values[89];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[90];
 						$aplicativo_diners_detalle['ciclo'] = $values[91];
@@ -801,6 +804,7 @@ class CargadorAplicativoDinersExcel
                         $aplicativo_diners_detalle['motivo_cierre'] = $values[150];
                         $aplicativo_diners_detalle['ejecutivo'] = $values[171];
                         $aplicativo_diners_detalle['credito_inmediato'] = $values[36];
+                        $aplicativo_diners_detalle['campana'] = $values[172];
 						$aplicativo_diners_detalle['corrientes_facturar'] = $values[136];
 						$aplicativo_diners_detalle['total_riesgo'] = $values[137];
 						$aplicativo_diners_detalle['ciclo'] = $values[138];
