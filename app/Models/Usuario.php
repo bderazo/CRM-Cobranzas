@@ -260,7 +260,7 @@ class Usuario extends Model {
 			->select(null)
 			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombres")
 			->where('u.activo',1)
-			->where('p.id',15)
+//			->where('p.id',15)
 			->where('i.id',1);
 		if($plaza != ''){
 			$q->where('u.plaza',$plaza);
