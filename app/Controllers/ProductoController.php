@@ -275,6 +275,17 @@ class ProductoController extends BaseController
         $catalogos['paleta_motivo_no_pago_nivel_1_mastercard'] = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
         $catalogos['paleta_motivo_no_pago_nivel_2_mastercard'] = [];
 
+        $catalogos['medio_contacto'] = [
+            ['id' => 'LLAMADA', 'nombre' => 'LLAMADA'],
+            ['id' => 'WHATSAPP', 'nombre' => 'WHATSAPP'],
+            ['id' => 'LLAMADA Y WHATSAPP', 'nombre' => 'LLAMADA Y WHATSAPP'],
+        ];
+        $catalogos['actividad_actual'] = [
+            ['id' => 'INDEPENDIENTE', 'nombre' => 'INDEPENDIENTE'],
+            ['id' => 'DEPENDIENTE', 'nombre' => 'DEPENDIENTE'],
+            ['id' => 'JUBILADO', 'nombre' => 'JUBILADO'],
+        ];
+
         $paleta = Paleta::porId($institucion->paleta_id);
 
         $aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
@@ -1074,6 +1085,9 @@ class ProductoController extends BaseController
             $con->sugerencia_correo = $seguimiento['sugerencia_correo'];
             $con->ingresos_cliente = $seguimiento['ingresos_cliente'];
             $con->egresos_cliente = $seguimiento['egresos_cliente'];
+            $con->actividad_actual = $seguimiento['actividad_actual'];
+            $con->gestion_detallada = $seguimiento['gestion_detallada'];
+            $con->medio_contacto = $seguimiento['medio_contacto'];
             $con->unificar_deudas = $bandera_unificar_deuda;
             $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
             $con->usuario_modificacion = \WebSecurity::getUserData('id');
@@ -1203,6 +1217,9 @@ class ProductoController extends BaseController
                     $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_diners['ingresos_cliente'];
                     $con->egresos_cliente = $seguimiento_diners['egresos_cliente'];
+                    $con->actividad_actual = $seguimiento_diners['actividad_actual'];
+                    $con->gestion_detallada = $seguimiento_diners['gestion_detallada'];
+                    $con->medio_contacto = $seguimiento_diners['medio_contacto'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
@@ -1292,6 +1309,9 @@ class ProductoController extends BaseController
                     $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_interdin['ingresos_cliente'];
                     $con->egresos_cliente = $seguimiento_interdin['egresos_cliente'];
+                    $con->actividad_actual = $seguimiento_interdin['actividad_actual'];
+                    $con->gestion_detallada = $seguimiento_interdin['gestion_detallada'];
+                    $con->medio_contacto = $seguimiento_interdin['medio_contacto'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
@@ -1381,6 +1401,9 @@ class ProductoController extends BaseController
                     $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_discover['ingresos_cliente'];
                     $con->egresos_cliente = $seguimiento_discover['egresos_cliente'];
+                    $con->actividad_actual = $seguimiento_discover['actividad_actual'];
+                    $con->gestion_detallada = $seguimiento_discover['gestion_detallada'];
+                    $con->medio_contacto = $seguimiento_discover['medio_contacto'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
@@ -1470,6 +1493,9 @@ class ProductoController extends BaseController
                     $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_mastercard['ingresos_cliente'];
                     $con->egresos_cliente = $seguimiento_mastercard['egresos_cliente'];
+                    $con->actividad_actual = $seguimiento_mastercard['actividad_actual'];
+                    $con->gestion_detallada = $seguimiento_mastercard['gestion_detallada'];
+                    $con->medio_contacto = $seguimiento_mastercard['medio_contacto'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->usuario_modificacion = \WebSecurity::getUserData('id');
@@ -1973,5 +1999,8 @@ class ViewProductoSeguimiento
     var $usuario_ingreso;
     var $usuario_modificacion;
     var $eliminado;
+    var $actividad_actual;
+    var $gestion_detallada;
+    var $medio_contacto;
     var $origen;
 }

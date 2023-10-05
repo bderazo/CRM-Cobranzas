@@ -51,6 +51,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer usuario_ingreso
  * @property integer usuario_modificacion
  * @property boolean eliminado
+ * @property string actividad_actual
+ * @property string gestion_detallada
+ * @property string medio_contacto
  * @property string origen
  */
 class ProductoSeguimiento extends Model

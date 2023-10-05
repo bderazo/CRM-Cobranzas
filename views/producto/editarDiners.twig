@@ -383,6 +383,29 @@
                             </div>
                         </div>
                     </div>
+                    <div id="div_actividad">
+                        <div class=" row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">ACTIVIDAD ACTUAL DEL CLIENTE</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento.actividad_actual" id="actividad_actual" v-autoname>
+                                    <option v-for="item in cat.actividad_actual" v-bind:value="item.id" v-html="item.nombre"></option>
+                                </select>
+                            </div>
+
+                            <label for="inputName" class="col-md-2 form-label">MEDIO DE CONTACTO</label>
+                            <div class="col-md-4 col-informacion">
+                                <select class="form-control form-select select2" v-model="seguimiento.medio_contacto" id="medio_contacto" v-autoname>
+                                    <option v-for="item in cat.medio_contacto" v-bind:value="item.id" v-html="item.nombre"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="inputName" class="col-md-2 form-label">GESTIÓN DETALLADA</label>
+                            <div class="col-md-4 col-informacion">
+						    <textarea rows="3" class="form-control specialChar" placeholder="GESTIÓN DETALLADA" v-model="seguimiento.gestion_detallada" id="gestion_detallada" required v-autoname></textarea>
+                            </div>
+                        </div>
+                    </div>
                     <div id="div_anexo_respaldo">
                         <div class=" row mb-4">
                             <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
@@ -505,6 +528,29 @@
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control positiveNumber" v-model="seguimiento_diners.egresos_cliente"
                                            id="egresos_cliente_diners" name="egresos_cliente_diners">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_actividad_diners">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ACTIVIDAD ACTUAL DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_diners.actividad_actual" id="actividad_actual_diners" v-autoname>
+                                        <option v-for="item in cat.actividad_actual" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">MEDIO DE CONTACTO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_diners.medio_contacto" id="medio_contacto_diners" v-autoname>
+                                        <option v-for="item in cat.medio_contacto" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">GESTIÓN DETALLADA</label>
+                                <div class="col-md-4 col-informacion">
+                                    <textarea rows="3" class="form-control specialChar" placeholder="GESTIÓN DETALLADA" v-model="seguimiento_diners.gestion_detallada" id="gestion_detallada_diners" required v-autoname></textarea>
                                 </div>
                             </div>
                         </div>
@@ -633,6 +679,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="div_actividad_interdin">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ACTIVIDAD ACTUAL DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_interdin.actividad_actual" id="actividad_actual_interdin" v-autoname>
+                                        <option v-for="item in cat.actividad_actual" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">MEDIO DE CONTACTO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_interdin.medio_contacto" id="medio_contacto_interdin" v-autoname>
+                                        <option v-for="item in cat.medio_contacto" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">GESTIÓN DETALLADA</label>
+                                <div class="col-md-4 col-informacion">
+                                    <textarea rows="3" class="form-control specialChar" placeholder="GESTIÓN DETALLADA" v-model="seguimiento_interdin.gestion_detallada" id="gestion_detallada_interdin" required v-autoname></textarea>
+                                </div>
+                            </div>
+                        </div>
                         <div id="div_anexo_respaldo_interdin">
                             <div class=" row mb-4">
                                 <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
@@ -758,6 +827,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="div_actividad_discover">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ACTIVIDAD ACTUAL DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_discover.actividad_actual" id="actividad_actual_discover" v-autoname>
+                                        <option v-for="item in cat.actividad_actual" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">MEDIO DE CONTACTO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_discover.medio_contacto" id="medio_contacto_discover" v-autoname>
+                                        <option v-for="item in cat.medio_contacto" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">GESTIÓN DETALLADA</label>
+                                <div class="col-md-4 col-informacion">
+                                    <textarea rows="3" class="form-control specialChar" placeholder="GESTIÓN DETALLADA" v-model="seguimiento_discover.gestion_detallada" id="gestion_detallada_discover" required v-autoname></textarea>
+                                </div>
+                            </div>
+                        </div>
                         <div id="div_anexo_respaldo_discover">
                             <div class=" row mb-4">
                                 <label for="inputName" class="col-md-2 form-label">ANEXOS DE RESPALDO</label>
@@ -880,6 +972,29 @@
                                 <div class="col-md-4 col-informacion">
                                     <input type="text" class="form-control positiveNumber" v-model="seguimiento_mastercard.egresos_cliente"
                                            id="egresos_cliente_mastercard" name="egresos_cliente_mastercard">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div_actividad_mastercard">
+                            <div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">ACTIVIDAD ACTUAL DEL CLIENTE</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_mastercard.actividad_actual" id="actividad_actual_mastercard" v-autoname>
+                                        <option v-for="item in cat.actividad_actual" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+
+                                <label for="inputName" class="col-md-2 form-label">MEDIO DE CONTACTO</label>
+                                <div class="col-md-4 col-informacion">
+                                    <select class="form-control form-select select2" v-model="seguimiento_mastercard.medio_contacto" id="medio_contacto_mastercard" v-autoname>
+                                        <option v-for="item in cat.medio_contacto" v-bind:value="item.id" v-html="item.nombre"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">GESTIÓN DETALLADA</label>
+                                <div class="col-md-4 col-informacion">
+                                    <textarea rows="3" class="form-control specialChar" placeholder="GESTIÓN DETALLADA" v-model="seguimiento_mastercard.gestion_detallada" id="gestion_detallada_mastercard" required v-autoname></textarea>
                                 </div>
                             </div>
                         </div>
@@ -3604,15 +3719,24 @@
                                 $('#fecha_compromiso_pago').removeAttr('required');
                                 $('#valor_comprometido').removeAttr('required');
                             }
-
                             if (res.mostrar_ingresos_egresos == 'si') {
                                 $("#div_ingresos_egresos").show();
                                 $('#ingresos_cliente').prop('required', true);
                                 $('#egresos_cliente').prop('required', true);
+
+                                $("#div_actividad").show();
+                                $('#actividad_actual').prop('required', true);
+                                $('#medio_contacto').prop('required', true);
+                                $('#gestion_detallada').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos").hide();
                                 $('#ingresos_cliente').removeAttr('required');
                                 $('#egresos_cliente').removeAttr('required');
+
+                                $("#div_actividad").hide();
+                                $('#actividad_actual').removeAttr('required');
+                                $('#medio_contacto').removeAttr('required');
+                                $('#gestion_detallada').removeAttr('required');
                             }
 
                             if (res.mostrar_anexo_respaldo == 'si') {
@@ -3655,10 +3779,20 @@
                                 $("#div_ingresos_egresos_diners").show();
                                 $('#ingresos_cliente_diners').prop('required', true);
                                 $('#egresos_cliente_diners').prop('required', true);
+
+                                $("#div_actividad_diners").show();
+                                $('#actividad_actual_diners').prop('required', true);
+                                $('#medio_contacto_diners').prop('required', true);
+                                $('#gestion_detallada_diners').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos_diners").hide();
                                 $('#ingresos_cliente_diners').removeAttr('required');
                                 $('#egresos_cliente_diners').removeAttr('required');
+
+                                $("#div_actividad_diners").hide();
+                                $('#actividad_actual_diners').removeAttr('required');
+                                $('#medio_contacto_diners').removeAttr('required');
+                                $('#gestion_detallada_diners').removeAttr('required');
                             }
 
                             if (res.mostrar_anexo_respaldo == 'si') {
@@ -3701,10 +3835,20 @@
                                 $("#div_ingresos_egresos_interdin").show();
                                 $('#ingresos_cliente_interdin').prop('required', true);
                                 $('#egresos_cliente_interdin').prop('required', true);
+
+                                $("#div_actividad_interdin").show();
+                                $('#actividad_actual_interdin').prop('required', true);
+                                $('#medio_contacto_interdin').prop('required', true);
+                                $('#gestion_detallada_interdin').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos_interdin").hide();
                                 $('#ingresos_cliente_interdin').removeAttr('required');
                                 $('#egresos_cliente_interdin').removeAttr('required');
+
+                                $("#div_actividad_interdin").hide();
+                                $('#actividad_actual_interdin').removeAttr('required');
+                                $('#medio_contacto_interdin').removeAttr('required');
+                                $('#gestion_detallada_interdin').removeAttr('required');
                             }
 
                             if (res.mostrar_anexo_respaldo == 'si') {
@@ -3747,10 +3891,20 @@
                                 $("#div_ingresos_egresos_discover").show();
                                 $('#ingresos_cliente_discover').prop('required', true);
                                 $('#egresos_cliente_discover').prop('required', true);
+
+                                $("#div_actividad_discover").show();
+                                $('#actividad_actual_discover').prop('required', true);
+                                $('#medio_contacto_discover').prop('required', true);
+                                $('#gestion_detallada_discover').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos_discover").hide();
                                 $('#ingresos_cliente_discover').removeAttr('required');
                                 $('#egresos_cliente_discover').removeAttr('required');
+
+                                $("#div_actividad_discover").hide();
+                                $('#actividad_actual_discover').removeAttr('required');
+                                $('#medio_contacto_discover').removeAttr('required');
+                                $('#gestion_detallada_discover').removeAttr('required');
                             }
 
                             if (res.mostrar_anexo_respaldo == 'si') {
@@ -3793,10 +3947,20 @@
                                 $("#div_ingresos_egresos_mastercard").show();
                                 $('#ingresos_cliente_mastercard').prop('required', true);
                                 $('#egresos_cliente_mastercard').prop('required', true);
+
+                                $("#div_actividad_mastercard").show();
+                                $('#actividad_actual_mastercard').prop('required', true);
+                                $('#medio_contacto_mastercard').prop('required', true);
+                                $('#gestion_detallada_mastercard').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos_mastercard").hide();
                                 $('#ingresos_cliente_mastercard').removeAttr('required');
                                 $('#egresos_cliente_mastercard').removeAttr('required');
+
+                                $("#div_actividad_mastercard").hide();
+                                $('#actividad_actual_mastercard').removeAttr('required');
+                                $('#medio_contacto_mastercard').removeAttr('required');
+                                $('#gestion_detallada_mastercard').removeAttr('required');
                             }
 
                             if (res.mostrar_anexo_respaldo == 'si') {
@@ -4039,22 +4203,27 @@
                 $("#div_motivo_no_pago").hide();
                 $("#div_fecha_compromiso_pago").hide();
                 $("#div_ingresos_egresos").hide();
+                $("#div_actividad").hide();
                 $("#div_anexo_respaldo").hide();
                 $("#div_motivo_no_pago_diners").hide();
                 $("#div_fecha_compromiso_pago_diners").hide();
                 $("#div_ingresos_egresos_diners").hide();
+                $("#div_actividad_diners").hide();
                 $("#div_anexo_respaldo_diners").hide();
                 $("#div_motivo_no_pago_interdin").hide();
                 $("#div_fecha_compromiso_pago_interdin").hide();
                 $("#div_ingresos_egresos_interdin").hide();
+                $("#div_actividad_interdin").hide();
                 $("#div_anexo_respaldo_interdin").hide();
                 $("#div_motivo_no_pago_discover").hide();
                 $("#div_fecha_compromiso_pago_discover").hide();
                 $("#div_ingresos_egresos_discover").hide();
+                $("#div_actividad_discover").hide();
                 $("#div_anexo_respaldo_discover").hide();
                 $("#div_motivo_no_pago_mastercard").hide();
                 $("#div_fecha_compromiso_pago_mastercard").hide();
                 $("#div_ingresos_egresos_mastercard").hide();
+                $("#div_actividad_mastercard").hide();
                 $("#div_anexo_respaldo_mastercard").hide();
 
                 $("#div_seguimiento_diners").hide();

@@ -12,70 +12,85 @@
 					Exportar
 				</a>
 				<div class="table-responsive">
-					<table class="table border table-striped table-bordered table-sm mb-0">
-						<thead>
-						<tr style="background-color: #95b8f6;">
-							<th>#</th>
+                    <table class="table border table-striped table-bordered table-sm mb-0">
+                        <thead>
+                        <tr style="background-color: #95b8f6;">
+                            <th>FECHA</th>
+                            <th>CORTE</th>
                             <th>MARCA DONDE SE PROCESA</th>
-							<th>CEDULA</th>
-							<th>COD. NEGOCIADOR</th>
-                            <th>SUBAREA</th>
+                            <th>CÉDULA</th>
+                            <th>COD. NEGOCIADOR</th>
+                            <th>NOMBRE DEL SOCIO</th>
                             <th>TIPO NEGOCIACIÓN</th>
                             <th>PLAZO</th>
                             <th>MESES DE GRACIA</th>
-                            <th>OBSERVACION NEGOCIACION ERE</th>
-                            <th>ABONO AL CORTE DINERS</th>
-                            <th>ABONO AL CORTE VISA</th>
-                            <th>ABONO AL CORTE DISCOVER</th>
-                            <th>ABONO AL CORTE MASTECARD</th>
-                            <th># MOT DE NO PAGO</th>
-                            <th>SOCIO CON ACTIVIDAD ACTUAL</th>
-                            <th>GESTION</th>
-                            <th>CONSOLIDACION DEUDA</th>
-                            <th>TRASLADO DE VALORES DINERS</th>
-                            <th>TRASLADO DE VALORES VISA</th>
-                            <th>TRASLADO DE VALORES DISCOVER</th>
-                            <th>TRASLADO DE VALORES MASTERCARD</th>
-                            <th>INGRESOS</th>
-                            <th>GASTOS</th>
-                            <th>DOCUMENTOS SOPORTES</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr v-for="d in datos">
-							<td style="text-align: center;" v-html="d.numero"></td>
-                            <td style="text-align: center;" v-html="d.nombre_tarjeta"></td>
+                            <th>OBSERVACION CORTA</th>
+                            <th>ABONO AL CORTE</th>
+                            <th>Nº MOT DE NO PAGO</th>
+
+
+
+
+
+
+                            <th>CONSOLIDACION DE DEUDAS (SI/NO -VACIO)</th>
+                            <th>TRASLADO DE VALORES DINERS (SI/NO - VACIO)</th>
+                            <th>TRASLADO DE VALORES VISA (SI/NO - VACIO)</th>
+                            <th>TRASLADO DE VALORES DISCOVER (SI/NO - VACIO)</th>
+                            <th>TRASLADO DE VALORES MASTERCARD (SI/NO - VACIO)</th>
+                            <th>CIUDAD</th>
+                            <th>ZONA</th>
+                            <th>INGRESOS SOCIO</th>
+                            <th>GASTOS SOCIO</th>
+                            <th>ABONO MISMO DIA DEL CORTE DINERS</th>
+                            <th>ABONO MISMO DIA DEL CORTE VISA</th>
+                            <th>ABONO MISMO DIA DEL CORTE DISCOVER</th>
+                            <th>ABONO MISMO DIA DEL CORTE MASTECARD</th>
+                            <th>OBSERVACIONES DE LA NEGOCIACIÓN PARA APROBACIÓN</th>
+                            <th>ANALISIS DEL FLUJO</th>
+                            <th>CAMPANA</th>
+                            <th>NOMBRE DEL GESTOR</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="d in datos">
+                            <td style="text-align: center;" v-html="d.fecha_negociacion"></td>
+                            <td style="text-align: center;" v-html="d.ciclo"></td>
+                            <td style="text-align: center;" v-html="d.nombre_tarjeta_format"></td>
                             <td style="text-align: center;" v-html="d.cedula"></td>
                             <td style="text-align: center;" v-html="d.cod_negociador"></td>
-                            <td style="text-align: center;" v-html="d.subarea"></td>
+                            <td style="text-align: center;" v-html="d.nombre_cliente"></td>
                             <td style="text-align: center;" v-html="d.tipo_negociacion"></td>
                             <td style="text-align: center;" v-html="d.plazo_financiamiento"></td>
                             <td style="text-align: center;" v-html="d.numero_meses_gracia"></td>
-                            <td style="text-align: center;"></td>
-                            <td style="text-align: center;" v-html="d.abono_corte_diners"></td>
-                            <td style="text-align: center;" v-html="d.abono_corte_visa"></td>
-                            <td style="text-align: center;" v-html="d.abono_corte_discover"></td>
-                            <td style="text-align: center;" v-html="d.abono_corte_mastercard"></td>
+                            <td style="text-align: center;" v-html="d.observaciones"></td>
+                            <td style="text-align: center;" v-html="d.abono_negociador"></td>
                             <td style="text-align: center;" v-html="d.motivo_no_pago_codigo"></td>
-                            <td style="text-align: center;"></td>
-                            <td style="text-align: center;"></td>
+
+
+
+
+
+
                             <td style="text-align: center;" v-html="d.unificar_deudas"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_diners"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_visa"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_discover"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_mastercard"></td>
+                            <td style="text-align: center;" v-html="d.ciudad"></td>
+                            <td style="text-align: center;" v-html="d.zona"></td>
                             <td style="text-align: center;" v-html="d.ingresos_cliente"></td>
                             <td style="text-align: center;" v-html="d.egresos_cliente"></td>
-                            <td style="text-align: center;">
-                                <div v-if="d.archivo_link != ''">
-                                    <a class="btn btn-sm btn-secondary" type="button" :href="d.archivo_link" :title="d.archivo_nombre" target="_blank">
-                                        <i class="fa fa-download" aria-hidden="true"></i> DESCARGAR
-                                    </a>
-                                </div>
-                            </td>
-						</tr>
-						</tbody>
-					</table>
+                            <td style="text-align: center;" v-html="d.abono_corte_diners"></td>
+                            <td style="text-align: center;" v-html="d.abono_corte_visa"></td>
+                            <td style="text-align: center;" v-html="d.abono_corte_discover"></td>
+                            <td style="text-align: center;" v-html="d.abono_corte_mastercard"></td>
+                            <td style="text-align: center;" v-html="d.analisis_flujo"></td>
+                            <td style="text-align: center;" v-html="d.campana"></td>
+                            <td style="text-align: center;" v-html="d.gestor"></td>
+                        </tr>
+                        </tbody>
+                    </table>
 				</div>
 			</div>
 		</div>
