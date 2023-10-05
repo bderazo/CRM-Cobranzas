@@ -897,7 +897,7 @@ class ProductoApi extends BaseController
             $nivel = [];
             foreach ($paleta_nivel1 as $key => $val) {
                 if($val['nivel1_id'] == 1855){
-                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
+                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento, group-campos']];
                 }else {
                     $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
                 }
