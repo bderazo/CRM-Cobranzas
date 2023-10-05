@@ -1203,13 +1203,13 @@ class ProductoApi extends BaseController
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['type'] = 'string';
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['widget'] = 'form';
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['attr']['group-form'] = 'group-seguimiento';
-            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['visible'] = false;
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['hide'] = true;
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_226'] = [
                 'title' => 'SEGUIMIENTO TARJETA DINERS',
                 'widget' => 'readonly',
                 'full_name' => 'data[title_226]',
                 'constraints' => [],
-                'type_content' => 'title',
+                'type_content' => 'title_2',
                 'required' => 0,
                 'disabled' => 0,
                 'property_order' => 1,
