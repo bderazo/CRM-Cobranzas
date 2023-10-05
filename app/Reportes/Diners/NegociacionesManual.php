@@ -108,7 +108,7 @@ class NegociacionesManual {
         $cont = 1;
         foreach($lista as $seg){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
-            $tarjeta_verificar = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
+            $tarjeta_verificar = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
             if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar])) {
                 if (isset($saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
                     $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
@@ -117,10 +117,7 @@ class NegociacionesManual {
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
 
-                    //CONSULTAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
-                    if (($seg['unificar_deudas'] == 'si') && ($seg['tarjeta_unificar_deudas'] != $seg['nombre_tarjeta'])) {
-                        $quitar_seguimientos[] = $seg['aplicativo_diners_detalle_id'];
-                    }
+
                     $seg['numero'] = $cont;
                     if (($seg['usuario_canal'] == 'CAMPO') || ($seg['usuario_canal'] == 'AUXILIAR TELEFONIA')) {
                         $seg['cod_negociador'] = 'Q20000006D';
@@ -172,19 +169,28 @@ class NegociacionesManual {
                         $seg['motivo_no_pago_codigo'] = $paleta_notivo_no_pago['codigo'];
                     }
 
-                    $seg['archivo_link'] = '';
-                    $seg['archivo_nombre'] = '';
-                    if (isset($archivos_seguimiento[$seg['id']])) {
-                        $seg['archivo_link'] = $archivos_seguimiento[$seg['id']]['archivo'];
-                        $seg['archivo_nombre'] = $archivos_seguimiento[$seg['id']]['nombre'];
-                    }
-
-                    $seg['tarjeta'] = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
-
                     $cont++;
-                    $data[$seg['aplicativo_diners_detalle_id']] = $seg;
+                    $data[$seg['aplicativo_diners_detalle_id']][$seg['nombre_tarjeta']] = $seg;
+
+
+//                    if($seg['unificar_deudas'] == 'no'){
+//                        $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
+//                        $cont++;
+//                        $data[$seg['aplicativo_diners_detalle_id']] = $seg;
+//                    }else{
+//                        //CONSULTAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
+//                        if (($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta'])) {
+//                            $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
+//                            $cont++;
+//                            $data[$seg['aplicativo_diners_detalle_id']] = $seg;
+//                        }
+//                    }
                 }
             }
+        }
+
+        foreach ($data as $d){
+
         }
         //QUITAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
         foreach ($quitar_seguimientos as $qs){
