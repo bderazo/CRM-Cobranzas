@@ -899,7 +899,7 @@ class ProductoApi extends BaseController
                 if($val['nivel1_id'] == 1855){
                     $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
                 }else {
-                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
+                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
                 }
             }
 
@@ -942,7 +942,12 @@ class ProductoApi extends BaseController
                 'property_order' => 1,
                 'choices' => $nivel,
             ];
-            $retorno['form']['properties']['title_7'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['title'] = 'seguimiento_campos';
+            $retorno['form']['properties']['form_seguimiento_campos']['type'] = 'string';
+            $retorno['form']['properties']['form_seguimiento_campos']['widget'] = 'form';
+            $retorno['form']['properties']['form_seguimiento_campos']['attr']['group-form'] = 'group-campos';
+            $retorno['form']['properties']['form_seguimiento_campos']['hide'] = true;
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_7'] = [
                 'title' => $paleta['titulo_nivel2'],
                 'widget' => 'readonly',
                 'full_name' => 'data[title_7]',
@@ -952,7 +957,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['Nivel2'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['Nivel2'] = [
                 'type' => 'string',
                 'title' => $paleta['titulo_nivel2'],
                 'widget' => 'picker-select2',
@@ -978,7 +983,7 @@ class ProductoApi extends BaseController
                     "data[nivel1]" => "data[nivel1]"
                 ],
             ];
-            $retorno['form']['properties']['title_8'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_8'] = [
                 'title' => $paleta['titulo_nivel3'],
                 'widget' => 'readonly',
                 'full_name' => 'data[title_8]',
@@ -988,7 +993,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['Nivel3'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['Nivel3'] = [
                 'type' => 'string',
                 'title' => $paleta['titulo_nivel3'],
                 'widget' => 'picker-select2',
@@ -1014,7 +1019,7 @@ class ProductoApi extends BaseController
                     "data[nivel2]" => "data[nivel2]"
                 ],
             ];
-            $retorno['form']['properties']['title_10'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_10'] = [
                 'title' => 'FECHA COMPROMISO DE PAGO',
                 'widget' => 'readonly',
                 'full_name' => 'data[title_10]',
@@ -1024,7 +1029,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['fecha_compromiso_pago'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['fecha_compromiso_pago'] = [
                 'type' => 'string',
                 'title' => 'FECHA COMPROMISO DE PAGO',
                 'widget' => 'date',
@@ -1036,7 +1041,7 @@ class ProductoApi extends BaseController
                 'property_order' => 2,
                 'choices' => [],
             ];
-            $retorno['form']['properties']['title_11'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_11'] = [
                 'title' => 'VALOR COMPROMETIDO',
                 'widget' => 'readonly',
                 'full_name' => 'data[title_11]',
@@ -1046,7 +1051,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['valor_comprometido'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['valor_comprometido'] = [
                 'type' => 'string',
                 'title' => 'VALOR COMPROMETIDO',
                 'widget' => 'text',
@@ -1058,7 +1063,7 @@ class ProductoApi extends BaseController
                 'property_order' => 2,
                 'choices' => [],
             ];
-            $retorno['form']['properties']['title_1'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_1'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel1'],
                 'widget' => 'readonly',
                 'full_name' => 'data[title_1]',
@@ -1068,7 +1073,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['Nivel1MotivoNoPago'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['Nivel1MotivoNoPago'] = [
                 'type' => 'string',
                 'title' => $paleta['titulo_motivo_no_pago_nivel1'],
                 'widget' => 'choice',
@@ -1085,7 +1090,7 @@ class ProductoApi extends BaseController
                 'property_order' => 3,
                 'choices' => $nivel_motivo,
             ];
-            $retorno['form']['properties']['title_12'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_12'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel2'],
                 'widget' => 'readonly',
                 'full_name' => 'data[title_12]',
@@ -1095,7 +1100,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['Nivel2MotivoNoPago'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['Nivel2MotivoNoPago'] = [
                 'type' => 'string',
                 'title' => $paleta['titulo_motivo_no_pago_nivel2'],
                 'widget' => 'picker-select2',
@@ -1121,7 +1126,7 @@ class ProductoApi extends BaseController
                     "data[nivel_1_motivo_no_pago_id]" => "data[nivel_1_motivo_no_pago_id]"
                 ],
             ];
-            $retorno['form']['properties']['title_3'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_3'] = [
                 'title' => 'OBSERVACIONES',
                 'widget' => 'readonly',
                 'full_name' => 'data[title_3]',
@@ -1131,7 +1136,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['Observaciones'] = [
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['Observaciones'] = [
                 'type' => 'string',
                 'title' => 'Observaciones',
                 'widget' => 'textarea',
@@ -1144,58 +1149,7 @@ class ProductoApi extends BaseController
                 'choices' => [],
             ];
 
-            if (count($direcciones) > 0) {
-                $dir = [];
-                foreach ($direcciones as $d) {
-                    $dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'], 0, 40)];
-                }
-                $retorno['form']['properties']['title_2'] = [
-                    'title' => 'DIRECCIÓN DE VISITA',
-                    'widget' => 'readonly',
-                    'full_name' => 'data[title_2]',
-                    'constraints' => [],
-                    'type_content' => 'title',
-                    'required' => 0,
-                    'disabled' => 0,
-                    'property_order' => 1,
-                ];
-                $retorno['form']['properties']['Direccion'] = [
-                    'type' => 'string',
-                    'title' => 'Dirección Visita',
-                    'widget' => 'choice',
-                    'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-                    'full_name' => 'data[direccion_visita]',
-                    'constraints' => [],
-                    'required' => 0,
-                    'disabled' => 0,
-                    'property_order' => 5,
-                    'choices' => $dir,
-                ];
-            }
-            $retorno['form']['properties']['title_4'] = [
-                'title' => 'IMÁGENES',
-                'widget' => 'readonly',
-                'full_name' => 'data[title_4]',
-                'constraints' => [],
-                'type_content' => 'title',
-                'required' => 0,
-                'disabled' => 0,
-                'property_order' => 1,
-            ];
-            $retorno['form']['properties']['imagenes'] = [
-                'type' => 'string',
-                'title' => 'Imágenes',
-                'widget' => 'file_widget',
-                'empty_data' => '',
-                'full_name' => 'data[imagenes]',
-                'constraints' => [],
-                'mode' => 'IMAGEN',
-                'multiple' => true,
-                'required' => 0,
-                'disabled' => 0,
-                'property_order' => 7,
-                'choices' => [],
-            ];
+
 
             //DINERS
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['title'] = 'seguimiento_tarjeta_diners';
@@ -1442,6 +1396,60 @@ class ProductoApi extends BaseController
                 'choices' => [],
             ];
 
+
+
+            if (count($direcciones) > 0) {
+                $dir = [];
+                foreach ($direcciones as $d) {
+                    $dir[] = ['id' => $d['id'], 'label' => substr($d['direccion'], 0, 40)];
+                }
+                $retorno['form']['properties']['title_2'] = [
+                    'title' => 'DIRECCIÓN DE VISITA',
+                    'widget' => 'readonly',
+                    'full_name' => 'data[title_2]',
+                    'constraints' => [],
+                    'type_content' => 'title',
+                    'required' => 0,
+                    'disabled' => 0,
+                    'property_order' => 1,
+                ];
+                $retorno['form']['properties']['Direccion'] = [
+                    'type' => 'string',
+                    'title' => 'Dirección Visita',
+                    'widget' => 'choice',
+                    'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+                    'full_name' => 'data[direccion_visita]',
+                    'constraints' => [],
+                    'required' => 0,
+                    'disabled' => 0,
+                    'property_order' => 5,
+                    'choices' => $dir,
+                ];
+            }
+            $retorno['form']['properties']['title_4'] = [
+                'title' => 'IMÁGENES',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_4]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['imagenes'] = [
+                'type' => 'string',
+                'title' => 'Imágenes',
+                'widget' => 'file_widget',
+                'empty_data' => '',
+                'full_name' => 'data[imagenes]',
+                'constraints' => [],
+                'mode' => 'IMAGEN',
+                'multiple' => true,
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 7,
+                'choices' => [],
+            ];
 
             return $this->json($res->conDatos($retorno));
         } else {
