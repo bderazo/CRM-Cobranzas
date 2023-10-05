@@ -946,7 +946,7 @@ class ProductoApi extends BaseController
             $retorno['form']['properties']['form_seguimiento_campos']['type'] = 'string';
             $retorno['form']['properties']['form_seguimiento_campos']['widget'] = 'form';
             $retorno['form']['properties']['form_seguimiento_campos']['attr']['group-form'] = 'group-campos';
-            $retorno['form']['properties']['form_seguimiento_campos']['hide'] = true;
+            $retorno['form']['properties']['form_seguimiento_campos']['hide'] = false;
             $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_7'] = [
                 'title' => $paleta['titulo_nivel2'],
                 'widget' => 'readonly',
