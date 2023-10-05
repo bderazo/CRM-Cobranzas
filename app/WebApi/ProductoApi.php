@@ -914,7 +914,6 @@ class ProductoApi extends BaseController
 
             $retorno['form']['title'] = 'form';
             $retorno['form']['type'] = 'object';
-//            $retorno['form']['attr']['hide-group-field'] = 'group-seguimiento';
             $retorno['form']['properties']['title_6'] = [
                 'title' => $paleta['titulo_nivel1'],
                 'widget' => 'readonly',

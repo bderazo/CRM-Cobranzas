@@ -1020,7 +1020,6 @@ class ProductoController extends BaseController
         $file = $_FILES;
         $telf = Telefono::porId($seguimiento['telefono_id']);
 
-
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
         if (($seguimiento['nivel_1_id'] == 1855) && ($bandera_unificar_deuda == 'no')) {
             $guardar_seguimiento_tarjetas = true;
@@ -1107,6 +1106,52 @@ class ProductoController extends BaseController
         $aplicativo_diners_tarjeta_discover = isset($data['aplicativo_diners_tarjeta_discover']) ? $data['aplicativo_diners_tarjeta_discover'] : [];
         $aplicativo_diners_tarjeta_mastercard = isset($data['aplicativo_diners_tarjeta_mastercard']) ? $data['aplicativo_diners_tarjeta_mastercard'] : [];
 
+        //SI UNIFICA, EL TIPO DE NEGOCIACION DEBE SER EL MISMO QUE LA TARJETA DONDE SE UNIFICO
+        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DINERS')){
+            if (count($aplicativo_diners_tarjeta_interdin) > 0){
+                $aplicativo_diners_tarjeta_interdin['tipo_negociacion'] = $aplicativo_diners_tarjeta_diners['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_discover) > 0){
+                $aplicativo_diners_tarjeta_discover['tipo_negociacion'] = $aplicativo_diners_tarjeta_diners['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0){
+                $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'] = $aplicativo_diners_tarjeta_diners['tipo_negociacion'];
+            }
+        }
+        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'INTERDIN')){
+            if (count($aplicativo_diners_tarjeta_diners) > 0){
+                $aplicativo_diners_tarjeta_diners['tipo_negociacion'] = $aplicativo_diners_tarjeta_interdin['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_discover) > 0){
+                $aplicativo_diners_tarjeta_discover['tipo_negociacion'] = $aplicativo_diners_tarjeta_interdin['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0){
+                $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'] = $aplicativo_diners_tarjeta_interdin['tipo_negociacion'];
+            }
+        }
+        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DISCOVER')){
+            if (count($aplicativo_diners_tarjeta_diners) > 0){
+                $aplicativo_diners_tarjeta_diners['tipo_negociacion'] = $aplicativo_diners_tarjeta_discover['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_interdin) > 0){
+                $aplicativo_diners_tarjeta_interdin['tipo_negociacion'] = $aplicativo_diners_tarjeta_discover['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0){
+                $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'] = $aplicativo_diners_tarjeta_discover['tipo_negociacion'];
+            }
+        }
+        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'MASTERCARD')){
+            if (count($aplicativo_diners_tarjeta_diners) > 0){
+                $aplicativo_diners_tarjeta_diners['tipo_negociacion'] = $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_interdin) > 0){
+                $aplicativo_diners_tarjeta_interdin['tipo_negociacion'] = $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'];
+            }
+            if (count($aplicativo_diners_tarjeta_discover) > 0){
+                $aplicativo_diners_tarjeta_discover['tipo_negociacion'] = $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'];
+            }
+        }
+
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
             if ($aplicativo_diners_tarjeta_diners['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
@@ -1192,14 +1237,7 @@ class ProductoController extends BaseController
                 $obj_diners->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_diners->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_diners->eliminado = 0;
-                if ($obj_diners->tipo_negociacion == 'automatica') {
-                    if ($con->nivel_2_id == 1844) {
-                        $obj_diners->tipo_negociacion = 'manual';
-                    }
-                }
                 $obj_diners->save();
-//                \Auditor::info("AplicativoDinersDetalle $obj_diners->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_diners);
-//            }
             }
         }
 
@@ -1288,14 +1326,7 @@ class ProductoController extends BaseController
                 $obj_interdin->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_interdin->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_interdin->eliminado = 0;
-                if ($obj_interdin->tipo_negociacion == 'automatica') {
-                    if ($con->nivel_2_id == 1844) {
-                        $obj_interdin->tipo_negociacion = 'manual';
-                    }
-                }
                 $save = $obj_interdin->save();
-//                \Auditor::info("AplicativoDinersDetalle $obj_interdin->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_interdin);
-//            }
             }
         }
 
@@ -1384,14 +1415,7 @@ class ProductoController extends BaseController
                 $obj_discover->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_discover->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_discover->eliminado = 0;
-                if ($obj_discover->tipo_negociacion == 'automatica') {
-                    if ($con->nivel_2_id == 1844) {
-                        $obj_discover->tipo_negociacion = 'manual';
-                    }
-                }
                 $obj_discover->save();
-//                \Auditor::info("AplicativoDinersDetalle $obj_discover->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_discover);
-//            }
             }
         }
 
@@ -1465,10 +1489,8 @@ class ProductoController extends BaseController
                         }
                     }
                 }
-//            if ($aplicativo_diners_tarjeta_mastercard['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_mastercard['id'];
                 unset($aplicativo_diners_tarjeta_mastercard['id']);
-//                unset($aplicativo_diners_tarjeta_mastercard['refinancia']);
                 $obj_mastercard = new AplicativoDinersDetalle();
                 $obj_mastercard->fill($aplicativo_diners_tarjeta_mastercard);
                 $obj_mastercard->cliente_id = $con->cliente_id;
@@ -1480,14 +1502,7 @@ class ProductoController extends BaseController
                 $obj_mastercard->usuario_ingreso = \WebSecurity::getUserData('id');
                 $obj_mastercard->fecha_ingreso = date("Y-m-d H:i:s");
                 $obj_mastercard->eliminado = 0;
-                if ($obj_mastercard->tipo_negociacion == 'automatica') {
-                    if ($con->nivel_2_id == 1844) {
-                        $obj_mastercard->tipo_negociacion = 'manual';
-                    }
-                }
                 $obj_mastercard->save();
-//                \Auditor::info("AplicativoDinersDetalle $obj_mastercard->id actualizado", 'AplicativoDinersDetalle', $aplicativo_diners_tarjeta_mastercard);
-//            }
             }
         }
 

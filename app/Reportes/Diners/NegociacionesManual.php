@@ -102,19 +102,19 @@ class NegociacionesManual {
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('ps.fecha_ingreso, addet.unificar_deudas DESC');
         $q->disableSmartJoin();
+//        printDie($q->getQuery());
         $lista = $q->fetchAll();
         $data = [];
-        $quitar_seguimientos = [];
         $cont = 1;
         foreach($lista as $seg){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
-            $tarjeta_verificar = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
-            if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar])) {
-                if (isset($saldos[$seg['cliente_id']][$seg['fecha_negociacion']])) {
-                    $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_negociacion']];
-                    $campos_saldos = json_decode($saldos_arr['campos'], true);
-                    unset($saldos_arr['campos']);
-                    $saldos_arr = array_merge($saldos_arr, $campos_saldos);
+//            $tarjeta_verificar = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
+//            if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar])) {
+//                if (isset($saldos[$seg['cliente_id']][$seg['fecha_negociacion']])) {
+//                    $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_negociacion']];
+//                    $campos_saldos = json_decode($saldos_arr['campos'], true);
+//                    unset($saldos_arr['campos']);
+//                    $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
 
 
@@ -191,10 +191,13 @@ class NegociacionesManual {
                             if ($seg['nombre_tarjeta'] == 'MASTERCARD') {
                                 $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_mastercard'] = 'SI';
                             }
+                            if($seg['cliente_id'] == 65133){
+                                printDie($data);
+                            }
                         }
                     }
-                }
-            }
+//                }
+//            }
         }
 
         $data_procesada = [];
