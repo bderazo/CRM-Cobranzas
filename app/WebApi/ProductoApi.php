@@ -897,7 +897,7 @@ class ProductoApi extends BaseController
             $nivel = [];
             foreach ($paleta_nivel1 as $key => $val) {
                 if($val['nivel1_id'] == 1855){
-                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento, group-campos']];
+                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
                 }else {
                     $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
                 }
@@ -936,7 +936,7 @@ class ProductoApi extends BaseController
                         'message' => 'Este campo no puede estar vacío'
                     ]
                 ],
-                'attr' => ['hide-group-field' => 'group-seguimiento'],
+                'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
                 'required' => 1,
                 'disabled' => 0,
                 'property_order' => 1,
