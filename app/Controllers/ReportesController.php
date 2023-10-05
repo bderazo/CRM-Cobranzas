@@ -2646,28 +2646,19 @@ class ReportesController extends BaseController
     function exportNegociacionesAutomatica($json)
     {
         \WebSecurity::secure('reportes.negociaciones_automatica');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $jdata = json_decode(htmlspecialchars_decode($json), true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new NegociacionesAutomatica($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $lista = [];
         foreach ($jdata['datos'] as $d) {
-            $aux['#'] = [
-                'valor' => $d['numero'],
-                'formato' => 'number'
+            $aux['FECHA'] = [
+                'valor' => $d['fecha_negociacion'],
+                'formato' => 'text'
+            ];
+            $aux['CORTE'] = [
+                'valor' => $d['ciclo'],
+                'formato' => 'text'
             ];
             $aux['MARCA DONDE SE PROCESA'] = [
-                'valor' => $d['nombre_tarjeta'],
+                'valor' => $d['nombre_tarjeta_format'],
                 'formato' => 'text'
             ];
             $aux['CEDULA'] = [
@@ -2678,8 +2669,8 @@ class ReportesController extends BaseController
                 'valor' => $d['cod_negociador'],
                 'formato' => 'text'
             ];
-            $aux['SUBAREA'] = [
-                'valor' => $d['subarea'],
+            $aux['NOMBRE DEL SOCIO'] = [
+                'valor' => $d['nombre_cliente'],
                 'formato' => 'text'
             ];
             $aux['TIPO NEGOCIACIÓN'] = [
@@ -2694,68 +2685,44 @@ class ReportesController extends BaseController
                 'valor' => $d['numero_meses_gracia'],
                 'formato' => 'number'
             ];
-            $aux['OBSERVACION NEGOCIACION ERE'] = [
-                'valor' => '',
+            $aux['OBSERVACION CORTA'] = [
+                'valor' => $d['observaciones'],
                 'formato' => 'text'
             ];
-            $aux['ABONO AL CORTE DINERS'] = [
-                'valor' => $d['abono_corte_diners'],
+            $aux['ABONO AL CORTE'] = [
+                'valor' => $d['abono_negociador'],
                 'formato' => 'number'
             ];
-            $aux['ABONO AL CORTE VISA'] = [
-                'valor' => $d['abono_corte_visa'],
-                'formato' => 'number'
-            ];
-            $aux['ABONO AL CORTE DISCOVER'] = [
-                'valor' => $d['abono_corte_discover'],
-                'formato' => 'number'
-            ];
-            $aux['ABONO AL CORTE MASTECARD'] = [
-                'valor' => $d['abono_corte_mastercard'],
-                'formato' => 'number'
-            ];
-            $aux['# MOT DE NO PAGO'] = [
+            $aux['Nº MOT DE NO PAGO'] = [
                 'valor' => $d['motivo_no_pago_codigo'],
                 'formato' => 'number'
             ];
             $aux['SOCIO CON ACTIVIDAD ACTUAL'] = [
-                'valor' => '',
+                'valor' => $d['actividad_actual'],
                 'formato' => 'text'
             ];
-            $aux['GESTION'] = [
-                'valor' => '',
-                'formato' => 'text'
-            ];
-            $aux['CONSOLIDACION DEUDA'] = [
-                'valor' => $d['unificar_deudas'],
-                'formato' => 'text'
-            ];
-            $aux['TRASLADO DE VALORES DINERS'] = [
-                'valor' => $d['traslado_valores_diners'],
-                'formato' => 'text'
-            ];
-            $aux['TRASLADO DE VALORES VISA'] = [
-                'valor' => $d['traslado_valores_visa'],
-                'formato' => 'text'
-            ];
-            $aux['TRASLADO DE VALORES DISCOVER'] = [
-                'valor' => $d['traslado_valores_discover'],
-                'formato' => 'text'
-            ];
-            $aux['TRASLADO DE VALORES MASTERCARD'] = [
-                'valor' => $d['traslado_valores_mastercard'],
+            $aux['GESTION DETALLADA MESES DE GRACIA'] = [
+                'valor' => $d['gestion_detallada'],
                 'formato' => 'text'
             ];
             $aux['INGRESOS'] = [
-                'valor' => '',
-                'formato' => 'text'
+                'valor' => $d['ingresos_cliente'],
+                'formato' => 'number'
             ];
             $aux['GASTOS'] = [
-                'valor' => '',
+                'valor' => $d['egresos_cliente'],
+                'formato' => 'number'
+            ];
+            $aux['GESTOR'] = [
+                'valor' => $d['gestor'],
                 'formato' => 'text'
             ];
-            $aux['DOCUMENTOS SOPORTES'] = [
-                'valor' => '',
+            $aux['SUSTENTO'] = [
+                'valor' => $d['medio_contacto'],
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
                 'formato' => 'text'
             ];
             $lista[] = $aux;
