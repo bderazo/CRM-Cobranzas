@@ -65,7 +65,7 @@ class NegociacionesManual {
                              addet.plazo_financiamiento, addet.nombre_tarjeta, addet.numero_meses_gracia, 
                              addet.abono_negociador, addet.id AS aplicativo_diners_detalle_id,
                              DATE(ps.fecha_ingreso) AS fecha_negociacion, cl.nombres AS nombre_cliente,
-                             addet.ciclo")
+                             addet.ciclo, cl.ciudad, cl.zona, CONCAT(u.apellidos,' ',u.nombres) AS gestor")
             ->where('addet.tipo_negociacion','manual')
             ->where('ps.nivel_3_id IN (1860)')
             ->where('ps.institucion_id',1)
@@ -100,7 +100,7 @@ class NegociacionesManual {
         }
         $fil = implode(',',$clientes_asignacion);
         $q->where('ps.cliente_id IN ('.$fil.')');
-        $q->orderBy('ps.fecha_ingreso');
+        $q->orderBy('ps.fecha_ingreso, addet.unificar_deudas DESC');
         $q->disableSmartJoin();
         $lista = $q->fetchAll();
         $data = [];
@@ -110,8 +110,8 @@ class NegociacionesManual {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             $tarjeta_verificar = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
             if (isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar])) {
-                if (isset($saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']])) {
-                    $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']];
+                if (isset($saldos[$seg['cliente_id']][$seg['fecha_negociacion']])) {
+                    $saldos_arr = $saldos[$seg['cliente_id']][$seg['fecha_negociacion']];
                     $campos_saldos = json_decode($saldos_arr['campos'], true);
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
@@ -121,11 +121,13 @@ class NegociacionesManual {
                     $seg['numero'] = $cont;
                     if (($seg['usuario_canal'] == 'CAMPO') || ($seg['usuario_canal'] == 'AUXILIAR TELEFONIA')) {
                         $seg['cod_negociador'] = 'Q20000006D';
+                        $seg['campana'] = 'DOMICILIO';
                     } else {
                         $seg['cod_negociador'] = 'Q20000006T';
+                        $seg['campana'] = 'TELEFONIA';
                     }
 
-                    $seg['subarea'] = 'ERE TELEFONIA';
+                    $seg['analisis_flujo'] = 'MANUAL';
 
                     if ($seg['total_financiamiento'] == 'SI') {
                         $seg['tipo_negociacion'] = 'TOTAL';
@@ -143,24 +145,15 @@ class NegociacionesManual {
                     $seg['traslado_valores_mastercard'] = '';
                     if ($seg['nombre_tarjeta'] == 'DINERS') {
                         $seg['abono_corte_diners'] = $seg['abono_negociador'];
-                        if ($seg['unificar_deudas'] == 'SI') {
-                            $seg['traslado_valores_diners'] = 'SI';
-                        }
-                    } elseif ($seg['nombre_tarjeta'] == 'INTERDIN') {
+                    }
+                    if ($seg['nombre_tarjeta'] == 'INTERDIN') {
                         $seg['abono_corte_visa'] = $seg['abono_negociador'];
-                        if ($seg['unificar_deudas'] == 'SI') {
-                            $seg['traslado_valores_visa'] = 'SI';
-                        }
-                    } elseif ($seg['nombre_tarjeta'] == 'DISCOVER') {
+                    }
+                    if ($seg['nombre_tarjeta'] == 'DISCOVER') {
                         $seg['abono_corte_discover'] = $seg['abono_negociador'];
-                        if ($seg['unificar_deudas'] == 'SI') {
-                            $seg['traslado_valores_discover'] = 'SI';
-                        }
-                    } elseif ($seg['nombre_tarjeta'] == 'MASTERCARD') {
+                    }
+                    if ($seg['nombre_tarjeta'] == 'MASTERCARD') {
                         $seg['abono_corte_mastercard'] = $seg['abono_negociador'];
-                        if ($seg['unificar_deudas'] == 'SI') {
-                            $seg['traslado_valores_mastercard'] = 'SI';
-                        }
                     }
 
                     $seg['motivo_no_pago_codigo'] = '';
@@ -169,35 +162,49 @@ class NegociacionesManual {
                         $seg['motivo_no_pago_codigo'] = $paleta_notivo_no_pago['codigo'];
                     }
 
-                    $cont++;
-                    $data[$seg['aplicativo_diners_detalle_id']][$seg['nombre_tarjeta']] = $seg;
+                    $seg['nombre_tarjeta_format'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
 
 
-//                    if($seg['unificar_deudas'] == 'no'){
-//                        $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
-//                        $cont++;
-//                        $data[$seg['aplicativo_diners_detalle_id']] = $seg;
-//                    }else{
-//                        //CONSULTAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
-//                        if (($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta'])) {
-//                            $seg['nombre_tarjeta'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
-//                            $cont++;
-//                            $data[$seg['aplicativo_diners_detalle_id']] = $seg;
-//                        }
-//                    }
+
+                    if($seg['unificar_deudas'] == 'no'){
+                        $cont++;
+                        $data[$seg['cliente_id']][$seg['nombre_tarjeta']] = $seg;
+                    }else{
+                        //CONSULTAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
+                        if (($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta'])) {
+                            $cont++;
+                            $seg['traslado_valores_diners'] = 'NO';
+                            $seg['traslado_valores_visa'] = 'NO';
+                            $seg['traslado_valores_discover'] = 'NO';
+                            $seg['traslado_valores_mastercard'] = 'NO';
+                            $data[$seg['cliente_id']][$seg['nombre_tarjeta']] = $seg;
+                        }else{
+                            if ($seg['nombre_tarjeta'] == 'DINERS') {
+                                $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_diners'] = 'SI';
+                            }
+                            if ($seg['nombre_tarjeta'] == 'INTERDIN') {
+                                $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_visa'] = 'SI';
+                            }
+                            if ($seg['nombre_tarjeta'] == 'DISCOVER') {
+                                $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_discover'] = 'SI';
+                            }
+                            if ($seg['nombre_tarjeta'] == 'MASTERCARD') {
+                                $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_mastercard'] = 'SI';
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        foreach ($data as $d){
+        $data_procesada = [];
+        foreach ($data as $key => $val){
+            foreach ($val as $key1 => $val1){
+                $data_procesada[] = $val1;
+            }
+        }
 
-        }
-        //QUITAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
-        foreach ($quitar_seguimientos as $qs){
-            $id = $this->searchForId($qs, $data);
-            unset($data[$id]);
-        }
-        $retorno['data'] = $data;
+        $retorno['data'] = $data_procesada;
         $retorno['total'] = [];
         return $retorno;
     }
