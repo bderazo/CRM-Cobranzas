@@ -69,10 +69,9 @@ class GeneralHelper {
 	}
 
     static function sumarDiasLaborables($fecha,$dias){
-        $datestart= strtotime($fecha);
-        $datesuma = 15 * 86400;
+        $datestart = strtotime($fecha);
         $diasemana = date('N',$datestart);
-        $totaldias = $diasemana+$dias;
+        $totaldias = $diasemana + $dias;
         $findesemana = intval( $totaldias/5) *2 ;
         $diasabado = $totaldias % 5 ;
         if ($diasabado==6) $findesemana++;

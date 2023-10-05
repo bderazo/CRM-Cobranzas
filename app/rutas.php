@@ -31,6 +31,8 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/producto/get_form_paleta', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_paleta', $p));
 	$app->any('/producto/save_form_paleta', $api->createDispatch(\WebApi\ProductoApi::class, 'save_form_paleta', $p));
 
+    $app->any('/producto/get_form_seguimiento', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_seguimiento', $p));
+
 	$app->any('/aplicativo_diners/campos_aplicativo_diners', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_aplicativo_diners', $p));
 
 	$app->any('/aplicativo_diners/campos_tarjeta_diners', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_tarjeta_diners', $p));
