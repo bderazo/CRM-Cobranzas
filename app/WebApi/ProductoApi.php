@@ -903,6 +903,12 @@ class ProductoApi extends BaseController
                 }
             }
 
+            $paleta_nivel1 = PaletaArbol::getNivel1(1);
+            $nivel_tarjeta = [];
+            foreach ($paleta_nivel1 as $key => $val) {
+                $nivel_tarjeta[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
+            }
+
             $paleta_nivel1 = PaletaMotivoNoPago::getNivel1(1);
             $nivel_motivo = [];
             foreach ($paleta_nivel1 as $key => $val) {
@@ -1192,7 +1198,7 @@ class ProductoApi extends BaseController
                 'required' => 1,
                 'disabled' => 0,
                 'property_order' => 1,
-                'choices' => $nivel,
+                'choices' => $nivel_tarjeta,
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_27'] = [
                 'title' => $paleta['titulo_nivel2'],
