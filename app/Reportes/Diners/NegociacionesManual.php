@@ -115,9 +115,6 @@ class NegociacionesManual {
 //                    $campos_saldos = json_decode($saldos_arr['campos'], true);
 //                    unset($saldos_arr['campos']);
 //                    $saldos_arr = array_merge($saldos_arr, $campos_saldos);
-
-
-
                     $seg['numero'] = $cont;
                     if (($seg['usuario_canal'] == 'CAMPO') || ($seg['usuario_canal'] == 'AUXILIAR TELEFONIA')) {
                         $seg['cod_negociador'] = 'Q20000006D';
@@ -126,15 +123,12 @@ class NegociacionesManual {
                         $seg['cod_negociador'] = 'Q20000006T';
                         $seg['campana'] = 'TELEFONIA';
                     }
-
                     $seg['analisis_flujo'] = 'MANUAL';
-
                     if ($seg['total_financiamiento'] == 'SI') {
                         $seg['tipo_negociacion'] = 'TOTAL';
                     } else {
                         $seg['tipo_negociacion'] = 'EXIGIBLE';
                     }
-
                     $seg['abono_corte_diners'] = '';
                     $seg['abono_corte_visa'] = '';
                     $seg['abono_corte_discover'] = '';
@@ -155,17 +149,12 @@ class NegociacionesManual {
                     if ($seg['nombre_tarjeta'] == 'MASTERCARD') {
                         $seg['abono_corte_mastercard'] = $seg['abono_negociador'];
                     }
-
                     $seg['motivo_no_pago_codigo'] = '';
                     if ($seg['nivel_2_motivo_no_pago_id'] > 0) {
                         $paleta_notivo_no_pago = PaletaMotivoNoPago::porId($seg['nivel_2_motivo_no_pago_id']);
                         $seg['motivo_no_pago_codigo'] = $paleta_notivo_no_pago['codigo'];
                     }
-
                     $seg['nombre_tarjeta_format'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
-
-
-
                     if($seg['unificar_deudas'] == 'no'){
                         $cont++;
                         $data[$seg['cliente_id']][$seg['nombre_tarjeta']] = $seg;
@@ -190,9 +179,6 @@ class NegociacionesManual {
                             }
                             if ($seg['nombre_tarjeta'] == 'MASTERCARD') {
                                 $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_mastercard'] = 'SI';
-                            }
-                            if($seg['cliente_id'] == 65133){
-                                printDie($data);
                             }
                         }
                     }
