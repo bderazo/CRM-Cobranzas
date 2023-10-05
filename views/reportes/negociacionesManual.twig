@@ -16,13 +16,22 @@
                         <thead>
                         <tr style="background-color: #95b8f6;">
                             <th>#</th>
-                            <th>MARCA DONDE SE PROCESA</th>
-                            <th>CEDULA</th>
-                            <th>COD. NEGOCIADOR</th>
-                            <th>SUBAREA</th>
-                            <th>TIPO NEGOCIACIÓN</th>
-                            <th>PLAZO</th>
+                            <th>FECHA SOLICITUD DE NEGOCIACIÓN</th>
+                            <th>MARCA (MARCAQUE ASUME O DONDE SE PROCESA)</th>
+                            <th>COD MOTIVO DE NO PAGO (1 - 27)</th>
+                            <th>COD DE EMPRESA ERE</th>
+                            <th>TIPO DE NEGOCIACIÓN (TOTAL/PARCIAL/CORRIENTE/EXIGIBLE/CONSUMO INTERNACIONAL)</th>
+                            <th>CÉDULA (CEDSOC -RUC - PAS)</th>
+                            <th>NOMBRE DEL CLIENTE</th>
+                            <th>PLAZO (2-72)</th>
                             <th>MESES DE GRACIA</th>
+                            <th>CICLO</th>
+                            <th>CONSOLIDACION DE DEUDAS (SI/NO -VACIO)</th>
+
+
+
+
+                            <th>SUBAREA</th>
                             <th>OBSERVACION NEGOCIACION ERE</th>
                             <th>ABONO AL CORTE DINERS</th>
                             <th>ABONO AL CORTE VISA</th>
@@ -31,7 +40,6 @@
                             <th># MOT DE NO PAGO</th>
                             <th>SOCIO CON ACTIVIDAD ACTUAL</th>
                             <th>GESTION</th>
-                            <th>CONSOLIDACION DEUDA</th>
                             <th>TRASLADO DE VALORES DINERS</th>
                             <th>TRASLADO DE VALORES VISA</th>
                             <th>TRASLADO DE VALORES DISCOVER</th>
@@ -44,22 +52,31 @@
                         <tbody>
                         <tr v-for="d in datos">
                             <td style="text-align: center;" v-html="d.numero"></td>
+                            <td style="text-align: center;" v-html="d.fecha_negociacion"></td>
                             <td style="text-align: center;" v-html="d.nombre_tarjeta"></td>
-                            <td style="text-align: center;" v-html="d.cedula"></td>
+                            <td style="text-align: center;" v-html="d.motivo_no_pago_codigo"></td>
                             <td style="text-align: center;" v-html="d.cod_negociador"></td>
-                            <td style="text-align: center;" v-html="d.subarea"></td>
                             <td style="text-align: center;" v-html="d.tipo_negociacion"></td>
+                            <td style="text-align: center;" v-html="d.cedula"></td>
+                            <td style="text-align: center;" v-html="d.nombre_cliente"></td>
                             <td style="text-align: center;" v-html="d.plazo_financiamiento"></td>
                             <td style="text-align: center;" v-html="d.numero_meses_gracia"></td>
+                            <td style="text-align: center;" v-html="d.ciclo"></td>
+                            <td style="text-align: center;" v-html="d.unificar_deudas"></td>
+
+
+
+
+                            <td style="text-align: center;" v-html="d.subarea"></td>
                             <td style="text-align: center;"></td>
                             <td style="text-align: center;" v-html="d.abono_corte_diners"></td>
                             <td style="text-align: center;" v-html="d.abono_corte_visa"></td>
                             <td style="text-align: center;" v-html="d.abono_corte_discover"></td>
                             <td style="text-align: center;" v-html="d.abono_corte_mastercard"></td>
-                            <td style="text-align: center;" v-html="d.motivo_no_pago_codigo"></td>
+
                             <td style="text-align: center;"></td>
                             <td style="text-align: center;"></td>
-                            <td style="text-align: center;" v-html="d.unificar_deudas"></td>
+
                             <td style="text-align: center;" v-html="d.traslado_valores_diners"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_visa"></td>
                             <td style="text-align: center;" v-html="d.traslado_valores_discover"></td>

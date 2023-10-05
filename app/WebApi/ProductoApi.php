@@ -891,16 +891,30 @@ class ProductoApi extends BaseController
             $user = Usuario::porId($usuario_id);
             $retorno = [];
 
-            $retorno['form']['title'] = 'form';
-            $retorno['form']['type'] = 'object';
-
             $paleta = Paleta::porId(1);
 
             $paleta_nivel1 = PaletaArbol::getNivel1(1);
             $nivel = [];
             foreach ($paleta_nivel1 as $key => $val) {
-                $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
+                if($val['nivel1_id'] == 1855){
+                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], 'show-group-field' => 'group-seguimiento'];
+                }else {
+                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
+                }
             }
+
+            $paleta_nivel1 = PaletaMotivoNoPago::getNivel1(1);
+            $nivel_motivo = [];
+            foreach ($paleta_nivel1 as $key => $val) {
+                $nivel_motivo[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
+            }
+
+            $producto = Producto::porId($producto_id);
+            $direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
+
+            $retorno['form']['title'] = 'form';
+            $retorno['form']['type'] = 'object';
+//            $retorno['form']['attr']['hide-group-field'] = 'group-seguimiento';
             $retorno['form']['properties']['title_6'] = [
                 'title' => $paleta['titulo_nivel1'],
                 'widget' => 'readonly',
@@ -923,88 +937,84 @@ class ProductoApi extends BaseController
                         'message' => 'Este campo no puede estar vacío'
                     ]
                 ],
+                'attr' => ['hide-group-field' => 'group-seguimiento'],
                 'required' => 1,
                 'disabled' => 0,
                 'property_order' => 1,
                 'choices' => $nivel,
             ];
-            if ($paleta['titulo_nivel2'] != '') {
-                $retorno['form']['properties']['title_7'] = [
-                    'title' => $paleta['titulo_nivel2'],
-                    'widget' => 'readonly',
-                    'full_name' => 'data[title_7]',
-                    'constraints' => [],
-                    'type_content' => 'title',
-                    'required' => 0,
-                    'disabled' => 0,
-                    'property_order' => 1,
-                ];
-                $retorno['form']['properties']['Nivel2'] = [
-                    'type' => 'string',
-                    'title' => $paleta['titulo_nivel2'],
-                    'widget' => 'picker-select2',
-                    'empty_data' => null,
-                    'full_name' => 'data[nivel2]',
-                    'constraints' => [
-                        [
-                            'name' => 'Count',
-                            'Min' => 1,
-                            'MinMessage' => "Debe seleccionar por lo menos una opción."
-                        ],
+            $retorno['form']['properties']['title_7'] = [
+                'title' => $paleta['titulo_nivel2'],
+                'widget' => 'readonly',
+                'full_name' => 'data[title_7]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['Nivel2'] = [
+                'type' => 'string',
+                'title' => $paleta['titulo_nivel2'],
+                'widget' => 'picker-select2',
+                'empty_data' => null,
+                'full_name' => 'data[nivel2]',
+                'constraints' => [
+                    [
+                        'name' => 'Count',
+                        'Min' => 1,
+                        'MinMessage' => "Debe seleccionar por lo menos una opción."
                     ],
-                    'required' => 1,
-                    'disabled' => 0,
-                    'property_order' => 2,
-                    'choices' => [],
-                    "multiple" => false,
-                    'remote_path' => 'api/producto/buscar_listas',
-                    'remote_params' => [
-                        "list" => "nivel2"
+                ],
+                'required' => 1,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+                "multiple" => false,
+                'remote_path' => 'api/producto/buscar_listas',
+                'remote_params' => [
+                    "list" => "nivel2"
+                ],
+                'req_params' => [
+                    "data[nivel1]" => "data[nivel1]"
+                ],
+            ];
+            $retorno['form']['properties']['title_8'] = [
+                'title' => $paleta['titulo_nivel3'],
+                'widget' => 'readonly',
+                'full_name' => 'data[title_8]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['Nivel3'] = [
+                'type' => 'string',
+                'title' => $paleta['titulo_nivel3'],
+                'widget' => 'picker-select2',
+                'empty_data' => null,
+                'full_name' => 'data[nivel3]',
+                'constraints' => [
+                    [
+                        'name' => 'Count',
+                        'Min' => 1,
+                        'MinMessage' => "Debe seleccionar por lo menos una opción."
                     ],
-                    'req_params' => [
-                        "data[nivel1]" => "data[nivel1]"
-                    ],
-                ];
-            }
-            if ($paleta['titulo_nivel3'] != '') {
-                $retorno['form']['properties']['title_8'] = [
-                    'title' => $paleta['titulo_nivel3'],
-                    'widget' => 'readonly',
-                    'full_name' => 'data[title_8]',
-                    'constraints' => [],
-                    'type_content' => 'title',
-                    'required' => 0,
-                    'disabled' => 0,
-                    'property_order' => 1,
-                ];
-                $retorno['form']['properties']['Nivel3'] = [
-                    'type' => 'string',
-                    'title' => $paleta['titulo_nivel3'],
-                    'widget' => 'picker-select2',
-                    'empty_data' => null,
-                    'full_name' => 'data[nivel3]',
-                    'constraints' => [
-                        [
-                            'name' => 'Count',
-                            'Min' => 1,
-                            'MinMessage' => "Debe seleccionar por lo menos una opción."
-                        ],
-                    ],
-                    'required' => 1,
-                    'disabled' => 0,
-                    'property_order' => 2,
-                    'choices' => [],
-                    "multiple" => false,
-                    'remote_path' => 'api/producto/buscar_listas_n3',
-                    'remote_params' => [
-                        "list" => "nivel3"
-                    ],
-                    'req_params' => [
-                        "data[nivel2]" => "data[nivel2]"
-                    ],
-                ];
-            }
-
+                ],
+                'required' => 1,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+                "multiple" => false,
+                'remote_path' => 'api/producto/buscar_listas_n3',
+                'remote_params' => [
+                    "list" => "nivel3"
+                ],
+                'req_params' => [
+                    "data[nivel2]" => "data[nivel2]"
+                ],
+            ];
             $retorno['form']['properties']['title_10'] = [
                 'title' => 'FECHA COMPROMISO DE PAGO',
                 'widget' => 'readonly',
@@ -1049,12 +1059,6 @@ class ProductoApi extends BaseController
                 'property_order' => 2,
                 'choices' => [],
             ];
-
-            $paleta_nivel1 = PaletaMotivoNoPago::getNivel1(1);
-            $nivel = [];
-            foreach ($paleta_nivel1 as $key => $val) {
-                $nivel_motivo[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
-            }
             $retorno['form']['properties']['title_1'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel1'],
                 'widget' => 'readonly',
@@ -1118,7 +1122,6 @@ class ProductoApi extends BaseController
                     "data[nivel_1_motivo_no_pago_id]" => "data[nivel_1_motivo_no_pago_id]"
                 ],
             ];
-
             $retorno['form']['properties']['title_3'] = [
                 'title' => 'OBSERVACIONES',
                 'widget' => 'readonly',
@@ -1141,19 +1144,7 @@ class ProductoApi extends BaseController
                 'property_order' => 6,
                 'choices' => [],
             ];
-            $retorno['form']['properties']['title_4'] = [
-                'title' => 'IMÁGENES',
-                'widget' => 'readonly',
-                'full_name' => 'data[title_4]',
-                'constraints' => [],
-                'type_content' => 'title',
-                'required' => 0,
-                'disabled' => 0,
-                'property_order' => 1,
-            ];
 
-            $producto = Producto::porId($producto_id);
-            $direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
             if (count($direcciones) > 0) {
                 $dir = [];
                 foreach ($direcciones as $d) {
@@ -1182,6 +1173,16 @@ class ProductoApi extends BaseController
                     'choices' => $dir,
                 ];
             }
+            $retorno['form']['properties']['title_4'] = [
+                'title' => 'IMÁGENES',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_4]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
             $retorno['form']['properties']['imagenes'] = [
                 'type' => 'string',
                 'title' => 'Imágenes',
@@ -1198,12 +1199,21 @@ class ProductoApi extends BaseController
             ];
 
             //DINERS
-
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['title'] = 'seguimiento_tarjeta_diners';
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['type'] = 'string';
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['widget'] = 'form';
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['attr']['group-form'] = 'group-seguimiento';
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['visible'] = false;
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_226'] = [
+                'title' => 'SEGUIMIENTO TARJETA DINERS',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_226]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_26'] = [
                 'title' => $paleta['titulo_nivel1'],
                 'widget' => 'readonly',
@@ -1231,83 +1241,78 @@ class ProductoApi extends BaseController
                 'property_order' => 1,
                 'choices' => $nivel,
             ];
-            if ($paleta['titulo_nivel2'] != '') {
-                $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_27'] = [
-                    'title' => $paleta['titulo_nivel2'],
-                    'widget' => 'readonly',
-                    'full_name' => 'data[title_27]',
-                    'constraints' => [],
-                    'type_content' => 'title',
-                    'required' => 0,
-                    'disabled' => 0,
-                    'property_order' => 1,
-                ];
-                $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel2'] = [
-                    'type' => 'string',
-                    'title' => $paleta['titulo_nivel2'],
-                    'widget' => 'picker-select2',
-                    'empty_data' => null,
-                    'full_name' => 'data[diners][nivel2]',
-                    'constraints' => [
-                        [
-                            'name' => 'Count',
-                            'Min' => 1,
-                            'MinMessage' => "Debe seleccionar por lo menos una opción."
-                        ],
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_27'] = [
+                'title' => $paleta['titulo_nivel2'],
+                'widget' => 'readonly',
+                'full_name' => 'data[title_27]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel2'] = [
+                'type' => 'string',
+                'title' => $paleta['titulo_nivel2'],
+                'widget' => 'picker-select2',
+                'empty_data' => null,
+                'full_name' => 'data[diners][nivel2]',
+                'constraints' => [
+                    [
+                        'name' => 'Count',
+                        'Min' => 1,
+                        'MinMessage' => "Debe seleccionar por lo menos una opción."
                     ],
-                    'required' => 1,
-                    'disabled' => 0,
-                    'property_order' => 2,
-                    'choices' => [],
-                    "multiple" => false,
-                    'remote_path' => 'api/producto/buscar_listas',
-                    'remote_params' => [
-                        "list" => "nivel2"
+                ],
+                'required' => 1,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+                "multiple" => false,
+                'remote_path' => 'api/producto/buscar_listas',
+                'remote_params' => [
+                    "list" => "nivel2"
+                ],
+                'req_params' => [
+                    "data[nivel1]" => "data[diners][nivel1]"
+                ],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_28'] = [
+                'title' => $paleta['titulo_nivel3'],
+                'widget' => 'readonly',
+                'full_name' => 'data[title_28]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel3'] = [
+                'type' => 'string',
+                'title' => $paleta['titulo_nivel3'],
+                'widget' => 'picker-select2',
+                'empty_data' => null,
+                'full_name' => 'data[diners][nivel3]',
+                'constraints' => [
+                    [
+                        'name' => 'Count',
+                        'Min' => 1,
+                        'MinMessage' => "Debe seleccionar por lo menos una opción."
                     ],
-                    'req_params' => [
-                        "data[nivel1]" => "data[diners][nivel1]"
-                    ],
-                ];
-            }
-            if ($paleta['titulo_nivel3'] != '') {
-                $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_28'] = [
-                    'title' => $paleta['titulo_nivel3'],
-                    'widget' => 'readonly',
-                    'full_name' => 'data[title_28]',
-                    'constraints' => [],
-                    'type_content' => 'title',
-                    'required' => 0,
-                    'disabled' => 0,
-                    'property_order' => 1,
-                ];
-                $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel3'] = [
-                    'type' => 'string',
-                    'title' => $paleta['titulo_nivel3'],
-                    'widget' => 'picker-select2',
-                    'empty_data' => null,
-                    'full_name' => 'data[diners][nivel3]',
-                    'constraints' => [
-                        [
-                            'name' => 'Count',
-                            'Min' => 1,
-                            'MinMessage' => "Debe seleccionar por lo menos una opción."
-                        ],
-                    ],
-                    'required' => 1,
-                    'disabled' => 0,
-                    'property_order' => 2,
-                    'choices' => [],
-                    "multiple" => false,
-                    'remote_path' => 'api/producto/buscar_listas_n3',
-                    'remote_params' => [
-                        "list" => "nivel3"
-                    ],
-                    'req_params' => [
-                        "data[nivel2]" => "data[diners][nivel2]"
-                    ],
-                ];
-            }
-
+                ],
+                'required' => 1,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+                "multiple" => false,
+                'remote_path' => 'api/producto/buscar_listas_n3',
+                'remote_params' => [
+                    "list" => "nivel3"
+                ],
+                'req_params' => [
+                    "data[nivel2]" => "data[diners][nivel2]"
+                ],
+            ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_10'] = [
                 'title' => 'FECHA COMPROMISO DE PAGO',
                 'widget' => 'readonly',
@@ -1352,7 +1357,6 @@ class ProductoApi extends BaseController
                 'property_order' => 2,
                 'choices' => [],
             ];
-
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_1'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel1'],
                 'widget' => 'readonly',
@@ -1416,7 +1420,6 @@ class ProductoApi extends BaseController
                     "data[nivel_1_motivo_no_pago_id]" => "data[diners][nivel_1_motivo_no_pago_id]"
                 ],
             ];
-
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_3'] = [
                 'title' => 'OBSERVACIONES',
                 'widget' => 'readonly',
