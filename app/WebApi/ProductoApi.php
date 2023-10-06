@@ -1281,6 +1281,7 @@ class ProductoApi extends BaseController
                 'required' => 0,
                 'disabled' => 0,
                 'property_order' => 1,
+                'hide' => true,
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['fecha_compromiso_pago'] = [
                 'type' => 'string',
@@ -1293,6 +1294,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 2,
                 'choices' => [],
+                'hide' => true,
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_11'] = [
                 'title' => 'VALOR COMPROMETIDO',
