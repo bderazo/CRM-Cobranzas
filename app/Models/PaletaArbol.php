@@ -339,8 +339,15 @@ class PaletaArbol extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
-			$aux['id'] = $l['nivel3_id'];
-			$aux['text'] = $l['nivel3'];
+            if($l['nivel3_id'] == 1860){
+                $aux['id'] = $l['nivel3_id'];
+                $aux['text'] = $l['nivel3'];
+                $aux['_data'] = ['show-group-field'=>'group-refinancia-diners'];
+            }else{
+                $aux['id'] = $l['nivel3_id'];
+                $aux['text'] = $l['nivel3'];
+            }
+
 			$retorno[] = $aux;
 		}
 		return $retorno;
