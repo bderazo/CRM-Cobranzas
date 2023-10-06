@@ -1431,7 +1431,7 @@ class ProductoApi extends BaseController
                 'req_params' => [
                     "data[nivel2]" => "data[diners][nivel2]",
                 ],
-                'attr' => ['hide-group-field' => 'group-refinancia-diners']
+                'attr' => ['hide-group-field' => 'group-refinancia-diners,group-motivo-diners']
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_10'] = [
                 'title' => 'FECHA COMPROMISO DE PAGO',
@@ -1694,7 +1694,7 @@ class ProductoApi extends BaseController
                 'property_order' => 3,
                 'choices' => $nivel_motivo,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_12'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel2'],

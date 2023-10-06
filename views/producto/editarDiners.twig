@@ -3723,16 +3723,18 @@
                                 $("#div_ingresos_egresos").show();
                                 $('#ingresos_cliente').prop('required', true);
                                 $('#egresos_cliente').prop('required', true);
-
-                                $("#div_actividad").show();
-                                $('#actividad_actual').prop('required', true);
-                                $('#medio_contacto').prop('required', true);
-                                $('#gestion_detallada').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos").hide();
                                 $('#ingresos_cliente').removeAttr('required');
                                 $('#egresos_cliente').removeAttr('required');
+                            }
 
+                            if(self.seguimiento.nivel_3_id == 1860){
+                                $("#div_actividad").show();
+                                $('#actividad_actual').prop('required', true);
+                                $('#medio_contacto').prop('required', true);
+                                $('#gestion_detallada').prop('required', true);
+                            }else{
                                 $("#div_actividad").hide();
                                 $('#actividad_actual').removeAttr('required');
                                 $('#medio_contacto').removeAttr('required');
@@ -3779,16 +3781,18 @@
                                 $("#div_ingresos_egresos_diners").show();
                                 $('#ingresos_cliente_diners').prop('required', true);
                                 $('#egresos_cliente_diners').prop('required', true);
-
-                                $("#div_actividad_diners").show();
-                                $('#actividad_actual_diners').prop('required', true);
-                                $('#medio_contacto_diners').prop('required', true);
-                                $('#gestion_detallada_diners').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos_diners").hide();
                                 $('#ingresos_cliente_diners').removeAttr('required');
                                 $('#egresos_cliente_diners').removeAttr('required');
+                            }
 
+                            if(self.seguimiento_diners.nivel_3_id == 1860){
+                                $("#div_actividad_diners").show();
+                                $('#actividad_actual_diners').prop('required', true);
+                                $('#medio_contacto_diners').prop('required', true);
+                                $('#gestion_detallada_diners').prop('required', true);
+                            }else{
                                 $("#div_actividad_diners").hide();
                                 $('#actividad_actual_diners').removeAttr('required');
                                 $('#medio_contacto_diners').removeAttr('required');
@@ -3835,16 +3839,18 @@
                                 $("#div_ingresos_egresos_interdin").show();
                                 $('#ingresos_cliente_interdin').prop('required', true);
                                 $('#egresos_cliente_interdin').prop('required', true);
-
-                                $("#div_actividad_interdin").show();
-                                $('#actividad_actual_interdin').prop('required', true);
-                                $('#medio_contacto_interdin').prop('required', true);
-                                $('#gestion_detallada_interdin').prop('required', true);
                             } else {
                                 $("#div_ingresos_egresos_interdin").hide();
                                 $('#ingresos_cliente_interdin').removeAttr('required');
                                 $('#egresos_cliente_interdin').removeAttr('required');
+                            }
 
+                            if(self.seguimiento_interdin.nivel_3_id == 1860){
+                                $("#div_actividad_interdin").show();
+                                $('#actividad_actual_interdin').prop('required', true);
+                                $('#medio_contacto_interdin').prop('required', true);
+                                $('#gestion_detallada_interdin').prop('required', true);
+                            }else{
                                 $("#div_actividad_interdin").hide();
                                 $('#actividad_actual_interdin').removeAttr('required');
                                 $('#medio_contacto_interdin').removeAttr('required');
@@ -3892,15 +3898,21 @@
                                 $('#ingresos_cliente_discover').prop('required', true);
                                 $('#egresos_cliente_discover').prop('required', true);
 
-                                $("#div_actividad_discover").show();
-                                $('#actividad_actual_discover').prop('required', true);
-                                $('#medio_contacto_discover').prop('required', true);
-                                $('#gestion_detallada_discover').prop('required', true);
+
                             } else {
                                 $("#div_ingresos_egresos_discover").hide();
                                 $('#ingresos_cliente_discover').removeAttr('required');
                                 $('#egresos_cliente_discover').removeAttr('required');
 
+
+                            }
+
+                            if(self.seguimiento_discover.nivel_3_id == 1860){
+                                $("#div_actividad_discover").show();
+                                $('#actividad_actual_discover').prop('required', true);
+                                $('#medio_contacto_discover').prop('required', true);
+                                $('#gestion_detallada_discover').prop('required', true);
+                            }else{
                                 $("#div_actividad_discover").hide();
                                 $('#actividad_actual_discover').removeAttr('required');
                                 $('#medio_contacto_discover').removeAttr('required');
@@ -3948,15 +3960,21 @@
                                 $('#ingresos_cliente_mastercard').prop('required', true);
                                 $('#egresos_cliente_mastercard').prop('required', true);
 
-                                $("#div_actividad_mastercard").show();
-                                $('#actividad_actual_mastercard').prop('required', true);
-                                $('#medio_contacto_mastercard').prop('required', true);
-                                $('#gestion_detallada_mastercard').prop('required', true);
+
                             } else {
                                 $("#div_ingresos_egresos_mastercard").hide();
                                 $('#ingresos_cliente_mastercard').removeAttr('required');
                                 $('#egresos_cliente_mastercard').removeAttr('required');
 
+
+                            }
+
+                            if(self.seguimiento_mastercard.nivel_3_id == 1860){
+                                $("#div_actividad_mastercard").show();
+                                $('#actividad_actual_mastercard').prop('required', true);
+                                $('#medio_contacto_mastercard').prop('required', true);
+                                $('#gestion_detallada_mastercard').prop('required', true);
+                            }else{
                                 $("#div_actividad_mastercard").hide();
                                 $('#actividad_actual_mastercard').removeAttr('required');
                                 $('#medio_contacto_mastercard').removeAttr('required');
