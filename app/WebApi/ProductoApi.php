@@ -895,9 +895,9 @@ class ProductoApi extends BaseController
             $paleta_nivel1 = PaletaArbol::getNivel1(1);
             $nivel = [];
             foreach ($paleta_nivel1 as $key => $val) {
-                if($val['nivel1_id'] == 1855){
+                if ($val['nivel1_id'] == 1855) {
                     $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
-                }else {
+                } else {
                     $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
                 }
             }
@@ -1316,7 +1316,6 @@ class ProductoApi extends BaseController
             ];
 
 
-
             //DINERS
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['title'] = 'seguimiento_tarjeta_diners';
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['type'] = 'string';
@@ -1479,16 +1478,14 @@ class ProductoApi extends BaseController
                 'empty_data' => null,
                 'full_name' => 'data[diners][valor_comprometido]',
                 'constraints' => [
-                    'constraints' => [
-                        [
-                            'name' => 'NotBlank',
-                            'message' => 'Este campo no puede estar vacío',
-                        ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
-                        ],
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío',
+                    ],
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
                     ],
                 ],
                 'required' => 0,
@@ -1761,7 +1758,6 @@ class ProductoApi extends BaseController
                 'property_order' => 6,
                 'choices' => [],
             ];
-
 
 
             if (count($direcciones) > 0) {
