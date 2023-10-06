@@ -320,7 +320,7 @@ class PaletaArbol extends Model
 		return $retorno;
 	}
 
-	static function getNivel3ApiQuery($query, $page, $data) {
+	static function getNivel3ApiQuery($query, $page, $data, $tarjeta = '') {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
@@ -339,7 +339,7 @@ class PaletaArbol extends Model
 		$lista = $q->fetchAll();
 		$retorno = [];
 		foreach ($lista as $l){
-            if($data['tarjeta'] == 'DINERS'){
+            if($tarjeta == 'DINERS'){
                 if($l['nivel3_id'] == 1860){
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
@@ -352,8 +352,6 @@ class PaletaArbol extends Model
                 $aux['id'] = $l['nivel3_id'];
                 $aux['text'] = $l['nivel3'];
             }
-
-
 			$retorno[] = $aux;
 		}
 		return $retorno;

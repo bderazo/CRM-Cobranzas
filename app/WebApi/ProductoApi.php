@@ -288,15 +288,13 @@ class ProductoApi extends BaseController
         $res = new RespuestaConsulta();
 
         $q = $this->request->getParam('q');
-//		\Auditor::info('buscar_listas_n3 q: '.$q, 'API', $q);
         $page = $this->request->getParam('page');
-//		\Auditor::info('buscar_listas_n3 page: '.$page, 'API', $page);
         $data = $this->request->getParam('data');
-//		\Auditor::info('buscar_listas_n3 data: '.$data, 'API', $data);
+        $tarjeta = $this->request->getParam('tarjeta');
         $session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 
-        $respuesta = PaletaArbol::getNivel3ApiQuery($q, $page, $data);
+        $respuesta = PaletaArbol::getNivel3ApiQuery($q, $page, $data, $tarjeta);
         $retorno['results'] = $respuesta;
         $retorno['pagination'] = ['more' => true];
 
@@ -473,11 +471,11 @@ class ProductoApi extends BaseController
                         "multiple" => false,
                         'remote_path' => 'api/producto/buscar_listas_n3',
                         'remote_params' => [
-                            "list" => "nivel3"
+                            "list" => "nivel3",
+                            "tarjeta" => ""
                         ],
                         'req_params' => [
                             "data[nivel2]" => "data[nivel2]",
-                            "tarjeta" => ""
                         ],
                     ];
                 }
@@ -1020,11 +1018,11 @@ class ProductoApi extends BaseController
                 "multiple" => false,
                 'remote_path' => 'api/producto/buscar_listas_n3',
                 'remote_params' => [
-                    "list" => "nivel3"
+                    "list" => "nivel3",
+                    "tarjeta" => ""
                 ],
                 'req_params' => [
                     "data[nivel2]" => "data[nivel2]",
-                    "tarjeta" => ""
                 ],
             ];
             $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_10'] = [
@@ -1268,11 +1266,11 @@ class ProductoApi extends BaseController
                 "multiple" => false,
                 'remote_path' => 'api/producto/buscar_listas_n3',
                 'remote_params' => [
-                    "list" => "nivel3"
+                    "list" => "nivel3",
+                    "tarjeta" => "DINERS"
                 ],
                 'req_params' => [
                     "data[nivel2]" => "data[diners][nivel2]",
-                    "tarjeta" => "DINERS"
                 ],
                 'attr' => ['hide-group-field' => 'group-refinancia-diners']
             ];
