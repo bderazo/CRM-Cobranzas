@@ -476,7 +476,8 @@ class ProductoApi extends BaseController
                             "list" => "nivel3"
                         ],
                         'req_params' => [
-                            "data[nivel2]" => "data[nivel2]"
+                            "data[nivel2]" => "data[nivel2]",
+                            "tarjeta" => ""
                         ],
                     ];
                 }
@@ -1022,7 +1023,8 @@ class ProductoApi extends BaseController
                     "list" => "nivel3"
                 ],
                 'req_params' => [
-                    "data[nivel2]" => "data[nivel2]"
+                    "data[nivel2]" => "data[nivel2]",
+                    "tarjeta" => ""
                 ],
             ];
             $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_10'] = [
@@ -1269,8 +1271,10 @@ class ProductoApi extends BaseController
                     "list" => "nivel3"
                 ],
                 'req_params' => [
-                    "data[nivel2]" => "data[diners][nivel2]"
+                    "data[nivel2]" => "data[diners][nivel2]",
+                    "tarjeta" => "DINERS"
                 ],
+                'attr' => ['hide-group-field' => 'group-refinancia-diners']
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_10'] = [
                 'title' => 'FECHA COMPROMISO DE PAGO',
