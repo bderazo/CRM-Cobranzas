@@ -1063,10 +1063,170 @@ class ProductoApi extends BaseController
                 'widget' => 'text',
                 'empty_data' => null,
                 'full_name' => 'data[valor_comprometido]',
-                'constraints' => [],
+                'constraints' => [
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío',
+                    ],
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
                 'required' => 0,
                 'disabled' => 0,
                 'property_order' => 2,
+                'choices' => [],
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_13'] = [
+                'title' => 'INGRESOS DEL CLIENTE',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_13]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['ingresos_cliente'] = [
+                'type' => 'string',
+                'title' => 'INGRESOS DEL CLIENTE',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[ingresos_cliente]',
+                'constraints' => [
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_14'] = [
+                'title' => 'EGRESOS DEL CLIENTE',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_14]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['egresos_cliente'] = [
+                'type' => 'string',
+                'title' => 'EGRESOS DEL CLIENTE',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[egresos_cliente]',
+                'constraints' => [
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_15'] = [
+                'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_15]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['actividad_actual'] = [
+                'type' => 'string',
+                'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[actividad_actual]',
+                'constraints' => [
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío'
+                    ],
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [
+                    ['id' => 'INDEPENDIENTE', 'text' => 'INDEPENDIENTE'],
+                    ['id' => 'DEPENDIENTE', 'text' => 'DEPENDIENTE'],
+                    ['id' => 'JUBILADO', 'text' => 'JUBILADO'],
+                ],
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_16'] = [
+                'title' => 'MEDIO DE CONTACTO',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_16]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['medio_contacto'] = [
+                'type' => 'string',
+                'title' => 'MEDIO DE CONTACTO',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[medio_contacto]',
+                'constraints' => [
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío'
+                    ],
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [
+                    ['id' => 'LLAMADA', 'text' => 'LLAMADA'],
+                    ['id' => 'WHATSAPP', 'text' => 'WHATSAPP'],
+                    ['id' => 'LLAMADA Y WHATSAPP', 'text' => 'LLAMADA Y WHATSAPP'],
+                ],
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_17'] = [
+                'title' => 'GESTIÓN DETALLADA',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_17]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_campos']['properties']['gestion_detallada'] = [
+                'type' => 'string',
+                'title' => 'GESTIÓN DETALLADA',
+                'widget' => 'textarea',
+                'empty_data' => '',
+                'full_name' => 'data[gestion_detallada]',
+                'constraints' => [],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 6,
                 'choices' => [],
             ];
             $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_1'] = [
@@ -1309,6 +1469,8 @@ class ProductoApi extends BaseController
                 'required' => 0,
                 'disabled' => 0,
                 'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['valor_comprometido'] = [
                 'type' => 'string',
@@ -1316,11 +1478,195 @@ class ProductoApi extends BaseController
                 'widget' => 'text',
                 'empty_data' => null,
                 'full_name' => 'data[diners][valor_comprometido]',
-                'constraints' => [],
+                'constraints' => [
+                    'constraints' => [
+                        [
+                            'name' => 'NotBlank',
+                            'message' => 'Este campo no puede estar vacío',
+                        ],
+                        [
+                            'name' => 'PositiveOrZero',
+                            "invalid_format_message" => "Debe ingresar un número válido",
+                            'message' => 'Debe ingresar un número mayor a cero',
+                        ],
+                    ],
+                ],
                 'required' => 0,
                 'disabled' => 0,
                 'property_order' => 2,
                 'choices' => [],
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_23'] = [
+                'title' => 'INGRESOS DEL CLIENTE',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_13]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['ingresos_cliente'] = [
+                'type' => 'string',
+                'title' => 'INGRESOS DEL CLIENTE',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[diners][ingresos_cliente]',
+                'constraints' => [
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_14'] = [
+                'title' => 'EGRESOS DEL CLIENTE',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_14]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['egresos_cliente'] = [
+                'type' => 'string',
+                'title' => 'EGRESOS DEL CLIENTE',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[diners][egresos_cliente]',
+                'constraints' => [
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [],
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_15'] = [
+                'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_15]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['actividad_actual'] = [
+                'type' => 'string',
+                'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[diners][actividad_actual]',
+                'constraints' => [
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío'
+                    ],
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [
+                    ['id' => 'INDEPENDIENTE', 'text' => 'INDEPENDIENTE'],
+                    ['id' => 'DEPENDIENTE', 'text' => 'DEPENDIENTE'],
+                    ['id' => 'JUBILADO', 'text' => 'JUBILADO'],
+                ],
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_16'] = [
+                'title' => 'MEDIO DE CONTACTO',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_16]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['medio_contacto'] = [
+                'type' => 'string',
+                'title' => 'MEDIO DE CONTACTO',
+                'widget' => 'text',
+                'empty_data' => null,
+                'full_name' => 'data[diners][medio_contacto]',
+                'constraints' => [
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío'
+                    ],
+                    [
+                        'name' => 'PositiveOrZero',
+                        "invalid_format_message" => "Debe ingresar un número válido",
+                        'message' => 'Debe ingresar un número mayor a cero',
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 2,
+                'choices' => [
+                    ['id' => 'LLAMADA', 'text' => 'LLAMADA'],
+                    ['id' => 'WHATSAPP', 'text' => 'WHATSAPP'],
+                    ['id' => 'LLAMADA Y WHATSAPP', 'text' => 'LLAMADA Y WHATSAPP'],
+                ],
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_17'] = [
+                'title' => 'GESTIÓN DETALLADA',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_17]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['gestion_detallada'] = [
+                'type' => 'string',
+                'title' => 'GESTIÓN DETALLADA',
+                'widget' => 'textarea',
+                'empty_data' => '',
+                'full_name' => 'data[diners][gestion_detallada]',
+                'constraints' => [],
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 6,
+                'choices' => [],
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_1'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel1'],
@@ -1331,6 +1677,8 @@ class ProductoApi extends BaseController
                 'required' => 0,
                 'disabled' => 0,
                 'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel1MotivoNoPago'] = [
                 'type' => 'string',
@@ -1348,6 +1696,8 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 3,
                 'choices' => $nivel_motivo,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_12'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel2'],
@@ -1358,6 +1708,8 @@ class ProductoApi extends BaseController
                 'required' => 0,
                 'disabled' => 0,
                 'property_order' => 1,
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel2MotivoNoPago'] = [
                 'type' => 'string',
@@ -1384,6 +1736,8 @@ class ProductoApi extends BaseController
                 'req_params' => [
                     "data[nivel_1_motivo_no_pago_id]" => "data[diners][nivel_1_motivo_no_pago_id]"
                 ],
+                'hide' => true,
+                'attr' => ['group-form' => 'group-refinancia-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_3'] = [
                 'title' => 'OBSERVACIONES',

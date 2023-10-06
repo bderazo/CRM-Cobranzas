@@ -289,7 +289,7 @@ class ProductoController extends BaseController
         $paleta = Paleta::porId($institucion->paleta_id);
 
         $aplicativo_diners = AplicativoDiners::getAplicativoDiners($model->id);
-        $aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionAplicativo($aplicativo_diners['id']);
+        $aplicativo_diners_asignacion = AplicativoDinersAsignaciones::getAsignacionClienteUltimo($model->cliente_id);
 
         $numero_tarjetas = 0;
         $tarjeta_unica = 0;

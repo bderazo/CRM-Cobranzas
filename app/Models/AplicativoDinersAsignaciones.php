@@ -111,6 +111,21 @@ class AplicativoDinersAsignaciones extends Model
 		return $lista;
 	}
 
+    static function getAsignacionClienteUltimo($cliente_id) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones')
+            ->select(null)
+            ->select('*')
+            ->where('eliminado',0)
+            ->where('cliente_id',$cliente_id)
+            ->orderBy('fecha_ingreso DESC');
+        $lista = $q->fetch();
+        if(!$lista) return [];
+        return $lista;
+    }
+
     static function getFiltroCampana() {
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
