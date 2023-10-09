@@ -8,6 +8,7 @@ use General\GeneralHelper;
 use General\Seguridad\PermisosSession;
 use Models\Actividad;
 use Models\ApiUserTokenPushNotifications;
+use Models\AplicativoDiners;
 use Models\AplicativoDinersDetalle;
 use Models\Archivo;
 use Models\Banco;
@@ -917,6 +918,8 @@ class ProductoApi extends BaseController
             $producto = Producto::porId($producto_id);
             $direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
 
+            $aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
+
             $retorno['form']['title'] = 'form';
             $retorno['form']['type'] = 'object';
             $retorno['form']['properties']['title_6'] = [
@@ -1675,7 +1678,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel1MotivoNoPago'] = [
                 'type' => 'string',
@@ -1706,7 +1709,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel2MotivoNoPago'] = [
                 'type' => 'string',
@@ -1734,7 +1737,7 @@ class ProductoApi extends BaseController
                     "data[nivel_1_motivo_no_pago_id]" => "data[diners][nivel_1_motivo_no_pago_id]"
                 ],
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_3'] = [
                 'title' => 'OBSERVACIONES',
@@ -1757,6 +1760,61 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 6,
                 'choices' => [],
+            ];
+
+            //APLICATIVO DINERS
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['title'] = 'aplicativo_tarjetas';
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['type'] = 'string';
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['widget'] = 'form';
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['title_ad_1'] = [
+                'title' => 'APLICATIVO TARJETAS',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_ad_1]',
+                'constraints' => [],
+                'type_content' => 'title_2',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_ad_2'] = [
+                'title' => 'UNIFICACIÓN DEUDA',
+                'widget' => 'readonly',
+                'full_name' => 'data[app_diners][title_ad_2]',
+                'constraints' => [],
+                'type_content' => 'title_3',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['unificacion_deuda'] = [
+                'title' => $aplicativo_diners['unificacion_deuda'],
+                'widget' => 'readonly',
+                'full_name' => 'data[app_diners][unificacion_deuda]',
+                'constraints' => [],
+                'type_content' => 'title_2',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_ad_3'] = [
+                'title' => 'CONDONACIÓN DE INTERESES',
+                'widget' => 'readonly',
+                'full_name' => 'data[app_diners][title_ad_3]',
+                'constraints' => [],
+                'type_content' => 'title_3',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['condoncacion_interes'] = [
+                'title' => $aplicativo_diners['condoncacion_interes'],
+                'widget' => 'readonly',
+                'full_name' => 'data[app_diners][condoncacion_interes]',
+                'constraints' => [],
+                'type_content' => 'title_2',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
             ];
 
 

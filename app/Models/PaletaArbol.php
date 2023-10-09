@@ -344,6 +344,10 @@ class PaletaArbol extends Model
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
                     $aux['_data'] = ['show-group-field'=>'group-refinancia-diners'];
+                }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
@@ -353,6 +357,10 @@ class PaletaArbol extends Model
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
                     $aux['_data'] = ['show-group-field'=>'group-refinancia-interdin'];
+                }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
@@ -362,6 +370,10 @@ class PaletaArbol extends Model
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
                     $aux['_data'] = ['show-group-field'=>'group-refinancia-discover'];
+                }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
@@ -371,6 +383,10 @@ class PaletaArbol extends Model
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
                     $aux['_data'] = ['show-group-field'=>'group-refinancia-mastercard'];
+                }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
