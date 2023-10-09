@@ -1762,36 +1762,7 @@ class ProductoApi extends BaseController
                 'choices' => [],
             ];
 
-            //APLICATIVO
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['title'] = 'aplicativo_tarjetas';
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['type'] = 'string';
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['widget'] = 'form';
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['title_ad_1'] = [
-                'title' => 'APLICATIVO TARJETAS',
-                'widget' => 'readonly',
-                'type_content' => 'title_2',
-            ];
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['unificacion_deuda'] = [
-                'title' => 'UNIFICACIÓN DEUDA',
-                'widget' => 'readonly',
-                'type_content' => 'title_3',
-                'data' => $aplicativo_diners['unificacion_deuda'],
-            ];
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['condoncacion_interes'] = [
-                'title' => 'CONDONACIÓN DE INTERESES',
-                'widget' => 'readonly',
-                'type_content' => 'title_3',
-                'data' => $aplicativo_diners['condoncacion_interes'],
-            ];
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['cedula_socio'] = [
-                'title' => 'CÉDULA SOCIO',
-                'widget' => 'readonly',
-                'type_content' => 'title_3',
-                'data' => $aplicativo_diners['cedula_socio'],
-            ];
-
-
-
+            //DIRECCION Y FOTOS
             if (count($direcciones) > 0) {
                 $dir = [];
                 foreach ($direcciones as $d) {
@@ -1844,6 +1815,51 @@ class ProductoApi extends BaseController
                 'property_order' => 7,
                 'choices' => [],
             ];
+
+            //APLICATIVO
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['title'] = 'aplicativo_tarjetas';
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['type'] = 'string';
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['widget'] = 'form';
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['title_ad_1'] = [
+                'title' => 'APLICATIVO TARJETAS',
+                'widget' => 'readonly',
+                'type_content' => 'title_2',
+            ];
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['unificacion_deuda'] = [
+                'title' => 'UNIFICACIÓN DEUDA',
+                'widget' => 'readonly',
+                'type_content' => 'title_3',
+                'data' => $aplicativo_diners['unificacion_deuda'],
+            ];
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['condoncacion_interes'] = [
+                'title' => 'CONDONACIÓN DE INTERESES',
+                'widget' => 'readonly',
+                'type_content' => 'title_3',
+                'data' => $aplicativo_diners['condoncacion_interes'],
+            ];
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['cedula_socio'] = [
+                'title' => 'CÉDULA SOCIO',
+                'widget' => 'readonly',
+                'type_content' => 'title_3',
+                'data' => $aplicativo_diners['cedula_socio'],
+            ];
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['nombre_socio'] = [
+                'title' => 'NOMBRE DEL SOCIO',
+                'widget' => 'readonly',
+                'type_content' => 'title_3',
+                'data' => $aplicativo_diners['nombre_socio'],
+            ];
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['zona_cuenta'] = [
+                'title' => 'ZONA DE LA CUENTA',
+                'widget' => 'readonly',
+                'type_content' => 'title_3',
+                'data' => $aplicativo_diners['zona_cuenta'],
+            ];
+
+
+
+
+
 
             return $this->json($res->conDatos($retorno));
         } else {
