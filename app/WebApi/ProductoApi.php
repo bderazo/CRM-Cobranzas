@@ -957,6 +957,7 @@ class ProductoApi extends BaseController
             $retorno['form']['properties']['form_seguimiento_campos']['title'] = 'seguimiento_campos';
             $retorno['form']['properties']['form_seguimiento_campos']['type'] = 'string';
             $retorno['form']['properties']['form_seguimiento_campos']['widget'] = 'form';
+            $retorno['form']['properties']['form_seguimiento_campos']['full_name'] = 'seguimiento_campos';
             $retorno['form']['properties']['form_seguimiento_campos']['attr']['group-form'] = 'group-campos';
             $retorno['form']['properties']['form_seguimiento_campos']['hide'] = false;
             $retorno['form']['properties']['form_seguimiento_campos']['properties']['title_7'] = [
@@ -1337,6 +1338,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['title'] = 'seguimiento_tarjeta_diners';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['type'] = 'string';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['widget'] = 'form';
+                $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['full_name'] = 'seguimiento_tarjeta_diners';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['attr']['group-form'] = 'group-seguimiento';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['hide'] = true;
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_226'] = [
@@ -1750,6 +1752,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['title'] = 'seguimiento_tarjeta_interdin';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['type'] = 'string';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['widget'] = 'form';
+                $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['full_name'] = 'seguimiento_tarjeta_interdin';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['attr']['group-form'] = 'group-seguimiento';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['hide'] = true;
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['properties']['title_226'] = [
@@ -2163,6 +2166,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['title'] = 'seguimiento_tarjeta_discover';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['type'] = 'string';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['widget'] = 'form';
+                $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['full_name'] = 'seguimiento_tarjeta_discover';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['attr']['group-form'] = 'group-seguimiento';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['hide'] = true;
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['properties']['title_226'] = [
@@ -2576,6 +2580,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['title'] = 'seguimiento_tarjeta_mastercard';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['type'] = 'string';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['widget'] = 'form';
+                $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['full_name'] = 'seguimiento_tarjeta_mastercard';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['attr']['group-form'] = 'group-seguimiento';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['hide'] = true;
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['properties']['title_226'] = [

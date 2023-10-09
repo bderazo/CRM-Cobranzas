@@ -1057,11 +1057,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * campos_tarjeta_discover
-     * @param $aplicativo_diners_id
-     * @param $session
-     */
     function campos_tarjeta_discover()
     {
         if (!$this->isPost()) return "campos_tarjeta_discover";
@@ -1509,11 +1504,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * campos_tarjeta_mastercard
-     * @param $aplicativo_diners_id
-     * @param $session
-     */
     function campos_tarjeta_mastercard()
     {
         if (!$this->isPost()) return "campos_tarjeta_mastercard";
@@ -1959,12 +1949,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * calculos_tarjeta_diners
-     * @param $aplicativo_diners_id
-     * @param $data
-     * @param $session
-     */
     function calculos_tarjeta_diners()
     {
         if (!$this->isPost()) return "calculos_tarjeta_diners";
@@ -2006,12 +1990,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * calculos_tarjeta_interdin
-     * @param $aplicativo_diners_id
-     * @param $data
-     * @param $session
-     */
     function calculos_tarjeta_interdin()
     {
         if (!$this->isPost()) return "calculos_tarjeta_interdin";
@@ -2053,12 +2031,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * calculos_tarjeta_discover
-     * @param $aplicativo_diners_id
-     * @param $data
-     * @param $session
-     */
     function calculos_tarjeta_discover()
     {
         if (!$this->isPost()) return "calculos_tarjeta_discover";
@@ -2102,12 +2074,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * calculos_tarjeta_mastercard
-     * @param $aplicativo_diners_id
-     * @param $data
-     * @param $session
-     */
     function calculos_tarjeta_mastercard()
     {
         if (!$this->isPost()) return "calculos_tarjeta_mastercard";
@@ -2150,13 +2116,6 @@ class AplicativoDinersApi extends BaseController
         }
     }
 
-    /**
-     * save_tarjeta_diners
-     * @param $aplicativo_diners_id
-     * @param $data
-     * @param $tracing_id
-     * @param $session
-     */
     function save_tarjeta_diners()
     {
         if (!$this->isPost()) return "save_tarjeta_diners";
