@@ -1867,7 +1867,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'widget' => 'card_diner',
                     'full_name' => 'data[tarjetas][diners]',
-                    'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_diners?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'background-color' => '#0066A8',
                 ];
@@ -1879,7 +1879,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'widget' => 'card_diner',
                     'full_name' => 'data[tarjetas][discover]',
-                    'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_discover?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'background-color' => '#E66929',
                 ];
@@ -1891,7 +1891,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'widget' => 'card_diner',
                     'full_name' => 'data[tarjetas][interdin]',
-                    'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'background-color' => '#404040',
                 ];
@@ -1903,7 +1903,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'widget' => 'card_diner',
                     'full_name' => 'data[tarjetas][mastercard]',
-                    'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id=' . $aplicativo_diners['id'],
                     'background-color' => '#A4B706',
                 ];
