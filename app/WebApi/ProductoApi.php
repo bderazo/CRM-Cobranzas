@@ -1817,24 +1817,14 @@ class ProductoApi extends BaseController
                 'property_order' => 1,
             ];
             $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['title_ad_4'] = [
-                'title' => 'CONDONACIÓN DE INTERESES',
+                'title' => 'CÉDULA SOCIO',
                 'widget' => 'readonly',
-                'full_name' => 'data[app_diners][title_ad_4]',
-                'constraints' => [],
                 'type_content' => 'title_3',
-                'required' => 0,
-                'disabled' => 0,
-                'property_order' => 1,
             ];
-            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['condoncacion_interes'] = [
-                'title' => $aplicativo_diners['condoncacion_interes'],
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['cedula_socio'] = [
+                'title' => $aplicativo_diners['cedula_socio'],
                 'widget' => 'readonly',
-                'full_name' => 'data[app_diners][condoncacion_interes]',
-                'constraints' => [],
                 'type_content' => 'title_2',
-                'required' => 0,
-                'disabled' => 0,
-                'property_order' => 1,
             ];
 
 
