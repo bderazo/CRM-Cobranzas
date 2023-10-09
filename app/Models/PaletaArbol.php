@@ -374,7 +374,7 @@ class PaletaArbol extends Model
                     $aux['text'] = $l['nivel3'];
                 }
             }elseif($tarjeta == 'DISCOVER'){
-                if(($l['nivel3_id'] == 1860) || ($l['nivel3_id'] == 1858) || ($l['nivel3_id'] == 1857) || ($l['nivel3_id'] == 1854)){
+                if($l['nivel3_id'] == 1860){
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
                     $aux['_data'] = ['show-group-field'=>'group-refinancia-discover'];
