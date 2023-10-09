@@ -3076,6 +3076,7 @@ class ProductoApi extends BaseController
             $retorno['form']['properties']['form_tarjetas']['title'] = 'tarjetas';
             $retorno['form']['properties']['form_tarjetas']['type'] = 'string';
             $retorno['form']['properties']['form_tarjetas']['widget'] = 'form';
+            $retorno['form']['properties']['form_tarjetas']['full_name'] = 'form_tarjetas';
             if (count($aplicativo_diners_tarjeta_diners) > 0) {
                 $retorno['form']['properties']['form_tarjetas']['properties']['diners'] = [
                     'title' => 'DINERS | CICLO: ' . $aplicativo_diners_tarjeta_diners['ciclo'] . ' | EDAD: ' . $aplicativo_diners_tarjeta_diners['edad_cartera'] . ' | PENDIENTE: ' . $aplicativo_diners_tarjeta_diners['total_pendiente_facturado_despues_abono'],
