@@ -1856,6 +1856,59 @@ class ProductoApi extends BaseController
                 'data' => $aplicativo_diners['zona_cuenta'],
             ];
 
+            //TARJETAS
+            $retorno['form']['properties']['form_tarjetas']['title'] = 'tarjetas';
+            $retorno['form']['properties']['form_tarjetas']['type'] = 'string';
+            $retorno['form']['properties']['form_tarjetas']['widget'] = 'form';
+            $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $producto['cliente_id'], 'original');
+            if (count($aplicativo_diners_tarjeta_diners) > 0) {
+                $retorno['form']['properties']['form_tarjetas']['properties']['diners'] = [
+                    'title' => 'DINERS | CICLO: ' . $aplicativo_diners_tarjeta_diners['ciclo'] . ' | EDAD: ' . $aplicativo_diners_tarjeta_diners['edad_cartera'] . ' | PENDIENTE: ' . $aplicativo_diners_tarjeta_diners['total_pendiente_facturado_despues_abono'],
+                    'type' => 'string',
+                    'widget' => 'card_diner',
+                    'full_name' => 'data[tarjetas][diners]',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_diners',
+                    'calculo' => 'api/aplicativo_diners/calculos_tarjeta_diners?aplicativo_diners_id=' . $aplicativo_diners['id'],
+                    'background-color' => '#0066A8',
+                ];
+            }
+            $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $producto['cliente_id'], 'original');
+            if (count($aplicativo_diners_tarjeta_discover) > 0) {
+                $retorno['form']['properties']['form_tarjetas']['properties']['discover'] = [
+                    'title' => 'DISCOVER | CICLO: ' . $aplicativo_diners_tarjeta_discover['ciclo'] . ' | EDAD: ' . $aplicativo_diners_tarjeta_discover['edad_cartera'] . ' | PENDIENTE: ' . $aplicativo_diners_tarjeta_discover['total_pendiente_facturado_despues_abono'],
+                    'type' => 'string',
+                    'widget' => 'card_diner',
+                    'full_name' => 'data[tarjetas][discover]',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_discover',
+                    'calculo' => 'api/aplicativo_diners/calculos_tarjeta_discover?aplicativo_diners_id=' . $aplicativo_diners['id'],
+                    'background-color' => '#E66929',
+                ];
+            }
+            $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $producto['cliente_id'], 'original');
+            if (count($aplicativo_diners_tarjeta_interdin) > 0) {
+                $retorno['form']['properties']['form_tarjetas']['properties']['interdin'] = [
+                    'title' => 'VISA | CICLO: ' . $aplicativo_diners_tarjeta_interdin['ciclo'] . ' | EDAD: ' . $aplicativo_diners_tarjeta_interdin['edad_cartera'] . ' | PENDIENTE: ' . $aplicativo_diners_tarjeta_interdin['total_pendiente_facturado_despues_abono'],
+                    'type' => 'string',
+                    'widget' => 'card_diner',
+                    'full_name' => 'data[tarjetas][interdin]',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_interdin',
+                    'calculo' => 'api/aplicativo_diners/calculos_tarjeta_interdin?aplicativo_diners_id=' . $aplicativo_diners['id'],
+                    'background-color' => '#404040',
+                ];
+            }
+            $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $producto['cliente_id'], 'original');
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
+                $retorno['form']['properties']['form_tarjetas']['properties']['mastercard'] = [
+                    'title' => 'MASTERCARD | CICLO: ' . $aplicativo_diners_tarjeta_mastercard['ciclo'] . ' | EDAD: ' . $aplicativo_diners_tarjeta_mastercard['edad_cartera'] . ' | PENDIENTE: ' . $aplicativo_diners_tarjeta_mastercard['total_pendiente_facturado_despues_abono'],
+                    'type' => 'string',
+                    'widget' => 'card_diner',
+                    'full_name' => 'data[tarjetas][mastercard]',
+                    'campos' => 'api/aplicativo_diners/campos_tarjeta_mastercard',
+                    'calculo' => 'api/aplicativo_diners/calculos_tarjeta_mastercard?aplicativo_diners_id=' . $aplicativo_diners['id'],
+                    'background-color' => '#A4B706',
+                ];
+            }
+
 
 
 
