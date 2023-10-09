@@ -2164,7 +2164,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['attr']['group-form'] = 'group-seguimiento';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['hide'] = true;
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['properties']['title_226'] = [
-                    'title' => 'SEGUIMIENTO TARJETA VISA',
+                    'title' => 'SEGUIMIENTO TARJETA DISCOVER',
                     'widget' => 'readonly',
                     'full_name' => 'data[title_226]',
                     'constraints' => [],
@@ -2577,7 +2577,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['attr']['group-form'] = 'group-seguimiento';
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['hide'] = true;
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['properties']['title_226'] = [
-                    'title' => 'SEGUIMIENTO TARJETA VISA',
+                    'title' => 'SEGUIMIENTO TARJETA MASTERCARD',
                     'widget' => 'readonly',
                     'full_name' => 'data[title_226]',
                     'constraints' => [],
