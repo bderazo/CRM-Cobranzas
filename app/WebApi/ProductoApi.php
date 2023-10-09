@@ -1434,7 +1434,7 @@ class ProductoApi extends BaseController
                 'req_params' => [
                     "data[nivel2]" => "data[diners][nivel2]",
                 ],
-                'attr' => ['hide-group-field' => 'group-refinancia-diners,group-motivo-diners']
+                'attr' => ['hide-group-field' => 'group-refinancia-diners,group-motivo-diners,group-notificado-diners']
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_10'] = [
                 'title' => 'FECHA COMPROMISO DE PAGO',
@@ -1446,7 +1446,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['fecha_compromiso_pago'] = [
                 'type' => 'string',
@@ -1460,7 +1460,7 @@ class ProductoApi extends BaseController
                 'property_order' => 2,
                 'choices' => [],
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_11'] = [
                 'title' => 'VALOR COMPROMETIDO',
@@ -1472,7 +1472,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['valor_comprometido'] = [
                 'type' => 'string',
@@ -1496,7 +1496,7 @@ class ProductoApi extends BaseController
                 'property_order' => 2,
                 'choices' => [],
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_23'] = [
                 'title' => 'INGRESOS DEL CLIENTE',
@@ -1678,7 +1678,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel1MotivoNoPago'] = [
                 'type' => 'string',
@@ -1697,7 +1697,7 @@ class ProductoApi extends BaseController
                 'property_order' => 3,
                 'choices' => $nivel_motivo,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_12'] = [
                 'title' => $paleta['titulo_motivo_no_pago_nivel2'],
@@ -1709,7 +1709,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['Nivel2MotivoNoPago'] = [
                 'type' => 'string',
@@ -1737,7 +1737,7 @@ class ProductoApi extends BaseController
                     "data[nivel_1_motivo_no_pago_id]" => "data[diners][nivel_1_motivo_no_pago_id]"
                 ],
                 'hide' => true,
-                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners'],
+                'attr' => ['group-form' => 'group-refinancia-diners,group-motivo-diners,group-notificado-diners'],
             ];
             $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_3'] = [
                 'title' => 'OBSERVACIONES',

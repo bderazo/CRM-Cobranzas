@@ -348,6 +348,10 @@ class PaletaArbol extends Model
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
                     $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
+                }elseif(($l['nivel3_id'] == 1854) || ($l['nivel3_id'] == 1857) || ($l['nivel3_id'] == 1858)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-notificado-diners'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
@@ -360,7 +364,11 @@ class PaletaArbol extends Model
                 }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
-                    $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo-interdin'];
+                }elseif(($l['nivel3_id'] == 1854) || ($l['nivel3_id'] == 1857) || ($l['nivel3_id'] == 1858)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-notificado-interdin'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
@@ -373,7 +381,11 @@ class PaletaArbol extends Model
                 }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
-                    $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo-discover'];
+                }elseif(($l['nivel3_id'] == 1854) || ($l['nivel3_id'] == 1857) || ($l['nivel3_id'] == 1858)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-notificado-discover'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
@@ -386,7 +398,11 @@ class PaletaArbol extends Model
                 }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
-                    $aux['_data'] = ['show-group-field'=>'group-motivo-diners'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo-mastercard'];
+                }elseif(($l['nivel3_id'] == 1854) || ($l['nivel3_id'] == 1857) || ($l['nivel3_id'] == 1858)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-notificado-mastercard'];
                 }else{
                     $aux['id'] = $l['nivel3_id'];
                     $aux['text'] = $l['nivel3'];
