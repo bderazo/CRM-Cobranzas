@@ -30,6 +30,7 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/producto/buscar_listas_motivo_no_pago', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas_motivo_no_pago', $p));
 	$app->any('/producto/get_form_paleta', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_paleta', $p));
 	$app->any('/producto/save_form_paleta', $api->createDispatch(\WebApi\ProductoApi::class, 'save_form_paleta', $p));
+    $app->any('/producto/save_form_seguimiento', $api->createDispatch(\WebApi\ProductoApi::class, 'save_form_seguimiento', $p));
 
     $app->any('/producto/get_form_seguimiento', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_seguimiento', $p));
 
