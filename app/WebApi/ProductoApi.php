@@ -1762,7 +1762,7 @@ class ProductoApi extends BaseController
                 'choices' => [],
             ];
 
-            //APLICATIVO DINERS
+            //APLICATIVO
             $retorno['form']['properties']['form_aplicativo_tarjetas']['title'] = 'aplicativo_tarjetas';
             $retorno['form']['properties']['form_aplicativo_tarjetas']['type'] = 'string';
             $retorno['form']['properties']['form_aplicativo_tarjetas']['widget'] = 'form';
@@ -1776,7 +1776,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_ad_2'] = [
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['title_ad_2'] = [
                 'title' => 'UNIFICACIÓN DEUDA',
                 'widget' => 'readonly',
                 'full_name' => 'data[app_diners][title_ad_2]',
@@ -1786,7 +1786,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['unificacion_deuda'] = [
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['unificacion_deuda'] = [
                 'title' => $aplicativo_diners['unificacion_deuda'],
                 'widget' => 'readonly',
                 'full_name' => 'data[app_diners][unificacion_deuda]',
@@ -1796,7 +1796,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['title_ad_3'] = [
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['title_ad_3'] = [
                 'title' => 'CONDONACIÓN DE INTERESES',
                 'widget' => 'readonly',
                 'full_name' => 'data[app_diners][title_ad_3]',
@@ -1806,7 +1806,7 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
-            $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['condoncacion_interes'] = [
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['condoncacion_interes'] = [
                 'title' => $aplicativo_diners['condoncacion_interes'],
                 'widget' => 'readonly',
                 'full_name' => 'data[app_diners][condoncacion_interes]',
@@ -1816,6 +1816,27 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'property_order' => 1,
             ];
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['title_ad_4'] = [
+                'title' => 'CONDONACIÓN DE INTERESES',
+                'widget' => 'readonly',
+                'full_name' => 'data[app_diners][title_ad_4]',
+                'constraints' => [],
+                'type_content' => 'title_3',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+            $retorno['form']['properties']['form_aplicativo_tarjetas']['properties']['condoncacion_interes'] = [
+                'title' => $aplicativo_diners['condoncacion_interes'],
+                'widget' => 'readonly',
+                'full_name' => 'data[app_diners][condoncacion_interes]',
+                'constraints' => [],
+                'type_content' => 'title_2',
+                'required' => 0,
+                'disabled' => 0,
+                'property_order' => 1,
+            ];
+
 
 
             if (count($direcciones) > 0) {
