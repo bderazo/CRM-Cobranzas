@@ -310,7 +310,7 @@ class ProductoApi extends BaseController
                 }
             }
         }
-        if($page == 2){
+        if($page == 1){
             $retorno['results'] = [];
         }else {
             $retorno['results'] = $nivel;
