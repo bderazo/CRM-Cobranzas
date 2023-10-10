@@ -299,14 +299,16 @@ class ProductoApi extends BaseController
 
         $paleta_nivel1 = PaletaArbol::getNivel1(1);
         $nivel = [];
-        foreach ($paleta_nivel1 as $key => $val) {
-            if($data['unificar_tarjetas'] == 'si'){
-                $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
-            }else {
-                if ($val['nivel1_id'] == 1855) {
-                    $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
-                } else {
+        if($data['unificar_tarjetas'] != '') {
+            foreach ($paleta_nivel1 as $key => $val) {
+                if ($data['unificar_tarjetas'] == 'si') {
                     $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
+                } else {
+                    if ($val['nivel1_id'] == 1855) {
+                        $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
+                    } else {
+                        $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
+                    }
                 }
             }
         }
