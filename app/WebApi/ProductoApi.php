@@ -1159,7 +1159,7 @@ class ProductoApi extends BaseController
             $retorno['form']['properties']['form_seguimiento_campos']['properties']['actividad_actual'] = [
                 'type' => 'string',
                 'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
-                'widget' => 'text',
+                'widget' => 'choice',
                 'empty_data' => null,
                 'full_name' => 'data[actividad_actual]',
                 'constraints' => [
@@ -1197,7 +1197,7 @@ class ProductoApi extends BaseController
             $retorno['form']['properties']['form_seguimiento_campos']['properties']['medio_contacto'] = [
                 'type' => 'string',
                 'title' => 'MEDIO DE CONTACTO',
-                'widget' => 'text',
+                'widget' => 'choice',
                 'empty_data' => null,
                 'full_name' => 'data[medio_contacto]',
                 'constraints' => [
@@ -1573,7 +1573,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['actividad_actual'] = [
                     'type' => 'string',
                     'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[diners][actividad_actual]',
                     'constraints' => [
@@ -1611,7 +1611,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_diners']['properties']['medio_contacto'] = [
                     'type' => 'string',
                     'title' => 'MEDIO DE CONTACTO',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[diners][medio_contacto]',
                     'constraints' => [
@@ -1987,7 +1987,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['properties']['actividad_actual'] = [
                     'type' => 'string',
                     'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[interdin][actividad_actual]',
                     'constraints' => [
@@ -2025,7 +2025,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_interdin']['properties']['medio_contacto'] = [
                     'type' => 'string',
                     'title' => 'MEDIO DE CONTACTO',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[interdin][medio_contacto]',
                     'constraints' => [
@@ -2401,7 +2401,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['properties']['actividad_actual'] = [
                     'type' => 'string',
                     'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[discover][actividad_actual]',
                     'constraints' => [
@@ -2439,7 +2439,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_discover']['properties']['medio_contacto'] = [
                     'type' => 'string',
                     'title' => 'MEDIO DE CONTACTO',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[discover][medio_contacto]',
                     'constraints' => [
@@ -2815,7 +2815,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['properties']['actividad_actual'] = [
                     'type' => 'string',
                     'title' => 'ACTIVIDAD ACTUAL DEL CLIENTE',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[mastercard][actividad_actual]',
                     'constraints' => [
@@ -2853,7 +2853,7 @@ class ProductoApi extends BaseController
                 $retorno['form']['properties']['form_seguimiento_tarjeta_mastercard']['properties']['medio_contacto'] = [
                     'type' => 'string',
                     'title' => 'MEDIO DE CONTACTO',
-                    'widget' => 'text',
+                    'widget' => 'choice',
                     'empty_data' => null,
                     'full_name' => 'data[mastercard][medio_contacto]',
                     'constraints' => [
@@ -3156,6 +3156,9 @@ class ProductoApi extends BaseController
 //		$user = UsuarioLogin::getUserBySession($session);
         $usuario_id = \WebSecurity::getUserData('id');
         if ($usuario_id > 0) {
+
+            $producto_seguimiento = ProductoSeguimiento::saveFormSeguimientoAPI($cliente_id, $data, $lat, $long, $usuario_id);
+
 //            $user = Usuario::porId($usuario_id);
 //            $institucion = Institucion::porId($institucion_id);
 //            $producto = Producto::porId($producto_id);

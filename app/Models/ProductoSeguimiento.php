@@ -386,4 +386,31 @@ class ProductoSeguimiento extends Model
         }
         return $retorno;
     }
+
+    static function saveFormSeguimientoAPI($cliente_id, $data, $lat, $long, $usuario_id) {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->select(null)
+            ->select('ps.*, addet.ciclo')
+            ->where('ps.eliminado',0)
+            ->where('ps.fecha_ingreso < ?',$fecha_verificar)
+            ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
+            ->orderBy('ps.fecha_ingreso ASC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            if($l['nivel_1_id'] == 1866){
+                if(isset($retorno[$l['cliente_id']][$l['ciclo']])){
+                    unset($retorno[$l['cliente_id']][$l['ciclo']]);
+                }
+            }else {
+                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+            }
+        }
+        return $retorno;
+    }
 }
