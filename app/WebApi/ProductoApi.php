@@ -988,7 +988,6 @@ class ProductoApi extends BaseController
                     ['id' => 'no', 'text' => 'NO'],
                     ['id' => 'si', 'text' => 'SI'],
                 ],
-                'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
             ];
             $retorno['form']['properties']['title_6'] = [
                 'title' => $paleta['titulo_nivel1'],
@@ -1036,7 +1035,7 @@ class ProductoApi extends BaseController
                 'req_params' => [
                     "data[unificar_tarjetas]" => "data[unificar_tarjetas]"
                 ],
-
+                'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
 
             ];
             $retorno['form']['properties']['form_seguimiento_campos']['title'] = 'seguimiento_campos';
