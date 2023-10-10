@@ -927,7 +927,7 @@ class ProductoApi extends BaseController
             $retorno['form']['title'] = 'form';
             $retorno['form']['type'] = 'object';
             $retorno['form']['method'] = 'POST';
-            $retorno['form']['action'] = 'api/producto/save_form_seguimiento?cliente_id='.$producto['cliente_id'];
+            $retorno['form']['extra_options'] = ['action' => 'api/producto/save_form_seguimiento?cliente_id='.$producto['cliente_id']];
             $retorno['form']['properties']['title_6'] = [
                 'title' => $paleta['titulo_nivel1'],
                 'widget' => 'readonly',
@@ -3141,7 +3141,7 @@ class ProductoApi extends BaseController
         if (!$this->isPost()) return "save_form_seguimiento";
         $res = new RespuestaConsulta();
         $cliente_id = $this->request->getParam('cliente_id');
-        \Auditor::info('save_form_seguimiento cliente_id: ' . $producto_id, 'API', []);
+        \Auditor::info('save_form_seguimiento cliente_id: ' . $cliente_id, 'API', []);
 //        $producto_id = $this->request->getParam('producto_id');
 //		\Auditor::info('save_form_seguimiento producto_id: ' . $producto_id, 'API', []);
         $lat = $this->request->getParam('lat');
