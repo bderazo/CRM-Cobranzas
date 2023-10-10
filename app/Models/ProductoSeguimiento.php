@@ -391,6 +391,16 @@ class ProductoSeguimiento extends Model
         $pdo = self::query()->getConnection()->getPdo();
         $db = new \FluentPDO($pdo);
 
+        $bandera_unificar_deuda = 'no';
+        $tarjeta_unificar_deuda = '';
+        foreach ($data['tarjetas'] as $tarjeta => $val){
+            if($val['unificar_deudas'] == 'SI'){
+                $bandera_unificar_deuda = 'si';
+                $tarjeta_unificar_deuda = strtoupper($tarjeta);
+            }
+        }
+
+
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
             ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')

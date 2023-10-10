@@ -283,6 +283,39 @@ class ProductoApi extends BaseController
         return $this->json($retorno);
     }
 
+    function buscar_listas_n1()
+    {
+        if (!$this->isPost()) return "buscar_listas_n1";
+        $res = new RespuestaConsulta();
+
+        $q = $this->request->getParam('q');
+//		\Auditor::info('buscar_listas q: '.$q, 'API', $q);
+        $page = $this->request->getParam('page');
+//		\Auditor::info('buscar_listas page: '.$page, 'API', $page);
+        $data = $this->request->getParam('data');
+//		\Auditor::info('buscar_listas data: '.$data, 'API', $data);
+        $session = $this->request->getParam('session');
+//		$user = UsuarioLogin::getUserBySession($session);
+
+        $paleta_nivel1 = PaletaArbol::getNivel1(1);
+        $nivel = [];
+        foreach ($paleta_nivel1 as $key => $val) {
+            if($data['unificar_tarjetas'] == 'si'){
+                $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
+            }else {
+                if ($val['nivel1_id'] == 1855) {
+                    $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
+                } else {
+                    $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
+                }
+            }
+        }
+        $retorno['results'] = $nivel;
+        $retorno['pagination'] = ['more' => true];
+
+        return $this->json($retorno);
+    }
+
     function buscar_listas_n3()
     {
         if (!$this->isPost()) return "buscar_listas_n3";
@@ -928,6 +961,35 @@ class ProductoApi extends BaseController
             $retorno['form']['type'] = 'object';
             $retorno['form']['method'] = 'POST';
             $retorno['form']['extra_options'] = ['action' => 'api/producto/save_form_seguimiento?cliente_id='.$producto['cliente_id']];
+            $retorno['form']['properties']['title_96'] = [
+                'title' => 'UNIFICAR TARJETAS',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_96]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+            ];
+            $retorno['form']['properties']['unificar_tarjetas'] = [
+                'type' => 'string',
+                'title' => 'UNIFICAR TARJETAS',
+                'widget' => 'choice',
+                'empty_data' => null,
+                'full_name' => 'data[unificar_tarjetas]',
+                'constraints' => [
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío'
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'choices' => [
+                    ['id' => 'no', 'text' => 'NO'],
+                    ['id' => 'si', 'text' => 'SI'],
+                ],
+                'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
+            ];
             $retorno['form']['properties']['title_6'] = [
                 'title' => $paleta['titulo_nivel1'],
                 'widget' => 'readonly',
@@ -938,21 +1000,44 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
             ];
             $retorno['form']['properties']['Nivel1'] = [
+//                'type' => 'string',
+//                'title' => $paleta['titulo_nivel1'],
+//                'widget' => 'choice',
+//                'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+//                'full_name' => 'data[nivel1]',
+//                'constraints' => [
+//                    [
+//                        'name' => 'NotBlank',
+//                        'message' => 'Este campo no puede estar vacío'
+//                    ]
+//                ],
+//                'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
+//                'required' => 1,
+//                'disabled' => 0,
+//                'choices' => $nivel,
                 'type' => 'string',
                 'title' => $paleta['titulo_nivel1'],
-                'widget' => 'choice',
-                'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
+                'widget' => 'picker-select2',
+                'empty_data' => null,
                 'full_name' => 'data[nivel1]',
                 'constraints' => [
                     [
-                        'name' => 'NotBlank',
-                        'message' => 'Este campo no puede estar vacío'
-                    ]
+                        'name' => 'Count',
+                        'Min' => 1,
+                        'MinMessage' => "Debe seleccionar por lo menos una opción."
+                    ],
                 ],
-                'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
                 'required' => 1,
                 'disabled' => 0,
-                'choices' => $nivel,
+                'choices' => [],
+                "multiple" => false,
+                'remote_path' => 'api/producto/buscar_listas_n1',
+                'remote_params' => [],
+                'req_params' => [
+                    "data[unificar_tarjetas]" => "data[unificar_tarjetas]"
+                ],
+
+
             ];
             $retorno['form']['properties']['form_seguimiento_campos']['title'] = 'seguimiento_campos';
             $retorno['form']['properties']['form_seguimiento_campos']['type'] = 'string';
