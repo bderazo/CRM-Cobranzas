@@ -310,7 +310,11 @@ class ProductoApi extends BaseController
                 }
             }
         }
-        $retorno['results'] = $nivel;
+        if($page == 2){
+            $retorno['results'] = [];
+        }else {
+            $retorno['results'] = $nivel;
+        }
         $retorno['pagination'] = ['more' => false];
 
         return $this->json($retorno);
