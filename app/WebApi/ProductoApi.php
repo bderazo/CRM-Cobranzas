@@ -1167,11 +1167,6 @@ class ProductoApi extends BaseController
                         'name' => 'NotBlank',
                         'message' => 'Este campo no puede estar vacío'
                     ],
-                    [
-                        'name' => 'PositiveOrZero',
-                        "invalid_format_message" => "Debe ingresar un número válido",
-                        'message' => 'Debe ingresar un número mayor a cero',
-                    ],
                 ],
                 'required' => 0,
                 'disabled' => 0,
@@ -1204,11 +1199,6 @@ class ProductoApi extends BaseController
                     [
                         'name' => 'NotBlank',
                         'message' => 'Este campo no puede estar vacío'
-                    ],
-                    [
-                        'name' => 'PositiveOrZero',
-                        "invalid_format_message" => "Debe ingresar un número válido",
-                        'message' => 'Debe ingresar un número mayor a cero',
                     ],
                 ],
                 'required' => 0,
@@ -1581,11 +1571,6 @@ class ProductoApi extends BaseController
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
                         ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
-                        ],
                     ],
                     'required' => 0,
                     'disabled' => 0,
@@ -1618,11 +1603,6 @@ class ProductoApi extends BaseController
                         [
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
-                        ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
                         ],
                     ],
                     'required' => 0,
@@ -1995,11 +1975,6 @@ class ProductoApi extends BaseController
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
                         ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
-                        ],
                     ],
                     'required' => 0,
                     'disabled' => 0,
@@ -2032,11 +2007,6 @@ class ProductoApi extends BaseController
                         [
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
-                        ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
                         ],
                     ],
                     'required' => 0,
@@ -2409,11 +2379,6 @@ class ProductoApi extends BaseController
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
                         ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
-                        ],
                     ],
                     'required' => 0,
                     'disabled' => 0,
@@ -2446,11 +2411,6 @@ class ProductoApi extends BaseController
                         [
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
-                        ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
                         ],
                     ],
                     'required' => 0,
@@ -2823,11 +2783,6 @@ class ProductoApi extends BaseController
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
                         ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
-                        ],
                     ],
                     'required' => 0,
                     'disabled' => 0,
@@ -2860,11 +2815,6 @@ class ProductoApi extends BaseController
                         [
                             'name' => 'NotBlank',
                             'message' => 'Este campo no puede estar vacío'
-                        ],
-                        [
-                            'name' => 'PositiveOrZero',
-                            "invalid_format_message" => "Debe ingresar un número válido",
-                            'message' => 'Debe ingresar un número mayor a cero',
                         ],
                     ],
                     'required' => 0,
