@@ -576,6 +576,14 @@ class AplicativoDinersApi extends BaseController
             ];
 
             $seccion6['contenido'][] = [
+                'etiqueta' => 'TIPO NEGOCIACIÓN',
+                'valor' => $tarjeta_diners['tipo_negociacion'],
+                'tipo' => 'label',
+                'name' => 'data[tipo_negociacion]',
+                'colorFondo' => '#afccfc',
+            ];
+
+            $seccion6['contenido'][] = [
                 'etiqueta' => 'TOTAL INTERESES',
                 'valor' => $tarjeta_diners['total_intereses'],
                 'tipo' => 'label',
@@ -594,6 +602,13 @@ class AplicativoDinersApi extends BaseController
                 'valor' => $tarjeta_diners['valor_cuota_mensual'],
                 'tipo' => 'label',
                 'name' => 'data[valor_cuota_mensual]',
+                'colorFondo' => '#afccfc',
+            ];
+            $seccion6['contenido'][] = [
+                'etiqueta' => 'MOTIVO CIERRE',
+                'valor' => $tarjeta_diners['motivo_cierre'],
+                'tipo' => 'label',
+                'name' => 'data[motivo_cierre]',
                 'colorFondo' => '#afccfc',
             ];
 
@@ -1022,6 +1037,13 @@ class AplicativoDinersApi extends BaseController
                 'colorFondo' => '#afccfc',
             ];
             $seccion6['contenido'][] = [
+                'etiqueta' => 'TIPO NEGOCIACIÓN',
+                'valor' => $tarjeta_interdin['tipo_negociacion'],
+                'tipo' => 'label',
+                'name' => 'data[tipo_negociacion]',
+                'colorFondo' => '#afccfc',
+            ];
+            $seccion6['contenido'][] = [
                 'etiqueta' => 'TOTAL INTERESES',
                 'valor' => $tarjeta_interdin['total_intereses'],
                 'tipo' => 'label',
@@ -1040,6 +1062,13 @@ class AplicativoDinersApi extends BaseController
                 'valor' => $tarjeta_interdin['valor_cuota_mensual'],
                 'tipo' => 'label',
                 'name' => 'data[valor_cuota_mensual]',
+                'colorFondo' => '#e3e3e3',
+            ];
+            $seccion6['contenido'][] = [
+                'etiqueta' => 'MOTIVO CIERRE',
+                'valor' => $tarjeta_interdin['motivo_cierre'],
+                'tipo' => 'label',
+                'name' => 'data[motivo_cierre]',
                 'colorFondo' => '#e3e3e3',
             ];
 
@@ -1469,6 +1498,13 @@ class AplicativoDinersApi extends BaseController
                 'colorFondo' => '#afccfc',
             ];
             $seccion6['contenido'][] = [
+                'etiqueta' => 'TIPO NEGOCIACIÓN',
+                'valor' => $tarjeta_discover['tipo_negociacion'],
+                'tipo' => 'label',
+                'name' => 'data[tipo_negociacion]',
+                'colorFondo' => '#afccfc',
+            ];
+            $seccion6['contenido'][] = [
                 'etiqueta' => 'TOTAL INTERESES',
                 'valor' => $tarjeta_discover['total_intereses'],
                 'tipo' => 'label',
@@ -1487,6 +1523,13 @@ class AplicativoDinersApi extends BaseController
                 'valor' => $tarjeta_discover['valor_cuota_mensual'],
                 'tipo' => 'label',
                 'name' => 'data[valor_cuota_mensual]',
+                'colorFondo' => '#ffd09e',
+            ];
+            $seccion6['contenido'][] = [
+                'etiqueta' => 'MOTIVO CIERRE',
+                'valor' => $tarjeta_discover['motivo_cierre'],
+                'tipo' => 'label',
+                'name' => 'data[motivo_cierre]',
                 'colorFondo' => '#ffd09e',
             ];
 
@@ -1914,6 +1957,13 @@ class AplicativoDinersApi extends BaseController
                 'colorFondo' => '#afccfc',
             ];
             $seccion6['contenido'][] = [
+                'etiqueta' => 'TIPO NEGOCIACIÓN',
+                'valor' => $tarjeta_mastercard['tipo_negociacion'],
+                'tipo' => 'label',
+                'name' => 'data[tipo_negociacion]',
+                'colorFondo' => '#afccfc',
+            ];
+            $seccion6['contenido'][] = [
                 'etiqueta' => 'TOTAL INTERESES',
                 'valor' => $tarjeta_mastercard['total_intereses'],
                 'tipo' => 'label',
@@ -1932,6 +1982,13 @@ class AplicativoDinersApi extends BaseController
                 'valor' => $tarjeta_mastercard['valor_cuota_mensual'],
                 'tipo' => 'label',
                 'name' => 'data[valor_cuota_mensual]',
+                'colorFondo' => '#deffb8',
+            ];
+            $seccion6['contenido'][] = [
+                'etiqueta' => 'MOTIVO CIERRE',
+                'valor' => $tarjeta_mastercard['motivo_cierre'],
+                'tipo' => 'label',
+                'name' => 'data[motivo_cierre]',
                 'colorFondo' => '#deffb8',
             ];
 

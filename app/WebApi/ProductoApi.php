@@ -299,7 +299,7 @@ class ProductoApi extends BaseController
 
         $paleta_nivel1 = PaletaArbol::getNivel1(1);
         $nivel = [];
-        if($data['unificar_tarjetas'] != '') {
+        if ($data['unificar_tarjetas'] != '') {
             foreach ($paleta_nivel1 as $key => $val) {
                 if ($data['unificar_tarjetas'] == 'si') {
                     $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
@@ -312,9 +312,9 @@ class ProductoApi extends BaseController
                 }
             }
         }
-        if($page == 1){
+        if ($page == 1) {
             $retorno['results'] = [];
-        }else {
+        } else {
             $retorno['results'] = $nivel;
         }
         $retorno['pagination'] = ['more' => false];
@@ -966,7 +966,7 @@ class ProductoApi extends BaseController
             $retorno['form']['title'] = 'form';
             $retorno['form']['type'] = 'object';
             $retorno['form']['method'] = 'POST';
-            $retorno['form']['extra_options'] = ['action' => 'api/producto/save_form_seguimiento?cliente_id='.$producto['cliente_id']];
+            $retorno['form']['extra_options'] = ['action' => 'api/producto/save_form_seguimiento?cliente_id=' . $producto['cliente_id'] . '&producto_id=' . $producto_id];
             $retorno['form']['properties']['title_96'] = [
                 'title' => 'UNIFICAR TARJETAS',
                 'widget' => 'readonly',
@@ -1406,7 +1406,7 @@ class ProductoApi extends BaseController
                 'type' => 'string',
                 'title' => 'Observaciones',
                 'widget' => 'textarea',
-                'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
+                'empty_data' => '',
                 'full_name' => 'data[observaciones]',
                 'constraints' => [],
                 'required' => 0,
@@ -1810,7 +1810,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'title' => 'Observaciones',
                     'widget' => 'textarea',
-                    'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
+                    'empty_data' => '',
                     'full_name' => 'data[diners][observaciones]',
                     'constraints' => [],
                     'required' => 0,
@@ -2214,7 +2214,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'title' => 'Observaciones',
                     'widget' => 'textarea',
-                    'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
+                    'empty_data' => '',
                     'full_name' => 'data[interdin][observaciones]',
                     'constraints' => [],
                     'required' => 0,
@@ -2618,7 +2618,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'title' => 'Observaciones',
                     'widget' => 'textarea',
-                    'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
+                    'empty_data' => '',
                     'full_name' => 'data[discover][observaciones]',
                     'constraints' => [],
                     'required' => 0,
@@ -3022,7 +3022,7 @@ class ProductoApi extends BaseController
                     'type' => 'string',
                     'title' => 'Observaciones',
                     'widget' => 'textarea',
-                    'empty_data' => 'MEGACOB ' . date("Ymd") . ' ',
+                    'empty_data' => '',
                     'full_name' => 'data[mastercard][observaciones]',
                     'constraints' => [],
                     'required' => 0,
@@ -3184,151 +3184,102 @@ class ProductoApi extends BaseController
         $res = new RespuestaConsulta();
         $cliente_id = $this->request->getParam('cliente_id');
         \Auditor::info('save_form_seguimiento cliente_id: ' . $cliente_id, 'API', []);
-//        $producto_id = $this->request->getParam('producto_id');
-//		\Auditor::info('save_form_seguimiento producto_id: ' . $producto_id, 'API', []);
+        $producto_id = $this->request->getParam('producto_id');
+        \Auditor::info('save_form_seguimiento producto_id: ' . $producto_id, 'API', []);
         $lat = $this->request->getParam('lat');
-		\Auditor::info('save_form_seguimiento lat: ' . $lat, 'API', []);
+        \Auditor::info('save_form_seguimiento lat: ' . $lat, 'API', []);
         $long = $this->request->getParam('long');
-		\Auditor::info('save_form_seguimiento long: ' . $long, 'API', []);
+        \Auditor::info('save_form_seguimiento long: ' . $long, 'API', []);
         $data = $this->request->getParam('data');
-		\Auditor::info('save_form_seguimiento data: ', 'API', $data);
+        \Auditor::info('save_form_seguimiento data: ', 'API', $data);
         $files = $_FILES;
-		\Auditor::info('save_form_seguimiento files: ', 'API', $files);
-        $session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
-        $usuario_id = \WebSecurity::getUserData('id');
+        \Auditor::info('save_form_seguimiento files: ', 'API', $files);
+
+        $usuario = UsuarioLogin::getUserBySession($session);
+        $usuario_id = $usuario['id'];
         if ($usuario_id > 0) {
+            $seguimientos_id = ProductoSeguimiento::saveFormSeguimientoAPI($cliente_id, $producto_id, $data, $lat, $long, $usuario_id);
+            if (isset($files["data"])) {
+                foreach ($seguimientos_id as $seg_id) {
+                    //ARREGLAR ARCHIVOS
+                    $archivo = [];
+                    $i = 0;
+                    foreach ($files['data']['name']['imagenes'] as $f) {
+                        $archivo[$i]['name'] = $f;
+                        $i++;
+                    }
+                    $i = 0;
+                    foreach ($files['data']['type']['imagenes'] as $f) {
+                        $archivo[$i]['type'] = 'image/jpeg';
+                        $i++;
+                    }
+                    $i = 0;
+                    foreach ($files['data']['tmp_name']['imagenes'] as $f) {
+                        $archivo[$i]['tmp_name'] = $f;
+                        $i++;
+                    }
+                    $i = 0;
+                    foreach ($files['data']['error']['imagenes'] as $f) {
+                        $archivo[$i]['error'] = $f;
+                        $i++;
+                    }
+                    $i = 0;
+                    foreach ($files['data']['size']['imagenes'] as $f) {
+                        $archivo[$i]['size'] = $f;
+                        $i++;
+                    }
 
-            $producto_seguimiento = ProductoSeguimiento::saveFormSeguimientoAPI($cliente_id, $data, $lat, $long, $usuario_id);
-
-//            $user = Usuario::porId($usuario_id);
-//            $institucion = Institucion::porId($institucion_id);
-//            $producto = Producto::porId($producto_id);
-//            $producto->estado = 'gestionado';
-//            $producto->save();
-//
-//            $con = new ProductoSeguimiento();
-//            $con->institucion_id = $institucion_id;
-//            $con->cliente_id = $producto->cliente_id;
-//            $con->producto_id = $producto->id;
-//            $con->paleta_id = $institucion['paleta_id'];
-//            $con->canal = 'CAMPO';
-//            if (isset($data['nivel1'])) {
-//                $con->nivel_1_id = $data['nivel1'];
-//                $paleta_arbol = PaletaArbol::porId($data['nivel1']);
-//                $con->nivel_1_texto = $paleta_arbol['valor'];
-//            }
-//            if (isset($data['nivel2'])) {
-//                $con->nivel_2_id = $data['nivel2'];
-//                $paleta_arbol = PaletaArbol::porId($data['nivel2']);
-//                $con->nivel_2_texto = $paleta_arbol['valor'];
-//            }
-//            if (isset($data['nivel3'])) {
-//                $con->nivel_3_id = $data['nivel3'];
-//                $paleta_arbol = PaletaArbol::porId($data['nivel3']);
-//                $con->nivel_3_texto = $paleta_arbol['valor'];
-//            }
-//            if (isset($data['nivel4'])) {
-//                $con->nivel_4_id = $data['nivel4'];
-//                $paleta_arbol = PaletaArbol::porId($data['nivel4']);
-//                $con->nivel_4_texto = $paleta_arbol['valor'];
-//            }
-//
-//            if (isset($data['nivel_1_motivo_no_pago_id'])) {
-//                $con->nivel_1_motivo_no_pago_id = $data['nivel_1_motivo_no_pago_id'];
-//                $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_1_motivo_no_pago_id']);
-//                $con->nivel_1_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-//            }
-//            if (isset($data['nivel_2_motivo_no_pago_id'])) {
-//                $con->nivel_2_motivo_no_pago_id = $data['nivel_2_motivo_no_pago_id'];
-//                $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_2_motivo_no_pago_id']);
-//                $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-//            }
-//            if (isset($data['nivel_3_motivo_no_pago_id'])) {
-//                $con->nivel_3_motivo_no_pago_id = $data['nivel_3_motivo_no_pago_id'];
-//                $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_3_motivo_no_pago_id']);
-//                $con->nivel_3_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-//            }
-//            if (isset($data['nivel_4_motivo_no_pago_id'])) {
-//                $con->nivel_4_motivo_no_pago_id = $data['nivel_4_motivo_no_pago_id'];
-//                $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($data['nivel_4_motivo_no_pago_id']);
-//                $con->nivel_4_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
-//            }
-//
-//            if (isset($data['fecha_compromiso_pago'])) {
-//                $con->fecha_compromiso_pago = $data['fecha_compromiso_pago'];
-//            }
-//
-//            if (isset($data['valor_comprometido'])) {
-//                if ($data['valor_comprometido'] > 0) {
-//                    $con->valor_comprometido = $data['valor_comprometido'];
-//                }
-//            }
-//
-//            $con->observaciones = $data['observaciones'];
-//            if ($data['direccion_visita'] > 0) {
-//                $con->direccion_id = $data['direccion_visita'];
-//                $direccion_update = Direccion::porId($data['direccion_visita']);
-//                $direccion_update->lat = $lat;
-//                $direccion_update->long = $long;
-//                $direccion_update->save();
-//            }
-//            $con->lat = $lat;
-//            $con->long = $long;
-//            $con->usuario_ingreso = $user['id'];
-//            $con->eliminado = 0;
-//            $con->fecha_ingreso = date("Y-m-d H:i:s");
-//            $con->usuario_modificacion = $user['id'];
-//            $con->fecha_modificacion = date("Y-m-d H:i:s");
-//            $con->save();
-//
-//            //ASIGNAR APLICACIONES DINERS DETALLE SIN ID DE SEGUIMIENTO CREADAS POR EL USUARIO DE LA SESION
-//            $detalle_sin_seguimiento = AplicativoDinersDetalle::getSinSeguimiento($user['id']);
-//            foreach ($detalle_sin_seguimiento as $ss) {
-//                $mod = AplicativoDinersDetalle::porId($ss['id']);
-//                $mod->producto_seguimiento_id = $con->id;
-//                $mod->save();
-//            }
-//
-//            if (isset($files["data"])) {
-//                //ARREGLAR ARCHIVOS
-//                $archivo = [];
-//                $i = 0;
-//                foreach ($files['data']['name']['imagenes'] as $f) {
-//                    $archivo[$i]['name'] = $f;
-//                    $i++;
-//                }
-//                $i = 0;
-//                foreach ($files['data']['type']['imagenes'] as $f) {
-//                    $archivo[$i]['type'] = 'image/jpeg';
-//                    $i++;
-//                }
-//                $i = 0;
-//                foreach ($files['data']['tmp_name']['imagenes'] as $f) {
-//                    $archivo[$i]['tmp_name'] = $f;
-//                    $i++;
-//                }
-//                $i = 0;
-//                foreach ($files['data']['error']['imagenes'] as $f) {
-//                    $archivo[$i]['error'] = $f;
-//                    $i++;
-//                }
-//                $i = 0;
-//                foreach ($files['data']['size']['imagenes'] as $f) {
-//                    $archivo[$i]['size'] = $f;
-//                    $i++;
-//                }
-//
-//                \Auditor::info('save_form_paleta archivo: ', 'API', $archivo);
-//                foreach ($archivo as $f) {
-//                    $this->uploadFiles($con, $f);
-//                }
-//            }
-
+                    \Auditor::info('save archivo seguimiento id: '.$seg_id, 'API', $archivo);
+                    foreach ($archivo as $f) {
+                        $this->uploadFilesSeguimiento($seg_id, $f);
+                    }
+                }
+            }
             return $this->json($res->conDatos([]));
         } else {
             http_response_code(401);
             die();
+        }
+    }
+
+    public function uploadFilesSeguimiento($seguimiento_id, $archivo)
+    {
+        $config = $this->get('config');
+
+        //INSERTAR EN BASE EL ARCHIVO
+        $arch = new Archivo();
+        $arch->parent_id = $seguimiento_id;
+        $arch->parent_type = 'seguimiento';
+        $arch->nombre = $archivo['name'];
+        $arch->nombre_sistema = $archivo['name'];
+        $arch->longitud = $archivo['size'];
+        $arch->tipo_mime = $archivo['type'];
+        $arch->descripcion = 'imagen ingresada desde la app';
+        $arch->fecha_ingreso = date("Y-m-d H:i:s");
+        $arch->fecha_modificacion = date("Y-m-d H:i:s");
+        $arch->usuario_ingreso = 1;
+        $arch->usuario_modificacion = 1;
+        $arch->eliminado = 0;
+        $arch->save();
+
+        $dir = $config['folder_images_seguimiento'];
+        if (!is_dir($dir)) {
+            \Auditor::error("Error API Carga Archivo: El directorio $dir de imagenes no existe", 'ProductoApi', []);
+            return false;
+        }
+        $upload = new Upload($archivo);
+        if (!$upload->uploaded) {
+            \Auditor::error("Error API Carga Archivo: " . $upload->error, 'ProductoApi', []);
+            return false;
+        }
+        // save uploaded image with no changes
+        $upload->Process($dir);
+        if ($upload->processed) {
+            \Auditor::info("API Carga Archivo " . $archivo['name'] . " cargada", 'ProductoApi');
+            return true;
+        } else {
+            \Auditor::error("Error API Carga Archivo: " . $upload->error, 'ProductoApi', []);
+            return false;
         }
     }
 
