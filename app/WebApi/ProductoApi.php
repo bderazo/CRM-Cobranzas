@@ -3194,7 +3194,7 @@ class ProductoApi extends BaseController
         \Auditor::info('save_form_seguimiento data: ', 'API', $data);
         $files = $_FILES;
         \Auditor::info('save_form_seguimiento files: ', 'API', $files);
-
+        $session = $this->request->getParam('session');
         $usuario = UsuarioLogin::getUserBySession($session);
         $usuario_id = $usuario['id'];
         if ($usuario_id > 0) {
