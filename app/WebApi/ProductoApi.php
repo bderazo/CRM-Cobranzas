@@ -3235,7 +3235,7 @@ class ProductoApi extends BaseController
 //                    }
 //                }
 //            }
-            return $this->json($res->conDatos([]));
+            return $this->json($res->conDatos(null));
         } else {
             http_response_code(401);
             die();
