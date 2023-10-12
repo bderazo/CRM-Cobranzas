@@ -3198,43 +3198,43 @@ class ProductoApi extends BaseController
         $usuario = UsuarioLogin::getUserBySession($session);
         $usuario_id = $usuario['id'];
         if ($usuario_id > 0) {
-            $seguimientos_id = ProductoSeguimiento::saveFormSeguimientoAPI($cliente_id, $producto_id, $data, $lat, $long, $usuario_id);
-            if (isset($files["data"])) {
-                foreach ($seguimientos_id as $seg_id) {
-                    //ARREGLAR ARCHIVOS
-                    $archivo = [];
-                    $i = 0;
-                    foreach ($files['data']['name']['imagenes'] as $f) {
-                        $archivo[$i]['name'] = $f;
-                        $i++;
-                    }
-                    $i = 0;
-                    foreach ($files['data']['type']['imagenes'] as $f) {
-                        $archivo[$i]['type'] = 'image/jpeg';
-                        $i++;
-                    }
-                    $i = 0;
-                    foreach ($files['data']['tmp_name']['imagenes'] as $f) {
-                        $archivo[$i]['tmp_name'] = $f;
-                        $i++;
-                    }
-                    $i = 0;
-                    foreach ($files['data']['error']['imagenes'] as $f) {
-                        $archivo[$i]['error'] = $f;
-                        $i++;
-                    }
-                    $i = 0;
-                    foreach ($files['data']['size']['imagenes'] as $f) {
-                        $archivo[$i]['size'] = $f;
-                        $i++;
-                    }
-
-                    \Auditor::info('save archivo seguimiento id: '.$seg_id, 'API', $archivo);
-                    foreach ($archivo as $f) {
-                        $this->uploadFilesSeguimiento($seg_id, $f);
-                    }
-                }
-            }
+//            $seguimientos_id = ProductoSeguimiento::saveFormSeguimientoAPI($cliente_id, $producto_id, $data, $lat, $long, $usuario_id);
+//            if (isset($files["data"])) {
+//                foreach ($seguimientos_id as $seg_id) {
+//                    //ARREGLAR ARCHIVOS
+//                    $archivo = [];
+//                    $i = 0;
+//                    foreach ($files['data']['name']['imagenes'] as $f) {
+//                        $archivo[$i]['name'] = $f;
+//                        $i++;
+//                    }
+//                    $i = 0;
+//                    foreach ($files['data']['type']['imagenes'] as $f) {
+//                        $archivo[$i]['type'] = 'image/jpeg';
+//                        $i++;
+//                    }
+//                    $i = 0;
+//                    foreach ($files['data']['tmp_name']['imagenes'] as $f) {
+//                        $archivo[$i]['tmp_name'] = $f;
+//                        $i++;
+//                    }
+//                    $i = 0;
+//                    foreach ($files['data']['error']['imagenes'] as $f) {
+//                        $archivo[$i]['error'] = $f;
+//                        $i++;
+//                    }
+//                    $i = 0;
+//                    foreach ($files['data']['size']['imagenes'] as $f) {
+//                        $archivo[$i]['size'] = $f;
+//                        $i++;
+//                    }
+//
+//                    \Auditor::info('save archivo seguimiento id: '.$seg_id, 'API', $archivo);
+//                    foreach ($archivo as $f) {
+//                        $this->uploadFilesSeguimiento($seg_id, $f);
+//                    }
+//                }
+//            }
             return $this->json($res->conDatos([]));
         } else {
             http_response_code(401);
