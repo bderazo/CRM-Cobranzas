@@ -395,15 +395,16 @@ class ProductoSeguimiento extends Model
 
         $seguimientos_id = [];
 
-        $bandera_unificar_deuda = $data['unificar_tarjetas'];
+        $bandera_unificar_deuda = 'no';
         $tarjeta_unificar_deuda = '';
         foreach ($data['tarjetas'] as $tarjeta => $val) {
             if ($val['unificar_deudas'] == 'SI') {
                 $tarjeta_unificar_deuda = strtoupper($tarjeta);
+                $bandera_unificar_deuda = 'si';
             }
         }
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
-        if (($data['nivel_1_id'] == 1855) && ($bandera_unificar_deuda == 'no')) {
+        if ($data['unica_gestion'] == 'no'){
             $guardar_seguimiento_tarjetas = true;
         } else {
             $guardar_seguimiento_tarjetas = false;
@@ -474,11 +475,27 @@ class ProductoSeguimiento extends Model
         $producto_obj->estado = 'gestionado';
         $producto_obj->save();
 
-        //GUARDAR APLICATIVO DINERS
-        $aplicativo_diners_tarjeta_diners = isset($data['tarjetas']['diners']) ? $data['tarjetas']['diners'] : [];
-        $aplicativo_diners_tarjeta_interdin = isset($data['tarjetas']['interdin']) ? $data['tarjetas']['interdin'] : [];
-        $aplicativo_diners_tarjeta_discover = isset($data['tarjetas']['discover']) ? $data['tarjetas']['discover'] : [];
-        $aplicativo_diners_tarjeta_mastercard = isset($data['tarjetas']['mastercard']) ? $data['tarjetas']['mastercard'] : [];
+        //GUARDAR APLICATIVO DINERS, SE VERIFICA LAS TARJETAS POR SI EL USUARIO NO INGRESA DATOS DE TARJETA EN LA APP EL SISTEMA CARGA LAS ORIGINALES
+        $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $cliente_id, 'original');
+        $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $cliente_id, 'original');
+        $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $cliente_id, 'original');
+        $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $cliente_id, 'original');
+        if (count($aplicativo_diners_tarjeta_diners) > 0) {
+            $aplicativo_diners_tarjeta_diners = isset($data['tarjetas']['diners']) ? $data['tarjetas']['diners'] : $aplicativo_diners_tarjeta_diners;
+        }
+        if (count($aplicativo_diners_tarjeta_interdin) > 0) {
+            $aplicativo_diners_tarjeta_interdin = isset($data['tarjetas']['interdin']) ? $data['tarjetas']['interdin'] : $aplicativo_diners_tarjeta_interdin;
+        }
+        if (count($aplicativo_diners_tarjeta_discover) > 0) {
+            $aplicativo_diners_tarjeta_discover = isset($data['tarjetas']['discover']) ? $data['tarjetas']['discover'] : $aplicativo_diners_tarjeta_discover;
+        }
+        if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
+            $aplicativo_diners_tarjeta_mastercard = isset($data['tarjetas']['mastercard']) ? $data['tarjetas']['mastercard'] : $aplicativo_diners_tarjeta_mastercard;
+        }
+//        $aplicativo_diners_tarjeta_diners = isset($data['tarjetas']['diners']) ? $data['tarjetas']['diners'] : [];
+//        $aplicativo_diners_tarjeta_interdin = isset($data['tarjetas']['interdin']) ? $data['tarjetas']['interdin'] : [];
+//        $aplicativo_diners_tarjeta_discover = isset($data['tarjetas']['discover']) ? $data['tarjetas']['discover'] : [];
+//        $aplicativo_diners_tarjeta_mastercard = isset($data['tarjetas']['mastercard']) ? $data['tarjetas']['mastercard'] : [];
 
         //SI UNIFICA, EL TIPO DE NEGOCIACION DEBE SER EL MISMO QUE LA TARJETA DONDE SE UNIFICO
         if (($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DINERS')) {

@@ -299,9 +299,9 @@ class ProductoApi extends BaseController
 
         $paleta_nivel1 = PaletaArbol::getNivel1(1);
         $nivel = [];
-        if ($data['unificar_tarjetas'] != '') {
+        if ($data['unica_gestion'] != '') {
             foreach ($paleta_nivel1 as $key => $val) {
-                if ($data['unificar_tarjetas'] == 'si') {
+                if ($data['unica_gestion'] == 'si') {
                     $nivel[] = ['id' => $val['nivel1_id'], 'text' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
                 } else {
                     if ($val['nivel1_id'] == 1855) {
@@ -968,7 +968,7 @@ class ProductoApi extends BaseController
             $retorno['form']['method'] = 'POST';
             $retorno['form']['extra_options'] = ['action' => 'api/producto/save_form_seguimiento?cliente_id=' . $producto['cliente_id'] . '&producto_id=' . $producto_id];
             $retorno['form']['properties']['title_96'] = [
-                'title' => 'UNIFICAR TARJETAS',
+                'title' => 'ÚNICA GESTIÓN PARA TODAS LAS TARJETAS',
                 'widget' => 'readonly',
                 'full_name' => 'data[title_96]',
                 'constraints' => [],
@@ -976,12 +976,12 @@ class ProductoApi extends BaseController
                 'required' => 0,
                 'disabled' => 0,
             ];
-            $retorno['form']['properties']['unificar_tarjetas'] = [
+            $retorno['form']['properties']['unica_gestion'] = [
                 'type' => 'string',
-                'title' => 'UNIFICAR TARJETAS',
+                'title' => 'ÚNICA GESTIÓN PARA TODAS LAS TARJETAS',
                 'widget' => 'choice',
                 'empty_data' => null,
-                'full_name' => 'data[unificar_tarjetas]',
+                'full_name' => 'data[unica_gestion]',
                 'constraints' => [
                     [
                         'name' => 'NotBlank',
@@ -1041,7 +1041,7 @@ class ProductoApi extends BaseController
 //                    "list" => "nivel2"
 //                ],
                 'req_params' => [
-                    "data[unificar_tarjetas]" => "data[unificar_tarjetas]"
+                    "data[unica_gestion]" => "data[unica_gestion]"
                 ],
                 'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
 
