@@ -945,7 +945,8 @@ class ProductoApi extends BaseController
             $paleta_nivel1 = PaletaArbol::getNivel1(1);
             $nivel_tarjeta = [];
             foreach ($paleta_nivel1 as $key => $val) {
-                $nivel_tarjeta[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
+                $nivel_tarjeta[] = ['id' => 1855, 'label' => 'CIERRE EFECTIVO'];
+                $nivel_tarjeta[] = ['id' => 1839, 'label' => 'CIERRE NO EFECTIVO'];
             }
 
             $paleta_nivel1 = PaletaMotivoNoPago::getNivel1(1);
