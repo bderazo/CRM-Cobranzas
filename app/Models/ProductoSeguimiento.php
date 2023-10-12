@@ -438,8 +438,8 @@ class ProductoSeguimiento extends Model
                 }
             }
             if (isset($data['valor_comprometido'])) {
-                if ($data['valor_comprometido'] != '') {
-                    $con->fecha_compromiso_pago = $data['valor_comprometido'];
+                if ($data['valor_comprometido'] > 0) {
+                    $con->valor_comprometido = $data['valor_comprometido'];
                 }
             }
             //MOTIVOS DE NO PAGO
@@ -463,6 +463,7 @@ class ProductoSeguimiento extends Model
             $con->actividad_actual = $data['actividad_actual'];
             $con->gestion_detallada = $data['gestion_detallada'];
             $con->medio_contacto = $data['medio_contacto'];
+            $con->direccion_id = $data['direccion_visita'];
             $con->unificar_deudas = $bandera_unificar_deuda;
             $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
             $con->lat = $lat;
@@ -492,6 +493,10 @@ class ProductoSeguimiento extends Model
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
             $aplicativo_diners_tarjeta_mastercard = isset($data['tarjetas']['mastercard']) ? $data['tarjetas']['mastercard'] : $aplicativo_diners_tarjeta_mastercard;
         }
+
+        \Auditor::info('save_form_seguimiento $aplicativo_diners_tarjeta_diners: ', 'API', $aplicativo_diners_tarjeta_diners);
+        \Auditor::info('save_form_seguimiento $aplicativo_diners_tarjeta_discover: ', 'API', $aplicativo_diners_tarjeta_discover);
+
 //        $aplicativo_diners_tarjeta_diners = isset($data['tarjetas']['diners']) ? $data['tarjetas']['diners'] : [];
 //        $aplicativo_diners_tarjeta_interdin = isset($data['tarjetas']['interdin']) ? $data['tarjetas']['interdin'] : [];
 //        $aplicativo_diners_tarjeta_discover = isset($data['tarjetas']['discover']) ? $data['tarjetas']['discover'] : [];
@@ -574,8 +579,8 @@ class ProductoSeguimiento extends Model
                         }
                     }
                     if (isset($data['diners']['valor_comprometido'])) {
-                        if ($data['diners']['valor_comprometido'] != '') {
-                            $con->fecha_compromiso_pago = $data['diners']['valor_comprometido'];
+                        if ($data['diners']['valor_comprometido'] > 0) {
+                            $con->valor_comprometido = $data['diners']['valor_comprometido'];
                         }
                     }
                     //MOTIVOS DE NO PAGO
@@ -599,6 +604,7 @@ class ProductoSeguimiento extends Model
                     $con->actividad_actual = $data['diners']['actividad_actual'];
                     $con->gestion_detallada = $data['diners']['gestion_detallada'];
                     $con->medio_contacto = $data['diners']['medio_contacto'];
+                    $con->direccion_id = $data['direccion_visita'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->lat = $lat;
@@ -654,8 +660,8 @@ class ProductoSeguimiento extends Model
                         }
                     }
                     if (isset($data['interdin']['valor_comprometido'])) {
-                        if ($data['interdin']['valor_comprometido'] != '') {
-                            $con->fecha_compromiso_pago = $data['interdin']['valor_comprometido'];
+                        if ($data['interdin']['valor_comprometido'] > 0) {
+                            $con->valor_comprometido = $data['interdin']['valor_comprometido'];
                         }
                     }
                     //MOTIVOS DE NO PAGO
@@ -679,6 +685,7 @@ class ProductoSeguimiento extends Model
                     $con->actividad_actual = $data['interdin']['actividad_actual'];
                     $con->gestion_detallada = $data['interdin']['gestion_detallada'];
                     $con->medio_contacto = $data['interdin']['medio_contacto'];
+                    $con->direccion_id = $data['direccion_visita'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->lat = $lat;
@@ -734,8 +741,8 @@ class ProductoSeguimiento extends Model
                         }
                     }
                     if (isset($data['discover']['valor_comprometido'])) {
-                        if ($data['discover']['valor_comprometido'] != '') {
-                            $con->fecha_compromiso_pago = $data['discover']['valor_comprometido'];
+                        if ($data['discover']['valor_comprometido'] > 0) {
+                            $con->valor_comprometido = $data['discover']['valor_comprometido'];
                         }
                     }
                     //MOTIVOS DE NO PAGO
@@ -759,6 +766,7 @@ class ProductoSeguimiento extends Model
                     $con->actividad_actual = $data['discover']['actividad_actual'];
                     $con->gestion_detallada = $data['discover']['gestion_detallada'];
                     $con->medio_contacto = $data['discover']['medio_contacto'];
+                    $con->direccion_id = $data['direccion_visita'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->lat = $lat;
@@ -814,8 +822,8 @@ class ProductoSeguimiento extends Model
                         }
                     }
                     if (isset($data['mastercard']['valor_comprometido'])) {
-                        if ($data['mastercard']['valor_comprometido'] != '') {
-                            $con->fecha_compromiso_pago = $data['mastercard']['valor_comprometido'];
+                        if ($data['mastercard']['valor_comprometido'] > 0) {
+                            $con->valor_comprometido = $data['mastercard']['valor_comprometido'];
                         }
                     }
                     //MOTIVOS DE NO PAGO
@@ -839,6 +847,7 @@ class ProductoSeguimiento extends Model
                     $con->actividad_actual = $data['mastercard']['actividad_actual'];
                     $con->gestion_detallada = $data['mastercard']['gestion_detallada'];
                     $con->medio_contacto = $data['mastercard']['medio_contacto'];
+                    $con->direccion_id = $data['direccion_visita'];
                     $con->unificar_deudas = $bandera_unificar_deuda;
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->lat = $lat;
