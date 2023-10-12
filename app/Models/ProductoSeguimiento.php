@@ -482,20 +482,25 @@ class ProductoSeguimiento extends Model
         $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $cliente_id, 'original');
         $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $cliente_id, 'original');
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
-            $aplicativo_diners_tarjeta_diners = isset($data['tarjetas']['diners']) ? $data['tarjetas']['diners'] : $aplicativo_diners_tarjeta_diners;
+            if(isset($data['tarjetas']['diners'])){
+                $aplicativo_diners_tarjeta_diners = array_merge($aplicativo_diners_tarjeta_diners, $data['tarjetas']['diners']);
+            }
         }
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
-            $aplicativo_diners_tarjeta_interdin = isset($data['tarjetas']['interdin']) ? $data['tarjetas']['interdin'] : $aplicativo_diners_tarjeta_interdin;
+            if(isset($data['tarjetas']['interdin'])){
+                $aplicativo_diners_tarjeta_interdin = array_merge($aplicativo_diners_tarjeta_interdin, $data['tarjetas']['interdin']);
+            }
         }
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
-            $aplicativo_diners_tarjeta_discover = isset($data['tarjetas']['discover']) ? $data['tarjetas']['discover'] : $aplicativo_diners_tarjeta_discover;
+            if(isset($data['tarjetas']['discover'])){
+                $aplicativo_diners_tarjeta_discover = array_merge($aplicativo_diners_tarjeta_discover, $data['tarjetas']['discover']);
+            }
         }
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
-            $aplicativo_diners_tarjeta_mastercard = isset($data['tarjetas']['mastercard']) ? $data['tarjetas']['mastercard'] : $aplicativo_diners_tarjeta_mastercard;
+            if(isset($data['tarjetas']['mastercard'])){
+                $aplicativo_diners_tarjeta_mastercard = array_merge($aplicativo_diners_tarjeta_mastercard, $data['tarjetas']['mastercard']);
+            }
         }
-
-        \Auditor::info('save_form_seguimiento $aplicativo_diners_tarjeta_diners: ', 'API', $aplicativo_diners_tarjeta_diners);
-        \Auditor::info('save_form_seguimiento $aplicativo_diners_tarjeta_discover: ', 'API', $aplicativo_diners_tarjeta_discover);
 
 //        $aplicativo_diners_tarjeta_diners = isset($data['tarjetas']['diners']) ? $data['tarjetas']['diners'] : [];
 //        $aplicativo_diners_tarjeta_interdin = isset($data['tarjetas']['interdin']) ? $data['tarjetas']['interdin'] : [];

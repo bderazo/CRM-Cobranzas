@@ -270,8 +270,7 @@ class AplicativoDinersApi extends BaseController
             $seccion1['contenido'][] = [
                 'etiqueta' => 'OBSERVACIONES DE GESTIÓN',
                 'valor' => $tarjeta_diners['observacion_gestion'],
-                'tipo' => 'text',
-                'name' => 'data[observacion_gestion]'
+                'tipo' => 'label',
             ];
             $seccion1['contenido'][] = [
                 'etiqueta' => 'FECHA DE COMPROMISO',
@@ -727,8 +726,7 @@ class AplicativoDinersApi extends BaseController
             $seccion1['contenido'][] = [
                 'etiqueta' => 'OBSERVACIONES DE GESTIÓN',
                 'valor' => $tarjeta_interdin['observacion_gestion'],
-                'tipo' => 'text',
-                'name' => 'observacion_gestion'
+                'tipo' => 'label',
             ];
             $seccion1['contenido'][] = [
                 'etiqueta' => 'FECHA DE COMPROMISO',
@@ -1189,8 +1187,7 @@ class AplicativoDinersApi extends BaseController
             $seccion1['contenido'][] = [
                 'etiqueta' => 'OBSERVACIONES DE GESTIÓN',
                 'valor' => $tarjeta_discover['observacion_gestion'],
-                'tipo' => 'text',
-                'name' => 'observacion_gestion'
+                'tipo' => 'label',
             ];
             $seccion1['contenido'][] = [
                 'etiqueta' => 'FECHA DE COMPROMISO',
@@ -1648,8 +1645,7 @@ class AplicativoDinersApi extends BaseController
             $seccion1['contenido'][] = [
                 'etiqueta' => 'OBSERVACIONES DE GESTIÓN',
                 'valor' => $tarjeta_mastercard['observacion_gestion'],
-                'tipo' => 'text',
-                'name' => 'observacion_gestion'
+                'tipo' => 'label',
             ];
             $seccion1['contenido'][] = [
                 'etiqueta' => 'FECHA DE COMPROMISO',

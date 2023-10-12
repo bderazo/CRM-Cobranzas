@@ -1350,7 +1350,7 @@ class ProductoApi extends BaseController
                         'message' => 'Este campo no puede estar vacío'
                     ]
                 ],
-                'required' => 0,
+                'required' => 1,
                 'disabled' => 0,
                 'choices' => $nivel_motivo,
                 'hide' => true,
@@ -1754,7 +1754,7 @@ class ProductoApi extends BaseController
                             'message' => 'Este campo no puede estar vacío'
                         ]
                     ],
-                    'required' => 0,
+                    'required' => 1,
                     'disabled' => 0,
                     'choices' => $nivel_motivo,
                     'hide' => true,
@@ -2158,7 +2158,7 @@ class ProductoApi extends BaseController
                             'message' => 'Este campo no puede estar vacío'
                         ]
                     ],
-                    'required' => 0,
+                    'required' => 1,
                     'disabled' => 0,
                     'choices' => $nivel_motivo,
                     'hide' => true,
@@ -2562,7 +2562,7 @@ class ProductoApi extends BaseController
                             'message' => 'Este campo no puede estar vacío'
                         ]
                     ],
-                    'required' => 0,
+                    'required' => 1,
                     'disabled' => 0,
                     'choices' => $nivel_motivo,
                     'hide' => true,
@@ -2966,7 +2966,7 @@ class ProductoApi extends BaseController
                             'message' => 'Este campo no puede estar vacío'
                         ]
                     ],
-                    'required' => 0,
+                    'required' => 1,
                     'disabled' => 0,
                     'choices' => $nivel_motivo,
                     'hide' => true,
