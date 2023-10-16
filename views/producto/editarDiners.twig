@@ -442,9 +442,9 @@
                         </div>
                     </div>
                     <div class="row mb-4 seguimiento_general">
-                        <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                        <label for="inputName" class="col-md-2 form-label">OBSERVACIONES</label>
                         <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="OBSERVACIONES"
                                   v-model="seguimiento.observaciones" id="observaciones" required v-autoname></textarea>
                             <!--<span id="remain">226</span> caracteres restantes.---> Valor predeterminado: MEGACOB {{ "now"|date("Y")}}{{ "now"|date("m")}}{{ "now"|date("d")}} 0999999999
                         </div>
@@ -590,9 +590,9 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <label for="inputName" class="col-md-2 form-label">OBSERVACIONES</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="OBSERVACIONES"
                                       v-model="seguimiento_diners.observaciones" id="observaciones_diners" required v-autoname></textarea>
                             <!--<span id="remain_diners">226</span> caracteres restantes.-->
                             </div>
@@ -738,9 +738,9 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <label for="inputName" class="col-md-2 form-label">OBSERVACIONES</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="OBSERVACIONES"
                                       v-model="seguimiento_interdin.observaciones" id="observaciones_interdin" required v-autoname></textarea>
                             <!--<span id="remain_interdin">226</span> caracteres restantes.-->
                             </div>
@@ -886,9 +886,9 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <label for="inputName" class="col-md-2 form-label">OBSERVACIONES</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="OBSERVACIONES"
                                       v-model="seguimiento_discover.observaciones" id="observaciones_discover" required v-autoname></textarea>
                             <!--<span id="remain_discover">226</span> caracteres restantes.-->
                             </div>
@@ -1034,9 +1034,9 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label for="inputName" class="col-md-2 form-label">Observaciones</label>
+                            <label for="inputName" class="col-md-2 form-label">OBSERVACIONES</label>
                             <div class="col-md-4 col-informacion">
-						    <textarea rows="3" class="form-control specialChar" placeholder="Observaciones"
+						    <textarea rows="3" class="form-control specialChar" placeholder="OBSERVACIONES"
                                       v-model="seguimiento_mastercard.observaciones" id="observaciones_mastercard" required v-autoname></textarea>
                             <!--<span id="remain_mastercard">226</span> caracteres restantes.-->
                             </div>
@@ -3357,8 +3357,17 @@
                                                     </td>
                                                 </tr>
                                                 <tr style="background-color: #A4B706; color: white;">
-                                                    <td><strong></strong></td>
-                                                    <td></td>
+                                                    <td><strong>UNIFICAR DEUDAS</strong></td>
+                                                    <td>
+                                                        <select class="form-control form-control-sm form-select select2"
+                                                                v-on:change="calcularValoresMastercard"
+                                                                v-model="aplicativo_diners_tarjeta_mastercard.unificar_deudas"
+                                                                placeholder="Seleccione una opción"
+                                                                name="unificar_deudas_mastercard" id="unificar_deudas_mastercard">
+                                                            <option value="NO">NO</option>
+                                                            <option value="SI">SI</option>
+                                                        </select>
+                                                    </td>
                                                 </tr>
                                                 <tr style="background-color: #A4B706; color: white;">
                                                     <td><strong>TOTAL INTERESES</strong></td>
@@ -3987,6 +3996,9 @@
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
                            $("#unificar_deudas_discover").prop('disabled', 'disabled');
                         }
+                        if(typeof(self.aplicativo_diners_tarjeta_mastercard.id) != "undefined" && self.aplicativo_diners_tarjeta_mastercard.id !== null) {
+                            $("#unificar_deudas_mastercard").prop('disabled', 'disabled');
+                        }
                     }else{
                         self.bandera_unificar_deuda = 'no';
                         self.tarjeta_unificar_deuda = '';
@@ -3995,6 +4007,9 @@
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
                             $("#unificar_deudas_discover").prop('disabled', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_mastercard.id) != "undefined" && self.aplicativo_diners_tarjeta_mastercard.id !== null) {
+                            $("#unificar_deudas_mastercard").prop('disabled', false);
                         }
                     }
                     self.verificarSeguimientosTarjeta();
@@ -4027,6 +4042,9 @@
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
                             $("#unificar_deudas_discover").prop('disabled', 'disabled');
                         }
+                        if(typeof(self.aplicativo_diners_tarjeta_mastercard.id) != "undefined" && self.aplicativo_diners_tarjeta_mastercard.id !== null) {
+                            $("#unificar_deudas_mastercard").prop('disabled', 'disabled');
+                        }
                     }else{
                         self.bandera_unificar_deuda = 'no';
                         self.tarjeta_unificar_deuda = '';
@@ -4035,6 +4053,9 @@
                         }
                         if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
                             $("#unificar_deudas_discover").prop('disabled', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_mastercard.id) != "undefined" && self.aplicativo_diners_tarjeta_mastercard.id !== null) {
+                            $("#unificar_deudas_mastercard").prop('disabled', false);
                         }
                     }
                     self.verificarSeguimientosTarjeta();
@@ -4069,14 +4090,20 @@
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
                             $("#unificar_deudas_interdin").prop('disabled', 'disabled');
                         }
+                        if(typeof(self.aplicativo_diners_tarjeta_mastercard.id) != "undefined" && self.aplicativo_diners_tarjeta_mastercard.id !== null) {
+                            $("#unificar_deudas_mastercard").prop('disabled', 'disabled');
+                        }
                     }else{
                         self.bandera_unificar_deuda = 'no';
                         self.tarjeta_unificar_deuda = '';
                         if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
+                            $("#unificar_deudas_interdin").prop('disabled', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_diners.id) != "undefined" && self.aplicativo_diners_tarjeta_diners.id !== null) {
                             $("#unificar_deudas_diners").prop('disabled', false);
                         }
-                        if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
-                            $("#unificar_deudas_interdin").prop('disabled', false);
+                        if(typeof(self.aplicativo_diners_tarjeta_mastercard.id) != "undefined" && self.aplicativo_diners_tarjeta_mastercard.id !== null) {
+                            $("#unificar_deudas_mastercard").prop('disabled', false);
                         }
                     }
                     self.verificarSeguimientosTarjeta();
@@ -4102,6 +4129,34 @@
 
                 calcularValoresMastercard: function () {
                     var self = this;
+
+                    if(self.aplicativo_diners_tarjeta_mastercard.unificar_deudas == 'SI') {
+                        self.bandera_unificar_deuda = 'si';
+                        self.tarjeta_unificar_deuda = 'MASTERCARD';
+                        if(typeof(self.aplicativo_diners_tarjeta_diners.id) != "undefined" && self.aplicativo_diners_tarjeta_diners.id !== null) {
+                            $("#unificar_deudas_diners").prop('disabled', 'disabled');
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
+                            $("#unificar_deudas_interdin").prop('disabled', 'disabled');
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
+                            $("#unificar_deudas_discover").prop('disabled', 'disabled');
+                        }
+                    }else{
+                        self.bandera_unificar_deuda = 'no';
+                        self.tarjeta_unificar_deuda = '';
+                        if(typeof(self.aplicativo_diners_tarjeta_interdin.id) != "undefined" && self.aplicativo_diners_tarjeta_interdin.id !== null) {
+                            $("#unificar_deudas_interdin").prop('disabled', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_discover.id) != "undefined" && self.aplicativo_diners_tarjeta_discover.id !== null) {
+                            $("#unificar_deudas_discover").prop('disabled', false);
+                        }
+                        if(typeof(self.aplicativo_diners_tarjeta_diners.id) != "undefined" && self.aplicativo_diners_tarjeta_diners.id !== null) {
+                            $("#unificar_deudas_diners").prop('disabled', false);
+                        }
+                    }
+                    self.verificarSeguimientosTarjeta();
+
                     var data = {
                         data: self.aplicativo_diners_tarjeta_mastercard,
                         valor_financiar_diners: self.aplicativo_diners_tarjeta_diners.valor_financiar,
@@ -4147,8 +4202,10 @@
                     }
                     if(self.aplicativo_diners_tarjeta_mastercard.refinancia == 'NO'){
                         $("#abono_negociador_mastercard").prop('readonly', true);
+                        $("#unificar_deudas_mastercard").prop('disabled', 'disabled');
                     }else{
                         $("#abono_negociador_mastercard").prop('readonly', false);
+                        $("#unificar_deudas_mastercard").prop('disabled', false);
                     }
                 },
             },
