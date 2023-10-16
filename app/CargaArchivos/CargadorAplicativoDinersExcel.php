@@ -612,6 +612,10 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[76];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[78];
+
+                        $valor_cuota = $values[76] > 0 ? ($values[78] / $values[76]) : 0;
+                        $aplicativo_diners_detalle['valor_cuota'] = number_format($valor_cuota,2,'.','');
+
 						$aplicativo_diners_detalle['interes_facturar'] = $values[79];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[82];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[83];
@@ -735,6 +739,10 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[114];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[116];
+
+                        $valor_cuota = $values[114] > 0 ? ($values[116] / $values[114]) : 0;
+                        $aplicativo_diners_detalle['valor_cuota'] = number_format($valor_cuota,2,'.','');
+
 						$aplicativo_diners_detalle['interes_facturar'] = $values[117];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[120];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[121];
@@ -868,6 +876,10 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[161];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[163];
+
+                        $valor_cuota = $values[161] > 0 ? ($values[163] / $values[161]) : 0;
+                        $aplicativo_diners_detalle['valor_cuota'] = number_format($valor_cuota,2,'.','');
+
 						$aplicativo_diners_detalle['interes_facturar'] = $values[164];
 						$aplicativo_diners_detalle['segunda_restructuracion'] = $values[167];
                         $aplicativo_diners_detalle['especialidad_venta_vehiculos'] = $values[168];
