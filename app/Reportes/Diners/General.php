@@ -58,6 +58,8 @@ class General
             }
         }
 
+//        printDie($clientes_asignacion_detalle_marca[64547]);
+
         //OBTENER EL CICLO Y REFINANCIAS DEL CICLO EN ESE RANGO DE FECHAS PARA COMPARA Y NO MOSTRAR
         $refinancia_ciclo = ProductoSeguimiento::getRefinanciaCiclo($filtros['fecha_inicio']);
         $notificado_ciclo = ProductoSeguimiento::getNotificadoCiclo($filtros['fecha_inicio']);
@@ -284,7 +286,7 @@ class General
 
             $saldos_arr = $res['saldos_arr'];
 
-            if ($saldos_arr['EJECUTIVO DINERS'] != '') {
+            if (($saldos_arr['EJECUTIVO DINERS'] != '') && ($res['tarjeta'] == 'DINERS')) {
                 if (isset($resumen_totales[$saldos_arr['EJECUTIVO DINERS']])) {
                     if ($res['nivel_2_id'] == 1859) {
                         $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] + 1;
@@ -315,7 +317,7 @@ class General
                     }
                 }
             }
-            if ($saldos_arr['EJECUTIVO VISA'] != '') {
+            if (($saldos_arr['EJECUTIVO VISA'] != '') && ($res['tarjeta'] == 'VISA')) {
                 if (isset($resumen_totales[$saldos_arr['EJECUTIVO VISA']])) {
                     if ($res['nivel_2_id'] == 1859) {
                         $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] + 1;
@@ -346,7 +348,7 @@ class General
                     }
                 }
             }
-            if ($saldos_arr['EJECUTIVO DISCOVER'] != '') {
+            if (($saldos_arr['EJECUTIVO DISCOVER'] != '') && ($res['tarjeta'] == 'DISCOVER')) {
                 if (isset($resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']])) {
                     if ($res['nivel_2_id'] == 1859) {
                         $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] + 1;
@@ -377,7 +379,7 @@ class General
                     }
                 }
             }
-            if ($saldos_arr['EJECUTIVO MASTERCARD'] != '') {
+            if (($saldos_arr['EJECUTIVO MASTERCARD'] != '') && ($res['tarjeta'] == 'MASTERCARD')) {
                 if (isset($resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']])) {
                     if ($res['nivel_2_id'] == 1859) {
                         $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] + 1;
