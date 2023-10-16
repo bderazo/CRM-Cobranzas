@@ -933,10 +933,6 @@ class ReportesController extends BaseController
                 'valor' => $d['nombres'],
                 'formato' => 'text'
             ];
-            $aux['FECHA'] = [
-                'valor' => $d['fecha_ingreso_fecha'],
-                'formato' => 'text'
-            ];
             $aux['HORA'] = [
                 'valor' => $d['fecha_ingreso_hora'],
                 'formato' => 'text'
@@ -963,14 +959,6 @@ class ReportesController extends BaseController
             ];
             $aux['GESTIÓN'] = [
                 'valor' => $d['observaciones'],
-                'formato' => 'text'
-            ];
-            $aux['ÁREA'] = [
-                'valor' => $d['canal'],
-                'formato' => 'text'
-            ];
-            $aux['EMPRESA'] = [
-                'valor' => 'MEGACOB',
                 'formato' => 'text'
             ];
             $aux['ZONA'] = [

@@ -54,9 +54,9 @@ class GeneralCampo {
             ->where('u.canal IN ("CAMPO", "AUXILIAR TELEFONIA")')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
-        if (@$filtros['plaza_usuario']){
-            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-            $q->where('u.plaza IN ('.$fil.')');
+        if (@$filtros['zona_cliente']){
+            $fil = '"' . implode('","',$filtros['zona_cliente']) . '"';
+            $q->where('cl.zona IN ('.$fil.')');
         }
         if (@$filtros['campana_usuario']){
             $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';

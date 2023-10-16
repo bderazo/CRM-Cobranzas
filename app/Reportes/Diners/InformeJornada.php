@@ -64,9 +64,9 @@ class InformeJornada {
             ->where('ps.nivel_1_id IN (1855, 1839, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);
-        if (@$filtros['plaza_usuario']){
-            $fil = '"' . implode('","',$filtros['plaza_usuario']) . '"';
-            $q->where('u.plaza IN ('.$fil.')');
+        if (@$filtros['zona_cliente']){
+            $fil = '"' . implode('","',$filtros['zona_cliente']) . '"';
+            $q->where('cl.zona IN ('.$fil.')');
         }
         if (@$filtros['canal_usuario']){
             $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
@@ -353,6 +353,8 @@ class InformeJornada {
 		$total_porcentaje_cantactado = ($total_cuentas > 0) ? ($total_contactadas / $total_cuentas) * 100 : 0;
 		$total_porcentaje_efectividad = ($total_contactadas > 0) ? ($total_efectividad / $total_contactadas) * 100 : 0;
 		$total_porcentaje_produccion = ($total_cuentas > 0) ? ($total_negociaciones / $total_cuentas) * 100 : 0;
+
+//        printDie($data);
 
 		$retorno['data'] = $data;
         $retorno['data_asesores'] = $data_asesores;

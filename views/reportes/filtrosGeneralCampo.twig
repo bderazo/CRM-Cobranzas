@@ -28,9 +28,9 @@
 				<div class="col-sm-3">
 					<b>Zona</b> <br>
 					<div class="input-group">
-						<select class="form-control select2" name="plaza_usuario[]" id="plaza_usuario" multiple>
+						<select class="form-control select2" name="zona_cliente[]" id="zona_cliente" multiple>
 							<option value=""></option>
-							<option v-for="(v,k) in plaza_usuario" v-html="v" :value="k"></option>
+							<option v-for="(v,k) in zona_cliente" v-html="v" :value="k"></option>
 						</select>
 					</div>
 				</div>
@@ -90,6 +90,7 @@
 					campana_usuario: {{ campana_usuario|raw }},
 					marca: {{ marca|raw }},
 					ciclo_asignacion: {{ ciclo_asignacion|raw }},
+					zona_cliente: {{ zona_cliente|raw }},
                 },
                 methods: {},
             });
