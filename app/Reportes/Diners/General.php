@@ -196,12 +196,12 @@ class General
                         if(!isset($refinancia_ciclo[$res['cliente_id']][$res['ciclo']])) {
                             $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
                         }
-                    }elseif ($res['nivel_2_id'] == 1853) {
+                    } elseif ($res['nivel_2_id'] == 1853) {
                         //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-                        if(!isset($notificado_ciclo[$res['cliente_id']][$res['ciclo']])) {
+                        if (!isset($notificado_ciclo[$res['cliente_id']][$res['ciclo']])) {
                             $notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
                         }
-                    }else{
+                    } else {
                         //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
                         $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
                     }
@@ -441,6 +441,23 @@ class General
             'total_sin_arreglo' => $total_sin_arreglo,
             'total_general' => $total_general,
         ];
+        return $retorno;
+    }
+
+    function getCicloData($asignaciones, $fecha, $cliente_id, $marca)
+    {
+        $retorno = [];
+        foreach ($asignaciones as $asig) {
+            if (
+                (strtotime($asig['fecha_inicio']) <= strtotime($fecha)) &&
+                (strtotime($asig['fecha_fin']) >= strtotime($fecha)) &&
+                ($asig['cliente_id'] == $cliente_id) &&
+                ($asig['marca'] == $marca)
+            ){
+                $retorno = $asig;
+                break;
+            }
+        }
         return $retorno;
     }
 

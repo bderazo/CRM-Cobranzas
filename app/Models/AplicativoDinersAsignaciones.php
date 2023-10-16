@@ -300,4 +300,21 @@ class AplicativoDinersAsignaciones extends Model
         }
         return $retorno;
     }
+
+    static function getTodo() {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('aplicativo_diners_asignaciones ads')
+            ->select(null)
+            ->select('*')
+            ->where('ads.eliminado',0)
+            ->orderBy('ads.fecha_inicio DESC');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[] = $l;
+        }
+        return $retorno;
+    }
 }

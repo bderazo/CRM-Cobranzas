@@ -349,15 +349,46 @@ class ProductoSeguimiento extends Model
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
-            if ($l['nivel_1_id'] == 1866) {
-                if (isset($retorno[$l['cliente_id']][$l['ciclo']])) {
-                    unset($retorno[$l['cliente_id']][$l['ciclo']]);
+            if($l['cliente_id'] != 47341) {
+                if ($l['nivel_1_id'] == 1866) {
+                    if (isset($retorno[$l['cliente_id']][$l['ciclo']])) {
+                        unset($retorno[$l['cliente_id']][$l['ciclo']]);
+                    }
+                } else {
+                    $retorno[$l['cliente_id']][$l['ciclo']] = $l;
                 }
-            } else {
-                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
             }
         }
         return $retorno;
+
+
+
+//        $q = $db->from('producto_seguimiento ps')
+//            ->innerJoin('aplicativo_diners_asignaciones asigna ON ps.cliente_id = asigna.cliente_id AND asigna.eliminado = 0')
+//            ->select(null)
+//            ->select('ps.*, asigna.ciclo, asigna.mes, asigna.anio, asigna.marca,
+//                             DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento')
+//            ->where('ps.eliminado', 0)
+//            ->where('ps.fecha_ingreso < ?', $fecha_verificar)
+//            ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
+//            ->where('asigna.fecha_fin < ?', $fecha_verificar)
+//            ->orderBy('ps.fecha_ingreso ASC');
+//        $q->disableSmartJoin();
+//        $lista = $q->fetchAll();
+//        $retorno = [];
+//        foreach ($lista as $l) {
+//
+//            $ciclo_data = ProductoSeguimiento::getCicloData($asignaciones_todas,$l['fecha_ingreso_seguimiento'],$l['cliente_id'],$res['tarjeta']);
+//
+//            if ($l['nivel_1_id'] == 1866) {
+//                if (isset($retorno[$l['cliente_id']][$l['ciclo']][$l['mes']][$l['anio']][$l['marca']])) {
+//                    unset($retorno[$l['cliente_id']][$l['ciclo']][$l['mes']][$l['anio']][$l['marca']]);
+//                }
+//            } else {
+//                $retorno[$l['cliente_id']][$l['ciclo']][$l['mes']][$l['anio']][$l['marca']] = $l;
+//            }
+//        }
+//        return $retorno;
     }
 
     static function getNotificadoCiclo($fecha_verificar)
