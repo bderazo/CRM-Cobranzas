@@ -10,6 +10,7 @@ use Models\Actividad;
 use Models\ApiUserTokenPushNotifications;
 use Models\AplicativoDiners;
 use Models\AplicativoDinersDetalle;
+use Models\AplicativoDinersSaldos;
 use Models\Archivo;
 use Models\Banco;
 use Models\Caso;
@@ -297,6 +298,8 @@ class ProductoApi extends BaseController
         $session = $this->request->getParam('session');
 //		$user = UsuarioLogin::getUserBySession($session);
 
+        $motivo_cierre = $this->request->getParam('motivo_cierre');
+
         $paleta_nivel1 = PaletaArbol::getNivel1(1);
         $nivel = [];
         if ($data['unica_gestion'] != '') {
@@ -312,6 +315,56 @@ class ProductoApi extends BaseController
                 }
             }
         }
+
+        if ($data['unica_gestion'] == 'si') {
+            if ($motivo_cierre == 'SIN GESTION') {
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+            if (($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') || ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') || ($motivo_cierre == 'AUN NO CONTACTADO TARDE')) {
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+            if (($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+                ($motivo_cierre == 'NOTIFICADO') ||
+                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+                ($motivo_cierre == 'REFINANCIA')) {
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+            if ($motivo_cierre == 'FALLECIDO') {
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+            if ($motivo_cierre == 'FUERA DEL PAIS') {
+                //QUITAR: SIN ARREGLO
+                $key = array_search('1861', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+            if ($motivo_cierre == 'MENSAJE A TERCERO') {
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+            if ($motivo_cierre == 'SIN ARREGLO CLIENTE') {
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+            if ($motivo_cierre == 'SIN ARREGLO TERCERO') {
+                //QUITAR: NO UBICADO
+                $key = array_search('1799', array_column($nivel, 'id'));
+                unset($nivel[$key]);
+            }
+        }
+
         if ($page == 1) {
             $retorno['results'] = [];
         } else {
@@ -930,24 +983,51 @@ class ProductoApi extends BaseController
             $user = Usuario::porId($usuario_id);
             $retorno = [];
 
-            $paleta = Paleta::porId(1);
+            $producto = Producto::porId($producto_id);
+            $saldos = AplicativoDinersSaldos::getSaldosPorClienteFecha($producto['cliente_id'], date("Y-m-d"));
 
-            $paleta_nivel1 = PaletaArbol::getNivel1(1);
-            $nivel = [];
-            foreach ($paleta_nivel1 as $key => $val) {
-                if ($val['nivel1_id'] == 1855) {
-                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-seguimiento']];
-                } else {
-                    $nivel[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1'], '_data' => ['show-group-field' => 'group-campos']];
+            $aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
+            $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $producto['cliente_id'], 'original');
+            $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $producto['cliente_id'], 'original');
+            $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $producto['cliente_id'], 'original');
+            $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $producto['cliente_id'], 'original');
+            $numero_tarjetas = 0;
+            $tarjeta_unica = '';
+            if (count($aplicativo_diners_tarjeta_diners) > 0) {
+                $numero_tarjetas++;
+                $tarjeta_unica = 'diners';
+            }
+            if (count($aplicativo_diners_tarjeta_discover) > 0) {
+                $numero_tarjetas++;
+                $tarjeta_unica = 'discover';
+            }
+            if (count($aplicativo_diners_tarjeta_interdin) > 0) {
+                $numero_tarjetas++;
+                $tarjeta_unica = 'interdin';
+            }
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
+                $numero_tarjetas++;
+                $tarjeta_unica = 'mastercard';
+            }
+
+            $motivo_cierre = '';
+            if ($numero_tarjetas == 1) {
+                if ($tarjeta_unica == 'diners') {
+                    $motivo_cierre = isset($saldos['MOTIVO CIERRE DINERS']) ? $saldos['MOTIVO CIERRE DINERS'] : '';
+                } elseif ($tarjeta_unica == 'interdin') {
+                    $motivo_cierre = isset($saldos['MOTIVO CIERRE VISA']) ? $saldos['MOTIVO CIERRE VISA'] : '';
+                } elseif ($tarjeta_unica == 'discover') {
+                    $motivo_cierre = isset($saldos['MOTIVO CIERRE DISCOVER']) ? $saldos['MOTIVO CIERRE DISCOVER'] : '';
+                } elseif ($tarjeta_unica == 'mastercard') {
+                    $motivo_cierre = isset($saldos['MOTIVO CIERRE MASTERCARD']) ? $saldos['MOTIVO CIERRE MASTERCARD'] : '';
                 }
             }
 
-            $paleta_nivel1 = PaletaArbol::getNivel1(1);
+            $paleta = Paleta::porId(1);
+
             $nivel_tarjeta = [];
-//            foreach ($paleta_nivel1 as $key => $val) {
-                $nivel_tarjeta[] = ['id' => 1855, 'label' => 'CIERRE EFECTIVO'];
-                $nivel_tarjeta[] = ['id' => 1839, 'label' => 'CIERRE NO EFECTIVO'];
-//            }
+            $nivel_tarjeta[] = ['id' => 1855, 'label' => 'CIERRE EFECTIVO'];
+            $nivel_tarjeta[] = ['id' => 1839, 'label' => 'CIERRE NO EFECTIVO'];
 
             $paleta_nivel1 = PaletaMotivoNoPago::getNivel1(1);
             $nivel_motivo = [];
@@ -955,14 +1035,8 @@ class ProductoApi extends BaseController
                 $nivel_motivo[] = ['id' => $val['nivel1_id'], 'label' => $val['nivel1']];
             }
 
-            $producto = Producto::porId($producto_id);
-            $direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
 
-            $aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
-            $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $producto['cliente_id'], 'original');
-            $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $producto['cliente_id'], 'original');
-            $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $producto['cliente_id'], 'original');
-            $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $producto['cliente_id'], 'original');
+            $direcciones = Direccion::porModulo('cliente', $producto['cliente_id']);
 
             $retorno['form']['title'] = 'form';
             $retorno['form']['type'] = 'object';
@@ -1038,11 +1112,11 @@ class ProductoApi extends BaseController
                 'choices' => [],
                 "multiple" => false,
                 'remote_path' => 'api/producto/buscar_listas_n1',
-//                'remote_params' => [
-//                    "list" => "nivel2"
-//                ],
+                'remote_params' => [
+                    "motivo_cierre" => $motivo_cierre,
+                ],
                 'req_params' => [
-                    "data[unica_gestion]" => "data[unica_gestion]"
+                    "data[unica_gestion]" => "data[unica_gestion]",
                 ],
                 'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
 
