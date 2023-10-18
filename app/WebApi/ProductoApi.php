@@ -16,6 +16,7 @@ use Models\Banco;
 use Models\Caso;
 use Models\Cliente;
 use Models\Direccion;
+use Models\Email;
 use Models\Especialidad;
 use Models\Institucion;
 use Models\Membresia;
@@ -201,16 +202,17 @@ class ProductoApi extends BaseController
             }
 
             //DATA DE REFERENCIAS
-            $referencia = Referencia::porModulo('cliente', $producto['cliente_id']);
+            $referencia = Email::porModulo('cliente', $producto['cliente_id']);
+//            $referencia = Referencia::porModulo('cliente', $producto['cliente_id']);
             $ref_array = [];
             foreach ($referencia as $ref) {
                 $aux = [];
                 $aux['tipo'] = $ref['tipo'];
                 $aux['descripcion'] = $ref['descripcion'];
-                $aux['nombre'] = $ref['nombre'];
-                $aux['telefono'] = $ref['telefono'];
-                $aux['ciudad'] = $ref['ciudad'];
-                $aux['direccion'] = $ref['direccion'];
+                $aux['nombre'] = $ref['email'];
+                $aux['telefono'] = $ref['email'];
+                $aux['ciudad'] = $ref['email'];
+                $aux['direccion'] = $ref['email'];
                 $ref_array[] = $aux;
             }
 
