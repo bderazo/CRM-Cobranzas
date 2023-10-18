@@ -38,6 +38,8 @@
             data: {
                 datos: [],
                 total: [],
+                markers: [],
+                coords: [],
             },
             watch: {},
             computed: {},
@@ -66,8 +68,21 @@
                         var obj = data[i];
                         self.addWeatherMarker(obj, map);
                     }
+
+                    // console.log(self.coords);
+
+                    var line= new google.maps.Polyline({
+                        path: self.coords,
+                        geodesic: true,
+                        strokeColor: '#557fa3',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 4
+                    });
+                    line.setMap(map);
+
                 },
                 addWeatherMarker: function (obj, map) {
+                    var self = this;
                     var infoWindow = new google.maps.InfoWindow;
                     // var id = obj.id;
                     var cliente = obj.nombres;
@@ -119,6 +134,8 @@
                         map: map,
                         position: point,
                     });
+                    self.markers.push(marker);
+                    self.coords.push(point);
                     marker.addListener('click', function () {
                         infoWindow.setContent(infowincontent);
                         infoWindow.open(map, marker);
