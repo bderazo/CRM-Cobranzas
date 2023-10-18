@@ -163,6 +163,13 @@ class ProductoApi extends BaseController
             $user = Usuario::porId($usuario_id);
             $producto = Producto::porId($producto_id);
 
+            $email = Email::porModulo('cliente', $producto['cliente_id']);
+            $email_cliente = [];
+            foreach ($email as $e){
+                $email_cliente[] = $e['email'];
+            }
+            $email_txt = implode(', ',$email_cliente);
+
             //DATA DE CLIENTES
             $cliente = Cliente::porId($producto['cliente_id']);
             $campos = [
@@ -173,6 +180,10 @@ class ProductoApi extends BaseController
                 [
                     'label' => 'Cédula',
                     'value' => $cliente['cedula'],
+                ],
+                [
+                    'label' => 'Email',
+                    'value' => $email_txt,
                 ],
             ];
 
@@ -202,17 +213,16 @@ class ProductoApi extends BaseController
             }
 
             //DATA DE REFERENCIAS
-            $referencia = Email::porModulo('cliente', $producto['cliente_id']);
-//            $referencia = Referencia::porModulo('cliente', $producto['cliente_id']);
+            $referencia = Referencia::porModulo('cliente', $producto['cliente_id']);
             $ref_array = [];
             foreach ($referencia as $ref) {
                 $aux = [];
                 $aux['tipo'] = $ref['tipo'];
                 $aux['descripcion'] = $ref['descripcion'];
-                $aux['nombre'] = $ref['email'];
-                $aux['telefono'] = $ref['email'];
-                $aux['ciudad'] = $ref['email'];
-                $aux['direccion'] = $ref['email'];
+                $aux['nombre'] = $ref['nombre'];
+                $aux['telefono'] = $ref['telefono'];
+                $aux['ciudad'] = $ref['ciudad'];
+                $aux['direccion'] = $ref['direccion'];
                 $ref_array[] = $aux;
             }
 
