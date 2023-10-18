@@ -2,12 +2,31 @@
 {% block content %}
 	<div id="app">
 		<div class="col-md-12 col-xl-12">
+
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">CLIENTE</h4>
+				</div>
+				<div class="card-body">
+					<div class=" row mb-4">
+						<label for="inputName" class="col-md-2 form-label">Nombres</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="cliente.nombres">
+						</div>
+
+						<label for="inputName" class="col-md-2 form-label">Cédula</label>
+						<div class="col-md-4 col-informacion">
+							<input type="text" readonly class="form-control-plaintext" v-model="cliente.cedula">
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="card">
 				<div class="card-header">
 					<h4 class="card-title">SEGUIMIENTOS</h4>
 				</div>
 				<div class="card-body">
-					<h4 class="text-primary">COBRANZA</h4>
 					<div class="table-responsive">
 						<table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
 							<thead>
@@ -91,113 +110,26 @@
 							</tbody>
 						</table>
 					</div>
-				</div>
-			</div>
 
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">CLIENTE</h4>
-				</div>
-				<div class="card-body">
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Nombres</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="cliente.nombres">
-						</div>
+					{% if mostrar_mapa %}
+					<table class="list view" style="display: table;" border="1" cellpadding="0" cellspacing="1" width="100%">
+						<tr>
+							<td width="100%" align="center">
+								<div id="map"></div>
+							</td>
+						</tr>
+					</table>
+					{% endif %}
 
-						<label for="inputName" class="col-md-2 form-label">Cédula</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="cliente.cedula">
-						</div>
-					</div>
 				</div>
 			</div>
 
 
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">APLICATIVO TARJETAS</h4>
-				</div>
-				<div class="card-body">
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">CÓDIGO OPERACIÓN</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="model.producto">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">CIUDAD DE GESTIÓN</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_gestion">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">NEGOCIADO POR</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.negociado_por">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">NUMERO DE CEDULA SOCIO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.cedula_socio">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">NOMBRE DEL SOCIO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.nombre_socio">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">DIRECCIÓN</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.direccion">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">SEGURO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.seguro_desgravamen">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">NÚMEROS DE CONTACTO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.numero_contactos">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">MAIL DE CONTACTO</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.mail_contacto">
-						</div>
-					</div>
-
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">CIUDAD DE LA CUENTA</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.ciudad_cuenta">
-						</div>
-
-						<label for="inputName" class="col-md-2 form-label">ZONA DE LA CUENTA</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="aplicativo_diners.zona_cuenta">
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 
 	<form id="delSeguimientoForm" method="POST" action="{{ root }}/producto/delSeguimiento">
 		<input type="hidden" id="jsonDelSeguimiento" name="jsonDelSeguimiento"/>
-	</form>
-	<form id="exportFormNegociacionManual" method="POST" action="{{ root }}/producto/exportNegociacionManual">
-		<input type="hidden" id="jsonNegociacionManual" name="jsonNegociacionManual"/>
-	</form>
-	<form id="exportFormNegociacionAutomatica" method="POST" action="{{ root }}/producto/exportNegociacionAutomatica">
-		<input type="hidden" id="jsonNegociacionAutomatica" name="jsonNegociacionAutomatica"/>
 	</form>
 
 	<!-- MODAL -->
@@ -234,6 +166,7 @@
                 referencia: {{ referencia|raw }},
                 cliente: {{ cliente|raw }},
                 aplicativo_diners: {{ aplicativo_diners|raw }},
+				seguimientos_json: {{ seguimientos_json|raw }},
             },
             watch: {},
             computed: {},
@@ -259,30 +192,74 @@
                     $('#delSeguimientoForm').submit();
                 },
 
-				descargarNegociacionManual: function (producto_seguimiento_id) {
+				initMap: function () {
 					var self = this;
-					var data = {
-						model: self.model,
-						producto_seguimiento_id: producto_seguimiento_id,
-						aplicativo_diners: self.aplicativo_diners,
-					};
-					$('#jsonNegociacionManual').val(JSON.stringify(data));
-					$('#exportFormNegociacionManual').submit();
+
+					var data = self.seguimientos_json;
+
+					var map = new google.maps.Map(document.getElementById('map'), {
+						center: new google.maps.LatLng(-0.16465681036593569, -78.48735624085649),
+						zoom: 7
+					});
+
+					for (var i = 0; i < data.length; i++) {
+						if(data[i]['origen'] == 'movil') {
+							var obj = data[i];
+							self.addWeatherMarker(obj, map);
+						}
+					}
 				},
 
-				descargarNegociacionAutomatica: function (producto_seguimiento_id) {
-					var self = this;
-					var data = {
-						model: self.model,
-						producto_seguimiento_id: producto_seguimiento_id,
-						aplicativo_diners: self.aplicativo_diners,
-					};
-					$('#jsonNegociacionAutomatica').val(JSON.stringify(data));
-					$('#exportFormNegociacionAutomatica').submit();
+				addWeatherMarker: function (obj, map) {
+					var infoWindow = new google.maps.InfoWindow;
+					// var id = obj.id;
+					var campana = obj.nivel_1_texto + ' -> ' + obj.nivel_2_texto;
+					var fecha_visita = obj.observaciones;
+					var lugar_visita = obj.fecha_ingreso;
+					var asesor = obj.usuario;
+					var point = new google.maps.LatLng(
+							parseFloat(obj.lat),
+							parseFloat(obj.long));
+
+					var infowincontent = document.createElement('div');
+
+					var strong = document.createElement('strong');
+					strong.textContent = campana;
+					infowincontent.appendChild(strong);
+
+					infowincontent.appendChild(document.createElement('br'));
+
+					var text = document.createElement('text');
+					text.textContent = "OBSERVACIONES: " + fecha_visita;
+					infowincontent.appendChild(text);
+
+					infowincontent.appendChild(document.createElement('br'));
+
+					var text = document.createElement('text');
+					text.textContent = "FECHA: " + lugar_visita;
+					infowincontent.appendChild(text);
+
+					infowincontent.appendChild(document.createElement('br'));
+
+					var text = document.createElement('text');
+					text.textContent = "GESTOR: " + asesor;
+					infowincontent.appendChild(text);
+
+					var marker = new google.maps.Marker({
+						map: map,
+						position: point,
+					});
+					marker.addListener('click', function () {
+						infoWindow.setContent(infowincontent);
+						infoWindow.open(map, marker);
+					});
 				},
             },
             mounted: function () {
                 var self = this;
+				$(document).ready(function () {
+					self.initMap();
+				});
             }
         });
 	</script>
@@ -296,4 +273,12 @@
             border-collapse: collapse;
         }
 	</style>
+	<style>
+		#map {
+			height: 600px;
+			width: 800px;
+		}
+	</style>
+
+	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_zHT3Yhw50hNcialiMb60ZtIJ9EwR3wg">
 {% endblock %}

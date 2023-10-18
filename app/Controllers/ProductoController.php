@@ -1423,10 +1423,15 @@ class ProductoController extends BaseController
 
         $aplicativo_diners_detalle_gestionado = AplicativoDinersDetalle::porClienteGestionado($model->cliente_id);
         $seguimientos_data = [];
+        $mostrar_mapa = false;
         foreach ($seguimientos as $s) {
             $tarjetas_gestionadas = [];
             foreach ($aplicativo_diners_detalle_gestionado[$s['id']] as $det) {
+                $det['nombre_tarjeta'] = $det['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $det['nombre_tarjeta'];
                 $tarjetas_gestionadas[] = $det['nombre_tarjeta'];
+            }
+            if($s['origen'] == 'movil'){
+                $mostrar_mapa = true;
             }
             $s['tarjetas_gestionadas'] = implode(", ", $tarjetas_gestionadas);
             $seguimientos_data[] = $s;
@@ -1435,7 +1440,9 @@ class ProductoController extends BaseController
 
         $data['aplicativo_diners'] = json_encode($aplicativo_diners);
         $data['paleta'] = $paleta;
+        $data['mostrar_mapa'] = $mostrar_mapa;
         $data['seguimientos'] = $seguimientos_data;
+        $data['seguimientos_json'] = json_encode($seguimientos_data);
         $data['cliente'] = json_encode($cliente);
         $data['direccion'] = json_encode($direccion);
         $data['referencia'] = json_encode($referencia);
