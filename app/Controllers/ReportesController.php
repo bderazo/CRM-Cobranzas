@@ -25,6 +25,7 @@ use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
 use Reportes\Diners\General;
 use Reportes\Diners\GeneralCampo;
+use Reportes\Diners\Geolocalizacion;
 use Reportes\Diners\GestionesPorHora;
 use Reportes\Diners\Individual;
 use Reportes\Diners\InformeJornada;
@@ -163,20 +164,6 @@ class ReportesController extends BaseController
     function exportBaseGeneral($json)
     {
         \WebSecurity::secure('reportes.base_general');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-//        $jdata = json_decode(htmlspecialchars_decode($json), true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new BaseGeneral($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $data = json_decode($json, true);
         $lista = [];
         foreach ($data['datos'] as $d) {
@@ -396,20 +383,6 @@ class ReportesController extends BaseController
     function exportMejorUltimaGestion($json)
     {
         \WebSecurity::secure('reportes.mejor_ultima_gestion');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-//        $jdata = json_decode(htmlspecialchars_decode($json), true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new MejorUltimaGestion($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $data = json_decode($json, true);
         $lista = [];
         foreach ($data['datos'] as $d) {
@@ -802,16 +775,6 @@ class ReportesController extends BaseController
     function exportCampoTelefonia($json)
     {
         \WebSecurity::secure('reportes.campo_telefonia');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $data = json_decode($json, true);
         $lista = [];
         foreach ($data['datos'] as $d) {
@@ -1521,20 +1484,7 @@ class ReportesController extends BaseController
     function exportContactabilidad($json)
     {
         \WebSecurity::secure('reportes.contactabilidad');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $jdata = json_decode(htmlspecialchars_decode($json), true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new Contactabilidad($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $lista = [];
 //        printDie($jdata);
         foreach ($jdata['data_hoja1'] as $d) {
@@ -1641,22 +1591,6 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
         $this->exportMultiple($exportar, 'contactabilidad'.date("Y-m-d H-i-s").'.xlsx');
-    }
-
-    //LLAMADAS CONTACTADAS
-    function llamadasContactadas()
-    {
-        \WebSecurity::secure('reportes.llamadas_contactadas');
-        if ($this->isPost()) {
-            $rep = new LlamadasContactadas($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
-            return $this->json($data);
-        }
-        $titulo = 'Llamadas Contactadas';
-        \Breadcrumbs::active($titulo);
-        $data = $this->paramsBasico();
-        $data['titulo'] = $titulo;
-        return $this->render('llamadasContactadas', $data);
     }
 
     //GENERAL
@@ -2388,20 +2322,7 @@ class ReportesController extends BaseController
     function exportIndividual($json)
     {
         \WebSecurity::secure('reportes.individual');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-//        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-//        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-//        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-//        $json = str_replace('ciclo[]', 'ciclo', $json);
-//        $json = str_replace('resultado[]', 'resultado', $json);
-//        $json = str_replace('accion[]', 'accion', $json);
-//        $json = str_replace('descripcion[]', 'descripcion', $json);
-//        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-//        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
         $jdata = json_decode(htmlspecialchars_decode($json), true);
-//        $filtros = $jdata['filtros'];
-//        $rep = new Individual($this->get('pdo'));
-//        $data = $rep->exportar($filtros);
         $lista = [];
         foreach ($jdata['datos'] as $d) {
             $aux['GESTOR'] = [
@@ -2718,188 +2639,226 @@ class ReportesController extends BaseController
         $this->exportSimple($lista, 'NEGOCIACIONES AUTOMÁTICAS', 'negociaciones_automaticas'.date("Y-m-d H-i-s").'.xlsx');
     }
 
-    //PRODUCTIVIDAD DATOS
-    function productividadDatos(){
-        \WebSecurity::secure('reportes.productividad_datos');
+    //BASE GENERAL
+    function geolocalizacion(){
+        \WebSecurity::secure('reportes.geolocalicacion');
         if ($this->isPost()) {
-            $rep = new ProductividadDatos($this->get('pdo'));
+            $rep = new Geolocalizacion($this->get('pdo'));
             $data = $rep->calcular($this->request->getParsedBody());
             return $this->json($data);
         }
-        $titulo = 'Datos de Productividad';
+        $titulo = 'Geolocalización';
         \Breadcrumbs::active($titulo);
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
-        return $this->render('productividadDatos', $data);
+        return $this->render('geolocalizacion', $data);
     }
 
-    function exportProductividadDatos($json)
+    function exportGeolocalizacion($json)
     {
-        \WebSecurity::secure('reportes.productividad_datos');
-        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
-        $json = str_replace('campana_ece[]', 'campana_ece', $json);
-        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
-        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
-        $json = str_replace('ciclo[]', 'ciclo', $json);
-        $json = str_replace('resultado[]', 'resultado', $json);
-        $json = str_replace('accion[]', 'accion', $json);
-        $json = str_replace('descripcion[]', 'descripcion', $json);
-        $json = str_replace('motivo_no_pago[]', 'motivo_no_pago', $json);
-        $json = str_replace('descripcion_no_pago[]', 'descripcion_no_pago', $json);
-        $jdata = json_decode(htmlspecialchars_decode($json), true);
-        $filtros = $jdata['filtros'];
-        $rep = new ProductividadDatos($this->get('pdo'));
-        $data = $rep->exportar($filtros);
+        \WebSecurity::secure('reportes.base_general');
+        $data = json_decode($json, true);
         $lista = [];
-        foreach ($data['data'] as $d) {
+        foreach ($data['datos'] as $d) {
+            $aux['NOMBRE SOCIO'] = [
+                'valor' => $d['nombres'],
+                'formato' => 'text'
+            ];
+            $aux['CEDULA'] = [
+                'valor' => $d['cedula'],
+                'formato' => 'text'
+            ];
+            $aux['TELEFONO ULTIMO CONTACTO'] = [
+                'valor' => $d['telefono_contacto'],
+                'formato' => 'text'
+            ];
             $aux['MARCA'] = [
-                'valor' => $d['nombre_tarjeta'],
+                'valor' => $d['tarjeta'],
+                'formato' => 'text'
+            ];
+            $aux['CÓDIGO DE OPERACIÓN'] = [
+                'valor' => $d['codigo_operacion'],
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
+                'formato' => 'text'
+            ];
+            $aux['CIUDAD'] = [
+                'valor' => $d['ciudad'],
+                'formato' => 'text'
+            ];
+
+
+            $aux['TIPO DE CAMPAÑA'] = [
+                'valor' => $d['tipo_campana'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['ejecutivo'],
                 'formato' => 'text'
             ];
             $aux['CICLO'] = [
                 'valor' => $d['ciclo'],
                 'formato' => 'number'
             ];
-            $aux['CEDULA'] = [
-                'valor' => $d['cedula'],
+            $aux['EDAD REAL'] = [
+                'valor' => $d['edad'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD FACTURADA'] = [
+                'valor' => $d['edad_asignacion'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL ASIGNADO'] = [
+                'valor' => $d['total_asignado'],
+                'formato' => 'number'
+            ];
+            $aux['SALDO TOTAL DEUDA'] = [
+                'valor' => $d['saldo_total_deuda'],
+                'formato' => 'number'
+            ];
+            $aux['RIESGO TOTAL'] = [
+                'valor' => $d['riesgo_total'],
+                'formato' => 'number'
+            ];
+            $aux['INTERESES TOTAL'] = [
+                'valor' => $d['interes_total'],
+                'formato' => 'number'
+            ];
+            $aux['RECUPERADO'] = [
+                'valor' => $d['recuperado'],
+                'formato' => 'number'
+            ];
+            $aux['PAGO MINIMO'] = [
+                'valor' => $d['pago_minimo'],
+                'formato' => 'number'
+            ];
+            $aux['FECHA MAXIMA PAGO'] = [
+                'valor' => $d['fecha_maxima_pago'],
                 'formato' => 'text'
             ];
-            $aux['NOMBRE SOCIO'] = [
-                'valor' => $d['nombres'],
+            $aux['NUMERO DIFERIDOS'] = [
+                'valor' => $d['numero_diferidos'],
+                'formato' => 'number'
+            ];
+            $aux['NUMERO DE REFINANCIACIONES HISTORICA'] = [
+                'valor' => $d['numero_refinanciaciones_historica'],
+                'formato' => 'number'
+            ];
+            $aux['PLAZO DE FINANCIAMIENTO ACTUAL'] = [
+                'valor' => $d['plazo_financiamiento_actual'],
+                'formato' => 'number'
+            ];
+            $aux['MOTIVO CIERRE'] = [
+                'valor' => $d['motivo_cierre'],
                 'formato' => 'text'
             ];
-            $aux['NOMBRE CIUDAD'] = [
-                'valor' => $d['ciudad_gestion'],
+            $aux['OFERTA VALOR'] = [
+                'valor' => $d['oferta_valor'],
                 'formato' => 'text'
             ];
-            $aux['HORA'] = [
-                'valor' => $d['hora_gestion'],
+            $aux['PENDIENTE ACTUALES'] = [
+                'valor' => $d['pendiente_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS'] = [
+                'valor' => $d['pendiente_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS'] = [
+                'valor' => $d['pendiente_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS'] = [
+                'valor' => $d['pendiente_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS'] = [
+                'valor' => $d['pendiente_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['CRÉDITO INMEDIATO'] = [
+                'valor' => $d['credito_inmediato'],
                 'formato' => 'text'
             ];
-            $aux['AGENTE'] = [
-                'valor' => $d['gestor'],
+            $aux['PRODUCTO'] = [
+                'valor' => $d['producto'],
                 'formato' => 'text'
             ];
-            $aux['RESULTADO DE GESTIÓN'] = [
-                'valor' => $d['nivel_2_texto'],
-                'formato' => 'text'
-            ];
-            $aux['MOTIVO NO PAGO'] = [
-                'valor' => $d['nivel_1_motivo_no_pago_texto'],
-                'formato' => 'text'
-            ];
-            $aux['SUBMOTIVO'] = [
-                'valor' => $d['nivel_2_motivo_no_pago_texto'],
-                'formato' => 'text'
-            ];
-            $aux['GESTION'] = [
-                'valor' => $d['observaciones'],
-                'formato' => 'text'
-            ];
-            $aux['CAMPAÑA'] = [
-                'valor' => '',
-                'formato' => 'text'
-            ];
-            $aux['EMPRESA - CANAL DE GESTIÓN  '] = [
-                'valor' => $d['empresa'],
-                'formato' => 'text'
-            ];
-            $aux['CIERRE'] = [
+
+
+            $aux['RESULTADO'] = [
                 'valor' => $d['nivel_1_texto'],
                 'formato' => 'text'
             ];
-            $aux['CANAL'] = [
-                'valor' => $d['usuario_canal'],
+            $aux['ACCION'] = [
+                'valor' => $d['nivel_2_texto'],
                 'formato' => 'text'
             ];
-            $aux['ACTUALES'] = [
-                'valor' => $d['saldo_actual_facturado'],
+            $aux['DESCRIPCIÓN'] = [
+                'valor' => $d['nivel_3_texto'],
+                'formato' => 'text'
+            ];
+            $aux['OBSERVACION'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['MOTIVO DE NO PAGO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['SUB MOTIVO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA PROMESA DE PAGO'] = [
+                'valor' => $d['fecha_compromiso_pago'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['HORA DE GESTION'] = [
+                'valor' => $d['hora_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA DE GESTION'] = [
+                'valor' => $d['fecha_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['VALOR COMPROMETIDO'] = [
+                'valor' => $d['valor_comprometido'],
                 'formato' => 'number'
             ];
-            $aux['D30'] = [
-                'valor' => $d['saldo_30_facturado'],
-                'formato' => 'number'
+            $aux['GEOREFERENCIA'] = [
+                'valor' => $d['georeferencia'],
+                'formato' => 'text'
             ];
-            $aux['D60'] = [
-                'valor' => $d['saldo_60_facturado'],
-                'formato' => 'number'
+            $aux['TIPO NEGOCIACION'] = [
+                'valor' => $d['tipo_negociacion'],
+                'formato' => 'text'
             ];
-            $aux['D90'] = [
-                'valor' => $d['saldo_90_facturado'],
-                'formato' => 'number'
+
+            $aux['TIPO GESTIÓN'] = [
+                'valor' => $d['identificador'],
+                'formato' => 'text'
             ];
-            $aux['DMAS90'] = [
-                'valor' => $d['saldo_90_facturado'],
-                'formato' => 'number'
+            $aux['ORIGEN GESTIÓN'] = [
+                'valor' => $d['origen'],
+                'formato' => 'text'
+            ];
+            $aux['PESO PALETA'] = [
+                'valor' => $d['peso_paleta'],
+                'formato' => 'text'
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'DATOS PRODUCTIVIDAD', 'datos_productividad'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'BASE GENERAL', 'base_general'.date("Y-m-d H-i-s").'.xlsx');
     }
 
-    //PRODUCTIVIDAD RESULTADOS
-    function productividadResultados()
-    {
-        \WebSecurity::secure('reportes.productividad_resultados');
-        if ($this->isPost()) {
-            $rep = new ProductividadResultados($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
-            return $this->json($data);
-        }
-        $titulo = 'Resultados de Productividad';
-        \Breadcrumbs::active($titulo);
-        $data = $this->paramsBasico();
-        $data['titulo'] = $titulo;
-        return $this->render('productividadResultados', $data);
-    }
 
-    //RECUPERACION TOTAL
-    function recuperacionTotal()
-    {
-        \WebSecurity::secure('reportes.recuperacion_total');
-        if ($this->isPost()) {
-            $rep = new RecuperacionTotal($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
-            return $this->json($data);
-        }
-        $titulo = 'Recuperación Total';
-        \Breadcrumbs::active($titulo);
-        $data = $this->paramsBasico();
-        $data['titulo'] = $titulo;
-        return $this->render('recuperacionTotal', $data);
-    }
-
-    //RECUPERACION ACTUAL
-    function recuperacionActual()
-    {
-        \WebSecurity::secure('reportes.recuperacion_actual');
-        if ($this->isPost()) {
-            $rep = new RecuperacionActual($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
-            return $this->json($data);
-        }
-        $titulo = 'Recuperación Actual';
-        \Breadcrumbs::active($titulo);
-        $data = $this->paramsBasico();
-        $data['titulo'] = $titulo;
-        return $this->render('recuperacionActual', $data);
-    }
-
-    //RECUPERACION MORA
-    function recuperacionMora()
-    {
-        \WebSecurity::secure('reportes.recuperacion_mora');
-        if ($this->isPost()) {
-            $rep = new RecuperacionMora($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
-            return $this->json($data);
-        }
-        $titulo = 'Recuperación Mora';
-        \Breadcrumbs::active($titulo);
-        $data = $this->paramsBasico();
-        $data['titulo'] = $titulo;
-        return $this->render('recuperacionMora', $data);
-    }
 
 
     protected function exportSimple($data, $nombre, $archivo)
@@ -2915,9 +2874,6 @@ class ReportesController extends BaseController
     protected function exportMultiple($set, $archivo)
     {
         $export = new ExcelDatasetExport();
-//        $set = [
-//            ['name' => $nombre, 'data' => $data]
-//        ];
         $export->sendData($set, $archivo);
         exit();
     }

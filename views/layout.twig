@@ -1,201 +1,217 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-	<meta charset="UTF-8">
-	<title>{% if title %}{{ title }}{% else %}MEGACOB{% endif %}</title>
-	<link rel="icon" type="image/png" href="{{ root }}/favicon.png">
+    <meta charset="UTF-8">
+    <title>{% if title %}{{ title }}{% else %}MEGACOB{% endif %}</title>
+    <link rel="icon" type="image/png" href="{{ root }}/favicon.png">
 
-	{{ bundle('site') }}
-	{{ bundle('extraPlugins') }}
-	{{ bundle('jqueryui') }}
+    {{ bundle('site') }}
+    {{ bundle('extraPlugins') }}
+    {{ bundle('jqueryui') }}
 </head>
 <body class="app sidebar-mini ltr light-mode">
 <!-- GLOABAL LOADER -->
 <div id="global-loader">
-	<img src="{{ root }}/template_ok/images/loader.svg" class="loader-img" alt="Loader"/>
+    <img src="{{ root }}/template_ok/images/loader.svg" class="loader-img" alt="Loader"/>
 </div>
 <!-- /GLOABAL LOADER -->
 
 {% import "menu_top.twig" as menus %}
 
 <div class="page">
-	<div class="page-main">
-		<!-- APP-HEADER -->
-		<div class="app-header header sticky">
-			<div class="container-fluid main-container">
-				<div class="d-flex">
-					<a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0)"></a>
+    <div class="page-main">
+        <!-- APP-HEADER -->
+        <div class="app-header header sticky">
+            <div class="container-fluid main-container">
+                <div class="d-flex">
+                    <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"
+                       href="javascript:void(0)"></a>
 
-					<a class="logo-horizontal " href="{{ root }}">
-						<img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
-						<img src="{{ root }}/template_ok/images/brand/logo-3.png" class="header-brand-img light-logo1"
-							 alt="logo">
-					</a>
-					<!-- LOGO -->
-					<div class="main-header-center ms-3 d-none d-lg-block">
-					</div>
-					<div class="d-flex order-lg-2 ms-auto header-right-icons">
-						<div class="navbar navbar-collapse responsive-navbar p-0">
-							<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
-								<div class="d-flex order-lg-2">
+                    <a class="logo-horizontal " href="{{ root }}">
+                        <img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo"
+                             alt="logo">
+                        <img src="{{ root }}/template_ok/images/brand/logo-3.png" class="header-brand-img light-logo1"
+                             alt="logo">
+                    </a>
+                    <!-- LOGO -->
+                    <div class="main-header-center ms-3 d-none d-lg-block">
+                    </div>
+                    <div class="d-flex order-lg-2 ms-auto header-right-icons">
+                        <div class="navbar navbar-collapse responsive-navbar p-0">
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+                                <div class="d-flex order-lg-2">
 
-									{% if ambientePruebas %}
-										<div class="dropdown d-flex">
-											<div class="label label-warning">AMBIENTE DE PRUEBAS</div>
-										</div>
-									{% endif %}
-									<!-- AMBIENTE DE PRUEBAS -->
+                                    {% if ambientePruebas %}
+                                        <div class="dropdown d-flex">
+                                            <div class="label label-warning">AMBIENTE DE PRUEBAS</div>
+                                        </div>
+                                    {% endif %}
+                                    <!-- AMBIENTE DE PRUEBAS -->
 
-									{% if alertasTop %}
-										{% include('home/alertas.twig') %}
-									{% endif %}
-									<!-- ALERTAS -->
+                                    {% if alertasTop %}
+                                        {% include('home/alertas.twig') %}
+                                    {% endif %}
+                                    <!-- ALERTAS -->
 
-									<div class="dropdown d-flex">
-										<a class="nav-link icon full-screen-link nav-link-bg">
-											<i class="fe fe-minimize fullscreen-button"></i>
-										</a>
-									</div>
-									<!-- FULL-SCREEN -->
+                                    <div class="dropdown d-flex">
+                                        <a class="nav-link icon full-screen-link nav-link-bg">
+                                            <i class="fe fe-minimize fullscreen-button"></i>
+                                        </a>
+                                    </div>
+                                    <!-- FULL-SCREEN -->
 
-									<div class="dropdown d-flex profile-1">
-										<a href="javascript:void(0)" data-bs-toggle="dropdown" class="nav-link leading-none d-flex">
-											<img src="{{ root }}/template_ok/images/users/21.png" alt="profile-user" class="avatar  profile-user brround cover-image">
-										</a>
-										<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-											<div class="drop-heading">
-												<div class="text-center">
-													<small class="text-muted">{{ user.nombres }}&nbsp;{{ user.apellidos }}</small>
-												</div>
-											</div>
-											<div class="dropdown-divider m-0"></div>
+                                    <div class="dropdown d-flex profile-1">
+                                        <a href="javascript:void(0)" data-bs-toggle="dropdown"
+                                           class="nav-link leading-none d-flex">
+                                            <img src="{{ root }}/template_ok/images/users/21.png" alt="profile-user"
+                                                 class="avatar  profile-user brround cover-image">
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                            <div class="drop-heading">
+                                                <div class="text-center">
+                                                    <small class="text-muted">{{ user.nombres }}
+                                                        &nbsp;{{ user.apellidos }}</small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-divider m-0"></div>
 
-											<a class="dropdown-item" href="{{ root }}/account">
-												<i class="dropdown-icon fe fe-user"></i> Mi cuenta
-											</a>
+                                            <a class="dropdown-item" href="{{ root }}/account">
+                                                <i class="dropdown-icon fe fe-user"></i> Mi cuenta
+                                            </a>
 
-											<a class="dropdown-item" href="{{ root }}/logout">
-												<i class="dropdown-icon fe fe-alert-circle"></i> Salir
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /APP-HEADER -->
+                                            <a class="dropdown-item" href="{{ root }}/logout">
+                                                <i class="dropdown-icon fe fe-alert-circle"></i> Salir
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /APP-HEADER -->
 
-		<!--APP-SIDEBAR-->
-		<div class="sticky">
-			<div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
-			<div class="app-sidebar">
-				<div class="side-header">
-					<a class="header-brand1" href="{{ root }}">
-						<img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
-						<img src="{{ root }}/template_ok/images/brand/logo-1.png" class="header-brand-img toggle-logo" alt="logo">
-						<img src="{{ root }}/template_ok/images/brand/logo-2.png" class="header-brand-img light-logo" alt="logo">
-						<img src="{{ root }}/template_ok/images/brand/logo-3.png" class="header-brand-img light-logo1" alt="logo">
-					</a>
-					<!-- LOGO -->
-				</div>
-				<div class="main-sidemenu">
-					<div class="slide-left disabled" id="slide-left">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
-							<path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"/>
-						</svg>
-					</div>
-					<ul class="side-menu">
-						{% if mainMenu %}
-							{{ menus.menuTop(mainMenu) }}
-						{% endif %}
-					</ul>
-					<div class="slide-right" id="slide-right">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
-							<path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/>
-						</svg>
-					</div>
-				</div>
-			</div>
-			<!--/APP-SIDEBAR-->
-		</div>
-		<!--/APP-SIDEBAR-->
+        <!--APP-SIDEBAR-->
+        <div class="sticky">
+            <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
+            <div class="app-sidebar">
+                <div class="side-header">
+                    <a class="header-brand1" href="{{ root }}">
+                        <img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo"
+                             alt="logo">
+                        <img src="{{ root }}/template_ok/images/brand/logo-1.png" class="header-brand-img toggle-logo"
+                             alt="logo">
+                        <img src="{{ root }}/template_ok/images/brand/logo-2.png" class="header-brand-img light-logo"
+                             alt="logo">
+                        <img src="{{ root }}/template_ok/images/brand/logo-3.png" class="header-brand-img light-logo1"
+                             alt="logo">
+                    </a>
+                    <!-- LOGO -->
+                </div>
+                <div class="main-sidemenu">
+                    <div class="slide-left disabled" id="slide-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24"
+                             viewBox="0 0 24 24">
+                            <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"/>
+                        </svg>
+                    </div>
+                    <ul class="side-menu">
+                        {% if mainMenu %}
+                            {{ menus.menuTop(mainMenu) }}
+                        {% endif %}
+                    </ul>
+                    <div class="slide-right" id="slide-right">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24"
+                             viewBox="0 0 24 24">
+                            <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <!--/APP-SIDEBAR-->
+        </div>
+        <!--/APP-SIDEBAR-->
 
-		<!-- MAIN-CONTENT -->
-		<div class="main-content app-content mt-0">
-			<div class="side-app">
+        <!-- MAIN-CONTENT -->
+        <div class="main-content app-content mt-0">
+            <div class="side-app">
 
-				<!-- CONTAINER -->
-				<div class="main-container container-fluid">
+                <!-- CONTAINER -->
+                <div class="main-container container-fluid">
 
-					<!-- PAGE-HEADER -->
-					<div class="page-header">
-						<h1 class="page-title">{{ breadcrumbs.active.name }}</h1>
-							<ol class="breadcrumb">
-								{% for item in breadcrumbs.links %}
-									<li class="breadcrumb-item">
-										<a href="{{ item.link }}">{{ item.name }}</a>
-									</li>
-								{% endfor %}
-								{% if breadcrumbs.active %}
-									<li class="breadcrumb-item active" aria-current="page">
-										<strong>{{ breadcrumbs.active.name }}</strong>
-									</li>
-								{% endif %}
-							</ol>
-					</div>
-					<!-- PAGE-HEADER END -->
+                    <!-- PAGE-HEADER -->
+                    <div class="page-header">
+                        <h1 class="page-title">{{ breadcrumbs.active.name }}</h1>
+                        <ol class="breadcrumb">
+                            {% for item in breadcrumbs.links %}
+                                <li class="breadcrumb-item">
+                                    <a href="{{ item.link }}">{{ item.name }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if breadcrumbs.active %}
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <strong>{{ breadcrumbs.active.name }}</strong>
+                                </li>
+                            {% endif %}
+                        </ol>
+                    </div>
+                    <!-- PAGE-HEADER END -->
 
-					<div class="notificaciones">
-						{% if flash.confirma or confirma %}
-							<div class="alert alert-success" role="alert">
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-								<i class="fa fa-check-circle-o me-2" aria-hidden="true"></i> {{ flash.confirma }} {{ confirma }}
-							</div>
-						{% endif %}
+                    <div class="notificaciones">
+                        {% if flash.confirma or confirma %}
+                            <div class="alert alert-success" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×
+                                </button>
+                                <i class="fa fa-check-circle-o me-2"
+                                   aria-hidden="true"></i> {{ flash.confirma }} {{ confirma }}
+                            </div>
+                        {% endif %}
 
-						{% if flash.alert or alert %}
-							<div class="alert alert-info" role="alert">
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-								<i class="fa fa-bell-o me-2" aria-hidden="true"></i>
-								{{ flash.alert }} {{ alert }}
-							</div>
-						{% endif %}
+                        {% if flash.alert or alert %}
+                            <div class="alert alert-info" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×
+                                </button>
+                                <i class="fa fa-bell-o me-2" aria-hidden="true"></i>
+                                {{ flash.alert }} {{ alert }}
+                            </div>
+                        {% endif %}
 
-						{% if flash.error or error %}
-							<div class="alert alert-danger" role="alert">
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-								<i class="fa fa-frown-o me-2" aria-hidden="true"></i>
-								{{ flash.error }} {{ error }}
-							</div>
-						{% endif %}
-					</div>
+                        {% if flash.error or error %}
+                            <div class="alert alert-danger" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×
+                                </button>
+                                <i class="fa fa-frown-o me-2" aria-hidden="true"></i>
+                                {{ flash.error }} {{ error }}
+                            </div>
+                        {% endif %}
+                    </div>
 
-					<!-- ROW -->
-					<div class="row">
-						{% block content %}{% endblock %}
-					</div>
-					<!-- ROW END -->
+                    <!-- ROW -->
+                    <div class="row">
+                        {% block content %}{% endblock %}
+                    </div>
+                    <!-- ROW END -->
 
-				</div>
-				<!-- CONTAINER END -->
-			</div>
-		</div>
-		<!-- MAIN-CONTENT CLOSED -->
+                </div>
+                <!-- CONTAINER END -->
+            </div>
+        </div>
+        <!-- MAIN-CONTENT CLOSED -->
 
-	</div>
+    </div>
 
-	<footer class="footer">
-		<div class="container">
-			<div class="row align-items-center flex-row-reverse">
-				<div class="col-md-12 col-sm-12 text-center">
-					Copyright © {{ now|date('Y') }} <a href="https://saes.tech/" target="_blank">SAES</a>. All rights reserved.
-				</div>
-			</div>
-		</div>
-	</footer>
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center flex-row-reverse">
+                <div class="col-md-12 col-sm-12 text-center">
+                    Copyright © {{ now|date('Y') }} <a href="https://saes.tech/" target="_blank">SAES</a>. All rights
+                    reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <!-- BACK-TO-TOP -->

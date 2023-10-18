@@ -46,6 +46,13 @@ return [
             'description' => 'Resultado de gestión por cliente de campo'
         ],
         [
+            'label' => 'Geolocalización',
+            'link' => '/reportes/geolocalizacion',
+            'roles' => 'reportes.geolocalizacion',
+            'icon' => 'fa fa-road',
+            'description' => 'Geolocalización de seguimientos'
+        ],
+        [
             'label' => 'Informes De Jornada',
             'link' => '/reportes/informeJornada',
             'roles' => 'reportes.informe_jornada',

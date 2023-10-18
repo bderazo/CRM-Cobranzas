@@ -1,0 +1,227 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosGeolocalizacion.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+
+                <div id="gmp-map"></div>
+
+                <table class="list view" style="display: table;" border="1" cellpadding="0" cellspacing="1" width="100%">
+                    <tr>
+                        <td width="100%" align="center">
+                            <div id="map"></div>
+                        </td>
+                    </tr>
+                </table>
+
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportBaseGeneral">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
+
+
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/geolocalizacion', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        self.initMap(res['data']);
+                    })
+                },
+                initMap: function (data) {
+                    var self = this;
+
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        center: new google.maps.LatLng(-0.16465681036593569, -78.48735624085649),
+                        zoom: 7
+                    });
+
+                    for (var i = 0; i < data.length; i++) {
+                        var obj = data[i];
+                        self.addWeatherMarker(obj, map);
+                    }
+                },
+                addWeatherMarker: function (obj, map) {
+                    var infoWindow = new google.maps.InfoWindow;
+                    // var id = obj.id;
+                    var cliente = obj.nombres;
+                    var campana = obj.nivel_1_texto;
+                    var tipo_campana = obj.nivel_2_texto;
+                    var fecha_visita = obj.observaciones;
+                    var lugar_visita = obj.fecha_ingreso;
+                    var asesor = obj.gestor;
+                    var point = new google.maps.LatLng(
+                        parseFloat(obj.lat),
+                        parseFloat(obj.long));
+
+                    var infowincontent = document.createElement('div');
+                    var strong = document.createElement('strong');
+                    strong.textContent = cliente;
+                    infowincontent.appendChild(strong);
+
+                    infowincontent.appendChild(document.createElement('br'));
+
+                    var text = document.createElement('text');
+                    text.textContent = "Campaña: " + campana;
+                    infowincontent.appendChild(text);
+
+                    infowincontent.appendChild(document.createElement('br'));
+
+                    var text = document.createElement('text');
+                    text.textContent = "Tipo: " + tipo_campana.toUpperCase();
+                    infowincontent.appendChild(text);
+
+                    infowincontent.appendChild(document.createElement('br'));
+
+                    var text = document.createElement('text');
+                    text.textContent = "Fecha de visita: " + fecha_visita;
+                    infowincontent.appendChild(text);
+
+                    infowincontent.appendChild(document.createElement('br'));
+
+                    var text = document.createElement('text');
+                    text.textContent = "Lugar de visita: " + lugar_visita;
+                    infowincontent.appendChild(text);
+
+                    infowincontent.appendChild(document.createElement('br'));
+
+                    var text = document.createElement('text');
+                    text.textContent = "Asesor: " + asesor;
+                    infowincontent.appendChild(text);
+
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: point,
+                    });
+                    marker.addListener('click', function () {
+                        infoWindow.setContent(infowincontent);
+                        infoWindow.open(map, marker);
+                    });
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    var data = {
+                        datos: self.datos
+                    };
+                    $('#json').val(JSON.stringify(data));
+                    $('#exportForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_ece").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#resultado").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#accion").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#descripcion").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#motivo_no_pago").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#descripcion_no_pago").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#gestor").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        // self.consultar();
+                    });
+                    $('.select2').select2({
+                        theme: "classic"
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+
+    <style>
+        #map {
+            height: 400px;
+            width: 800px;
+        }
+    </style>
+
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_zHT3Yhw50hNcialiMb60ZtIJ9EwR3wg">
+
+{% endblock %}

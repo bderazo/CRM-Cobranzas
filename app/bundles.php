@@ -39,7 +39,8 @@ return [
 	'template' => [
 		'css' => [],
 		'js' => [
-			'template_ok/js/typehead.js',
+//			'template_ok/js/typehead.js',
+
 			'template_ok/js/themeColors.js',
 			'template_ok/js/custom.js',
 			'template_ok/js/show-password.min.js',
@@ -109,7 +110,7 @@ return [
 			'js/validation/additional-methods.min.js',
 			'js/validation/messages_es_PE.js',
 			'js/jquery.alphanum.js',
-			'js/autoNumeric.min.js',
+//			'js/autoNumeric.min.js',
 			'js/serializeObject2.js',
 		]
 	],
