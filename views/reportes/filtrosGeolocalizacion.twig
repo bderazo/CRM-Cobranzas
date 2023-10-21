@@ -6,35 +6,15 @@
 		<form id="filtros">
 			<div class="row ">
 				<div class="col-sm-3">
-					<b>Canal</b> <br>
+					<b>Gestor</b> <br>
 					<div class="input-group">
-						<select class="form-control select2" name="canal_usuario[]" id="canal_usuario" multiple>
+						<select class="form-control select2" name="gestor[]" id="gestor" multiple>
 							<option value=""></option>
-							<option v-for="(v,k) in canal_usuario" v-html="v" :value="k"></option>
+							<option v-for="item in gestor_campo" v-bind:value="item.id" v-html="item.name"></option>
 						</select>
 					</div>
 				</div>
-
-				<div class="col-sm-3">
-					<b>Campaña con ECE</b> <br>
-					<div class="input-group">
-						<select class="form-control select2" name="campana_ece[]" id="campana_ece" multiple>
-							<option value=""></option>
-							<option v-for="(v,k) in campana_ece" v-html="v" :value="k"></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="col-sm-3">
-					<b>Campaña usuario</b> <br>
-					<div class="input-group">
-						<select class="form-control select2" name="campana_usuario[]" id="campana_usuario" multiple>
-							<option value=""></option>
-							<option v-for="(v,k) in campana_usuario" v-html="v" :value="k"></option>
-						</select>
-					</div>
-				</div>
-
+				
 				<div class="col-sm-3">
 					<b>Zona</b> <br>
 					<div class="input-group">
@@ -71,16 +51,6 @@
 						<select class="form-control select2" name="descripcion[]" id="descripcion" multiple>
 							<option value=""></option>
 							<option v-for="item in descripcion" v-bind:value="item.nivel3_id" v-html="item.nivel3"></option>
-						</select>
-					</div>
-				</div>
-
-				<div class="col-sm-3">
-					<b>Gestor</b> <br>
-					<div class="input-group">
-						<select class="form-control select2" name="gestor[]" id="gestor" multiple>
-							<option value=""></option>
-							<option v-for="item in gestor_campo" v-bind:value="item.id" v-html="item.name"></option>
 						</select>
 					</div>
 				</div>
