@@ -94,6 +94,7 @@ class ReportesController extends BaseController
         $motivo_no_pago = PaletaMotivoNoPago::getNivel1Todos(1);
         $descripcion_no_pago = PaletaMotivoNoPago::getNivel2Todos(1);
         $gestor = Usuario::getTodosFiltro();
+        $gestor_campo = Usuario::getTodosCampoFiltro();
         return [
             'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
             'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
@@ -111,6 +112,7 @@ class ReportesController extends BaseController
             'motivo_no_pago' => json_encode($motivo_no_pago),
             'descripcion_no_pago' => json_encode($descripcion_no_pago),
             'gestor' => json_encode($gestor),
+            'gestor_campo' => json_encode($gestor_campo),
         ];
     }
 

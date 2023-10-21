@@ -80,7 +80,7 @@
 					<div class="input-group">
 						<select class="form-control select2" name="gestor[]" id="gestor" multiple>
 							<option value=""></option>
-							<option v-for="item in gestor" v-bind:value="item.id" v-html="item.name"></option>
+							<option v-for="item in gestor_campo" v-bind:value="item.id" v-html="item.name"></option>
 						</select>
 					</div>
 				</div>
@@ -135,7 +135,7 @@
 					descripcion: {{ descripcion|raw }},
 					motivo_no_pago: {{ motivo_no_pago|raw }},
 					descripcion_no_pago: {{ descripcion_no_pago|raw }},
-					gestor: {{ gestor|raw }},
+					gestor_campo: {{ gestor_campo|raw }},
                 },
                 methods: {},
             });
