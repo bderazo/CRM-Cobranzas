@@ -40,6 +40,7 @@
                 total: [],
                 markers: [],
                 coords: [],
+                mostrar_linea_mapa: false,
             },
             watch: {},
             computed: {},
@@ -53,6 +54,7 @@
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];
+                        self.mostrar_linea_mapa = res['mostrar_linea_mapa'];
                         self.initMap(res['data']);
                     })
                 },
@@ -71,14 +73,16 @@
 
                     // console.log(self.coords);
 
-                    var line= new google.maps.Polyline({
-                        path: self.coords,
-                        geodesic: true,
-                        strokeColor: '#557fa3',
-                        strokeOpacity: 1.0,
-                        strokeWeight: 4
-                    });
-                    line.setMap(map);
+                    if(self.mostrar_linea_mapa) {
+                        var line = new google.maps.Polyline({
+                            path: self.coords,
+                            geodesic: true,
+                            strokeColor: '#557fa3',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 4
+                        });
+                        line.setMap(map);
+                    }
 
                 },
                 addWeatherMarker: function (obj, map) {

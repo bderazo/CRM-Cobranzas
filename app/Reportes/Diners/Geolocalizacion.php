@@ -101,9 +101,11 @@ class Geolocalizacion
             $fil = implode(',', $filtros['descripcion']);
             $q->where('ps.nivel_3_id IN (' . $fil . ')');
         }
+        $mostrar_linea_mapa = false;
         if (@$filtros['gestor']) {
             $fil = implode(',', $filtros['gestor']);
             $q->where('ps.usuario_ingreso IN (' . $fil . ')');
+            $mostrar_linea_mapa = true;
         }
         if (@$filtros['fecha_inicio']) {
             if (($filtros['hora_inicio'] != '') && ($filtros['minuto_inicio'] != '')) {
@@ -137,6 +139,7 @@ class Geolocalizacion
         }
         $retorno['data'] = $data;
         $retorno['total'] = [];
+        $retorno['mostrar_linea_mapa'] = $mostrar_linea_mapa;
         return $retorno;
     }
 
