@@ -446,7 +446,8 @@ class Usuario extends Model {
             ->select(null)
             ->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS name")
             ->where('u.canal','CAMPO')
-            ->orderBy('u.username');
+            ->where('u.activo',1)
+            ->orderBy('u.apellidos');
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
