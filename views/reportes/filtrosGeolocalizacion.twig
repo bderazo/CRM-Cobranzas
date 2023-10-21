@@ -6,21 +6,21 @@
 		<form id="filtros">
 			<div class="row ">
 				<div class="col-sm-3">
-					<b>Gestor</b> <br>
-					<div class="input-group">
-						<select class="form-control select2" name="gestor[]" id="gestor" multiple>
-							<option value=""></option>
-							<option v-for="item in gestor_campo" v-bind:value="item.id" v-html="item.name"></option>
-						</select>
-					</div>
-				</div>
-				
-				<div class="col-sm-3">
 					<b>Zona</b> <br>
 					<div class="input-group">
 						<select class="form-control select2" name="plaza_usuario[]" id="plaza_usuario" multiple>
 							<option value=""></option>
 							<option v-for="(v,k) in plaza_usuario" v-html="v" :value="k"></option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="col-sm-3">
+					<b>Gestor</b> <br>
+					<div class="input-group">
+						<select class="form-control select2" name="gestor[]" id="gestor" multiple>
+							<option value=""></option>
+							<option v-for="item in gestor_campo" v-bind:value="item.id" v-html="item.name"></option>
 						</select>
 					</div>
 				</div>
