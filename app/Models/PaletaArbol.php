@@ -408,8 +408,24 @@ class PaletaArbol extends Model
                     $aux['text'] = $l['nivel3'];
                 }
             }else{
-                $aux['id'] = $l['nivel3_id'];
-                $aux['text'] = $l['nivel3'];
+//                $aux['id'] = $l['nivel3_id'];
+//                $aux['text'] = $l['nivel3'];
+                if($l['nivel3_id'] == 1860){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-refinancia'];
+                }elseif(($l['nivel3_id'] == 1841) || ($l['nivel3_id'] == 1842) || ($l['nivel3_id'] == 1843)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-motivo'];
+                }elseif(($l['nivel3_id'] == 1854) || ($l['nivel3_id'] == 1857) || ($l['nivel3_id'] == 1858)){
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                    $aux['_data'] = ['show-group-field'=>'group-notificado'];
+                }else{
+                    $aux['id'] = $l['nivel3_id'];
+                    $aux['text'] = $l['nivel3'];
+                }
             }
 			$retorno[] = $aux;
 		}
