@@ -2383,7 +2383,7 @@ class ReportesController extends BaseController
             'valor' => $jdata['total']['total_notificado_total'],
             'formato' => 'number'
         ];
-        $aux['NOTIFICADO'] = [
+        $aux['OFRECIMIENTOS'] = [
             'valor' => $jdata['total']['total_ofrecimiento_total'],
             'formato' => 'number'
         ];
