@@ -85,7 +85,7 @@ class HomeController extends BaseController {
 					$seguimientos_usuario[$s['usuario_ingreso']]['compromisos']++;
 				}
 			}else{
-				$seguimientos_usuario[$s['usuario_ingreso']]['usuario'] = $s['username'];
+				$seguimientos_usuario[$s['usuario_ingreso']]['usuario'] = $s['usuario'];
 				$seguimientos_usuario[$s['usuario_ingreso']]['gestiones'] = 1;
 				$seguimientos_usuario[$s['usuario_ingreso']]['clientes'][$s['cliente_id']] = 0;
 				//VERIFICAR CONTACTADO
