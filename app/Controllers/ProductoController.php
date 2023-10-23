@@ -364,7 +364,7 @@ class ProductoController extends BaseController
             if (isset($asignacion['DINERS'])) {
                 $asignacion['DINERS']['aplicativo'] = $aplicativo_diners_tarjeta_diners;
                 $asignacion['DINERS']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO DINERS'];
-//                $asignacion['DINERS']['recuperado'] = $saldos['RECUPERADO DINERS'];
+                $asignacion['DINERS']['recuperado'] = $saldos['RECUPERADO DINERS'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'diners';
@@ -406,7 +406,7 @@ class ProductoController extends BaseController
             if (isset($asignacion['DISCOVER'])) {
                 $asignacion['DISCOVER']['aplicativo'] = $aplicativo_diners_tarjeta_discover;
                 $asignacion['DISCOVER']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO DISCOVER'];
-//                $asignacion['DINERS']['recuperado'] = $saldos['RECUPERADO DISCOVER'];
+                $asignacion['DISCOVER']['recuperado'] = $saldos['RECUPERADO DISCOVER'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'discover';
@@ -447,7 +447,7 @@ class ProductoController extends BaseController
             if (isset($asignacion['VISA'])) {
                 $asignacion['VISA']['aplicativo'] = $aplicativo_diners_tarjeta_interdin;
                 $asignacion['VISA']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO VISA'];
-//                $asignacion['DINERS']['recuperado'] = $saldos['RECUPERADO VISA'];
+                $asignacion['VISA']['recuperado'] = $saldos['RECUPERADO VISA'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'interdin';
@@ -488,7 +488,7 @@ class ProductoController extends BaseController
             if (isset($asignacion['MASTERCARD'])) {
                 $asignacion['MASTERCARD']['aplicativo'] = $aplicativo_diners_tarjeta_mastercard;
                 $asignacion['MASTERCARD']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
-//                $asignacion['DINERS']['recuperado'] = $saldos['RECUPERADO MASTERCARD'];
+                $asignacion['MASTERCARD']['recuperado'] = $saldos['RECUPERADO MASTERCARD'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'mastercard';

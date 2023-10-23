@@ -54,6 +54,7 @@
                                     <th style="font-size: 10px;">DIFERIDOS FACTURADOS</th>
                                     <th style="font-size: 10px;">SALDO ACTUAL FACTURADO</th>
                                     <th style="font-size: 10px;">FECHA MÁXIMA PAGO</th>
+                                    <th style="font-size: 10px;">RECUPERADO</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -107,6 +108,9 @@
                                     </td>
                                     <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.fecha_maxima_pago"></span>
+                                    </td>
+                                    <td style="text-align: right; vertical-align: middle;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.recuperado"></span>
                                     </td>
                                 </tr>
                             </table>
