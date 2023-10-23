@@ -2344,6 +2344,10 @@ class ReportesController extends BaseController
                 'valor' => $d['notificado'],
                 'formato' => 'number'
             ];
+            $aux['OFRECIMIENTOS'] = [
+                'valor' => $d['ofrecimiento'],
+                'formato' => 'number'
+            ];
             $aux['CONTACTABILIDAD'] = [
                 'valor' => $d['contactabilidad'],
                 'formato' => 'number'
@@ -2377,6 +2381,10 @@ class ReportesController extends BaseController
         ];
         $aux['NOTIFICADO'] = [
             'valor' => $jdata['total']['total_notificado_total'],
+            'formato' => 'number'
+        ];
+        $aux['NOTIFICADO'] = [
+            'valor' => $jdata['total']['total_ofrecimiento_total'],
             'formato' => 'number'
         ];
         $aux['CONTACTABILIDAD'] = [

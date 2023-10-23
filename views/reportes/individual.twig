@@ -19,7 +19,8 @@
                             <th>TOTAL NEGOCIACIONES</th>
 							<th>REFINANCIA</th>
                             <th>NOTIFICADO</th>
-							<th>CONTACTABILIDAD</th>
+							<th>OFRECIMIENTOS</th>
+                            <th>CONTACTABILIDAD</th>
                             <th>EFECTIVIDAD</th>
                             <th>META DIARIA</th>
                             <th>% META ALCANZADA</th>
@@ -31,6 +32,7 @@
                             <td style="text-align: center;" v-html="d.total_negociaciones"></td>
                             <td style="text-align: center;" v-html="d.refinancia"></td>
                             <td style="text-align: center;" v-html="d.notificado"></td>
+                            <td style="text-align: center;" v-html="d.ofrecimiento"></td>
                             <td style="text-align: center;"><span v-html="d.contactabilidad"></span>%</td>
                             <td style="text-align: center;"><span v-html="d.efectividad"></span>%</td>
                             <td style="text-align: center;">
@@ -45,6 +47,7 @@
                             <td style="text-align: center;" v-html="total.total_negociaciones_total"></td>
                             <td style="text-align: center;" v-html="total.total_refinancia_total"></td>
                             <td style="text-align: center;" v-html="total.total_notificado_total"></td>
+                            <td style="text-align: center;" v-html="total.total_ofrecimiento_total"></td>
                             <td style="text-align: center;"><span v-html="total.total_contactabilidad_total"></span>%</td>
                             <td style="text-align: center;"><span v-html="total.total_efectividad_total"></span>%</td>
                             <td style="text-align: center;" v-html="total.total_meta_diaria_total"></td>

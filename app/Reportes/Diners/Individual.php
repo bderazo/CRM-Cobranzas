@@ -118,6 +118,9 @@ class Individual {
         $usuario_gestion = [];
         $verificar_duplicados = [];
         $total_general = 0;
+        $refinancia = [];
+        $notificado = [];
+        $ofrecimiento = [];
         foreach($lista as $seg){
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             $tarjeta_verificar = $seg['tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['tarjeta'];
@@ -138,6 +141,8 @@ class Individual {
                         if(!isset($notificado_ciclo[$seg['cliente_id']][$seg['ciclo']])) {
                             $notificado[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
                         }
+                    }elseif ($seg['nivel_2_id'] == 1856) {
+                        $ofrecimiento[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']] = $seg;
                     }else{
                         //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
                         $data[$seg['cliente_id']][$seg['fecha_ingreso_seguimiento']][] = $seg;
@@ -164,6 +169,11 @@ class Individual {
                 $data1[] = $val1;
             }
         }
+        foreach ($ofrecimiento as $val) {
+            foreach ($val as $val1) {
+                $data1[] = $val1;
+            }
+        }
 
         foreach ($data1 as $seg){
             if (!isset($usuario_gestion[$seg['usuario_id']])) {
@@ -176,6 +186,7 @@ class Individual {
                     'total_negociaciones' => 0,
                     'refinancia' => 0,
                     'notificado' => 0,
+                    'ofrecimiento' => 0,
                     'cierre_efectivo' => 0,
                     'contactadas' => 0,
                     'seguimientos' => 0,
@@ -199,6 +210,11 @@ class Individual {
                     $verificar_duplicados[$seg['cliente_id']][$seg['ciclo']] = 1;
                 }
             }
+
+            if ($seg['nivel_2_id'] == 1856) {
+                $usuario_gestion[$seg['usuario_id']]['ofrecimiento']++;
+            }
+
             if ($seg['nivel_1_id'] == 1855) {
                 $usuario_gestion[$seg['usuario_id']]['cierre_efectivo']++;
             }
@@ -218,6 +234,7 @@ class Individual {
         $total_negociaciones_total = 0;
         $total_refinancia_total = 0;
         $total_notificado_total = 0;
+        $total_ofrecimiento_total = 0;
         $total_contactabilidad_total = 0;
         $total_efectividad_total = 0;
         $total_meta_diaria_total = 0;
@@ -242,6 +259,7 @@ class Individual {
                 $total_negociaciones_total = $total_negociaciones_total + $ug['total_negociaciones'];
                 $total_refinancia_total = $total_refinancia_total + $ug['refinancia'];
                 $total_notificado_total = $total_notificado_total + $ug['notificado'];
+                $total_ofrecimiento_total = $total_ofrecimiento_total + $ug['ofrecimiento'];
                 $total_meta_diaria_total = $ug['meta_diaria'] > 0 ? $total_meta_diaria_total + $ug['meta_diaria'] : $total_meta_diaria_total;
                 $total_meta_alcanzada_total = $total_meta_alcanzada_total + $ug['meta_alcanzada'];
                 $total_contactadas = $total_contactadas + $ug['contactadas'];
@@ -269,6 +287,7 @@ class Individual {
             'total_negociaciones_total' => $total_negociaciones_total,
             'total_refinancia_total' => $total_refinancia_total,
             'total_notificado_total' => $total_notificado_total,
+            'total_ofrecimiento_total' => $total_ofrecimiento_total,
             'total_contactabilidad_total' => $total_contactabilidad_total,
             'total_efectividad_total' => $total_efectividad_total,
             'total_meta_diaria_total' => $total_meta_diaria_total,
