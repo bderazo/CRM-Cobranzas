@@ -7,6 +7,10 @@ return [
         'OPERATIVO' => 'OPERATIVO',
         'FALLIDAS' => 'FALLIDAS',
 	],
+    'canal_campo_reporte' => [
+        'CAMPO' => 'CAMPO',
+        'AUXILIAR TELEFONIA' => 'AUXILIAR TELEFONIA',
+    ],
 	'campana' => [
 		'CAMPO' => 'CAMPO',
 		'REF TLF' => 'REF TLF',

@@ -16,11 +16,11 @@
 				</div>
 
 				<div class="col-sm-3">
-					<b>Campaña usuario</b> <br>
+					<b>Canal usuario</b> <br>
 					<div class="input-group">
-						<select class="form-control select2" name="campana_usuario[]" id="campana_usuario" multiple>
+						<select class="form-control select2" name="canal_usuario[]" id="canal_usuario" multiple>
 							<option value=""></option>
-							<option v-for="(v,k) in campana_usuario" v-html="v" :value="k"></option>
+							<option v-for="(v,k) in canal_usuario_campo" v-html="v" :value="k"></option>
 						</select>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
             var appFiltros = new Vue({
                 el: '#filtros',
                 data: {
-                    canal_usuario: {{ canal_usuario|raw }},
+					canal_usuario_campo: {{ canal_usuario_campo|raw }},
                     plaza_usuario: {{ plaza_usuario|raw }},
                     horas: {{ horas|raw }},
                     minutos: {{ minutos|raw }},

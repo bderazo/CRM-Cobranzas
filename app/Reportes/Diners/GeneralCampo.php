@@ -58,9 +58,9 @@ class GeneralCampo {
             $fil = '"' . implode('","',$filtros['zona_cliente']) . '"';
             $q->where('cl.zona IN ('.$fil.')');
         }
-        if (@$filtros['campana_usuario']){
-            $fil = '"' . implode('","',$filtros['campana_usuario']) . '"';
-            $q->where('u.campana IN ('.$fil.')');
+        if (@$filtros['canal_usuario']){
+            $fil = '"' . implode('","',$filtros['canal_usuario']) . '"';
+            $q->where('u.canal IN ('.$fil.')');
         }
         if (@$filtros['ciclo']){
             $fil = implode(',',$filtros['ciclo']);

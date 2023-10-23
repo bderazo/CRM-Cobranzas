@@ -97,6 +97,7 @@ class ReportesController extends BaseController
         $gestor_campo = Usuario::getTodosCampoFiltro();
         return [
             'canal_usuario' => json_encode($catalogo_usuario->getByKey('canal')),
+            'canal_usuario_campo' => json_encode($catalogo_usuario->getByKey('canal_campo_reporte')),
             'plaza_usuario' => json_encode($catalogo_usuario->getByKey('plaza')),
             'horas' => json_encode($horas),
             'minutos' => json_encode($minutos),
