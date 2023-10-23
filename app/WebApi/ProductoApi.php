@@ -52,8 +52,9 @@ class ProductoApi extends BaseController
         if (!$this->isPost()) return "get_form_busqueda_producto";
         $res = new RespuestaConsulta();
         $session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
-        $usuario_id = \WebSecurity::getUserData('id');
+        $usuario = UsuarioLogin::getUserBySession($session);
+        $usuario_id = $usuario['id'];
+//        $usuario_id = \WebSecurity::getUserData('id');
         if ($usuario_id > 0) {
             $user = Usuario::porId($usuario_id);
             $retorno = [];
@@ -127,9 +128,9 @@ class ProductoApi extends BaseController
         $page = $this->request->getParam('page');
         $data = $this->request->getParam('data');
         $session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
-
-        $usuario_id = \WebSecurity::getUserData('id');
+        $usuario = UsuarioLogin::getUserBySession($session);
+        $usuario_id = $usuario['id'];
+//        $usuario_id = \WebSecurity::getUserData('id');
         if ($usuario_id > 0) {
             $user = Usuario::porId($usuario_id);
             $config = $this->get('config');
@@ -155,10 +156,12 @@ class ProductoApi extends BaseController
         if (!$this->isPost()) return "get_producto_cliente";
         $res = new RespuestaConsulta();
         $producto_id = $this->request->getParam('producto_id');
-//		$session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
+		$session = $this->request->getParam('session');
 
-        $usuario_id = \WebSecurity::getUserData('id');
+        $usuario = UsuarioLogin::getUserBySession($session);
+        $usuario_id = $usuario['id'];
+
+//        $usuario_id = \WebSecurity::getUserData('id');
         if ($usuario_id > 0) {
             $user = Usuario::porId($usuario_id);
             $producto = Producto::porId($producto_id);
@@ -244,8 +247,9 @@ class ProductoApi extends BaseController
         $res = new RespuestaConsulta();
         $producto_id = $this->request->getParam('producto_id');
         $session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
-        $usuario_id = \WebSecurity::getUserData('id');
+        $usuario = UsuarioLogin::getUserBySession($session);
+        $usuario_id = $usuario['id'];
+//        $usuario_id = \WebSecurity::getUserData('id');
         if ($usuario_id > 0) {
             $user = Usuario::porId($usuario_id);
             $producto = Producto::porId($producto_id);
