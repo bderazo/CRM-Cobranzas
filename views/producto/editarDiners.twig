@@ -48,12 +48,13 @@
                                     <th style="font-size: 10px;">MÍNIMO A PAGAR</th>
                                     <th style="font-size: 10px;">EJECUTIVO ACTUAL A CARGO DE CUENTA</th>
                                     <th style="font-size: 10px;">INTERÉS FACTURADO</th>
-                                    <th style="font-size: 10px;">DEUDA ACTUAL</th>
+                                    <th style="font-size: 10px;">SALDO TOTAL DEUDA</th>
                                     <th style="font-size: 10px;">TOTAL RIESGO</th>
                                     <th style="font-size: 10px;">EDAD CARTERA</th>
                                     <th style="font-size: 10px;">DIFERIDOS FACTURADOS</th>
                                     <th style="font-size: 10px;">SALDO ACTUAL FACTURADO</th>
                                     <th style="font-size: 10px;">FECHA MÁXIMA PAGO</th>
+                                    <th style="font-size: 10px;">RECUPERADO</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -91,7 +92,7 @@
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.interes_facturado"></span>
                                     </td>
                                     <td style="text-align: right; vertical-align: middle;">
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.deuda_actual"></span>
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.saldo_total"></span>
                                     </td>
                                     <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.aplicativo.total_riesgo"></span>
@@ -107,6 +108,9 @@
                                     </td>
                                     <td style="text-align: right; vertical-align: middle;">
                                         <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.fecha_maxima_pago"></span>
+                                    </td>
+                                    <td style="text-align: right; vertical-align: middle;">
+                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="a.recuperado"></span>
                                     </td>
                                 </tr>
                             </table>
