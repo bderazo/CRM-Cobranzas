@@ -154,31 +154,31 @@ class NegociacionesAutomatica {
                 $seg['motivo_no_pago_codigo'] = $paleta_notivo_no_pago['codigo'];
             }
             $seg['nombre_tarjeta_format'] = $seg['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $seg['nombre_tarjeta'];
-            if($seg['unificar_deudas'] == 'no'){
+//            if($seg['unificar_deudas'] == 'no'){
                 $data[$seg['cliente_id']][$seg['nombre_tarjeta']] = $seg;
-            }else{
-                //CONSULTAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
-                if (($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta'])) {
-                    $seg['traslado_valores_diners'] = 'NO';
-                    $seg['traslado_valores_visa'] = 'NO';
-                    $seg['traslado_valores_discover'] = 'NO';
-                    $seg['traslado_valores_mastercard'] = 'NO';
-                    $data[$seg['cliente_id']][$seg['nombre_tarjeta']] = $seg;
-                }else{
-                    if ($seg['nombre_tarjeta'] == 'DINERS') {
-                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_diners'] = 'SI';
-                    }
-                    if ($seg['nombre_tarjeta'] == 'INTERDIN') {
-                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_visa'] = 'SI';
-                    }
-                    if ($seg['nombre_tarjeta'] == 'DISCOVER') {
-                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_discover'] = 'SI';
-                    }
-                    if ($seg['nombre_tarjeta'] == 'MASTERCARD') {
-                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_mastercard'] = 'SI';
-                    }
-                }
-            }
+//            }else{
+//                //CONSULTAR LAS TARJETAS Q NO PERTENECEN AL SEGUIMIENTO
+//                if (($seg['tarjeta_unificar_deudas'] == $seg['nombre_tarjeta'])) {
+//                    $seg['traslado_valores_diners'] = 'NO';
+//                    $seg['traslado_valores_visa'] = 'NO';
+//                    $seg['traslado_valores_discover'] = 'NO';
+//                    $seg['traslado_valores_mastercard'] = 'NO';
+//                    $data[$seg['cliente_id']][$seg['nombre_tarjeta']] = $seg;
+//                }else{
+//                    if ($seg['nombre_tarjeta'] == 'DINERS') {
+//                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_diners'] = 'SI';
+//                    }
+//                    if ($seg['nombre_tarjeta'] == 'INTERDIN') {
+//                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_visa'] = 'SI';
+//                    }
+//                    if ($seg['nombre_tarjeta'] == 'DISCOVER') {
+//                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_discover'] = 'SI';
+//                    }
+//                    if ($seg['nombre_tarjeta'] == 'MASTERCARD') {
+//                        $data[$seg['cliente_id']][$seg['tarjeta_unificar_deudas']]['traslado_valores_mastercard'] = 'SI';
+//                    }
+//                }
+//            }
 //                }
 //            }
         }
