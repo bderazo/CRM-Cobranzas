@@ -2101,8 +2101,9 @@ class ReportesController extends BaseController
 
     function exportGestionesPorHora($json)
     {
-        \WebSecurity::secure('reportes.general');
+        \WebSecurity::secure('reportes.gestiones_por_hora');
         $data = json_decode($json, true);
+        printDie($data);
         $lista = [];
         $aux = [];
         foreach ($data['datos'] as $d) {
