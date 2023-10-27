@@ -2103,7 +2103,6 @@ class ReportesController extends BaseController
     {
         \WebSecurity::secure('reportes.gestiones_por_hora');
         $data = json_decode($json, true);
-        printDie($data);
         $lista = [];
         $aux = [];
         foreach ($data['datos'] as $d) {

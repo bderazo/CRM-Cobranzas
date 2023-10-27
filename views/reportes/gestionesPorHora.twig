@@ -92,6 +92,7 @@
             data: {
                 datos: [],
                 total: [],
+                resumen: [],
             },
             watch: {},
             computed: {},
@@ -104,6 +105,7 @@
                     $.post('{{ root }}/reportes/gestionesPorHora', data, function (res) {
                         toggleLoader();
                         self.datos = res['data'];
+                        self.resumen = res['resumen'];
                         self.total = res['total'];
                         console.log(res);
                     })
