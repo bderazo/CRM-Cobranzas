@@ -2236,11 +2236,7 @@ class ReportesController extends BaseController
         $lista = [];
         $aux = [];
         foreach ($data['resumen'] as $d) {
-            $aux['GESTOR'] = [
-                'valor' => $d['gestor'],
-                'formato' => 'text'
-            ];
-            $aux['CLIENTE'] = [
+            $aux['NOMBRE SOCIO'] = [
                 'valor' => $d['nombres'],
                 'formato' => 'text'
             ];
@@ -2248,18 +2244,126 @@ class ReportesController extends BaseController
                 'valor' => $d['cedula'],
                 'formato' => 'text'
             ];
+            $aux['TELEFONO ULTIMO CONTACTO'] = [
+                'valor' => $d['telefono_contacto'],
+                'formato' => 'text'
+            ];
             $aux['MARCA'] = [
                 'valor' => $d['tarjeta'],
                 'formato' => 'text'
             ];
+            $aux['CÓDIGO DE OPERACIÓN'] = [
+                'valor' => $d['codigo_operacion'],
+                'formato' => 'text'
+            ];
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
+                'formato' => 'text'
+            ];
+            $aux['CIUDAD'] = [
+                'valor' => $d['ciudad'],
+                'formato' => 'text'
+            ];
+
+
+            $aux['TIPO DE CAMPAÑA'] = [
+                'valor' => $d['tipo_campana'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['ejecutivo'],
+                'formato' => 'text'
+            ];
             $aux['CICLO'] = [
                 'valor' => $d['ciclo'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD REAL'] = [
+                'valor' => $d['edad'],
+                'formato' => 'number'
+            ];
+            $aux['EDAD FACTURADA'] = [
+                'valor' => $d['edad_asignacion'],
+                'formato' => 'number'
+            ];
+            $aux['TOTAL ASIGNADO'] = [
+                'valor' => $d['total_asignado'],
+                'formato' => 'number'
+            ];
+            $aux['SALDO TOTAL DEUDA'] = [
+                'valor' => $d['saldo_total_deuda'],
+                'formato' => 'number'
+            ];
+            $aux['RIESGO TOTAL'] = [
+                'valor' => $d['riesgo_total'],
+                'formato' => 'number'
+            ];
+            $aux['INTERESES TOTAL'] = [
+                'valor' => $d['interes_total'],
+                'formato' => 'number'
+            ];
+            $aux['RECUPERADO'] = [
+                'valor' => $d['recuperado'],
+                'formato' => 'number'
+            ];
+            $aux['PAGO MINIMO'] = [
+                'valor' => $d['pago_minimo'],
+                'formato' => 'number'
+            ];
+            $aux['FECHA MAXIMA PAGO'] = [
+                'valor' => $d['fecha_maxima_pago'],
                 'formato' => 'text'
             ];
-            $aux['FECHA'] = [
-                'valor' => $d['fecha_ingreso'],
+            $aux['NUMERO DIFERIDOS'] = [
+                'valor' => $d['numero_diferidos'],
+                'formato' => 'number'
+            ];
+            $aux['NUMERO DE REFINANCIACIONES HISTORICA'] = [
+                'valor' => $d['numero_refinanciaciones_historica'],
+                'formato' => 'number'
+            ];
+            $aux['PLAZO DE FINANCIAMIENTO ACTUAL'] = [
+                'valor' => $d['plazo_financiamiento_actual'],
+                'formato' => 'number'
+            ];
+            $aux['MOTIVO CIERRE'] = [
+                'valor' => $d['motivo_cierre'],
                 'formato' => 'text'
             ];
+            $aux['OFERTA VALOR'] = [
+                'valor' => $d['oferta_valor'],
+                'formato' => 'text'
+            ];
+            $aux['PENDIENTE ACTUALES'] = [
+                'valor' => $d['pendiente_actuales'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 30 DIAS'] = [
+                'valor' => $d['pendiente_30'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 60 DIAS'] = [
+                'valor' => $d['pendiente_60'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE 90 DIAS'] = [
+                'valor' => $d['pendiente_90'],
+                'formato' => 'number'
+            ];
+            $aux['PENDIENTE MAS 90 DIAS'] = [
+                'valor' => $d['pendiente_mas_90'],
+                'formato' => 'number'
+            ];
+            $aux['CRÉDITO INMEDIATO'] = [
+                'valor' => $d['credito_inmediato'],
+                'formato' => 'text'
+            ];
+            $aux['PRODUCTO'] = [
+                'valor' => $d['producto'],
+                'formato' => 'text'
+            ];
+
+
             $aux['RESULTADO'] = [
                 'valor' => $d['nivel_1_texto'],
                 'formato' => 'text'
@@ -2272,24 +2376,57 @@ class ReportesController extends BaseController
                 'valor' => $d['nivel_3_texto'],
                 'formato' => 'text'
             ];
-            $aux['FECHA COMPROMISO DE PAGO'] = [
+            $aux['OBSERVACION'] = [
+                'valor' => $d['observaciones'],
+                'formato' => 'text'
+            ];
+            $aux['MOTIVO DE NO PAGO'] = [
+                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['SUB MOTIVO'] = [
+                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA PROMESA DE PAGO'] = [
                 'valor' => $d['fecha_compromiso_pago'],
+                'formato' => 'text'
+            ];
+            $aux['EJECUTIVO'] = [
+                'valor' => $d['gestor'],
+                'formato' => 'text'
+            ];
+            $aux['HORA DE GESTION'] = [
+                'valor' => $d['hora_gestion'],
+                'formato' => 'text'
+            ];
+            $aux['FECHA DE GESTION'] = [
+                'valor' => $d['fecha_gestion'],
                 'formato' => 'text'
             ];
             $aux['VALOR COMPROMETIDO'] = [
                 'valor' => $d['valor_comprometido'],
                 'formato' => 'number'
             ];
-            $aux['MOTIVO NO PAGO'] = [
-                'valor' => $d['nivel_1_motivo_no_pago_texto'],
+            $aux['GEOREFERENCIA'] = [
+                'valor' => $d['georeferencia'],
                 'formato' => 'text'
             ];
-            $aux['DESCRIPCIÓN MOTIVO NO PAGO'] = [
-                'valor' => $d['nivel_2_motivo_no_pago_texto'],
+            $aux['TIPO NEGOCIACION'] = [
+                'valor' => $d['tipo_negociacion'],
                 'formato' => 'text'
             ];
-            $aux['Observaciones'] = [
-                'valor' => $d['observaciones'],
+
+            $aux['TIPO GESTIÓN'] = [
+                'valor' => $d['identificador'],
+                'formato' => 'text'
+            ];
+            $aux['ORIGEN GESTIÓN'] = [
+                'valor' => $d['origen'],
+                'formato' => 'text'
+            ];
+            $aux['PESO PALETA'] = [
+                'valor' => $d['peso_paleta'],
                 'formato' => 'text'
             ];
             $aux['Hora'] = [
