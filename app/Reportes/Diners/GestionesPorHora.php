@@ -202,20 +202,21 @@ class GestionesPorHora {
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
 
-                    if ($res['nivel_2_id'] == 1859) {
-                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-                        if(!isset($refinancia_ciclo[$res['cliente_id']][$res['ciclo']])) {
-                            $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
-                        }
-                    }elseif ($res['nivel_2_id'] == 1853) {
-                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-                        if(!isset($notificado_ciclo[$res['cliente_id']][$res['ciclo']])) {
-                            $notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
-                        }
-                    }else{
+//                    if ($res['nivel_2_id'] == 1859) {
+//                        //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+//                        if(!isset($refinancia_ciclo[$res['cliente_id']][$res['ciclo']])) {
+//                            $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
+//                        }
+//                    }elseif ($res['nivel_2_id'] == 1853) {
+//                        //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
+//                        if(!isset($notificado_ciclo[$res['cliente_id']][$res['ciclo']])) {
+//                            $notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
+//                        }
+//                    }else{
                         //OBTENGO LAS GESTIONES POR CLIENTE Y POR DIA
                         $data[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
-                    }
+//                    }
+                    $resumen[] = $res;
                 }
             }
         }
@@ -228,16 +229,16 @@ class GestionesPorHora {
                 }
             }
         }
-        foreach ($refinancia as $val) {
-            foreach ($val as $val1) {
-                $data1[] = $val1;
-            }
-        }
-        foreach ($notificado as $val) {
-            foreach ($val as $val1) {
-                $data1[] = $val1;
-            }
-        }
+//        foreach ($refinancia as $val) {
+//            foreach ($val as $val1) {
+//                $data1[] = $val1;
+//            }
+//        }
+//        foreach ($notificado as $val) {
+//            foreach ($val as $val1) {
+//                $data1[] = $val1;
+//            }
+//        }
 
         foreach ($data1 as $res){
             if(isset($usuarios_telefonia[$res['usuario_id']]['hora_'.$res['hora_ingreso_seguimiento']])){
@@ -249,7 +250,6 @@ class GestionesPorHora {
                 $totales_hora['total_'.$res['hora_ingreso_seguimiento']]++;
                 $totales_hora['total']++;
             }
-            $resumen[] = $res;
         }
 
 
