@@ -2430,7 +2430,7 @@ class ReportesController extends BaseController
                 'formato' => 'text'
             ];
             $aux['Hora'] = [
-                'valor' => $d['hora'],
+                'valor' => $d['hora_ingreso_seguimiento'],
                 'formato' => 'number'
             ];
             $lista[] = $aux;
