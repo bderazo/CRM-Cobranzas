@@ -416,6 +416,8 @@ class GestionesPorHora {
 
         usort($usuarios_telefonia, fn($a, $b) => $a['nombre_completo'] <=> $b['nombre_completo']);
 
+        printDie($resumen);
+
 		$retorno['data'] = $usuarios_telefonia;
         $retorno['resumen'] = $resumen;
 		$retorno['total'] = $totales_hora;

@@ -2235,7 +2235,6 @@ class ReportesController extends BaseController
         ];
         $lista = [];
         $aux = [];
-        printDie($data['resumen']);
         foreach ($data['resumen'] as $d) {
             $aux['NOMBRE SOCIO'] = [
                 'valor' => $d['nombres'],
