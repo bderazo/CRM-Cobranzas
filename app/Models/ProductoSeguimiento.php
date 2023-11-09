@@ -811,6 +811,7 @@ class ProductoSeguimiento extends Model
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->lat = $lat;
                     $con->long = $long;
+                    \Auditor::info('save_form_seguimiento files: ', '$con', $con);
                     $con->save();
                     $seguimientos_id[] = $con->id;
                 }
