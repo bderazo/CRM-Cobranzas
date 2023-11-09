@@ -343,9 +343,10 @@ class ProductoSeguimiento extends Model
             ->select(null)
             ->select('ps.*, addet.ciclo, DATE(ps.fecha_ingreso) AS fecha_ingreso_fecha')
             ->where('ps.eliminado', 0)
-            ->where('ps.fecha_ingreso <= ?', $fecha_verificar)
+            ->where('DATE(ps.fecha_ingreso) <= ?', $fecha_verificar)
             ->where('(nivel_2_id = 1859 OR nivel_1_id = 1866)')
             ->orderBy('ps.fecha_ingreso ASC');
+//        printDie($q->getQuery());
 //        printDie($fecha_verificar);
         $lista = $q->fetchAll();
         $retorno = [];
@@ -410,7 +411,7 @@ class ProductoSeguimiento extends Model
             ->select(null)
             ->select('ps.*, addet.ciclo, DATE(ps.fecha_ingreso) AS fecha_ingreso_fecha')
             ->where('ps.eliminado', 0)
-            ->where('ps.fecha_ingreso <= ?', $fecha_verificar)
+            ->where('DATE(ps.fecha_ingreso) <= ?', $fecha_verificar)
             ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
             ->orderBy('ps.fecha_ingreso ASC');
         $lista = $q->fetchAll();
@@ -421,15 +422,13 @@ class ProductoSeguimiento extends Model
                     unset($retorno[$l['cliente_id']]);
                 }
             } else {
-                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+                $retorno[$l['cliente_id']] = $l;
             }
         }
 
         foreach ($retorno as $k => $v) {
-            foreach ($v as $k1 => $v1) {
-                if($v1['fecha_ingreso_fecha'] == $fecha_verificar){
-                    unset($retorno[$k]);
-                }
+            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+                unset($retorno[$k]);
             }
         }
 
