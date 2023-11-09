@@ -352,7 +352,7 @@ class ProductoSeguimiento extends Model
             if($l['cliente_id'] != 47341) {
                 if ($l['nivel_1_id'] == 1866) {
                     if (isset($retorno[$l['cliente_id']][$l['ciclo']])) {
-                        unset($retorno[$l['cliente_id']][$l['ciclo']]);
+                        unset($retorno[$l['cliente_id']]);
                     }
                 } else {
                     $retorno[$l['cliente_id']][$l['ciclo']] = $l;
