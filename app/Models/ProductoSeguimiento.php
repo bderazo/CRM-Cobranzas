@@ -341,7 +341,7 @@ class ProductoSeguimiento extends Model
             ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
             ->leftJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
             ->select(null)
-            ->select('ps.*, addet.ciclo')
+            ->select('ps.*, addet.ciclo, DATE(ps.fecha_ingreso) AS fecha_ingreso_fecha')
             ->where('ps.eliminado', 0)
             ->where('ps.fecha_ingreso <= ?', $fecha_verificar)
             ->where('(nivel_2_id = 1859 OR nivel_1_id = 1866)')
@@ -361,6 +361,15 @@ class ProductoSeguimiento extends Model
                 $retorno[$l['cliente_id']][$l['ciclo']] = $l;
             }
         }
+
+        foreach ($retorno as $k => $v) {
+            foreach ($v as $k1 => $v1) {
+                if($v1['fecha_ingreso_fecha'] == $fecha_verificar){
+                    unset($retorno[$k]);
+                }
+            }
+        }
+
         return $retorno;
 
 
@@ -401,7 +410,7 @@ class ProductoSeguimiento extends Model
             ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
             ->leftJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
             ->select(null)
-            ->select('ps.*, addet.ciclo')
+            ->select('ps.*, addet.ciclo, DATE(ps.fecha_ingreso) AS fecha_ingreso_fecha')
             ->where('ps.eliminado', 0)
             ->where('ps.fecha_ingreso <= ?', $fecha_verificar)
             ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
@@ -417,6 +426,15 @@ class ProductoSeguimiento extends Model
                 $retorno[$l['cliente_id']][$l['ciclo']] = $l;
             }
         }
+
+        foreach ($retorno as $k => $v) {
+            foreach ($v as $k1 => $v1) {
+                if($v1['fecha_ingreso_fecha'] == $fecha_verificar){
+                    unset($retorno[$k]);
+                }
+            }
+        }
+
         return $retorno;
     }
 
