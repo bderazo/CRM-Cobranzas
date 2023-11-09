@@ -441,6 +441,8 @@ class ProductoSeguimiento extends Model
             $guardar_seguimiento_tarjetas = false;
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$guardar_seguimiento_tarjetas', $guardar_seguimiento_tarjetas);
+
         if (!$guardar_seguimiento_tarjetas) {
             $con = new ProductoSeguimiento();
             $con->institucion_id = 1;
