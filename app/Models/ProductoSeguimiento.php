@@ -358,15 +358,13 @@ class ProductoSeguimiento extends Model
                     unset($retorno[$l['cliente_id']]);
                 }
             } else {
-                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+                $retorno[$l['cliente_id']] = $l;
             }
         }
 
         foreach ($retorno as $k => $v) {
-            foreach ($v as $k1 => $v1) {
-                if($v1['fecha_ingreso_fecha'] == $fecha_verificar){
-                    unset($retorno[$k]);
-                }
+            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+                unset($retorno[$k]);
             }
         }
 
