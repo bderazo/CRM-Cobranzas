@@ -441,8 +441,6 @@ class ProductoSeguimiento extends Model
             $guardar_seguimiento_tarjetas = false;
         }
 
-        \Auditor::info('save_form_seguimiento files: ', '$guardar_seguimiento_tarjetas', $guardar_seguimiento_tarjetas);
-
         if (!$guardar_seguimiento_tarjetas) {
             $con = new ProductoSeguimiento();
             $con->institucion_id = 1;
@@ -587,6 +585,7 @@ class ProductoSeguimiento extends Model
             }
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_diners', $aplicativo_diners_tarjeta_diners);
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
             if ($aplicativo_diners_tarjeta_diners['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
@@ -668,6 +667,7 @@ class ProductoSeguimiento extends Model
             }
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_interdin', $aplicativo_diners_tarjeta_interdin);
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
             if ($aplicativo_diners_tarjeta_interdin['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
@@ -749,6 +749,7 @@ class ProductoSeguimiento extends Model
             }
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_discover', $aplicativo_diners_tarjeta_discover);
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
             if ($aplicativo_diners_tarjeta_discover['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
