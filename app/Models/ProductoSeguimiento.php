@@ -399,7 +399,7 @@ class ProductoSeguimiento extends Model
 
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
-            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->leftJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
             ->select(null)
             ->select('ps.*, addet.ciclo')
             ->where('ps.eliminado', 0)
@@ -410,8 +410,8 @@ class ProductoSeguimiento extends Model
         $retorno = [];
         foreach ($lista as $l) {
             if ($l['nivel_1_id'] == 1866) {
-                if (isset($retorno[$l['cliente_id']][$l['ciclo']])) {
-                    unset($retorno[$l['cliente_id']][$l['ciclo']]);
+                if (isset($retorno[$l['cliente_id']])) {
+                    unset($retorno[$l['cliente_id']]);
                 }
             } else {
                 $retorno[$l['cliente_id']][$l['ciclo']] = $l;
