@@ -435,7 +435,7 @@ class ProductoSeguimiento extends Model
             }
         }
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
-        if($data['nivel1'] != 1855) {
+        if($data['nivel1'] == 1855) {
             if ($data['unica_gestion'] == 'no') {
                 $guardar_seguimiento_tarjetas = true;
             } else {
