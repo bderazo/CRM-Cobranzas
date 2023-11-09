@@ -755,6 +755,7 @@ class ProductoSeguimiento extends Model
                 if ($guardar_seguimiento_tarjetas) {
                     //GUARDO SEGUIMIENTOS POR TARJETA
                     $con = new ProductoSeguimiento();
+                    \Auditor::info('save_form_seguimiento files: ', '$con1', $con);
                     $con->institucion_id = 1;
                     $con->cliente_id = $cliente_id;
                     $con->producto_id = $producto_id;
