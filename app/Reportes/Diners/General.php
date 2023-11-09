@@ -194,12 +194,12 @@ class General
                     $res['saldos_arr'] = $saldos_arr;
                     if ($res['nivel_2_id'] == 1859) {
                         //A LOS REFINANCIA YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-                        if(!isset($refinancia_ciclo[$res['cliente_id']][$res['ciclo']])) {
+                        if(!isset($refinancia_ciclo[$res['cliente_id']])) {
                             $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
                         }
                     } elseif ($res['nivel_2_id'] == 1853) {
                         //A LOS NOTIFICADO YA LES IDENTIFICO PORQ SE VALIDA DUPLICADOS
-                        if (!isset($notificado_ciclo[$res['cliente_id']][$res['ciclo']])) {
+                        if (!isset($notificado_ciclo[$res['cliente_id']])) {
                             $notificado[$res['cliente_id']][$res['fecha_ingreso_seguimiento']] = $res;
                         }
                     } else {
