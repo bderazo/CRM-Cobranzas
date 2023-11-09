@@ -445,6 +445,8 @@ class ProductoSeguimiento extends Model
             $guardar_seguimiento_tarjetas = false;
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$guardar_seguimiento_tarjetas', $guardar_seguimiento_tarjetas);
+
         if (!$guardar_seguimiento_tarjetas) {
             $con = new ProductoSeguimiento();
             $con->institucion_id = 1;
@@ -503,8 +505,7 @@ class ProductoSeguimiento extends Model
             $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
             $con->lat = $lat;
             $con->long = $long;
-            $sss = $con->save();
-            \Auditor::info('save_form_seguimiento files: ', 'SAVE', $sss);
+            $con->save();
             $seguimientos_id[] = $con->id;
         }
 
