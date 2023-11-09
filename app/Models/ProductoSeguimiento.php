@@ -349,18 +349,18 @@ class ProductoSeguimiento extends Model
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
-            if($l['cliente_id'] != 47341) {
-                if ($l['nivel_1_id'] == 1866) {
-                    if (isset($retorno[$l['cliente_id']])) {
-                        unset($retorno[$l['cliente_id']]);
-                    }
-                } else {
-                    $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+            if ($l['nivel_1_id'] == 1866) {
+                if($l['cliente_id'] == 67762){
+                    printDie($retorno[$l['cliente_id']]);
                 }
+                if (isset($retorno[$l['cliente_id']])) {
+                    unset($retorno[$l['cliente_id']]);
+                }
+            } else {
+                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
             }
         }
         return $retorno;
-
 
 
 //        $q = $db->from('producto_seguimiento ps')
@@ -435,13 +435,13 @@ class ProductoSeguimiento extends Model
             }
         }
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
-        if($data['nivel1'] == 1855) {
+        if ($data['nivel1'] == 1855) {
             if ($data['unica_gestion'] == 'no') {
                 $guardar_seguimiento_tarjetas = true;
             } else {
                 $guardar_seguimiento_tarjetas = false;
             }
-        }else{
+        } else {
             $guardar_seguimiento_tarjetas = false;
         }
 
@@ -519,22 +519,22 @@ class ProductoSeguimiento extends Model
         $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $cliente_id, 'original');
         $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $cliente_id, 'original');
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
-            if(isset($data['tarjetas']['diners'])){
+            if (isset($data['tarjetas']['diners'])) {
                 $aplicativo_diners_tarjeta_diners = array_merge($aplicativo_diners_tarjeta_diners, $data['tarjetas']['diners']);
             }
         }
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
-            if(isset($data['tarjetas']['interdin'])){
+            if (isset($data['tarjetas']['interdin'])) {
                 $aplicativo_diners_tarjeta_interdin = array_merge($aplicativo_diners_tarjeta_interdin, $data['tarjetas']['interdin']);
             }
         }
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
-            if(isset($data['tarjetas']['discover'])){
+            if (isset($data['tarjetas']['discover'])) {
                 $aplicativo_diners_tarjeta_discover = array_merge($aplicativo_diners_tarjeta_discover, $data['tarjetas']['discover']);
             }
         }
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
-            if(isset($data['tarjetas']['mastercard'])){
+            if (isset($data['tarjetas']['mastercard'])) {
                 $aplicativo_diners_tarjeta_mastercard = array_merge($aplicativo_diners_tarjeta_mastercard, $data['tarjetas']['mastercard']);
             }
         }
