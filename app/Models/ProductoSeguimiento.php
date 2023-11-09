@@ -339,14 +339,14 @@ class ProductoSeguimiento extends Model
 
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
-            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->leftJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
             ->select(null)
             ->select('ps.*, addet.ciclo')
             ->where('ps.eliminado', 0)
             ->where('ps.fecha_ingreso < ?', $fecha_verificar)
-            ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
+            ->where('(nivel_2_id = 1859 OR nivel_1_id = 1866)')
             ->orderBy('ps.fecha_ingreso ASC');
-        printDie($fecha_verificar);
+//        printDie($fecha_verificar);
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
