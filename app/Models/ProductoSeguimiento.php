@@ -343,7 +343,7 @@ class ProductoSeguimiento extends Model
             ->select(null)
             ->select('ps.*, addet.ciclo')
             ->where('ps.eliminado', 0)
-            ->where('ps.fecha_ingreso < ?', $fecha_verificar)
+            ->where('ps.fecha_ingreso <= ?', $fecha_verificar)
             ->where('(nivel_2_id = 1859 OR nivel_1_id = 1866)')
             ->orderBy('ps.fecha_ingreso ASC');
 //        printDie($fecha_verificar);
@@ -403,7 +403,7 @@ class ProductoSeguimiento extends Model
             ->select(null)
             ->select('ps.*, addet.ciclo')
             ->where('ps.eliminado', 0)
-            ->where('ps.fecha_ingreso < ?', $fecha_verificar)
+            ->where('ps.fecha_ingreso <= ?', $fecha_verificar)
             ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
             ->orderBy('ps.fecha_ingreso ASC');
         $lista = $q->fetchAll();
