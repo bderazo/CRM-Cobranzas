@@ -346,13 +346,14 @@ class ProductoSeguimiento extends Model
             ->where('ps.fecha_ingreso < ?', $fecha_verificar)
             ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
             ->orderBy('ps.fecha_ingreso ASC');
+        printDie($q->getQuery(false));
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
             if ($l['nivel_1_id'] == 1866) {
-                if($l['cliente_id'] == 67762){
-                    printDie($retorno[$l['cliente_id']]);
-                }
+//                if($l['cliente_id'] == 67762){
+//                    printDie($retorno[$l['cliente_id']]);
+//                }
                 if (isset($retorno[$l['cliente_id']])) {
                     unset($retorno[$l['cliente_id']]);
                 }
