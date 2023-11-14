@@ -171,9 +171,9 @@ class InformeJornada {
                             $refinancia[$res['cliente_id']][$res['fecha_ingreso_seguimiento']][] = $res;
 
                             //CONTAR LOS USUARIOS QUE HICIERON SEGUIMIENTOS REFINANCIA
-                            if ($res['tarjeta'] == 'DINERS') $tarjeta_tabla = 'DS';
+                            if ($res['tarjeta'] == 'DINERS') $tarjeta_tabla = 'DC';
                             if ($res['tarjeta'] == 'VISA') $tarjeta_tabla = 'VS';
-                            if ($res['tarjeta'] == 'DISCOVER') $tarjeta_tabla = 'DC';
+                            if ($res['tarjeta'] == 'DISCOVER') $tarjeta_tabla = 'DS';
                             if ($res['tarjeta'] == 'MASTERCARD') $tarjeta_tabla = 'MC';
                             if (isset($data_contar[$res['usuario_id']][$res['canal']])) {
                                 $data_contar[$res['usuario_id']][$res['canal']] .= ' - ' . $tarjeta_tabla . $res['ciclo'];
