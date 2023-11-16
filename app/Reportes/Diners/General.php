@@ -64,8 +64,7 @@ class General
         $notificado_ciclo = ProductoSeguimiento::getNotificadoCiclo($filtros['fecha_inicio']);
 
         //OBTENER SALDOS
-//        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
-        $saldos = AplicativoDinersSaldos::getTodosRangoFecha('2023-11-15', '2023-11-15');
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
         //BUSCAR SEGUIMIENTOS
         $q = $db->from('producto_seguimiento ps')

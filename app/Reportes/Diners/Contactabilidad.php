@@ -66,8 +66,7 @@ class Contactabilidad
         }
 
         //OBTENER SALDOS
-//        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
-        $saldos = AplicativoDinersSaldos::getTodosRangoFecha('2023-11-15', '2023-11-15');
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
 
         //OBTENER EL CICLO Y REFINANCIAS DEL CICLO EN ESE RANGO DE FECHAS PARA COMPARA Y NO MOSTRAR
         $refinancia_ciclo = ProductoSeguimiento::getRefinanciaCiclo($filtros['fecha_inicio']);
