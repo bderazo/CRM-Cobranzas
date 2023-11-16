@@ -104,7 +104,8 @@ class AplicativoDinersSaldos extends Model
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l){
-            $retorno[$l['cliente_id']][$l['fecha']] = $l;
+//            $retorno[$l['cliente_id']][$l['fecha']] = $l;
+            $retorno[$l['cliente_id']]['2023-11-16'] = $l;
         }
         return $retorno;
     }
