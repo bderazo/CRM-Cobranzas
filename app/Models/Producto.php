@@ -179,7 +179,7 @@ class Producto extends Model
             });
         }
 
-        $q->whereIn('producto.estado', ['no_asignado', 'asignado_megacob', 'asignado_usuario', 'gestionado']);
+//        $q->whereIn('producto.estado', ['no_asignado', 'asignado_megacob', 'asignado_usuario', 'gestionado']);
 
 //		$q->where('producto.estado', '<>', 'inactivo');
 

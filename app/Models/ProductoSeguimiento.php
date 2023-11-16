@@ -339,28 +339,37 @@ class ProductoSeguimiento extends Model
 
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
-            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->leftJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
             ->select(null)
-            ->select('ps.*, addet.ciclo')
+            ->select('ps.*, addet.ciclo, DATE(ps.fecha_ingreso) AS fecha_ingreso_fecha')
             ->where('ps.eliminado', 0)
-            ->where('ps.fecha_ingreso < ?', $fecha_verificar)
-            ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
+            ->where('DATE(ps.fecha_ingreso) <= ?', $fecha_verificar)
+            ->where('(nivel_2_id = 1859 OR nivel_1_id = 1866)')
             ->orderBy('ps.fecha_ingreso ASC');
+//        printDie($q->getQuery());
+//        printDie($fecha_verificar);
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
-            if($l['cliente_id'] != 47341) {
-                if ($l['nivel_1_id'] == 1866) {
-                    if (isset($retorno[$l['cliente_id']][$l['ciclo']])) {
-                        unset($retorno[$l['cliente_id']][$l['ciclo']]);
-                    }
-                } else {
-                    $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+            if ($l['nivel_1_id'] == 1866) {
+//                if($l['cliente_id'] == 67762){
+//                    printDie($retorno[$l['cliente_id']]);
+//                }
+                if (isset($retorno[$l['cliente_id']])) {
+                    unset($retorno[$l['cliente_id']]);
                 }
+            } else {
+                $retorno[$l['cliente_id']] = $l;
             }
         }
-        return $retorno;
 
+        foreach ($retorno as $k => $v) {
+            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+                unset($retorno[$k]);
+            }
+        }
+
+        return $retorno;
 
 
 //        $q = $db->from('producto_seguimiento ps')
@@ -398,24 +407,31 @@ class ProductoSeguimiento extends Model
 
         $q = $db->from('producto_seguimiento ps')
             ->innerJoin('usuario u ON ps.usuario_ingreso = u.id')
-            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->leftJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
             ->select(null)
-            ->select('ps.*, addet.ciclo')
+            ->select('ps.*, addet.ciclo, DATE(ps.fecha_ingreso) AS fecha_ingreso_fecha')
             ->where('ps.eliminado', 0)
-            ->where('ps.fecha_ingreso < ?', $fecha_verificar)
+            ->where('DATE(ps.fecha_ingreso) <= ?', $fecha_verificar)
             ->where('nivel_2_id = 1859 OR nivel_1_id = 1866')
             ->orderBy('ps.fecha_ingreso ASC');
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
             if ($l['nivel_1_id'] == 1866) {
-                if (isset($retorno[$l['cliente_id']][$l['ciclo']])) {
-                    unset($retorno[$l['cliente_id']][$l['ciclo']]);
+                if (isset($retorno[$l['cliente_id']])) {
+                    unset($retorno[$l['cliente_id']]);
                 }
             } else {
-                $retorno[$l['cliente_id']][$l['ciclo']] = $l;
+                $retorno[$l['cliente_id']] = $l;
             }
         }
+
+        foreach ($retorno as $k => $v) {
+            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+                unset($retorno[$k]);
+            }
+        }
+
         return $retorno;
     }
 
@@ -435,11 +451,17 @@ class ProductoSeguimiento extends Model
             }
         }
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
-        if ($data['unica_gestion'] == 'no'){
-            $guardar_seguimiento_tarjetas = true;
+        if ($data['nivel1'] == 1855) {
+            if ($data['unica_gestion'] == 'no') {
+                $guardar_seguimiento_tarjetas = true;
+            } else {
+                $guardar_seguimiento_tarjetas = false;
+            }
         } else {
             $guardar_seguimiento_tarjetas = false;
         }
+
+        \Auditor::info('save_form_seguimiento files: ', '$guardar_seguimiento_tarjetas', $guardar_seguimiento_tarjetas);
 
         if (!$guardar_seguimiento_tarjetas) {
             $con = new ProductoSeguimiento();
@@ -513,22 +535,22 @@ class ProductoSeguimiento extends Model
         $aplicativo_diners_tarjeta_interdin = AplicativoDiners::getAplicativoDinersDetalle('INTERDIN', $cliente_id, 'original');
         $aplicativo_diners_tarjeta_mastercard = AplicativoDiners::getAplicativoDinersDetalle('MASTERCARD', $cliente_id, 'original');
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
-            if(isset($data['tarjetas']['diners'])){
+            if (isset($data['tarjetas']['diners'])) {
                 $aplicativo_diners_tarjeta_diners = array_merge($aplicativo_diners_tarjeta_diners, $data['tarjetas']['diners']);
             }
         }
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
-            if(isset($data['tarjetas']['interdin'])){
+            if (isset($data['tarjetas']['interdin'])) {
                 $aplicativo_diners_tarjeta_interdin = array_merge($aplicativo_diners_tarjeta_interdin, $data['tarjetas']['interdin']);
             }
         }
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
-            if(isset($data['tarjetas']['discover'])){
+            if (isset($data['tarjetas']['discover'])) {
                 $aplicativo_diners_tarjeta_discover = array_merge($aplicativo_diners_tarjeta_discover, $data['tarjetas']['discover']);
             }
         }
         if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
-            if(isset($data['tarjetas']['mastercard'])){
+            if (isset($data['tarjetas']['mastercard'])) {
                 $aplicativo_diners_tarjeta_mastercard = array_merge($aplicativo_diners_tarjeta_mastercard, $data['tarjetas']['mastercard']);
             }
         }
@@ -584,6 +606,7 @@ class ProductoSeguimiento extends Model
             }
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_diners', $aplicativo_diners_tarjeta_diners);
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
             if ($aplicativo_diners_tarjeta_diners['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
@@ -665,6 +688,7 @@ class ProductoSeguimiento extends Model
             }
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_interdin', $aplicativo_diners_tarjeta_interdin);
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
             if ($aplicativo_diners_tarjeta_interdin['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
@@ -746,11 +770,13 @@ class ProductoSeguimiento extends Model
             }
         }
 
+        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_discover', $aplicativo_diners_tarjeta_discover);
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
             if ($aplicativo_diners_tarjeta_discover['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
                     //GUARDO SEGUIMIENTOS POR TARJETA
                     $con = new ProductoSeguimiento();
+                    \Auditor::info('save_form_seguimiento files: ', '$con1', $con);
                     $con->institucion_id = 1;
                     $con->cliente_id = $cliente_id;
                     $con->producto_id = $producto_id;
@@ -758,6 +784,7 @@ class ProductoSeguimiento extends Model
                     $con->origen = 'movil';
                     $con->canal = 'CAMPO';
                     $con->usuario_ingreso = $usuario_id;
+                    \Auditor::info('save_form_seguimiento files: ', '$con2', $con);
                     $con->eliminado = 0;
                     $con->fecha_ingreso = date("Y-m-d H:i:s");
                     $con->usuario_modificacion = $usuario_id;
@@ -770,6 +797,7 @@ class ProductoSeguimiento extends Model
                     $con->nivel_2_texto = $paleta_arbol['valor'];
                     $con->nivel_3_id = $data['discover']['nivel3'];
                     $paleta_arbol = PaletaArbol::porId($data['discover']['nivel3']);
+                    \Auditor::info('save_form_seguimiento files: ', '$con3', $con);
                     $con->nivel_3_texto = $paleta_arbol['valor'];
                     if (isset($data['discover']['fecha_compromiso_pago'])) {
                         if ($data['discover']['fecha_compromiso_pago'] != '') {
@@ -781,6 +809,7 @@ class ProductoSeguimiento extends Model
                             $con->valor_comprometido = $data['discover']['valor_comprometido'];
                         }
                     }
+                    \Auditor::info('save_form_seguimiento files: ', '$con4', $con);
                     //MOTIVOS DE NO PAGO
                     if (isset($data['discover']['nivel_1_motivo_no_pago_id'])) {
                         if ($data['discover']['nivel_1_motivo_no_pago_id'] > 0) {
@@ -796,6 +825,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
+                    \Auditor::info('save_form_seguimiento files: ', '$con5', $con);
                     $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['discover']['observaciones']);
                     $con->ingresos_cliente = $data['discover']['ingresos_cliente'];
                     $con->egresos_cliente = $data['discover']['egresos_cliente'];
@@ -807,6 +837,7 @@ class ProductoSeguimiento extends Model
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->lat = $lat;
                     $con->long = $long;
+                    \Auditor::info('save_form_seguimiento files: ', '$con', $con);
                     $con->save();
                     $seguimientos_id[] = $con->id;
                 }
