@@ -197,13 +197,23 @@ class ProductoController extends BaseController
         $telefono_verificar_id = 0;
         if (isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];
-        } elseif (isset($_REQUEST['telefono'])) {
-            $prod_ver = Producto::getProductoTelefono($_REQUEST['telefono']);
+        } elseif ((isset($_REQUEST['cedula'])) && (isset($_REQUEST['telefono']))) {
+            $prod_ver = Producto::getProductoCliente($_REQUEST['cedula'],$_REQUEST['telefono']);
             if (isset($prod_ver['id'])) {
                 $id = $prod_ver['id'];
                 $telefono_verificar_id = $prod_ver['telefono_id'];
             }
         }
+
+//        if (isset($_REQUEST['id'])) {
+//            $id = $_REQUEST['id'];
+//        } elseif (isset($_REQUEST['telefono'])) {
+//            $prod_ver = Producto::getProductoTelefono($_REQUEST['telefono']);
+//            if (isset($prod_ver['id'])) {
+//                $id = $prod_ver['id'];
+//                $telefono_verificar_id = $prod_ver['telefono_id'];
+//            }
+//        }
 
         if ($id == 0) {
             $this->flash->addMessage('error', 'TELEFONO: ' . $_REQUEST['telefono'] . ' NO EXISTE EN EL SISTEMA');

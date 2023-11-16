@@ -1535,4 +1535,24 @@ class Producto extends Model
         if (!$lista) return [];
         return $lista;
     }
+
+    static function getProductoCliente($cedula, $telefono)
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto p')
+            ->innerJoin('cliente cl ON cl.id = p.cliente_id')
+            ->innerJoin('telefono t ON cl.id = t.modulo_id AND t.modulo_relacionado = "cliente" AND t.eliminado = 0')
+            ->select(null)
+            ->select('p.*, t.id AS telefono_id')
+            ->where('p.eliminado', 0)
+            ->where('p.institucion_id', 1)
+            ->where('cl.cedula', $cedula)
+            ->where('t.telefono', $telefono)
+            ->orderBy('p.fecha_modificacion DESC');
+        $lista = $q->fetch();
+        if (!$lista) return [];
+        return $lista;
+    }
 }
