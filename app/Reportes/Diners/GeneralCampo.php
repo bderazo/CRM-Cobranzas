@@ -37,7 +37,8 @@ class GeneralCampo {
 
         //OBTENER SALDOS
 //        $saldos = AplicativoDinersSaldos::getTodosFecha();
-        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
+//        $saldos = AplicativoDinersSaldos::getTodosRangoFecha($filtros['fecha_inicio'], $filtros['fecha_fin']);
+        $saldos = AplicativoDinersSaldos::getTodosRangoFecha('2023-11-15', '2023-11-15');
 
         //BUSCAR SEGUIMIENTOS RESUMEN
         $q = $db->from('producto_seguimiento ps')
