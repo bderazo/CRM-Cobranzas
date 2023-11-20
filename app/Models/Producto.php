@@ -354,8 +354,8 @@ class Producto extends Model
         $q->orderBy('cl.nombres ASC')
             ->limit(10)
             ->offset($page * 10);
-        \Auditor::error($q->getQuery(), $q->getQuery(), $q->getQuery());
         $lista = $q->fetchAll();
+        \Auditor::error("SQL", 'getProductoList', $lista);
         $retorno = [];
         $seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
         $asignacion = AplicativoDinersAsignaciones::getTodosPorClienteAPI(date("Y-m-d"));
