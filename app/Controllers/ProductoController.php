@@ -372,7 +372,7 @@ class ProductoController extends BaseController
 
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['DINERS'])) {
-                $asignacion['DINERS']['aplicativo'] = $aplicativo_diners_tarjeta_diners;
+                $asignacion['DINERS']['aplicativo'] = count($aplicativo_diners_tarjeta_diners) > 0 ? $aplicativo_diners_tarjeta_diners : [];
                 $asignacion['DINERS']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_diners'];
                 $asignacion['DINERS']['recuperado'] = $saldos['recuperado_diners'];
             }
@@ -414,7 +414,7 @@ class ProductoController extends BaseController
             }
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['DISCOVER'])) {
-                $asignacion['DISCOVER']['aplicativo'] = $aplicativo_diners_tarjeta_discover;
+                $asignacion['DISCOVER']['aplicativo'] = count($aplicativo_diners_tarjeta_discover) > 0 ? $aplicativo_diners_tarjeta_discover : [];
                 $asignacion['DISCOVER']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_discover'];
                 $asignacion['DISCOVER']['recuperado'] = $saldos['recuperado_discover'];
             }
@@ -455,7 +455,7 @@ class ProductoController extends BaseController
             }
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['VISA'])) {
-                $asignacion['VISA']['aplicativo'] = $aplicativo_diners_tarjeta_interdin;
+                $asignacion['VISA']['aplicativo'] = count($aplicativo_diners_tarjeta_interdin) > 0 ? $aplicativo_diners_tarjeta_interdin : [];
                 $asignacion['VISA']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_visa'];
                 $asignacion['VISA']['recuperado'] = $saldos['recuperado_visa'];
             }
@@ -496,7 +496,7 @@ class ProductoController extends BaseController
             }
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['MASTERCARD'])) {
-                $asignacion['MASTERCARD']['aplicativo'] = $aplicativo_diners_tarjeta_mastercard;
+                $asignacion['MASTERCARD']['aplicativo'] = count($aplicativo_diners_tarjeta_mastercard) > 0 ? $aplicativo_diners_tarjeta_mastercard : [];
                 $asignacion['MASTERCARD']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_mastercard'];
                 $asignacion['MASTERCARD']['recuperado'] = $saldos['recuperado_mastercard'];
             }
