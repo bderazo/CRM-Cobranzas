@@ -59,7 +59,7 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="a in asignacion">
-                                    <template v-if="a.aplicativo !== 'undefined'">
+                                    <template v-if="typeof a.aplicativo !== 'undefined'">
 
                                     <template v-if="a.marca == 'DINERS'">
                                         <td style="text-align: center; background-color: #0066A8; color: white; vertical-align: middle; font-weight: bold;">
