@@ -450,11 +450,11 @@ class Producto extends Model
 
             $l['tarjeta_fondo'] = '#FFFFFF';
 
-            if (isset($asignacion[$l['cliente_id']])) {
+//            if (isset($asignacion[$l['cliente_id']])) {
                 $retorno[] = $l;
-            }
+//            }
         }
-        \Auditor::error("SQL", '$retorno', $retorno);
+//        \Auditor::error("SQL", '$retorno', $retorno);
         return $retorno;
     }
 
