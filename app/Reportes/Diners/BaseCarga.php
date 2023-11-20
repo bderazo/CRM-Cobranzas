@@ -120,16 +120,16 @@ class  BaseCarga
                     $seg['campana_ece'] = '';
 
                     if ($seg['tarjeta'] == 'DINERS') {
-                        $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE DINERS']) ? $saldos_arr['MOTIVO CIERRE DINERS'] : '';
-                        $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE DINERS']) ? ($saldos_arr['OBSERVACION CIERRE DINERS'] != '' ? $saldos_arr['OBSERVACION CIERRE DINERS'] : 0) : '0';
-                        $seg['valor_pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO DINERS']) ? $saldos_arr['VALOR PAGO MINIMO DINERS'] : 0;
-                        if (isset($saldos_arr['TIPO DE CAMPAÑA DINERS'])) {
-                            if ($saldos_arr['TIPO DE CAMPAÑA DINERS'] != '') {
-                                $seg['campana_ece'] = $saldos_arr['TIPO DE CAMPAÑA DINERS'];
+                        $seg['motivo_anterior'] = isset($saldos_arr['motivo_cierre_diners']) ? $saldos_arr['motivo_cierre_diners'] : '';
+                        $seg['observacion_anterior'] = isset($saldos_arr['observacion_cierre_diners']) ? ($saldos_arr['observacion_cierre_diners'] != '' ? $saldos_arr['observacion_cierre_diners'] : 0) : '0';
+                        $seg['valor_pago_minimo'] = isset($saldos_arr['valor_pago_minimo_diners']) ? $saldos_arr['valor_pago_minimo_diners'] : 0;
+                        if (isset($saldos_arr['tipo_campana_diners'])) {
+                            if ($saldos_arr['tipo_campana_diners'] != '') {
+                                $seg['campana_ece'] = $saldos_arr['tipo_campana_diners'];
                             }
                         }
                         if ($seg['campana_ece'] == '') {
-                            $seg['campana_ece'] = $saldos_arr['EJECUTIVO DINERS'];
+                            $seg['campana_ece'] = $saldos_arr['ejecutivo_diners'];
                             if (strpos($seg['campana_ece'], 'TELEF')) {
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             } elseif (strpos($seg['campana_ece'], 'DOMICI')) {
@@ -138,19 +138,19 @@ class  BaseCarga
                                 $seg['campana_ece'] = 'PREJURIDICO';
                             }
                         }
-                        $seg['resultado_anterior'] = isset($saldos_arr['MOTIVO CIERRE DINERS']) ? $saldos_arr['VALOR PAGO MINIMO DINERS'] : 0;
+                        $seg['resultado_anterior'] = isset($saldos_arr['motivo_cierre_diners']) ? $saldos_arr['valor_pago_minimo_diners'] : 0;
                     }
                     if ($seg['tarjeta'] == 'INTERDIN') {
-                        $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE VISA']) ? $saldos_arr['MOTIVO CIERRE VISA'] : '';
-                        $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE VISA']) ? ($saldos_arr['OBSERVACION CIERRE VISA'] != '' ? $saldos_arr['OBSERVACION CIERRE VISA'] : 0) : '0';
-                        $seg['valor_pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO VISA']) ? $saldos_arr['VALOR PAGO MINIMO VISA'] : 0;
-                        if (isset($saldos_arr['TIPO DE CAMPAÑA VISA'])) {
-                            if ($saldos_arr['TIPO DE CAMPAÑA VISA'] != '') {
-                                $seg['campana_ece'] = $saldos_arr['TIPO DE CAMPAÑA VISA'];
+                        $seg['motivo_anterior'] = isset($saldos_arr['motivo_cierre_visa']) ? $saldos_arr['motivo_cierre_visa'] : '';
+                        $seg['observacion_anterior'] = isset($saldos_arr['observacion_cierre_visa']) ? ($saldos_arr['observacion_cierre_visa'] != '' ? $saldos_arr['observacion_cierre_visa'] : 0) : '0';
+                        $seg['valor_pago_minimo'] = isset($saldos_arr['valor_pago_minimo_visa']) ? $saldos_arr['valor_pago_minimo_visa'] : 0;
+                        if (isset($saldos_arr['tipo_campana_visa'])) {
+                            if ($saldos_arr['tipo_campana_visa'] != '') {
+                                $seg['campana_ece'] = $saldos_arr['tipo_campana_visa'];
                             }
                         }
                         if ($seg['campana_ece'] == '') {
-                            $seg['campana_ece'] = $saldos_arr['EJECUTIVO VISA'];
+                            $seg['campana_ece'] = $saldos_arr['ejecutivo_visa'];
                             if (strpos($seg['campana_ece'], 'TELEF')) {
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             } elseif (strpos($seg['campana_ece'], 'DOMICI')) {
@@ -162,16 +162,16 @@ class  BaseCarga
                         $seg['tarjeta'] = 'VISA';
                     }
                     if ($seg['tarjeta'] == 'DISCOVER') {
-                        $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE DISCOVER']) ? $saldos_arr['MOTIVO CIERRE DISCOVER'] : '';
-                        $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE DISCOVER']) ? ($saldos_arr['OBSERVACION CIERRE DISCOVER'] != '' ? $saldos_arr['OBSERVACION CIERRE DISCOVER'] : 0) : '0';
-                        $seg['valor_pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO DISCOVER']) ? $saldos_arr['VALOR PAGO MINIMO DISCOVER'] : 0;
-                        if (isset($saldos_arr['TIPO DE CAMPAÑA DISCOVER'])) {
-                            if ($saldos_arr['TIPO DE CAMPAÑA DISCOVER'] != '') {
-                                $seg['campana_ece'] = $saldos_arr['TIPO DE CAMPAÑA DISCOVER'];
+                        $seg['motivo_anterior'] = isset($saldos_arr['motivo_cierre_discover']) ? $saldos_arr['motivo_cierre_discover'] : '';
+                        $seg['observacion_anterior'] = isset($saldos_arr['observacion_cierre_discover']) ? ($saldos_arr['observacion_cierre_discover'] != '' ? $saldos_arr['observacion_cierre_discover'] : 0) : '0';
+                        $seg['valor_pago_minimo'] = isset($saldos_arr['valor_pago_minimo_discover']) ? $saldos_arr['valor_pago_minimo_discover'] : 0;
+                        if (isset($saldos_arr['tipo_campana_discover'])) {
+                            if ($saldos_arr['tipo_campana_discover'] != '') {
+                                $seg['campana_ece'] = $saldos_arr['tipo_campana_discover'];
                             }
                         }
                         if ($seg['campana_ece'] == '') {
-                            $seg['campana_ece'] = $saldos_arr['EJECUTIVO DISCOVER'];
+                            $seg['campana_ece'] = $saldos_arr['ejecutivo_discover'];
                             if (strpos($seg['campana_ece'], 'TELEF')) {
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             } elseif (strpos($seg['campana_ece'], 'DOMICI')) {
@@ -182,16 +182,16 @@ class  BaseCarga
                         }
                     }
                     if ($seg['tarjeta'] == 'MASTERCARD') {
-                        $seg['motivo_anterior'] = isset($saldos_arr['MOTIVO CIERRE MASTERCARD']) ? $saldos_arr['MOTIVO CIERRE MASTERCARD'] : '';
-                        $seg['observacion_anterior'] = isset($saldos_arr['OBSERVACION CIERRE MASTERCARD']) ? ($saldos_arr['OBSERVACION CIERRE MASTERCARD'] != '' ? $saldos_arr['OBSERVACION CIERRE MASTERCARD'] : 0) : '0';
-                        $seg['valor_pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO MASTERCARD']) ? $saldos_arr['VALOR PAGO MINIMO MASTERCARD'] : 0;
-                        if (isset($saldos_arr['TIPO DE CAMPAÑA MASTERCARD'])) {
-                            if ($saldos_arr['TIPO DE CAMPAÑA MASTERCARD'] != '') {
-                                $seg['campana_ece'] = $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'];
+                        $seg['motivo_anterior'] = isset($saldos_arr['motivo_cierre_mastercard']) ? $saldos_arr['motivo_cierre_mastercard'] : '';
+                        $seg['observacion_anterior'] = isset($saldos_arr['observacion_cierre_mastercard']) ? ($saldos_arr['observacion_cierre_mastercard'] != '' ? $saldos_arr['observacion_cierre_mastercard'] : 0) : '0';
+                        $seg['valor_pago_minimo'] = isset($saldos_arr['valor_pago_minimo_mastercard']) ? $saldos_arr['valor_pago_minimo_mastercard'] : 0;
+                        if (isset($saldos_arr['tipo_campana_mastercard'])) {
+                            if ($saldos_arr['tipo_campana_mastercard'] != '') {
+                                $seg['campana_ece'] = $saldos_arr['tipo_campana_mastercard'];
                             }
                         }
                         if ($seg['campana_ece'] == '') {
-                            $seg['campana_ece'] = $saldos_arr['EJECUTIVO MASTERCARD'];
+                            $seg['campana_ece'] = $saldos_arr['ejecutivo_mastercard'];
                             if (strpos($seg['campana_ece'], 'TELEF')) {
                                 $seg['campana_ece'] = 'PORTAFOLIO TELEFONIA';
                             } elseif (strpos($seg['campana_ece'], 'DOMICI')) {

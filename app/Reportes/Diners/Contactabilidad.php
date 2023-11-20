@@ -148,16 +148,16 @@ class Contactabilidad
 
                     $seg['hora_llamada'] = date("H:i:s", strtotime($seg['fecha_ingreso']));
                     if ($seg['tarjeta'] == 'DINERS') {
-                        $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DINERS']) ? $saldos_arr['TIPO DE CAMPAÑA DINERS'] : '';
+                        $seg['campana'] = isset($saldos_arr['tipo_campana_diners']) ? $saldos_arr['tipo_campana_diners'] : '';
                     }
                     if ($seg['tarjeta'] == 'INTERDIN') {
-                        $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA VISA']) ? $saldos_arr['TIPO DE CAMPAÑA VISA'] : '';
+                        $seg['campana'] = isset($saldos_arr['tipo_campana_visa']) ? $saldos_arr['tipo_campana_visa'] : '';
                     }
                     if ($seg['tarjeta'] == 'DISCOVER') {
-                        $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA DISCOVER']) ? $saldos_arr['TIPO DE CAMPAÑA DISCOVER'] : '';
+                        $seg['campana'] = isset($saldos_arr['tipo_campana_discover']) ? $saldos_arr['tipo_campana_discover'] : '';
                     }
                     if ($seg['tarjeta'] == 'MASTERCARD') {
-                        $seg['campana'] = isset($saldos_arr['TIPO DE CAMPAÑA MASTERCARD']) ? $saldos_arr['TIPO DE CAMPAÑA MASTERCARD'] : '';
+                        $seg['campana'] = isset($saldos_arr['tipo_campana_mastercard']) ? $saldos_arr['tipo_campana_mastercard'] : '';
                     }
                     if ($seg['campana'] == '') {
                         $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar]['campana_ece'];

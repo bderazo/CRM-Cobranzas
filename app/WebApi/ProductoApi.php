@@ -1000,7 +1000,7 @@ class ProductoApi extends BaseController
             $retorno = [];
 
             $producto = Producto::porId($producto_id);
-            $saldos = AplicativoDinersSaldos::getSaldosPorClienteFecha($producto['cliente_id'], date("Y-m-d"));
+//            $saldos = AplicativoDinersSaldos::getSaldosPorClienteFecha($producto['cliente_id'], date("Y-m-d"));
 
             $aplicativo_diners = AplicativoDiners::getAplicativoDiners($producto_id);
             $aplicativo_diners_tarjeta_diners = AplicativoDiners::getAplicativoDinersDetalle('DINERS', $producto['cliente_id'], 'original');
@@ -1027,17 +1027,17 @@ class ProductoApi extends BaseController
             }
 
             $motivo_cierre = '';
-            if ($numero_tarjetas == 1) {
-                if ($tarjeta_unica == 'diners') {
-                    $motivo_cierre = isset($saldos['MOTIVO CIERRE DINERS']) ? $saldos['MOTIVO CIERRE DINERS'] : '';
-                } elseif ($tarjeta_unica == 'interdin') {
-                    $motivo_cierre = isset($saldos['MOTIVO CIERRE VISA']) ? $saldos['MOTIVO CIERRE VISA'] : '';
-                } elseif ($tarjeta_unica == 'discover') {
-                    $motivo_cierre = isset($saldos['MOTIVO CIERRE DISCOVER']) ? $saldos['MOTIVO CIERRE DISCOVER'] : '';
-                } elseif ($tarjeta_unica == 'mastercard') {
-                    $motivo_cierre = isset($saldos['MOTIVO CIERRE MASTERCARD']) ? $saldos['MOTIVO CIERRE MASTERCARD'] : '';
-                }
-            }
+//            if ($numero_tarjetas == 1) {
+//                if ($tarjeta_unica == 'diners') {
+//                    $motivo_cierre = isset($saldos['MOTIVO CIERRE DINERS']) ? $saldos['MOTIVO CIERRE DINERS'] : '';
+//                } elseif ($tarjeta_unica == 'interdin') {
+//                    $motivo_cierre = isset($saldos['MOTIVO CIERRE VISA']) ? $saldos['MOTIVO CIERRE VISA'] : '';
+//                } elseif ($tarjeta_unica == 'discover') {
+//                    $motivo_cierre = isset($saldos['MOTIVO CIERRE DISCOVER']) ? $saldos['MOTIVO CIERRE DISCOVER'] : '';
+//                } elseif ($tarjeta_unica == 'mastercard') {
+//                    $motivo_cierre = isset($saldos['MOTIVO CIERRE MASTERCARD']) ? $saldos['MOTIVO CIERRE MASTERCARD'] : '';
+//                }
+//            }
 
             $paleta = Paleta::porId(1);
 

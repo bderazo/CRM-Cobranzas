@@ -151,21 +151,21 @@ class General
                     $producto_codigo = '';
                     if ($res['tarjeta'] == 'DINERS') {
                         $producto_codigo = 'DINC';
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_diners'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_diners'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_diners'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_diners'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_diners'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_diners'];
                     }
                     if ($res['tarjeta'] == 'INTERDIN') {
                         $producto_codigo = 'VISC';
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_visa'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_visa'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_visa'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_visa'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_visa'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_visa'];
                     }
                     if ($res['tarjeta'] == 'DISCOVER') {
                         if ($saldos_arr['PRODUCTO DISCOVER'] == 'DISCOVER') {
@@ -173,21 +173,21 @@ class General
                         } else {
                             $producto_codigo = 'DISCCON';
                         }
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_discover'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_discover'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_discover'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_discover'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_discover'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_discover'];
                     }
                     if ($res['tarjeta'] == 'MASTERCARD') {
                         $producto_codigo = 'MASC';
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_mastercard'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_mastercard'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_mastercard'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_mastercard'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_mastercard'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_mastercard'];
                     }
                     $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
                     $res['codigo_operacion'] = $res['cedula'] . $producto_codigo . $res['ciclo'];
@@ -285,127 +285,127 @@ class General
 
             $saldos_arr = $res['saldos_arr'];
 
-            if (($saldos_arr['EJECUTIVO DINERS'] != '') && ($res['tarjeta'] == 'DINERS')) {
-                if (isset($resumen_totales[$saldos_arr['EJECUTIVO DINERS']])) {
+            if (($saldos_arr['ejecutivo_diners'] != '') && ($res['tarjeta'] == 'DINERS')) {
+                if (isset($resumen_totales[$saldos_arr['ejecutivo_diners']])) {
                     if ($res['nivel_2_id'] == 1859) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_diners']]['refinancia'] = $resumen_totales[$saldos_arr['ejecutivo_diners']]['refinancia'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_diners']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_diners']]['total'] + 1;
                         $refinancia_resumen_total = $refinancia_resumen_total + 1;
                     }
                     if ($res['nivel_2_id'] == 1853) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['notificado'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['notificado'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_diners']]['notificado'] = $resumen_totales[$saldos_arr['ejecutivo_diners']]['notificado'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_diners']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_diners']]['total'] + 1;
                         $notificado_resumen_total = $notificado_resumen_total + 1;
                     }
                 } else {
                     if (($res['nivel_2_id'] == 1859) || ($res['nivel_2_id'] == 1853)) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['campana'] = $saldos_arr['EJECUTIVO DINERS'];
+                        $resumen_totales[$saldos_arr['ejecutivo_diners']]['campana'] = $saldos_arr['ejecutivo_diners'];
                         if ($res['nivel_2_id'] == 1859) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_diners']]['refinancia'] = 1;
                             $refinancia_resumen_total = $refinancia_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_diners']]['refinancia'] = 0;
                         }
                         if ($res['nivel_2_id'] == 1853) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['notificado'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_diners']]['notificado'] = 1;
                             $notificado_resumen_total = $notificado_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['notificado'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_diners']]['notificado'] = 0;
                         }
-                        $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO DINERS']]['notificado'];
+                        $resumen_totales[$saldos_arr['ejecutivo_diners']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_diners']]['refinancia'] + $resumen_totales[$saldos_arr['ejecutivo_diners']]['notificado'];
                     }
                 }
             }
-            if (($saldos_arr['EJECUTIVO VISA'] != '') && ($res['tarjeta'] == 'VISA')) {
-                if (isset($resumen_totales[$saldos_arr['EJECUTIVO VISA']])) {
+            if (($saldos_arr['ejecutivo_visa'] != '') && ($res['tarjeta'] == 'VISA')) {
+                if (isset($resumen_totales[$saldos_arr['ejecutivo_visa']])) {
                     if ($res['nivel_2_id'] == 1859) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_visa']]['refinancia'] = $resumen_totales[$saldos_arr['ejecutivo_visa']]['refinancia'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_visa']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_visa']]['total'] + 1;
                         $refinancia_resumen_total = $refinancia_resumen_total + 1;
                     }
                     if ($res['nivel_2_id'] == 1853) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['notificado'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['notificado'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_visa']]['notificado'] = $resumen_totales[$saldos_arr['ejecutivo_visa']]['notificado'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_visa']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_visa']]['total'] + 1;
                         $notificado_resumen_total = $notificado_resumen_total + 1;
                     }
                 } else {
                     if (($res['nivel_2_id'] == 1859) || ($res['nivel_2_id'] == 1853)) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['campana'] = $saldos_arr['EJECUTIVO VISA'];
+                        $resumen_totales[$saldos_arr['ejecutivo_visa']]['campana'] = $saldos_arr['ejecutivo_visa'];
                         if ($res['nivel_2_id'] == 1859) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_visa']]['refinancia'] = 1;
                             $refinancia_resumen_total = $refinancia_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_visa']]['refinancia'] = 0;
                         }
                         if ($res['nivel_2_id'] == 1853) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['notificado'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_visa']]['notificado'] = 1;
                             $notificado_resumen_total = $notificado_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['notificado'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_visa']]['notificado'] = 0;
                         }
-                        $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO VISA']]['notificado'];
+                        $resumen_totales[$saldos_arr['ejecutivo_visa']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_visa']]['refinancia'] + $resumen_totales[$saldos_arr['ejecutivo_visa']]['notificado'];
                     }
                 }
             }
-            if (($saldos_arr['EJECUTIVO DISCOVER'] != '') && ($res['tarjeta'] == 'DISCOVER')) {
-                if (isset($resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']])) {
+            if (($saldos_arr['ejecutivo_discover'] != '') && ($res['tarjeta'] == 'DISCOVER')) {
+                if (isset($resumen_totales[$saldos_arr['ejecutivo_discover']])) {
                     if ($res['nivel_2_id'] == 1859) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_discover']]['refinancia'] = $resumen_totales[$saldos_arr['ejecutivo_discover']]['refinancia'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_discover']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_discover']]['total'] + 1;
                         $refinancia_resumen_total = $refinancia_resumen_total + 1;
                     }
                     if ($res['nivel_2_id'] == 1853) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['notificado'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['notificado'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_discover']]['notificado'] = $resumen_totales[$saldos_arr['ejecutivo_discover']]['notificado'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_discover']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_discover']]['total'] + 1;
                         $notificado_resumen_total = $notificado_resumen_total + 1;
                     }
                 } else {
                     if (($res['nivel_2_id'] == 1859) || ($res['nivel_2_id'] == 1853)) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['campana'] = $saldos_arr['EJECUTIVO DISCOVER'];
+                        $resumen_totales[$saldos_arr['ejecutivo_discover']]['campana'] = $saldos_arr['ejecutivo_discover'];
                         if ($res['nivel_2_id'] == 1859) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_discover']]['refinancia'] = 1;
                             $refinancia_resumen_total = $refinancia_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_discover']]['refinancia'] = 0;
                         }
                         if ($res['nivel_2_id'] == 1853) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['notificado'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_discover']]['notificado'] = 1;
                             $notificado_resumen_total = $notificado_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['notificado'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_discover']]['notificado'] = 0;
                         }
-                        $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO DISCOVER']]['notificado'];
+                        $resumen_totales[$saldos_arr['ejecutivo_discover']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_discover']]['refinancia'] + $resumen_totales[$saldos_arr['ejecutivo_discover']]['notificado'];
                     }
                 }
             }
-            if (($saldos_arr['EJECUTIVO MASTERCARD'] != '') && ($res['tarjeta'] == 'MASTERCARD')) {
-                if (isset($resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']])) {
+            if (($saldos_arr['ejecutivo_mastercard'] != '') && ($res['tarjeta'] == 'MASTERCARD')) {
+                if (isset($resumen_totales[$saldos_arr['ejecutivo_mastercard']])) {
                     if ($res['nivel_2_id'] == 1859) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['refinancia'] = $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['refinancia'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['total'] + 1;
                         $refinancia_resumen_total = $refinancia_resumen_total + 1;
                     }
                     if ($res['nivel_2_id'] == 1853) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['notificado'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['notificado'] + 1;
-                        $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['total'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['notificado'] = $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['notificado'] + 1;
+                        $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['total'] + 1;
                         $notificado_resumen_total = $notificado_resumen_total + 1;
                     }
                 } else {
                     if (($res['nivel_2_id'] == 1859) || ($res['nivel_2_id'] == 1853)) {
-                        $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['campana'] = $saldos_arr['EJECUTIVO MASTERCARD'];
+                        $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['campana'] = $saldos_arr['ejecutivo_mastercard'];
                         if ($res['nivel_2_id'] == 1859) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['refinancia'] = 1;
                             $refinancia_resumen_total = $refinancia_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['refinancia'] = 0;
                         }
                         if ($res['nivel_2_id'] == 1853) {
-                            $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['notificado'] = 1;
+                            $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['notificado'] = 1;
                             $notificado_resumen_total = $notificado_resumen_total + 1;
                         } else {
-                            $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['notificado'] = 0;
+                            $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['notificado'] = 0;
                         }
-                        $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['total'] = $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['refinancia'] + $resumen_totales[$saldos_arr['EJECUTIVO MASTERCARD']]['notificado'];
+                        $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['total'] = $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['refinancia'] + $resumen_totales[$saldos_arr['ejecutivo_mastercard']]['notificado'];
                     }
                 }
             }

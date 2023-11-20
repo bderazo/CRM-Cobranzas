@@ -121,36 +121,36 @@ class InformeJornada {
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
                     if($res['tarjeta'] == 'DINERS'){
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DINERS'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DINERS'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DINERS'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DINERS'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DINERS'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DINERS'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_diners'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_diners'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_diners'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_diners'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_diners'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_diners'];
                     }
                     if($res['tarjeta'] == 'INTERDIN') {
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES VISA'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS VISA'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS VISA'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS VISA'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS VISA'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL VISA'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_visa'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_visa'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_visa'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_visa'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_visa'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_visa'];
                     }
                     if($res['tarjeta'] == 'DISCOVER') {
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES DISCOVER'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS DISCOVER'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS DISCOVER'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS DISCOVER'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS DISCOVER'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL DISCOVER'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_discover'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_discover'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_discover'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_discover'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_discover'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_discover'];
                     }
                     if($res['tarjeta'] == 'MASTERCARD') {
-                        $res['pendiente_actuales'] = $saldos_arr['PENDIENTE ACTUALES MASTERCARD'];
-                        $res['pendiente_30'] = $saldos_arr['PENDIENTE 30 DIAS MASTERCARD'];
-                        $res['pendiente_60'] = $saldos_arr['PENDIENTE 60 DIAS MASTERCARD'];
-                        $res['pendiente_90'] = $saldos_arr['PENDIENTE 90 DIAS MASTERCARD'];
-                        $res['pendiente_mas_90'] = $saldos_arr['PENDIENTE MAS 90 DIAS MASTERCARD'];
-                        $res['edad_cartera'] = $saldos_arr['EDAD REAL MASTERCARD'];
+                        $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_mastercard'];
+                        $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_mastercard'];
+                        $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_mastercard'];
+                        $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_mastercard'];
+                        $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_mastercard'];
+                        $res['edad_cartera'] = $saldos_arr['edad_real_mastercard'];
                     }
                     $res['fecha_ingreso_fecha'] = date("Y-m-d", strtotime($res['fecha_ingreso']));
                     $res['fecha_ingreso_hora'] = date("His", strtotime($res['fecha_ingreso']));

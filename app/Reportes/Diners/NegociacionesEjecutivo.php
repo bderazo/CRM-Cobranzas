@@ -99,40 +99,40 @@ class NegociacionesEjecutivo
                     unset($saldos_arr['campos']);
                     $saldos_arr = array_merge($saldos_arr, $campos_saldos);
                     if($seg['tarjeta'] == 'DINERS') {
-                        $seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO DINERS']) ? $saldos_arr['ACTUALES FACTURADO DINERS'] : 0;
-                        $seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO DINERS']) ? $saldos_arr['30 DIAS FACTURADO DINERS'] : 0;
-                        $seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO DINERS']) ? $saldos_arr['60 DIAS FACTURADO DINERS'] : 0;
-                        $seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO DINERS']) ? $saldos_arr['90 DIAS FACTURADO DINERS'] : 0;
-                        $seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO DINERS']) ? $saldos_arr['MAS 90 DIAS FACTURADO DINERS'] : 0;
-                        $seg['nota_credito'] = isset($saldos_arr['CREDITO DINERS']) ? $saldos_arr['CREDITO DINERS'] : 0;
-                        $seg['pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO DINERS']) ? $saldos_arr['VALOR PAGO MINIMO DINERS'] : 0;
+                        $seg['actuales_orig'] = isset($saldos_arr['actuales_facturado_diners']) ? $saldos_arr['actuales_facturado_diners'] : 0;
+                        $seg['d30_orig'] = isset($saldos_arr['facturado_30_dias_diners']) ? $saldos_arr['facturado_30_dias_diners'] : 0;
+                        $seg['d60_orig'] = isset($saldos_arr['facturado_60_dias_diners']) ? $saldos_arr['facturado_60_dias_diners'] : 0;
+                        $seg['d90_orig'] = isset($saldos_arr['facturado_90_dias_diners']) ? $saldos_arr['facturado_90_dias_diners'] : 0;
+                        $seg['dmas90_orig'] = isset($saldos_arr['facturado_mas90_dias_diners']) ? $saldos_arr['facturado_mas90_dias_diners'] : 0;
+                        $seg['nota_credito'] = isset($saldos_arr['credito_diners']) ? $saldos_arr['credito_diners'] : 0;
+                        $seg['pago_minimo'] = isset($saldos_arr['valor_pago_minimo_diners']) ? $saldos_arr['valor_pago_minimo_diners'] : 0;
                     }
                     if($seg['tarjeta'] == 'INTERDIN') {
-                        $seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO VISA']) ? $saldos_arr['ACTUALES FACTURADO VISA'] : 0;
-                        $seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO VISA']) ? $saldos_arr['30 DIAS FACTURADO VISA'] : 0;
-                        $seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO VISA']) ? $saldos_arr['60 DIAS FACTURADO VISA'] : 0;
-                        $seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO VISA']) ? $saldos_arr['90 DIAS FACTURADO VISA'] : 0;
-                        $seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO VISA']) ? $saldos_arr['MAS 90 DIAS FACTURADO VISA'] : 0;
-                        $seg['nota_credito'] = isset($saldos_arr['CREDITO VISA']) ? $saldos_arr['CREDITO VISA'] : 0;
-                        $seg['pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO VISA']) ? $saldos_arr['VALOR PAGO MINIMO VISA'] : 0;
+                        $seg['actuales_orig'] = isset($saldos_arr['actuales_facturado_visa']) ? $saldos_arr['actuales_facturado_visa'] : 0;
+                        $seg['d30_orig'] = isset($saldos_arr['facturado_30_visa']) ? $saldos_arr['facturado_30_visa'] : 0;
+                        $seg['d60_orig'] = isset($saldos_arr['facturado_60_visa']) ? $saldos_arr['facturado_60_visa'] : 0;
+                        $seg['d90_orig'] = isset($saldos_arr['facturado_90_visa']) ? $saldos_arr['facturado_90_visa'] : 0;
+                        $seg['dmas90_orig'] = isset($saldos_arr['facturado_mas90_visa']) ? $saldos_arr['facturado_mas90_visa'] : 0;
+                        $seg['nota_credito'] = isset($saldos_arr['credito_visa']) ? $saldos_arr['credito_visa'] : 0;
+                        $seg['pago_minimo'] = isset($saldos_arr['valor_pago_minimo_visa']) ? $saldos_arr['valor_pago_minimo_visa'] : 0;
                     }
                     if($seg['tarjeta'] == 'DISCOVER') {
-                        $seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO DISCOVER']) ? $saldos_arr['ACTUALES FACTURADO DISCOVER'] : 0;
-                        $seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO DISCOVER']) ? $saldos_arr['30 DIAS FACTURADO DISCOVER'] : 0;
-                        $seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO DISCOVER']) ? $saldos_arr['60 DIAS FACTURADO DISCOVER'] : 0;
-                        $seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO DISCOVER']) ? $saldos_arr['90 DIAS FACTURADO DISCOVER'] : 0;
-                        $seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO DISCOVER']) ? $saldos_arr['MAS 90 DIAS FACTURADO DISCOVER'] : 0;
-                        $seg['nota_credito'] = isset($saldos_arr['CREDITO DISCOVER']) ? $saldos_arr['CREDITO DISCOVER'] : 0;
-                        $seg['pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO DISCOVER']) ? $saldos_arr['VALOR PAGO MINIMO DISCOVER'] : 0;
+                        $seg['actuales_orig'] = isset($saldos_arr['actuales_facturado_discover']) ? $saldos_arr['actuales_facturado_discover'] : 0;
+                        $seg['d30_orig'] = isset($saldos_arr['facturado_30_discover']) ? $saldos_arr['facturado_30_discover'] : 0;
+                        $seg['d60_orig'] = isset($saldos_arr['facturado_60_discover']) ? $saldos_arr['facturado_60_discover'] : 0;
+                        $seg['d90_orig'] = isset($saldos_arr['facturado_90_discover']) ? $saldos_arr['facturado_90_discover'] : 0;
+                        $seg['dmas90_orig'] = isset($saldos_arr['facturado_mas90_discover']) ? $saldos_arr['facturado_mas90_discover'] : 0;
+                        $seg['nota_credito'] = isset($saldos_arr['credito_discover']) ? $saldos_arr['credito_discover'] : 0;
+                        $seg['pago_minimo'] = isset($saldos_arr['valor_pago_minimo_discover']) ? $saldos_arr['valor_pago_minimo_discover'] : 0;
                     }
                     if($seg['tarjeta'] == 'MASTERCARD') {
-                        $seg['actuales_orig'] = isset($saldos_arr['ACTUALES FACTURADO MASTERCARD']) ? $saldos_arr['ACTUALES FACTURADO MASTERCARD'] : 0;
-                        $seg['d30_orig'] = isset($saldos_arr['30 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['30 DIAS FACTURADO MASTERCARD'] : 0;
-                        $seg['d60_orig'] = isset($saldos_arr['60 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['60 DIAS FACTURADO MASTERCARD'] : 0;
-                        $seg['d90_orig'] = isset($saldos_arr['90 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['90 DIAS FACTURADO MASTERCARD'] : 0;
-                        $seg['dmas90_orig'] = isset($saldos_arr['MAS 90 DIAS FACTURADO MASTERCARD']) ? $saldos_arr['MAS 90 DIAS FACTURADO MASTERCARD'] : 0;
-                        $seg['nota_credito'] = isset($saldos_arr['CREDITO MASTERCARD']) ? $saldos_arr['CREDITO MASTERCARD'] : 0;
-                        $seg['pago_minimo'] = isset($saldos_arr['VALOR PAGO MINIMO MASTERCARD']) ? $saldos_arr['VALOR PAGO MINIMO MASTERCARD'] : 0;
+                        $seg['actuales_orig'] = isset($saldos_arr['actuales_facturado_mastercard']) ? $saldos_arr['actuales_facturado_mastercard'] : 0;
+                        $seg['d30_orig'] = isset($saldos_arr['facturado_30_mastercard']) ? $saldos_arr['facturado_30_mastercard'] : 0;
+                        $seg['d60_orig'] = isset($saldos_arr['facturado_60_mastercard']) ? $saldos_arr['facturado_60_mastercard'] : 0;
+                        $seg['d90_orig'] = isset($saldos_arr['facturado_90_mastercard']) ? $saldos_arr['facturado_90_mastercard'] : 0;
+                        $seg['dmas90_orig'] = isset($saldos_arr['facturado_mas90_mastercard']) ? $saldos_arr['facturado_mas90_mastercard'] : 0;
+                        $seg['nota_credito'] = isset($saldos_arr['credito_mastercard']) ? $saldos_arr['credito_mastercard'] : 0;
+                        $seg['pago_minimo'] = isset($saldos_arr['valor_pago_minimo_mastercard']) ? $saldos_arr['valor_pago_minimo_mastercard'] : 0;
                     }
                     $seg['total'] = (float)$seg['pago_minimo'] - (float)$seg['nota_credito'];
                     $seg['total_format'] = number_format($seg['total'], 2,'.',',');

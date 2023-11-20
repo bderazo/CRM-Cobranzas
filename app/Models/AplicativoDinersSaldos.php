@@ -17,6 +17,131 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer usuario_ingreso
  * @property integer usuario_modificacion
  * @property boolean eliminado
+ * 
+ * @property string tipo_campana_diners
+ * @property string ejecutivo_diners
+ * @property integer ciclo_diners
+ * @property integer edad_real_diners
+ * @property string producto_diners
+ * @property double saldo_total_deuda_diners
+ * @property double riesgo_total_diners
+ * @property double intereses_total_diners
+ * @property double actuales_facturado_diners
+ * @property double facturado_30_dias_diners
+ * @property double facturado_60_dias_diners
+ * @property double facturado_90_dias_diners
+ * @property double facturado_mas90_dias_diners
+ * @property double credito_diners
+ * @property double recuperado_diners
+ * @property double valor_pago_minimo_diners
+ * @property string fecha_maxima_pago_diners
+ * @property integer numero_diferidos_diners
+ * @property integer numero_refinanciaciones_historicas_diners
+ * @property integer plazo_financiamiento_actual_diners
+ * @property string motivo_cierre_diners
+ * @property string observacion_cierre_diners
+ * @property string oferta_valor_diners
+ * 
+ * @property string tipo_campana_visa
+ * @property string ejecutivo_visa
+ * @property integer ciclo_visa
+ * @property integer edad_real_visa
+ * @property string producto_visa
+ * @property double saldo_total_deuda_visa
+ * @property double riesgo_total_visa
+ * @property double intereses_total_visa
+ * @property double actuales_facturado_visa
+ * @property double facturado_30_dias_visa
+ * @property double facturado_60_dias_visa
+ * @property double facturado_90_dias_visa
+ * @property double facturado_mas90_dias_visa
+ * @property double credito_visa
+ * @property double recuperado_visa
+ * @property double valor_pago_minimo_visa
+ * @property string fecha_maxima_pago_visa
+ * @property integer numero_diferidos_visa
+ * @property integer numero_refinanciaciones_historicas_visa
+ * @property integer plazo_financiamiento_actual_visa
+ * @property string motivo_cierre_visa
+ * @property string observacion_cierre_visa
+ * @property string oferta_valor_visa
+ * 
+ * @property string tipo_campana_discover
+ * @property string ejecutivo_discover
+ * @property integer ciclo_discover
+ * @property integer edad_real_discover
+ * @property string producto_discover
+ * @property double saldo_total_deuda_discover
+ * @property double riesgo_total_discover
+ * @property double intereses_total_discover
+ * @property double actuales_facturado_discover
+ * @property double facturado_30_dias_discover
+ * @property double facturado_60_dias_discover
+ * @property double facturado_90_dias_discover
+ * @property double facturado_mas90_dias_discover
+ * @property double credito_discover
+ * @property double recuperado_discover
+ * @property double valor_pago_minimo_discover
+ * @property string fecha_maxima_pago_discover
+ * @property integer numero_diferidos_discover
+ * @property integer numero_refinanciaciones_historicas_discover
+ * @property integer plazo_financiamiento_actual_discover
+ * @property string motivo_cierre_discover
+ * @property string observacion_cierre_discover
+ * @property string oferta_valor_discover
+ * 
+ * @property string tipo_campana_mastercard
+ * @property string ejecutivo_mastercard
+ * @property integer ciclo_mastercard
+ * @property integer edad_real_mastercard
+ * @property string producto_mastercard
+ * @property double saldo_total_deuda_mastercard
+ * @property double riesgo_total_mastercard
+ * @property double intereses_total_mastercard
+ * @property double actuales_facturado_mastercard
+ * @property double facturado_30_dias_mastercard
+ * @property double facturado_60_dias_mastercard
+ * @property double facturado_90_dias_mastercard
+ * @property double facturado_mas90_dias_mastercard
+ * @property double credito_mastercard
+ * @property double recuperado_mastercard
+ * @property double valor_pago_minimo_mastercard
+ * @property string fecha_maxima_pago_mastercard
+ * @property integer numero_diferidos_mastercard
+ * @property integer numero_refinanciaciones_historicas_mastercard
+ * @property integer plazo_financiamiento_actual_mastercard
+ * @property string motivo_cierre_mastercard
+ * @property string observacion_cierre_mastercard
+ * @property string oferta_valor_mastercard
+ * 
+ * @property double pendiente_actuales_diners
+ * @property double pendiente_30_dias_diners
+ * @property double pendiente_60_dias_diners
+ * @property double pendiente_90_dias_diners
+ * @property double pendiente_mas90_dias_diners
+ * 
+ * @property double pendiente_actuales_visa
+ * @property double pendiente_30_dias_visa
+ * @property double pendiente_60_dias_visa
+ * @property double pendiente_90_dias_visa
+ * @property double pendiente_mas90_dias_visa
+ * 
+ * @property double pendiente_actuales_discover
+ * @property double pendiente_30_dias_discover
+ * @property double pendiente_60_dias_discover
+ * @property double pendiente_90_dias_discover
+ * @property double pendiente_mas90_dias_discover
+ * 
+ * @property double pendiente_actuales_mastercard
+ * @property double pendiente_30_dias_mastercard
+ * @property double pendiente_60_dias_mastercard
+ * @property double pendiente_90_dias_mastercard
+ * @property double pendiente_mas90_dias_mastercard
+ * 
+ * @property string credito_inmediato_diners
+ * @property string credito_inmediato_visa
+ * @property string credito_inmediato_discover
+ * @property string credito_inmediato_mastercard
  */
 class AplicativoDinersSaldos extends Model
 {

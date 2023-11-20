@@ -373,8 +373,8 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['DINERS'])) {
                 $asignacion['DINERS']['aplicativo'] = $aplicativo_diners_tarjeta_diners;
-                $asignacion['DINERS']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO DINERS'];
-                $asignacion['DINERS']['recuperado'] = $saldos['RECUPERADO DINERS'];
+                $asignacion['DINERS']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_diners'];
+                $asignacion['DINERS']['recuperado'] = $saldos['recuperado_diners'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'diners';
@@ -415,8 +415,8 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['DISCOVER'])) {
                 $asignacion['DISCOVER']['aplicativo'] = $aplicativo_diners_tarjeta_discover;
-                $asignacion['DISCOVER']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO DISCOVER'];
-                $asignacion['DISCOVER']['recuperado'] = $saldos['RECUPERADO DISCOVER'];
+                $asignacion['DISCOVER']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_discover'];
+                $asignacion['DISCOVER']['recuperado'] = $saldos['recuperado_discover'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'discover';
@@ -456,8 +456,8 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['VISA'])) {
                 $asignacion['VISA']['aplicativo'] = $aplicativo_diners_tarjeta_interdin;
-                $asignacion['VISA']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO VISA'];
-                $asignacion['VISA']['recuperado'] = $saldos['RECUPERADO VISA'];
+                $asignacion['VISA']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_visa'];
+                $asignacion['VISA']['recuperado'] = $saldos['recuperado_visa'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'interdin';
@@ -497,8 +497,8 @@ class ProductoController extends BaseController
             //DATOS DE ASIGNACIONES
             if (isset($asignacion['MASTERCARD'])) {
                 $asignacion['MASTERCARD']['aplicativo'] = $aplicativo_diners_tarjeta_mastercard;
-                $asignacion['MASTERCARD']['fecha_maxima_pago'] = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
-                $asignacion['MASTERCARD']['recuperado'] = $saldos['RECUPERADO MASTERCARD'];
+                $asignacion['MASTERCARD']['fecha_maxima_pago'] = $saldos['fecha_maxima_pago_mastercard'];
+                $asignacion['MASTERCARD']['recuperado'] = $saldos['recuperado_mastercard'];
             }
             $numero_tarjetas++;
             $tarjeta_unica = 'mastercard';
@@ -580,8 +580,8 @@ class ProductoController extends BaseController
 
         if ($numero_tarjetas == 1) {
             if ($tarjeta_unica == 'diners') {
-                $motivo_cierre = $saldos['MOTIVO CIERRE DINERS'];
-                $fecha_cobro = $saldos['FECHA MAXIMA PAGO DINERS'];
+                $motivo_cierre = $saldos['motivo_cierre_diners'];
+                $fecha_cobro = $saldos['fecha_maxima_pago_diners'];
                 $fecha_maxima_compromiso_diners = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
                 if ($fecha_cobro != '') {
                     if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
@@ -589,8 +589,8 @@ class ProductoController extends BaseController
                     }
                 }
             } elseif ($tarjeta_unica == 'interdin') {
-                $motivo_cierre = $saldos['MOTIVO CIERRE VISA'];
-                $fecha_cobro = $saldos['FECHA MAXIMA PAGO VISA'];
+                $motivo_cierre = $saldos['motivo_cierre_visa'];
+                $fecha_cobro = $saldos['fecha_maxima_pago_visa'];
                 $fecha_maxima_compromiso_interdin = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
                 if ($fecha_cobro != '') {
                     if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
@@ -598,8 +598,8 @@ class ProductoController extends BaseController
                     }
                 }
             } elseif ($tarjeta_unica == 'discover') {
-                $motivo_cierre = $saldos['MOTIVO CIERRE DISCOVER'];
-                $fecha_cobro = $saldos['FECHA MAXIMA PAGO DISCOVER'];
+                $motivo_cierre = $saldos['motivo_cierre_discover'];
+                $fecha_cobro = $saldos['fecha_maxima_pago_discover'];
                 $fecha_maxima_compromiso_discover = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
                 if ($fecha_cobro != '') {
                     if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
@@ -607,8 +607,8 @@ class ProductoController extends BaseController
                     }
                 }
             } elseif ($tarjeta_unica == 'mastercard') {
-                $motivo_cierre = $saldos['MOTIVO CIERRE MASTERCARD'];
-                $fecha_cobro = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
+                $motivo_cierre = $saldos['motivo_cierre_mastercard'];
+                $fecha_cobro = $saldos['fecha_maxima_pago_mastercard'];
                 $fecha_maxima_compromiso_mastercard = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
                 if ($fecha_cobro != '') {
                     if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
@@ -665,7 +665,7 @@ class ProductoController extends BaseController
 
         } else {
             //DINERS
-            $fecha_cobro = $saldos['FECHA MAXIMA PAGO DINERS'];
+            $fecha_cobro = $saldos['fecha_maxima_pago_diners'];
             $fecha_maxima_compromiso_diners = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
             if ($fecha_cobro != '') {
                 if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
@@ -674,7 +674,7 @@ class ProductoController extends BaseController
             }
 
             //INTERDIN
-            $fecha_cobro = $saldos['FECHA MAXIMA PAGO VISA'];
+            $fecha_cobro = $saldos['fecha_maxima_pago_visa'];
             $fecha_maxima_compromiso_interdin = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
             if ($fecha_cobro != '') {
                 if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
@@ -683,7 +683,7 @@ class ProductoController extends BaseController
             }
 
             //DISCOVER
-            $fecha_cobro = $saldos['FECHA MAXIMA PAGO DISCOVER'];
+            $fecha_cobro = $saldos['fecha_maxima_pago_discover'];
             $fecha_maxima_compromiso_discover = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
             if ($fecha_cobro != '') {
                 if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
@@ -692,7 +692,7 @@ class ProductoController extends BaseController
             }
 
             //MASTERCARD
-            $fecha_cobro = $saldos['FECHA MAXIMA PAGO MASTERCARD'];
+            $fecha_cobro = $saldos['fecha_maxima_pago_mastercard'];
             $fecha_maxima_compromiso_mastercard = GeneralHelper::sumarDiasLaborables(date("Y-m-d"), 3);
             if ($fecha_cobro != '') {
                 if (strtotime(date("Y-m-d")) < strtotime($fecha_cobro)) {
