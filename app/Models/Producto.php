@@ -355,7 +355,6 @@ class Producto extends Model
             ->limit(10)
             ->offset($page * 10);
         $lista = $q->fetchAll();
-        \Auditor::error("SQL", 'getProductoList', $lista);
         $retorno = [];
         $seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
         $asignacion = AplicativoDinersAsignaciones::getTodosPorClienteAPI(date("Y-m-d"));
@@ -443,6 +442,8 @@ class Producto extends Model
 
 
             $l['campos'] = $campos;
+
+            \Auditor::error("SQL", 'campos', $campos);
 
             if ($l['institucion_id'] == 1) {
                 $l['mostrar_acuerdo_diners'] = true;
