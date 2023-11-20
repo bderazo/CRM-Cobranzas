@@ -440,10 +440,7 @@ class Producto extends Model
                 'order' => 1,
             ];
 
-
             $l['campos'] = $campos;
-
-            \Auditor::error("SQL", 'campos', $campos);
 
             if ($l['institucion_id'] == 1) {
                 $l['mostrar_acuerdo_diners'] = true;
@@ -457,6 +454,7 @@ class Producto extends Model
                 $retorno[] = $l;
             }
         }
+        \Auditor::error("SQL", '$retorno', $retorno);
         return $retorno;
     }
 
