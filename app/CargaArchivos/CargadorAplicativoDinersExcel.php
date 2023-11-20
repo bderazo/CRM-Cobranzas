@@ -71,6 +71,7 @@ class CargadorAplicativoDinersExcel
 			$email_todos = Email::getTodos();
 			$productos_todos = Producto::porInstitucioVerificar(1);
 			$aplicativo_diners_todos = AplicativoDiners::porInstitucioVerificar(1);
+        $aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 //			$aplicativo_diners_detalle_todos = AplicativoDinersDetalle::porTipo('original');
             //ELIMINAR LOS ORIGINALES DE APLICATIVO DINERS DETALLE
             $query = $db->deleteFrom('aplicativo_diners_detalle')->where('tipo', 'original')->execute();
@@ -120,8 +121,8 @@ class CargadorAplicativoDinersExcel
 					} else {
 						//MODIFICAR CLIENTE
 						$set = [
-							'cedula' => $values[0],
-							'nombres' => $values[1],
+//							'cedula' => $values[0],
+//							'nombres' => $values[1],
 							'lugar_trabajo' => $values[2],
 							'ciudad' => $values[10],
 							'zona' => $values[11],
@@ -408,25 +409,25 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_procesados[] = $aplicativo_diners_id;
 					} else {
 						//MODIFICAR APLICATIVO DINERS
-						$set = [
-							'ciudad_gestion' => $values[10],
-							'fecha_elaboracion' => date("Y-m-d H:i:s"),
-							'cedula_socio' => $cliente_cedula,
-							'nombre_socio' => $values[1],
-							'direccion' => trim($values[3]),
-							'mail_contacto' => $values[12],
-							'ciudad_cuenta' => $values[10],
-							'zona_cuenta' => $values[11],
-							'seguro_desgravamen' => $values[132],
-                            'unificacion_deuda' => $values[6],
-                            'condoncacion_interes' => $values[8],
-							'estado' => 'asignado_megacob',
-							'fecha_gestionar' => null,
-							'usuario_asignado' => 0,
-							'fecha_modificacion' => date("Y-m-d H:i:s"),
-							'usuario_modificacion' => \WebSecurity::getUserData('id'),
-						];
-						$query = $db->update('aplicativo_diners')->set($set)->where('id', $aplicativo_diners_id)->execute();
+//						$set = [
+//							'ciudad_gestion' => $values[10],
+//							'fecha_elaboracion' => date("Y-m-d H:i:s"),
+//							'cedula_socio' => $cliente_cedula,
+//							'nombre_socio' => $values[1],
+//							'direccion' => trim($values[3]),
+//							'mail_contacto' => $values[12],
+//							'ciudad_cuenta' => $values[10],
+//							'zona_cuenta' => $values[11],
+//							'seguro_desgravamen' => $values[132],
+//                            'unificacion_deuda' => $values[6],
+//                            'condoncacion_interes' => $values[8],
+//							'estado' => 'asignado_megacob',
+//							'fecha_gestionar' => null,
+//							'usuario_asignado' => 0,
+//							'fecha_modificacion' => date("Y-m-d H:i:s"),
+//							'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//						];
+//						$query = $db->update('aplicativo_diners')->set($set)->where('id', $aplicativo_diners_id)->execute();
 						$aplicativo_diners_procesados[] = $aplicativo_diners_id;
 					}
 
@@ -524,16 +525,9 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['deuda_actual'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaDinersCargaAplicativo($aplicativo_diners_detalle);
+						$datos_calculados = Producto::calculosTarjetaDinersCargaAplicativo($aplicativo_diners_detalle, $aplicativo_diners_porcentaje_interes);
 
 						//VERIFICAR SI EXISTE
-//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DINERS'])) {
-//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DINERS']['id'];
-//							//MODIFICAR APLICATIVO DINERS
-//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -546,8 +540,6 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-//						}
-
 					}
 
 					//TARJETA INTERDIN
@@ -641,16 +633,9 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle);
+						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle, $aplicativo_diners_porcentaje_interes);
 
 						//VERIFICAR SI EXISTE
-//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'INTERDIN'])) {
-//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'INTERDIN']['id'];
-//							//MODIFICAR APLICATIVO DINERS
-//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -663,7 +648,6 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-//						}
 					}
 
 					//TARJETA DISCOVER
@@ -680,11 +664,6 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['total_riesgo'] = $values[90];
 						$aplicativo_diners_detalle['ciclo'] = $values[91];
 						$aplicativo_diners_detalle['edad_cartera'] = $values[92];
-//						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-//						}else{
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-//						}
 						$aplicativo_diners_detalle['saldo_actual_facturado'] = $values[93];
 						$aplicativo_diners_detalle['saldo_30_facturado'] = $values[94];
 						$aplicativo_diners_detalle['saldo_60_facturado'] = $values[95];
@@ -729,13 +708,6 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['nc_facturar'] = $values[111];
 						$aplicativo_diners_detalle['abono_efectivo_sistema'] = $values[119];
 
-						//CALCULO DE ABONO NEGOCIADOR
-//					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
-//					if($abono_negociador > 0){
-//						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
-//					}else{
-//						$aplicativo_diners_detalle['abono_negociador'] = 0;
-//					}
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[114];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[116];
@@ -753,17 +725,9 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['oferta_valor'] = $values[176];
                         $aplicativo_diners_detalle['observaciones_diferidos_historicos'] = $values[77];
 						$aplicativo_diners_detalle['refinanciaciones_anteriores'] = $values[180];
-//						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-//						}else{
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-//						}
+
 						$aplicativo_diners_detalle['cardia'] = $values[184];
-//						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-//						}else{
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-//						}
+
 						$aplicativo_diners_detalle['unificar_deudas'] = 'NO';
 						$aplicativo_diners_detalle['exigible_financiamiento'] = 'NO';
 						$cuotas_pendientes = $aplicativo_diners_detalle['numero_cuotas_pendientes'];
@@ -778,16 +742,9 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle);
+						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle, $aplicativo_diners_porcentaje_interes);
 
 						//VERIFICAR SI EXISTE
-//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DISCOVER'])) {
-//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'DISCOVER']['id'];
-//							//MODIFICAR APLICATIVO DINERS
-//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -800,7 +757,6 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-//						}
 					}
 
 					//TARJETA MASTERCARD
@@ -817,11 +773,7 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['total_riesgo'] = $values[137];
 						$aplicativo_diners_detalle['ciclo'] = $values[138];
 						$aplicativo_diners_detalle['edad_cartera'] = $values[139];
-//						if($aplicativo_diners_detalle['edad_cartera'] <= 60){
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-//						}else{
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-//						}
+
 						$aplicativo_diners_detalle['saldo_actual_facturado'] = $values[140];
 						$aplicativo_diners_detalle['saldo_30_facturado'] = $values[141];
 						$aplicativo_diners_detalle['saldo_60_facturado'] = $values[142];
@@ -866,13 +818,6 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['nc_facturar'] = $values[158];
 						$aplicativo_diners_detalle['abono_efectivo_sistema'] = $values[166];
 
-						//CALCULO DE ABONO NEGOCIADOR
-//					$abono_negociador = $aplicativo_diners_detalle['interes_facturado'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
-//					if($abono_negociador > 0){
-//						$aplicativo_diners_detalle['abono_negociador'] = number_format($abono_negociador,2,'.','');
-//					}else{
-//						$aplicativo_diners_detalle['abono_negociador'] = 0;
-//					}
 						$aplicativo_diners_detalle['abono_negociador'] = 0;
 						$aplicativo_diners_detalle['numero_cuotas_pendientes'] = $values[161];
 						$aplicativo_diners_detalle['valor_cuotas_pendientes'] = $values[163];
@@ -890,17 +835,9 @@ class CargadorAplicativoDinersExcel
 						$aplicativo_diners_detalle['oferta_valor'] = $values[177];
                         $aplicativo_diners_detalle['observaciones_diferidos_historicos'] = $values[80];
 						$aplicativo_diners_detalle['refinanciaciones_anteriores'] = $values[181];
-//						if($aplicativo_diners_detalle['refinanciaciones_anteriores'] < 4){
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-//						}else{
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-//						}
+
 						$aplicativo_diners_detalle['cardia'] = $values[185];
-//						if($aplicativo_diners_detalle['cardia'] == 'USAR REFINANCIACION'){
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'automatica';
-//						}else{
-//							$aplicativo_diners_detalle['tipo_negociacion'] = 'manual';
-//						}
+
 						$aplicativo_diners_detalle['unificar_deudas'] = 'NO';
 						$aplicativo_diners_detalle['exigible_financiamiento'] = 'NO';
 						$cuotas_pendientes = $aplicativo_diners_detalle['numero_cuotas_pendientes'];
@@ -915,16 +852,9 @@ class CargadorAplicativoDinersExcel
 						$saldo_total = $aplicativo_diners_detalle['minimo_pagar'] - $aplicativo_diners_detalle['abono_efectivo_sistema'];
 						$aplicativo_diners_detalle['saldo_total'] = $saldo_total > 0 ? $saldo_total : 0;
 
-						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle);
+						$datos_calculados = Producto::calculosTarjetaGeneralCargaAplicativo($aplicativo_diners_detalle, $aplicativo_diners_porcentaje_interes);
 
 						//VERIFICAR SI EXISTE
-//						if(isset($aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'MASTERCARD'])) {
-//							$aplicativo_diners_detalle_id = $aplicativo_diners_detalle_todos[$aplicativo_diners_id . ',' . 'MASTERCARD']['id'];
-//							//MODIFICAR APLICATIVO DINERS
-//							$datos_calculados['fecha_modificacion'] = date("Y-m-d H:i:s");
-//							$datos_calculados['usuario_modificacion'] = \WebSecurity::getUserData('id');
-//							$query = $db->update('aplicativo_diners_detalle')->set($datos_calculados)->where('id', $aplicativo_diners_detalle_id)->execute();
-//						} else {
 							$datos_calculados['tipo'] = 'original';
 							$datos_calculados['fecha_ingreso'] = date("Y-m-d H:i:s");
 							$datos_calculados['usuario_ingreso'] = \WebSecurity::getUserData('id');
@@ -937,7 +867,6 @@ class CargadorAplicativoDinersExcel
 								$aplicativo_diners_detalle_calculado->$key = $val;
 							}
 							$aplicativo_diners_detalle_calculado->save();
-//						}
 					}
 
 					$rep['total']++;
@@ -945,32 +874,32 @@ class CargadorAplicativoDinersExcel
 			}
 
 			//INACTIVAR LOS PRODUCTOS Q NO VIENEN EN EL LISTADO
-			foreach($productos_todos as $pt){
-				if (array_search($pt['id'], $productos_procesados) === FALSE ) {
-					$set = [
-						'estado' => 'inactivo',
-						'fecha_gestionar' => null,
-						'usuario_asignado' => 0,
-						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_modificacion' => \WebSecurity::getUserData('id'),
-					];
-					$query = $db->update('producto')->set($set)->where('id', $pt['id'])->execute();
-				}
-			}
+//			foreach($productos_todos as $pt){
+//				if (array_search($pt['id'], $productos_procesados) === FALSE ) {
+//					$set = [
+//						'estado' => 'inactivo',
+//						'fecha_gestionar' => null,
+//						'usuario_asignado' => 0,
+//						'fecha_modificacion' => date("Y-m-d H:i:s"),
+//						'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//					];
+//					$query = $db->update('producto')->set($set)->where('id', $pt['id'])->execute();
+//				}
+//			}
 
 			//INACTIVAR LOS APLICATIVO DINERS Q NO VIENEN EN EL LISTADO
-			foreach($aplicativo_diners_todos as $adt){
-				if (array_search($adt['id'], $aplicativo_diners_procesados) === FALSE ) {
-					$set = [
-						'estado' => 'inactivo',
-						'fecha_gestionar' => null,
-						'usuario_asignado' => 0,
-						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_modificacion' => \WebSecurity::getUserData('id'),
-					];
-					$query = $db->update('aplicativo_diners')->set($set)->where('id', $adt['id'])->execute();
-				}
-			}
+//			foreach($aplicativo_diners_todos as $adt){
+//				if (array_search($adt['id'], $aplicativo_diners_procesados) === FALSE ) {
+//					$set = [
+//						'estado' => 'inactivo',
+//						'fecha_gestionar' => null,
+//						'usuario_asignado' => 0,
+//						'fecha_modificacion' => date("Y-m-d H:i:s"),
+//						'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//					];
+//					$query = $db->update('aplicativo_diners')->set($set)->where('id', $adt['id'])->execute();
+//				}
+//			}
 
 			$time_end = microtime(true);
 

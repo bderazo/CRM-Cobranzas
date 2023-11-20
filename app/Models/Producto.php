@@ -1070,7 +1070,7 @@ class Producto extends Model
         return $calculo_gastos_cobranza;
     }
 
-    static function calculosTarjetaDinersCargaAplicativo($data)
+    static function calculosTarjetaDinersCargaAplicativo($data, $aplicativo_diners_porcentaje_interes)
     {
         //ABONO TOTAL
         $abono_efectivo_sistema = 0;
@@ -1234,7 +1234,7 @@ class Producto extends Model
         if ($data['valor_financiar'] > 0) {
             $valor_financiar = $data['valor_financiar'];
         }
-        $aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
+//        $aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
         $porcentaje_interes_arr = [];
         foreach ($aplicativo_diners_porcentaje_interes as $pi) {
             $porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
@@ -1294,7 +1294,7 @@ class Producto extends Model
         return $data;
     }
 
-    static function calculosTarjetaGeneralCargaAplicativo($data)
+    static function calculosTarjetaGeneralCargaAplicativo($data, $aplicativo_diners_porcentaje_interes)
     {
         //ABONO TOTAL
         $abono_efectivo_sistema = 0;
@@ -1460,7 +1460,7 @@ class Producto extends Model
         if ($data['valor_financiar'] > 0) {
             $valor_financiar = $data['valor_financiar'];
         }
-        $aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
+//        $aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
         $porcentaje_interes_arr = [];
         foreach ($aplicativo_diners_porcentaje_interes as $pi) {
             $porcentaje_interes_arr[$pi['meses_plazo']] = $pi['interes'];
