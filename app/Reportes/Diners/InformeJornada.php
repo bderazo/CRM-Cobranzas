@@ -175,31 +175,34 @@ class InformeJornada {
                             if ($res['tarjeta'] == 'VISA') $tarjeta_tabla = 'VS';
                             if ($res['tarjeta'] == 'DISCOVER') $tarjeta_tabla = 'DS';
                             if ($res['tarjeta'] == 'MASTERCARD') $tarjeta_tabla = 'MC';
-                            if (isset($data_contar[$res['usuario_id']][$res['canal']])) {
-                                $data_contar[$res['usuario_id']][$res['canal']] .= ' - ' . $tarjeta_tabla . $res['ciclo'];
+                            if (isset($data_contar[$res['usuario_id']][$res['zona']][$res['canal']])) {
+                                $data_contar[$res['usuario_id']][$res['zona']][$res['canal']] .= ' - ' . $tarjeta_tabla . $res['ciclo'];
                             } else {
-                                $data_contar[$res['usuario_id']][$res['canal']] = $tarjeta_tabla . $res['ciclo'];
+                                $data_contar[$res['usuario_id']][$res['zona']][$res['canal']] = $tarjeta_tabla . $res['ciclo'];
                             }
                         }
                     }
                 }
             }
 		}
-//        printDie($data_contar);
 
         //UNIR CON LOS ASESORES
         $data_asesores = [];
         foreach($usuarios_gestores as $ug){
             if(isset($data_contar[$ug['id']])) {
                 foreach($data_contar[$ug['id']] as $k => $v) {
-                    $d['plaza'] = $ug['plaza'];
-                    $d['ejecutivo'] = $ug['nombres'];
-                    $d['canal'] = $k;
-                    $d['marca_ciclo'] = $v;
-                    $data_asesores[] = $d;
+                    foreach($v as $k1 => $v1) {
+                        $d['zona'] = $k;
+                        $d['ejecutivo'] = $ug['nombres'];
+                        $d['canal'] = $k1;
+                        $d['marca_ciclo'] = $v1;
+                        $data_asesores[] = $d;
+                    }
                 }
             }
         }
+
+//        printDie($data_asesores);
 
         $telefonia = [];
         $aux_telefonia = [];
@@ -221,7 +224,7 @@ class InformeJornada {
         //AGRUPAR POR PLAZA DEL USUARIO
         $data_plaza = [];
         foreach($data_asesores as $d){
-            $data_plaza[$d['plaza']][] = $d;
+            $data_plaza[$d['zona']][] = $d;
         }
         ksort($data_plaza);
 

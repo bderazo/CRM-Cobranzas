@@ -850,8 +850,8 @@ class ReportesController extends BaseController
         $aux = [];
         $lista = [];
         foreach ($jdata['data_asesores'] as $d) {
-            $aux['PLAZA'] = [
-                'valor' => $d['plaza'],
+            $aux['ZONA'] = [
+                'valor' => $d['zona'],
                 'formato' => 'text'
             ];
             $aux['EJECUTIVO'] = [

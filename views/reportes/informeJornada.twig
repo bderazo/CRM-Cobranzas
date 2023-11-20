@@ -23,26 +23,26 @@
 					</thead>
 					<tbody>
 					<tr v-for="d in data_asesores">
-							<template v-if="d.plaza == 'AMBATO'">
-								<td style="background-color: #95fab9;" v-html="d.plaza"></td>
+							<template v-if="d.zona == 'd) ZONA AMBATO'">
+								<td style="background-color: #95fab9;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'CUENCA'">
-								<td style="background-color: #fdfd96;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'c) ZONA CUENCA'">
+								<td style="background-color: #fdfd96;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'GUAYAQUIL'">
-								<td style="background-color: #b2dafa;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'b) ZONA GUAYAQUIL'">
+								<td style="background-color: #b2dafa;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'MACHALA'">
-								<td style="background-color: #dfcae1;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'e) ZONA MACHALA'">
+								<td style="background-color: #dfcae1;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'MANABI'">
-								<td style="background-color: #77dd77;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'f) ZONA MANABI'">
+								<td style="background-color: #77dd77;" v-html="d.zona"></td>
 							</template>
-							<template v-else-if="d.plaza == 'QUITO'">
-								<td style="background-color: #f9d99a;" v-html="d.plaza"></td>
+							<template v-else-if="d.zona == 'a) ZONA QUITO'">
+								<td style="background-color: #f9d99a;" v-html="d.zona"></td>
 							</template>
 							<template v-else>
-								<td style="background-color: #ffffff;" v-html="d.plaza"></td>
+								<td style="background-color: #ffffff;" v-html="d.zona"></td>
 							</template>
 							<td v-html="d.ejecutivo"></td>
 							<td v-html="d.canal"></td>
