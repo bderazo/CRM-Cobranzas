@@ -1,0 +1,292 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	{% include "reportes/filtrosBaseSaldosCampo.twig" %}
+	<div id="app">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Datos</h4>
+			</div>
+			<div class="card-body">
+                <a class="btn btn-default-light" id="btnExportar">
+					<i class="fa fa-file-excel-o"></i>
+					Exportar
+				</a>
+				<div class="table-responsive">
+					<table class="table border table-striped table-bordered table-sm mb-0">
+						<thead>
+						<tr style="background-color: #95b8f6;">
+                            <th>NOMBRE SOCIO</th>
+                            <th>CEDULA</th>
+                            <th>TELEFONO ULTIMO CONTACTO</th>
+                            <th>TELEFONO 1</th>
+                            <th>TELEFONO 2</th>
+                            <th>TELEFONO 3</th>
+                            <th>DIRECCION MAIL</th>
+                            <th>EMPRESA CLIENTE</th>
+                            <th>DIRECCION</th>
+                            <th>CIUDAD</th>
+                            <th>ZONA</th>
+                            <th>CANAL DINERS</th>
+                            <th>TIPO DE CAMPAÑA DINERS</th>
+                            <th>EJECUTIVO DINERS</th>
+                            <th>CAMPAÑA CON ECE DINERS</th>
+                            <th>CICLO DINERS</th>
+                            <th>EDAD REAL DINERS</th>
+                            <th>SALDO TOTAL FACTURACION DINERS</th>
+                            <th>PRODUCTO DINERS</th>
+                            <th>SALDO EN MORA DINERS</th>
+                            <th>SALDO TOTAL DEUDA DINERS</th>
+                            <th>RIESGO TOTAL DINERS</th>
+                            <th>INTERESES TOTAL DINERS</th>
+                            <th>CODIGO DE CANCELACION DINERS</th>
+                            <th>DEBITO AUTOMATICO DINERS</th>
+                            <th>ACTUALES FACTURADO DINERS</th>
+                            <th>30 DIAS FACTURADO DINERS</th>
+                            <th>60 DIAS FACTURADO DINERS</th>
+                            <th>90 DIAS FACTURADO DINERS</th>
+                            <th>MAS 90 DIAS FACTURADO DINERS</th>
+                            <th>SIMULACION DIFERIDOS DINERS</th>
+                            <th>DEBITO DINERS</th>
+                            <th>CREDITO DINERS</th>
+                            <th>ABONO A LA FECHA DINERS</th>
+                            <th>CODIGO BOLETIN DINERS</th>
+                            <th>INTERES POR FACTURAR DINERS</th>
+                            <th>PAGO NOTAS DE CREDITO DINERS</th>
+                            <th>ABONADAS</th>
+                            <th>RECUPERADO DINERS</th>
+                            <th>RECUPERACION ACTUALES DINERS</th>
+                            <th>RECUPERACION 30 DIAS DINERS</th>
+                            <th>RECUPERACION 60 DIAS DINERS</th>
+                            <th>RECUPERACION 90 DIAS DINERS</th>
+                            <th>RECUPERACION MAS DE 90 DIAS DINERS</th>
+                            <th>VALOR PAGO MINIMO DINERS</th>
+                            <th>VALORES POR FACTURAR CORRIENTE DINERS</th>
+                            <th>FECHA MAXIMA PAGO DINERS</th>
+                            <th>ESTABLECIMIENTO DINERS</th>
+                            <th>NUMERO DIFERIDOS DINERS</th>
+                            <th>CUOTAS PENDIENTES DINERS</th>
+                            <th>CUOTA REFINANCIACION VIGENTE PENDIENTE DINERS</th>
+                            <th>VALOR PENDIENTE REFINANCIACION VIGENTE DINERS</th>
+                            <th>REESTUCTURACION HISTORICA DINERS</th>
+                            <th>CALIFICACION SEGURO DINERS</th>
+                            <th>FECHA DE OPERACIÓN VIGENTE DINERS</th>
+                            <th>NUMERO DE REFINANCIACIONES HISTORICA DINERS</th>
+                            <th>MOTIVO DE NO PAGO DINERS</th>
+                            <th>ROTATIVO VIGENTE DINERS</th>
+                            <th>VALOR VEHICULAR DINERS</th>
+                            <th>CONSUMO EXTERIOR DINERS</th>
+                            <th>PLAZO DE FINANCIAMIENTO ACTUAL DINERS</th>
+                            <th>FECHA COMPROMISO DINERS</th>
+                            <th>MOTIVO CIERRE DINERS</th>
+                            <th>OBSERVACION CIERRE DINERS</th>
+                            <th>OFERTA VALOR DINERS</th>
+                            <th>MARCA</th>
+                            <th>OBS. PAGO DN</th>
+                            <th>OBS. DIF. HISTORICO DN</th>
+                            <th>OBS. DIF. VIGENTE DN</th>
+                            <th>TELEFONO 4</th>
+                            <th>TELEFONO 5</th>
+                            <th>TELEFONO 6</th>
+                            <th>PENDIENTE ACTUALES DINERS</th>
+                            <th>PENDIENTE 30 DIAS DINERS</th>
+                            <th>PENDIENTE 60 DIAS DINERS</th>
+                            <th>PENDIENTE 90 DIAS DINERS</th>
+                            <th>PENDIENTE MAS 90 DIAS DINERS</th>
+                            <th>RESULTADO </th>
+                            <th>DESCRIPCION</th>
+                            <th>OBSERVACION</th>
+                            <th>FECHA COMPROMISO</th>
+                            <th>GESTOR</th>
+                            <th>FECHA GESTION</th>
+                            <th>FEC</th>
+                            <th>INTERV_GESTION</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="d in datos">
+							<td v-html="d.nombres"></td>
+                            <td v-html="d.cedula"></td>
+                            <td v-html="d.telefono_contacto"></td>
+                            <td v-html="d.tarjeta"></td>
+                            <td v-html="d.codigo_operacion"></td>
+                            <td v-html="d.zona"></td>
+                            <td v-html="d.ciudad"></td>
+
+                            <td v-html='d.tipo_campana'></td>
+                            <td v-html='d.ejecutivo'></td>
+                            <td v-html='d.ciclo'></td>
+                            <td v-html='d.edad'></td>
+                            <td v-html='d.edad_asignacion'></td>
+                            <td v-html='d.total_asignado'></td>
+
+                            <td v-html='d.saldo_total_deuda'></td>
+                            <td v-html='d.riesgo_total'></td>
+                            <td v-html='d.interes_total'></td>
+                            <td v-html='d.recuperado'></td>
+                            <td v-html='d.pago_minimo'></td>
+                            <td v-html='d.fecha_maxima_pago'></td>
+                            <td v-html='d.numero_diferidos'></td>
+                            <td v-html='d.numero_refinanciaciones_historica'></td>
+                            <td v-html='d.plazo_financiamiento_actual'></td>
+                            <td v-html='d.motivo_cierre'></td>
+                            <td v-html='d.oferta_valor'></td>
+                            <td v-html='d.pendiente_actuales'></td>
+                            <td v-html='d.pendiente_30'></td>
+                            <td v-html='d.pendiente_60'></td>
+                            <td v-html='d.pendiente_90'></td>
+                            <td v-html='d.pendiente_mas_90'></td>
+                            <td v-html='d.credito_inmediato'></td>
+                            <td v-html='d.producto'></td>
+
+                            <td v-html='d.nivel_1_texto'></td>
+                            <td v-html='d.nivel_2_texto'></td>
+                            <td v-html='d.nivel_3_texto'></td>
+                            <td v-html='d.observaciones'></td>
+                            <td v-html='d.nivel_1_motivo_no_pago_texto'></td>
+                            <td v-html='d.nivel_2_motivo_no_pago_texto'></td>
+                            <td v-html='d.fecha_compromiso_pago'></td>
+                            <td v-html='d.gestor'></td>
+                            <td v-html='d.hora_gestion'></td>
+                            <td v-html='d.fecha_gestion'></td>
+                            <td v-html='d.valor_comprometido'></td>
+                            <td v-html='d.georeferencia'></td>
+                            <td v-html='d.tipo_negociacion'></td>
+
+                            <td v-html='d.identificador'></td>
+                            <td v-html='d.origen'></td>
+                            <td v-html='d.peso_paleta'></td>
+						</tr>
+						</tbody>
+                        <tfoot>
+                        </tfoot>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportBaseGeneral">
+		<input type="hidden" id="json" name="json"/>
+	</form>
+
+	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
+	{{ bundle('validate') }}
+	{{ bundle('boot_select') }}
+	{{ script('js/jquery.serialize-object.min.js') }}
+	{{ bundle('select2') }}
+
+	<script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                datos: [],
+                total: [],
+                data_resumen_domicilio: [],
+                data_resumen_telefonia: [],
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                consultar: function () {
+                    var form = $('#filtros');
+                    var self = this;
+                    var data = form.serializeArray();
+                    toggleLoader();
+                    $.post('{{ root }}/reportes/baseGeneral', data, function (res) {
+                        toggleLoader();
+                        self.datos = res['data'];
+                        self.total = res['total'];
+                        self.data_resumen_domicilio = res['data_resumen_domicilio'];
+                        self.data_resumen_telefonia = res['data_resumen_telefonia'];
+                    })
+                },
+            },
+            mounted: function () {
+                var form = $('#filtros');
+                var self = this;
+                $('#btnExportar').click(function () {
+                    var data = {
+                        datos: self.datos
+                    };
+                    $('#json').val(JSON.stringify(data));
+                    $('#exportForm').submit();
+                });
+
+                $(document).ready(function () {
+                    $('#btnFiltro').click(function () {
+                        self.consultar();
+                    });
+                    $('#btnTodos').click(function () {
+                        form[0].reset();
+                        $("#plaza_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#canal_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_inicio").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#hora_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#minuto_fin").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_ece").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#campana_usuario").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#resultado").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#accion").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#descripcion").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#motivo_no_pago").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#descripcion_no_pago").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        $("#gestor").select2({
+                            theme: "classic",
+                            initSelection: function(element, callback) {}
+                        });
+                        // self.consultar();
+                    });
+                    $('.select2').select2({
+                        theme: "classic"
+                    });
+                    // self.consultar();
+                });
+            }
+        });
+	</script>
+{% endblock %}

@@ -21,6 +21,7 @@ use Reportes\CorteBobinado\ProduccionDiariaCB;
 use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\BaseCarga;
 use Reportes\Diners\BaseGeneral;
+use Reportes\Diners\BaseSaldosCampo;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
 use Reportes\Diners\General;
@@ -2787,7 +2788,7 @@ class ReportesController extends BaseController
         $this->exportSimple($lista, 'NEGOCIACIONES AUTOMÁTICAS', 'negociaciones_automaticas'.date("Y-m-d H-i-s").'.xlsx');
     }
 
-    //BASE GENERAL
+    //GEOLOCALIZACION
     function geolocalizacion(){
         \WebSecurity::secure('reportes.geolocalicacion');
         if ($this->isPost()) {
@@ -3004,6 +3005,21 @@ class ReportesController extends BaseController
             $lista[] = $aux;
         }
         $this->exportSimple($lista, 'BASE GENERAL', 'base_general'.date("Y-m-d H-i-s").'.xlsx');
+    }
+
+    //BASE GENERAL
+    function baseSaldosCampo(){
+        \WebSecurity::secure('reportes.base_saldos_campo');
+        if ($this->isPost()) {
+            $rep = new BaseSaldosCampo($this->get('pdo'));
+            $data = $rep->calcular($this->request->getParsedBody());
+            return $this->json($data);
+        }
+        $titulo = 'Base Saldos Campo';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('baseSaldosCampo', $data);
     }
 
 

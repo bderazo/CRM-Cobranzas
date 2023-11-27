@@ -66,6 +66,13 @@ return [
             'icon' => 'fa fa-road',
             'description' => 'Producción por cada plaza'
         ],
+        [
+            'label' => 'Base Saldos Campo',
+            'link' => '/reportes/baseSaldosCampo',
+            'roles' => 'reportes.base_saldos_campo',
+            'icon' => 'fa fa-road',
+            'description' => 'Base Saldos Campo'
+        ],
     ],
     'diners_telefonia' => [
         [

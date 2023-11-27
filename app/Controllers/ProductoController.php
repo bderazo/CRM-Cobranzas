@@ -216,6 +216,14 @@ class ProductoController extends BaseController
 //        }
 
         if ($id == 0) {
+            $auditar = [
+                'cedula' => $_REQUEST['cedula'],
+                'telefono' => $_REQUEST['telefono'],
+                'prod_ver' => $prod_ver
+            ];
+
+            \Auditor::error("TELEFONO NO ENCONTRADO", 'PREDICTIVO', $auditar);
+
             $this->flash->addMessage('error', 'TELEFONO: ' . $_REQUEST['telefono'] . ' NO EXISTE EN EL SISTEMA');
             return $this->redirectToAction('indexDiners');
         }

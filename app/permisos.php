@@ -115,6 +115,7 @@ return [
             'recuperacion_actual' => 'Recuperación Actual',
             'recuperacion_mora' => 'Recuperación Mora',
             'geolocalicacion' => 'Geolocalización',
+            'base_saldos_campo' => 'Base Saldos Campo',
 		],
 		'mensaje' => 'Operaciones para Reportes'
 	],

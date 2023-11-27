@@ -1,0 +1,67 @@
+<div class="card">
+	<div class="card-header">
+		<h4 class="card-title">Filtros de Búsqueda</h4>
+	</div>
+	<div class="card-body">
+		<form id="filtros">
+			<div class="row ">
+				<div class="col-sm-3">
+					<b>Fecha</b> <br>
+					{{ text_field_tag("fecha_inicio", '', {class:'form-control fecha', readonly:'readonly'}) }}
+				</div>
+
+{#				<div class="col-sm-3">#}
+{#					<b>Fecha Fin</b> <br>#}
+{#					{{ text_field_tag("fecha_fin", '', {class:'form-control fecha', readonly:'readonly'}) }}#}
+{#				</div>#}
+			</div>
+		</form>
+	</div>
+	<div class="card-footer">
+		<button id="btnFiltro" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+		<button id="btnTodos" class="btn btn-success"><i class="fa fa-eraser"></i> Limpiar filtros</button>
+		{% include "reportes/loader.twig" %}
+		<script>
+            var appFiltros = new Vue({
+                el: '#filtros',
+                data: {
+                    canal_usuario: {{ canal_usuario|raw }},
+                    plaza_usuario: {{ plaza_usuario|raw }},
+                    horas: {{ horas|raw }},
+                    minutos: {{ minutos|raw }},
+					campana_asignacion: {{ campana_asignacion|raw }},
+					campana_ece: {{ campana_ece|raw }},
+					campana_usuario: {{ campana_usuario|raw }},
+					marca: {{ marca|raw }},
+					ciclo_asignacion: {{ ciclo_asignacion|raw }},
+					resultado: {{ resultado|raw }},
+					accion: {{ accion|raw }},
+					descripcion: {{ descripcion|raw }},
+					motivo_no_pago: {{ motivo_no_pago|raw }},
+					descripcion_no_pago: {{ descripcion_no_pago|raw }},
+					gestor: {{ gestor|raw }},
+                },
+                methods: {},
+            });
+
+            $(function () {
+				$("#hora_inicio").val('');
+				$("#minuto_inicio").val('');
+				$("#hora_fin").val('');
+				$("#minuto_fin").val('');
+                $('.fecha').datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    showButtonPanel: true
+                });
+				var d = new Date();
+				var month = d.getMonth()+1;
+				var day = d.getDate();
+				var output = d.getFullYear() + '-' +
+						(month<10 ? '0' : '') + month + '-' +
+						(day<10 ? '0' : '') + day;
+				$("#fecha_inicio").val(output);
+				$("#fecha_fin").val(output);
+            });
+		</script>
+	</div>
+</div>
