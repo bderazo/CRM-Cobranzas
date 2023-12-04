@@ -337,67 +337,67 @@ class ProductoApi extends BaseController
         \Auditor::info('PALETA', '$motivo_cierre', $motivo_cierre);
         \Auditor::info('PALETA', '$nivel', $nivel);
 
-            if ($motivo_cierre == 'SIN GESTION') {
-                //QUITAR: SIN ARREGLO
-                $key = array_search('1861', array_column($nivel, 'id'));
-                if(isset($nivel[$key])) unset($nivel[$key]);
-            }
-            if (($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') ||
-                ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') ||
-                ($motivo_cierre == 'AUN NO CONTACTADO TARDE') ||
-                ($motivo_cierre == 'Aún No Contactado Mañana') ||
-                ($motivo_cierre == 'Aún No Contactado Noche') ||
-                ($motivo_cierre == 'Aún No Contactado Tarde')
-            ) {
-                //QUITAR: SIN ARREGLO
-                $key = array_search('1861', array_column($nivel, 'id'));
-                if(isset($nivel[$key])) unset($nivel[$key]);
-            }
-            if (($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
-                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
-                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
-                ($motivo_cierre == 'NOTIFICADO') ||
-                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
-                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
-                ($motivo_cierre == 'REFINANCIA') ||
-                ($motivo_cierre == 'Cont. Sin Arreglo Definitivo') ||
-                ($motivo_cierre == 'Contacto sin Arreglo Mediato') ||
-                ($motivo_cierre == 'Notificado') ||
-                ($motivo_cierre == 'Ofrecimiento al Corte') ||
-                ($motivo_cierre == 'Refinancia')
-            ) {
-                //QUITAR: NO UBICADO
-                $key = array_search('1799', array_column($nivel, 'id'));
-                \Auditor::info('PALETA', '$key', $key);
-                \Auditor::info('PALETA', '$nivel[$key]', $nivel[$key]);
-                if(isset($nivel[$key])) unset($nivel[$key]);
-                \Auditor::info('PALETA', '$nivel', $nivel);
-            }
-            if (($motivo_cierre == 'FALLECIDO') || ($motivo_cierre == 'Fallecido')) {
-                //QUITAR: SIN ARREGLO
-                $key = array_search('1861', array_column($nivel, 'id'));
-                if(isset($nivel[$key])) unset($nivel[$key]);
-            }
-            if ($motivo_cierre == 'FUERA DEL PAIS') {
-                //QUITAR: SIN ARREGLO
-                $key = array_search('1861', array_column($nivel, 'id'));
-                if(isset($nivel[$key])) unset($nivel[$key]);
-            }
-            if (($motivo_cierre == 'MENSAJE A TERCERO') || ($motivo_cierre == 'Mensaje a Tercero')) {
-                //QUITAR: NO UBICADO
-                $key = array_search('1799', array_column($nivel, 'id'));
-                if(isset($nivel[$key])) unset($nivel[$key]);
-            }
-            if (($motivo_cierre == 'SIN ARREGLO CLIENTE') || ($motivo_cierre == 'Sin Arreglo Cliente')) {
-                //QUITAR: NO UBICADO
-                $key = array_search('1799', array_column($nivel, 'id'));
-                if(isset($nivel[$key])) unset($nivel[$key]);
-            }
-            if (($motivo_cierre == 'SIN ARREGLO TERCERO') || ($motivo_cierre == 'Sin Arreglo Tercero')) {
-                //QUITAR: NO UBICADO
-                $key = array_search('1799', array_column($nivel, 'id'));
-                if(isset($nivel[$key])) unset($nivel[$key]);
-            }
+//            if ($motivo_cierre == 'SIN GESTION') {
+//                //QUITAR: SIN ARREGLO
+//                $key = array_search('1861', array_column($nivel, 'id'));
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//            }
+//            if (($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') ||
+//                ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') ||
+//                ($motivo_cierre == 'AUN NO CONTACTADO TARDE') ||
+//                ($motivo_cierre == 'Aún No Contactado Mañana') ||
+//                ($motivo_cierre == 'Aún No Contactado Noche') ||
+//                ($motivo_cierre == 'Aún No Contactado Tarde')
+//            ) {
+//                //QUITAR: SIN ARREGLO
+//                $key = array_search('1861', array_column($nivel, 'id'));
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//            }
+//            if (($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+//                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+//                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+//                ($motivo_cierre == 'NOTIFICADO') ||
+//                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+//                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+//                ($motivo_cierre == 'REFINANCIA') ||
+//                ($motivo_cierre == 'Cont. Sin Arreglo Definitivo') ||
+//                ($motivo_cierre == 'Contacto sin Arreglo Mediato') ||
+//                ($motivo_cierre == 'Notificado') ||
+//                ($motivo_cierre == 'Ofrecimiento al Corte') ||
+//                ($motivo_cierre == 'Refinancia')
+//            ) {
+//                //QUITAR: NO UBICADO
+//                $key = array_search('1799', array_column($nivel, 'id'));
+//                \Auditor::info('PALETA', '$key', $key);
+//                \Auditor::info('PALETA', '$nivel[$key]', $nivel[$key]);
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//                \Auditor::info('PALETA', '$nivel', $nivel);
+//            }
+//            if (($motivo_cierre == 'FALLECIDO') || ($motivo_cierre == 'Fallecido')) {
+//                //QUITAR: SIN ARREGLO
+//                $key = array_search('1861', array_column($nivel, 'id'));
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//            }
+//            if ($motivo_cierre == 'FUERA DEL PAIS') {
+//                //QUITAR: SIN ARREGLO
+//                $key = array_search('1861', array_column($nivel, 'id'));
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//            }
+//            if (($motivo_cierre == 'MENSAJE A TERCERO') || ($motivo_cierre == 'Mensaje a Tercero')) {
+//                //QUITAR: NO UBICADO
+//                $key = array_search('1799', array_column($nivel, 'id'));
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//            }
+//            if (($motivo_cierre == 'SIN ARREGLO CLIENTE') || ($motivo_cierre == 'Sin Arreglo Cliente')) {
+//                //QUITAR: NO UBICADO
+//                $key = array_search('1799', array_column($nivel, 'id'));
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//            }
+//            if (($motivo_cierre == 'SIN ARREGLO TERCERO') || ($motivo_cierre == 'Sin Arreglo Tercero')) {
+//                //QUITAR: NO UBICADO
+//                $key = array_search('1799', array_column($nivel, 'id'));
+//                if(isset($nivel[$key])) unset($nivel[$key]);
+//            }
 //        }
 
         \Auditor::info('PALETA', '$nivel', $nivel);
