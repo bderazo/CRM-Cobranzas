@@ -332,7 +332,7 @@ class ProductoApi extends BaseController
             }
         }
 
-        if ($data['unica_gestion'] == 'si') {
+//        if ($data['unica_gestion'] == 'si') {
             if ($motivo_cierre == 'SIN GESTION') {
                 //QUITAR: SIN ARREGLO
                 $key = array_search('1861', array_column($nivel, 'id'));
@@ -391,7 +391,7 @@ class ProductoApi extends BaseController
                 $key = array_search('1799', array_column($nivel, 'id'));
                 if(isset($nivel[$key])) unset($nivel[$key]);
             }
-        }
+//        }
 
         if ($page == 1) {
             $retorno['results'] = [];
