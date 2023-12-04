@@ -60,7 +60,7 @@ class InformeJornada {
             ->select("ps.*, u.id AS usuario_id, u.plaza, CONCAT(u.apellidos,' ',u.nombres) AS gestor, cl.nombres, 
                              cl.cedula, addet.nombre_tarjeta AS tarjeta, addet.ciclo, u.canal, cl.zona, addet.edad_cartera,
                              DATE(ps.fecha_ingreso) AS fecha_ingreso_seguimiento,
-                             pa.peso AS peso_paleta")
+                             pa.peso AS peso_paleta, addet.total_riesgo")
             ->where('ps.nivel_1_id IN (1855, 1839, 1861)')
             ->where('ps.institucion_id',1)
             ->where('ps.eliminado',0);

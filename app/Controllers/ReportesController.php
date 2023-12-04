@@ -972,6 +972,10 @@ class ReportesController extends BaseController
                 'valor' => $d['edad_cartera'],
                 'formato' => 'number'
             ];
+            $aux['TOTAL RIESGO'] = [
+                'valor' => $d['total_riesgo'],
+                'formato' => 'number'
+            ];
             $lista[] = $aux;
         }
 
