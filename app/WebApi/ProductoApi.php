@@ -1099,6 +1099,16 @@ class ProductoApi extends BaseController
                 'required' => 0,
                 'disabled' => 0,
             ];
+            if ($numero_tarjetas == 1) {
+                $choice_unica_gestion = [
+                    ['id' => 'si', 'text' => 'SI'],
+                ];
+            }else{
+                $choice_unica_gestion = [
+                    ['id' => 'no', 'text' => 'NO'],
+                    ['id' => 'si', 'text' => 'SI'],
+                ];
+            }
             $retorno['form']['properties']['unica_gestion'] = [
                 'type' => 'string',
                 'title' => 'ÚNICA GESTIÓN PARA TODAS LAS TARJETAS',
@@ -1113,10 +1123,7 @@ class ProductoApi extends BaseController
                 ],
                 'required' => 0,
                 'disabled' => 0,
-                'choices' => [
-                    ['id' => 'no', 'text' => 'NO'],
-                    ['id' => 'si', 'text' => 'SI'],
-                ],
+                'choices' => $choice_unica_gestion,
             ];
             $retorno['form']['properties']['title_6'] = [
                 'title' => $paleta['titulo_nivel1'],
