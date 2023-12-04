@@ -333,6 +333,10 @@ class ProductoApi extends BaseController
         }
 
 //        if ($data['unica_gestion'] == 'si') {
+
+        \Auditor::info('PALETA', '$motivo_cierre', $motivo_cierre);
+        \Auditor::info('PALETA', '$nivel', $nivel);
+
             if ($motivo_cierre == 'SIN GESTION') {
                 //QUITAR: SIN ARREGLO
                 $key = array_search('1861', array_column($nivel, 'id'));
