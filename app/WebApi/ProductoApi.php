@@ -156,7 +156,7 @@ class ProductoApi extends BaseController
         if (!$this->isPost()) return "get_producto_cliente";
         $res = new RespuestaConsulta();
         $producto_id = $this->request->getParam('producto_id');
-		$session = $this->request->getParam('session');
+        $session = $this->request->getParam('session');
 
         $usuario = UsuarioLogin::getUserBySession($session);
         $usuario_id = $usuario['id'];
@@ -168,10 +168,10 @@ class ProductoApi extends BaseController
 
             $email = Email::porModulo('cliente', $producto['cliente_id']);
             $email_cliente = [];
-            foreach ($email as $e){
+            foreach ($email as $e) {
                 $email_cliente[] = $e['email'];
             }
-            $email_txt = implode(', ',$email_cliente);
+            $email_txt = implode(', ', $email_cliente);
 
             //DATA DE CLIENTES
             $cliente = Cliente::porId($producto['cliente_id']);
@@ -337,75 +337,81 @@ class ProductoApi extends BaseController
         \Auditor::info('PALETA', '$motivo_cierre', $motivo_cierre);
         \Auditor::info('PALETA', '$nivel', $nivel);
 
-//            if ($motivo_cierre == 'SIN GESTION') {
-//                //QUITAR: SIN ARREGLO
-//                $key = array_search('1861', array_column($nivel, 'id'));
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//            }
-//            if (($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') ||
-//                ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') ||
-//                ($motivo_cierre == 'AUN NO CONTACTADO TARDE') ||
-//                ($motivo_cierre == 'Aún No Contactado Mañana') ||
-//                ($motivo_cierre == 'Aún No Contactado Noche') ||
-//                ($motivo_cierre == 'Aún No Contactado Tarde')
-//            ) {
-//                //QUITAR: SIN ARREGLO
-//                $key = array_search('1861', array_column($nivel, 'id'));
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//            }
-//            if (($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
-//                ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
-//                ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
-//                ($motivo_cierre == 'NOTIFICADO') ||
-//                ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
-//                ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
-//                ($motivo_cierre == 'REFINANCIA') ||
-//                ($motivo_cierre == 'Cont. Sin Arreglo Definitivo') ||
-//                ($motivo_cierre == 'Contacto sin Arreglo Mediato') ||
-//                ($motivo_cierre == 'Notificado') ||
-//                ($motivo_cierre == 'Ofrecimiento al Corte') ||
-//                ($motivo_cierre == 'Refinancia')
-//            ) {
-//                //QUITAR: NO UBICADO
-//                $key = array_search('1799', array_column($nivel, 'id'));
-//                \Auditor::info('PALETA', '$key', $key);
-//                \Auditor::info('PALETA', '$nivel[$key]', $nivel[$key]);
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//                \Auditor::info('PALETA', '$nivel', $nivel);
-//            }
-//            if (($motivo_cierre == 'FALLECIDO') || ($motivo_cierre == 'Fallecido')) {
-//                //QUITAR: SIN ARREGLO
-//                $key = array_search('1861', array_column($nivel, 'id'));
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//            }
-//            if ($motivo_cierre == 'FUERA DEL PAIS') {
-//                //QUITAR: SIN ARREGLO
-//                $key = array_search('1861', array_column($nivel, 'id'));
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//            }
-//            if (($motivo_cierre == 'MENSAJE A TERCERO') || ($motivo_cierre == 'Mensaje a Tercero')) {
-//                //QUITAR: NO UBICADO
-//                $key = array_search('1799', array_column($nivel, 'id'));
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//            }
-//            if (($motivo_cierre == 'SIN ARREGLO CLIENTE') || ($motivo_cierre == 'Sin Arreglo Cliente')) {
-//                //QUITAR: NO UBICADO
-//                $key = array_search('1799', array_column($nivel, 'id'));
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//            }
-//            if (($motivo_cierre == 'SIN ARREGLO TERCERO') || ($motivo_cierre == 'Sin Arreglo Tercero')) {
-//                //QUITAR: NO UBICADO
-//                $key = array_search('1799', array_column($nivel, 'id'));
-//                if(isset($nivel[$key])) unset($nivel[$key]);
-//            }
+        if ($motivo_cierre == 'SIN GESTION') {
+            //QUITAR: SIN ARREGLO
+            $key = array_search('1861', array_column($nivel, 'id'));
+            if (isset($nivel[$key])) unset($nivel[$key]);
+        }
+        if (($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') ||
+            ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') ||
+            ($motivo_cierre == 'AUN NO CONTACTADO TARDE') ||
+            ($motivo_cierre == 'Aún No Contactado Mañana') ||
+            ($motivo_cierre == 'Aún No Contactado Noche') ||
+            ($motivo_cierre == 'Aún No Contactado Tarde')
+        ) {
+            //QUITAR: SIN ARREGLO
+            $key = array_search('1861', array_column($nivel, 'id'));
+            if (isset($nivel[$key])) unset($nivel[$key]);
+        }
+        if (($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+            ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
+            ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
+            ($motivo_cierre == 'NOTIFICADO') ||
+            ($motivo_cierre == 'OFRECIMIENTO AL CORTE') ||
+            ($motivo_cierre == 'OFRECIMIENTO INCUMPLIDO') ||
+            ($motivo_cierre == 'REFINANCIA') ||
+            ($motivo_cierre == 'Cont. Sin Arreglo Definitivo') ||
+            ($motivo_cierre == 'Contacto sin Arreglo Mediato') ||
+            ($motivo_cierre == 'Notificado') ||
+            ($motivo_cierre == 'Ofrecimiento al Corte') ||
+            ($motivo_cierre == 'Refinancia')
+        ) {
+            //QUITAR: NO UBICADO
+            $key = array_search('1799', array_column($nivel, 'id'));
+            \Auditor::info('PALETA', '$key', $key);
+            \Auditor::info('PALETA', '$nivel[$key]', $nivel[$key]);
+            if (isset($nivel[$key])) unset($nivel[$key]);
+            \Auditor::info('PALETA', '$nivel', $nivel);
+        }
+        if (($motivo_cierre == 'FALLECIDO') || ($motivo_cierre == 'Fallecido')) {
+            //QUITAR: SIN ARREGLO
+            $key = array_search('1861', array_column($nivel, 'id'));
+            if (isset($nivel[$key])) unset($nivel[$key]);
+        }
+        if ($motivo_cierre == 'FUERA DEL PAIS') {
+            //QUITAR: SIN ARREGLO
+            $key = array_search('1861', array_column($nivel, 'id'));
+            if (isset($nivel[$key])) unset($nivel[$key]);
+        }
+        if (($motivo_cierre == 'MENSAJE A TERCERO') || ($motivo_cierre == 'Mensaje a Tercero')) {
+            //QUITAR: NO UBICADO
+            $key = array_search('1799', array_column($nivel, 'id'));
+            if (isset($nivel[$key])) unset($nivel[$key]);
+        }
+        if (($motivo_cierre == 'SIN ARREGLO CLIENTE') || ($motivo_cierre == 'Sin Arreglo Cliente')) {
+            //QUITAR: NO UBICADO
+            $key = array_search('1799', array_column($nivel, 'id'));
+            if (isset($nivel[$key])) unset($nivel[$key]);
+        }
+        if (($motivo_cierre == 'SIN ARREGLO TERCERO') || ($motivo_cierre == 'Sin Arreglo Tercero')) {
+            //QUITAR: NO UBICADO
+            $key = array_search('1799', array_column($nivel, 'id'));
+            if (isset($nivel[$key])) unset($nivel[$key]);
+        }
 //        }
 
-        \Auditor::info('PALETA', '$nivel', $nivel);
+        $nivel_retorno = [];
+        foreach ($nivel as $n){
+            $nivel_retorno[] = $n;
+        }
+
+
+        \Auditor::info('PALETA', '$nivel_retorno', $nivel_retorno);
 
         if ($page == 1) {
             $retorno['results'] = [];
         } else {
-            $retorno['results'] = $nivel;
+            $retorno['results'] = $nivel_retorno;
         }
         $retorno['pagination'] = ['more' => false];
 
@@ -1054,30 +1060,30 @@ class ProductoApi extends BaseController
             if ($numero_tarjetas == 1) {
                 if ($tarjeta_unica == 'diners') {
                     $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($producto['cliente_id'], date("Y-m-d"), 'DINERS');
-                    if(!$ultima_gestion_dia){
+                    if (!$ultima_gestion_dia) {
                         $motivo_cierre = isset($saldos['motivo_cierre_diners']) ? $saldos['motivo_cierre_diners'] : '';
-                    }else{
+                    } else {
                         $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                     }
                 } elseif ($tarjeta_unica == 'interdin') {
                     $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($producto['cliente_id'], date("Y-m-d"), 'INTERDIN');
-                    if(!$ultima_gestion_dia){
+                    if (!$ultima_gestion_dia) {
                         $motivo_cierre = isset($saldos['motivo_cierre_visa']) ? $saldos['motivo_cierre_visa'] : '';
-                    }else{
+                    } else {
                         $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                     }
                 } elseif ($tarjeta_unica == 'discover') {
                     $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($producto['cliente_id'], date("Y-m-d"), 'DISCOVER');
-                    if(!$ultima_gestion_dia){
+                    if (!$ultima_gestion_dia) {
                         $motivo_cierre = isset($saldos['motivo_cierre_discover']) ? $saldos['motivo_cierre_discover'] : '';
-                    }else{
+                    } else {
                         $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                     }
                 } elseif ($tarjeta_unica == 'mastercard') {
                     $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($producto['cliente_id'], date("Y-m-d"), 'MASTERCARD');
-                    if(!$ultima_gestion_dia){
+                    if (!$ultima_gestion_dia) {
                         $motivo_cierre = isset($saldos['motivo_cierre_mastercard']) ? $saldos['motivo_cierre_mastercard'] : '';
-                    }else{
+                    } else {
                         $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                     }
                 }
@@ -1115,7 +1121,7 @@ class ProductoApi extends BaseController
                 $choice_unica_gestion = [
                     ['id' => 'si', 'text' => 'SI'],
                 ];
-            }else{
+            } else {
                 $choice_unica_gestion = [
                     ['id' => 'no', 'text' => 'NO'],
                     ['id' => 'si', 'text' => 'SI'],
