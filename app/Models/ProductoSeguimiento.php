@@ -231,6 +231,24 @@ class ProductoSeguimiento extends Model
         return $retorno;
     }
 
+    static function getUltimoSeguimientoPorClienteFechaMarca($cliente_id, $fecha, $marca)
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('aplicativo_diners_detalle addet ON ps.id = addet.producto_seguimiento_id')
+            ->select(null)
+            ->select('ps.*')
+            ->where('ps.eliminado', 0)
+            ->where('ps.cliente_id', $cliente_id)
+            ->where('DATE(ps.fecha_ingreso)', $fecha)
+            ->where('addet.nombre_tarjeta', $marca)
+            ->orderBy('ps.fecha_ingreso DESC');
+        $lista = $q->fetch();
+        if(!$lista) return false;
+        return $lista;
+    }
+
     static function getHomeSeguimientos($usuario_id, $fecha)
     {
         $pdo = self::query()->getConnection()->getPdo();
