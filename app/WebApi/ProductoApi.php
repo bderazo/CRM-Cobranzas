@@ -368,6 +368,8 @@ class ProductoApi extends BaseController
             ) {
                 //QUITAR: NO UBICADO
                 $key = array_search('1799', array_column($nivel, 'id'));
+                \Auditor::info('PALETA', '$key', $key);
+                \Auditor::info('PALETA', '$key', $nivel[$key]);
                 if(isset($nivel[$key])) unset($nivel[$key]);
             }
             if (($motivo_cierre == 'FALLECIDO') || ($motivo_cierre == 'Fallecido')) {
