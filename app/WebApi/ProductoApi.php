@@ -409,6 +409,9 @@ class ProductoApi extends BaseController
         }
         $retorno['pagination'] = ['more' => false];
 
+        \Auditor::info('PALETA', '$page', $page);
+        \Auditor::info('PALETA', '$retorno', $retorno);
+
         return $this->json($retorno);
     }
 
