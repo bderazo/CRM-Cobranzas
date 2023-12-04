@@ -332,11 +332,6 @@ class ProductoApi extends BaseController
             }
         }
 
-//        if ($data['unica_gestion'] == 'si') {
-
-        \Auditor::info('PALETA', '$motivo_cierre', $motivo_cierre);
-        \Auditor::info('PALETA', '$nivel', $nivel);
-
         if ($motivo_cierre == 'SIN GESTION') {
             //QUITAR: SIN ARREGLO
             $key = array_search('1861', array_column($nivel, 'id'));
@@ -368,10 +363,7 @@ class ProductoApi extends BaseController
         ) {
             //QUITAR: NO UBICADO
             $key = array_search('1799', array_column($nivel, 'id'));
-            \Auditor::info('PALETA', '$key', $key);
-            \Auditor::info('PALETA', '$nivel[$key]', $nivel[$key]);
             if (isset($nivel[$key])) unset($nivel[$key]);
-            \Auditor::info('PALETA', '$nivel', $nivel);
         }
         if (($motivo_cierre == 'FALLECIDO') || ($motivo_cierre == 'Fallecido')) {
             //QUITAR: SIN ARREGLO
@@ -405,18 +397,12 @@ class ProductoApi extends BaseController
             $nivel_retorno[] = $n;
         }
 
-
-        \Auditor::info('PALETA', '$nivel_retorno', $nivel_retorno);
-
         if ($page == 1) {
             $retorno['results'] = [];
         } else {
             $retorno['results'] = $nivel_retorno;
         }
         $retorno['pagination'] = ['more' => false];
-
-        \Auditor::info('PALETA', '$page', $page);
-        \Auditor::info('PALETA', '$retorno', $retorno);
 
         return $this->json($retorno);
     }
@@ -1004,7 +990,7 @@ class ProductoApi extends BaseController
                     $i++;
                 }
 
-                \Auditor::info('save_form_paleta archivo: ', 'API', $archivo);
+//                \Auditor::info('save_form_paleta archivo: ', 'API', $archivo);
                 foreach ($archivo as $f) {
                     $this->uploadFiles($con, $f);
                 }
@@ -3331,17 +3317,17 @@ class ProductoApi extends BaseController
         if (!$this->isPost()) return "save_form_seguimiento";
         $res = new RespuestaConsulta();
         $cliente_id = $this->request->getParam('cliente_id');
-        \Auditor::info('save_form_seguimiento cliente_id: ' . $cliente_id, 'API', []);
+//        \Auditor::info('save_form_seguimiento cliente_id: ' . $cliente_id, 'API', []);
         $producto_id = $this->request->getParam('producto_id');
-        \Auditor::info('save_form_seguimiento producto_id: ' . $producto_id, 'API', []);
+//        \Auditor::info('save_form_seguimiento producto_id: ' . $producto_id, 'API', []);
         $lat = $this->request->getParam('lat');
-        \Auditor::info('save_form_seguimiento lat: ' . $lat, 'API', []);
+//        \Auditor::info('save_form_seguimiento lat: ' . $lat, 'API', []);
         $long = $this->request->getParam('long');
-        \Auditor::info('save_form_seguimiento long: ' . $long, 'API', []);
+//        \Auditor::info('save_form_seguimiento long: ' . $long, 'API', []);
         $data = $this->request->getParam('data');
-        \Auditor::info('save_form_seguimiento data: ', 'API', $data);
+//        \Auditor::info('save_form_seguimiento data: ', 'API', $data);
         $files = $_FILES;
-        \Auditor::info('save_form_seguimiento files: ', 'API', $files);
+//        \Auditor::info('save_form_seguimiento files: ', 'API', $files);
         $session = $this->request->getParam('session');
         $usuario = UsuarioLogin::getUserBySession($session);
         $usuario_id = $usuario['id'];
