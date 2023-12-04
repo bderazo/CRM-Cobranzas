@@ -369,8 +369,9 @@ class ProductoApi extends BaseController
                 //QUITAR: NO UBICADO
                 $key = array_search('1799', array_column($nivel, 'id'));
                 \Auditor::info('PALETA', '$key', $key);
-                \Auditor::info('PALETA', '$key', $nivel[$key]);
+                \Auditor::info('PALETA', '$nivel[$key]', $nivel[$key]);
                 if(isset($nivel[$key])) unset($nivel[$key]);
+                \Auditor::info('PALETA', '$nivel', $nivel);
             }
             if (($motivo_cierre == 'FALLECIDO') || ($motivo_cierre == 'Fallecido')) {
                 //QUITAR: SIN ARREGLO
@@ -398,6 +399,8 @@ class ProductoApi extends BaseController
                 if(isset($nivel[$key])) unset($nivel[$key]);
             }
 //        }
+
+        \Auditor::info('PALETA', '$nivel', $nivel);
 
         if ($page == 1) {
             $retorno['results'] = [];
