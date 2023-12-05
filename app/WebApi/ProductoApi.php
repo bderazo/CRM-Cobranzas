@@ -393,7 +393,7 @@ class ProductoApi extends BaseController
 //        }
 
         $nivel_retorno = [];
-        foreach ($nivel as $n){
+        foreach ($nivel as $n) {
             $nivel_retorno[] = $n;
         }
 
@@ -1129,6 +1129,36 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
                 'choices' => $choice_unica_gestion,
             ];
+
+            $retorno['form']['properties']['title_tipo_gestion'] = [
+                'title' => 'TIPO DE GESTIÓN',
+                'widget' => 'readonly',
+                'full_name' => 'data[title_tipo_gestion]',
+                'constraints' => [],
+                'type_content' => 'title',
+                'required' => 0,
+                'disabled' => 0,
+            ];
+            $retorno['form']['properties']['tipo_gestion'] = [
+                'type' => 'string',
+                'title' => 'TIPO DE GESTIÓN',
+                'widget' => 'choice',
+                'empty_data' => null,
+                'full_name' => 'data[tipo_gestion]',
+                'constraints' => [
+                    [
+                        'name' => 'NotBlank',
+                        'message' => 'Este campo no puede estar vacío'
+                    ],
+                ],
+                'required' => 0,
+                'disabled' => 0,
+                'choices' => [
+                    ['id' => 'campo', 'text' => 'CAMPO'],
+                    ['id' => 'campo_telefonia', 'text' => 'CAMPO TELEFONÍA'],
+                ],
+            ];
+
             $retorno['form']['properties']['title_6'] = [
                 'title' => $paleta['titulo_nivel1'],
                 'widget' => 'readonly',
@@ -1139,21 +1169,6 @@ class ProductoApi extends BaseController
                 'disabled' => 0,
             ];
             $retorno['form']['properties']['Nivel1'] = [
-//                'type' => 'string',
-//                'title' => $paleta['titulo_nivel1'],
-//                'widget' => 'choice',
-//                'empty_data' => ['id' => '', 'label' => 'Seleccionar'],
-//                'full_name' => 'data[nivel1]',
-//                'constraints' => [
-//                    [
-//                        'name' => 'NotBlank',
-//                        'message' => 'Este campo no puede estar vacío'
-//                    ]
-//                ],
-//                'attr' => ['hide-group-field' => 'group-seguimiento,group-campos'],
-//                'required' => 1,
-//                'disabled' => 0,
-//                'choices' => $nivel,
                 'type' => 'string',
                 'title' => $paleta['titulo_nivel1'],
                 'widget' => 'picker-select2',

@@ -460,6 +460,8 @@ class ProductoSeguimiento extends Model
 
         $seguimientos_id = [];
 
+        \Auditor::info('saveFormSeguimientoAPI', '$data', $data);
+
         $bandera_unificar_deuda = 'no';
         $tarjeta_unificar_deuda = '';
         foreach ($data['tarjetas'] as $tarjeta => $val) {
@@ -478,8 +480,6 @@ class ProductoSeguimiento extends Model
         } else {
             $guardar_seguimiento_tarjetas = false;
         }
-
-        \Auditor::info('save_form_seguimiento files: ', '$guardar_seguimiento_tarjetas', $guardar_seguimiento_tarjetas);
 
         if (!$guardar_seguimiento_tarjetas) {
             $con = new ProductoSeguimiento();
@@ -573,11 +573,6 @@ class ProductoSeguimiento extends Model
             }
         }
 
-//        $aplicativo_diners_tarjeta_diners = isset($data['tarjetas']['diners']) ? $data['tarjetas']['diners'] : [];
-//        $aplicativo_diners_tarjeta_interdin = isset($data['tarjetas']['interdin']) ? $data['tarjetas']['interdin'] : [];
-//        $aplicativo_diners_tarjeta_discover = isset($data['tarjetas']['discover']) ? $data['tarjetas']['discover'] : [];
-//        $aplicativo_diners_tarjeta_mastercard = isset($data['tarjetas']['mastercard']) ? $data['tarjetas']['mastercard'] : [];
-
         //SI UNIFICA, EL TIPO DE NEGOCIACION DEBE SER EL MISMO QUE LA TARJETA DONDE SE UNIFICO
         if (($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DINERS')) {
             if (count($aplicativo_diners_tarjeta_interdin) > 0) {
@@ -624,7 +619,6 @@ class ProductoSeguimiento extends Model
             }
         }
 
-        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_diners', $aplicativo_diners_tarjeta_diners);
         if (count($aplicativo_diners_tarjeta_diners) > 0) {
             if ($aplicativo_diners_tarjeta_diners['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
@@ -706,7 +700,6 @@ class ProductoSeguimiento extends Model
             }
         }
 
-        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_interdin', $aplicativo_diners_tarjeta_interdin);
         if (count($aplicativo_diners_tarjeta_interdin) > 0) {
             if ($aplicativo_diners_tarjeta_interdin['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
@@ -788,13 +781,11 @@ class ProductoSeguimiento extends Model
             }
         }
 
-        \Auditor::info('save_form_seguimiento files: ', '$aplicativo_diners_tarjeta_discover', $aplicativo_diners_tarjeta_discover);
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
             if ($aplicativo_diners_tarjeta_discover['motivo_cierre'] != 'PAGADA') {
                 if ($guardar_seguimiento_tarjetas) {
                     //GUARDO SEGUIMIENTOS POR TARJETA
                     $con = new ProductoSeguimiento();
-                    \Auditor::info('save_form_seguimiento files: ', '$con1', $con);
                     $con->institucion_id = 1;
                     $con->cliente_id = $cliente_id;
                     $con->producto_id = $producto_id;
@@ -802,7 +793,6 @@ class ProductoSeguimiento extends Model
                     $con->origen = 'movil';
                     $con->canal = 'CAMPO';
                     $con->usuario_ingreso = $usuario_id;
-                    \Auditor::info('save_form_seguimiento files: ', '$con2', $con);
                     $con->eliminado = 0;
                     $con->fecha_ingreso = date("Y-m-d H:i:s");
                     $con->usuario_modificacion = $usuario_id;
@@ -815,7 +805,6 @@ class ProductoSeguimiento extends Model
                     $con->nivel_2_texto = $paleta_arbol['valor'];
                     $con->nivel_3_id = $data['discover']['nivel3'];
                     $paleta_arbol = PaletaArbol::porId($data['discover']['nivel3']);
-                    \Auditor::info('save_form_seguimiento files: ', '$con3', $con);
                     $con->nivel_3_texto = $paleta_arbol['valor'];
                     if (isset($data['discover']['fecha_compromiso_pago'])) {
                         if ($data['discover']['fecha_compromiso_pago'] != '') {
@@ -827,7 +816,6 @@ class ProductoSeguimiento extends Model
                             $con->valor_comprometido = $data['discover']['valor_comprometido'];
                         }
                     }
-                    \Auditor::info('save_form_seguimiento files: ', '$con4', $con);
                     //MOTIVOS DE NO PAGO
                     if (isset($data['discover']['nivel_1_motivo_no_pago_id'])) {
                         if ($data['discover']['nivel_1_motivo_no_pago_id'] > 0) {
@@ -843,7 +831,6 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    \Auditor::info('save_form_seguimiento files: ', '$con5', $con);
                     $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['discover']['observaciones']);
                     $con->ingresos_cliente = $data['discover']['ingresos_cliente'];
                     $con->egresos_cliente = $data['discover']['egresos_cliente'];
@@ -855,7 +842,6 @@ class ProductoSeguimiento extends Model
                     $con->tarjeta_unificar_deudas = $tarjeta_unificar_deuda;
                     $con->lat = $lat;
                     $con->long = $long;
-                    \Auditor::info('save_form_seguimiento files: ', '$con', $con);
                     $con->save();
                     $seguimientos_id[] = $con->id;
                 }
