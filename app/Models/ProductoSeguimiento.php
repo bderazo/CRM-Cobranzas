@@ -460,8 +460,6 @@ class ProductoSeguimiento extends Model
 
         $seguimientos_id = [];
 
-        \Auditor::info('saveFormSeguimientoAPI', '$data', $data);
-
         $bandera_unificar_deuda = 'no';
         $tarjeta_unificar_deuda = '';
         foreach ($data['tarjetas'] as $tarjeta => $val) {
@@ -470,6 +468,16 @@ class ProductoSeguimiento extends Model
                 $bandera_unificar_deuda = 'si';
             }
         }
+
+        //VERIFICO Q TIPO DE GESTION ES
+        $origen = 'movil';
+        if ($data['tipo_gestion'] == 'campo') {
+            $origen = 'movil';
+        }
+        if ($data['tipo_gestion'] == 'campo_telefonia') {
+            $origen = 'movil_telefonia';
+        }
+
         //VERIFICO Q NO SEA CIERRE EFECTIVO NI UNIFICAR DEUDAS PARA GUARDAR EL SEGUIMIENTO GENERAL
         if ($data['nivel1'] == 1855) {
             if ($data['unica_gestion'] == 'no') {
@@ -487,7 +495,7 @@ class ProductoSeguimiento extends Model
             $con->cliente_id = $cliente_id;
             $con->producto_id = $producto_id;
             $con->paleta_id = 1;
-            $con->origen = 'movil';
+            $con->origen = $origen;
             $con->canal = 'CAMPO';
             $con->usuario_ingreso = $usuario_id;
             $con->eliminado = 0;
@@ -628,7 +636,7 @@ class ProductoSeguimiento extends Model
                     $con->cliente_id = $cliente_id;
                     $con->producto_id = $producto_id;
                     $con->paleta_id = 1;
-                    $con->origen = 'movil';
+                    $con->origen = $origen;
                     $con->canal = 'CAMPO';
                     $con->usuario_ingreso = $usuario_id;
                     $con->eliminado = 0;
@@ -709,7 +717,7 @@ class ProductoSeguimiento extends Model
                     $con->cliente_id = $cliente_id;
                     $con->producto_id = $producto_id;
                     $con->paleta_id = 1;
-                    $con->origen = 'movil';
+                    $con->origen = $origen;
                     $con->canal = 'CAMPO';
                     $con->usuario_ingreso = $usuario_id;
                     $con->eliminado = 0;
@@ -790,7 +798,7 @@ class ProductoSeguimiento extends Model
                     $con->cliente_id = $cliente_id;
                     $con->producto_id = $producto_id;
                     $con->paleta_id = 1;
-                    $con->origen = 'movil';
+                    $con->origen = $origen;
                     $con->canal = 'CAMPO';
                     $con->usuario_ingreso = $usuario_id;
                     $con->eliminado = 0;
@@ -871,7 +879,7 @@ class ProductoSeguimiento extends Model
                     $con->cliente_id = $cliente_id;
                     $con->producto_id = $producto_id;
                     $con->paleta_id = 1;
-                    $con->origen = 'movil';
+                    $con->origen = $origen;
                     $con->canal = 'CAMPO';
                     $con->usuario_ingreso = $usuario_id;
                     $con->eliminado = 0;
