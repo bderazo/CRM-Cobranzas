@@ -267,8 +267,11 @@ class Usuario extends Model {
 		}
 		$q->orderBy('u.apellidos');
 		$lista = $q->fetchAll();
-		if (!$lista) return [];
-		return $lista;
+        $retorno = [];
+        foreach ($lista as $l){
+            $retorno[$l['id']] = $l;
+        }
+		return $retorno;
 	}
 
 	static function getUsuariosGestoresInstitucionPlaza($instituciones = [], $plaza = '') {

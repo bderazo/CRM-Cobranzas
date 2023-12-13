@@ -194,23 +194,41 @@ class ProduccionPlaza {
 
 		//UNIR CON LOS ASESORES
 		$data = [];
-		foreach($usuarios_gestores as $ug){
-			if(isset($data_contar[$ug['id']])) {
-				foreach($data_contar[$ug['id']] as $k => $v) {
-                    foreach($v as $k1 => $v1) {
-                        $d['zona'] = $k;
-                        $d['ejecutivo'] = $ug['nombres'];
-                        $d['canal'] = $k1;
-                        $d['diners'] = isset($v1['DINERS']) ? $v1['DINERS'] : 0;
-                        $d['interdin'] = isset($v1['INTERDIN']) ? $v1['INTERDIN'] : 0;
-                        $d['discover'] = isset($v1['DISCOVER']) ? $v1['DISCOVER'] : 0;
-                        $d['mastercard'] = isset($v1['MASTERCARD']) ? $v1['MASTERCARD'] : 0;
+//		foreach($usuarios_gestores as $ug){
+//			if(isset($data_contar[$ug['id']])) {
+//				foreach($data_contar[$ug['id']] as $k => $v) {
+//                    foreach($v as $k1 => $v1) {
+//                        $d['zona'] = $k;
+//                        $d['ejecutivo'] = $ug['nombres'];
+//                        $d['canal'] = $k1;
+//                        $d['diners'] = isset($v1['DINERS']) ? $v1['DINERS'] : 0;
+//                        $d['interdin'] = isset($v1['INTERDIN']) ? $v1['INTERDIN'] : 0;
+//                        $d['discover'] = isset($v1['DISCOVER']) ? $v1['DISCOVER'] : 0;
+//                        $d['mastercard'] = isset($v1['MASTERCARD']) ? $v1['MASTERCARD'] : 0;
+//                        $d['total_general'] = $d['diners'] + $d['interdin'] + $d['discover'] + $d['mastercard'];
+//                        $data[] = $d;
+//                    }
+//				}
+//			}
+//		}
+
+        foreach($data_contar as $k => $v) {
+            if(isset($usuarios_gestores[$k])) {
+                foreach ($v as $k1 => $v1) {
+                    foreach ($v1 as $k2 => $v2) {
+                        $d['zona'] = $k1;
+                        $d['ejecutivo'] = $usuarios_gestores[$k]['nombres'];
+                        $d['canal'] = $k2;
+                        $d['diners'] = isset($v2['DINERS']) ? $v2['DINERS'] : 0;
+                        $d['interdin'] = isset($v2['INTERDIN']) ? $v2['INTERDIN'] : 0;
+                        $d['discover'] = isset($v2['DISCOVER']) ? $v2['DISCOVER'] : 0;
+                        $d['mastercard'] = isset($v2['MASTERCARD']) ? $v2['MASTERCARD'] : 0;
                         $d['total_general'] = $d['diners'] + $d['interdin'] + $d['discover'] + $d['mastercard'];
                         $data[] = $d;
                     }
-				}
-			}
-		}
+                }
+            }
+        }
 
 		$telefonia = [];
 		$aux_telefonia = [];
