@@ -85,7 +85,7 @@ class CargarArchivoController extends BaseController {
 		if (empty($files['archivo'])) {
 			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
 		}
-        printDie($files->getError());
+        printDie($files['archivo']->getError());
 		/** @var UploadedFile $archivo */
 		$archivo = $files['archivo'];
 		// mas checks que sea xlsx, etc, tamaño, etc.

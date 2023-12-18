@@ -36,14 +36,13 @@ class BaseSaldosCampo
     {
         $db = new \FluentPDO($this->pdo);
 
-        //OBTENER TELEFONOS
-        $telefonos = Telefono::getTodos();
-        $telefonos_id = Telefono::getTodosID();
+        $clientes_asignacion_marca = AplicativoDinersAsignaciones::getClientesDetalleMarca([],[],$filtros['fecha_inicio']);
+
 
         $q = $db->from('aplicativo_diners_saldos ads')
             ->innerJoin('cliente cl ON cl.id = ads.cliente_id')
             ->select(null)
-            ->select('ads.*, cl.cedula, cl.nombres, ')
+            ->select('ads.*, cl.id ')
             ->where('ads.eliminado', 0)
             ->orderBy('ads.fecha_ingreso ASC');
         $q->where('ads.fecha = ?', $filtros['fecha_inicio']);
@@ -52,175 +51,308 @@ class BaseSaldosCampo
         $lista = $q->fetchAll();
         $data = [];
         foreach ($lista as $res) {
-            //BUSCO EN SALDOS
-            $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
-            $campos_saldos = json_decode($saldos_arr['campos'], true);
-            unset($saldos_arr['campos']);
-            $saldos_arr = array_merge($saldos_arr, $campos_saldos);
-
-            if (isset($resumen_gestiones[$res['identificador']][$res['ciclo']])) {
-                $resumen_gestiones[$res['identificador']][$res['ciclo']]++;
-            } else {
-                $resumen_gestiones[$res['identificador']][$res['ciclo']] = 1;
-            }
-            $producto_codigo = '';
-            if ($res['tarjeta'] == 'DINERS') {
-                $res['tipo_campana'] = $saldos_arr['tipo_campana_diners'];
-                $res['ejecutivo'] = $saldos_arr['ejecutivo_diners'];
-                $res['ciclo'] = $saldos_arr['ciclo_diners'];
-                $res['edad'] = $saldos_arr['edad_real_diners'];
-                $res['saldo_total_deuda'] = $saldos_arr['saldo_total_deuda_diners'];
-                $res['riesgo_total'] = $saldos_arr['riesgo_total_diners'];
-                $res['interes_total'] = $saldos_arr['intereses_total_diners'];
-                $res['recuperado'] = $saldos_arr['recuperado_diners'];
-                $res['pago_minimo'] = $saldos_arr['valor_pago_minimo_diners'];
-                $res['fecha_maxima_pago'] = $saldos_arr['fecha_maxima_pago_diners'];
-                $res['numero_diferidos'] = $saldos_arr['numero_diferidos_diners'];
-                $res['numero_refinanciaciones_historica'] = $saldos_arr['numero_refinanciaciones_historicas_diners'];
-                $res['plazo_financiamiento_actual'] = $saldos_arr['plazo_financiamiento_actual_diners'];
-                $res['motivo_cierre'] = $saldos_arr['motivo_cierre_diners'];
-                $res['oferta_valor'] = $saldos_arr['oferta_valor_diners'];
-                $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_diners'];
-                $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_diners'];
-                $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_diners'];
-                $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_diners'];
-                $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_diners'];
-                $res['credito_inmediato'] = $saldos_arr['credito_inmediato_diners'];
-                $res['producto'] = $saldos_arr['producto_diners'];
-                $producto_codigo = 'DINC';
-            }
-
-            if ($res['tarjeta'] == 'INTERDIN') {
-                $res['tipo_campana'] = $saldos_arr['tipo_campana_visa'];
-                $res['ejecutivo'] = $saldos_arr['ejecutivo_visa'];
-                $res['ciclo'] = $saldos_arr['ciclo_visa'];
-                $res['edad'] = $saldos_arr['edad_real_visa'];
-                $res['saldo_total_deuda'] = $saldos_arr['saldo_total_deuda_visa'];
-                $res['riesgo_total'] = $saldos_arr['riesgo_total_visa'];
-                $res['interes_total'] = $saldos_arr['intereses_total_visa'];
-                $res['recuperado'] = $saldos_arr['recuperado_visa'];
-                $res['pago_minimo'] = $saldos_arr['valor_pago_minimo_visa'];
-                $res['fecha_maxima_pago'] = $saldos_arr['fecha_maxima_pago_visa'];
-                $res['numero_diferidos'] = $saldos_arr['numero_diferidos_visa'];
-                $res['numero_refinanciaciones_historica'] = $saldos_arr['numero_refinanciaciones_historicas_visa'];
-                $res['plazo_financiamiento_actual'] = $saldos_arr['plazo_financiamiento_actual_visa'];
-                $res['motivo_cierre'] = $saldos_arr['motivo_cierre_visa'];
-                $res['oferta_valor'] = $saldos_arr['oferta_valor_visa'];
-                $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_visa'];
-                $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_visa'];
-                $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_visa'];
-                $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_visa'];
-                $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_visa'];
-                $res['credito_inmediato'] = $saldos_arr['credito_inmediato_visa'];
-                $res['producto'] = $saldos_arr['producto_visa'];
-                $producto_codigo = 'VISC';
-            }
-
-            if ($res['tarjeta'] == 'DISCOVER') {
-                $res['tipo_campana'] = $saldos_arr['tipo_campana_discover'];
-                $res['ejecutivo'] = $saldos_arr['ejecutivo_discover'];
-                $res['ciclo'] = $saldos_arr['ciclo_discover'];
-                $res['edad'] = $saldos_arr['edad_real_discover'];
-                $res['saldo_total_deuda'] = $saldos_arr['saldo_total_deuda_discover'];
-                $res['riesgo_total'] = $saldos_arr['riesgo_total_discover'];
-                $res['interes_total'] = $saldos_arr['intereses_total_discover'];
-                $res['recuperado'] = $saldos_arr['recuperado_discover'];
-                $res['pago_minimo'] = $saldos_arr['valor_pago_minimo_discover'];
-                $res['fecha_maxima_pago'] = $saldos_arr['fecha_maxima_pago_discover'];
-                $res['numero_diferidos'] = $saldos_arr['numero_diferidos_discover'];
-                $res['numero_refinanciaciones_historica'] = $saldos_arr['numero_refinanciaciones_historicas_discover'];
-                $res['plazo_financiamiento_actual'] = $saldos_arr['plazo_financiamiento_actual_discover'];
-                $res['motivo_cierre'] = $saldos_arr['motivo_cierre_discover'];
-                $res['oferta_valor'] = $saldos_arr['oferta_valor_discover'];
-                $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_discover'];
-                $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_discover'];
-                $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_discover'];
-                $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_discover'];
-                $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_discover'];
-                $res['credito_inmediato'] = $saldos_arr['credito_inmediato_discover'];
-                $res['producto'] = $saldos_arr['producto_discover'];
-                if (($saldos_arr['producto_discover'] == 'DISCOVER') ||
-                    ($saldos_arr['producto_discover'] == 'DISCOVER ME') ||
-                    ($saldos_arr['producto_discover'] == 'DISCOVER MORE') ||
-                    ($saldos_arr['producto_discover'] == 'DISCOVER BSC') ||
-                    ($saldos_arr['producto_discover'] == 'DISCOVER BSC ME') ||
-                    ($saldos_arr['producto_discover'] == 'DISCOVER BSC MORE')) {
-                    $producto_codigo = 'DISCNOR';
-                } else {
-                    $producto_codigo = 'DISCCON';
+            $res['diners'] = [];
+            $res['visa'] = [];
+            $res['discover'] = [];
+            $res['mastercard'] = [];
+            if($res['producto_diners'] != ''){
+                $tarjeta['canal'] = $res['canal_diners'];
+                $tarjeta['tipo_campana'] = $res['tipo_campana_diners'];
+                $tarjeta['ejecutivo'] = $res['ejecutivo_diners'];
+                $tarjeta['campana_ece'] = $res['campana_ece_diners'];
+                $tarjeta['ciclo'] = $res['ciclo_diners'];
+                $tarjeta['edad_real'] = $res['edad_real_diners'];
+                $tarjeta['saldo_total_facturacion'] = $res['saldo_total_facturacion_diners'];
+                $tarjeta['producto'] = $res['producto_diners'];
+                $tarjeta['saldo_mora'] = $res['saldo_mora_diners'];
+                $tarjeta['saldo_total_deuda'] = $res['saldo_total_deuda_diners'];
+                $tarjeta['riesgo_total'] = $res['riesgo_total_diners'];
+                $tarjeta['intereses_total'] = $res['intereses_total_diners'];
+                $tarjeta['codigo_cancelacion'] = $res['codigo_cancelacion_diners'];
+                $tarjeta['debito_automatico'] = $res['debito_automatico_diners'];
+                $tarjeta['actuales_facturado'] = $res['actuales_facturado_diners'];
+                $tarjeta['facturado_30_dias'] = $res['facturado_30_dias_diners'];
+                $tarjeta['facturado_60_dias'] = $res['facturado_60_dias_diners'];
+                $tarjeta['facturado_90_dias'] = $res['facturado_90_dias_diners'];
+                $tarjeta['facturado_mas90_dias'] = $res['facturado_mas90_dias_diners'];
+                $tarjeta['simulacion_diferidos'] = $res['simulacion_diferidos_diners'];
+                $tarjeta['debito'] = $res['debito_diners'];
+                $tarjeta['credito'] = $res['credito_diners'];
+                $tarjeta['abono_fecha'] = $res['abono_fecha_diners'];
+                $tarjeta['codigo_boletin'] = $res['codigo_boletin_diners'];
+                $tarjeta['interes_facturar'] = $res['interes_facturar_diners'];
+                $tarjeta['pago_notas_credito'] = $res['pago_notas_credito_diners'];
+                $porcentaje_40 = $res['intereses_total_diners'] * 0.4;
+                if($res['pago_notas_credito_diners'] < 50){
+                    $tarjeta['abonadas'] = 'NO';
+                }elseif ($res['pago_notas_credito_diners'] >= $res['intereses_total_diners']){
+                    $tarjeta['abonadas'] = 'ABONO 100%';
+                }elseif ($res['pago_notas_credito_diners'] >= $porcentaje_40){
+                    $tarjeta['abonadas'] = 'ABONO 40%';
                 }
+                $tarjeta['recuperado'] = $res['recuperado_diners'];
+                $tarjeta['recuperacion_actuales'] = $res['recuperacion_actuales_diners'];
+                $tarjeta['recuperacion_30_dias'] = $res['recuperacion_30_dias_diners'];
+                $tarjeta['recuperacion_60_dias'] = $res['recuperacion_60_dias_diners'];
+                $tarjeta['recuperacion_90_dias'] = $res['recuperacion_90_dias_diners'];
+                $tarjeta['recuperacion_mas90_dias'] = $res['recuperacion_mas90_dias_diners'];
+                $tarjeta['valor_pago_minimo'] = $res['valor_pago_minimo_diners'];
+                $tarjeta['valores_facturar_corriente'] = $res['valores_facturar_corriente_diners'];
+                $tarjeta['fecha_maxima_pago'] = $res['fecha_maxima_pago_diners'];
+                $tarjeta['establecimiento'] = $res['establecimiento_diners'];
+                $tarjeta['numero_diferidos'] = $res['numero_diferidos_diners'];
+                $tarjeta['cuotas_pendientes'] = $res['cuotas_pendientes_diners'];
+                $tarjeta['cuota_refinanciacion_vigente_pendiente'] = $res['cuota_refinanciacion_vigente_pendiente_diners'];
+                $tarjeta['valor_pendiente_refinanciacion_vigente'] = $res['valor_pendiente_refinanciacion_vigente_diners'];
+                $tarjeta['reestructuracion_historica'] = $res['reestructuracion_historica_diners'];
+                $tarjeta['calificacion_seguro'] = $res['calificacion_seguro_diners'];
+                $tarjeta['fecha_operacion_vigente'] = $res['fecha_operacion_vigente_diners'];
+                $tarjeta['numero_refinanciaciones_historicas'] = $res['numero_refinanciaciones_historicas_diners'];
+                $tarjeta['motivo_no_pago'] = $res['motivo_no_pago_diners'];
+                $tarjeta['rotativo_vigente'] = $res['rotativo_vigente_diners'];
+                $tarjeta['valor_vehicular'] = $res['valor_vehicular_diners'];
+                $tarjeta['consumo_exterior'] = $res['consumo_exterior_diners'];
+                $tarjeta['plazo_financiamiento_actual'] = $res['plazo_financiamiento_actual_diners'];
+                $tarjeta['fecha_compromiso'] = $res['fecha_compromiso_diners'];
+                $tarjeta['motivo_cierre'] = $res['motivo_cierre_diners'];
+                $tarjeta['observacion_cierre'] = $res['observacion_cierre_diners'];
+                $tarjeta['oferta_valor'] = $res['oferta_valor_diners'];
+                $tarjeta['marca'] = 'DINERS';
+                $tarjeta['obs_pago_dn'] = $res['obs_pago_dn'];
+                $tarjeta['obs_dif_historico_dn'] = $res['obs_dif_historico_dn'];
+                $tarjeta['obs_dif_vigente_dn'] = $res['obs_dif_vigente_dn'];
+                $tarjeta['pendiente_actuales'] = $res['pendiente_actuales_diners'];
+                $tarjeta['pendiente_30_dias'] = $res['pendiente_30_dias_diners'];
+                $tarjeta['pendiente_60_dias'] = $res['pendiente_60_dias_diners'];
+                $tarjeta['pendiente_90_dias'] = $res['pendiente_90_dias_diners'];
+                $tarjeta['pendiente_mas90_dias'] = $res['pendiente_mas90_dias_diners'];
+                $res['diners'] = $tarjeta;
             }
-
-            if ($res['tarjeta'] == 'MASTERCARD') {
-                $res['tipo_campana'] = $saldos_arr['tipo_campana_mastercard'];
-                $res['ejecutivo'] = $saldos_arr['ejecutivo_mastercard'];
-                $res['ciclo'] = $saldos_arr['ciclo_mastercard'];
-                $res['edad'] = $saldos_arr['edad_real_mastercard'];
-                $res['saldo_total_deuda'] = $saldos_arr['saldo_total_deuda_mastercard'];
-                $res['riesgo_total'] = $saldos_arr['riesgo_total_mastercard'];
-                $res['interes_total'] = $saldos_arr['intereses_total_mastercard'];
-                $res['recuperado'] = $saldos_arr['recuperado_mastercard'];
-                $res['pago_minimo'] = $saldos_arr['valor_pago_minimo_mastercard'];
-                $res['fecha_maxima_pago'] = $saldos_arr['fecha_maxima_pago_mastercard'];
-                $res['numero_diferidos'] = $saldos_arr['numero_diferidos_mastercard'];
-                $res['numero_refinanciaciones_historica'] = $saldos_arr['numero_refinanciaciones_historicas_mastercard'];
-                $res['plazo_financiamiento_actual'] = $saldos_arr['plazo_financiamiento_actual_mastercard'];
-                $res['motivo_cierre'] = $saldos_arr['motivo_cierre_mastercard'];
-                $res['oferta_valor'] = $saldos_arr['oferta_valor_mastercard'];
-                $res['pendiente_actuales'] = $saldos_arr['pendiente_actuales_mastercard'];
-                $res['pendiente_30'] = $saldos_arr['pendiente_30_dias_mastercard'];
-                $res['pendiente_60'] = $saldos_arr['pendiente_60_dias_mastercard'];
-                $res['pendiente_90'] = $saldos_arr['pendiente_90_dias_mastercard'];
-                $res['pendiente_mas_90'] = $saldos_arr['pendiente_mas90_dias_mastercard'];
-                $res['credito_inmediato'] = $saldos_arr['credito_inmediato_mastercard'];
-                $res['producto'] = $saldos_arr['producto_mastercard'];
-                $producto_codigo = 'MASC';
+            if($res['producto_visa'] != ''){
+                $tarjeta['canal'] = $res['canal_visa'];
+                $tarjeta['tipo_campana'] = $res['tipo_campana_visa'];
+                $tarjeta['ejecutivo'] = $res['ejecutivo_visa'];
+                $tarjeta['campana_ece'] = $res['campana_ece_visa'];
+                $tarjeta['ciclo'] = $res['ciclo_visa'];
+                $tarjeta['edad_real'] = $res['edad_real_visa'];
+                $tarjeta['saldo_total_facturacion'] = $res['saldo_total_facturacion_visa'];
+                $tarjeta['producto'] = $res['producto_visa'];
+                $tarjeta['saldo_mora'] = $res['saldo_mora_visa'];
+                $tarjeta['saldo_total_deuda'] = $res['saldo_total_deuda_visa'];
+                $tarjeta['riesgo_total'] = $res['riesgo_total_visa'];
+                $tarjeta['intereses_total'] = $res['intereses_total_visa'];
+                $tarjeta['codigo_cancelacion'] = $res['codigo_cancelacion_visa'];
+                $tarjeta['debito_automatico'] = $res['debito_automatico_visa'];
+                $tarjeta['actuales_facturado'] = $res['actuales_facturado_visa'];
+                $tarjeta['facturado_30_dias'] = $res['facturado_30_dias_visa'];
+                $tarjeta['facturado_60_dias'] = $res['facturado_60_dias_visa'];
+                $tarjeta['facturado_90_dias'] = $res['facturado_90_dias_visa'];
+                $tarjeta['facturado_mas90_dias'] = $res['facturado_mas90_dias_visa'];
+                $tarjeta['simulacion_diferidos'] = $res['simulacion_diferidos_visa'];
+                $tarjeta['debito'] = $res['debito_visa'];
+                $tarjeta['credito'] = $res['credito_visa'];
+                $tarjeta['abono_fecha'] = $res['abono_fecha_visa'];
+                $tarjeta['codigo_boletin'] = $res['codigo_boletin_visa'];
+                $tarjeta['interes_facturar'] = $res['interes_facturar_visa'];
+                $tarjeta['pago_notas_credito'] = $res['pago_notas_credito_visa'];
+                $porcentaje_40 = $res['intereses_total_visa'] * 0.4;
+                if($res['pago_notas_credito_visa'] < 50){
+                    $tarjeta['abonadas'] = 'NO';
+                }elseif ($res['pago_notas_credito_visa'] >= $res['intereses_total_visa']){
+                    $tarjeta['abonadas'] = 'ABONO 100%';
+                }elseif ($res['pago_notas_credito_visa'] >= $porcentaje_40){
+                    $tarjeta['abonadas'] = 'ABONO 40%';
+                }
+                $tarjeta['recuperado'] = $res['recuperado_visa'];
+                $tarjeta['recuperacion_actuales'] = $res['recuperacion_actuales_visa'];
+                $tarjeta['recuperacion_30_dias'] = $res['recuperacion_30_dias_visa'];
+                $tarjeta['recuperacion_60_dias'] = $res['recuperacion_60_dias_visa'];
+                $tarjeta['recuperacion_90_dias'] = $res['recuperacion_90_dias_visa'];
+                $tarjeta['recuperacion_mas90_dias'] = $res['recuperacion_mas90_dias_visa'];
+                $tarjeta['valor_pago_minimo'] = $res['valor_pago_minimo_visa'];
+                $tarjeta['valores_facturar_corriente'] = $res['valores_facturar_corriente_visa'];
+                $tarjeta['fecha_maxima_pago'] = $res['fecha_maxima_pago_visa'];
+                $tarjeta['establecimiento'] = $res['establecimiento_visa'];
+                $tarjeta['numero_diferidos'] = $res['numero_diferidos_visa'];
+                $tarjeta['cuotas_pendientes'] = $res['cuotas_pendientes_visa'];
+                $tarjeta['cuota_refinanciacion_vigente_pendiente'] = $res['cuota_refinanciacion_vigente_pendiente_visa'];
+                $tarjeta['valor_pendiente_refinanciacion_vigente'] = $res['valor_pendiente_refinanciacion_vigente_visa'];
+                $tarjeta['reestructuracion_historica'] = $res['reestructuracion_historica_visa'];
+                $tarjeta['calificacion_seguro'] = $res['calificacion_seguro_visa'];
+                $tarjeta['fecha_operacion_vigente'] = $res['fecha_operacion_vigente_visa'];
+                $tarjeta['numero_refinanciaciones_historicas'] = $res['numero_refinanciaciones_historicas_visa'];
+                $tarjeta['motivo_no_pago'] = $res['motivo_no_pago_visa'];
+                $tarjeta['rotativo_vigente'] = $res['rotativo_vigente_visa'];
+                $tarjeta['valor_vehicular'] = $res['valor_vehicular_visa'];
+                $tarjeta['consumo_exterior'] = $res['consumo_exterior_visa'];
+                $tarjeta['plazo_financiamiento_actual'] = $res['plazo_financiamiento_actual_visa'];
+                $tarjeta['fecha_compromiso'] = $res['fecha_compromiso_visa'];
+                $tarjeta['motivo_cierre'] = $res['motivo_cierre_visa'];
+                $tarjeta['observacion_cierre'] = $res['observacion_cierre_visa'];
+                $tarjeta['oferta_valor'] = $res['oferta_valor_visa'];
+                $tarjeta['marca'] = 'VISA';
+                $tarjeta['obs_pago_dn'] = $res['obs_pago_dn'];
+                $tarjeta['obs_dif_historico_dn'] = $res['obs_dif_historico_dn'];
+                $tarjeta['obs_dif_vigente_dn'] = $res['obs_dif_vigente_dn'];
+                $tarjeta['pendiente_actuales'] = $res['pendiente_actuales_visa'];
+                $tarjeta['pendiente_30_dias'] = $res['pendiente_30_dias_visa'];
+                $tarjeta['pendiente_60_dias'] = $res['pendiente_60_dias_visa'];
+                $tarjeta['pendiente_90_dias'] = $res['pendiente_90_dias_visa'];
+                $tarjeta['pendiente_mas90_dias'] = $res['pendiente_mas90_dias_visa'];
+                $res['visa'] = $tarjeta;
             }
-
-            if ($res['tipo_campana'] == '') {
-//                        printDie($asignacion_arr['campana_ece']);
-                $res['tipo_campana'] = $asignacion_arr['campana_ece'];
+            if($res['producto_discover'] != ''){
+                $tarjeta['canal'] = $res['canal_discover'];
+                $tarjeta['tipo_campana'] = $res['tipo_campana_discover'];
+                $tarjeta['ejecutivo'] = $res['ejecutivo_discover'];
+                $tarjeta['campana_ece'] = $res['campana_ece_discover'];
+                $tarjeta['ciclo'] = $res['ciclo_discover'];
+                $tarjeta['edad_real'] = $res['edad_real_discover'];
+                $tarjeta['saldo_total_facturacion'] = $res['saldo_total_facturacion_discover'];
+                $tarjeta['producto'] = $res['producto_discover'];
+                $tarjeta['saldo_mora'] = $res['saldo_mora_discover'];
+                $tarjeta['saldo_total_deuda'] = $res['saldo_total_deuda_discover'];
+                $tarjeta['riesgo_total'] = $res['riesgo_total_discover'];
+                $tarjeta['intereses_total'] = $res['intereses_total_discover'];
+                $tarjeta['codigo_cancelacion'] = $res['codigo_cancelacion_discover'];
+                $tarjeta['debito_automatico'] = $res['debito_automatico_discover'];
+                $tarjeta['actuales_facturado'] = $res['actuales_facturado_discover'];
+                $tarjeta['facturado_30_dias'] = $res['facturado_30_dias_discover'];
+                $tarjeta['facturado_60_dias'] = $res['facturado_60_dias_discover'];
+                $tarjeta['facturado_90_dias'] = $res['facturado_90_dias_discover'];
+                $tarjeta['facturado_mas90_dias'] = $res['facturado_mas90_dias_discover'];
+                $tarjeta['simulacion_diferidos'] = $res['simulacion_diferidos_discover'];
+                $tarjeta['debito'] = $res['debito_discover'];
+                $tarjeta['credito'] = $res['credito_discover'];
+                $tarjeta['abono_fecha'] = $res['abono_fecha_discover'];
+                $tarjeta['codigo_boletin'] = $res['codigo_boletin_discover'];
+                $tarjeta['interes_facturar'] = $res['interes_facturar_discover'];
+                $tarjeta['pago_notas_credito'] = $res['pago_notas_credito_discover'];
+                $porcentaje_40 = $res['intereses_total_discover'] * 0.4;
+                if($res['pago_notas_credito_discover'] < 50){
+                    $tarjeta['abonadas'] = 'NO';
+                }elseif ($res['pago_notas_credito_discover'] >= $res['intereses_total_discover']){
+                    $tarjeta['abonadas'] = 'ABONO 100%';
+                }elseif ($res['pago_notas_credito_discover'] >= $porcentaje_40){
+                    $tarjeta['abonadas'] = 'ABONO 40%';
+                }
+                $tarjeta['recuperado'] = $res['recuperado_discover'];
+                $tarjeta['recuperacion_actuales'] = $res['recuperacion_actuales_discover'];
+                $tarjeta['recuperacion_30_dias'] = $res['recuperacion_30_dias_discover'];
+                $tarjeta['recuperacion_60_dias'] = $res['recuperacion_60_dias_discover'];
+                $tarjeta['recuperacion_90_dias'] = $res['recuperacion_90_dias_discover'];
+                $tarjeta['recuperacion_mas90_dias'] = $res['recuperacion_mas90_dias_discover'];
+                $tarjeta['valor_pago_minimo'] = $res['valor_pago_minimo_discover'];
+                $tarjeta['valores_facturar_corriente'] = $res['valores_facturar_corriente_discover'];
+                $tarjeta['fecha_maxima_pago'] = $res['fecha_maxima_pago_discover'];
+                $tarjeta['establecimiento'] = $res['establecimiento_discover'];
+                $tarjeta['numero_diferidos'] = $res['numero_diferidos_discover'];
+                $tarjeta['cuotas_pendientes'] = $res['cuotas_pendientes_discover'];
+                $tarjeta['cuota_refinanciacion_vigente_pendiente'] = $res['cuota_refinanciacion_vigente_pendiente_discover'];
+                $tarjeta['valor_pendiente_refinanciacion_vigente'] = $res['valor_pendiente_refinanciacion_vigente_discover'];
+                $tarjeta['reestructuracion_historica'] = $res['reestructuracion_historica_discover'];
+                $tarjeta['calificacion_seguro'] = $res['calificacion_seguro_discover'];
+                $tarjeta['fecha_operacion_vigente'] = $res['fecha_operacion_vigente_discover'];
+                $tarjeta['numero_refinanciaciones_historicas'] = $res['numero_refinanciaciones_historicas_discover'];
+                $tarjeta['motivo_no_pago'] = $res['motivo_no_pago_discover'];
+                $tarjeta['rotativo_vigente'] = $res['rotativo_vigente_discover'];
+                $tarjeta['valor_vehicular'] = $res['valor_vehicular_discover'];
+                $tarjeta['consumo_exterior'] = $res['consumo_exterior_discover'];
+                $tarjeta['plazo_financiamiento_actual'] = $res['plazo_financiamiento_actual_discover'];
+                $tarjeta['fecha_compromiso'] = $res['fecha_compromiso_discover'];
+                $tarjeta['motivo_cierre'] = $res['motivo_cierre_discover'];
+                $tarjeta['observacion_cierre'] = $res['observacion_cierre_discover'];
+                $tarjeta['oferta_valor'] = $res['oferta_valor_discover'];
+                $tarjeta['marca'] = 'DISCOVER';
+                $tarjeta['obs_pago_dn'] = $res['obs_pago_dn'];
+                $tarjeta['obs_dif_historico_dn'] = $res['obs_dif_historico_dn'];
+                $tarjeta['obs_dif_vigente_dn'] = $res['obs_dif_vigente_dn'];
+                $tarjeta['pendiente_actuales'] = $res['pendiente_actuales_discover'];
+                $tarjeta['pendiente_30_dias'] = $res['pendiente_30_dias_discover'];
+                $tarjeta['pendiente_60_dias'] = $res['pendiente_60_dias_discover'];
+                $tarjeta['pendiente_90_dias'] = $res['pendiente_90_dias_discover'];
+                $tarjeta['pendiente_mas90_dias'] = $res['pendiente_mas90_dias_discover'];
+                $res['discover'] = $tarjeta;
             }
-
-            $res['tarjeta'] = $res['tarjeta'] == 'MASTERCARD' ? 'MASTERCA' : $res['tarjeta'];
-            $res['tarjeta'] = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
-
-            $res['codigo_operacion'] = $res['cedula'] . $producto_codigo . $res['ciclo'];
-
-            $res['origen'] = strtoupper($res['origen']);
-
+            if($res['producto_mastercard'] != ''){
+                $tarjeta['canal'] = $res['canal_mastercard'];
+                $tarjeta['tipo_campana'] = $res['tipo_campana_mastercard'];
+                $tarjeta['ejecutivo'] = $res['ejecutivo_mastercard'];
+                $tarjeta['campana_ece'] = $res['campana_ece_mastercard'];
+                $tarjeta['ciclo'] = $res['ciclo_mastercard'];
+                $tarjeta['edad_real'] = $res['edad_real_mastercard'];
+                $tarjeta['saldo_total_facturacion'] = $res['saldo_total_facturacion_mastercard'];
+                $tarjeta['producto'] = $res['producto_mastercard'];
+                $tarjeta['saldo_mora'] = $res['saldo_mora_mastercard'];
+                $tarjeta['saldo_total_deuda'] = $res['saldo_total_deuda_mastercard'];
+                $tarjeta['riesgo_total'] = $res['riesgo_total_mastercard'];
+                $tarjeta['intereses_total'] = $res['intereses_total_mastercard'];
+                $tarjeta['codigo_cancelacion'] = $res['codigo_cancelacion_mastercard'];
+                $tarjeta['debito_automatico'] = $res['debito_automatico_mastercard'];
+                $tarjeta['actuales_facturado'] = $res['actuales_facturado_mastercard'];
+                $tarjeta['facturado_30_dias'] = $res['facturado_30_dias_mastercard'];
+                $tarjeta['facturado_60_dias'] = $res['facturado_60_dias_mastercard'];
+                $tarjeta['facturado_90_dias'] = $res['facturado_90_dias_mastercard'];
+                $tarjeta['facturado_mas90_dias'] = $res['facturado_mas90_dias_mastercard'];
+                $tarjeta['simulacion_diferidos'] = $res['simulacion_diferidos_mastercard'];
+                $tarjeta['debito'] = $res['debito_mastercard'];
+                $tarjeta['credito'] = $res['credito_mastercard'];
+                $tarjeta['abono_fecha'] = $res['abono_fecha_mastercard'];
+                $tarjeta['codigo_boletin'] = $res['codigo_boletin_mastercard'];
+                $tarjeta['interes_facturar'] = $res['interes_facturar_mastercard'];
+                $tarjeta['pago_notas_credito'] = $res['pago_notas_credito_mastercard'];
+                $porcentaje_40 = $res['intereses_total_mastercard'] * 0.4;
+                if($res['pago_notas_credito_mastercard'] < 50){
+                    $tarjeta['abonadas'] = 'NO';
+                }elseif ($res['pago_notas_credito_mastercard'] >= $res['intereses_total_mastercard']){
+                    $tarjeta['abonadas'] = 'ABONO 100%';
+                }elseif ($res['pago_notas_credito_mastercard'] >= $porcentaje_40){
+                    $tarjeta['abonadas'] = 'ABONO 40%';
+                }
+                $tarjeta['recuperado'] = $res['recuperado_mastercard'];
+                $tarjeta['recuperacion_actuales'] = $res['recuperacion_actuales_mastercard'];
+                $tarjeta['recuperacion_30_dias'] = $res['recuperacion_30_dias_mastercard'];
+                $tarjeta['recuperacion_60_dias'] = $res['recuperacion_60_dias_mastercard'];
+                $tarjeta['recuperacion_90_dias'] = $res['recuperacion_90_dias_mastercard'];
+                $tarjeta['recuperacion_mas90_dias'] = $res['recuperacion_mas90_dias_mastercard'];
+                $tarjeta['valor_pago_minimo'] = $res['valor_pago_minimo_mastercard'];
+                $tarjeta['valores_facturar_corriente'] = $res['valores_facturar_corriente_mastercard'];
+                $tarjeta['fecha_maxima_pago'] = $res['fecha_maxima_pago_mastercard'];
+                $tarjeta['establecimiento'] = $res['establecimiento_mastercard'];
+                $tarjeta['numero_diferidos'] = $res['numero_diferidos_mastercard'];
+                $tarjeta['cuotas_pendientes'] = $res['cuotas_pendientes_mastercard'];
+                $tarjeta['cuota_refinanciacion_vigente_pendiente'] = $res['cuota_refinanciacion_vigente_pendiente_mastercard'];
+                $tarjeta['valor_pendiente_refinanciacion_vigente'] = $res['valor_pendiente_refinanciacion_vigente_mastercard'];
+                $tarjeta['reestructuracion_historica'] = $res['reestructuracion_historica_mastercard'];
+                $tarjeta['calificacion_seguro'] = $res['calificacion_seguro_mastercard'];
+                $tarjeta['fecha_operacion_vigente'] = $res['fecha_operacion_vigente_mastercard'];
+                $tarjeta['numero_refinanciaciones_historicas'] = $res['numero_refinanciaciones_historicas_mastercard'];
+                $tarjeta['motivo_no_pago'] = $res['motivo_no_pago_mastercard'];
+                $tarjeta['rotativo_vigente'] = $res['rotativo_vigente_mastercard'];
+                $tarjeta['valor_vehicular'] = $res['valor_vehicular_mastercard'];
+                $tarjeta['consumo_exterior'] = $res['consumo_exterior_mastercard'];
+                $tarjeta['plazo_financiamiento_actual'] = $res['plazo_financiamiento_actual_mastercard'];
+                $tarjeta['fecha_compromiso'] = $res['fecha_compromiso_mastercard'];
+                $tarjeta['motivo_cierre'] = $res['motivo_cierre_mastercard'];
+                $tarjeta['observacion_cierre'] = $res['observacion_cierre_mastercard'];
+                $tarjeta['oferta_valor'] = $res['oferta_valor_mastercard'];
+                $tarjeta['marca'] = 'MASTERCARD';
+                $tarjeta['obs_pago_dn'] = $res['obs_pago_dn'];
+                $tarjeta['obs_dif_historico_dn'] = $res['obs_dif_historico_dn'];
+                $tarjeta['obs_dif_vigente_dn'] = $res['obs_dif_vigente_dn'];
+                $tarjeta['pendiente_actuales'] = $res['pendiente_actuales_mastercard'];
+                $tarjeta['pendiente_30_dias'] = $res['pendiente_30_dias_mastercard'];
+                $tarjeta['pendiente_60_dias'] = $res['pendiente_60_dias_mastercard'];
+                $tarjeta['pendiente_90_dias'] = $res['pendiente_90_dias_mastercard'];
+                $tarjeta['pendiente_mas90_dias'] = $res['pendiente_mas90_dias_mastercard'];
+                $res['mastercard'] = $tarjeta;
+            }
             $data[] = $res;
         }
 //        printDie($data);
 
-        $data_resumen_domicilio = [];
-        $data_resumen_telefonia = [];
-        $total_domicilio = 0;
-        $total_telefonia = 0;
-        foreach ($resumen_gestiones as $key => $val) {
-            foreach ($val as $k1 => $v1) {
-                if ($key == 'DM') {
-                    $aux['ciclo'] = $k1;
-                    $aux['valor'] = $v1;
-                    $total_domicilio = $total_domicilio + $v1;
-                    $data_resumen_domicilio[] = $aux;
-                } else {
-                    $aux['ciclo'] = $k1;
-                    $aux['valor'] = $v1;
-                    $total_telefonia = $total_telefonia + $v1;
-                    $data_resumen_telefonia[] = $aux;
-                }
-            }
-        }
-
-//        printDie($data_resumen_telefonia);
         $retorno['data'] = $data;
-        $retorno['data_resumen_domicilio'] = $data_resumen_domicilio;
-        $retorno['data_resumen_telefonia'] = $data_resumen_telefonia;
-        $retorno['total'] = [
-            'data_resumen_domicilio' => $total_domicilio,
-            'data_resumen_telefonia' => $total_telefonia,
-        ];
+        $retorno['total'] = [];
         return $retorno;
     }
 
@@ -230,141 +362,3 @@ class BaseSaldosCampo
         return $q;
     }
 }
-
-
-
-
-//ALTER TABLE `megacob`.`aplicativo_diners_saldos`
-//ADD COLUMN `tipo_campana_diners` varchar(50) NULL AFTER `eliminado`,
-//ADD COLUMN `ejecutivo_diners` varchar(50) NULL AFTER `tipo_campana_diners`,
-//ADD COLUMN `ciclo_diners` int(0) NULL AFTER `ejecutivo_diners`,
-//ADD COLUMN `edad_real_diners` int(0) NULL AFTER `ciclo_diners`,
-//ADD COLUMN `producto_diners` varchar(100) NULL AFTER `edad_real_diners`,
-//ADD COLUMN `saldo_total_deuda_diners` double NULL AFTER `producto_diners`,
-//ADD COLUMN `riesgo_total_diners` double NULL AFTER `saldo_total_deuda_diners`,
-//ADD COLUMN `intereses_total_diners` double NULL AFTER `riesgo_total_diners`,
-//ADD COLUMN `actuales_facturado_diners` double NULL AFTER `intereses_total_diners`,
-//ADD COLUMN `facturado_30_dias_diners` double NULL AFTER `actuales_facturado_diners`,
-//ADD COLUMN `facturado_60_dias_diners` double NULL AFTER `facturado_30_dias_diners`,
-//ADD COLUMN `facturado_90_dias_diners` double NULL AFTER `facturado_60_dias_diners`,
-//ADD COLUMN `facturado_mas90_dias_diners` double NULL AFTER `facturado_90_dias_diners`,
-//ADD COLUMN `credito_diners` double NULL AFTER `facturado_mas90_dias_diners`,
-//ADD COLUMN `recuperado_diners` double NULL AFTER `credito_diners`,
-//ADD COLUMN `valor_pago_minimo_diners` double(255, 0) NULL AFTER `recuperado_diners`,
-//ADD COLUMN `fecha_maxima_pago_diners` date NULL AFTER `valor_pago_minimo_diners`,
-//ADD COLUMN `numero_diferidos_diners` int(0) NULL AFTER `fecha_maxima_pago_diners`,
-//ADD COLUMN `numero_refinanciaciones_historicas_diners` int(0) NULL AFTER `numero_diferidos_diners`,
-//ADD COLUMN `plazo_financiamiento_actual_diners` int(0) NULL AFTER `numero_refinanciaciones_historicas_diners`,
-//ADD COLUMN `motivo_cierre_diners` varchar(255) NULL AFTER `plazo_financiamiento_actual_diners`,
-//ADD COLUMN `observacion_cierre_diners` text NULL AFTER `motivo_cierre_diners`,
-//ADD COLUMN `oferta_valor_diners` varchar(50) NULL AFTER `observacion_cierre_diners`,
-//
-//ADD COLUMN `tipo_campana_visa` varchar(50) NULL AFTER `oferta_valor_diners`,
-//ADD COLUMN `ejecutivo_visa` varchar(50) NULL AFTER `tipo_campana_visa`,
-//ADD COLUMN `ciclo_visa` int(0) NULL AFTER `ejecutivo_visa`,
-//ADD COLUMN `edad_real_visa` int(0) NULL AFTER `ciclo_visa`,
-//ADD COLUMN `producto_visa` varchar(100) NULL AFTER `edad_real_visa`,
-//ADD COLUMN `saldo_total_deuda_visa` double NULL AFTER `producto_visa`,
-//ADD COLUMN `riesgo_total_visa` double NULL AFTER `saldo_total_deuda_visa`,
-//ADD COLUMN `intereses_total_visa` double NULL AFTER `riesgo_total_visa`,
-//ADD COLUMN `actuales_facturado_visa` double NULL AFTER `intereses_total_visa`,
-//ADD COLUMN `facturado_30_dias_visa` double NULL AFTER `actuales_facturado_visa`,
-//ADD COLUMN `facturado_60_dias_visa` double NULL AFTER `facturado_30_dias_visa`,
-//ADD COLUMN `facturado_90_dias_visa` double NULL AFTER `facturado_60_dias_visa`,
-//ADD COLUMN `facturado_mas90_dias_visa` double NULL AFTER `facturado_90_dias_visa`,
-//ADD COLUMN `credito_visa` double NULL AFTER `facturado_mas90_dias_visa`,
-//ADD COLUMN `recuperado_visa` double NULL AFTER `credito_visa`,
-//ADD COLUMN `valor_pago_minimo_visa` double NULL AFTER `recuperado_visa`,
-//ADD COLUMN `fecha_maxima_pago_visa` date NULL AFTER `valor_pago_minimo_visa`,
-//ADD COLUMN `numero_diferidos_visa` int(0) NULL AFTER `fecha_maxima_pago_visa`,
-//ADD COLUMN `numero_refinanciaciones_historicas_visa` int(0) NULL AFTER `numero_diferidos_visa`,
-//ADD COLUMN `plazo_financiamiento_actual_visa` int(0) NULL AFTER `numero_refinanciaciones_historicas_visa`,
-//ADD COLUMN `motivo_cierre_visa` varchar(255) NULL AFTER `plazo_financiamiento_actual_visa`,
-//ADD COLUMN `observacion_cierre_visa` text NULL AFTER `motivo_cierre_visa`,
-//ADD COLUMN `oferta_valor_visa` varchar(50) NULL AFTER `observacion_cierre_visa`,
-//
-//ADD COLUMN `tipo_campana_discover` varchar(50) NULL AFTER `oferta_valor_visa`,
-//ADD COLUMN `ejecutivo_discover` varchar(50) NULL AFTER `tipo_campana_discover`,
-//ADD COLUMN `ciclo_discover` int(0) NULL AFTER `ejecutivo_discover`,
-//ADD COLUMN `edad_real_discover` int(0) NULL AFTER `ciclo_discover`,
-//ADD COLUMN `producto_discover` varchar(100) NULL AFTER `edad_real_discover`,
-//ADD COLUMN `saldo_total_deuda_discover` double NULL AFTER `producto_discover`,
-//ADD COLUMN `riesgo_total_discover` double NULL AFTER `saldo_total_deuda_discover`,
-//ADD COLUMN `intereses_total_discover` double NULL AFTER `riesgo_total_discover`,
-//ADD COLUMN `actuales_facturado_discover` double NULL AFTER `intereses_total_discover`,
-//ADD COLUMN `facturado_30_dias_discover` double NULL AFTER `actuales_facturado_discover`,
-//ADD COLUMN `facturado_60_dias_discover` double NULL AFTER `facturado_30_dias_discover`,
-//ADD COLUMN `facturado_90_dias_discover` double NULL AFTER `facturado_60_dias_discover`,
-//ADD COLUMN `facturado_mas90_dias_discover` double NULL AFTER `facturado_90_dias_discover`,
-//ADD COLUMN `credito_discover` double NULL AFTER `facturado_mas90_dias_discover`,
-//ADD COLUMN `recuperado_discover` double NULL AFTER `credito_discover`,
-//ADD COLUMN `valor_pago_minimo_discover` double NULL AFTER `recuperado_discover`,
-//ADD COLUMN `fecha_maxima_pago_discover` date NULL AFTER `valor_pago_minimo_discover`,
-//ADD COLUMN `numero_diferidos_discover` int(0) NULL AFTER `fecha_maxima_pago_discover`,
-//ADD COLUMN `numero_refinanciaciones_historicas_discover` int(0) NULL AFTER `numero_diferidos_discover`,
-//ADD COLUMN `plazo_financiamiento_actual_discover` int(0) NULL AFTER `numero_refinanciaciones_historicas_discover`,
-//ADD COLUMN `motivo_cierre_discover` varchar(255) NULL AFTER `plazo_financiamiento_actual_discover`,
-//ADD COLUMN `observacion_cierre_discover` text NULL AFTER `motivo_cierre_discover`,
-//ADD COLUMN `oferta_valor_discover` varchar(50) NULL AFTER `observacion_cierre_discover`,
-//
-//ADD COLUMN `tipo_campana_mastercard` varchar(50) NULL AFTER `oferta_valor_discover`,
-//ADD COLUMN `ejecutivo_mastercard` varchar(50) NULL AFTER `tipo_campana_mastercard`,
-//ADD COLUMN `ciclo_mastercard` int(0) NULL AFTER `ejecutivo_mastercard`,
-//ADD COLUMN `edad_real_mastercard` int(0) NULL AFTER `ciclo_mastercard`,
-//ADD COLUMN `producto_mastercard` varchar(100) NULL AFTER `edad_real_mastercard`,
-//ADD COLUMN `saldo_total_deuda_mastercard` double NULL AFTER `producto_mastercard`,
-//ADD COLUMN `riesgo_total_mastercard` double NULL AFTER `saldo_total_deuda_mastercard`,
-//ADD COLUMN `intereses_total_mastercard` double NULL AFTER `riesgo_total_mastercard`,
-//ADD COLUMN `actuales_facturado_mastercard` double NULL AFTER `intereses_total_mastercard`,
-//ADD COLUMN `30_dias_facturado_mastercard` double NULL AFTER `actuales_facturado_mastercard`,
-//ADD COLUMN `facturado_60_dias_mastercard` double NULL AFTER `30_dias_facturado_mastercard`,
-//ADD COLUMN `facturado_90_dias_mastercard` double NULL AFTER `facturado_60_dias_mastercard`,
-//ADD COLUMN `facturado_mas90_dias_mastercard` double NULL AFTER `facturado_90_dias_mastercard`,
-//ADD COLUMN `credito_mastercard` double NULL AFTER `facturado_mas90_dias_mastercard`,
-//ADD COLUMN `recuperado_mastercard` double NULL AFTER `credito_mastercard`,
-//ADD COLUMN `valor_pago_minimo_mastercard` double NULL AFTER `recuperado_mastercard`,
-//ADD COLUMN `fecha_maxima_pago_mastercard` date NULL AFTER `valor_pago_minimo_mastercard`,
-//ADD COLUMN `numero_diferidos_mastercard` int(0) NULL AFTER `fecha_maxima_pago_mastercard`,
-//ADD COLUMN `numero_refinanciaciones_historicas_mastercard` int(0) NULL AFTER `numero_diferidos_mastercard`,
-//ADD COLUMN `plazo_financiamiento_actual_mastercard` int(0) NULL AFTER `numero_refinanciaciones_historicas_mastercard`,
-//ADD COLUMN `motivo_cierre_mastercard` varchar(255) NULL AFTER `plazo_financiamiento_actual_mastercard`,
-//ADD COLUMN `observacion_cierre_mastercard` text NULL AFTER `motivo_cierre_mastercard`,
-//ADD COLUMN `oferta_valor_mastercard` varchar(50) NULL AFTER `observacion_cierre_mastercard`;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//ALTER TABLE `megacob`.`aplicativo_diners_saldos`
-//ADD COLUMN `pendiente_actuales_diners` double NULL AFTER `oferta_valor_mastercard`,
-//ADD COLUMN `pendiente_30_dias_diners` double NULL AFTER `pendiente_actuales_diners`,
-//ADD COLUMN `pendiente_60_dias_diners` double NULL AFTER `pendiente_30_dias_diners`,
-//ADD COLUMN `pendiente_90_dias_diners` double NULL AFTER `pendiente_60_dias_diners`,
-//ADD COLUMN `pendiente_mas90_dias_diners` double NULL AFTER `pendiente_90_dias_diners`,
-//
-//ADD COLUMN `pendiente_actuales_visa` double NULL AFTER `pendiente_mas90_dias_diners`,
-//ADD COLUMN `pendiente_30_dias_visa` double NULL AFTER `pendiente_actuales_visa`,
-//ADD COLUMN `pendiente_60_dias_visa` double NULL AFTER `pendiente_30_dias_visa`,
-//ADD COLUMN `pendiente_90_dias_visa` double NULL AFTER `pendiente_60_dias_visa`,
-//ADD COLUMN `pendiente_mas90_dias_visa` double NULL AFTER `pendiente_90_dias_visa`,
-//
-//ADD COLUMN `pendiente_actuales_discover` double NULL AFTER `pendiente_mas90_dias_visa`,
-//ADD COLUMN `pendiente_30_dias_discover` double NULL AFTER `pendiente_actuales_discover`,
-//ADD COLUMN `pendiente_60_dias_discover` double NULL AFTER `pendiente_30_dias_discover`,
-//ADD COLUMN `pendiente_90_dias_discover` double NULL AFTER `pendiente_60_dias_discover`,
-//ADD COLUMN `pendiente_mas90_dias_discover` double NULL AFTER `pendiente_90_dias_discover`,
-//
-//ADD COLUMN `pendiente_actuales_mastercard` double NULL AFTER `pendiente_mas90_dias_discover`,
-//ADD COLUMN `pendiente_30_dias_mastercard` double NULL AFTER `pendiente_actuales_mastercard`,
-//ADD COLUMN `pendiente_60_dias_mastercard` double NULL AFTER `pendiente_30_dias_mastercard`,
-//ADD COLUMN `pendiente_90_dias_mastercard` double NULL AFTER `pendiente_60_dias_mastercard`,
-//ADD COLUMN `pendiente_mas90_dias_mastercard` double NULL AFTER `pendiente_90_dias_mastercard`,
-//
-//ADD COLUMN `credito_inmediato_diners` varchar(5) NULL AFTER `pendiente_mas90_dias_mastercard`,
-//ADD COLUMN `credito_inmediato_visa` varchar(5) NULL AFTER `credito_inmediato_diners`,
-//ADD COLUMN `credito_inmediato_discover` varchar(5) NULL AFTER `credito_inmediato_visa`,
-//ADD COLUMN `credito_inmediato_mastercard` varchar(5) NULL AFTER `credito_inmediato_discover`;
