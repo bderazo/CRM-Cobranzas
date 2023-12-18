@@ -79,6 +79,7 @@ class CargadorAplicativoDinersExcel
         $aplicativo_diners_procesados = [];
 
         $inputFileName = $path;
+        printDie($inputFileName);
 
             $spreadsheet = IOFactory::load($inputFileName);
             $worksheet = $spreadsheet->getActiveSheet();
