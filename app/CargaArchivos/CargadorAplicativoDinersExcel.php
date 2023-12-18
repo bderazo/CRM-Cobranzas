@@ -120,179 +120,177 @@ class CargadorAplicativoDinersExcel
                     $cliente_cedula = $cliente->cedula;
                 } else {
                     //MODIFICAR CLIENTE
-                    $set = [
-//							'cedula' => $values[0],
-//							'nombres' => $values[1],
-                        'lugar_trabajo' => $values[2],
-                        'ciudad' => $values[10],
-                        'zona' => $values[11],
-                        'experiencia_crediticia' => $values[37],
-                        'fecha_modificacion' => date("Y-m-d H:i:s"),
-                        'usuario_modificacion' => \WebSecurity::getUserData('id')
-                    ];
-                    $query = $db->update('cliente')->set($set)->where('id', $cliente_id)->execute();
+//                    $set = [
+//                        'lugar_trabajo' => $values[2],
+//                        'ciudad' => $values[10],
+//                        'zona' => $values[11],
+//                        'experiencia_crediticia' => $values[37],
+//                        'fecha_modificacion' => date("Y-m-d H:i:s"),
+//                        'usuario_modificacion' => \WebSecurity::getUserData('id')
+//                    ];
+//                    $query = $db->update('cliente')->set($set)->where('id', $cliente_id)->execute();
                 }
 
                 //PROCESO DE DIRECCIONES
-                $direccion_id = 0;
-                if (isset($direccion_todos[$cliente_id])) {
-                    foreach ($direccion_todos[$cliente_id] as $dir) {
-                        $existe_direccion = array_search(trim($values[3]), $dir);
-                        if ($existe_direccion) {
-                            $direccion_id = $dir['id'];
-                            break;
-                        }
-                    }
-                }
-                if ($direccion_id == 0) {
-                    $direccion = new Direccion();
-                    $direccion->tipo = 'DOMICILIO';
-                    $direccion->origen = 'DINERS';
-                    $direccion->ciudad = $values[10];
-                    $direccion->direccion = trim($values[3]);
-                    $direccion->modulo_id = $cliente_id;
-                    $direccion->modulo_relacionado = 'cliente';
-                    $direccion->fecha_ingreso = date("Y-m-d H:i:s");
-                    $direccion->fecha_modificacion = date("Y-m-d H:i:s");
-                    $direccion->usuario_ingreso = \WebSecurity::getUserData('id');
-                    $direccion->usuario_modificacion = \WebSecurity::getUserData('id');
-                    $direccion->eliminado = 0;
-                    $direccion->save();
-                }
-
-                //PROCESO DE TELEFONOS
-                if ($values[5] != 'NANA') {
-                    $telefono_id = 0;
-                    if (isset($telefonos_todos[$cliente_id])) {
-                        foreach ($telefonos_todos[$cliente_id] as $tel) {
-                            $existe_telefono = array_search($values[5], $tel);
-                            if ($existe_telefono) {
-                                $telefono_id = $tel['id'];
-                                break;
-                            }
-                        }
-                    }
-                    if ($telefono_id == 0) {
-                        $telefono = new Telefono();
-                        $telefono->tipo = 'CELULAR';
-                        $telefono->descripcion = 'TITULAR';
-                        $telefono->origen = 'DINERS';
-                        $telefono->telefono = $values[5];
-                        $telefono->bandera = 0;
-                        $telefono->modulo_id = $cliente_id;
-                        $telefono->modulo_relacionado = 'cliente';
-                        $telefono->fecha_ingreso = date("Y-m-d H:i:s");
-                        $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                        $telefono->usuario_ingreso = \WebSecurity::getUserData('id');
-                        $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                        $telefono->eliminado = 0;
-                        $telefono->save();
-                    } else {
-                        $set = [
-                            'fecha_modificacion' => date("Y-m-d H:i:s"),
-                            'usuario_modificacion' => \WebSecurity::getUserData('id'),
-                        ];
-                        $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
-                    }
-                }
-                if ($values[7] != 'NANA') {
-                    $telefono_id = 0;
-                    if (isset($telefonos_todos[$cliente_id])) {
-                        foreach ($telefonos_todos[$cliente_id] as $tel) {
-                            $existe_telefono = array_search($values[7], $tel);
-                            if ($existe_telefono) {
-                                $telefono_id = $tel['id'];
-                                break;
-                            }
-                        }
-                    }
-                    if ($telefono_id == 0) {
-                        $telefono = new Telefono();
-                        $telefono->tipo = 'CELULAR';
-                        $telefono->descripcion = 'TITULAR';
-                        $telefono->origen = 'DINERS';
-                        $telefono->telefono = $values[7];
-                        $telefono->bandera = 0;
-                        $telefono->modulo_id = $cliente_id;
-                        $telefono->modulo_relacionado = 'cliente';
-                        $telefono->fecha_ingreso = date("Y-m-d H:i:s");
-                        $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                        $telefono->usuario_ingreso = \WebSecurity::getUserData('id');
-                        $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                        $telefono->eliminado = 0;
-                        $telefono->save();
-                    } else {
-                        $set = [
-                            'fecha_modificacion' => date("Y-m-d H:i:s"),
-                            'usuario_modificacion' => \WebSecurity::getUserData('id'),
-                        ];
-                        $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
-                    }
-                }
-                if ($values[9] != 'NANA') {
-                    $telefono_id = 0;
-                    if (isset($telefonos_todos[$cliente_id])) {
-                        foreach ($telefonos_todos[$cliente_id] as $tel) {
-                            $existe_telefono = array_search($values[9], $tel);
-                            if ($existe_telefono) {
-                                $telefono_id = $tel['id'];
-                                break;
-                            }
-                        }
-                    }
-                    if ($telefono_id == 0) {
-                        $telefono = new Telefono();
-                        $telefono->tipo = 'CELULAR';
-                        $telefono->descripcion = 'TITULAR';
-                        $telefono->origen = 'DINERS';
-                        $telefono->telefono = $values[9];
-                        $telefono->bandera = 0;
-                        $telefono->modulo_id = $cliente_id;
-                        $telefono->modulo_relacionado = 'cliente';
-                        $telefono->fecha_ingreso = date("Y-m-d H:i:s");
-                        $telefono->fecha_modificacion = date("Y-m-d H:i:s");
-                        $telefono->usuario_ingreso = \WebSecurity::getUserData('id');
-                        $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
-                        $telefono->eliminado = 0;
-                        $telefono->save();
-                    } else {
-                        $set = [
-                            'fecha_modificacion' => date("Y-m-d H:i:s"),
-                            'usuario_modificacion' => \WebSecurity::getUserData('id'),
-                        ];
-                        $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
-                    }
-                }
-
-                //PROCESO DE EMAILS
-                if ($values[12] != '') {
-                    $email_id = 0;
-                    if (isset($email_todos[$cliente_id])) {
-                        foreach ($email_todos[$cliente_id] as $ema) {
-                            $existe_email = array_search($values[12], $ema);
-                            if ($existe_email) {
-                                $email_id = $ema['id'];
-                                break;
-                            }
-                        }
-                    }
-                    if ($email_id == 0) {
-                        $mail = new Email();
-                        $mail->tipo = 'PERSONAL';
-                        $mail->descripcion = 'TITULAR';
-                        $mail->origen = 'DINERS';
-                        $mail->email = $values[12];
-                        $mail->bandera = 0;
-                        $mail->modulo_id = $cliente_id;
-                        $mail->modulo_relacionado = 'cliente';
-                        $mail->fecha_ingreso = date("Y-m-d H:i:s");
-                        $mail->fecha_modificacion = date("Y-m-d H:i:s");
-                        $mail->usuario_ingreso = \WebSecurity::getUserData('id');
-                        $mail->usuario_modificacion = \WebSecurity::getUserData('id');
-                        $mail->eliminado = 0;
-                        $mail->save();
-                    }
-                }
+//                $direccion_id = 0;
+//                if (isset($direccion_todos[$cliente_id])) {
+//                    foreach ($direccion_todos[$cliente_id] as $dir) {
+//                        $existe_direccion = array_search(trim($values[3]), $dir);
+//                        if ($existe_direccion) {
+//                            $direccion_id = $dir['id'];
+//                            break;
+//                        }
+//                    }
+//                }
+//                if ($direccion_id == 0) {
+//                    $direccion = new Direccion();
+//                    $direccion->tipo = 'DOMICILIO';
+//                    $direccion->origen = 'DINERS';
+//                    $direccion->ciudad = $values[10];
+//                    $direccion->direccion = trim($values[3]);
+//                    $direccion->modulo_id = $cliente_id;
+//                    $direccion->modulo_relacionado = 'cliente';
+//                    $direccion->fecha_ingreso = date("Y-m-d H:i:s");
+//                    $direccion->fecha_modificacion = date("Y-m-d H:i:s");
+//                    $direccion->usuario_ingreso = \WebSecurity::getUserData('id');
+//                    $direccion->usuario_modificacion = \WebSecurity::getUserData('id');
+//                    $direccion->eliminado = 0;
+//                    $direccion->save();
+//                }
+//
+//                //PROCESO DE TELEFONOS
+//                if ($values[5] != 'NANA') {
+//                    $telefono_id = 0;
+//                    if (isset($telefonos_todos[$cliente_id])) {
+//                        foreach ($telefonos_todos[$cliente_id] as $tel) {
+//                            $existe_telefono = array_search($values[5], $tel);
+//                            if ($existe_telefono) {
+//                                $telefono_id = $tel['id'];
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    if ($telefono_id == 0) {
+//                        $telefono = new Telefono();
+//                        $telefono->tipo = 'CELULAR';
+//                        $telefono->descripcion = 'TITULAR';
+//                        $telefono->origen = 'DINERS';
+//                        $telefono->telefono = $values[5];
+//                        $telefono->bandera = 0;
+//                        $telefono->modulo_id = $cliente_id;
+//                        $telefono->modulo_relacionado = 'cliente';
+//                        $telefono->fecha_ingreso = date("Y-m-d H:i:s");
+//                        $telefono->fecha_modificacion = date("Y-m-d H:i:s");
+//                        $telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+//                        $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+//                        $telefono->eliminado = 0;
+//                        $telefono->save();
+//                    } else {
+//                        $set = [
+//                            'fecha_modificacion' => date("Y-m-d H:i:s"),
+//                            'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//                        ];
+//                        $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
+//                    }
+//                }
+//                if ($values[7] != 'NANA') {
+//                    $telefono_id = 0;
+//                    if (isset($telefonos_todos[$cliente_id])) {
+//                        foreach ($telefonos_todos[$cliente_id] as $tel) {
+//                            $existe_telefono = array_search($values[7], $tel);
+//                            if ($existe_telefono) {
+//                                $telefono_id = $tel['id'];
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    if ($telefono_id == 0) {
+//                        $telefono = new Telefono();
+//                        $telefono->tipo = 'CELULAR';
+//                        $telefono->descripcion = 'TITULAR';
+//                        $telefono->origen = 'DINERS';
+//                        $telefono->telefono = $values[7];
+//                        $telefono->bandera = 0;
+//                        $telefono->modulo_id = $cliente_id;
+//                        $telefono->modulo_relacionado = 'cliente';
+//                        $telefono->fecha_ingreso = date("Y-m-d H:i:s");
+//                        $telefono->fecha_modificacion = date("Y-m-d H:i:s");
+//                        $telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+//                        $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+//                        $telefono->eliminado = 0;
+//                        $telefono->save();
+//                    } else {
+//                        $set = [
+//                            'fecha_modificacion' => date("Y-m-d H:i:s"),
+//                            'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//                        ];
+//                        $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
+//                    }
+//                }
+//                if ($values[9] != 'NANA') {
+//                    $telefono_id = 0;
+//                    if (isset($telefonos_todos[$cliente_id])) {
+//                        foreach ($telefonos_todos[$cliente_id] as $tel) {
+//                            $existe_telefono = array_search($values[9], $tel);
+//                            if ($existe_telefono) {
+//                                $telefono_id = $tel['id'];
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    if ($telefono_id == 0) {
+//                        $telefono = new Telefono();
+//                        $telefono->tipo = 'CELULAR';
+//                        $telefono->descripcion = 'TITULAR';
+//                        $telefono->origen = 'DINERS';
+//                        $telefono->telefono = $values[9];
+//                        $telefono->bandera = 0;
+//                        $telefono->modulo_id = $cliente_id;
+//                        $telefono->modulo_relacionado = 'cliente';
+//                        $telefono->fecha_ingreso = date("Y-m-d H:i:s");
+//                        $telefono->fecha_modificacion = date("Y-m-d H:i:s");
+//                        $telefono->usuario_ingreso = \WebSecurity::getUserData('id');
+//                        $telefono->usuario_modificacion = \WebSecurity::getUserData('id');
+//                        $telefono->eliminado = 0;
+//                        $telefono->save();
+//                    } else {
+//                        $set = [
+//                            'fecha_modificacion' => date("Y-m-d H:i:s"),
+//                            'usuario_modificacion' => \WebSecurity::getUserData('id'),
+//                        ];
+//                        $query = $db->update('telefono')->set($set)->where('id', $telefono_id)->execute();
+//                    }
+//                }
+//
+//                //PROCESO DE EMAILS
+//                if ($values[12] != '') {
+//                    $email_id = 0;
+//                    if (isset($email_todos[$cliente_id])) {
+//                        foreach ($email_todos[$cliente_id] as $ema) {
+//                            $existe_email = array_search($values[12], $ema);
+//                            if ($existe_email) {
+//                                $email_id = $ema['id'];
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    if ($email_id == 0) {
+//                        $mail = new Email();
+//                        $mail->tipo = 'PERSONAL';
+//                        $mail->descripcion = 'TITULAR';
+//                        $mail->origen = 'DINERS';
+//                        $mail->email = $values[12];
+//                        $mail->bandera = 0;
+//                        $mail->modulo_id = $cliente_id;
+//                        $mail->modulo_relacionado = 'cliente';
+//                        $mail->fecha_ingreso = date("Y-m-d H:i:s");
+//                        $mail->fecha_modificacion = date("Y-m-d H:i:s");
+//                        $mail->usuario_ingreso = \WebSecurity::getUserData('id');
+//                        $mail->usuario_modificacion = \WebSecurity::getUserData('id');
+//                        $mail->eliminado = 0;
+//                        $mail->save();
+//                    }
+//                }
 
                 //PROCESO DE PRODUCTOS
                 $producto_id = 0;
@@ -405,26 +403,6 @@ class CargadorAplicativoDinersExcel
                     $aplicativo_diners_id = $aplicativo_diners->id;
                     $aplicativo_diners_procesados[] = $aplicativo_diners_id;
                 } else {
-                    //MODIFICAR APLICATIVO DINERS
-//						$set = [
-//							'ciudad_gestion' => $values[10],
-//							'fecha_elaboracion' => date("Y-m-d H:i:s"),
-//							'cedula_socio' => $cliente_cedula,
-//							'nombre_socio' => $values[1],
-//							'direccion' => trim($values[3]),
-//							'mail_contacto' => $values[12],
-//							'ciudad_cuenta' => $values[10],
-//							'zona_cuenta' => $values[11],
-//							'seguro_desgravamen' => $values[132],
-//                            'unificacion_deuda' => $values[6],
-//                            'condoncacion_interes' => $values[8],
-//							'estado' => 'asignado_megacob',
-//							'fecha_gestionar' => null,
-//							'usuario_asignado' => 0,
-//							'fecha_modificacion' => date("Y-m-d H:i:s"),
-//							'usuario_modificacion' => \WebSecurity::getUserData('id'),
-//						];
-//						$query = $db->update('aplicativo_diners')->set($set)->where('id', $aplicativo_diners_id)->execute();
                     $aplicativo_diners_procesados[] = $aplicativo_diners_id;
                 }
 

@@ -344,8 +344,25 @@ class ProductoSeguimiento extends Model
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
-
             $retorno[$l['cliente_id']] = $l;
+        }
+        return $retorno;
+    }
+
+    static function getNumeroGestionesPorCliente()
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto_seguimiento ps')
+            ->select(null)
+            ->select('COUNT(*) AS numero_gestiones, ps.cliente_id')
+            ->where('ps.eliminado', 0)
+            ->groupBy('ps.cliente_id');
+        $lista = $q->fetchAll();
+        $retorno = [];
+        foreach ($lista as $l) {
+            $retorno[$l['cliente_id']] = $l['numero_gestiones'];
         }
         return $retorno;
     }

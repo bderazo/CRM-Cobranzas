@@ -166,7 +166,7 @@
 		</div>
 	</div>
 
-	<form id="exportForm" method="POST" action="{{ root }}/reportes/exportBaseGeneral">
+	<form id="exportForm" method="POST" action="{{ root }}/reportes/baseSaldosCampo">
 		<input type="hidden" id="json" name="json"/>
 	</form>
 
@@ -193,12 +193,10 @@
                     var self = this;
                     var data = form.serializeArray();
                     toggleLoader();
-                    $.post('{{ root }}/reportes/baseGeneral', data, function (res) {
+                    $.post('{{ root }}/reportes/baseSaldosCampo', data, function (res) {
                         toggleLoader();
                         self.datos = res['data'];
                         self.total = res['total'];
-                        self.data_resumen_domicilio = res['data_resumen_domicilio'];
-                        self.data_resumen_telefonia = res['data_resumen_telefonia'];
                     })
                 },
             },
@@ -207,7 +205,8 @@
                 var self = this;
                 $('#btnExportar').click(function () {
                     var data = {
-                        datos: self.datos
+                        datos: self.datos,
+                        filtros: form.serializeArray()
                     };
                     $('#json').val(JSON.stringify(data));
                     $('#exportForm').submit();
@@ -215,7 +214,12 @@
 
                 $(document).ready(function () {
                     $('#btnFiltro').click(function () {
-                        self.consultar();
+                        var data = {
+                            datos: self.datos,
+                            filtros: form.serializeArray()
+                        };
+                        $('#json').val(JSON.stringify(data));
+                        $('#exportForm').submit();
                     });
                     $('#btnTodos').click(function () {
                         form[0].reset();

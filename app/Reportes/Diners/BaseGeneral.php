@@ -149,7 +149,6 @@ class BaseGeneral {
 
                 $res['edad_asignacion'] = $asignacion_arr['EDAD FACTURADA'];
                 $res['total_asignado'] = $asignacion_arr['VALOR ASIGNADO'];
-                $res['total_asignado'] = $asignacion_arr['VALOR ASIGNADO'];
 
                 //COMPARO CON TELEFONOS IDS
                 if (isset($telefonos_id[$res['telefono_id']])) {

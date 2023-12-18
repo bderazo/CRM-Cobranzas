@@ -151,7 +151,8 @@ class ReportesController extends BaseController
     }
 
     //BASE GENERAL
-    function baseGeneral(){
+    function baseGeneral()
+    {
         \WebSecurity::secure('reportes.base_general');
         if ($this->isPost()) {
             $rep = new BaseGeneral($this->get('pdo'));
@@ -366,11 +367,12 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'BASE GENERAL', 'base_general'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'BASE GENERAL', 'base_general' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //MEJOR Y ULTIMA GESTION
-    function mejorUltimaGestion(){
+    function mejorUltimaGestion()
+    {
         \WebSecurity::secure('reportes.mejor_ultima_gestion');
         if ($this->isPost()) {
             $rep = new MejorUltimaGestion($this->get('pdo'));
@@ -436,8 +438,6 @@ class ReportesController extends BaseController
                 'valor' => $d['telefono_contacto_ultima_gestion'],
                 'formato' => 'text'
             ];
-
-
 
 
             $aux['RESULTADO MEJOR GESTIÓN'] = [
@@ -510,7 +510,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'MEJOR ULTIMA GESTION', 'mejor_ultima_gestion'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'MEJOR ULTIMA GESTION', 'mejor_ultima_gestion' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //PRODUCCION PLAZA
@@ -673,7 +673,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
-        $this->exportMultiple($exportar, 'produccion_plaza'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportMultiple($exportar, 'produccion_plaza' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     function exportProduccionPlazaTipoNegociacion($jsonTipoNegociacion)
@@ -709,7 +709,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'PRODUCCION PLAZA NEGOCIACIÓN', 'produccion_plaza_tipo_negociacion'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'PRODUCCION PLAZA NEGOCIACIÓN', 'produccion_plaza_tipo_negociacion' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     function exportProduccionPlazaRecupero($jsonRecupero)
@@ -757,7 +757,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'PRODUCCION PLAZA RECUPERO', 'produccion_plaza_recupero'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'PRODUCCION PLAZA RECUPERO', 'produccion_plaza_recupero' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //CAMPO Y TELEFONIA
@@ -824,7 +824,7 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'CAMPO Y TELEFONÍA', 'campo_telefonia'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'CAMPO Y TELEFONÍA', 'campo_telefonia' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //INFORMES DE JORNADA
@@ -878,7 +878,6 @@ class ReportesController extends BaseController
             'name' => 'INFORME JORNADA',
             'data' => $lista
         ];
-
 
 
         $aux = [];
@@ -984,7 +983,7 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
-        $this->exportMultiple($exportar, 'informe_jornada'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportMultiple($exportar, 'informe_jornada' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //NEGOCIACIONES POR EJECUTIVO
@@ -1103,11 +1102,12 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'NEGOCIACIONES POR EJECUTIVO', 'negociaciones_ejecutivo'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'NEGOCIACIONES POR EJECUTIVO', 'negociaciones_ejecutivo' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //PROCESADAS PARA LIQUIDACION
-    function procesadasLiquidacion(){
+    function procesadasLiquidacion()
+    {
         \WebSecurity::secure('reportes.procesadas_liquidacion');
         if ($this->isPost()) {
             $rep = new ProcesadasLiquidacion($this->get('pdo'));
@@ -1198,11 +1198,12 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'PROCESADAS LIQUIDACION', 'procesadas_liquidacion'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'PROCESADAS LIQUIDACION', 'procesadas_liquidacion' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //BASE DE CARGA
-    function baseCarga(){
+    function baseCarga()
+    {
         \WebSecurity::secure('reportes.base_carga');
         if ($this->isPost()) {
             $rep = new BaseCarga($this->get('pdo'));
@@ -1400,11 +1401,12 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'BASE CARGA', 'base_carga'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'BASE CARGA', 'base_carga' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //REPORTE POR HORAS
-    function reporteHoras(){
+    function reporteHoras()
+    {
         \WebSecurity::secure('reportes.reporte_horas');
         if ($this->isPost()) {
             $rep = new ReporteHoras($this->get('pdo'));
@@ -1471,11 +1473,12 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'REPORTE POR HORAS', 'reporte_horas'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'REPORTE POR HORAS', 'reporte_horas' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //CONTACTABILIDAD
-    function contactabilidad(){
+    function contactabilidad()
+    {
         \WebSecurity::secure('reportes.contactabilidad');
         if ($this->isPost()) {
             $rep = new Contactabilidad($this->get('pdo'));
@@ -1598,11 +1601,12 @@ class ReportesController extends BaseController
             'name' => 'NOTIFICADO REFINANCIA',
             'data' => $lista
         ];
-        $this->exportMultiple($exportar, 'contactabilidad'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportMultiple($exportar, 'contactabilidad' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //GENERAL
-    function general(){
+    function general()
+    {
         \WebSecurity::secure('reportes.general');
         if ($this->isPost()) {
             $rep = new General($this->get('pdo'));
@@ -1868,12 +1872,12 @@ class ReportesController extends BaseController
         ];
 
 
-
-        $this->exportMultiple($exportar, 'general'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportMultiple($exportar, 'general' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //GENERAL CAMPO
-    function generalCampo(){
+    function generalCampo()
+    {
         \WebSecurity::secure('reportes.general_campo');
         if ($this->isPost()) {
             $rep = new GeneralCampo($this->get('pdo'));
@@ -2086,11 +2090,12 @@ class ReportesController extends BaseController
             'data' => $lista
         ];
 
-        $this->exportMultiple($exportar, 'general_campo'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportMultiple($exportar, 'general_campo' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //GESTIONES POR HORA
-    function gestionesPorHora(){
+    function gestionesPorHora()
+    {
         \WebSecurity::secure('reportes.gestiones_por_hora');
         if ($this->isPost()) {
             $rep = new GestionesPorHora($this->get('pdo'));
@@ -2446,11 +2451,12 @@ class ReportesController extends BaseController
         ];
 
 
-        $this->exportMultiple($exportar, 'gestiones_hora'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportMultiple($exportar, 'gestiones_hora' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //INDIVIDUAL
-    function individual(){
+    function individual()
+    {
         \WebSecurity::secure('reportes.individual');
         if ($this->isPost()) {
             $rep = new Individual($this->get('pdo'));
@@ -2547,11 +2553,12 @@ class ReportesController extends BaseController
         ];
         $lista[] = $aux;
 
-        $this->exportSimple($lista, 'INDIVIDUAL', 'individual'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'INDIVIDUAL', 'individual' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //NEGOCIACIONES MANUAL
-    function negociacionesManual(){
+    function negociacionesManual()
+    {
         \WebSecurity::secure('reportes.negociaciones_manual');
         $config = $this->get('config');
         if ($this->isPost()) {
@@ -2686,11 +2693,12 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'NEGOCIACIONES MANUALES', 'negociaciones_manuales'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'NEGOCIACIONES MANUALES', 'negociaciones_manuales' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //NEGOCIACIONES AUTOMÁTICAS
-    function negociacionesAutomatica(){
+    function negociacionesAutomatica()
+    {
         \WebSecurity::secure('reportes.negociaciones_automatica');
         $config = $this->get('config');
         if ($this->isPost()) {
@@ -2789,11 +2797,12 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'NEGOCIACIONES AUTOMÁTICAS', 'negociaciones_automaticas'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'NEGOCIACIONES AUTOMÁTICAS', 'negociaciones_automaticas' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //GEOLOCALIZACION
-    function geolocalizacion(){
+    function geolocalizacion()
+    {
         \WebSecurity::secure('reportes.geolocalicacion');
         if ($this->isPost()) {
             $rep = new Geolocalizacion($this->get('pdo'));
@@ -3008,16 +3017,367 @@ class ReportesController extends BaseController
             ];
             $lista[] = $aux;
         }
-        $this->exportSimple($lista, 'BASE GENERAL', 'base_general'.date("Y-m-d H-i-s").'.xlsx');
+        $this->exportSimple($lista, 'BASE GENERAL', 'base_general' . date("Y-m-d H-i-s") . '.xlsx');
     }
 
     //BASE GENERAL
-    function baseSaldosCampo(){
+    function baseSaldosCampo()
+    {
         \WebSecurity::secure('reportes.base_saldos_campo');
         if ($this->isPost()) {
+
+            $jdata = json_decode(htmlspecialchars_decode($_REQUEST['json']), true);
+            $filtros = $jdata['filtros'];
+
+//            printDie($filtros);
+
+
             $rep = new BaseSaldosCampo($this->get('pdo'));
-            $data = $rep->calcular($this->request->getParsedBody());
-            return $this->json($data);
+            $data = $rep->exportar($filtros);
+            foreach ($data['data'] as $d) {
+                $aux['NOMBRE SOCIO'] = [
+                    'valor' => $d['nombre_socio'],
+                    'formato' => 'text'
+                ];
+                $aux['CEDULA'] = [
+                    'valor' => $d['cedula'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO ULTIMO CONTACTO'] = [
+                    'valor' => $d['telefono_ultimo_contacto'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO 1'] = [
+                    'valor' => $d['telefono1'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO 2'] = [
+                    'valor' => $d['telefono2'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO 3'] = [
+                    'valor' => $d['telefono3'],
+                    'formato' => 'text'
+                ];
+                $aux['DIRECCION MAIL'] = [
+                    'valor' => $d['mail'],
+                    'formato' => 'text'
+                ];
+                $aux['EMPRESA CLIENTE'] = [
+                    'valor' => $d['empresa_cliente'],
+                    'formato' => 'text'
+                ];
+                $aux['DIRECCION'] = [
+                    'valor' => $d['direccion'],
+                    'formato' => 'text'
+                ];
+                $aux['CIUDAD'] = [
+                    'valor' => $d['ciudad'],
+                    'formato' => 'text'
+                ];
+                $aux['ZONA'] = [
+                    'valor' => $d['zona'],
+                    'formato' => 'text'
+                ];
+                $aux['CANAL DINERS'] = [
+                    'valor' => $d['canal'],
+                    'formato' => 'text'
+                ];
+                $aux['TIPO DE CAMPAÑA DINERS'] = [
+                    'valor' => $d['tipo_campana'],
+                    'formato' => 'text'
+                ];
+                $aux['EJECUTIVO DINERS'] = [
+                    'valor' => $d['ejecutivo'],
+                    'formato' => 'text'
+                ];
+                $aux['CAMPAÑA CON ECE DINERS'] = [
+                    'valor' => $d['campana_ece'],
+                    'formato' => 'text'
+                ];
+                $aux['CICLO DINERS'] = [
+                    'valor' => $d['ciclo'],
+                    'formato' => 'text'
+                ];
+                $aux['EDAD REAL DINERS'] = [
+                    'valor' => $d['edad_real'],
+                    'formato' => 'text'
+                ];
+                $aux['SALDO TOTAL FACTURACION DINERS'] = [
+                    'valor' => $d['saldo_total_facturacion'],
+                    'formato' => 'text'
+                ];
+                $aux['PRODUCTO DINERS'] = [
+                    'valor' => $d['producto'],
+                    'formato' => 'text'
+                ];
+                $aux['SALDO EN MORA DINERS'] = [
+                    'valor' => $d['saldo_mora'],
+                    'formato' => 'text'
+                ];
+                $aux['SALDO TOTAL DEUDA DINERS'] = [
+                    'valor' => $d['saldo_total_deuda'],
+                    'formato' => 'text'
+                ];
+                $aux['RIESGO TOTAL DINERS'] = [
+                    'valor' => $d['riesgo_total'],
+                    'formato' => 'text'
+                ];
+                $aux['INTERESES TOTAL DINERS'] = [
+                    'valor' => $d['intereses_total'],
+                    'formato' => 'text'
+                ];
+                $aux['CODIGO DE CANCELACION DINERS'] = [
+                    'valor' => $d['codigo_cancelacion'],
+                    'formato' => 'text'
+                ];
+                $aux['DEBITO AUTOMATICO DINERS'] = [
+                    'valor' => $d['debito_automatico'],
+                    'formato' => 'text'
+                ];
+                $aux['ACTUALES FACTURADO DINERS'] = [
+                    'valor' => $d['actuales_facturado'],
+                    'formato' => 'text'
+                ];
+                $aux['30 DIAS FACTURADO DINERS'] = [
+                    'valor' => $d['facturado_30_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['60 DIAS FACTURADO DINERS'] = [
+                    'valor' => $d['facturado_60_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['90 DIAS FACTURADO DINERS'] = [
+                    'valor' => $d['facturado_90_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['MAS 90 DIAS FACTURADO DINERS'] = [
+                    'valor' => $d['facturado_mas90_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['SIMULACION DIFERIDOS DINERS'] = [
+                    'valor' => $d['simulacion_diferidos'],
+                    'formato' => 'text'
+                ];
+                $aux['DEBITO DINERS'] = [
+                    'valor' => $d['debito'],
+                    'formato' => 'text'
+                ];
+                $aux['CREDITO DINERS'] = [
+                    'valor' => $d['credito'],
+                    'formato' => 'text'
+                ];
+                $aux['ABONO A LA FECHA DINERS'] = [
+                    'valor' => $d['abono_fecha'],
+                    'formato' => 'text'
+                ];
+                $aux['CODIGO BOLETIN DINERS'] = [
+                    'valor' => $d['codigo_boletin'],
+                    'formato' => 'text'
+                ];
+                $aux['INTERES POR FACTURAR DINERS'] = [
+                    'valor' => $d['interes_facturar'],
+                    'formato' => 'text'
+                ];
+                $aux['PAGO NOTAS DE CREDITO DINERS'] = [
+                    'valor' => $d['pago_notas_credito'],
+                    'formato' => 'text'
+                ];
+                $aux['ABONADAS'] = [
+                    'valor' => $d['abonadas'],
+                    'formato' => 'text'
+                ];
+                $aux['RECUPERADO DINERS'] = [
+                    'valor' => $d['recuperado'],
+                    'formato' => 'text'
+                ];
+                $aux['RECUPERACION ACTUALES DINERS'] = [
+                    'valor' => $d['recuperacion_actuales'],
+                    'formato' => 'text'
+                ];
+                $aux['RECUPERACION 30 DIAS DINERS'] = [
+                    'valor' => $d['recuperacion_30_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['RECUPERACION 60 DIAS DINERS'] = [
+                    'valor' => $d['recuperacion_60_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['RECUPERACION 90 DIAS DINERS'] = [
+                    'valor' => $d['recuperacion_90_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['RECUPERACION MAS DE 90 DIAS DINERS'] = [
+                    'valor' => $d['recuperacion_mas90_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['VALOR PAGO MINIMO DINERS'] = [
+                    'valor' => $d['valor_pago_minimo'],
+                    'formato' => 'text'
+                ];
+                $aux['VALORES POR FACTURAR CORRIENTE DINERS'] = [
+                    'valor' => $d['valores_facturar_corriente'],
+                    'formato' => 'text'
+                ];
+                $aux['FECHA MAXIMA PAGO DINERS'] = [
+                    'valor' => $d['fecha_maxima_pago'],
+                    'formato' => 'text'
+                ];
+                $aux['ESTABLECIMIENTO DINERS'] = [
+                    'valor' => $d['establecimiento'],
+                    'formato' => 'text'
+                ];
+                $aux['NUMERO DIFERIDOS DINERS'] = [
+                    'valor' => $d['numero_diferidos'],
+                    'formato' => 'text'
+                ];
+                $aux['CUOTAS PENDIENTES DINERS'] = [
+                    'valor' => $d['cuotas_pendientes'],
+                    'formato' => 'text'
+                ];
+                $aux['CUOTA REFINANCIACION VIGENTE PENDIENTE DINERS'] = [
+                    'valor' => $d['cuota_refinanciacion_vigente_pendiente'],
+                    'formato' => 'text'
+                ];
+                $aux['VALOR PENDIENTE REFINANCIACION VIGENTE DINERS'] = [
+                    'valor' => $d['valor_pendiente_refinanciacion_vigente'],
+                    'formato' => 'text'
+                ];
+                $aux['REESTUCTURACION HISTORICA DINERS'] = [
+                    'valor' => $d['reestructuracion_historica'],
+                    'formato' => 'text'
+                ];
+                $aux['CALIFICACION SEGURO DINERS'] = [
+                    'valor' => $d['calificacion_seguro'],
+                    'formato' => 'text'
+                ];
+                $aux['FECHA DE OPERACIÓN VIGENTE DINERS'] = [
+                    'valor' => $d['fecha_operacion_vigente'],
+                    'formato' => 'text'
+                ];
+                $aux['NUMERO DE REFINANCIACIONES HISTORICA DINERS'] = [
+                    'valor' => $d['numero_refinanciaciones_historicas'],
+                    'formato' => 'text'
+                ];
+                $aux['MOTIVO DE NO PAGO DINERS'] = [
+                    'valor' => $d['motivo_no_pago'],
+                    'formato' => 'text'
+                ];
+                $aux['ROTATIVO VIGENTE DINERS'] = [
+                    'valor' => $d['rotativo_vigente'],
+                    'formato' => 'text'
+                ];
+                $aux['VALOR VEHICULAR DINERS'] = [
+                    'valor' => $d['valor_vehicular'],
+                    'formato' => 'text'
+                ];
+                $aux['CONSUMO EXTERIOR DINERS'] = [
+                    'valor' => $d['consumo_exterior'],
+                    'formato' => 'text'
+                ];
+                $aux['PLAZO DE FINANCIAMIENTO ACTUAL DINERS'] = [
+                    'valor' => $d['plazo_financiamiento_actual'],
+                    'formato' => 'text'
+                ];
+                $aux['FECHA COMPROMISO DINERS'] = [
+                    'valor' => $d['fecha_compromiso'],
+                    'formato' => 'text'
+                ];
+                $aux['MOTIVO CIERRE DINERS'] = [
+                    'valor' => $d['motivo_cierre'],
+                    'formato' => 'text'
+                ];
+                $aux['OBSERVACION CIERRE DINERS'] = [
+                    'valor' => $d['observacion_cierre'],
+                    'formato' => 'text'
+                ];
+                $aux['OFERTA VALOR DINERS'] = [
+                    'valor' => $d['oferta_valor'],
+                    'formato' => 'text'
+                ];
+                $aux['MARCA'] = [
+                    'valor' => $d['marca'],
+                    'formato' => 'text'
+                ];
+                $aux['OBS. PAGO DN'] = [
+                    'valor' => $d['obs_pago'],
+                    'formato' => 'text'
+                ];
+                $aux['OBS. DIF. HISTORICO DN'] = [
+                    'valor' => $d['obs_dif_historico'],
+                    'formato' => 'text'
+                ];
+                $aux['OBS. DIF. VIGENTE DN'] = [
+                    'valor' => $d['obs_dif_vigente'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO 4'] = [
+                    'valor' => $d['telefono4'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO 5'] = [
+                    'valor' => $d['telefono5'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO 6'] = [
+                    'valor' => $d['telefono6'],
+                    'formato' => 'text'
+                ];
+                $aux['PENDIENTE ACTUALES DINERS'] = [
+                    'valor' => $d['pendiente_actuales'],
+                    'formato' => 'text'
+                ];
+                $aux['PENDIENTE 30 DIAS DINERS'] = [
+                    'valor' => $d['pendiente_30_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['PENDIENTE 60 DIAS DINERS'] = [
+                    'valor' => $d['pendiente_60_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['PENDIENTE 90 DIAS DINERS'] = [
+                    'valor' => $d['pendiente_90_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['PENDIENTE MAS 90 DIAS DINERS'] = [
+                    'valor' => $d['pendiente_mas90_dias'],
+                    'formato' => 'text'
+                ];
+                $aux['RESULTADO '] = [
+                    'valor' => $d['resultado_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['DESCRIPCION'] = [
+                    'valor' => $d['descripcion_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['OBSERVACION'] = [
+                    'valor' => $d['observacion_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['FECHA COMPROMISO'] = [
+                    'valor' => $d['fecha_compromiso_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['GESTOR'] = [
+                    'valor' => $d['gestor_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['FECHA GESTION'] = [
+                    'valor' => $d['fecha_gestion_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['FEC'] = [
+                    'valor' => $d['dias_transcurridos_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['INTERV_GESTION'] = [
+                    'valor' => $d['numero_gestiones'],
+                    'formato' => 'text'
+                ];
+                $lista[] = $aux;
+            }
+            $this->exportSimple($lista, 'BASE SALDOS CAMPO', 'base_saldos_campo' . date("Y-m-d H-i-s") . '.xlsx');
         }
         $titulo = 'Base Saldos Campo';
         \Breadcrumbs::active($titulo);
@@ -3025,8 +3385,6 @@ class ReportesController extends BaseController
         $data['titulo'] = $titulo;
         return $this->render('baseSaldosCampo', $data);
     }
-
-
 
 
     protected function exportSimple($data, $nombre, $archivo)
