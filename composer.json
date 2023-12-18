@@ -45,8 +45,6 @@
 	"verot/class.upload.php": "dev-master",
 	"monolog/monolog": "^2.8.0",
 	"swiftmailer/swiftmailer": "dev-master",
-	"container-interop/container-interop": "dev-master",
-	"jasongrimes/paginator": "dev-master",
-	"nategood/httpful": "dev-master"
+	"container-interop/container-interop": "dev-master"
   }
 }
