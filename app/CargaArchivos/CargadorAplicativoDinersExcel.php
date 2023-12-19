@@ -74,7 +74,7 @@ class CargadorAplicativoDinersExcel
         $aplicativo_diners_porcentaje_interes = AplicativoDiners::getAplicativoDinersPorcentajeInteres();
 //			$aplicativo_diners_detalle_todos = AplicativoDinersDetalle::porTipo('original');
         //ELIMINAR LOS ORIGINALES DE APLICATIVO DINERS DETALLE
-        $query = $db->deleteFrom('aplicativo_diners_detalle')->where('tipo', 'original')->execute();
+//        $query = $db->deleteFrom('aplicativo_diners_detalle')->where('tipo', 'original')->execute();
         $productos_procesados = [];
         $aplicativo_diners_procesados = [];
         foreach ($it as $rowIndex => $values) {
