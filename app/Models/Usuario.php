@@ -27,6 +27,7 @@ use Negocio\EnvioNotificacionesPush;
  * @property string identificador
  * @property string plaza
  * @property string equipo
+ * @property integer error_contrasena
  * @property Perfil[] perfiles
  * @property Institucion[] instituciones
  */
@@ -70,18 +71,36 @@ class Usuario extends Model {
 	 * @return LoginResponse
 	 */
 	public static function checkLogin($username, $password, $adminUsers = []) {
-		$res = new LoginResponse($username);
+        $res = new LoginResponse($username);
 		/** @var Usuario $user */
 		$user = Usuario::query()->where('username', '=', $username)->first();
 		if (!$user)
 			return $res->retError('Usuario no encontrado');
+        if (!$user['activo'])
+            return $res->retError('Usuario inactivo');
 		// comprobar otras cosas
 		if (!password_verify($password, $user->password)) {
-			return $res->retError('Compruebe sus credenciales');
 			// log intento
+            $numero_maximo_intentos = 3;
+            \Auditor::error("Contraseña incorrecta", 'UsuariosLogin',$password);
+            if($user->error_contrasena > 0){
+                $user->error_contrasena = $user->error_contrasena + 1;
+            }else{
+                $user->error_contrasena = 1;
+            }
+            if($user->error_contrasena >= $numero_maximo_intentos){
+                $user->activo = 0;
+                $user->save();
+                return $res->retError('Compruebe sus credenciales, usuario inactivado');
+            }else{
+                $user->save();
+                $intentos_disponibles = $numero_maximo_intentos - $user->error_contrasena;
+                return $res->retError('Compruebe sus credenciales, número de intentos: '.$user->error_contrasena.'. Tiene '.$intentos_disponibles.' antes de inactivar de su usuario.');
+            }
 		}
-		if (!$user['activo'])
-			return $res->retError('Usuario inactivo');
+
+        $user->error_contrasena = 0;
+        $user->save();
 
 		// log entrada, etc.
 		$res->success = true;

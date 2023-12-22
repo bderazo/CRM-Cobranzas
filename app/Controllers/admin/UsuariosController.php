@@ -128,6 +128,7 @@ class UsuariosController extends BaseController {
 				$pdo->rollBack();
 				return $this->redirectToAction('editar', ['id' => $id]);
 			}
+            $user->error_contrasena = 0;
 			$user->save();
 			
 			$db = new \FluentPDO($pdo);
