@@ -113,7 +113,11 @@ class ProductoSeguimiento extends Model
             ->orderBy('ps.fecha_ingreso DESC');
         $lista = $q->fetchAll();
         $retorno = [];
-        $dir = $config['url_images_seguimiento'];
+        if($_SERVER['HTTP_HOST'] == 'megacob.saes-ec.com'){
+            $dir = $config['url_images_seguimiento'];
+        }else{
+            $dir = $config['url_images_seguimiento_local'];
+        }
         foreach ($lista as $l) {
             //OBTENER LA FOTO DE PERFIL
             $q = $db->from('archivo')

@@ -1475,8 +1475,6 @@ class ProductoController extends BaseController
         $config = $this->get('config');
         $seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id, $config);
 
-        $data['test'] = $_SERVER['HTTP_HOST'];
-
         $aplicativo_diners_detalle_gestionado = AplicativoDinersDetalle::porClienteGestionado($model->cliente_id);
         $seguimientos_data = [];
         $mostrar_mapa = false;
