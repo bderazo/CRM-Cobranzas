@@ -134,7 +134,7 @@ class BaseGeneral {
         $q->where('ps.cliente_id IN ('.$fil.')');
         $q->orderBy('ps.fecha_ingreso');
         $q->disableSmartJoin();
-//        printDie($q->getQuery());
+        printDie($q->getQuery());
 		$lista = $q->fetchAll();
 		$data = [];
         $resumen_gestiones = [];

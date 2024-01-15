@@ -385,13 +385,8 @@ class ReportesController extends BaseController
         $jsonExcel = str_replace('gestor[]', 'gestor', $jsonExcel);
         $jdata = json_decode(htmlspecialchars_decode($jsonExcel), true);
         $filtros = $jdata['filtros'];
-//        printDie($filtros);
         $rep = new BaseGeneral($this->get('pdo'));
         $data = $rep->exportar($filtros);
-
-
-
-//        $data = json_decode($json, true);
         $lista = [];
         foreach ($data['data'] as $d) {
             $aux['NOMBRE SOCIO'] = [
