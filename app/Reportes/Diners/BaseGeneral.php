@@ -171,7 +171,7 @@ class BaseGeneral {
                 }
                 //BUSCO EN SALDOS
                 if (isset($saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
-                    printDie($saldos);
+//                    printDie($saldos);
                     $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'], true);
                     unset($saldos_arr['campos']);
