@@ -191,6 +191,10 @@
 		<input type="hidden" id="json" name="json"/>
 	</form>
 
+    <form id="excelForm" method="POST" action="{{ root }}/reportes/excelBaseGeneral">
+        <input type="hidden" id="jsonExcel" name="jsonExcel"/>
+    </form>
+
 	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
 	{{ bundle('validate') }}
 	{{ bundle('boot_select') }}
@@ -237,6 +241,13 @@
                 $(document).ready(function () {
                     $('#btnFiltro').click(function () {
                         self.consultar();
+                    });
+                    $('#btnExcel').click(function () {
+                        var data = {
+                            filtros: form.serializeForm()
+                        };
+                        $('#jsonExcel').val(JSON.stringify(data));
+                        $('#excelForm').submit();
                     });
                     $('#btnTodos').click(function () {
                         form[0].reset();
