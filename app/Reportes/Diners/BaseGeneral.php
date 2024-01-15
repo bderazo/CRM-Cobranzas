@@ -142,7 +142,6 @@ class BaseGeneral {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             $tarjeta_verificar = $res['tarjeta'] == 'INTERDIN' ? 'VISA' : $res['tarjeta'];
             if(isset($clientes_asignacion_detalle_marca[$res['cliente_id']][$tarjeta_verificar])) {
-                printDie($clientes_asignacion_detalle_marca);
                 $asignacion_arr = $clientes_asignacion_detalle_marca[$res['cliente_id']][$tarjeta_verificar];
                 $campos_asignacion = json_decode($asignacion_arr['campos'], true);
                 unset($asignacion_arr['campos']);
@@ -172,6 +171,7 @@ class BaseGeneral {
                 }
                 //BUSCO EN SALDOS
                 if (isset($saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']])) {
+                    printDie($saldos);
                     $saldos_arr = $saldos[$res['cliente_id']][$res['fecha_ingreso_seguimiento']];
                     $campos_saldos = json_decode($saldos_arr['campos'], true);
                     unset($saldos_arr['campos']);
