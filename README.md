@@ -1,8 +1,6 @@
-## megacob
+## crm cobranzas
 
-Sistema Megacob
-
-Aca pondre recursos y cosas utiles para esta aplicacion.
+php version 7.4.1
 
 Utilizar barra de debug con el framework:
 http://discourse.slimframework.com/t/debugbar-for-slim3/158/10
