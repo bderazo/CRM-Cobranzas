@@ -1,6 +1,6 @@
-## megacob
+## CRM Cobranzas
 
-Sistema Megacob
+Sistema de cobranzas
 
 Aca pondre recursos y cosas utiles para esta aplicacion.
 

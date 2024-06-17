@@ -73,7 +73,7 @@ class ProductividadDatos {
         $data = [];
         foreach($lista as $seg){
             $seg['hora_gestion'] = date("H:i:s", strtotime($seg['fecha_ingreso']));
-            $seg['empresa'] = 'MEGACOB';
+            $seg['empresa'] = 'DINERS';
             $data[] = $seg;
         }
         $retorno['data'] = $data;

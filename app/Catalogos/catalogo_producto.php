@@ -2,7 +2,7 @@
 return [
 	'estado' => [
 		'no_asignado' => 'NO_ASIGNADO',
-		'asignado_megacob' => 'ASIGNADO_MEGACOB',
+		'asignado_diners' => 'ASIGNADO_DINERS',
 		'asignado_usuario' => 'ASIGNADO_USUARIO',
 		'gestionado' => 'GESTIONADO',
 	],

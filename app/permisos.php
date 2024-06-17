@@ -80,9 +80,10 @@ return [
 		'children' => [
 			'aplicativo_diners' => 'Permitir la carga de archivos de aplicativo Diners',
 			'saldos_diners' => 'Permitir la carga de archivos de saldos Diners',
-			'asignaciones_diners' => 'Permitir la carga de archivos de asignaciones Diners a Megacob',
+			'asignaciones_diners' => 'Permitir la carga de archivos de asignaciones Diners',
             'gestiones_no_contestadas' => 'Permitir la carga de Gestiones NO Contestadas',
 			'clientes' => 'Permitir la carga de archivos de clientes',
+			'clientesPichincha' => 'Permitir la carga de archivos de clientes Pichincha',
 		],
 		'mensaje' => 'Operaciones posibles para carga de archivos'
 	],

@@ -113,9 +113,9 @@ class ProductoSeguimiento extends Model
             ->orderBy('ps.fecha_ingreso DESC');
         $lista = $q->fetchAll();
         $retorno = [];
-        if($_SERVER['HTTP_HOST'] == 'megacob.saes-ec.com'){
+        if ($_SERVER['HTTP_HOST'] == '') {
             $dir = $config['url_images_seguimiento'];
-        }else{
+        } else {
             $dir = $config['url_images_seguimiento_local'];
         }
         foreach ($lista as $l) {
@@ -249,7 +249,8 @@ class ProductoSeguimiento extends Model
             ->where('addet.nombre_tarjeta', $marca)
             ->orderBy('ps.fecha_ingreso DESC');
         $lista = $q->fetch();
-        if(!$lista) return false;
+        if (!$lista)
+            return false;
         return $lista;
     }
 
@@ -310,18 +311,25 @@ class ProductoSeguimiento extends Model
         $format = function ($num, $unidad) {
             $post = $unidad;
             if ($num > 1 && $unidad != 'min.' && $unidad != 'sec.') {
-                if ($unidad == 'mes') $post = 'meses';
-                else $post .= 's';
+                if ($unidad == 'mes')
+                    $post = 'meses';
+                else
+                    $post .= 's';
             }
             return $num . ' ' . $post;
         };
 
         $hace = '';
-        if ($dt->m) $hace = $format($dt->m, 'mes');
-        elseif ($dt->days) $hace = $format($dt->days, 'días');
-        elseif ($dt->h) $hace = $format($dt->h, 'hora');
-        elseif ($dt->i) $hace = $format($dt->i, 'min.');
-        elseif ($dt->s) $hace = $format($dt->s, 'sec.');
+        if ($dt->m)
+            $hace = $format($dt->m, 'mes');
+        elseif ($dt->days)
+            $hace = $format($dt->days, 'días');
+        elseif ($dt->h)
+            $hace = $format($dt->h, 'hora');
+        elseif ($dt->i)
+            $hace = $format($dt->i, 'min.');
+        elseif ($dt->s)
+            $hace = $format($dt->s, 'sec.');
         return $hace;
     }
 
@@ -385,13 +393,13 @@ class ProductoSeguimiento extends Model
             ->where('DATE(ps.fecha_ingreso) <= ?', $fecha_verificar)
             ->where('(nivel_2_id = 1859 OR nivel_1_id = 1866)')
             ->orderBy('ps.fecha_ingreso ASC');
-//        printDie($q->getQuery());
+        //        printDie($q->getQuery());
 //        printDie($fecha_verificar);
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
             if ($l['nivel_1_id'] == 1866) {
-//                if($l['cliente_id'] == 67762){
+                //                if($l['cliente_id'] == 67762){
 //                    printDie($retorno[$l['cliente_id']]);
 //                }
                 if (isset($retorno[$l['cliente_id']])) {
@@ -403,7 +411,7 @@ class ProductoSeguimiento extends Model
         }
 
         foreach ($retorno as $k => $v) {
-            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+            if ($v['fecha_ingreso_fecha'] == $fecha_verificar) {
                 unset($retorno[$k]);
             }
         }
@@ -411,7 +419,7 @@ class ProductoSeguimiento extends Model
         return $retorno;
 
 
-//        $q = $db->from('producto_seguimiento ps')
+        //        $q = $db->from('producto_seguimiento ps')
 //            ->innerJoin('aplicativo_diners_asignaciones asigna ON ps.cliente_id = asigna.cliente_id AND asigna.eliminado = 0')
 //            ->select(null)
 //            ->select('ps.*, asigna.ciclo, asigna.mes, asigna.anio, asigna.marca,
@@ -466,7 +474,7 @@ class ProductoSeguimiento extends Model
         }
 
         foreach ($retorno as $k => $v) {
-            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+            if ($v['fecha_ingreso_fecha'] == $fecha_verificar) {
                 unset($retorno[$k]);
             }
         }
@@ -476,7 +484,7 @@ class ProductoSeguimiento extends Model
 
     static function saveFormSeguimientoAPI($cliente_id, $producto_id, $data, $lat, $long, $usuario_id)
     {
-//        $pdo = self::query()->getConnection()->getPdo();
+        //        $pdo = self::query()->getConnection()->getPdo();
 //        $db = new \FluentPDO($pdo);
 
         $seguimientos_id = [];
@@ -557,7 +565,7 @@ class ProductoSeguimiento extends Model
                     $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                 }
             }
-            $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['observaciones']);
+            $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['observaciones']);
             $con->ingresos_cliente = $data['ingresos_cliente'];
             $con->egresos_cliente = $data['egresos_cliente'];
             $con->actividad_actual = $data['actividad_actual'];
@@ -698,7 +706,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['diners']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['diners']['observaciones']);
                     $con->ingresos_cliente = $data['diners']['ingresos_cliente'];
                     $con->egresos_cliente = $data['diners']['egresos_cliente'];
                     $con->actividad_actual = $data['diners']['actividad_actual'];
@@ -779,7 +787,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['interdin']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['interdin']['observaciones']);
                     $con->ingresos_cliente = $data['interdin']['ingresos_cliente'];
                     $con->egresos_cliente = $data['interdin']['egresos_cliente'];
                     $con->actividad_actual = $data['interdin']['actividad_actual'];
@@ -860,7 +868,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['discover']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['discover']['observaciones']);
                     $con->ingresos_cliente = $data['discover']['ingresos_cliente'];
                     $con->egresos_cliente = $data['discover']['egresos_cliente'];
                     $con->actividad_actual = $data['discover']['actividad_actual'];
@@ -941,7 +949,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['mastercard']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['mastercard']['observaciones']);
                     $con->ingresos_cliente = $data['mastercard']['ingresos_cliente'];
                     $con->egresos_cliente = $data['mastercard']['egresos_cliente'];
                     $con->actividad_actual = $data['mastercard']['actividad_actual'];

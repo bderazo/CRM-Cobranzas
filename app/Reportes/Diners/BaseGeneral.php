@@ -354,7 +354,7 @@ class BaseGeneral {
 
 
 
-//ALTER TABLE `megacob`.`aplicativo_diners_saldos`
+//ALTER TABLE `diners`.`aplicativo_diners_saldos`
 //ADD COLUMN `tipo_campana_diners` varchar(50) NULL AFTER `eliminado`,
 //ADD COLUMN `ejecutivo_diners` varchar(50) NULL AFTER `tipo_campana_diners`,
 //ADD COLUMN `ciclo_diners` int(0) NULL AFTER `ejecutivo_diners`,
@@ -459,7 +459,7 @@ class BaseGeneral {
 //
 //
 //
-//ALTER TABLE `megacob`.`aplicativo_diners_saldos`
+//ALTER TABLE `diners`.`aplicativo_diners_saldos`
 //ADD COLUMN `pendiente_actuales_diners` double NULL AFTER `oferta_valor_mastercard`,
 //ADD COLUMN `pendiente_30_dias_diners` double NULL AFTER `pendiente_actuales_diners`,
 //ADD COLUMN `pendiente_60_dias_diners` double NULL AFTER `pendiente_30_dias_diners`,

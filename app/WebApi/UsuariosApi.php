@@ -208,7 +208,7 @@ class UsuariosApi extends BaseController
 			$body = $tpl->getTemplateSys('password.twig', $data);
 			$sender = $this->get('emailSender');
 			$sender->init();
-			$sender->setSubject('MEGACOB Recuperar Contraseña');
+			$sender->setSubject('Recuperar Contraseña');
 			$sender->addAddress($user->email, $user->apellidos . ' ' . $user->nombres);
 			$sender->setBody($body);
 			$sender->isHtml(true);

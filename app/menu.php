@@ -14,6 +14,8 @@ return [
 
 	['text' => 'Seguimientos Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-cogs'],
 
+	['text' => 'Seguimientos Pichincha', 'link' => '/producto/indexPichincha', 'roles' => 'producto.lista_pichincha', 'icon' => 'side-menu__icon fa fa-cogs'],
+
 	['text' => 'Seguimientos', 'link' => '/producto', 'roles' => 'producto.lista', 'icon' => 'side-menu__icon fa fa-cogs'],
 
     ['text' => 'Carga de Archivos', 'link' => '/cargarArchivo', 'roles' => 'cargar_archivos', 'icon' => 'side-menu__icon fa fa-file-excel-o'],

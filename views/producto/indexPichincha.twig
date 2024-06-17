@@ -1,0 +1,188 @@
+{% extends layoutApp %}
+{% block content %}
+	<form method="post" id="filtro" class="form-horizontal">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Filtros de Búsqueda</h4>
+				</div>
+				<div id="app">
+					<div class="card-body">
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Fecha inicio</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control fecha" name="fecha_inicio" id="fecha_inicio" value="{{ filtros.fecha_inicio }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Fecha fin</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control fecha" name="fecha_fin" id="fecha_fin" value="{{ filtros.fecha_fin }}"/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Código operación</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="producto" id="producto" value="{{ filtros.producto }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Estado</label>
+							<div class="col-md-4">
+								{{ select_tag('estado', listas.estado, '', {class:'form-control form-select select2',prompt: ''} ) }}
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Nombres</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="nombres" id="nombres" value="{{ filtros.nombres }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Cédula</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="cedula" id="cedula" value="{{ filtros.cedula }}"/>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Teléfono</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="telefono" id="telefono" value="{{ filtros.telefono }}"/>
+							</div>
+
+							<label for="inputName" class="col-md-2 form-label">Seguimiento</label>
+							<div class="col-md-4">
+								<select class="form-control form-select select2" id="seguimiento" name="seguimiento">
+									<option value=""></option>
+									{% for l in listas.paleta_nivel_1 %}
+										<option value="{{ l.nivel1_id }}">{{ l.nivel1 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+
+						<div class=" row mb-4">
+							<label for="inputName" class="col-md-2 form-label">Correo electrónico</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="correo" id="correo" value="{{ filtros.correo }}"/>
+							</div>
+						</div>
+
+						<div class="mb-0 mt-4 ">
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
+								<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
+								<button class="btn btn-default-light" onclick="todos()" type="button"><i class="fa fa-magic"></i> Asignar Seguimiento</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="col-md-12 col-xl-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Lista de Operaciones</h4>
+			</div>
+			<div class="card-body">
+				<div id="lista"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="modalInstitucion" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><strong>Instituciones</strong></h5>
+					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="institucionContent"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	<script>
+		var form = $('#filtro');
+		$('.integer').numeric('integer');
+
+        var estado_list = '{{ filtros.estado }}';
+        if(estado_list != ''){
+            $('#estado option[value={{ filtros.estado }}]').attr('selected','selected');
+        }
+
+		function todos() {
+			form[0].reset();
+			$("#institucion_id").val('');
+            $("#institucion_nombre").val('');
+            $("#cedula").val('');
+            $("#nombres").val('');
+            $("#producto").val('');
+            $("#telefono").val('');
+            $("#estado").val('');
+            $("#fecha_inicio").val('');
+            $("#fecha_fin").val('');
+            $("#seguimiento").val('');
+            $("#correo").val('');
+			cargar(1);
+		}
+
+		function cargar(page) {
+			var data = form.serializeArray();
+			$('#lista').load('{{ root }}/producto/listaPichincha?page=' + page, data);
+		}
+
+		form.submit(function () {
+			cargar(1);
+			return false;
+		});
+
+		cargar(1);
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				model: [],
+			},
+			watch: {},
+			methods: {
+				buscarInstitucion: function () {
+					var self = this;
+					var data = {};
+					$('#institucionContent').load('{{ root }}/institucion/buscador', data, function () {
+						callbackInstitucion = function (res) {
+							$("#institucion_id").val(res.id);
+							$("#institucion_nombre").val(res.nombre);
+							$('#modalInstitucion').modal('hide');
+						};
+						$('#modalInstitucion').modal('show');
+					});
+				},
+			},
+			mounted: function () {
+				$('.integer').numeric("integer");
+				$('.numeric').numeric();
+
+                $(function () {
+                    $('.fecha').datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        showButtonPanel: true
+                    });
+
+                });
+
+			}
+		});
+	</script>
+{% endblock %}

@@ -3,8 +3,10 @@
 		<tr>
 			<td style="background-color: #87CEFA; width: 20px; color: white; border: 1px solid white;"></td>
 			<td style="padding-right: 20px;">No Asignado</td>
+			<td style="background-color: #CCFFCC; width: 20px; color: white; border: 1px solid white;"></td>
+			<td style="padding-right: 20px;">Asignado Diners</td>
 			<td style="background-color: #FFFFCC; width: 20px; color: white; border: 1px solid white;"></td>
-			<td style="padding-right: 20px;">Asignado Usuario</td>
+			<td style="padding-right: 20px;">Asignado Pichincha</td>
 			<td style="background-color: #F8F8F8; width: 20px; color: white; border: 1px solid white;"></td>
 			<td style="padding-right: 20px;">Gestionado</td>
 		</tr>
@@ -13,33 +15,30 @@
 		<thead>
 		<tr>
 			<th style="width: 90px;"></th>
-			<th>Institución</th>
 			<th>Cliente</th>
 			<th>Código operación</th>
 			<th>Estado</th>
 			<th>Asignado</th>
-			<th>Días sin gestión</th>
 			<th>Último seguimiento</th>
-			<th>Mejor seguimiento</th>
 		</tr>
 		</thead>
 		<tbody>
 		{% for l in lista %}
-			<tr {% if l.estado == 'asignado_diners' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_usuario' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
+			<tr {% if l.estado == 'asignado_diners' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_pichincha' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado_pichincha' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
 				<td>
-					<a href="{{ root }}/producto/editar?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
+					{% if l.estado != 'inactivo' %}
+					<a href="{{ root }}/producto/editarPichincha?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
 						<i class="fa fa-plus"></i>
 					</a>
-					<a href="{{ root }}/producto/verSeguimientos?id={{ l.id }}" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
+					{% endif %}
+					<a href="{{ root }}/producto/verSeguimientosDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
 						<i class="fa fa-eye"></i>
 					</a>
 				</td>
-				<td>{{ l.institucion_nombre }}</td>
 				<td>{{ l.cliente_nombres }}</td>
 				<td>{{ l.producto }} </td>
 				<td>{{ l.estado|upper }} </td>
 				<td>{{ l.apellidos_usuario_asignado }}&nbsp;{{ l.nombres_usuario_asignado }}</td>
-				<td style="text-align: center;">3</td>
 				<td style="font-size: 11px;">
 					{% if l.ultimo_seguimiento.fecha_ingreso != '' %}
 						<strong>Fecha de seguimiento: </strong><br/>{{ l.ultimo_seguimiento.fecha_ingreso }}<br/>
@@ -55,29 +54,11 @@
 						{% if l.ultimo_seguimiento.nivel4 != '' %}
 							<strong>{{ l.ultimo_seguimiento.nivel4_titulo }}: </strong><br/>{{ l.ultimo_seguimiento.nivel4 }}<br/>
 						{% endif %}
-						{% if l.ultimo_seguimiento.nivel1_motivo_no_pago != '' %}
-							<strong>{{ l.ultimo_seguimiento.titulo_motivo_no_pago_nivel1 }}: </strong><br/>{{ l.ultimo_seguimiento.nivel1_motivo_no_pago }}<br/>
+						{% if l.ultimo_seguimiento.fecha_compromiso_pago != '' %}
+							<strong>FECHA COMPROMISO DE PAGO: </strong><br/>{{ l.ultimo_seguimiento.fecha_compromiso_pago }}<br/>
 						{% endif %}
-						{% if l.ultimo_seguimiento.nivel2_motivo_no_pago != '' %}
-							<strong>{{ l.ultimo_seguimiento.titulo_motivo_no_pago_nivel2 }}: </strong><br/>{{ l.ultimo_seguimiento.nivel2_motivo_no_pago }}<br/>
-						{% endif %}
-						<strong>Usuario: </strong><br/>{{ l.ultimo_seguimiento.usuario }}
-					{% endif %}
-				</td>
-				<td style="font-size: 11px;">
-					{% if l.ultimo_seguimiento.fecha_ingreso != '' %}
-						<strong>Fecha de seguimiento: </strong><br/>{{ l.ultimo_seguimiento.fecha_ingreso }}<br/>
-						{% if l.ultimo_seguimiento.nivel1 != '' %}
-							<strong>{{ l.ultimo_seguimiento.nivel1_titulo }}: </strong><br/>{{ l.ultimo_seguimiento.nivel1 }}<br/>
-						{% endif %}
-						{% if l.ultimo_seguimiento.nivel2 != '' %}
-							<strong>{{ l.ultimo_seguimiento.nivel2_titulo }}: </strong><br/>{{ l.ultimo_seguimiento.nivel2 }}<br/>
-						{% endif %}
-						{% if l.ultimo_seguimiento.nivel3 != '' %}
-							<strong>{{ l.ultimo_seguimiento.nivel3_titulo }}: </strong><br/>{{ l.ultimo_seguimiento.nivel3 }}<br/>
-						{% endif %}
-						{% if l.ultimo_seguimiento.nivel4 != '' %}
-							<strong>{{ l.ultimo_seguimiento.nivel4_titulo }}: </strong><br/>{{ l.ultimo_seguimiento.nivel4 }}<br/>
+						{% if l.ultimo_seguimiento.valor_comprometido != '' %}
+							<strong>VALOR COMPROMETIDO: </strong><br/>{{ l.ultimo_seguimiento.valor_comprometido }}<br/>
 						{% endif %}
 						{% if l.ultimo_seguimiento.nivel1_motivo_no_pago != '' %}
 							<strong>{{ l.ultimo_seguimiento.titulo_motivo_no_pago_nivel1 }}: </strong><br/>{{ l.ultimo_seguimiento.nivel1_motivo_no_pago }}<br/>

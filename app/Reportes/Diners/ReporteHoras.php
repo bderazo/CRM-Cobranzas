@@ -100,7 +100,7 @@ class ReporteHoras
 		foreach($lista as $seg) {
             //VERIFICO SI EL CLIENTE Y LA TARJETA ESTAN ASIGNADAS
             if(isset($clientes_asignacion_detalle_marca[$seg['cliente_id']][$seg['tarjeta']])){
-                $seg['nombre_ere'] = 'MEGACOB';
+                $seg['nombre_ere'] = 'DINERS';
                 $data[] = $seg;
 
             }
@@ -119,7 +119,7 @@ class ReporteHoras
 //                    $aux['resultado_gestion'] = $seg['nivel_2_texto'];
 //                    $aux['gestion'] = $seg['observaciones'];
 //                    $aux['gestor'] = $seg['gestor'];
-//                    $aux['nombre_ere'] = 'MEGACOB';
+//                    $aux['nombre_ere'] = 'DINERS';
 //
 //                    $data[] = $aux;
 //                }

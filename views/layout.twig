@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>{% if title %}{{ title }}{% else %}MEGACOB{% endif %}</title>
+    <title>{% if title %}{{ title }}{% else %}CRM{% endif %}</title>
     <link rel="icon" type="image/png" href="{{ root }}/favicon.png">
 
     {{ bundle('site') }}
@@ -27,8 +27,7 @@
                     <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"
                        href="javascript:void(0)"></a>
 
-                    <!--<a class="logo-horizontal " href="{{ root }}">--->
-                    <a class="logo-horizontal " href="https://megacob.saes-ec.com/">
+                    <a class="logo-horizontal " href="{{ root }}">
                         <img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo"
                              alt="logo">
                         <img src="{{ root }}/template_ok/images/brand/logo-3.png" class="header-brand-img light-logo1"
@@ -99,8 +98,7 @@
             <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
             <div class="app-sidebar">
                 <div class="side-header">
-                    <!--<a class="header-brand1" href="{{ root }}">-->
-                    <a class="header-brand1" href="https://megacob.saes-ec.com/">
+                    <a class="header-brand1" href="{{ root }}">
                         <img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo"
                              alt="logo">
                         <img src="{{ root }}/template_ok/images/brand/logo-1.png" class="header-brand-img toggle-logo"
@@ -208,8 +206,7 @@
         <div class="container">
             <div class="row align-items-center flex-row-reverse">
                 <div class="col-md-12 col-sm-12 text-center">
-                    Copyright © {{ now|date('Y') }} <a href="https://saes.tech/" target="_blank">SAES</a>. All rights
-                    reserved.
+                    Copyright 
                 </div>
             </div>
         </div>

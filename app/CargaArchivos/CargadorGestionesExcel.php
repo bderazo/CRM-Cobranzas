@@ -5,7 +5,6 @@ namespace CargaArchivos;
 use Akeneo\Component\SpreadsheetParser\Xlsx\XlsxParser;
 use Models\AplicativoDiners;
 use Models\AplicativoDinersAsignaciones;
-use Models\AplicativoDinersBaseCargarMegacob;
 use Models\AplicativoDinersDetalle;
 use Models\AplicativoDinersSaldos;
 use Models\AplicativoDinersSaldosCampos;
@@ -200,9 +199,9 @@ class CargadorGestionesExcel
             $carga->total_registros = $rep['total'];
             $carga->update();
             $pdo->commit();
-            \Auditor::info("Archivo '$nombreArchivo' cargado", "CargadorBaseCargarMegacobExcel");
+            \Auditor::info("Archivo '$nombreArchivo' cargado", "CargadorBaseCargarExcel");
         } catch (\Exception $ex) {
-            \Auditor::error("Ingreso de carga", "CargadorBaseCargarMegacobExcel", $ex);
+            \Auditor::error("Ingreso de carga", "CargadorBaseCargarExcel", $ex);
             $pdo->rollBack();
             $rep['errorSistema'] = $ex;
         }
