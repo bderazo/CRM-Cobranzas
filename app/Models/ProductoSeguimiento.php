@@ -88,6 +88,28 @@ class ProductoSeguimiento extends Model
         return $q;
     }
 
+    static function getProductos()
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto')
+            ->select('id, producto, estado');
+        $lista = $q->fetchAll();
+        return $lista;
+    }
+
+    static function getClientes()
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('cliente')
+            ->select('id, nombres, cedula, ciudad, zona');
+        $lista = $q->fetchAll();
+        return $lista;
+    }
+
     static function getSeguimientoPorProducto($producto_id, $config)
     {
         $pdo = self::query()->getConnection()->getPdo();
@@ -260,51 +282,18 @@ class ProductoSeguimiento extends Model
         $db = new \FluentPDO($pdo);
 
         $q = $db->from('producto_seguimiento ps')
-            ->innerJoin('cliente cl ON cl.id = ps.cliente_id AND cl.eliminado = 0')
-            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-            ->select(null)
-            ->select('ps.*, CONCAT(u.apellidos," ",u.nombres) AS usuario, u.username')
             ->where('ps.eliminado', 0)
-            ->orderBy('ps.fecha_ingreso desc');
-        $usuario = Usuario::porId($usuario_id, ['perfiles', 'instituciones']);
-        $usuario = $usuario->toArray();
-        if ($usuario['es_admin'] == 0) {
-            //VERIFICO SI EL USUARIO TIENE PERFIL DE SUPERVISOR
-            $es_supervisor = false;
-            $plaza = $usuario['plaza'];
-            foreach ($usuario['perfiles'] as $per) {
-                if ($per['id'] == 16) {
-                    $es_supervisor = true;
-                }
-            }
-            //SI ES SUPERVISOR VERIFICO LAS INSTITUCIONES DONDE ES SUPERVISOR
-            if ($es_supervisor) {
-                $instituciones_usuario = [];
-                foreach ($usuario['instituciones'] as $ins) {
-                    $instituciones_usuario[] = $ins['id'];
-                }
-                //CONSULTO LOS USUARIOS GESTORES ASIGNADOS A LA INSTITUCION Y PLAZA
-                $usuario_gestor = Usuario::getUsuariosGestoresInstitucionPlaza($instituciones_usuario, $plaza);
-                $usuarios_consulta[] = $usuario_id;
-                foreach ($usuario_gestor as $ug) {
-                    $usuarios_consulta[] = $ug['id'];
-                }
-                $usuarios_consulta_txt = implode(",", $usuarios_consulta);
-                $q->where('ps.usuario_ingreso IN (' . $usuarios_consulta_txt . ')');
-            } else {
-                //SI NO ES SUPERVISOR VERIFICO POR USUARIO
-                $q->where("ps.usuario_ingreso", $usuario_id);
-            }
+            ->where('ps.usuario_ingreso', $usuario_id)
+            ->where("DATE(ps.fecha_ingreso)", $fecha);
+
+        $results = $q->fetchAll();
+
+        if (empty($results)) {
+            return [];
         }
-        $q->where("DATE(ps.fecha_ingreso)", $fecha);
-        $q->orderBy('u.apellidos');
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $row) {
-            $retorno[] = $row;
-        }
-        return $retorno;
+        return $results;
     }
+
 
     function formatInterval(\DateInterval $dt)
     {

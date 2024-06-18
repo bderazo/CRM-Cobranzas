@@ -21,6 +21,7 @@ use Reportes\CorteBobinado\ProduccionDiariaCB;
 use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\BaseCarga;
 use Reportes\Diners\BaseGeneral;
+use Reportes\Diners\BaseReportePichincha;
 use Reportes\Diners\BaseSaldosCampo;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
@@ -144,9 +145,9 @@ class ReportesController extends BaseController
             $itemsChunks[$k] = array_chunk($v, 3);
         }
 
-//        $chunks = array_chunk($items, 4);
+        //        $chunks = array_chunk($items, 4);
         $data['menuReportes'] = $itemsChunks;
-//        printDie($data);
+        //        printDie($data);
         return $this->render('index', $data);
     }
 
@@ -1064,7 +1065,7 @@ class ReportesController extends BaseController
     {
         \WebSecurity::secure('reportes.informe_jornada');
         $jdata = json_decode($json, true);
-//        printDie($jdata);
+        //        printDie($jdata);
         $aux = [];
         $lista = [];
         foreach ($jdata['data_asesores'] as $d) {
@@ -1156,7 +1157,7 @@ class ReportesController extends BaseController
                 'valor' => $d['campana'],
                 'formato' => 'text'
             ];
-//            $aux['FECHA COMPROMISO DE PAGO'] = [
+            //            $aux['FECHA COMPROMISO DE PAGO'] = [
 //                'valor' => $d['fecha_compromiso_pago'],
 //                'formato' => 'text'
 //            ];
@@ -1714,7 +1715,7 @@ class ReportesController extends BaseController
         \WebSecurity::secure('reportes.contactabilidad');
         $jdata = json_decode(htmlspecialchars_decode($json), true);
         $lista = [];
-//        printDie($jdata);
+        //        printDie($jdata);
         foreach ($jdata['data_hoja1'] as $d) {
             $aux['MARCA'] = [
                 'valor' => $d['tarjeta'],
@@ -2111,7 +2112,7 @@ class ReportesController extends BaseController
     function exportGeneralCampo($json)
     {
         \WebSecurity::secure('reportes.general_campo');
-//        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
+        //        $json = str_replace('canal_usuario[]', 'canal_usuario', $json);
 //        $json = str_replace('campana_ece[]', 'campana_ece', $json);
 //        $json = str_replace('campana_usuario[]', 'campana_usuario', $json);
 //        $json = str_replace('plaza_usuario[]', 'plaza_usuario', $json);
@@ -2126,7 +2127,7 @@ class ReportesController extends BaseController
 //        $rep = new General($this->get('pdo'));
 //        $data = $rep->exportar($filtros);
         $data = json_decode($json, true);
-//        printDie($data);
+        //        printDie($data);
         $lista = [];
         $aux = [];
         foreach ($data['datos'] as $d) {
@@ -3246,7 +3247,7 @@ class ReportesController extends BaseController
             $jdata = json_decode(htmlspecialchars_decode($_REQUEST['json']), true);
             $filtros = $jdata['filtros'];
 
-//            printDie($filtros);
+            //            printDie($filtros);
 
 
             $rep = new BaseSaldosCampo($this->get('pdo'));
@@ -3601,6 +3602,93 @@ class ReportesController extends BaseController
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
         return $this->render('baseSaldosCampo', $data);
+    }
+
+    function baseReportePichincha()
+    {
+        \WebSecurity::secure('reportes.base_saldos_campo');
+        if ($this->isPost()) {
+
+            $jdata = json_decode(htmlspecialchars_decode($_REQUEST['json']), true);
+            $filtros = $jdata['filtros'];
+
+            //            printDie($filtros);
+
+
+            $rep = new BaseReportePichincha($this->get('pdo'));
+            $data = $rep->exportar($filtros);
+            $lista = [];
+            foreach ($data['data'] as $d) {
+                $aux['NOMBRE SOCIO'] = [
+                    'valor' => $d['cliente'],
+                    'formato' => 'text'
+                ];
+                $aux['CEDULA'] = [
+                    'valor' => $d['cedula'],
+                    'formato' => 'text'
+                ];
+                $aux['TELEFONO ULTIMO CONTACTO'] = [
+                    'valor' => $d['telefono'],
+                    'formato' => 'text'
+                ];
+                $aux['PRODUCTO'] = [
+                    'valor' => $d['producto'],
+                    'formato' => 'text'
+                ];
+                $aux['DIRECCION'] = [
+                    'valor' => $d['direccion'],
+                    'formato' => 'text'
+                ];
+                $aux['ZONA'] = [
+                    'valor' => $d['zona'],
+                    'formato' => 'text'
+                ];
+                $aux['MARCA'] = [
+                    'valor' => $d['marca'],
+                    'formato' => 'text'
+                ];
+                $aux['RESULTADO '] = [
+                    'valor' => $d['resultado_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['DESCRIPCION'] = [
+                    'valor' => $d['descripcion_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['OBSERVACION'] = [
+                    'valor' => $d['observacion_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['FECHA COMPROMISO'] = [
+                    'valor' => $d['fecha_compromiso_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['GESTOR'] = [
+                    'valor' => $d['gestor_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['FECHA GESTION'] = [
+                    'valor' => $d['fecha_gestion_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['FEC'] = [
+                    'valor' => $d['dias_transcurridos_mejor_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['INTERV_GESTION'] = [
+                    'valor' => $d['numero_gestiones'],
+                    'formato' => 'text'
+                ];
+                $lista[] = $aux;
+            }
+            $this->exportSimple($lista, 'BASE SALDOS CAMPO', 'pichincha' . date("Y-m-d H-i-s") . '.xlsx');
+        }
+        $titulo = 'Base Pichincha';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        $data['lista'] = $lista;
+        return $this->render('baseReportePichincha', $data);
     }
 
 

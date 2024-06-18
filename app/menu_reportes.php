@@ -73,6 +73,13 @@ return [
             'icon' => 'fa fa-road',
             'description' => 'Base Saldos Campo'
         ],
+        [
+            'label' => 'Gestion Pichicha',
+            'link' => '/reportes/baseReportePichincha',
+            'roles' => 'reportes.base_saldos_campo',
+            'icon' => 'fa fa-road',
+            'description' => 'Seguimientos pichincha'
+        ],
     ],
     'diners_telefonia' => [
         [
@@ -135,7 +142,7 @@ return [
         ],
     ],
 
-//    'productividad' => [
+    //    'productividad' => [
 //        [
 //            'label' => 'Datos',
 //            'link' => '/reportes/productividadDatos',
