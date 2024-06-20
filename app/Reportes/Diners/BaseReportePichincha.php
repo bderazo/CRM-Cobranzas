@@ -88,9 +88,6 @@ class BaseReportePichincha
 
         }
 
-
-        //        printDie($data);
-
         $retorno['data'] = $data;
         $retorno['total'] = $contador;
         return $retorno;

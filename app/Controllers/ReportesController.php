@@ -147,7 +147,6 @@ class ReportesController extends BaseController
 
         //        $chunks = array_chunk($items, 4);
         $data['menuReportes'] = $itemsChunks;
-        //        printDie($data);
         return $this->render('index', $data);
     }
 
@@ -3609,89 +3608,123 @@ class ReportesController extends BaseController
         \WebSecurity::secure('reportes.base_saldos_campo');
         if ($this->isPost()) {
 
+
+
             $jdata = json_decode(htmlspecialchars_decode($_REQUEST['json']), true);
             $filtros = $jdata['filtros'];
 
-            //            printDie($filtros);
 
 
             $rep = new BaseReportePichincha($this->get('pdo'));
             $data = $rep->exportar($filtros);
             $lista = [];
-            foreach ($data['data'] as $d) {
-                $aux['dia de carga'] = [
-                    'valor' => $d['fecha_ingreso'],
-                    'formato' => 'text'
-                ];
-                $aux['default PY'] = [
-                    'valor' => $d['default_py'],
-                    'formato' => 'text'
-                ];
-                $aux['cdogi de cliente'] = [
-                    'valor' => $d['cdogi_cliente'],
-                    'formato' => 'text'
-                ];
-                $aux['codigo de cliente'] = [
-                    'valor' => $d['codigo_cliente'],
-                    'formato' => 'text'
-                ];
-                $aux['default 1'] = [
-                    'valor' => $d['default1'],
-                    'formato' => 'text'
-                ];
-                $aux['default 2'] = [
-                    'valor' => $d['default2'],
-                    'formato' => 'text'
-                ];
-                $aux['default 3'] = [
-                    'valor' => $d['default3'],
-                    'formato' => 'text'
-                ];
-                $aux['paleta de gestions '] = [
-                    'valor' => $d['gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['default 4'] = [
-                    'valor' => $d['default4'],
-                    'formato' => 'text'
-                ];
-                $aux['cdogi'] = [
-                    'valor' => $d['cdogi_cliente'],
-                    'formato' => 'text'
-                ];
-                $aux['gestion'] = [
-                    'valor' => $d['observacion_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['fecha y hora de carga'] = [
-                    'valor' => $d['fecha_ingreso'],
-                    'formato' => 'text'
-                ];
-                $aux['numero de celular'] = [
-                    'valor' => $d['telefono'],
-                    'formato' => 'text'
-                ];
-                $aux['monto igual por carga'] = [
-                    'valor' => $d['monto'],
-                    'formato' => 'text'
-                ];
-                $aux['gestor'] = [
-                    'valor' => $d['gestor_mejor_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['dia despues de gestion'] = [
-                    'valor' => $data['dia_despues_gestion'],
-                    'formato' => 'text'
-                ];
-                $lista[] = $aux;
+
+            $formato = $jdata['formato'];
+
+            // if ($formato) {
+            //     return $formato;
+            // }
+            if ($formato === 'txt') {
+                //Reporte en formato txt
+                foreach ($data['data'] as $d) {
+                    $fila = $d['fecha_ingreso'] . "|" . $d['default_py'] . "|" . $d['cdogi_cliente'] . "|" . $d['codigo_cliente'] . "|" . $d['default1'] . "|" . $d['default2'] . "|" . $d['default3'] . "|" . $d['gestion'] . "|" . $d['default4'] . "|" . $d['cdogi_cliente'] . "|" . $d['observacion_gestion'] . "|" . $d['fecha_ingreso'] . "|" . $d['telefono'] . "|" . $d['monto'] . "|" . $d['gestor_mejor_gestion'] . "|" . $data['dia_despues_gestion'] . "\n";
+                    $lista .= $fila;
+                }
+                $listaSinArray = substr($lista, strlen('Array'));
+
+                $lista = $listaSinArray;
+
+                $nombreArchivo = 'base_saldos_pichincha_' . date('YmdHis') . '.txt';
+
+                header('Content-Description: File Transfer');
+                header('Content-Disposition: attachment; filename=' . $nombreArchivo);
+                header('Content-Type: application/octet-stream');
+                header('Content-Length: ' . strlen($lista));
+
+                // Imprimir el contenido del informe
+                echo $lista;
+
+                exit;
+            } elseif ($formato === 'excel') {
+                //Reporte en formato excel
+
+                foreach ($data['data'] as $d) {
+                    $aux['dia de carga'] = [
+                        'valor' => $d['fecha_ingreso'],
+                        'formato' => 'text'
+                    ];
+                    $aux['default PY'] = [
+                        'valor' => $d['default_py'],
+                        'formato' => 'text'
+                    ];
+                    $aux['cdogi de cliente'] = [
+                        'valor' => $d['cdogi_cliente'],
+                        'formato' => 'text'
+                    ];
+                    $aux['codigo de cliente'] = [
+                        'valor' => $d['codigo_cliente'],
+                        'formato' => 'text'
+                    ];
+                    $aux['default 1'] = [
+                        'valor' => $d['default1'],
+                        'formato' => 'text'
+                    ];
+                    $aux['default 2'] = [
+                        'valor' => $d['default2'],
+                        'formato' => 'text'
+                    ];
+                    $aux['default 3'] = [
+                        'valor' => $d['default3'],
+                        'formato' => 'text'
+                    ];
+                    $aux['paleta de gestions '] = [
+                        'valor' => $d['gestion'],
+                        'formato' => 'text'
+                    ];
+                    $aux['default 4'] = [
+                        'valor' => $d['default4'],
+                        'formato' => 'text'
+                    ];
+                    $aux['cdogi'] = [
+                        'valor' => $d['cdogi_cliente'],
+                        'formato' => 'text'
+                    ];
+                    $aux['gestion'] = [
+                        'valor' => $d['observacion_gestion'],
+                        'formato' => 'text'
+                    ];
+                    $aux['fecha y hora de carga'] = [
+                        'valor' => $d['fecha_ingreso'],
+                        'formato' => 'text'
+                    ];
+                    $aux['numero de celular'] = [
+                        'valor' => $d['telefono'],
+                        'formato' => 'text'
+                    ];
+                    $aux['monto igual por carga'] = [
+                        'valor' => $d['monto'],
+                        'formato' => 'text'
+                    ];
+                    $aux['gestor'] = [
+                        'valor' => $d['gestor_mejor_gestion'],
+                        'formato' => 'text'
+                    ];
+                    $aux['dia despues de gestion'] = [
+                        'valor' => $data['dia_despues_gestion'],
+                        'formato' => 'text'
+                    ];
+                    $lista[] = $aux;
+                }
+
+                $this->exportSimple($lista, 'BASE SALDOS CAMPO', 'pichincha' . date("Y-m-d H-i-s") . '.xlsx');
             }
-            $this->exportSimple($lista, 'BASE SALDOS CAMPO', 'pichincha' . date("Y-m-d H-i-s") . '.xlsx');
+
         }
         $titulo = 'Base Pichincha';
         \Breadcrumbs::active($titulo);
         $data = $this->paramsBasico();
         $data['titulo'] = $titulo;
-        $data['lista'] = $lista;
+        $data['lista'] = [];
         return $this->render('baseReportePichincha', $data);
     }
 

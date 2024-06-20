@@ -53,10 +53,20 @@
                 });
 
                 $(document).ready(function () {
-                    $('#btnFiltro').click(function () {
+                    $('#btnFiltroTxt').click(function () {
                         var data = {
                             datos: self.datos,
-                            filtros: form.serializeArray()
+                            filtros: form.serializeArray(),
+                            formato: 'txt'
+                        };
+                        $('#json').val(JSON.stringify(data));
+                        $('#exportForm').submit();
+                    });
+                    $('#btnFiltroExcel').click(function () {
+                        var data = {
+                            datos: self.datos,
+                            filtros: form.serializeArray(),
+                            formato: 'excel'
                         };
                         $('#json').val(JSON.stringify(data));
                         $('#exportForm').submit();
