@@ -110,6 +110,17 @@ class ProductoSeguimiento extends Model
         return $lista;
     }
 
+    static function getTelefonos()
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('telefono')
+            ->select('id, telefono');
+        $lista = $q->fetchAll();
+        return $lista;
+    }
+
     static function getSeguimientoPorProducto($producto_id, $config)
     {
         $pdo = self::query()->getConnection()->getPdo();

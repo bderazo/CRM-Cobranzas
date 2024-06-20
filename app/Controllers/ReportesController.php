@@ -3619,64 +3619,68 @@ class ReportesController extends BaseController
             $data = $rep->exportar($filtros);
             $lista = [];
             foreach ($data['data'] as $d) {
-                $aux['NOMBRE SOCIO'] = [
-                    'valor' => $d['cliente'],
+                $aux['dia de carga'] = [
+                    'valor' => $d['fecha_ingreso'],
                     'formato' => 'text'
                 ];
-                $aux['CEDULA'] = [
-                    'valor' => $d['cedula'],
+                $aux['default PY'] = [
+                    'valor' => $d['default_py'],
                     'formato' => 'text'
                 ];
-                $aux['TELEFONO ULTIMO CONTACTO'] = [
+                $aux['cdogi de cliente'] = [
+                    'valor' => $d['cdogi_cliente'],
+                    'formato' => 'text'
+                ];
+                $aux['codigo de cliente'] = [
+                    'valor' => $d['codigo_cliente'],
+                    'formato' => 'text'
+                ];
+                $aux['default 1'] = [
+                    'valor' => $d['default1'],
+                    'formato' => 'text'
+                ];
+                $aux['default 2'] = [
+                    'valor' => $d['default2'],
+                    'formato' => 'text'
+                ];
+                $aux['default 3'] = [
+                    'valor' => $d['default3'],
+                    'formato' => 'text'
+                ];
+                $aux['paleta de gestions '] = [
+                    'valor' => $d['gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['default 4'] = [
+                    'valor' => $d['default4'],
+                    'formato' => 'text'
+                ];
+                $aux['cdogi'] = [
+                    'valor' => $d['cdogi_cliente'],
+                    'formato' => 'text'
+                ];
+                $aux['gestion'] = [
+                    'valor' => $d['observacion_gestion'],
+                    'formato' => 'text'
+                ];
+                $aux['fecha y hora de carga'] = [
+                    'valor' => $d['fecha_ingreso'],
+                    'formato' => 'text'
+                ];
+                $aux['numero de celular'] = [
                     'valor' => $d['telefono'],
                     'formato' => 'text'
                 ];
-                $aux['PRODUCTO'] = [
-                    'valor' => $d['producto'],
+                $aux['monto igual por carga'] = [
+                    'valor' => $d['monto'],
                     'formato' => 'text'
                 ];
-                $aux['DIRECCION'] = [
-                    'valor' => $d['direccion'],
-                    'formato' => 'text'
-                ];
-                $aux['ZONA'] = [
-                    'valor' => $d['zona'],
-                    'formato' => 'text'
-                ];
-                $aux['MARCA'] = [
-                    'valor' => $d['marca'],
-                    'formato' => 'text'
-                ];
-                $aux['RESULTADO '] = [
-                    'valor' => $d['resultado_mejor_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['DESCRIPCION'] = [
-                    'valor' => $d['descripcion_mejor_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['OBSERVACION'] = [
-                    'valor' => $d['observacion_mejor_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['FECHA COMPROMISO'] = [
-                    'valor' => $d['fecha_compromiso_mejor_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['GESTOR'] = [
+                $aux['gestor'] = [
                     'valor' => $d['gestor_mejor_gestion'],
                     'formato' => 'text'
                 ];
-                $aux['FECHA GESTION'] = [
-                    'valor' => $d['fecha_gestion_mejor_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['FEC'] = [
-                    'valor' => $d['dias_transcurridos_mejor_gestion'],
-                    'formato' => 'text'
-                ];
-                $aux['INTERV_GESTION'] = [
-                    'valor' => $d['numero_gestiones'],
+                $aux['dia despues de gestion'] = [
+                    'valor' => $data['dia_despues_gestion'],
                     'formato' => 'text'
                 ];
                 $lista[] = $aux;
