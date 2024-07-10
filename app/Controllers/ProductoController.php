@@ -64,7 +64,7 @@ class ProductoController extends BaseController
 
     function indexPichincha()
     {
-        \WebSecurity::secure('producto.lista_pichincha');
+        \WebSecurity::secure('producto.lista_diners');
         \Breadcrumbs::active('Seguimiento Pichincha');
         $data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'));
         $cat = new CatalogoProducto(true);
