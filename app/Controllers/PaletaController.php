@@ -21,29 +21,33 @@ use Models\PaletaMotivoNoPago;
 use Slim\Http\UploadedFile;
 use upload;
 
-class PaletaController extends BaseController {
+class PaletaController extends BaseController
+{
 
 	var $modulo = 'Paleta';
 
-	function init() {
+	function init()
+	{
 		\Breadcrumbs::add('/paleta', 'Paleta');
 	}
 
-	function index() {
+	function index()
+	{
 		\WebSecurity::secure('paleta.lista');
 		\Breadcrumbs::active('Paleta');
 		$data['puedeCrear'] = $this->permisos->hasRole('paleta.crear');
-		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo,\WebSecurity::getUserData('id'));
+		$data['filtros'] = FiltroBusqueda::porModuloUsuario($this->modulo, \WebSecurity::getUserData('id'));
 		return $this->render('index', $data);
 	}
 
-	function lista($page) {
+	function lista($page)
+	{
 		\WebSecurity::secure('paleta.lista');
 		/** @var \PDO $pdo */
 		$pdo = $this->get('pdo');
 		$db = new \FluentPDO($pdo);
 		$params = $this->request->getParsedBody();
-		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo,\WebSecurity::getUserData('id'), $params);
+		$saveFiltros = FiltroBusqueda::saveModuloUsuario($this->modulo, \WebSecurity::getUserData('id'), $params);
 		$lista = Paleta::buscar($params, 'paleta.nombre', $page, 20);
 		$pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
 		$retorno = [];
@@ -66,11 +70,13 @@ class PaletaController extends BaseController {
 		return $this->render('lista', $data);
 	}
 
-	function crear() {
+	function crear()
+	{
 		return $this->editar(0);
 	}
 
-	function editar($id) {
+	function editar($id)
+	{
 		\WebSecurity::secure('paleta.lista');
 
 		$cat = new CatalogoPaleta();
@@ -107,7 +113,8 @@ class PaletaController extends BaseController {
 		return $this->render('editar', $data);
 	}
 
-	function guardar($json) {
+	function guardar($json)
+	{
 		\WebSecurity::secure('paleta.modificar');
 		$id = @$_POST['id'];
 		$data = json_decode($json, true);
@@ -124,6 +131,7 @@ class PaletaController extends BaseController {
 		if ($id) {
 			$con = Paleta::porId($id);
 			$con->fill($data['model']);
+			$con->numero = 'PAL000' . $con->id;
 			$this->flash->addMessage('confirma', 'Paleta modificada');
 		} else {
 			$con = new Paleta();
@@ -131,17 +139,20 @@ class PaletaController extends BaseController {
 			$con->usuario_ingreso = \WebSecurity::getUserData('id');
 			$con->eliminado = 0;
 			$con->fecha_ingreso = date("Y-m-d H:i:s");
+
 			$this->flash->addMessage('confirma', 'Paleta creada');
 		}
 		$con->usuario_modificacion = \WebSecurity::getUserData('id');
 		$con->fecha_modificacion = date("Y-m-d H:i:s");
+		$con->numero = 'PAL000' . $con->id;
 		$con->save();
 		\Auditor::info("Paleta $con->nombre actualizada", 'Paleta');
 		return $this->redirectToAction('editar', ['id' => $con->id]);
 
 	}
 
-	function eliminar($id) {
+	function eliminar($id)
+	{
 		\WebSecurity::secure('paleta.eliminar');
 
 		$eliminar = Paleta::eliminar($id);
@@ -150,11 +161,12 @@ class PaletaController extends BaseController {
 		return $this->redirectToAction('index');
 	}
 
-	function subir_arbol($id) {
+	function subir_arbol($id)
+	{
 		\WebSecurity::secure('paleta.subir_arbol');
 		$model = Paleta::porId($id);
-		\Breadcrumbs::add('/paleta/editar?id='.$model['id'], $model['nombre']);
-		\Breadcrumbs::active('Subir Árbol - '.$model['nombre']);
+		\Breadcrumbs::add('/paleta/editar?id=' . $model['id'], $model['nombre']);
+		\Breadcrumbs::active('Subir Árbol - ' . $model['nombre']);
 
 		$carga_archivo = new ViewCargaArchivo();
 		$carga_archivo->total_registros = 0;
@@ -166,7 +178,8 @@ class PaletaController extends BaseController {
 		return $this->render('subir_arbol', $data);
 	}
 
-	function subirArchivo() {
+	function subirArchivo()
+	{
 		$post = $this->request->getParsedBody();
 		$paleta_id = $post['paleta_id'];
 		// try catch, etc.
@@ -191,50 +204,58 @@ class PaletaController extends BaseController {
 		return $this->render('reporteCarga', $data);
 	}
 
-	function cargarNivel2() {
+	function cargarNivel2()
+	{
 		$nivel_1_id = $_REQUEST['nivel_1_id'];
 		$nivel2 = PaletaArbol::getNivel2($nivel_1_id);
 		return $this->json($nivel2);
 	}
 
-	function cargarNivel3() {
+	function cargarNivel3()
+	{
 		$nivel_2_id = $_REQUEST['nivel_2_id'];
 		$nivel3 = PaletaArbol::getNivel3($nivel_2_id);
 		return $this->json($nivel3);
 	}
 
-	function cargarNivel4() {
+	function cargarNivel4()
+	{
 		$nivel_3_id = $_REQUEST['nivel_3_id'];
 		$nivel4 = PaletaArbol::getNivel4($nivel_3_id);
 		return $this->json($nivel4);
 	}
 
-	function cargarMotivoNoPagoNivel2() {
+	function cargarMotivoNoPagoNivel2()
+	{
 		$nivel_1_motivo_no_pago_id = $_REQUEST['nivel_1_motivo_no_pago_id'];
 		$nivel2 = PaletaMotivoNoPago::getNivel2($nivel_1_motivo_no_pago_id);
 		return $this->json($nivel2);
 	}
 
-	function cargarMotivoNoPagoNivel3() {
+	function cargarMotivoNoPagoNivel3()
+	{
 		$nivel_2_motivo_no_pago_id = $_REQUEST['nivel_2_motivo_no_pago_id'];
 		$nivel3 = PaletaMotivoNoPago::getNivel2($nivel_2_motivo_no_pago_id);
 		return $this->json($nivel3);
 	}
 
-	function cargarMotivoNoPagoNivel4() {
+	function cargarMotivoNoPagoNivel4()
+	{
 		$nivel_3_motivo_no_pago_id = $_REQUEST['nivel_3_motivo_no_pago_id'];
 		$nivel4 = PaletaMotivoNoPago::getNivel2($nivel_3_motivo_no_pago_id);
 		return $this->json($nivel4);
 	}
 
 	//BUSCADORES
-	function buscador() {
-//		$db = new \FluentPDO($this->get('pdo'));
+	function buscador()
+	{
+		//		$db = new \FluentPDO($this->get('pdo'));
 		$data = [];
 		return $this->render('buscador', $data);
 	}
 
-	function buscar($nombre, $numero, $tipo_gestion, $tipo_perfil) {
+	function buscar($nombre, $numero, $tipo_gestion, $tipo_perfil)
+	{
 		/** @var \PDO $pdo */
 		$pdo = $this->get('pdo');
 		$likeNombre = $pdo->quote('%' . strtoupper($nombre) . '%');
@@ -267,7 +288,8 @@ class PaletaController extends BaseController {
 	}
 }
 
-class ViewPaleta {
+class ViewPaleta
+{
 	var $id;
 	var $numero;
 	var $nombre;
@@ -294,7 +316,8 @@ class ViewPaleta {
 	var $eliminado;
 }
 
-class ViewCargaArchivo {
+class ViewCargaArchivo
+{
 	var $id;
 	var $total_registros;
 	var $total_errores;

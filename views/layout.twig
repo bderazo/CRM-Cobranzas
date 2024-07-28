@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>{% if title %}{{ title }}{% else %}MEGACOB{% endif %}</title>
+    <title>{% if title %}{{ title }}{% else %}CRM{% endif %}</title>
     <link rel="icon" type="image/png" href="{{ root }}/favicon.png">
 
     {{ bundle('site') }}
@@ -27,13 +27,13 @@
                     <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"
                        href="javascript:void(0)"></a>
 
-                    <!--<a class="logo-horizontal " href="{{ root }}">--->
-                    <a class="logo-horizontal " href="https://megacob.saes-ec.com/">
+                    <a class="logo-horizontal " href="{{ root }}">
                         <img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo"
                              alt="logo">
                         <img src="{{ root }}/template_ok/images/brand/logo-3.png" class="header-brand-img light-logo1"
                              alt="logo">
                     </a>
+
                     <!-- LOGO -->
                     <div class="main-header-center ms-3 d-none d-lg-block">
                     </div>
@@ -41,6 +41,15 @@
                         <div class="navbar navbar-collapse responsive-navbar p-0">
                             <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                                 <div class="d-flex order-lg-2">
+
+                                    <form action="#" method="get" class="ms-3">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Buscar por cédula" name="cedula">
+                                            <button class="btn btn-primary" type="submit">
+                                            <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </form>
 
                                     {% if ambientePruebas %}
                                         <div class="dropdown d-flex">
@@ -99,8 +108,7 @@
             <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
             <div class="app-sidebar">
                 <div class="side-header">
-                    <!--<a class="header-brand1" href="{{ root }}">-->
-                    <a class="header-brand1" href="https://megacob.saes-ec.com/">
+                    <a class="header-brand1" href="{{ root }}">
                         <img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo"
                              alt="logo">
                         <img src="{{ root }}/template_ok/images/brand/logo-1.png" class="header-brand-img toggle-logo"
@@ -208,8 +216,7 @@
         <div class="container">
             <div class="row align-items-center flex-row-reverse">
                 <div class="col-md-12 col-sm-12 text-center">
-                    Copyright © {{ now|date('Y') }} <a href="https://saes.tech/" target="_blank">SAES</a>. All rights
-                    reserved.
+                    Copyright 
                 </div>
             </div>
         </div>
@@ -220,6 +227,34 @@
 <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
 {{ bundle('template') }}
+
+<script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const cedula = document.querySelector('input[name="cedula"]').value;
+
+    // Realizar la solicitud AJAX para obtener el ID
+    fetch('{{ root }}/api/cliente/buscar_por_cedula?cedula=' + cedula)
+      .then(response => response.json())
+      .then(data => {
+        if (data.id) {
+          // Redirigir a la vista de seguimientos con el ID obtenido
+          window.location.href = `/global/producto/verSeguimientosDiners?id=${data.id}`;
+        } else if (data.error) {
+          // Mostrar mensaje de error personalizado
+          alert('Cédula no encontrada.');
+        } else {
+          // Manejar cualquier error inesperado
+          console.error('Error al buscar el ID:', data);
+          alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
+        }
+      })
+      .catch(error => {
+        console.error('Error al buscar el ID:', error);
+        alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
+      });
+  });
+</script>
 
 
 </body>

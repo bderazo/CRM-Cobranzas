@@ -214,7 +214,7 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 // session middleware
 
 $app->add(new \Slim\Middleware\Session([
-	'name' => 'megacob',
+	'name' => 'CRM',
 	'autorefresh' => true,
 	'lifetime' => '30 minutes'
 ]));

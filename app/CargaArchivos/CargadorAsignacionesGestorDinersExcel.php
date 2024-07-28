@@ -109,7 +109,7 @@ class CargadorAsignacionesGestorDinersExcel
 
 				//PROCESO DE PRODUCTOS
 				$producto_id = 0;
-				$estado_producto = 'asignado_megacob';
+				$estado_producto = 'asignado_diners';
 				if(isset($productos_todos[$cliente_id])) {
 					$producto_id = $productos_todos[$cliente_id]['id'];
 					$estado_producto = $productos_todos[$cliente_id]['estado'];

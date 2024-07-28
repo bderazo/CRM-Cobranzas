@@ -5,13 +5,12 @@
 			<form method="POST" id="form-edit" class="form-horizontal">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Ingresar archivo</h4>
+						<h4 class="card-title">Ingresar archivo pichincha</h4>
 					</div>
 					<div class="card-body">
 						<p style="text-align: justify;">
-							Permite la carga del archivo con los datos completos de los clientes para realizar el seguimiento respectivo,
-							los datos cargados serán asignados al estado "ASIGNADO_DINERS" y los clientes que no se encuentren en este listado serán
-							desactivados.
+							Permite la carga del archivo con los datos completos de los clientes  banco pichincha para realizar el seguimiento respectivo,
+							los datos cargados serán asignados al estado "ASIGNADO_PICHINCHA".
 						</p>
 						<fieldset id="campos">
 							<div class=" row mb-4">
@@ -78,7 +77,7 @@
                     onkeyup: false,
                     onclick: false,
                     submitHandler: function (f) {
-                        var url = '{{ root }}/cargarArchivo/cargarAplicativoDiners';
+                        var url = '{{ root }}/cargarArchivo/cargarClientesPichincha';
                         var formData = new FormData(form[0]);
                         campos.prop('disabled', 'disabled');
                         resDiv.html('');

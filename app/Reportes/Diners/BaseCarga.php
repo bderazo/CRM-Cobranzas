@@ -270,7 +270,7 @@ class  BaseCarga
                     $seg['observaciones'] = Utilidades::normalizeString($seg['observaciones']);
                     $seg['cuenta'] = $seg['tarjeta'] . $seg['cedula'];
                     $seg['hora_contacto'] = date("His", strtotime($seg['fecha_ingreso']));
-                    $seg['empresa'] = 'MEGACOB';
+                    $seg['empresa'] = 'DINERS';
                     $seg['georeferenciacion'] = $seg['lat'] != '' ? $seg['lat'] . ',' . $seg['long'] : " ";
                     if ($seg['valor_pago_minimo'] > 0) {
                         $data[$seg['tarjeta'] . '_' . $seg['ciclo'] . '_' . $seg['cedula']][] = $seg;

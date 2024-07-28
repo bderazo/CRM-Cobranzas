@@ -37,7 +37,8 @@ class UsuariosApi extends BaseController
 
 	function init($p = [])
 	{
-		if(@$p['test']) $this->test = true;
+		if (@$p['test'])
+			$this->test = true;
 	}
 
 	/**
@@ -46,24 +47,25 @@ class UsuariosApi extends BaseController
 	 */
 	function get_usuario_detalle()
 	{
-		if(!$this->isPost()) return "get_usuario_detalle";
+		if (!$this->isPost())
+			return "get_usuario_detalle";
 		$res = new RespuestaConsulta();
 		$session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
+		//		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
+		if ($usuario_id > 0) {
 			$user = Usuario::porId($usuario_id);
 
 			$config = $this->get('config');
 			$usuario = Usuario::getUsuarioDetalle($user['id'], $config);
 
 
-//			http_response_code(401);
+			//			http_response_code(401);
 //			die();
 
 			return $this->json($res->conDatos($usuario));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -77,31 +79,32 @@ class UsuariosApi extends BaseController
 	 */
 	function save_form_usuario()
 	{
-		if(!$this->isPost()) return "save_form_usuario";
+		if (!$this->isPost())
+			return "save_form_usuario";
 		/** @var \PDO $pdo */
 		$pdo = $this->get('pdo');
 		$db = new \FluentPDO($pdo);
 		$res = new RespuestaConsulta();
 
 		$session = $this->request->getParam('session');
-//		$user = UsuarioLogin::getUserBySession($session);
+		//		$user = UsuarioLogin::getUserBySession($session);
 
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if ($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 
 			$data = $this->request->getParam('data');
 			$files = $_FILES;
 
-//		\Auditor::error("save_form_usuario API ", 'Files', $files);
+			//		\Auditor::error("save_form_usuario API ", 'Files', $files);
 
 			// limpieza
 			$keys = array_keys($data);
-			foreach($keys as $key) {
+			foreach ($keys as $key) {
 				$val = $data[$key];
-				if(is_string($val))
+				if (is_string($val))
 					$val = trim($val);
-				if($val === null)
+				if ($val === null)
 					unset($data[$key]);
 			}
 
@@ -110,17 +113,17 @@ class UsuariosApi extends BaseController
 			//ASIGNAR CAMPOS
 			$fields = Usuario::getAllColumnsNames();
 			$change_password = false;
-			foreach($data as $k => $v) {
-				if(in_array($k, $fields)) {
+			foreach ($data as $k => $v) {
+				if (in_array($k, $fields)) {
 					$usuario->$k = $v;
 				}
-				if($k == 'password') {
+				if ($k == 'password') {
 					$change_password = true;
 				}
 			}
-			if($usuario->save($change_password)) {
+			if ($usuario->save($change_password)) {
 				//INSERTAR ARCHIVO DE PERFIL
-				if(isset($files["data"])) {
+				if (isset($files["data"])) {
 					//ARREGLAR ARCHIVOS
 					$archivo['name'] = date("Y_m_d_H_i_s") . '_' . $files["data"]["name"]["images"];
 					$archivo['type'] = $files["data"]["type"]["images"];
@@ -136,7 +139,7 @@ class UsuariosApi extends BaseController
 			} else {
 				return $this->json($res->conError('ERROR AL MODIFICAR EL USUARIO'));
 			}
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -150,18 +153,19 @@ class UsuariosApi extends BaseController
 	 */
 	function set_user_token_push_notifications()
 	{
-		if(!$this->isPost()) return "set_user_token_push_notifications";
+		if (!$this->isPost())
+			return "set_user_token_push_notifications";
 		$res = new RespuestaConsulta();
 		$session = $this->request->getParam('session');
 		$token = $this->request->getParam('token');
 		$dispositive = $this->request->getParam('dispositive');
-//		$user = UsuarioLogin::getUserBySession($session);
+		//		$user = UsuarioLogin::getUserBySession($session);
 		$usuario_id = \WebSecurity::getUserData('id');
-		if($usuario_id > 0){
-		$user = Usuario::porId($usuario_id);
+		if ($usuario_id > 0) {
+			$user = Usuario::porId($usuario_id);
 
 			$verificar = ApiUserTokenPushNotifications::verificarPorToken($token, $user['id']);
-			if(!$verificar) {
+			if (!$verificar) {
 				$del_token_anterior = ApiUserTokenPushNotifications::deleteTokenAnterior($user['id'], $dispositive);
 				$user_token = new ApiUserTokenPushNotifications();
 				$user_token->usuario_id = $user['id'];
@@ -175,7 +179,7 @@ class UsuariosApi extends BaseController
 				$user_token->save();
 			}
 			return $this->json($res->conMensaje('OK'));
-		}else {
+		} else {
 			http_response_code(401);
 			die();
 		}
@@ -187,11 +191,12 @@ class UsuariosApi extends BaseController
 	 */
 	function recuperar_contrasena()
 	{
-		if(!$this->isPost()) return "recuperar_contrasena";
+		if (!$this->isPost())
+			return "recuperar_contrasena";
 		$respuesta_api = new RespuestaConsulta();
 		$username = $this->request->getParam('username');
 		$user = Usuario::porUsername($username);
-		if(isset($user->id)) {
+		if (isset($user->id)) {
 			$usuario = Usuario::porId($user->id);
 			$newPass = Utilidades::generateRandomString(5);
 			$usuario->password = $newPass;
@@ -208,15 +213,15 @@ class UsuariosApi extends BaseController
 			$body = $tpl->getTemplateSys('password.twig', $data);
 			$sender = $this->get('emailSender');
 			$sender->init();
-			$sender->setSubject('MEGACOB Recuperar Contraseña');
+			$sender->setSubject('Recuperar Contraseña');
 			$sender->addAddress($user->email, $user->apellidos . ' ' . $user->nombres);
 			$sender->setBody($body);
 			$sender->isHtml(true);
 			$res = $sender->enviar();
-//			printDie($res);
+			//			printDie($res);
 			\Auditor::info('Recuperar contrasena', 'Usuarios', []);
 			return $this->json($respuesta_api->conMensaje('OK'));
-		}else{
+		} else {
 			return $this->json($respuesta_api->conError('USUARIO NO ENCONTRADO'));
 		}
 	}
@@ -243,18 +248,18 @@ class UsuariosApi extends BaseController
 		$arch->save();
 
 		$dir = $config['folder_images_usuario'];
-		if(!is_dir($dir)) {
+		if (!is_dir($dir)) {
 			\Auditor::error("Error API Carga Archivo: El directorio $dir de imagenes no existe", 'UsuariosApi', []);
 			return false;
 		}
 		$upload = new Upload($archivo);
-		if(!$upload->uploaded) {
+		if (!$upload->uploaded) {
 			\Auditor::error("Error API Carga Archivo: " . $upload->error, 'UsuariosApi', []);
 			return false;
 		}
 		// save uploaded image with no changes
 		$upload->Process($dir);
-		if($upload->processed) {
+		if ($upload->processed) {
 			\Auditor::info("API Carga Archivo " . $archivo['name'] . " cargada", 'UsuariosApi');
 			return true;
 		} else {

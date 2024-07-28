@@ -5,7 +5,6 @@ namespace CargaArchivos;
 use Akeneo\Component\SpreadsheetParser\Xlsx\XlsxParser;
 use Models\AplicativoDiners;
 use Models\AplicativoDinersAsignaciones;
-use Models\AplicativoDinersBaseCargarMegacob;
 use Models\AplicativoDinersDetalle;
 use Models\AplicativoDinersFocalizacion;
 use Models\AplicativoDinersSaldos;

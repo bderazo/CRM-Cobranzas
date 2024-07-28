@@ -5,7 +5,6 @@ namespace CargaArchivos;
 use Akeneo\Component\SpreadsheetParser\Xlsx\XlsxParser;
 use Models\AplicativoDiners;
 use Models\AplicativoDinersAsignaciones;
-use Models\AplicativoDinersBaseCargarMegacob;
 use Models\AplicativoDinersDetalle;
 use Models\AplicativoDinersSaldos;
 use Models\AplicativoDinersSaldosCampos;
@@ -73,6 +72,11 @@ class CargadorGestionesNoContestadasExcel
             $clientes_cedula_todos = Cliente::getTodosCedula();
             $aplicativo_diners_detalle_cliente = AplicativoDinersDetalle::porClienteOriginal();
             $usuario_logueados = UsuarioLogin::getUsuariosLogueadosFecha($extraInfo['fecha']);
+            $aplicativo_diners_todos = AplicativoDiners::getTodos();
+            $productos_todos = Producto::getTodos();
+            $ultima_posicion_columna = 0;
+            $cabecera = [];
+            $clientes_todos = Cliente::getTodos();
             foreach ($it as $rowIndex => $values) {
                 if (($rowIndex === 1)) {
                     continue;
@@ -81,7 +85,7 @@ class CargadorGestionesNoContestadasExcel
                     continue;
 
                 //PROCESO DE CLIENTES
-                if(isset($clientes_cedula_todos[$values[3]])){
+                if (isset($clientes_cedula_todos[$values[3]])) {
 
                 }
 
@@ -120,7 +124,7 @@ class CargadorGestionesNoContestadasExcel
                     $cont++;
                 }
                 //CREAR ASIGNACION
-                $base_cargar = new AplicativoDinersBaseCargarMegacob();
+                $base_cargar = new CargaArchivo();
                 $base_cargar->cliente_id = $cliente_id;
                 $base_cargar->aplicativo_diners_id = $aplicativo_diners_id;
                 $base_cargar->fecha = @$extraInfo['fecha'];
@@ -153,9 +157,9 @@ class CargadorGestionesNoContestadasExcel
             $carga->total_registros = $rep['total'];
             $carga->update();
             $pdo->commit();
-            \Auditor::info("Archivo '$nombreArchivo' cargado", "CargadorBaseCargarMegacobExcel");
+            \Auditor::info("Archivo '$nombreArchivo' cargado", "CargadorBaseCargarExcel");
         } catch (\Exception $ex) {
-            \Auditor::error("Ingreso de carga", "CargadorBaseCargarMegacobExcel", $ex);
+            \Auditor::error("Ingreso de carga", "CargadorBaseCargarExcel", $ex);
             $pdo->rollBack();
             $rep['errorSistema'] = $ex;
         }

@@ -62,6 +62,18 @@ class ProductoController extends BaseController
         return $this->render('indexDiners', $data);
     }
 
+    function indexPichincha()
+    {
+        \WebSecurity::secure('producto.lista_diners');
+        \Breadcrumbs::active('Seguimiento Pichincha');
+        $data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'));
+        $cat = new CatalogoProducto(true);
+        $listas = $cat->getCatalogo();
+        $listas['paleta_nivel_1'] = PaletaArbol::getNivel1(1);
+        $data['listas'] = $listas;
+        return $this->render('indexPichincha', $data);
+    }
+
     function index()
     {
         \WebSecurity::secure('producto.lista');
@@ -77,6 +89,31 @@ class ProductoController extends BaseController
         ];
         $data['listas'] = $listas;
         return $this->render('index', $data);
+    }
+
+    function listaPichincha($page)
+    {
+        \WebSecurity::secure('producto.lista_diners');
+        $params = $this->request->getParsedBody();
+        $saveFiltros = FiltroBusqueda::saveModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'), $params);
+        $esAdmin = $this->permisos->hasRole('admin');
+        $config = $this->get('config');
+        $lista = Producto::buscarPichincha($params, 'cliente.nombres', $page, 20, $config, $esAdmin);
+        $pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
+        $retorno = [];
+        $seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
+        foreach ($lista as $listas) {
+            if (isset($seguimiento_ultimos_todos[$listas['cliente_id']])) {
+                $listas['ultimo_seguimiento'] = $seguimiento_ultimos_todos[$listas['cliente_id']];
+            } else {
+                $listas['ultimo_seguimiento'] = [];
+            }
+            $retorno[] = $listas;
+        }
+        //		printDie($retorno);
+        $data['lista'] = $retorno;
+        $data['pag'] = $pag;
+        return $this->render('listaPichincha', $data);
     }
 
     function listaDiners($page)
@@ -98,7 +135,7 @@ class ProductoController extends BaseController
             }
             $retorno[] = $listas;
         }
-//		printDie($retorno);
+        //		printDie($retorno);
         $data['lista'] = $retorno;
         $data['pag'] = $pag;
         return $this->render('listaDiners', $data);
@@ -123,7 +160,7 @@ class ProductoController extends BaseController
             }
             $retorno[] = $listas;
         }
-//		printDie($retorno);
+        //		printDie($retorno);
         $data['lista'] = $retorno;
         $data['pag'] = $pag;
         return $this->render('lista', $data);
@@ -171,7 +208,7 @@ class ProductoController extends BaseController
         $producto_campos = ProductoCampos::porProductoId($model->id);
 
         $seguimiento = new ViewProductoSeguimiento();
-        $seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . '- ';
+        $seguimiento->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . '- ';
         $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
 
         $data['paleta'] = $paleta;
@@ -198,14 +235,14 @@ class ProductoController extends BaseController
         if (isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];
         } elseif ((isset($_REQUEST['cedula'])) && (isset($_REQUEST['telefono']))) {
-            $prod_ver = Producto::getProductoCliente($_REQUEST['cedula'],$_REQUEST['telefono']);
+            $prod_ver = Producto::getProductoCliente($_REQUEST['cedula'], $_REQUEST['telefono']);
             if (isset($prod_ver['id'])) {
                 $id = $prod_ver['id'];
                 $telefono_verificar_id = $prod_ver['telefono_id'];
             }
         }
 
-//        if (isset($_REQUEST['id'])) {
+        //        if (isset($_REQUEST['id'])) {
 //            $id = $_REQUEST['id'];
 //        } elseif (isset($_REQUEST['telefono'])) {
 //            $prod_ver = Producto::getProductoTelefono($_REQUEST['telefono']);
@@ -234,8 +271,8 @@ class ProductoController extends BaseController
         $date3 = \DateTime::createFromFormat('H:i:s', $config['hora_fin_labores']);
         if ($date1 >= $date2 && $date1 <= $date3) {
         } else {
-            $this->flash->addMessage('error', 'NO ES POSIBLE REGISTRAR EL SEGUIMIENTO, RECUERDE QUE LOS HORARIOS DE INGRESO DE DATOS ES DESDE: ' . $config['hora_inicio_labores'] . ' HASTA: ' . $config['hora_fin_labores']);
-            return $this->redirectToAction('indexDiners');
+            // $this->flash->addMessage('error', 'NO ES POSIBLE REGISTRAR EL SEGUIMIENTO, RECUERDE QUE LOS HORARIOS DE INGRESO DE DATOS ES DESDE: ' . $config['hora_inicio_labores'] . ' HASTA: ' . $config['hora_fin_labores']);
+            // return $this->redirectToAction('indexDiners');
         }
 
         $meses_gracia = [];
@@ -393,7 +430,7 @@ class ProductoController extends BaseController
 
         //DATOS TARJETA DISCOVER
         $aplicativo_diners_tarjeta_discover = AplicativoDiners::getAplicativoDinersDetalle('DISCOVER', $model->cliente_id, 'original');
-//        printDie($aplicativo_diners_tarjeta_discover);
+        //        printDie($aplicativo_diners_tarjeta_discover);
         $plazo_financiamiento_discover = [];
         if (count($aplicativo_diners_tarjeta_discover) > 0) {
             //CALCULO DE ABONO NEGOCIADOR
@@ -529,7 +566,7 @@ class ProductoController extends BaseController
         $producto_campos = ProductoCampos::porProductoId($model->id);
 
         $seguimiento = new ViewProductoSeguimiento();
-//        $seguimiento->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+        //        $seguimiento->observaciones = 'DINERS ' . date("Y") . date("m") . date("d");
         $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento->sugerencia_cx88 = 'NO';
         $seguimiento->sugerencia_correo = 'NO';
@@ -544,28 +581,28 @@ class ProductoController extends BaseController
 
         //DECLARO EL SEGUIMIENTO DE TARJETA
         $seguimiento_diners = new ViewProductoSeguimiento();
-//        $seguimiento_diners->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+        //        $seguimiento_diners->observaciones = 'DINERS ' . date("Y") . date("m") . date("d");
         $seguimiento_diners->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_diners->sugerencia_cx88 = 'NO';
         $seguimiento_diners->sugerencia_correo = 'NO';
         $seguimiento_diners->ingresos_cliente = 0;
         $seguimiento_diners->egresos_cliente = 0;
         $seguimiento_interdin = new ViewProductoSeguimiento();
-//        $seguimiento_interdin->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+        //        $seguimiento_interdin->observaciones = 'DINERS ' . date("Y") . date("m") . date("d");
         $seguimiento_interdin->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_interdin->sugerencia_cx88 = 'NO';
         $seguimiento_interdin->sugerencia_correo = 'NO';
         $seguimiento_interdin->ingresos_cliente = 0;
         $seguimiento_interdin->egresos_cliente = 0;
         $seguimiento_discover = new ViewProductoSeguimiento();
-//        $seguimiento_discover->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+        //        $seguimiento_discover->observaciones = 'DINERS ' . date("Y") . date("m") . date("d");
         $seguimiento_discover->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_discover->sugerencia_cx88 = 'NO';
         $seguimiento_discover->sugerencia_correo = 'NO';
         $seguimiento_discover->ingresos_cliente = 0;
         $seguimiento_discover->egresos_cliente = 0;
         $seguimiento_mastercard = new ViewProductoSeguimiento();
-//        $seguimiento_mastercard->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d");
+        //        $seguimiento_mastercard->observaciones = 'DINERS ' . date("Y") . date("m") . date("d");
         $seguimiento_mastercard->fecha_ingreso = date("Y-m-d H:i:s");
         $seguimiento_mastercard->sugerencia_cx88 = 'NO';
         $seguimiento_mastercard->sugerencia_correo = 'NO';
@@ -589,9 +626,9 @@ class ProductoController extends BaseController
             $motivo_cierre = '';
             if ($tarjeta_unica == 'diners') {
                 $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($model->cliente_id, date("Y-m-d"), 'DINERS');
-                if(!$ultima_gestion_dia){
+                if (!$ultima_gestion_dia) {
                     $motivo_cierre = $saldos['motivo_cierre_diners'];
-                }else{
+                } else {
                     $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                 }
                 $fecha_cobro = $saldos['fecha_maxima_pago_diners'];
@@ -603,9 +640,9 @@ class ProductoController extends BaseController
                 }
             } elseif ($tarjeta_unica == 'interdin') {
                 $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($model->cliente_id, date("Y-m-d"), 'INTERDIN');
-                if(!$ultima_gestion_dia){
+                if (!$ultima_gestion_dia) {
                     $motivo_cierre = $saldos['motivo_cierre_visa'];
-                }else{
+                } else {
                     $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                 }
                 $fecha_cobro = $saldos['fecha_maxima_pago_visa'];
@@ -617,9 +654,9 @@ class ProductoController extends BaseController
                 }
             } elseif ($tarjeta_unica == 'discover') {
                 $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($model->cliente_id, date("Y-m-d"), 'DISCOVER');
-                if(!$ultima_gestion_dia){
+                if (!$ultima_gestion_dia) {
                     $motivo_cierre = $saldos['motivo_cierre_discover'];
-                }else{
+                } else {
                     $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                 }
                 $fecha_cobro = $saldos['fecha_maxima_pago_discover'];
@@ -631,9 +668,9 @@ class ProductoController extends BaseController
                 }
             } elseif ($tarjeta_unica == 'mastercard') {
                 $ultima_gestion_dia = ProductoSeguimiento::getUltimoSeguimientoPorClienteFechaMarca($model->cliente_id, date("Y-m-d"), 'MASTERCARD');
-                if(!$ultima_gestion_dia){
+                if (!$ultima_gestion_dia) {
                     $motivo_cierre = $saldos['motivo_cierre_mastercard'];
-                }else{
+                } else {
                     $motivo_cierre = $ultima_gestion_dia['nivel_2_texto'];
                 }
                 $fecha_cobro = $saldos['fecha_maxima_pago_mastercard'];
@@ -649,7 +686,8 @@ class ProductoController extends BaseController
                 $key = array_search('1861', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1'][$key]);
             }
-            if (($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') ||
+            if (
+                ($motivo_cierre == 'AUN NO CONTACTADO MAÑANA') ||
                 ($motivo_cierre == 'AUN NO CONTACTADO NOCHE') ||
                 ($motivo_cierre == 'AUN NO CONTACTADO TARDE') ||
                 ($motivo_cierre == 'Aún No Contactado Mañana') ||
@@ -660,7 +698,8 @@ class ProductoController extends BaseController
                 $key = array_search('1861', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1'][$key]);
             }
-            if (($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
+            if (
+                ($motivo_cierre == 'ACUERDO DE PAGO PAGARE') ||
                 ($motivo_cierre == 'CONT. SIN ARREGLO DEFINITIVO') ||
                 ($motivo_cierre == 'CONTACTO SIN ARREGLO MEDIATO') ||
                 ($motivo_cierre == 'NOTIFICADO') ||
@@ -687,12 +726,12 @@ class ProductoController extends BaseController
                 $key = array_search('1861', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1'][$key]);
             }
-            if (($motivo_cierre == 'MENSAJE A TERCERO') || ($motivo_cierre == 'Mensaje a Tercero')){
+            if (($motivo_cierre == 'MENSAJE A TERCERO') || ($motivo_cierre == 'Mensaje a Tercero')) {
                 //QUITAR: NO UBICADO
                 $key = array_search('1799', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1'][$key]);
             }
-            if (($motivo_cierre == 'SIN ARREGLO CLIENTE') || ($motivo_cierre == 'Sin Arreglo Cliente')){
+            if (($motivo_cierre == 'SIN ARREGLO CLIENTE') || ($motivo_cierre == 'Sin Arreglo Cliente')) {
                 //QUITAR: NO UBICADO
                 $key = array_search('1799', array_column($catalogos['paleta_nivel_1'], 'nivel1_id'));
                 unset($catalogos['paleta_nivel_1'][$key]);
@@ -741,7 +780,7 @@ class ProductoController extends BaseController
             }
         }
 
-//        printDie($catalogos['paleta_nivel_1_discover']);
+        //        printDie($catalogos['paleta_nivel_1_discover']);
         $data['asignacion'] = json_encode($asignacion);
         $data['paleta'] = $paleta;
         $data['numero_tarjetas'] = $numero_tarjetas;
@@ -769,7 +808,7 @@ class ProductoController extends BaseController
         $data['model'] = json_encode($model);
         $data['modelArr'] = $model;
         $data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
-//        $data['fecha_maxima_compromiso'] = $fecha_maxima_compromiso;
+        //        $data['fecha_maxima_compromiso'] = $fecha_maxima_compromiso;
         $data['fecha_maxima_compromiso_diners'] = $fecha_maxima_compromiso_diners;
         $data['fecha_maxima_compromiso_interdin'] = $fecha_maxima_compromiso_interdin;
         $data['fecha_maxima_compromiso_discover'] = $fecha_maxima_compromiso_discover;
@@ -777,14 +816,95 @@ class ProductoController extends BaseController
         return $this->render('editarDiners', $data);
     }
 
+    function editarPichincha()
+    {
+        \WebSecurity::secure('producto.lista');
+
+        $meses_gracia = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $meses_gracia[$i] = $i;
+        }
+        $cat = new CatalogoCliente();
+        $catalogos = [
+            'sexo' => $cat->getByKey('sexo'),
+            'estado_civil' => $cat->getByKey('estado_civil'),
+            'tipo_telefono' => $cat->getByKey('tipo_telefono'),
+            'descripcion_telefono' => $cat->getByKey('descripcion_telefono'),
+            'origen_telefono' => $cat->getByKey('origen_telefono'),
+            'tipo_direccion' => $cat->getByKey('tipo_direccion'),
+            'tipo_referencia' => $cat->getByKey('tipo_referencia'),
+            'descripcion_referencia' => $cat->getByKey('descripcion_referencia'),
+            'ciudades' => Catalogo::ciudades(),
+            'meses_gracia' => $meses_gracia,
+        ];
+
+        $id = 0;
+        $telefono_verificar_id = 0;
+        if (isset($_REQUEST['id'])) {
+            $id = $_REQUEST['id'];
+        } elseif ((isset($_REQUEST['cedula'])) && (isset($_REQUEST['telefono']))) {
+            $prod_ver = Producto::getProductoCliente($_REQUEST['cedula'], $_REQUEST['telefono']);
+            if (isset($prod_ver['id'])) {
+                $id = $prod_ver['id'];
+                $telefono_verificar_id = $prod_ver['telefono_id'];
+            }
+        }
+
+        $model = Producto::porId($id);
+        \Breadcrumbs::active('Registrar Seguimiento');
+        $telefono = Telefono::porModulo('cliente', $model->cliente_id);
+        $email = Email::porModulo('cliente', $model->cliente_id);
+        $direccion = Direccion::porModulo('cliente', $model->cliente_id);
+        $referencia = Referencia::porModulo('cliente', $model->cliente_id);
+        $cliente = Cliente::porId($model->cliente_id);
+        $institucion = Institucion::porId($model->institucion_id);
+        $catalogos['paleta_nivel_1'] = PaletaArbol::getNivel1($institucion->paleta_id);
+        $catalogos['paleta_nivel_2'] = [];
+        $catalogos['paleta_nivel_3'] = [];
+
+        $catalogos['paleta_motivo_no_pago_nivel_1'] = PaletaMotivoNoPago::getNivel1($institucion->paleta_id);
+        $catalogos['paleta_motivo_no_pago_nivel_2'] = [];
+
+        $paleta = Paleta::porId($institucion->paleta_id);
+
+        $producto_campos = ProductoCampos::porProductoId($model->id);
+
+        $seguimiento = new ViewProductoSeguimiento();
+        $seguimiento->observaciones = 'PICHINCHA ' . date("Y") . date("m") . date("d") . '- ';
+        $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
+
+        $data['paleta'] = $paleta;
+        $data['producto_campos'] = $producto_campos;
+        $data['seguimiento'] = json_encode($seguimiento);
+        $data['cliente'] = json_encode($cliente);
+        $data['direccion'] = json_encode($direccion);
+        $data['referencia'] = json_encode($referencia);
+        $data['telefono'] = json_encode($telefono);
+        $data['email'] = json_encode($email);
+        $data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+        $data['model'] = json_encode($model);
+        $data['modelArr'] = $model;
+        $data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
+        return $this->render('editar', $data);
+    }
+
     function guardarSeguimiento($json)
     {
+        $id = 0;
+        if (isset($_REQUEST['id'])) {
+            $id = $_REQUEST['id'];
+        } elseif ((isset($_REQUEST['cedula'])) && (isset($_REQUEST['telefono']))) {
+            $prod_ver = Producto::getProductoCliente($_REQUEST['cedula'], $_REQUEST['telefono']);
+            if (isset($prod_ver['id'])) {
+                $id = $prod_ver['id'];
+            }
+        }
+
+        $producto = Producto::porId($id);
         $data = json_decode($json, true);
         //GUARDAR SEGUIMIENTO
-        $producto = $data['model'];
         $seguimiento = $data['seguimiento'];
-        $aplicativo_diners = $data['aplicativo_diners'];
-        $institucion = Institucion::porId($producto['institucion_id']);
+        $institucion = Institucion::porId($producto->institucion_id);
         if ($seguimiento['id'] > 0) {
             $con = ProductoSeguimiento::porId($seguimiento['id']);
         } else {
@@ -798,6 +918,7 @@ class ProductoController extends BaseController
             $con->usuario_ingreso = \WebSecurity::getUserData('id');
             $con->eliminado = 0;
             $con->fecha_ingreso = date("Y-m-d H:i:s");
+            $con->origen = 'manual_web';
         }
         $con->nivel_1_id = $seguimiento['nivel_1_id'];
         $paleta_arbol = PaletaArbol::porId($seguimiento['nivel_1_id']);
@@ -849,28 +970,28 @@ class ProductoController extends BaseController
         $con->fecha_modificacion = date("Y-m-d H:i:s");
         $con->save();
         $producto_obj = Producto::porId($producto['id']);
-        $producto_obj->estado = 'gestionado';
+        $producto_obj->estado = 'gestionado_pichincha';
         $producto_obj->save();
 
-        //VERIFICAR SI ES NUMERO ORO
-        if ($con->telefono_id > 0) {
-            $pal = PaletaArbol::porId($seguimiento['nivel_4_id']);
-            if ($pal['valor'] == 'CONTACTADO') {
-                $telefono_bancera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
-                $t = Telefono::porId($con->telefono_id);
-                $t->bandera = 1;
-                $t->fecha_modificacion = date("Y-m-d H:i:s");
-                $t->save();
-            }
-        }
+        // //VERIFICAR SI ES NUMERO ORO
+        // if ($con->telefono_id > 0) {
+        //     $pal = PaletaArbol::porId($seguimiento['nivel_4_id']);
+        //     if ($pal['valor'] == 'CONTACTADO') {
+        //         $telefono_bancera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
+        //         $t = Telefono::porId($con->telefono_id);
+        //         $t->bandera = 1;
+        //         $t->fecha_modificacion = date("Y-m-d H:i:s");
+        //         $t->save();
+        //     }
+        // }
 
-        return $this->redirectToAction('index');
+        return $this->redirectToAction('indexPichincha');
     }
 
     function guardarSeguimientoDiners($json)
     {
         $data = json_decode($json, true);
-//        printDie($_FILES);
+        //        printDie($_FILES);
         //GUARDAR SEGUIMIENTO
         $producto = $data['model'];
         $seguimiento = $data['seguimiento'];
@@ -938,8 +1059,8 @@ class ProductoController extends BaseController
                 $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento['nivel_2_motivo_no_pago_id']);
                 $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
             }
-            $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento['observaciones']);
-//            $con->observaciones = substr($con->observaciones, 0, 254);
+            $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento['observaciones']);
+            //            $con->observaciones = substr($con->observaciones, 0, 254);
             $con->sugerencia_cx88 = $seguimiento['sugerencia_cx88'];
             $con->sugerencia_correo = $seguimiento['sugerencia_correo'];
             $con->ingresos_cliente = $seguimiento['ingresos_cliente'];
@@ -961,13 +1082,13 @@ class ProductoController extends BaseController
                     $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                     $t = Telefono::porId($con->telefono_id);
                     $t->bandera = 1;
-//                    $t->fecha_modificacion = date("Y-m-d H:i:s");
+                    //                    $t->fecha_modificacion = date("Y-m-d H:i:s");
                     $t->save();
                 }
             }
         }
         $producto_obj = Producto::porId($producto['id']);
-        $producto_obj->estado = 'gestionado';
+        $producto_obj->estado = 'gestionado_diners';
         $producto_obj->save();
         $aplicativo_diners_obj = AplicativoDiners::porId($aplicativo_diners['id']);
         $aplicativo_diners_obj->estado = 'gestionado';
@@ -980,47 +1101,47 @@ class ProductoController extends BaseController
         $aplicativo_diners_tarjeta_mastercard = isset($data['aplicativo_diners_tarjeta_mastercard']) ? $data['aplicativo_diners_tarjeta_mastercard'] : [];
 
         //SI UNIFICA, EL TIPO DE NEGOCIACION DEBE SER EL MISMO QUE LA TARJETA DONDE SE UNIFICO
-        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DINERS')){
-            if (count($aplicativo_diners_tarjeta_interdin) > 0){
+        if (($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DINERS')) {
+            if (count($aplicativo_diners_tarjeta_interdin) > 0) {
                 $aplicativo_diners_tarjeta_interdin['tipo_negociacion'] = $aplicativo_diners_tarjeta_diners['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_discover) > 0){
+            if (count($aplicativo_diners_tarjeta_discover) > 0) {
                 $aplicativo_diners_tarjeta_discover['tipo_negociacion'] = $aplicativo_diners_tarjeta_diners['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_mastercard) > 0){
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
                 $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'] = $aplicativo_diners_tarjeta_diners['tipo_negociacion'];
             }
         }
-        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'INTERDIN')){
-            if (count($aplicativo_diners_tarjeta_diners) > 0){
+        if (($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'INTERDIN')) {
+            if (count($aplicativo_diners_tarjeta_diners) > 0) {
                 $aplicativo_diners_tarjeta_diners['tipo_negociacion'] = $aplicativo_diners_tarjeta_interdin['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_discover) > 0){
+            if (count($aplicativo_diners_tarjeta_discover) > 0) {
                 $aplicativo_diners_tarjeta_discover['tipo_negociacion'] = $aplicativo_diners_tarjeta_interdin['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_mastercard) > 0){
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
                 $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'] = $aplicativo_diners_tarjeta_interdin['tipo_negociacion'];
             }
         }
-        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DISCOVER')){
-            if (count($aplicativo_diners_tarjeta_diners) > 0){
+        if (($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'DISCOVER')) {
+            if (count($aplicativo_diners_tarjeta_diners) > 0) {
                 $aplicativo_diners_tarjeta_diners['tipo_negociacion'] = $aplicativo_diners_tarjeta_discover['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_interdin) > 0){
+            if (count($aplicativo_diners_tarjeta_interdin) > 0) {
                 $aplicativo_diners_tarjeta_interdin['tipo_negociacion'] = $aplicativo_diners_tarjeta_discover['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_mastercard) > 0){
+            if (count($aplicativo_diners_tarjeta_mastercard) > 0) {
                 $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'] = $aplicativo_diners_tarjeta_discover['tipo_negociacion'];
             }
         }
-        if(($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'MASTERCARD')){
-            if (count($aplicativo_diners_tarjeta_diners) > 0){
+        if (($bandera_unificar_deuda == 'si') && ($tarjeta_unificar_deuda == 'MASTERCARD')) {
+            if (count($aplicativo_diners_tarjeta_diners) > 0) {
                 $aplicativo_diners_tarjeta_diners['tipo_negociacion'] = $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_interdin) > 0){
+            if (count($aplicativo_diners_tarjeta_interdin) > 0) {
                 $aplicativo_diners_tarjeta_interdin['tipo_negociacion'] = $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'];
             }
-            if (count($aplicativo_diners_tarjeta_discover) > 0){
+            if (count($aplicativo_diners_tarjeta_discover) > 0) {
                 $aplicativo_diners_tarjeta_discover['tipo_negociacion'] = $aplicativo_diners_tarjeta_mastercard['tipo_negociacion'];
             }
         }
@@ -1070,8 +1191,8 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_diners['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_diners['observaciones']);
-//                    $con->observaciones = substr($con->observaciones, 0, 254);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_diners['observaciones']);
+                    //                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_diners['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_diners['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_diners['ingresos_cliente'];
@@ -1093,15 +1214,15 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            //                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
                 }
-//            if ($aplicativo_diners_tarjeta_diners['refinancia'] == 'SI') {
+                //            if ($aplicativo_diners_tarjeta_diners['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_diners['id'];
                 unset($aplicativo_diners_tarjeta_diners['id']);
-//                unset($aplicativo_diners_tarjeta_diners['refinancia']);
+                //                unset($aplicativo_diners_tarjeta_diners['refinancia']);
                 $obj_diners = new AplicativoDinersDetalle();
                 $obj_diners->fill($aplicativo_diners_tarjeta_diners);
                 $obj_diners->producto_seguimiento_id = $con->id;
@@ -1162,8 +1283,8 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_interdin['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_interdin['observaciones']);
-//                    $con->observaciones = substr($con->observaciones, 0, 254);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_interdin['observaciones']);
+                    //                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_interdin['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_interdin['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_interdin['ingresos_cliente'];
@@ -1185,15 +1306,15 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            //                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
                 }
-//            if ($aplicativo_diners_tarjeta_interdin['refinancia'] == 'SI') {
+                //            if ($aplicativo_diners_tarjeta_interdin['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_interdin['id'];
                 unset($aplicativo_diners_tarjeta_interdin['id']);
-//                unset($aplicativo_diners_tarjeta_interdin['refinancia']);
+                //                unset($aplicativo_diners_tarjeta_interdin['refinancia']);
                 $obj_interdin = new AplicativoDinersDetalle();
                 $obj_interdin->fill($aplicativo_diners_tarjeta_interdin);
                 $obj_interdin->cliente_id = $con->cliente_id;
@@ -1254,8 +1375,8 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_discover['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_discover['observaciones']);
-//                    $con->observaciones = substr($con->observaciones, 0, 254);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_discover['observaciones']);
+                    //                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_discover['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_discover['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_discover['ingresos_cliente'];
@@ -1277,15 +1398,15 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            //                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
                 }
-//            if ($aplicativo_diners_tarjeta_discover['refinancia'] == 'SI') {
+                //            if ($aplicativo_diners_tarjeta_discover['refinancia'] == 'SI') {
                 $padre_id = $aplicativo_diners_tarjeta_discover['id'];
                 unset($aplicativo_diners_tarjeta_discover['id']);
-//                unset($aplicativo_diners_tarjeta_discover['refinancia']);
+                //                unset($aplicativo_diners_tarjeta_discover['refinancia']);
                 $obj_discover = new AplicativoDinersDetalle();
                 $obj_discover->fill($aplicativo_diners_tarjeta_discover);
                 $obj_discover->cliente_id = $con->cliente_id;
@@ -1346,8 +1467,8 @@ class ProductoController extends BaseController
                         $paleta_motivo_no_pago = PaletaMotivoNoPago::porId($seguimiento_mastercard['nivel_2_motivo_no_pago_id']);
                         $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_mastercard['observaciones']);
-//                    $con->observaciones = substr($con->observaciones, 0, 254);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . $telf->telefono . ' ' . Utilidades::normalizeString($seguimiento_mastercard['observaciones']);
+                    //                    $con->observaciones = substr($con->observaciones, 0, 254);
                     $con->sugerencia_cx88 = $seguimiento_mastercard['sugerencia_cx88'];
                     $con->sugerencia_correo = $seguimiento_mastercard['sugerencia_correo'];
                     $con->ingresos_cliente = $seguimiento_mastercard['ingresos_cliente'];
@@ -1369,7 +1490,7 @@ class ProductoController extends BaseController
                             $telefono_bandera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
                             $t = Telefono::porId($con->telefono_id);
                             $t->bandera = 1;
-//                            $t->fecha_modificacion = date("Y-m-d H:i:s");
+                            //                            $t->fecha_modificacion = date("Y-m-d H:i:s");
                             $t->save();
                         }
                     }
@@ -1438,7 +1559,7 @@ class ProductoController extends BaseController
 
         $config = $this->get('config');
         $seguimientos = ProductoSeguimiento::getSeguimientoPorProducto($model->id, $config);
-//		printDie($seguimientos);
+        //		printDie($seguimientos);
 
         $producto_campos = ProductoCampos::porProductoId($model->id);
 
@@ -1484,13 +1605,13 @@ class ProductoController extends BaseController
                 $det['nombre_tarjeta'] = $det['nombre_tarjeta'] == 'INTERDIN' ? 'VISA' : $det['nombre_tarjeta'];
                 $tarjetas_gestionadas[] = $det['nombre_tarjeta'];
             }
-            if($s['origen'] == 'movil'){
+            if ($s['origen'] == 'movil') {
                 $mostrar_mapa = true;
             }
             $s['tarjetas_gestionadas'] = implode(", ", $tarjetas_gestionadas);
             $seguimientos_data[] = $s;
         }
-//		printDie($seguimientos_data);
+        //		printDie($seguimientos_data);
 
         $data['aplicativo_diners'] = json_encode($aplicativo_diners);
         $data['paleta'] = $paleta;
@@ -1542,7 +1663,7 @@ class ProductoController extends BaseController
             ['name' => $nombre, 'data' => $data]
         ];
         $export->sendData($set, $archivo);
-//		exit();
+        //		exit();
     }
 
     function calcularTarjetaDiners()
@@ -1566,7 +1687,7 @@ class ProductoController extends BaseController
             $valor_financiar_discover = isset($_REQUEST['valor_financiar_discover']) ? $_REQUEST['valor_financiar_discover'] : 0;
             $valor_financiar_mastercard = isset($_REQUEST['valor_financiar_mastercard']) ? $_REQUEST['valor_financiar_mastercard'] : 0;
             $tarjeta = $_REQUEST['tarjeta'];
-//            $datos_calculados = [];
+            //            $datos_calculados = [];
             $datos_calculados = Producto::calculosTarjetaGeneral($data, $aplicativo_diners_id, $tarjeta, 'web', $valor_financiar_diners, $valor_financiar_interdin, $valor_financiar_discover, $valor_financiar_mastercard);
             return $this->json($datos_calculados);
         } else {
@@ -1598,7 +1719,7 @@ class ProductoController extends BaseController
 
     function buscadorCampana()
     {
-//		$db = new \FluentPDO($this->get('pdo'));
+        //		$db = new \FluentPDO($this->get('pdo'));
         $institucion_id = $_REQUEST['institucion_id'];
         $institucion = Institucion::porId($institucion_id);
         $data['paleta_nivel2'] = json_encode(PaletaArbol::getNivel2Todos($institucion['paleta_id']), JSON_PRETTY_PRINT);
@@ -1634,7 +1755,7 @@ class ProductoController extends BaseController
                 }
                 continue;
             }
-//			printDie($cabecera);
+            //			printDie($cabecera);
 
             $cliente_id = 0;
             foreach ($clientes_todos as $cl) {
@@ -1661,7 +1782,7 @@ class ProductoController extends BaseController
 
             if ($values[4] != '') {
                 $direccion = new Direccion();
-//				$direccion->tipo = 'DOMICILIO';
+                //				$direccion->tipo = 'DOMICILIO';
 //				$direccion->ciudad = $values[10];
                 $direccion->direccion = $values[4];
                 $direccion->modulo_id = $cliente_id;
@@ -1685,7 +1806,7 @@ class ProductoController extends BaseController
                 }
                 if ($telefono_id == 0) {
                     $telefono = new Telefono();
-//					$telefono->tipo = 'CELULAR';
+                    //					$telefono->tipo = 'CELULAR';
                     $telefono->descripcion = 'TITULAR';
                     $telefono->origen = 'JEP';
                     $telefono->telefono = $values[3];
@@ -1701,7 +1822,7 @@ class ProductoController extends BaseController
                 }
             }
 
-//			if($values[12] != '') {
+            //			if($values[12] != '') {
 //				$mail = new Email();
 //				$mail->tipo = 'PERSONAL';
 //				$mail->descripcion = 'TITULAR';
@@ -1773,7 +1894,7 @@ class ProductoController extends BaseController
                 $usuario->fecha_creacion = date("Y-m-d");
                 $usuario->nombres = $values[0];
                 $usuario->apellidos = $values[1];
-                $usuario->email = 'soporte@saes.tech';
+                $usuario->email = 'david.erazo@nuocorp.com';
                 $usuario->fecha_ultimo_cambio = date("Y-m-d");
                 $usuario->es_admin = 0;
                 $usuario->activo = 1;

@@ -5,6 +5,7 @@ namespace Controllers;
 use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
 use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
+use CargaArchivos\CargadorClientesPichinchaExcel;
 use CargaArchivos\CargadorGestionesNoContestadasExcel;
 use CargaArchivos\CargadorGestionesExcel;
 use CargaArchivos\CargadorClientesExcel;
@@ -29,39 +30,43 @@ use Models\Telefono;
 use Slim\Http\UploadedFile;
 use upload;
 
-class CargarArchivoController extends BaseController {
-    var $modulo = 'CargarArchivo';
-	function init() {
+class CargarArchivoController extends BaseController
+{
+	var $modulo = 'CargarArchivo';
+	function init()
+	{
 		\Breadcrumbs::add('/cargarArchivo', 'Carga de Archivos');
 	}
 
-    function index() {
-        \WebSecurity::secure('cargar_archivos');
-        \Breadcrumbs::active('Carga de Archivos');
-        $menu = $this->get('menuCargaArchivos');
-        $root = $this->get('root');
-        $items = [];
-        foreach ($menu as $k=>$v) {
-            foreach ($v as $row) {
-                if (!empty($row['roles'])) {
-                    $roles = $row['roles'];
-                    if (!$this->permisos->hasRole($roles))
-                        continue;
-                }
-                $row['link'] = $root . $row['link'];
-                $items[$k][] = $row;
-            }
-        }
+	function index()
+	{
+		\WebSecurity::secure('cargar_archivos');
+		\Breadcrumbs::active('Carga de Archivos');
+		$menu = $this->get('menuCargaArchivos');
+		$root = $this->get('root');
+		$items = [];
+		foreach ($menu as $k => $v) {
+			foreach ($v as $row) {
+				if (!empty($row['roles'])) {
+					$roles = $row['roles'];
+					if (!$this->permisos->hasRole($roles))
+						continue;
+				}
+				$row['link'] = $root . $row['link'];
+				$items[$k][] = $row;
+			}
+		}
 
-        $itemsChunks = [];
-        foreach ($items as $k=>$v) {
-            $itemsChunks[$k] = array_chunk($v, 3);
-        }
-        $data['menuReportes'] = $itemsChunks;
-        return $this->render('index', $data);
-    }
+		$itemsChunks = [];
+		foreach ($items as $k => $v) {
+			$itemsChunks[$k] = array_chunk($v, 3);
+		}
+		$data['menuReportes'] = $itemsChunks;
+		return $this->render('index', $data);
+	}
 
-	function aplicativoDiners() {
+	function aplicativoDiners()
+	{
 		\WebSecurity::secure('cargar_archivos.aplicativo_diners');
 		\Breadcrumbs::active('Aplicativo Diners');
 
@@ -78,7 +83,8 @@ class CargarArchivoController extends BaseController {
 		return $this->render('aplicativoDiners', $data);
 	}
 
-	function cargarAplicativoDiners() {
+	function cargarAplicativoDiners()
+	{
 		$post = $this->request->getParsedBody();
 		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
@@ -102,9 +108,10 @@ class CargarArchivoController extends BaseController {
 		return $this->render('reporte', $data);
 	}
 
-    /*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-	function saldosDiners() {
+	function saldosDiners()
+	{
 		\WebSecurity::secure('cargar_archivos.saldos_diners');
 		\Breadcrumbs::active('Saldos Diners');
 
@@ -121,7 +128,8 @@ class CargarArchivoController extends BaseController {
 		return $this->render('saldosDiners', $data);
 	}
 
-	function cargarSaldosDiners() {
+	function cargarSaldosDiners()
+	{
 		$post = $this->request->getParsedBody();
 		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
@@ -136,7 +144,7 @@ class CargarArchivoController extends BaseController {
 			'name' => $archivo->getClientFilename(),
 			'mime' => $archivo->getClientMediaType(),
 			'observaciones' => @$post['observaciones'],
-            'fecha' => @$post['fecha'],
+			'fecha' => @$post['fecha'],
 		];
 		$cargador = new CargadorSaldosDinersExcel($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);
@@ -146,11 +154,12 @@ class CargarArchivoController extends BaseController {
 		return $this->render('reporte', $data);
 	}
 
-    /*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-	function asignacionesDiners() {
+	function asignacionesDiners()
+	{
 		\WebSecurity::secure('cargar_archivos.asignaciones_diners');
-		\Breadcrumbs::active('Asignaciones Diners Megacob');
+		\Breadcrumbs::active('Asignaciones Diners');
 
 		$catalogos = [
 			'ciudades' => Catalogo::ciudades(),
@@ -165,7 +174,8 @@ class CargarArchivoController extends BaseController {
 		return $this->render('asignacionesDiners', $data);
 	}
 
-	function cargarAsignacionesDiners() {
+	function cargarAsignacionesDiners()
+	{
 		$post = $this->request->getParsedBody();
 		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
@@ -189,92 +199,97 @@ class CargarArchivoController extends BaseController {
 		return $this->render('reporte', $data);
 	}
 
-    /*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-    function gestionesNoContestadas() {
-        \WebSecurity::secure('cargar_archivos.gestiones_no_contestadas');
-        \Breadcrumbs::active('Gestiones NO Contestadas');
+	function gestionesNoContestadas()
+	{
+		\WebSecurity::secure('cargar_archivos.gestiones_no_contestadas');
+		\Breadcrumbs::active('Gestiones NO Contestadas');
 
-        $carga_archivo = new ViewCargaArchivo();
-        $carga_archivo->total_registros = 0;
-        $carga_archivo->total_errores = 0;
+		$carga_archivo = new ViewCargaArchivo();
+		$carga_archivo->total_registros = 0;
+		$carga_archivo->total_errores = 0;
 
-        $data['carga_archivo'] = json_encode($carga_archivo);
-        return $this->render('gestionesNoContestadas', $data);
-    }
+		$data['carga_archivo'] = json_encode($carga_archivo);
+		return $this->render('gestionesNoContestadas', $data);
+	}
 
-    function cargarGestionesNoContestadas() {
-        $post = $this->request->getParsedBody();
-        // try catch, etc.
-        $files = $this->request->getUploadedFiles();
-        if (empty($files['archivo'])) {
-            return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
-        }
-        /** @var UploadedFile $archivo */
-        $archivo = $files['archivo'];
-        // mas checks que sea xlsx, etc, tamaño, etc.
-        $fileInfo = [
-            'size' => $archivo->getSize(),
-            'name' => $archivo->getClientFilename(),
-            'mime' => $archivo->getClientMediaType(),
-            'observaciones' => @$post['observaciones'],
-            'fecha' => @$post['fecha'],
-        ];
-        $cargador = new CargadorGestionesExcel($this->get('pdo'));
-        $rep = $cargador->cargar($archivo->file, $fileInfo);
-        $data['reporte'] = $rep;
-        if ($rep['errorSistema'])
-            $data['errorGeneral'] = $rep['errorSistema'];
-        return $this->render('reporte', $data);
-    }
+	function cargarGestionesNoContestadas()
+	{
+		$post = $this->request->getParsedBody();
+		// try catch, etc.
+		$files = $this->request->getUploadedFiles();
+		if (empty($files['archivo'])) {
+			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+		}
+		/** @var UploadedFile $archivo */
+		$archivo = $files['archivo'];
+		// mas checks que sea xlsx, etc, tamaño, etc.
+		$fileInfo = [
+			'size' => $archivo->getSize(),
+			'name' => $archivo->getClientFilename(),
+			'mime' => $archivo->getClientMediaType(),
+			'observaciones' => @$post['observaciones'],
+			'fecha' => @$post['fecha'],
+		];
+		$cargador = new CargadorGestionesExcel($this->get('pdo'));
+		$rep = $cargador->cargar($archivo->file, $fileInfo);
+		$data['reporte'] = $rep;
+		if ($rep['errorSistema'])
+			$data['errorGeneral'] = $rep['errorSistema'];
+		return $this->render('reporte', $data);
+	}
 
-    /*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-    function focalizacion() {
-        \WebSecurity::secure('cargar_archivos.focalizacion');
-        \Breadcrumbs::active('Focalización');
+	function focalizacion()
+	{
+		\WebSecurity::secure('cargar_archivos.focalizacion');
+		\Breadcrumbs::active('Focalización');
 
-        $catalogos = [
-            'ciudades' => Catalogo::ciudades(),
-        ];
+		$catalogos = [
+			'ciudades' => Catalogo::ciudades(),
+		];
 
-        $carga_archivo = new ViewCargaArchivo();
-        $carga_archivo->total_registros = 0;
-        $carga_archivo->total_errores = 0;
+		$carga_archivo = new ViewCargaArchivo();
+		$carga_archivo->total_registros = 0;
+		$carga_archivo->total_errores = 0;
 
-        $data['carga_archivo'] = json_encode($carga_archivo);
-        $data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
-        return $this->render('focalizacion', $data);
-    }
+		$data['carga_archivo'] = json_encode($carga_archivo);
+		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+		return $this->render('focalizacion', $data);
+	}
 
-    function cargarFocalizacion() {
-        $post = $this->request->getParsedBody();
-        // try catch, etc.
-        $files = $this->request->getUploadedFiles();
-        if (empty($files['archivo'])) {
-            return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
-        }
-        /** @var UploadedFile $archivo */
-        $archivo = $files['archivo'];
-        // mas checks que sea xlsx, etc, tamaño, etc.
-        $fileInfo = [
-            'size' => $archivo->getSize(),
-            'name' => $archivo->getClientFilename(),
-            'mime' => $archivo->getClientMediaType(),
-            'observaciones' => @$post['observaciones'],
-            'fecha' => @$post['fecha'],
-        ];
-        $cargador = new CargadorFocalizacionExcel($this->get('pdo'));
-        $rep = $cargador->cargar($archivo->file, $fileInfo);
-        $data['reporte'] = $rep;
-        if ($rep['errorSistema'])
-            $data['errorGeneral'] = $rep['errorSistema'];
-        return $this->render('reporte', $data);
-    }
+	function cargarFocalizacion()
+	{
+		$post = $this->request->getParsedBody();
+		// try catch, etc.
+		$files = $this->request->getUploadedFiles();
+		if (empty($files['archivo'])) {
+			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+		}
+		/** @var UploadedFile $archivo */
+		$archivo = $files['archivo'];
+		// mas checks que sea xlsx, etc, tamaño, etc.
+		$fileInfo = [
+			'size' => $archivo->getSize(),
+			'name' => $archivo->getClientFilename(),
+			'mime' => $archivo->getClientMediaType(),
+			'observaciones' => @$post['observaciones'],
+			'fecha' => @$post['fecha'],
+		];
+		$cargador = new CargadorFocalizacionExcel($this->get('pdo'));
+		$rep = $cargador->cargar($archivo->file, $fileInfo);
+		$data['reporte'] = $rep;
+		if ($rep['errorSistema'])
+			$data['errorGeneral'] = $rep['errorSistema'];
+		return $this->render('reporte', $data);
+	}
 
-    /*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-	function asignacionesGestorDiners() {
+	function asignacionesGestorDiners()
+	{
 		\WebSecurity::secure('cargar_archivos.asignaciones_gestor_diners');
 		\Breadcrumbs::active('Asignaciones Diners Gestor');
 
@@ -291,7 +306,8 @@ class CargarArchivoController extends BaseController {
 		return $this->render('asignacionesGestorDiners', $data);
 	}
 
-	function cargarAsignacionesGestorDiners() {
+	function cargarAsignacionesGestorDiners()
+	{
 		$post = $this->request->getParsedBody();
 		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
@@ -315,9 +331,10 @@ class CargarArchivoController extends BaseController {
 		return $this->render('reporte', $data);
 	}
 
-    /*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-	function productos() {
+	function productos()
+	{
 		\WebSecurity::secure('cargar_archivos.productos');
 		\Breadcrumbs::active('Operaciones');
 
@@ -337,7 +354,8 @@ class CargarArchivoController extends BaseController {
 		return $this->render('productos', $data);
 	}
 
-	function cargarProductos() {
+	function cargarProductos()
+	{
 		$post = $this->request->getParsedBody();
 		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
@@ -362,9 +380,53 @@ class CargarArchivoController extends BaseController {
 		return $this->render('reporte', $data);
 	}
 
-    /*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-	function clientes() {
+	function clientesPichincha()
+	{
+		\WebSecurity::secure('cargar_archivos.clientesPichincha');
+		\Breadcrumbs::active('Clientes Pichincha');
+
+		$catalogos = [
+			'ciudades' => Catalogo::ciudades(),
+		];
+
+		$carga_archivo = new ViewCargaArchivo();
+		$carga_archivo->total_registros = 0;
+		$carga_archivo->total_errores = 0;
+
+		$data['carga_archivo'] = json_encode($carga_archivo);
+		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+		return $this->render('clientesPichincha', $data);
+	}
+
+	function cargarClientesPichincha()
+	{
+		$post = $this->request->getParsedBody();
+		// try catch, etc.
+		$files = $this->request->getUploadedFiles();
+		if (empty($files['archivo'])) {
+			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+		}
+		/** @var UploadedFile $archivo */
+		$archivo = $files['archivo'];
+		// mas checks que sea xlsx, etc, tamaño, etc.
+		$fileInfo = [
+			'size' => $archivo->getSize(),
+			'name' => $archivo->getClientFilename(),
+			'mime' => $archivo->getClientMediaType(),
+			'observaciones' => @$post['observaciones'],
+		];
+		$cargador = new CargadorClientesPichinchaExcel($this->get('pdo'));
+		$rep = $cargador->cargar($archivo->file, $fileInfo);
+		$data['reporte'] = $rep;
+		if ($rep['errorSistema'])
+			$data['errorGeneral'] = $rep['errorSistema'];
+		return $this->render('reporte', $data);
+	}
+
+	function clientes()
+	{
 		\WebSecurity::secure('cargar_archivos.clientes');
 		\Breadcrumbs::active('Clientes');
 
@@ -381,7 +443,8 @@ class CargarArchivoController extends BaseController {
 		return $this->render('clientes', $data);
 	}
 
-	function cargarClientes() {
+	function cargarClientes()
+	{
 		$post = $this->request->getParsedBody();
 		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
@@ -406,7 +469,8 @@ class CargarArchivoController extends BaseController {
 	}
 }
 
-class ViewCargaArchivo {
+class ViewCargaArchivo
+{
 	var $id;
 	var $total_registros;
 	var $total_errores;

@@ -374,7 +374,7 @@ class InformeJornada {
 			'total_porcentaje_produccion' => number_format($total_porcentaje_produccion,2,'.',','),
             'total_ejecutivos' => $total_ejecutivos,
             'canal' => 'DOMICILIO EXTERNO',
-            'empresa' => 'MEGACOB',
+            'empresa' => 'DINERS',
             'portafolio' => '',
 		];
 

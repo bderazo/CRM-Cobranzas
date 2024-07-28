@@ -132,7 +132,7 @@ class CargadorAsignacionesDinersExcel
 					$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 					$producto->usuario_asignado = 0;
 					$producto->eliminado = 0;
-					$producto->estado = 'asignado_megacob';
+					$producto->estado = 'asignado_diners';
 					$producto->fecha_modificacion = date("Y-m-d H:i:s");
 					$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 					$producto->save();
@@ -140,7 +140,7 @@ class CargadorAsignacionesDinersExcel
 				} else {
 					//CAMBIAR ESTADO APLICATIVO DINERS
 					$set = [
-						'estado' => 'asignado_megacob',
+						'estado' => 'asignado_diners',
 					];
 					$query = $db->update('producto')->set($set)->where('id', $producto_id)->execute();
 				}
@@ -155,7 +155,7 @@ class CargadorAsignacionesDinersExcel
 					$aplicativo_diners->cliente_id = $cliente_id;
 					$aplicativo_diners->institucion_id = 1;
 					$aplicativo_diners->producto_id = $producto_id;
-					$aplicativo_diners->estado = 'asignado_megacob';
+					$aplicativo_diners->estado = 'asignado_diners';
 					$aplicativo_diners->fecha_elaboracion = date("Y-m-d H:i:s");
 					$aplicativo_diners->cedula_socio = $cliente_cedula;
 					$aplicativo_diners->nombre_socio = $cliente_arr['nombres'];
@@ -172,7 +172,7 @@ class CargadorAsignacionesDinersExcel
 				} else {
 					//CAMBIAR ESTADO APLICATIVO DINERS
 					$set = [
-						'estado' => 'asignado_megacob',
+						'estado' => 'asignado_diners',
 					];
 					$query = $db->update('aplicativo_diners')->set($set)->where('id', $aplicativo_diners_id)->execute();
 				}

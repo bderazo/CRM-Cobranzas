@@ -34,6 +34,39 @@
 			</div>
 		{% endif %}
 
+		{% if menuReportes['pichincha']|length > 0 %}
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title"><h1>ARCHIVOS BANCO PICHINCHA</h1></h4>
+				</div>
+				<div id="app">
+					<div class="card-body">
+						{% for chunk in menuReportes['pichincha'] %}
+							<div class="row">
+								{% for item in chunk %}
+									<div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+										<a href="{{ item.link }}">
+											<div class="card bg-info img-card">
+												<div class="card-body">
+													<div class="d-flex">
+														<div class="text-white">
+															<h2 style="font-size: 20px;" class="mb-0 number-font">{{ item.label }}</h2>
+															<p class="text-white mb-0">{{ item.description }}</p>
+														</div>
+														<div class="ms-auto"><i class="{{ item.icon }} text-white fa-3x"></i></div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								{% endfor %}
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
 		{% if menuReportes['general']|length > 0 %}
 			<div class="card">
 				<div class="card-header">

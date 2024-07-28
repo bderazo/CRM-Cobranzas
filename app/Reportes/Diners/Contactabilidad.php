@@ -162,7 +162,7 @@ class Contactabilidad
                     if ($seg['campana'] == '') {
                         $seg['campana'] = $clientes_asignacion_detalle_marca[$seg['cliente_id']][$tarjeta_verificar]['campana_ece'];
                     }
-                    $seg['empresa_canal'] = 'MEGACOB-' . $seg['canal'];
+                    $seg['empresa_canal'] = 'DINERS-' . $seg['canal'];
                     $seg['fecha_fecha_ingreso'] = date("Y-m-d", strtotime($seg['fecha_ingreso']));
                     $seg['hora_ingreso'] = '';
                     if (isset($usuario_login[$seg['usuario_id']][$seg['fecha_fecha_ingreso']])) {

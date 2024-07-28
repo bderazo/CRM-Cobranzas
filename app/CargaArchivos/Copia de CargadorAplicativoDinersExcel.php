@@ -90,8 +90,8 @@ class CargadorAplicativoDinersExcel
                 foreach ($cellIterator as $cell) {
                     $values[] = $cell->getValue();
                 }
-                //No subir registros que tengan ninguna tarjeta asignada a MEGACOB
-                if ((strpos($values[48], 'MEGACOB') !== false) || (strpos($values[86], 'MEGACOB') !== false) || (strpos($values[124], 'MEGACOB') !== false) || (strpos($values[171], 'MEGACOB') !== false)) {
+                //No subir registros que tengan ninguna tarjeta asignada a DINERS
+                if ((strpos($values[48], 'DINERS') !== false) || (strpos($values[86], 'DINERS') !== false) || (strpos($values[124], 'DINERS') !== false) || (strpos($values[171], 'DINERS') !== false)) {
 
                     //PROCESO DE CLIENTES
                     $cliente_id = 0;
@@ -313,7 +313,7 @@ class CargadorAplicativoDinersExcel
                             $producto->fecha_ingreso = date("Y-m-d H:i:s");
                             $producto->usuario_ingreso = \WebSecurity::getUserData('id');
                             $producto->eliminado = 0;
-                            $producto->estado = 'asignado_megacob';
+                            $producto->estado = 'asignado_diners';
                             $producto->fecha_modificacion = date("Y-m-d H:i:s");
                             $producto->usuario_modificacion = \WebSecurity::getUserData('id');
                             $producto->usuario_asignado = 0;
@@ -328,7 +328,7 @@ class CargadorAplicativoDinersExcel
                             $producto->fecha_ingreso = date("Y-m-d H:i:s");
                             $producto->usuario_ingreso = \WebSecurity::getUserData('id');
                             $producto->eliminado = 0;
-                            $producto->estado = 'asignado_megacob';
+                            $producto->estado = 'asignado_diners';
                             $producto->fecha_modificacion = date("Y-m-d H:i:s");
                             $producto->usuario_modificacion = \WebSecurity::getUserData('id');
                             $producto->usuario_asignado = 0;
@@ -343,7 +343,7 @@ class CargadorAplicativoDinersExcel
                             $producto->fecha_ingreso = date("Y-m-d H:i:s");
                             $producto->usuario_ingreso = \WebSecurity::getUserData('id');
                             $producto->eliminado = 0;
-                            $producto->estado = 'asignado_megacob';
+                            $producto->estado = 'asignado_diners';
                             $producto->fecha_modificacion = date("Y-m-d H:i:s");
                             $producto->usuario_modificacion = \WebSecurity::getUserData('id');
                             $producto->usuario_asignado = 0;
@@ -358,7 +358,7 @@ class CargadorAplicativoDinersExcel
                             $producto->fecha_ingreso = date("Y-m-d H:i:s");
                             $producto->usuario_ingreso = \WebSecurity::getUserData('id');
                             $producto->eliminado = 0;
-                            $producto->estado = 'asignado_megacob';
+                            $producto->estado = 'asignado_diners';
                             $producto->fecha_modificacion = date("Y-m-d H:i:s");
                             $producto->usuario_modificacion = \WebSecurity::getUserData('id');
                             $producto->usuario_asignado = 0;
@@ -368,7 +368,7 @@ class CargadorAplicativoDinersExcel
                         }
                     } else {
                         $set = [
-                            'estado' => 'asignado_megacob',
+                            'estado' => 'asignado_diners',
                             'fecha_modificacion' => date("Y-m-d H:i:s"),
                             'usuario_modificacion' => \WebSecurity::getUserData('id'),
                             'usuario_asignado' => 0,
@@ -388,7 +388,7 @@ class CargadorAplicativoDinersExcel
                         $aplicativo_diners->cliente_id = $cliente_id;
                         $aplicativo_diners->institucion_id = 1;
                         $aplicativo_diners->producto_id = $producto_id;
-                        $aplicativo_diners->estado = 'asignado_megacob';
+                        $aplicativo_diners->estado = 'asignado_diners';
                         $aplicativo_diners->ciudad_gestion = $values[10];
                         $aplicativo_diners->fecha_elaboracion = date("Y-m-d H:i:s");
                         $aplicativo_diners->cedula_socio = $cliente_cedula;

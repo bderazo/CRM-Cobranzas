@@ -1,13 +1,13 @@
 <?php
 return [
     'diners' => [
-		[
-			'label' => 'Aplicativo Diners',
-			'link' => '/cargarArchivo/aplicativoDiners',
-			'roles' => 'cargar_archivos.aplicativo_diners',
-			'icon' => 'fa fa-file-excel-o',
-			'description' => 'Datos del aplicativo Diners'
-		],
+        [
+            'label' => 'Aplicativo Diners',
+            'link' => '/cargarArchivo/aplicativoDiners',
+            'roles' => 'cargar_archivos.aplicativo_diners',
+            'icon' => 'fa fa-file-excel-o',
+            'description' => 'Datos del aplicativo Diners'
+        ],
         [
             'label' => 'Saldos Diners',
             'link' => '/cargarArchivo/saldosDiners',
@@ -20,7 +20,7 @@ return [
             'link' => '/cargarArchivo/asignacionesDiners',
             'roles' => 'cargar_archivos.asignaciones_diners',
             'icon' => 'fa fa-file-excel-o',
-            'description' => 'Datos de las asignaciones de Diners a Megacob'
+            'description' => 'Datos de las asignaciones de Diners'
         ],
         [
             'label' => 'Gestiones NO Contestadas',
@@ -29,7 +29,7 @@ return [
             'icon' => 'fa fa-file-excel-o',
             'description' => 'Permitir la carga de datos de Gestiones NO Contestadas'
         ],
-//        [
+        //        [
 //            'label' => 'Asignaciones a Gestor',
 //            'link' => '/cargarArchivo/asignacionesGestorDiners',
 //            'roles' => 'cargar_archivos.asignaciones_gestor_diners',
@@ -51,6 +51,15 @@ return [
             'roles' => 'cargar_archivos.clientes',
             'icon' => 'fa fa-file-excel-o',
             'description' => 'Carga de datos de clientes'
+        ],
+    ],
+    'pichincha' => [
+        [
+            'label' => 'Clientes Pichincha',
+            'link' => '/cargarArchivo/clientesPichincha',
+            'roles' => 'cargar_archivos.clientesPichincha',
+            'icon' => 'fa fa-file-excel-o',
+            'description' => 'Carga de datos de clientes Pichincha'
         ],
     ],
 ];

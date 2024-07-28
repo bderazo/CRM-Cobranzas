@@ -88,6 +88,39 @@ class ProductoSeguimiento extends Model
         return $q;
     }
 
+    static function getProductos()
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('producto')
+            ->select('id, producto, estado');
+        $lista = $q->fetchAll();
+        return $lista;
+    }
+
+    static function getClientes()
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('cliente')
+            ->select('id, nombres, cedula, ciudad, zona');
+        $lista = $q->fetchAll();
+        return $lista;
+    }
+
+    static function getTelefonos()
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+
+        $q = $db->from('telefono')
+            ->select('id, telefono');
+        $lista = $q->fetchAll();
+        return $lista;
+    }
+
     static function getSeguimientoPorProducto($producto_id, $config)
     {
         $pdo = self::query()->getConnection()->getPdo();
@@ -113,9 +146,9 @@ class ProductoSeguimiento extends Model
             ->orderBy('ps.fecha_ingreso DESC');
         $lista = $q->fetchAll();
         $retorno = [];
-        if($_SERVER['HTTP_HOST'] == 'megacob.saes-ec.com'){
+        if ($_SERVER['HTTP_HOST'] == '') {
             $dir = $config['url_images_seguimiento'];
-        }else{
+        } else {
             $dir = $config['url_images_seguimiento_local'];
         }
         foreach ($lista as $l) {
@@ -249,7 +282,8 @@ class ProductoSeguimiento extends Model
             ->where('addet.nombre_tarjeta', $marca)
             ->orderBy('ps.fecha_ingreso DESC');
         $lista = $q->fetch();
-        if(!$lista) return false;
+        if (!$lista)
+            return false;
         return $lista;
     }
 
@@ -259,69 +293,43 @@ class ProductoSeguimiento extends Model
         $db = new \FluentPDO($pdo);
 
         $q = $db->from('producto_seguimiento ps')
-            ->innerJoin('cliente cl ON cl.id = ps.cliente_id AND cl.eliminado = 0')
-            ->innerJoin('usuario u ON u.id = ps.usuario_ingreso')
-            ->select(null)
-            ->select('ps.*, CONCAT(u.apellidos," ",u.nombres) AS usuario, u.username')
             ->where('ps.eliminado', 0)
-            ->orderBy('ps.fecha_ingreso desc');
-        $usuario = Usuario::porId($usuario_id, ['perfiles', 'instituciones']);
-        $usuario = $usuario->toArray();
-        if ($usuario['es_admin'] == 0) {
-            //VERIFICO SI EL USUARIO TIENE PERFIL DE SUPERVISOR
-            $es_supervisor = false;
-            $plaza = $usuario['plaza'];
-            foreach ($usuario['perfiles'] as $per) {
-                if ($per['id'] == 16) {
-                    $es_supervisor = true;
-                }
-            }
-            //SI ES SUPERVISOR VERIFICO LAS INSTITUCIONES DONDE ES SUPERVISOR
-            if ($es_supervisor) {
-                $instituciones_usuario = [];
-                foreach ($usuario['instituciones'] as $ins) {
-                    $instituciones_usuario[] = $ins['id'];
-                }
-                //CONSULTO LOS USUARIOS GESTORES ASIGNADOS A LA INSTITUCION Y PLAZA
-                $usuario_gestor = Usuario::getUsuariosGestoresInstitucionPlaza($instituciones_usuario, $plaza);
-                $usuarios_consulta[] = $usuario_id;
-                foreach ($usuario_gestor as $ug) {
-                    $usuarios_consulta[] = $ug['id'];
-                }
-                $usuarios_consulta_txt = implode(",", $usuarios_consulta);
-                $q->where('ps.usuario_ingreso IN (' . $usuarios_consulta_txt . ')');
-            } else {
-                //SI NO ES SUPERVISOR VERIFICO POR USUARIO
-                $q->where("ps.usuario_ingreso", $usuario_id);
-            }
+            ->where('ps.usuario_ingreso', $usuario_id)
+            ->where("DATE(ps.fecha_ingreso)", $fecha);
+
+        $results = $q->fetchAll();
+
+        if (empty($results)) {
+            return [];
         }
-        $q->where("DATE(ps.fecha_ingreso)", $fecha);
-        $q->orderBy('u.apellidos');
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $row) {
-            $retorno[] = $row;
-        }
-        return $retorno;
+        return $results;
     }
+
 
     function formatInterval(\DateInterval $dt)
     {
         $format = function ($num, $unidad) {
             $post = $unidad;
             if ($num > 1 && $unidad != 'min.' && $unidad != 'sec.') {
-                if ($unidad == 'mes') $post = 'meses';
-                else $post .= 's';
+                if ($unidad == 'mes')
+                    $post = 'meses';
+                else
+                    $post .= 's';
             }
             return $num . ' ' . $post;
         };
 
         $hace = '';
-        if ($dt->m) $hace = $format($dt->m, 'mes');
-        elseif ($dt->days) $hace = $format($dt->days, 'días');
-        elseif ($dt->h) $hace = $format($dt->h, 'hora');
-        elseif ($dt->i) $hace = $format($dt->i, 'min.');
-        elseif ($dt->s) $hace = $format($dt->s, 'sec.');
+        if ($dt->m)
+            $hace = $format($dt->m, 'mes');
+        elseif ($dt->days)
+            $hace = $format($dt->days, 'días');
+        elseif ($dt->h)
+            $hace = $format($dt->h, 'hora');
+        elseif ($dt->i)
+            $hace = $format($dt->i, 'min.');
+        elseif ($dt->s)
+            $hace = $format($dt->s, 'sec.');
         return $hace;
     }
 
@@ -385,13 +393,13 @@ class ProductoSeguimiento extends Model
             ->where('DATE(ps.fecha_ingreso) <= ?', $fecha_verificar)
             ->where('(nivel_2_id = 1859 OR nivel_1_id = 1866)')
             ->orderBy('ps.fecha_ingreso ASC');
-//        printDie($q->getQuery());
+        //        printDie($q->getQuery());
 //        printDie($fecha_verificar);
         $lista = $q->fetchAll();
         $retorno = [];
         foreach ($lista as $l) {
             if ($l['nivel_1_id'] == 1866) {
-//                if($l['cliente_id'] == 67762){
+                //                if($l['cliente_id'] == 67762){
 //                    printDie($retorno[$l['cliente_id']]);
 //                }
                 if (isset($retorno[$l['cliente_id']])) {
@@ -403,7 +411,7 @@ class ProductoSeguimiento extends Model
         }
 
         foreach ($retorno as $k => $v) {
-            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+            if ($v['fecha_ingreso_fecha'] == $fecha_verificar) {
                 unset($retorno[$k]);
             }
         }
@@ -411,7 +419,7 @@ class ProductoSeguimiento extends Model
         return $retorno;
 
 
-//        $q = $db->from('producto_seguimiento ps')
+        //        $q = $db->from('producto_seguimiento ps')
 //            ->innerJoin('aplicativo_diners_asignaciones asigna ON ps.cliente_id = asigna.cliente_id AND asigna.eliminado = 0')
 //            ->select(null)
 //            ->select('ps.*, asigna.ciclo, asigna.mes, asigna.anio, asigna.marca,
@@ -466,7 +474,7 @@ class ProductoSeguimiento extends Model
         }
 
         foreach ($retorno as $k => $v) {
-            if($v['fecha_ingreso_fecha'] == $fecha_verificar){
+            if ($v['fecha_ingreso_fecha'] == $fecha_verificar) {
                 unset($retorno[$k]);
             }
         }
@@ -476,7 +484,7 @@ class ProductoSeguimiento extends Model
 
     static function saveFormSeguimientoAPI($cliente_id, $producto_id, $data, $lat, $long, $usuario_id)
     {
-//        $pdo = self::query()->getConnection()->getPdo();
+        //        $pdo = self::query()->getConnection()->getPdo();
 //        $db = new \FluentPDO($pdo);
 
         $seguimientos_id = [];
@@ -557,7 +565,7 @@ class ProductoSeguimiento extends Model
                     $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                 }
             }
-            $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['observaciones']);
+            $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['observaciones']);
             $con->ingresos_cliente = $data['ingresos_cliente'];
             $con->egresos_cliente = $data['egresos_cliente'];
             $con->actividad_actual = $data['actividad_actual'];
@@ -698,7 +706,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['diners']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['diners']['observaciones']);
                     $con->ingresos_cliente = $data['diners']['ingresos_cliente'];
                     $con->egresos_cliente = $data['diners']['egresos_cliente'];
                     $con->actividad_actual = $data['diners']['actividad_actual'];
@@ -779,7 +787,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['interdin']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['interdin']['observaciones']);
                     $con->ingresos_cliente = $data['interdin']['ingresos_cliente'];
                     $con->egresos_cliente = $data['interdin']['egresos_cliente'];
                     $con->actividad_actual = $data['interdin']['actividad_actual'];
@@ -860,7 +868,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['discover']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['discover']['observaciones']);
                     $con->ingresos_cliente = $data['discover']['ingresos_cliente'];
                     $con->egresos_cliente = $data['discover']['egresos_cliente'];
                     $con->actividad_actual = $data['discover']['actividad_actual'];
@@ -941,7 +949,7 @@ class ProductoSeguimiento extends Model
                             $con->nivel_2_motivo_no_pago_texto = $paleta_motivo_no_pago['valor'];
                         }
                     }
-                    $con->observaciones = 'MEGACOB ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['mastercard']['observaciones']);
+                    $con->observaciones = 'DINERS ' . date("Y") . date("m") . date("d") . ' ' . Utilidades::normalizeString($data['mastercard']['observaciones']);
                     $con->ingresos_cliente = $data['mastercard']['ingresos_cliente'];
                     $con->egresos_cliente = $data['mastercard']['egresos_cliente'];
                     $con->actividad_actual = $data['mastercard']['actividad_actual'];
