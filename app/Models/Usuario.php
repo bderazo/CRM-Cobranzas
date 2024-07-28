@@ -31,22 +31,26 @@ use Negocio\EnvioNotificacionesPush;
  * @property Perfil[] perfiles
  * @property Institucion[] instituciones
  */
-class Usuario extends Model {
-	
+class Usuario extends Model
+{
+
 	protected $table = 'usuario';
-	
+
 	const CREATED_AT = 'fecha_creacion';
 	const UPDATED_AT = 'fecha_ultimo_cambio';
-	
-	function perfiles() {
+
+	function perfiles()
+	{
 		return $this->belongsToMany('Models\Perfil', 'usuario_perfil', 'usuario_id', 'perfil_id');
 	}
 
-	function instituciones() {
+	function instituciones()
+	{
 		return $this->belongsToMany('Models\Institucion', 'usuario_institucion', 'usuario_id', 'institucion_id');
 	}
-	
-	function nombreCompleto() {
+
+	function nombreCompleto()
+	{
 		return trim($this->apellidos . ' ' . $this->nombres);
 	}
 
@@ -58,54 +62,55 @@ class Usuario extends Model {
 		$column_name = 'Field';
 		$columns = [];
 		$d = $qpro->fetchAll();
-		foreach($d as $column){
+		foreach ($d as $column) {
 			$columns[$column['Field']] = $column['Field']; // setting the column name as key too
 		}
 		return $columns;
 	}
-	
+
 	/**
 	 * @param $username
 	 * @param $password
 	 * @param array $adminUsers
 	 * @return LoginResponse
 	 */
-	public static function checkLogin($username, $password, $adminUsers = []) {
-        $res = new LoginResponse($username);
+	public static function checkLogin($username, $password, $adminUsers = [])
+	{
+		$res = new LoginResponse($username);
 		/** @var Usuario $user */
 		$user = Usuario::query()->where('username', '=', $username)->first();
 		if (!$user)
 			return $res->retError('Usuario no encontrado');
-        if (!$user['activo'])
-            return $res->retError('Usuario inactivo');
+		if (!$user['activo'])
+			return $res->retError('Usuario inactivo');
 		// comprobar otras cosas
 		if (!password_verify($password, $user->password)) {
 			// log intento
-            $numero_maximo_intentos = 3;
-            \Auditor::error("Contraseña incorrecta", 'UsuariosLogin',$password);
-            if($user->error_contrasena > 0){
-                $user->error_contrasena = $user->error_contrasena + 1;
-            }else{
-                $user->error_contrasena = 1;
-            }
-            if($user->error_contrasena >= $numero_maximo_intentos){
-                $user->activo = 0;
-                $user->save();
-                return $res->retError('Compruebe sus credenciales, usuario inactivado');
-            }else{
-                $user->save();
-                $intentos_disponibles = $numero_maximo_intentos - $user->error_contrasena;
-                return $res->retError('Compruebe sus credenciales, número de intentos: '.$user->error_contrasena.'. Tiene '.$intentos_disponibles.' antes de inactivar de su usuario.');
-            }
+			$numero_maximo_intentos = 3;
+			\Auditor::error("Contraseña incorrecta", 'UsuariosLogin', $password);
+			if ($user->error_contrasena > 0) {
+				$user->error_contrasena = $user->error_contrasena + 1;
+			} else {
+				$user->error_contrasena = 1;
+			}
+			if ($user->error_contrasena >= $numero_maximo_intentos) {
+				$user->activo = 0;
+				$user->save();
+				return $res->retError('Compruebe sus credenciales, usuario inactivado');
+			} else {
+				$user->save();
+				$intentos_disponibles = $numero_maximo_intentos - $user->error_contrasena;
+				return $res->retError('Compruebe sus credenciales, número de intentos: ' . $user->error_contrasena . '. Tiene ' . $intentos_disponibles . ' antes de inactivar de su usuario.');
+			}
 		}
 
-        $user->error_contrasena = 0;
-        $user->save();
+		$user->error_contrasena = 0;
+		$user->save();
 
 		// log entrada, etc.
 		$res->success = true;
 		$data = $user->toArray();
-		
+
 		// resolver permisos y perfiles
 		$pdo = $user->getConnection()->getPdo();
 		$sql = 'select * from perfil p where p.id in(select perfil_id from usuario_perfil where usuario_id = ?)';
@@ -124,23 +129,23 @@ class Usuario extends Model {
 		}
 		if ($data['es_admin']) // nuevo
 			$permisos[] = 'admin';
-		
+
 		if (empty($permisos))
 			return $res->retError('El usuario no tiene perfiles asignados, por favor contacte con el administrador');
-		
+
 		$data['perfiles'] = $perfiles;
-		
+
 		// quitar campos no deseados para sesion
 		$campos = ['password', 'es_admin', 'fecha_ultimo_cambio', 'fecha_creacion'];
 		foreach ($campos as $campo)
 			unset($data[$campo]);
-		
+
 		// leer permisos
 		$res->userdata = $data;
 		$res->permisos = array_unique($permisos);
 		return $res;
 	}
-	
+
 	/**
 	 * @param $post
 	 * @param string $order
@@ -148,26 +153,36 @@ class Usuario extends Model {
 	 * @param int $records
 	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection
 	 */
-	public static function buscar($post, $order = 'username', $pagina = null, $records = 10) {
+	public static function buscar($post, $order = 'username', $pagina = null, $records = 10)
+	{
 		$q = self::query();
-		if (!empty($post['nombres'])) $q->where('nombres', 'like', '%' . $post['nombres'] . '%');
-		if (!empty($post['apellidos'])) $q->where('apellidos', 'like', '%' . $post['apellidos'] . '%');
-		if (!empty($post['username'])) $q->where('username', 'like', '%' . $post['username'] . '%');
-		if (!empty($post['email'])) $q->where('email', 'like', '%' . $post['email'] . '%');
-		if (!empty($post['canal'])) $q->where('canal', $post['canal']);
-		if (!empty($post['plaza'])) $q->where('plaza', $post['plaza']);
-		if (!empty($post['campana'])) $q->where('campana', $post['campana']);
-		if (!empty($post['identificador'])) $q->where('identificador', $post['identificador']);
-        if (!empty($post['equipo'])) $q->where('equipo', $post['equipo']);
+		if (!empty($post['nombres']))
+			$q->where('nombres', 'like', '%' . $post['nombres'] . '%');
+		if (!empty($post['apellidos']))
+			$q->where('apellidos', 'like', '%' . $post['apellidos'] . '%');
+		if (!empty($post['username']))
+			$q->where('username', 'like', '%' . $post['username'] . '%');
+		if (!empty($post['email']))
+			$q->where('email', 'like', '%' . $post['email'] . '%');
+		if (!empty($post['canal']))
+			$q->where('canal', $post['canal']);
+		if (!empty($post['plaza']))
+			$q->where('plaza', $post['plaza']);
+		if (!empty($post['campana']))
+			$q->where('campana', $post['campana']);
+		if (!empty($post['identificador']))
+			$q->where('identificador', $post['identificador']);
+		if (!empty($post['equipo']))
+			$q->where('equipo', $post['equipo']);
 
-        if (!empty($post['activo'])){
-            if($post['activo'] == 'si'){
-                $q->where('activo', 1);
-            }else{
-                $q->where('activo',0);
-            }
-        }
-		
+		if (!empty($post['activo'])) {
+			if ($post['activo'] == 'si') {
+				$q->where('activo', 1);
+			} else {
+				$q->where('activo', 0);
+			}
+		}
+
 		if (!empty($post['perfil'])) {
 			$idper = $post['perfil'];
 			$q->whereIn('id', function (Builder $qq) use ($idper) {
@@ -185,8 +200,8 @@ class Usuario extends Model {
 					->where('institucion_id', $idins);
 			});
 		}
-		
-		
+
+
 		// busqueda en otras tablas
 		if ($order)
 			$q->orderBy($order);
@@ -195,29 +210,32 @@ class Usuario extends Model {
 		return $q->get();
 	}
 
-	public function save($change_password = false, $options = []) {
+	public function save($change_password = false, $options = [])
+	{
 		if (!$this->exists && $this->password) {
 			$this->password = password_hash($this->password, PASSWORD_BCRYPT);
-		}elseif($change_password){
+		} elseif ($change_password) {
 			$this->password = password_hash($this->password, PASSWORD_BCRYPT);
 		}
 		return parent::save($options);
 	}
-	
+
 	/**
 	 * @param $username
 	 * @return mixed|Usuario
 	 */
-	static function porUsername($username) {
+	static function porUsername($username)
+	{
 		return self::query()->where('username', '=', $username)->first();
 	}
-	
+
 	/**
 	 * @param $id
 	 * @param $relaciones
 	 * @return mixed|Usuario
 	 */
-	static function porId($id, $relaciones = []) {
+	static function porId($id, $relaciones = [])
+	{
 		$q = self::query();
 		if ($relaciones) {
 			$q->with($relaciones);
@@ -225,20 +243,23 @@ class Usuario extends Model {
 		return $q->findOrFail($id);
 	}
 
-	static function getUsuarios() {
+	static function getUsuarios()
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
-		$q=$db->from('usuario')
+		$q = $db->from('usuario')
 			->select(null)
 			->select("id, CONCAT(apellidos,' ',nombres) AS nombres")
-			->where('activo',1)
+			->where('activo', 1)
 			->orderBy('apellidos');
 		$lista = $q->fetchAll();
-		if (!$lista) return [];
-		return array_column($lista, 'nombres','id');
+		if (!$lista)
+			return [];
+		return array_column($lista, 'nombres', 'id');
 	}
 
-	static function getUsuarioDetalle($usuario_id, $config) {
+	static function getUsuarioDetalle($usuario_id, $config)
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 		$q = $db->from('usuario u')
@@ -246,9 +267,10 @@ class Usuario extends Model {
 			->select("u.username, u.nombres, u.apellidos")
 			->where('u.id', $usuario_id);
 		$lista = $q->fetch();
-//		$lista = $_SESSION['user'];
+		//		$lista = $_SESSION['user'];
 		$usuario_id = $_SESSION['user']['id'];
-		if (!$lista) return null;
+		if (!$lista)
+			return null;
 
 		//OBTENER LA FOTO DE PERFIL
 		$dir = $config['url_images_usuario'];
@@ -259,47 +281,49 @@ class Usuario extends Model {
 			->where('parent_type', 'usuario')
 			->where('eliminado', 0);
 		$imagen = $q->fetch();
-		if(!$imagen){
+		if (!$imagen) {
 			$lista['imagen'] = '';
-		}else{
-			$lista['imagen'] = $dir.'/'.$imagen['nombre_sistema'];
+		} else {
+			$lista['imagen'] = $dir . '/' . $imagen['nombre_sistema'];
 		}
 
 		return $lista;
 	}
 
-	static function getUsuariosGestoresDiners($plaza = '') {
+	static function getUsuariosGestoresDiners($plaza = '')
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
-		$q=$db->from('usuario u')
+		$q = $db->from('usuario u')
 			->innerJoin('usuario_perfil up ON u.id = up.usuario_id')
 			->innerJoin('perfil p ON p.id = up.perfil_id')
 			->innerJoin('usuario_institucion ui ON u.id = ui.usuario_id')
 			->innerJoin('institucion i ON i.id = ui.institucion_id')
 			->select(null)
 			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombres")
-			->where('u.activo',1)
-//			->where('p.id',15)
-			->where('i.id',1);
-		if($plaza != ''){
-			$q->where('u.plaza',$plaza);
+			->where('u.activo', 1)
+			//			->where('p.id',15)
+			->where('i.id', 1);
+		if ($plaza != '') {
+			$q->where('u.plaza', $plaza);
 		}
 		$q->orderBy('u.apellidos');
 		$lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $l){
-            $retorno[$l['id']] = $l;
-        }
+		$retorno = [];
+		foreach ($lista as $l) {
+			$retorno[$l['id']] = $l;
+		}
 		return $retorno;
 	}
 
-	static function getUsuariosGestoresInstitucionPlaza($instituciones = [], $plaza = '') {
+	static function getUsuariosGestoresInstitucionPlaza($instituciones = [], $plaza = '')
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$inst = '';
-		if(count($instituciones) > 0){
-			$inst = implode(",",$instituciones);
+		if (count($instituciones) > 0) {
+			$inst = implode(",", $instituciones);
 		}
 
 		$q = $db->from('usuario u')
@@ -309,174 +333,187 @@ class Usuario extends Model {
 			->innerJoin('institucion i ON i.id = ui.institucion_id')
 			->select(null)
 			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS nombres")
-			->where('u.activo',1)
-			->where('p.id',15);
-		if($plaza != ''){
-			$q->where('u.plaza',$plaza);
+			->where('u.activo', 1)
+			->where('p.id', 15);
+		if ($plaza != '') {
+			$q->where('u.plaza', $plaza);
 		}
-		if($inst != ''){
-			$q->where('i.id IN ('.$inst.')');
+		if ($inst != '') {
+			$q->where('i.id IN (' . $inst . ')');
 		}
 		$q->orderBy('u.apellidos');
 		$lista = $q->fetchAll();
-		if (!$lista) return [];
+		if (!$lista)
+			return [];
 		return $lista;
 	}
 
-	static function getTodos() {
+	static function getTodos()
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('usuario u')
 			->select(null)
 			->select('u.*')
-			->where('u.activo',1);
+			->where('u.activo', 1);
 		$lista = $q->fetchAll();
 		$retorno = [];
-		foreach ($lista as $l){
+		foreach ($lista as $l) {
 			$retorno[$l['username']] = $l;
 		}
 		return $retorno;
 	}
 
-    static function getTodosTelefonia($plaza = [], $canal = [], $campana = []) {
-        $pdo = self::query()->getConnection()->getPdo();
-        $db = new \FluentPDO($pdo);
-
-        $q = $db->from('usuario u')
-            ->select(null)
-            ->select('u.*')
-            ->where('u.activo',1)
-//            ->where('u.canal IN ("TELEFONIA","AUXILIAR TELEFONIA")')
-            ->orderBy('u.apellidos');
-		if(count($plaza) > 0){
-			$fil = '"' . implode('","',$plaza) . '"';
-			$q->where('u.plaza IN ('.$fil.')');
-		}
-		if(count($canal) > 0){
-			$fil = '"' . implode('","',$canal) . '"';
-			$q->where('u.canal IN ('.$fil.')');
-		}
-        if(count($campana) > 0){
-            $fil = '"' . implode('","',$campana) . '"';
-            $q->where('u.campana IN ('.$fil.')');
-        }
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $l){
-            $l['nombre_completo'] = $l['apellidos'] . ' ' . $l['nombres'];
-            $retorno[$l['id']] = $l;
-        }
-        return $retorno;
-    }
-
-	static function getTodosArray() {
+	static function getTodosTelefonia($plaza = [], $canal = [], $campana = [])
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('usuario u')
 			->select(null)
 			->select('u.*')
-			->where('u.activo',1)
+			->where('u.activo', 1)
+			//            ->where('u.canal IN ("TELEFONIA","AUXILIAR TELEFONIA")')
+			->orderBy('u.apellidos');
+		if (count($plaza) > 0) {
+			$fil = '"' . implode('","', $plaza) . '"';
+			$q->where('u.plaza IN (' . $fil . ')');
+		}
+		if (count($canal) > 0) {
+			$fil = '"' . implode('","', $canal) . '"';
+			$q->where('u.canal IN (' . $fil . ')');
+		}
+		if (count($campana) > 0) {
+			$fil = '"' . implode('","', $campana) . '"';
+			$q->where('u.campana IN (' . $fil . ')');
+		}
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l) {
+			$l['nombre_completo'] = $l['apellidos'] . ' ' . $l['nombres'];
+			$retorno[$l['id']] = $l;
+		}
+		return $retorno;
+	}
+
+	static function getTodosArray()
+	{
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+
+		$q = $db->from('usuario u')
+			->select(null)
+			->select('u.*')
+			->where('u.activo', 1)
 			->orderBy('u.username');
 		$lista = $q->fetchAll();
 		$retorno = [];
-		foreach ($lista as $l){
+		foreach ($lista as $l) {
 			$retorno[] = $l;
 		}
 		return $retorno;
 	}
 
-	static function getHoraInicioLabores($usuario_id, $fecha) {
+	static function getHoraInicioLabores($usuario_id, $fecha)
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('usuario_login')
 			->select(null)
 			->select('MIN(login_time) AS hora_inicio_labores')
-			->where('usuario_id',$usuario_id)
-			->where('DATE(login_time)',$fecha);
+			->where('usuario_id', $usuario_id)
+			->where('DATE(login_time)', $fecha);
 		$lista = $q->fetch();
-		if($lista['hora_inicio_labores'] == '') return ' - ';
+		if ($lista['hora_inicio_labores'] == '')
+			return ' - ';
 		return date("H:i:s", strtotime($lista['hora_inicio_labores']));
 	}
 
-	static function getHoraPrimeraGestion($usuario_id, $fecha) {
+	static function getHoraPrimeraGestion($usuario_id, $fecha)
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('producto_seguimiento')
 			->select(null)
 			->select('MIN(fecha_ingreso) AS hora_primera_gestion')
-			->where('usuario_ingreso',$usuario_id)
-			->where('DATE(fecha_ingreso)',$fecha);
+			->where('usuario_ingreso', $usuario_id)
+			->where('DATE(fecha_ingreso)', $fecha);
 		$lista = $q->fetch();
-		if($lista['hora_primera_gestion'] == '') return ' - ';
+		if ($lista['hora_primera_gestion'] == '')
+			return ' - ';
 		return date("H:i:s", strtotime($lista['hora_primera_gestion']));
 	}
 
-	static function getHoraUltimaGestion($usuario_id, $fecha) {
+	static function getHoraUltimaGestion($usuario_id, $fecha)
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('producto_seguimiento')
 			->select(null)
 			->select('MAX(fecha_ingreso) AS hora_ultima_gestion')
-			->where('usuario_ingreso',$usuario_id)
-			->where('DATE(fecha_ingreso)',$fecha);
+			->where('usuario_ingreso', $usuario_id)
+			->where('DATE(fecha_ingreso)', $fecha);
 		$lista = $q->fetch();
-		if($lista['hora_ultima_gestion'] == '') return ' - ';
+		if ($lista['hora_ultima_gestion'] == '')
+			return ' - ';
 		return date("H:i:s", strtotime($lista['hora_ultima_gestion']));
 	}
 
-    static function getTodosPorID() {
-        $pdo = self::query()->getConnection()->getPdo();
-        $db = new \FluentPDO($pdo);
+	static function getTodosPorID()
+	{
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
 
-        $q = $db->from('usuario u')
-            ->select(null)
-            ->select('u.*');
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $l){
-            $retorno[$l['id']] = $l;
-        }
-        return $retorno;
-    }
+		$q = $db->from('usuario u')
+			->select(null)
+			->select('u.*');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l) {
+			$retorno[$l['id']] = $l;
+		}
+		return $retorno;
+	}
 
-    static function getTodosFiltro() {
-        $pdo = self::query()->getConnection()->getPdo();
-        $db = new \FluentPDO($pdo);
+	static function getTodosFiltro()
+	{
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
 
-        $q = $db->from('usuario u')
-            ->select(null)
-            ->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS name")
-            ->orderBy('u.username');
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $l){
-            $retorno[] = $l;
-        }
-        return $retorno;
-    }
+		$q = $db->from('usuario u')
+			->select(null)
+			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS name")
+			->orderBy('u.username');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l) {
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
 
-    static function getTodosCampoFiltro() {
-        $pdo = self::query()->getConnection()->getPdo();
-        $db = new \FluentPDO($pdo);
+	static function getTodosCampoFiltro()
+	{
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
 
-        $q = $db->from('usuario u')
-            ->select(null)
-            ->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS name")
-            ->where('u.canal','CAMPO')
-            ->where('u.activo',1)
-            ->orderBy('u.apellidos');
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $l){
-            $retorno[] = $l;
-        }
-        return $retorno;
-    }
+		$q = $db->from('usuario u')
+			->select(null)
+			->select("u.*, CONCAT(u.apellidos,' ',u.nombres) AS name")
+			->where('u.canal', 'CAMPO')
+			->where('u.activo', 1)
+			->orderBy('u.apellidos');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l) {
+			$retorno[] = $l;
+		}
+		return $retorno;
+	}
 }
 
 

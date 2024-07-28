@@ -3,11 +3,12 @@
 namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 
 /**
  * @package Models
  *
- * @property int id
+ * @property integer $id
  * @property string apellidos
  * @property string nombres
  * @property string cedula
@@ -27,8 +28,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer usuario_asignado
  * @property boolean eliminado
  */
-class Cliente extends Model {
-	
+class Cliente extends Model
+{
+
 	protected $table = 'cliente';
 	const CREATED_AT = 'fecha_ingreso';
 	const UPDATED_AT = 'fecha_modificacion';
@@ -50,46 +52,50 @@ class Cliente extends Model {
 		$q->leftJoin('institucion', 'institucion.id', '=', 'producto.institucion_id');
 		$q->select(['cliente.*']);
 
-		if (!empty($post['institucion_id'])) $q->where('institucion.id', '=', $post['institucion_id']);
+		if (!empty($post['institucion_id']))
+			$q->where('institucion.id', '=', $post['institucion_id']);
 
-		if(!empty($post['cedula'])) {
+		if (!empty($post['cedula'])) {
 			$q->whereRaw("cliente.cedula LIKE '%" . $post['cedula'] . "%'");
 		}
-		if(!empty($post['apellidos'])) {
+		if (!empty($post['apellidos'])) {
 			$q->whereRaw("upper(cliente.apellidos) LIKE '%" . strtoupper($post['apellidos']) . "%'");
 		}
-		if(!empty($post['nombres'])) {
+		if (!empty($post['nombres'])) {
 			$q->whereRaw("upper(cliente.nombres) LIKE '%" . strtoupper($post['nombres']) . "%'");
 		}
-		if(!empty($post['producto'])) {
+		if (!empty($post['producto'])) {
 			$q->whereRaw("upper(producto.producto) LIKE '%" . strtoupper($post['producto']) . "%'");
 		}
 
 		$q->where('cliente.eliminado', '=', false);
 		$q->orderBy($order, 'asc');
-//		printDie($q->toSql());
-		if($pagina > 0 && $records > 0)
+		//		printDie($q->toSql());
+		if ($pagina > 0 && $records > 0)
 			return $q->paginate($records, ['*'], 'page', $pagina);
 		return $q->get();
 	}
-	
+
 	/**
 	 * @param $cedula
 	 * @return mixed|Cliente
 	 */
-	public static function porCedula($cedula) {
+	public static function porCedula($cedula)
+	{
 		return self::query()->where('cedula', '=', $cedula)->first();
 	}
-	
+
 	/**
 	 * @param $id
 	 * @return mixed|Cliente
 	 */
-	public static function porId($id) {
+	public static function porId($id)
+	{
 		return self::query()->find($id);
 	}
 
-	static function eliminar($id) {
+	static function eliminar($id)
+	{
 		$q = self::porId($id);
 		$q->eliminado = 1;
 		$q->usuario_modificacion = \WebSecurity::getUserData('id');
@@ -98,53 +104,56 @@ class Cliente extends Model {
 		return $q;
 	}
 
-	static function getTodos() {
+	static function getTodos()
+	{
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 
 		$q = $db->from('cliente')
 			->select(null)
 			->select('*')
-			->where('eliminado',0);
+			->where('eliminado', 0);
 		$lista = $q->fetchAll();
 		$retorno = [];
-		foreach ($lista as $l){
+		foreach ($lista as $l) {
 			$retorno[] = $l;
 		}
 		return $retorno;
 	}
 
-    static function getTodosCedula() {
-        $pdo = self::query()->getConnection()->getPdo();
-        $db = new \FluentPDO($pdo);
+	static function getTodosCedula()
+	{
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
 
-        $q = $db->from('cliente')
-            ->select(null)
-            ->select('*')
-            ->where('eliminado',0);
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $l){
-            $retorno[$l['cedula']] = $l;
-        }
-        return $retorno;
-    }
+		$q = $db->from('cliente')
+			->select(null)
+			->select('*')
+			->where('eliminado', 0);
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l) {
+			$retorno[$l['cedula']] = $l;
+		}
+		return $retorno;
+	}
 
-    static function getFiltroZona() {
-        $pdo = self::query()->getConnection()->getPdo();
-        $db = new \FluentPDO($pdo);
+	static function getFiltroZona()
+	{
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
 
-        $q = $db->from('cliente')
-            ->select(null)
-            ->select('DISTINCT(zona) as zona')
-            ->where('eliminado',0)
-            ->orderBy('zona ASC');
-        $lista = $q->fetchAll();
-        $retorno = [];
-        foreach ($lista as $l){
-            $retorno[$l['zona']] = $l['zona'];
-        }
-        return $retorno;
-    }
+		$q = $db->from('cliente')
+			->select(null)
+			->select('DISTINCT(zona) as zona')
+			->where('eliminado', 0)
+			->orderBy('zona ASC');
+		$lista = $q->fetchAll();
+		$retorno = [];
+		foreach ($lista as $l) {
+			$retorno[$l['zona']] = $l['zona'];
+		}
+		return $retorno;
+	}
 
 }
