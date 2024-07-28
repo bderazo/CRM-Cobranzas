@@ -1894,7 +1894,7 @@ class ProductoController extends BaseController
                 $usuario->fecha_creacion = date("Y-m-d");
                 $usuario->nombres = $values[0];
                 $usuario->apellidos = $values[1];
-                $usuario->email = 'soporte@saes.tech';
+                $usuario->email = 'david.erazo@nuocorp.com';
                 $usuario->fecha_ultimo_cambio = date("Y-m-d");
                 $usuario->es_admin = 0;
                 $usuario->activo = 1;
