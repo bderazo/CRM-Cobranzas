@@ -233,26 +233,31 @@
     event.preventDefault();
     const cedula = document.querySelector('input[name="cedula"]').value;
 
-    // Realizar la solicitud AJAX para obtener el ID
     fetch('{{ root }}/api/cliente/buscar_por_cedula?cedula=' + cedula)
-      .then(response => response.json())
-      .then(data => {
-        if (data.id) {
-          // Redirigir a la vista de seguimientos con el ID obtenido
-          window.location.href = `/global/producto/verSeguimientosDiners?id=${data.id}`;
-        } else if (data.error) {
-          // Mostrar mensaje de error personalizado
-          alert('Cédula no encontrada.');
+    .then(response => response.text()) // Usar text() para ver la respuesta cruda
+    .then(data => {
+        try {
+        const jsonData = JSON.parse(data);
+        if (jsonData.id) {
+            window.location.href = `/global/producto/verSeguimientosDiners?id=${jsonData.id}`;
+        } else if (jsonData.error) {
+            alert('Cédula no encontrada.');
         } else {
-          // Manejar cualquier error inesperado
-          console.error('Error al buscar el ID:', data);
-          alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
+            console.error('Error al buscar el ID:', jsonData);
+            alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
         }
-      })
-      .catch(error => {
+        } catch (e) {
+        console.error('Error al analizar el JSON:', e);
+        console.error('Respuesta recibida:', data);
+        alert('Respuesta inesperada del servidor.');
+        }
+    })
+    .catch(error => {
         console.error('Error al buscar el ID:', error);
         alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
-      });
+    });
+
+
   });
 </script>
 

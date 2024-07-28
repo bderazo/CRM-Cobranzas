@@ -26,14 +26,14 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/producto/get_producto_producto', $api->createDispatch(\WebApi\ProductoApi::class, 'get_producto_producto', $p));
 	$app->any('/producto/buscar_listas', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas', $p));
 	$app->any('/producto/buscar_listas_n1', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas_n1', $p));
-    $app->any('/producto/buscar_listas_n3', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas_n3', $p));
+	$app->any('/producto/buscar_listas_n3', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas_n3', $p));
 	$app->any('/producto/buscar_listas_n4', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas_n4', $p));
 	$app->any('/producto/buscar_listas_motivo_no_pago', $api->createDispatch(\WebApi\ProductoApi::class, 'buscar_listas_motivo_no_pago', $p));
 	$app->any('/producto/get_form_paleta', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_paleta', $p));
 	$app->any('/producto/save_form_paleta', $api->createDispatch(\WebApi\ProductoApi::class, 'save_form_paleta', $p));
-    $app->any('/producto/save_form_seguimiento', $api->createDispatch(\WebApi\ProductoApi::class, 'save_form_seguimiento', $p));
+	$app->any('/producto/save_form_seguimiento', $api->createDispatch(\WebApi\ProductoApi::class, 'save_form_seguimiento', $p));
 
-    $app->any('/producto/get_form_seguimiento', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_seguimiento', $p));
+	$app->any('/producto/get_form_seguimiento', $api->createDispatch(\WebApi\ProductoApi::class, 'get_form_seguimiento', $p));
 
 	$app->any('/aplicativo_diners/campos_aplicativo_diners', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'campos_aplicativo_diners', $p));
 
@@ -51,12 +51,17 @@ function mapApiCalls(\Slim\App $app, $test = false)
 	$app->any('/aplicativo_diners/save_tarjeta_interdin', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'save_tarjeta_interdin', $p));
 	$app->any('/aplicativo_diners/save_tarjeta_discover', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'save_tarjeta_discover', $p));
 	$app->any('/aplicativo_diners/save_tarjeta_mastercard', $api->createDispatch(\WebApi\AplicativoDinersApi::class, 'save_tarjeta_mastercard', $p));
+
+	// $app->get('/cliente/buscar_por_cedula', $api->createDispatch(\WebApi\ClienteApi::class, 'buscarPorCedula'));
+	$app->get('/cliente/buscar_por_cedula', \WebApi\ClienteApi::class . ':buscarPorCedula');
+
+	// $app->get('/cliente/buscar_por_cedula', $api->createDispatch(\WebApi\ClienteApi::class, 'buscarPorCedula', $p));
 }
 
-$app->group('/api', function() use ($app) {
+$app->group('/api', function () use ($app) {
 	mapApiCalls($this);
 });
 
-$app->group('/apitest', function() {
+$app->group('/apitest', function () {
 	mapApiCalls($this, true);
 });
