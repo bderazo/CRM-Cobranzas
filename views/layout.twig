@@ -51,11 +51,7 @@
                                         </div>
                                     </form>
 
-                                    {% if ambientePruebas %}
-                                        <div class="dropdown d-flex">
-                                            <div class="label label-warning">AMBIENTE DE PRUEBAS</div>
-                                        </div>
-                                    {% endif %}
+                                    
                                   
 
                                     {% if alertasTop %}
@@ -84,7 +80,9 @@
                                                 <i class="dropdown-icon fe fe-user"></i> Mi cuenta
                                             </a>
 
-                                           
+                                            <a class="dropdown-item" href="{{ root }}/logout">
+                                                <i class="dropdown-icon fe fe-alert-circle"></i> Salir
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
