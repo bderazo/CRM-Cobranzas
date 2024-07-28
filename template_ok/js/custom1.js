@@ -814,7 +814,7 @@ $(function () {
 
     let bodyhorizontal = $('body').hasClass('horizontal');
     if (bodyhorizontal) {
-        if (!document.querySelector('.login-img')) {
+        if (!document.querySelector('.inicio-img')) {
             ActiveSubmenu();
             checkHoriMenu();
             responsive();
@@ -875,7 +875,7 @@ $(function () {
     light();
     let bodyhorizontalHover = $('body').hasClass('horizontal-hover');
     if (bodyhorizontalHover) {
-        if (!document.querySelector('.login-img')) {
+        if (!document.querySelector('.inicio-img')) {
             checkHoriMenu();
             responsive();
         }
@@ -1035,7 +1035,7 @@ $(function () {
     // HORIZONTAL
     $(document).on("click", '#myonoffswitch35', function () {
         if (this.checked) {
-            if (!document.querySelector('.login-img')) {
+            if (!document.querySelector('.inicio-img')) {
                 ActiveSubmenu();
                 checkHoriMenu();
                 responsive();
@@ -1079,19 +1079,13 @@ $(function () {
             localStorage.removeItem("sashsidebarMini");
             localStorage.removeItem("sashhorizontalHover");
             document.querySelector('.horizontal .side-menu')?.classList.add('flex-nowrap')
-            // To enable wrap horizontal style
-            // $('#slide-left').addClass('d-none');
-            // $('#slide-right').addClass('d-none');
-            // document.querySelector('.horizontal .side-menu').style.flexWrap = 'wrap'
+         
         }
     });
 
-    // HORIZONTAL END
-
-    // HORIZONTAL HOVER
     $(document).on("click", '#myonoffswitch111', function () {
         if (this.checked) {
-            if (!document.querySelector('.login-img')) {
+            if (!document.querySelector('.inicio-img')) {
                 checkHoriMenu();
                 responsive();
             }
@@ -1101,7 +1095,7 @@ $(function () {
                     e.classList.remove('is-expanded')
                 })
                 var animationSpeed = 300;
-                // first level
+       
                 var parent = $("[data-bs-toggle='sub-slide']").parents('ul');
                 var ul = parent.find('ul:visible').slideUp(animationSpeed);
                 ul.removeClass('open');
@@ -1111,9 +1105,7 @@ $(function () {
             }
             $('body').addClass('horizontal-hover');
             $('body').addClass('horizontal');
-            // $('#slide-left').addClass('d-none');
-            // $('#slide-right').addClass('d-none');
-            // document.querySelector('.horizontal .side-menu').style.flexWrap = 'wrap'
+           
             $('#slide-left').addClass('d-none');
             $('#slide-right').addClass('d-none');
             document.querySelector('.horizontal .side-menu')?.classList.add('flex-nowrap')
@@ -2095,7 +2087,7 @@ $(function () {
 
     let bodyhorizontal = $('body').hasClass('horizontal');
     if (bodyhorizontal) {
-        if (!document.querySelector('.login-img')) {
+        if (!document.querySelector('.inicio-img')) {
             ActiveSubmenu();
             checkHoriMenu();
             responsive();
@@ -2156,7 +2148,7 @@ $(function () {
     light();
     let bodyhorizontalHover = $('body').hasClass('horizontal-hover');
     if (bodyhorizontalHover) {
-        if (!document.querySelector('.login-img')) {
+        if (!document.querySelector('.inicio-img')) {
             checkHoriMenu();
             responsive();
         }
@@ -2316,7 +2308,7 @@ $(function () {
     // HORIZONTAL
     $(document).on("click", '#myonoffswitch35', function () {
         if (this.checked) {
-            if (!document.querySelector('.login-img')) {
+            if (!document.querySelector('.inicio-img')) {
                 ActiveSubmenu();
                 checkHoriMenu();
                 responsive();

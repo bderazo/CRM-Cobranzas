@@ -2,21 +2,21 @@
 
 return [
 	[
-		'text' => 'Instituciones',
+		'text' => 'Cedentes',
 		'link' => '#',
 		'roles' => 'institucion',
 		'icon' => 'side-menu__icon fa fa-building',
 		'children' => [
-			['text' => 'Instituciones', 'link' => '/institucion', 'roles' => 'institucion.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
-			['text' => 'Contactos', 'link' => '/contacto', 'roles' => 'contacto.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
+			['text' => 'Clientes', 'link' => '/institucion', 'roles' => 'institucion.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
+			['text' => 'Información', 'link' => '/contacto', 'roles' => 'contacto.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
 		]
 	],
 
-	['text' => 'Paletas', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'side-menu__icon fa fa-sitemap'],
+	['text' => 'Arbaol de gestión', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'side-menu__icon fa fa-sitemap'],
 
-	['text' => 'Clientes', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
+	['text' => 'Consumers', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
 
-	['text' => 'Campañas', 'link' => '/campana', 'roles' => 'campana.lista', 'icon' => 'side-menu__icon fa fa-cube'],
+	// ['text' => 'Campañas', 'link' => '/campana', 'roles' => 'campana.lista', 'icon' => 'side-menu__icon fa fa-cube'],
 
 	['text' => 'Seguimientos Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-cogs'],
 

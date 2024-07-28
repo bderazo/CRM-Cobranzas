@@ -329,7 +329,7 @@
 
     let bodyhorizontal = $('body').hasClass('horizontal');
     if (bodyhorizontal) {
-        if( !document.querySelector('.login-img') ){
+        if( !document.querySelector('.inicio-img') ){
             ActiveSubmenu();
             checkHoriMenu();
             responsive();
@@ -390,7 +390,7 @@
     light();
     let bodyhorizontalHover = $('body').hasClass('horizontal-hover');
     if (bodyhorizontalHover) {
-        if( !document.querySelector('.login-img') ){
+        if( !document.querySelector('.inicio-img') ){
             checkHoriMenu();
             responsive();
         }
