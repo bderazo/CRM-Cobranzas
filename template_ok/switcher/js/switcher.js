@@ -41,7 +41,7 @@ $(document).on("click", ".hor-content", function() {
         });
     }
 });
-$(document).on("click", ".login-img .page", function() {
+$(document).on("click", ".inicio-img .page", function() {
     if ($('.demo_changer').hasClass("active")) {
         $('.demo_changer').animate({ "right": "-270px" }, function() {
             $('.demo_changer').toggleClass("active");

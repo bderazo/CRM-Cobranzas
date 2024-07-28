@@ -1,47 +1,25 @@
 {% extends layoutApp %}
 {% block content %}
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
-		<div class="row">
-			<div class="col-lg-4 col-md-4 col-sm-12 col-xl-4 col-xxl-4">
-				<div class="card overflow-hidden">
-					<div class="card-body">
-						<div class="d-flex">
-							<div class="mt-2">
-								<h4 class="">INICIO DE LABORES</h4>
-								<h3 class="mb-0 number-font"><i class="fa fa-clock-o"
-								                                aria-hidden="true"></i>&nbsp;{{ hora_inicio_labores }}
-								</h3><br/>
-								<h4 class="">PRIMERA GESTIÓN</h4>
-								<h3 class="mb-0 number-font"><i class="fa fa-clock-o"
-								                                aria-hidden="true"></i>&nbsp;{{ hora_primera_gestion }}
-								</h3><br/>
-								<h4 class="">ÚLTIMA GESTIÓN</h4>
-								<h3 class="mb-0 number-font"><i class="fa fa-clock-o"
-								                                aria-hidden="true"></i>&nbsp;{{ hora_ultima_gestion }}
-								</h3>
-							</div>
-							<div class="ms-auto" style="font-size: 80px; color: #46B476;">
-								<i class="fa fa-phone-square"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-8 col-md-8 col-sm-12 col-xl-8 col-xxl-8">
-				<div class="card overflow-hidden">
-					<div class="card-header">
-						<h3 class="card-title" style="font-weight: bold;"><i class="fa fa-cogs"></i> SEGUIMIENTOS DE HOY</h3>
-					</div>
-					<div class="card-body">
-						<table id="data-table" class="table table-bordered table-sm mb-0">
+	
+			
+	<div class="row">
+    <div class="col-lg-8">
+        <div class="card overflow-hidden">
+            <div class="card-header">
+                <h3 class="card-title" style="font-weight: bold;"><i class="fa fa-codepen"></i> SEGUIMIENTOS DE HOY</h3>
+            </div>
+            <div class="card-body">
+			<table id="data-table" class="table table-bordered table-sm mb-0">
+						
 							<thead class="table-primary">
+							
 							<tr>
 								<th>USUARIO</th>
-								<th>GESTIONES</th>
-								<th>CLIENTES</th>
-								<th>CONTACTADAS</th>
-								<th>NO CONTACTADAS</th>
-								<th>COMPROMISOS</th>
+								<th>GESTION</th>
+								<th>CLIENTE</th>
+								<!--<th>CONTACTADAS</th>-->
+								<!--<th>NO CONTACTADAS</th>-->
+								<!--<th>COMPROMISOS</th>-->
 							</tr>
 							</thead>
 							<tbody>
@@ -52,18 +30,38 @@
 									</td>
 									<td style="text-align: center;">{{ ds.gestiones }}</td>
 									<td style="text-align: center;">{{ ds.clientes }}</td>
-									<td style="text-align: center;">{{ ds.contactadas }}</td>
-									<td style="text-align: center;">{{ ds.no_contactadas }}</td>
-									<td style="text-align: center;">{{ ds.compromisos }}</td>
+									<!--<td style="text-align: center;">{{ ds.contactadas }}</td>-->
+									<!--<td style="text-align: center;">{{ ds.no_contactadas }}</td>-->
+									<!--<td style="text-align: center;">{{ ds.compromisos }}</td>-->
 								</tr>
+
+								
 							{% endfor %}
+							
 							</tbody>
+							
 						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+						
+                </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card overflow-hidden">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="mt-2">
+                        <h4 class="">PRIMERA GESTIÓN</h4>
+                        <h3 class="mb-0 number-font"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ hora_primera_gestion }}</h3><br/>
+                        <h4 class="">ÚLTIMA GESTIÓN</h4>
+                        <h3 class="mb-0 number-font"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ hora_ultima_gestion }}</h3>
+                    </div>
+                    <div class="ms-auto" style="font-size: 80px; color: #46B476;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 	<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
 		<div class="card">
@@ -73,7 +71,7 @@
 			</div>
 			<div class="card-body">
 				<table id="data-table" class="table table-bordered table-sm mb-0">
-					<thead class="table-success">
+					<thead class="table-info">
 					<tr>
 						<th>TIPO</th>
 						<th>REGISTROS</th>

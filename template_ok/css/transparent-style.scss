@@ -67,7 +67,7 @@ body.transparent-mode.bg-img4 {
     &.bg-img2,
     &.bg-img3,
     &.bg-img4 {
-        .login-img::before {
+        .inicio-img::before {
             background: none;
         }
     }
@@ -10590,7 +10590,7 @@ body.transparent-mode *:hover::-webkit-scrollbar-thumb {
     .card-fullscreen {
         background-color: $primary-1 !important;
     }
-    &.login-img{
+    &.inicio-img{
         &.bg-img1, &.bg-img2, &.bg-img3, &.bg-img4{
             &::before{
                 background: transparent;
