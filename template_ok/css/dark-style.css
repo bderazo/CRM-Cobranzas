@@ -4136,7 +4136,7 @@ body.dark-mode *:hover::-webkit-scrollbar-thumb {
 
 .dark-mode .app-header {
     border-bottom-color: rgba(255, 255, 255, 0.1);
-    background: #2a2a4a;
+    background: #000;
 }
 
 .dark-mode .app-header__logo {
