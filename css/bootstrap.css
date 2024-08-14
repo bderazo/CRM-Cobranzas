@@ -242,6 +242,9 @@ th {
   }
   .label {
     border: 1px solid #000;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+
   }
   .table {
     border-collapse: collapse !important;
@@ -348,6 +351,9 @@ th {
 }
 .glyphicon-cog:before {
   content: "\e019";
+}
+.fa-file-invoice:before {
+  content: "\f097";
 }
 .glyphicon-trash:before {
   content: "\e020";
@@ -1077,12 +1083,13 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  /* font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; */
-  font-family: Arial, sans-serif;
+  font-family: serif;
+  font-size: 16px;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
+ 
 }
 input,
 button,

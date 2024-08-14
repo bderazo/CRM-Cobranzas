@@ -75,14 +75,14 @@ section {
 
 body {
     margin: 0;
-    /* font-family: "IBM Plex Sans", sans-serif; */
-    
-    font-size: 14px;
+    font-family: 'serif';
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
-    color: #282f53;
+    color: #0a0c13;
     text-align: left;
     background-color: #f0f0f5;
+   
 }
 
 .number-font {
@@ -458,6 +458,8 @@ pre code {
     flex-wrap: wrap;
     margin-right: -0.75rem;
     margin-left: -0.75rem;
+    font-family: monospace;
+    font-size: 16px;
 }
 
 .fixed-top {
@@ -639,6 +641,8 @@ body {
     font-feature-settings: "liga" 0;
     overflow-y: scroll;
     position: relative;
+    font-family: 'serif';
+    font-size: 16px;
 }
 
 body *::-webkit-scrollbar {
@@ -4651,9 +4655,29 @@ input[type=button].btn-block {
 .card-body {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
-    padding: 25px;
+    padding: 15px;
     margin: 0;
     position: relative;
+    border: 2px solid #808080; 
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.card-body12 {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 15px;
+    margin: 0;
+    position: relative;
+    border: 2px solid #808080; 
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.card-body12 button {
+    font-size: 12px; /* Tamaño de la fuente más pequeño */
+    padding: 5px 10px; /* Reducir el padding */
+    margin: 2px; /* Ajustar el margen si es necesario */
+    line-height: 1; /* Asegurar una línea más compacta */
 }
 
 .card-subtitle {
@@ -4722,18 +4746,15 @@ input[type=button].btn-block {
 
 /*------ Default Card Values -------*/
 .card-header {
-    background: none;
-    padding: 1.2rem 1.5rem;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
     align-items: center;
     margin-bottom: 0;
-    background-color: transparent;
-    border-bottom: 1px solid #e9edf4;
     letter-spacing: 0.2px;
+   
+    box-shadow: none; /* Quita cualquier sombra si lo hay */
 }
-
 .card-header .card-title {
     margin-bottom: 0;
 }
@@ -11161,7 +11182,7 @@ a.tag-addon:hover {
     padding-right: 0.75rem;
     padding-left: 0.75rem;
     flex: 0 0 auto;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 10);
+    
 }
 
 .col-informacion{
@@ -22329,6 +22350,8 @@ ul.timeline>li:before {
 
     body {
         background-color: #f6f6fb;
+        font-family: 'serif';
+        font-size: 16px;
     }
 
     .page-main {
@@ -59978,7 +60001,7 @@ ul {
     display: flex;
     z-index: 9999 !important;
     border-bottom: 1px solid #e9edf4;
-    background: #ffffff;
+    background: #5965f9;
     transition: padding-left 0.3s ease;
 }
 
@@ -60074,7 +60097,7 @@ ul {
     left: 0;
     color: #282f53;
     z-index: 99;
-    background: #fff;
+    background: #5965f9;
     -webkit-box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     -webkit-transition: left 450ms ease, width 450ms ease;
@@ -68267,9 +68290,7 @@ button.bg-secondary:focus {
     background-color: #05c3fb !important;
 }
 
-.bg-success {
-    background: #09ad95 !important;
-}
+Q
 
 a.bg-success:hover,
 a.bg-success:focus {
@@ -68282,7 +68303,7 @@ button.bg-success:focus {
 }
 
 .bg-info {
-    background: #1170e4 !important;
+    background: #1f898c !important;
 }
 
 a.bg-info:hover,
@@ -73719,6 +73740,8 @@ a.text-dark:focus {
 
 .text-body {
     color: #495057 !important;
+    font-family: 'serif';
+    font-size: 16px;
 }
 
 .text-muted {

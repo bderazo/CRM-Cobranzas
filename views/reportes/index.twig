@@ -3,10 +3,23 @@
 	<div class="col-md-12 col-xl-12">
 			<div class="card">
 				<div id="app">
-					<div class="card-body">
-
+					<div class="card-body12">
 						{% if menuReportes['diners_general']|length > 0 %}
-						<h2>REPORTES GENERALES</h2>
+							<h2>REPORTES GENERALES</h2>
+						{% endif %}
+
+						<!-- Combo box -->
+						<select id="reportesComboBox" class="form-select" aria-label="Select report">
+							{% for chunk in menuReportes['diners_general'] %}
+								{% for item in chunk %}
+									<option value="{{ item.link }}" data-description="{{ item.description }}" data-icon="{{ item.icon }}">
+										{{ item.label }}
+									</option>
+								{% endfor %}
+							{% endfor %}
+						</select>
+						{% if menuReportes['diners_general']|length > 0 %}
+						<h2>REPORTES GENERALES prueba</h2>
 						{% endif %}
 						{% for chunk in menuReportes['diners_general'] %}
 							<div class="row">
@@ -109,8 +122,19 @@
 			</div>
 	</div>
 
-	<script type="text/javascript">
+	<script>
+	document.getElementById('reportesComboBox').addEventListener('change', function() {
+    var selectedOption = this.options[this.selectedIndex];
+    var link = selectedOption.value;
+    var description = selectedOption.getAttribute('data-description');
+    var icon = selectedOption.getAttribute('data-icon');
 
+    // Aquí puedes realizar alguna acción con los datos seleccionados
+    // Ejemplo: redirigir al enlace seleccionado
+    if (link) {
+        window.location.href = link;
+    }
+});
 	</script>
 
 {% endblock %}

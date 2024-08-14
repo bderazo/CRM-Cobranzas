@@ -120,7 +120,7 @@
     display: flex;
     z-index: 9999 !important;
     border-bottom: 1px solid $border;
-    background: #ffffff;
+    background: #5965f9;
     transition: padding-left 0.3s ease;
 }
 
@@ -404,14 +404,15 @@
     line-height: 30px;
     text-align: center;
     vertical-align: middle;
-    margin-right: 8px;
-    position: relative;
+    margin-left:   
+ 8px; /* Cambiamos el margen a la izquierda */
 }
 
 .side-menu__icon {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Alinea los elementos hacia el inicio */
+
 }
 
 .side-menu__label {

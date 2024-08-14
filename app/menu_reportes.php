@@ -77,7 +77,7 @@ return [
             'link' => '/reportes/baseReportePichincha',
             'roles' => 'reportes.base_saldos_campo',
             'icon' => 'fa fa-road',
-            'description' => 'Seguimientos pichincha'
+            'description' => 'Gestion pichincha'
         ],
     ],
     'diners_telefonia' => [

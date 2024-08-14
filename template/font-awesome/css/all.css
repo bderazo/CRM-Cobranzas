@@ -874,6 +874,14 @@ readers do not read off random characters that represent icons */
 .fa-cogs:before {
   content: "\f085"; }
 
+.fa-search:before {
+content: "\f002";
+}
+
+.fa-file-invoice:before {
+  content: "\f097";
+}
+
 .fa-coins:before {
   content: "\f51e"; }
 
