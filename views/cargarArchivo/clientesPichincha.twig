@@ -9,10 +9,21 @@
 					</div>
 					<div class="card-body">
 						<p style="text-align: justify;">
-							Permite la carga del archivo con los datos completos de los clientes  banco pichincha para realizar el seguimiento respectivo,
-							los datos cargados serán asignados al estado "ASIGNADO_PICHINCHA".
+							Permite la carga del archivo con los datos completos de los clientes de un cedente para realizar el seguimiento respectivo,
+							los datos cargados serán asignados al estado "ASIGNADO".
 						</p>
 						<fieldset id="campos">
+							<div class=" row mb-4">
+                                <label for="inputName" class="col-md-2 form-label">Cedente *</label>
+                                <div class="col-md-8 col-informacion">
+                                    <select class="form-control" name="institucion_id" id="institucion_id" required>
+                                        <option value="">Seleccione un cedente</option>
+                                        {% for institucion in instituciones %}
+                                            <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
 							<div class=" row mb-4">
 								<label for="inputName" class="col-md-2 form-label">Archivo *</label>
 								<div class="col-md-8 col-informacion">

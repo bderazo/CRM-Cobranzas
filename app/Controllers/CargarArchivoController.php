@@ -394,15 +394,18 @@ class CargarArchivoController extends BaseController
 		$carga_archivo = new ViewCargaArchivo();
 		$carga_archivo->total_registros = 0;
 		$carga_archivo->total_errores = 0;
+		$instituciones = Institucion::all();
 
 		$data['carga_archivo'] = json_encode($carga_archivo);
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+		$data['instituciones'] = $instituciones;
 		return $this->render('clientesPichincha', $data);
 	}
 
 	function cargarClientesPichincha()
 	{
 		$post = $this->request->getParsedBody();
+		
 		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
 		if (empty($files['archivo'])) {
@@ -416,6 +419,7 @@ class CargarArchivoController extends BaseController
 			'name' => $archivo->getClientFilename(),
 			'mime' => $archivo->getClientMediaType(),
 			'observaciones' => @$post['observaciones'],
+			'institucion_id' => @$post['institucion_id'],
 		];
 		$cargador = new CargadorClientesPichinchaExcel($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);

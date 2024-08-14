@@ -3,10 +3,8 @@
 		<tr>
 			<td style="background-color: #87CEFA; width: 20px; color: white; border: 1px solid white;"></td>
 			<td style="padding-right: 20px;">No Asignado</td>
-			<td style="background-color: #CCFFCC; width: 20px; color: white; border: 1px solid white;"></td>
-			<td style="padding-right: 20px;">Asignado Diners</td>
 			<td style="background-color: #FFFFCC; width: 20px; color: white; border: 1px solid white;"></td>
-			<td style="padding-right: 20px;">Asignado Pichincha</td>
+			<td style="padding-right: 20px;">Asignado</td>
 			<td style="background-color: #F8F8F8; width: 20px; color: white; border: 1px solid white;"></td>
 			<td style="padding-right: 20px;">Gestionado</td>
 		</tr>
@@ -24,7 +22,7 @@
 		</thead>
 		<tbody>
 		{% for l in lista %}
-			<tr {% if l.estado == 'asignado_diners' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_pichincha' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado_pichincha' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
+			<tr {% if l.estado == 'asignado_diners' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
 				<td>
 					{% if l.estado != 'inactivo' %}
 					<a href="{{ root }}/producto/editarPichincha?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">

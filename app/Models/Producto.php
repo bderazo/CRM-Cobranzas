@@ -208,7 +208,7 @@ class Producto extends Model
      * @param int $records
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection
      */
-    public static function buscarPichincha($post, $order = 'nombre', $pagina = null, $records = 25, $config, $esAdmin = false)
+    public static function buscarPichincha($post, $order = 'nombre', $pagina = null, $records = 25, $config, $esAdmin = false, $institucion_id)
     {
         $q = self::query();
         $q->join('cliente', 'cliente.id', '=', 'producto.cliente_id');
@@ -336,11 +336,9 @@ class Producto extends Model
 
         //		$q->where('producto.estado', '<>', 'inactivo');
 
-        $q->where('institucion.id', '=', 1);
+        $q->where('institucion.id', '=', $institucion_id);
 
         $q->where('producto.eliminado', '=', 0);
-        $q->where('producto.estado', '=', 'asignado_pichincha')
-            ->orWhere('producto.estado', '=', 'gestionado_pichincha');
         $q->distinct("id");
         $q->orderBy($order, 'asc');
         //		printDie($q->toSql());
