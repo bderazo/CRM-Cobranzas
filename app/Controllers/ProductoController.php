@@ -70,6 +70,8 @@ class ProductoController extends BaseController
         $cat = new CatalogoProducto(true);
         $listas = $cat->getCatalogo();
         $listas['paleta_nivel_1'] = PaletaArbol::getNivel1(1);
+        $instituciones = Institucion::all();
+        $data['instituciones'] = $instituciones;
         $data['listas'] = $listas;
         return $this->render('indexPichincha', $data);
     }
@@ -98,10 +100,11 @@ class ProductoController extends BaseController
         $saveFiltros = FiltroBusqueda::saveModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'), $params);
         $esAdmin = $this->permisos->hasRole('admin');
         $config = $this->get('config');
-        $lista = Producto::buscarPichincha($params, 'cliente.nombres', $page, 20, $config, $esAdmin);
+        $lista = Producto::buscarPichincha($params, 'cliente.nombres', $page, 20, $config, $esAdmin, @$params['institucion_id']);
         $pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
         $retorno = [];
         $seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
+        $institucion = Institucion::porId(@$params['institucion_id']);
         foreach ($lista as $listas) {
             if (isset($seguimiento_ultimos_todos[$listas['cliente_id']])) {
                 $listas['ultimo_seguimiento'] = $seguimiento_ultimos_todos[$listas['cliente_id']];
@@ -135,7 +138,7 @@ class ProductoController extends BaseController
             }
             $retorno[] = $listas;
         }
-        //		printDie($retorno);
+        // printDie($retorno);
         $data['lista'] = $retorno;
         $data['pag'] = $pag;
         return $this->render('listaDiners', $data);
@@ -970,7 +973,7 @@ class ProductoController extends BaseController
         $con->fecha_modificacion = date("Y-m-d H:i:s");
         $con->save();
         $producto_obj = Producto::porId($producto['id']);
-        $producto_obj->estado = 'gestionado_pichincha';
+        $producto_obj->estado = 'gestionado';
         $producto_obj->save();
 
         

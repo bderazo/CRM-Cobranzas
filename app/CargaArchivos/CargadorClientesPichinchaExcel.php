@@ -56,7 +56,7 @@ class CargadorClientesPichinchaExcel
 			$time_start = microtime(true);
 
 			$carga = new CargaArchivo();
-			$carga->tipo = 'clientes pichincha';
+			$carga->tipo = 'clientes cedente';
 			$carga->estado = 'cargado';
 			$carga->observaciones = @$extraInfo['observaciones'];
 			$carga->archivo_real = $nombreArchivo;
@@ -74,8 +74,8 @@ class CargadorClientesPichinchaExcel
 			$clientes_todos = Cliente::getTodos();
 			$telefonos_todos = Telefono::getTodos();
 			$direccion_todos = Direccion::getTodos();
-			$productos_todos = Producto::porInstitucioVerificar(1);
-
+			$productos_todos = Producto::porInstitucioVerificar(@$extraInfo['institucion_id']);
+			$institucion = Institucion::porId(@$extraInfo['institucion_id']);
 			foreach ($it as $rowIndex => $values) {
 				if (($rowIndex === 1)) {
 					continue;
@@ -205,13 +205,13 @@ class CargadorClientesPichinchaExcel
 				if ($producto_id == 0) {
 					if ($values[0] == 'CARTERA VENDIDA PY TDC') {
 						$producto = new Producto();
-						$producto->institucion_id = 1;
+						$producto->institucion_id = @$extraInfo['institucion_id'];
 						$producto->cliente_id = $cliente_id;
 						$producto->producto = 'CARTERA VENDIDA PY TDC';
 						$producto->fecha_ingreso = date("Y-m-d H:i:s");
 						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 						$producto->eliminado = 0;
-						$producto->estado = 'asignado_pichincha';
+						$producto->estado = 'asignado';
 						$producto->fecha_modificacion = date("Y-m-d H:i:s");
 						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 						$producto->usuario_asignado = 0;
@@ -220,13 +220,13 @@ class CargadorClientesPichinchaExcel
 						$productos_procesados[] = $producto_id;
 					} elseif ($values[0] == 'CARTERA VENDIDA PY CONSUMO') {
 						$producto = new Producto();
-						$producto->institucion_id = 1;
+						$producto->institucion_id = @$extraInfo['institucion_id'];
 						$producto->cliente_id = $cliente_id;
 						$producto->producto = 'CARTERA VENDIDA PY CONSUMO';
 						$producto->fecha_ingreso = date("Y-m-d H:i:s");
 						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 						$producto->eliminado = 0;
-						$producto->estado = 'asignado_pichincha';
+						$producto->estado = 'asignado';
 						$producto->fecha_modificacion = date("Y-m-d H:i:s");
 						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
 						$producto->usuario_asignado = 0;
@@ -236,7 +236,7 @@ class CargadorClientesPichinchaExcel
 					}
 				} else {
 					$set = [
-						'estado' => 'asignado_pichincha',
+						'estado' => 'asignado_' . $institucion->nombre,
 						'fecha_modificacion' => date("Y-m-d H:i:s"),
 						'usuario_modificacion' => \WebSecurity::getUserData('id'),
 						'usuario_asignado' => 0,
