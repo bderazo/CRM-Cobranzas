@@ -74,7 +74,16 @@
 								<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
 								<button class="btn btn-default-light" onclick="todos()" type="button"><i class="fa fa-magic"></i> Asignar Seguimiento</button>
 							</div>
+                            <div class="col-md-8 col-informacion">
+                                <select class="form-control" name="institucion_id" id="institucion_id" required>
+                                    <option value="">Seleccione un cedente</option>
+                                    {% for institucion in instituciones %}
+                                        <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
 						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -144,6 +153,12 @@
 		}
 
 		form.submit(function () {
+			var institucion_id = $("#institucion_id").val();
+
+			if (institucion_id === "") {
+				alert("Por favor, seleccione una institución.");
+				return false;
+			}
 			cargar(1);
 			return false;
 		});

@@ -434,36 +434,7 @@
         $('body').removeClass('hover-submenu1');
     }
 
-	// Sidemenu layout Styles //
-
-	// ***** Icon with Text *****//
-	// $('body').addClass('icontext-menu');
-	// $('body').addClass('sidenav-toggled');
-	// if(document.querySelector('.icontext-menu').firstElementChild.classList.contains('login-img') !== true){
-	// icontext();
-	// }
-
-	// ***** Icon Overlay ***** //
-	// $('body').addClass('icon-overlay');
-	// $('body').addClass('sidenav-toggled');
-
-	// ***** closed-leftmenu ***** //
-	// $('body').addClass('closed-leftmenu');
-	// $('body').addClass('sidenav-toggled')
-
-	// ***** hover-submenu ***** //
-	// $('body').addClass('hover-submenu');
-	// $('body').addClass('sidenav-toggled')
-	// if(document.querySelector('.hover-submenu').firstElementChild.classList.contains('login-img') !== true){
-	// hovermenu();
-	// }
-
-	// ***** hover-submenu style 1 ***** //
-	// $('body').addClass('hover-submenu1');
-	// $('body').addClass('sidenav-toggled')
-	// if(document.querySelector('.hover-submenu1').firstElementChild.classList.contains('login-img') !== true){
-	// hovermenu();
-	// }
+	
 
 
 })(jQuery);

@@ -12,9 +12,9 @@ return [
 		]
 	],
 
-	['text' => 'Arbaol de gestión', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'side-menu__icon fa fa-sitemap'],
+	['text' => 'Árbol de gestión', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'side-menu__icon fa fa-sitemap'],
 
-	['text' => 'Consumers', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
+	['text' => 'Deudores', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
 
 	// ['text' => 'Campañas', 'link' => '/campana', 'roles' => 'campana.lista', 'icon' => 'side-menu__icon fa fa-cube'],
 
@@ -28,17 +28,17 @@ return [
 
 	['text' => 'Reportes', 'link' => '/reportes', 'roles' => 'reportes', 'icon' => 'side-menu__icon glyphicon glyphicon-print'],
 
-	[
-		'text' => 'Catálogos',
-		'link' => '#',
-		'roles' => 'catalogos',
-		'icon' => 'side-menu__icon fa fa-table',
-		'children' =>
-			[
-				['text' => 'Días Hábiles', 'link' => '/admin/usuarios', 'icon' => 'fa fa-calendar-check-o warm-gray', 'roles' => 'catalogos.dias_habiles'],
-				['text' => 'Metas de Recuperación', 'link' => '/admin/perfiles', 'icon' => 'fa fa-bar-chart warm-gray', 'roles' => 'catalogos.meta_recuperacion'],
-			]
-	],
+	// [
+	// 	'text' => 'Catálogos',
+	// 	'link' => '#',
+	// 	'roles' => 'catalogos',
+	// 	'icon' => 'side-menu__icon fa fa-table',
+	// 	'children' =>
+	// 		[
+	// 			['text' => 'Días Hábiles', 'link' => '/admin/usuarios', 'icon' => 'fa fa-calendar-check-o warm-gray', 'roles' => 'catalogos.dias_habiles'],
+	// 			['text' => 'Metas de Recuperación', 'link' => '/admin/perfiles', 'icon' => 'fa fa-bar-chart warm-gray', 'roles' => 'catalogos.meta_recuperacion'],
+	// 		]
+	// ],
 	[
 		'text' => 'Administración',
 		'link' => '#',
