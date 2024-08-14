@@ -976,17 +976,7 @@ class ProductoController extends BaseController
         $producto_obj->estado = 'gestionado';
         $producto_obj->save();
 
-        // //VERIFICAR SI ES NUMERO ORO
-        // if ($con->telefono_id > 0) {
-        //     $pal = PaletaArbol::porId($seguimiento['nivel_4_id']);
-        //     if ($pal['valor'] == 'CONTACTADO') {
-        //         $telefono_bancera_0 = Telefono::banderaCero('cliente', $con->cliente_id);
-        //         $t = Telefono::porId($con->telefono_id);
-        //         $t->bandera = 1;
-        //         $t->fecha_modificacion = date("Y-m-d H:i:s");
-        //         $t->save();
-        //     }
-        // }
+        
 
         return $this->redirectToAction('indexPichincha');
     }
@@ -1078,7 +1068,7 @@ class ProductoController extends BaseController
             $con->save();
             //GUARDAR ARCHIVO
             $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo'], 'seguimiento', $con->id, 'anexo_respaldo');
-            //VERIFICAR SI ES NUMERO ORO
+            //VERIFICAR SI ES NUMERO PRINCIPAL
             if ($con->telefono_id > 0) {
                 $verificar_contacto = [1839, 1855, 1873];
                 if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
@@ -1210,7 +1200,7 @@ class ProductoController extends BaseController
                     $con->save();
                     //GUARDAR ARCHIVO
                     $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_diners'], 'seguimiento', $con->id, 'anexo_respaldo');
-                    //VERIFICAR SI ES NUMERO ORO
+                    //VERIFICAR SI ES NUMERO PRINCIPAL
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
                         if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
@@ -1302,7 +1292,7 @@ class ProductoController extends BaseController
                     $con->save();
                     //GUARDAR ARCHIVO
                     $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_interdin'], 'seguimiento', $con->id, 'anexo_respaldo');
-                    //VERIFICAR SI ES NUMERO ORO
+                    //VERIFICAR SI ES NUMERO PRINCIPAL
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
                         if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
@@ -1394,7 +1384,7 @@ class ProductoController extends BaseController
                     $con->save();
                     //GUARDAR ARCHIVO
                     $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_discover'], 'seguimiento', $con->id, 'anexo_respaldo');
-                    //VERIFICAR SI ES NUMERO ORO
+                    //VERIFICAR SI ES NUMERO PRINCIPAL
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
                         if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {
@@ -1486,7 +1476,7 @@ class ProductoController extends BaseController
                     $con->save();
                     //GUARDAR ARCHIVO
                     $guardar_archivo = $this->guardarArchivo($file['anexo_respaldo_mastercard'], 'seguimiento', $con->id, 'anexo_respaldo');
-                    //VERIFICAR SI ES NUMERO ORO
+                    //VERIFICAR SI ES NUMERO PRINCIPAL
                     if ($con->telefono_id > 0) {
                         $verificar_contacto = [1839, 1855, 1873];
                         if (array_search($con->nivel_1_id, $verificar_contacto) !== FALSE) {

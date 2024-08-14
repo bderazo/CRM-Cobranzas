@@ -8,13 +8,13 @@ return [
             'icon' => 'fa fa-file-excel-o',
             'description' => 'Datos del aplicativo Diners'
         ],
-        [
-            'label' => 'Saldos Diners',
-            'link' => '/cargarArchivo/saldosDiners',
-            'roles' => 'cargar_archivos.saldos_diners',
-            'icon' => 'fa fa-file-excel-o',
-            'description' => 'Datos de los saldos diarios de Diners'
-        ],
+            [
+                'label' => 'Saldos Diners',
+                'link' => '/cargarArchivo/saldosDiners',
+                'roles' => 'cargar_archivos.saldos_diners',
+                'icon' => 'fa fa-file-excel-o',
+                'description' => 'Datos de los saldos diarios de Diners'
+            ],
         [
             'label' => 'Asignaciones Diners',
             'link' => '/cargarArchivo/asignacionesDiners',
@@ -29,20 +29,7 @@ return [
             'icon' => 'fa fa-file-excel-o',
             'description' => 'Permitir la carga de datos de Gestiones NO Contestadas'
         ],
-        //        [
-//            'label' => 'Asignaciones a Gestor',
-//            'link' => '/cargarArchivo/asignacionesGestorDiners',
-//            'roles' => 'cargar_archivos.asignaciones_gestor_diners',
-//            'icon' => 'fa fa-file-excel-o',
-//            'description' => 'Asignaciones de clientes a Gestores'
-//        ],
-//		[
-//			'label' => 'Operaciones',
-//			'link' => '/cargarArchivo/productos',
-//			'roles' => 'cargar_archivos.productos',
-//			'icon' => 'fa fa-file-excel-o',
-//			'description' => 'Carga masiva de operaciones'
-//		],
+       
     ],
     'general' => [
         [

@@ -7,26 +7,61 @@ return [
 		'roles' => 'institucion',
 		'icon' => 'side-menu__icon fa fa-building',
 		'children' => [
-			['text' => 'Clientes', 'link' => '/institucion', 'roles' => 'institucion.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
-			['text' => 'Información', 'link' => '/contacto', 'roles' => 'contacto.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
+			['text' => 'Cartera', 'link' => '/institucion', 'roles' => 'institucion.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
+			// ['text' => 'Información', 'link' => '/contacto', 'roles' => 'contacto.lista', 'icon' => 'fas fa-truck-moving warm-gray'],
 		]
 	],
+	[
+		'text' => 'Administración',
+		'link' => '#',
+		'roles' => 'admin',
+		'icon' => 'side-menu__icon glyphicon glyphicon-cog',
+		'children' =>
+			[
+				['text' => 'Usuarios', 'link' => '/admin/usuarios', 'icon' => 'fa fa-users warm-gray', 'roles' => 'admin'],
+				['text' => 'Perfiles', 'link' => '/admin/perfiles', 'icon' => 'fa fa-check-circle warm-gray', 'roles' => 'admin'],
+				['text' => 'Log de Acceso', 'link' => '/admin/accessLog', 'icon' => 'fa fa-eye warm-gray', 'roles' => 'admin'],
+				['text' => 'Eventos de Sistema', 'link' => '/admin/eventos', 'icon' => 'fa fa-eye warm-gray', 'roles' => 'admin'],
+				// ['text' => 'Configuración Notificaciones', 'link' => '/admin/configNotificaciones', 'icon' => 'fas fa-wrench warm-gray', 'roles' => 'admin'],
+			]
+	],
 
-	['text' => 'Árbol de gestión', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'side-menu__icon fa fa-sitemap'],
+	['text' => 'Arbol de gestión', 'link' => '/paleta', 'roles' => 'paleta.lista', 'icon' => 'side-menu__icon fa fa-sitemap'],
 
-	['text' => 'Deudores', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
+	['text' => 'Consumers', 'link' => '/cliente', 'roles' => 'cliente.lista', 'icon' => 'side-menu__icon fe fe-users'],
 
 	// ['text' => 'Campañas', 'link' => '/campana', 'roles' => 'campana.lista', 'icon' => 'side-menu__icon fa fa-cube'],
 
-	['text' => 'Seguimientos Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-cogs'],
+	['text' => 'Gestion Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
 
-	['text' => 'Seguimientos Pichincha', 'link' => '/producto/indexPichincha', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-cogs'],
+	['text' => 'Gestion Pichincha', 'link' => '/producto/indexPichincha', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
 
-	['text' => 'Seguimientos', 'link' => '/producto', 'roles' => 'producto.lista', 'icon' => 'side-menu__icon fa fa-cogs'],
+	['text' => 'Seguimientos', 'link' => '/producto', 'roles' => 'producto.lista', 'icon' => 'side-menu__icon fa fa-search'],
 
-	['text' => 'Carga de Archivos', 'link' => '/cargarArchivo', 'roles' => 'cargar_archivos', 'icon' => 'side-menu__icon fa fa-file-excel-o'],
+	['text' => 'Carga de Archivos', 
+	 'link' => '#', 
+	//  'link' => '/cargarArchivo', 
+	 'roles' => 'cargar_archivos', 
+	 'icon' => 'side-menu__icon fa fa-file-excel-o',
+	 'children' =>
+	 [
+		['text' => 'Aplicativo Diners','link' => '/cargarArchivo/aplicativoDiners','roles' => 'cargar_archivos.aplicativo_diners','icon' => 'fa fa-file-excel-o','description' => 'Datos del aplicativo Diners'],
+		['text' => 'Saldos Diners','link' => '/cargarArchivo/saldosDiners','roles' => 'cargar_archivos.saldos_diners','icon' => 'fa fa-file-excel-o','description' => 'Datos de los saldos diarios de Diners'],
+		['text' => 'Clientes Pichincha','link' => '/cargarArchivo/clientesPichincha','roles' => 'cargar_archivos.clientesPichincha','icon' => 'fa fa-file-excel-o','description' => 'Carga de datos de clientes Pichincha'],
+	],
+	
+	],
 
-	['text' => 'Reportes', 'link' => '/reportes', 'roles' => 'reportes', 'icon' => 'side-menu__icon glyphicon glyphicon-print'],
+	['text' => 'Reportes', 'link' => '#', 'roles' => 'reportes', 'icon' => 'side-menu__icon glyphicon glyphicon-cog',
+		'children' =>
+	[
+		['text' => 'Base De Carga','link' => '/reportes/baseCarga','roles' => 'reportes.base_carga','description' => 'Base de carga'],
+		['text' => 'General','link' => '/reportes/general','roles' => 'reportes.general','icon' => 'fa fa-phone','description' => 'Resultado de gestión por cliente'],
+		['text' => 'Gestion Pichicha','link' => '/reportes/baseReportePichincha','roles' => 'reportes.base_saldos_campo','icon' => 'fa fa-road','description' => 'Gestion pichincha'],
+	],
+
+	],
+	
 
 	// [
 	// 	'text' => 'Catálogos',
@@ -39,18 +74,5 @@ return [
 	// 			['text' => 'Metas de Recuperación', 'link' => '/admin/perfiles', 'icon' => 'fa fa-bar-chart warm-gray', 'roles' => 'catalogos.meta_recuperacion'],
 	// 		]
 	// ],
-	[
-		'text' => 'Administración',
-		'link' => '#',
-		'roles' => 'admin',
-		'icon' => 'side-menu__icon glyphicon glyphicon-cog',
-		'children' =>
-			[
-				['text' => 'Usuarios', 'link' => '/admin/usuarios', 'icon' => 'fa fa-users warm-gray', 'roles' => 'admin'],
-				['text' => 'Perfiles', 'link' => '/admin/perfiles', 'icon' => 'fa fa-check-circle warm-gray', 'roles' => 'admin'],
-				['text' => 'Log de Acceso', 'link' => '/admin/accessLog', 'icon' => 'fa fa-eye warm-gray', 'roles' => 'admin'],
-				['text' => 'Eventos de Sistema', 'link' => '/admin/eventos', 'icon' => 'fa fa-eye warm-gray', 'roles' => 'admin'],
-				['text' => 'Configuración Notificaciones', 'link' => '/admin/configNotificaciones', 'icon' => 'fas fa-wrench warm-gray', 'roles' => 'admin'],
-			]
-	],
+	
 ];
