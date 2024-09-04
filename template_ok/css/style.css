@@ -3,16 +3,16 @@
 
 
 :root {
-    --primary-bg-color: #F57C00; /* Naranja cálido */
-    --primary-bg-hover: #E65100; /* Naranja más oscuro */
+    --primary-bg-color: #23175a;
+    --primary-bg-hover: #E65100; 
     --primary-bg-border: #F57C00;
-    --dark-body: #FFF8E1; /* Fondo crema claro */
+    --dark-body: #FFF8E1; 
     --dark-border: #DCDCDC;
     --transparent-primary: #FF9800;
     --transparent-body: #F0E68C;
     --transparent-theme: rgba(255, 120, 0, 0.2);
     --transparent-border: rgba(255, 255, 255, 0.1);
-    --blue: #2196F3; /* Azul clásico */
+    --blue: #2196F3;
     --dark-primary-hover: #E65100;
     --primary-transparentcolor: #FFF3E0;
     --darkprimary-transparentcolor: #F57C00;
@@ -23,7 +23,7 @@
     --orange: #FF9800; /* Naranja claro */
     --yellow: #FFEB3B; /* Amarillo brillante */
     --green: #4CAF50; /* Verde claro */
-    --teal: #009688; /* Verde azulado */
+    --teal: #009688; 
     --cyan: #00BCD4; /* Cian claro */
     --white: #FFFFFF;
     --gray: #9E9E9E;
@@ -60001,7 +60001,7 @@ ul {
     display: flex;
     z-index: 9999 !important;
     border-bottom: 1px solid #e9edf4;
-    background: #5965f9;
+    background: #c9cada;
     transition: padding-left 0.3s ease;
 }
 
@@ -60097,7 +60097,7 @@ ul {
     left: 0;
     color: #282f53;
     z-index: 99;
-    background: #5965f9;
+    background: #c9cada;
     -webkit-box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     -webkit-transition: left 450ms ease, width 450ms ease;

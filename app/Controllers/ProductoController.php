@@ -49,7 +49,21 @@ class ProductoController extends BaseController
     {
         \Breadcrumbs::add('', 'Productos y Seguimientos');
     }
-
+    public function indexPrueba() {
+        \WebSecurity::secure('producto.lista_diners');
+        \Breadcrumbs::active('Gestion');
+        #$data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'));
+        
+        return $this->render('indexPrueba');
+    }
+    public function indexCednete() {
+        \WebSecurity::secure('producto.lista_diners');
+        \Breadcrumbs::active('Gestion');
+        #$data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'));
+        
+        return $this->render('indexPrueba');
+    }
+    
     function indexDiners()
     {
         \WebSecurity::secure('producto.lista_diners');

@@ -32,7 +32,7 @@ button.bg-primary:focus {
   background: linear-gradient(
     to bottom right,
     var(--primary-bg-color) 0%,
-    #8e77fa 100%
+    #58575e 100%
   ) !important;
 }
 
@@ -41,7 +41,7 @@ a.bg-primary-gradient:focus {
   background: linear-gradient(
     to bottom right,
     var(--primary-bg-color) 0%,
-    #8e77fa 100%
+    #3d3c42 100%
   ) !important;
 }
 
@@ -50,7 +50,7 @@ button.bg-primary-gradient:focus {
   background: linear-gradient(
     to bottom right,
     var(--primary-bg-color) 0%,
-    #8e77fa 100%
+    #3c3b42 100%
   ) !important;
 }
 
