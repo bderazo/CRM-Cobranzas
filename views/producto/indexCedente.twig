@@ -1,0 +1,113 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <h1>Resultados de la búsqueda</h1>
+
+    <table>
+        <thead></thead>
+        <tbody>
+            <tr>
+                <td>
+                    <!-- Primer select (miSelect) -->
+                    <select id="miSelect">
+                        <option value="">Seleccione una opción</option>
+                        {% for item in arbol %}
+                        {% if item.Arbol_3 == 0 %}
+                            <option value="{{ item.id }}">{{ item.Arbol_1 }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    
+                    <!-- Segundo select (miSelect2) -->
+                    <select id="miSelect2">
+                        <option value="">Seleccione una opción</option>
+                    </select>
+
+                    <!-- Tercer select (miSelect3) -->
+                    <select id="miSelect3">
+                        <option value="">Seleccione una opción</option>
+                    </select>
+
+                    <select id="miSelect4">
+                        <option value="">Seleccione una opción</option>
+                    </select>
+                    
+                    <!-- Caja de texto (opcional) -->
+                    <input type="text" id="miCajaTexto" readonly />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pasar el array 'arbol' de Twig a JavaScript -->
+    <script>
+        // Usar JSON.parse para asegurar que arbolData se maneje como un JSON válido en JavaScript
+        const arbolData = JSON.parse('{{ arbol|json_encode()|raw }}');
+        
+        const select1 = document.getElementById('miSelect');
+        const select2 = document.getElementById('miSelect2');
+        const select3 = document.getElementById('miSelect3'); // Corrige el id aquí
+        const select4 = document.getElementById('miSelect4'); // Corrige el id aquí
+        const miCajaTexto = document.getElementById('miCajaTexto');
+        
+        // Evento para actualizar el segundo select y la caja de texto cuando cambia el primer select
+        select1.addEventListener('change', () => {
+            const selectedValue = select1.value;
+
+            // Filtrar los datos según el valor seleccionado en el primer select
+            const filteredData = arbolData.filter(item => item.Arbol_3 == selectedValue);
+
+            // Limpiar el segundo select
+            select2.innerHTML = '<option value="">Seleccione una opción</option>';
+
+            // Rellenar el segundo select con las opciones filtradas
+            filteredData.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.text = item.Arbol_2; // Asume que Arbol_2 es el texto que deseas mostrar
+                select2.appendChild(option);
+            });
+
+            // Limpiar el tercer select ya que el segundo select ha cambiado
+            select3.innerHTML = '<option value="">Seleccione una opción</option>';
+        });
+
+        // Evento para actualizar el tercer select cuando cambia el segundo select
+        select2.addEventListener('change', () => {
+            const selectedValue2 = select2.value;
+
+            // Filtrar los datos según el valor seleccionado en el segundo select
+            const filteredData1 = arbolData.filter(item => item.Arbol_3 == selectedValue2);
+
+            // Limpiar el tercer select
+            select3.innerHTML = '<option value="">Seleccione una opción</option>';
+
+            // Rellenar el tercer select con las opciones filtradas
+            filteredData1.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.text = item.Arbol_2; // Ajusta el texto según tu estructura de datos
+                select3.appendChild(option);
+            });
+        });
+        select3.addEventListener('change', () => {
+            const selectedValue3 = select3.value;
+
+            // Filtrar los datos según el valor seleccionado en el segundo select
+            const filteredData2 = arbolData.filter(item => item.Arbol_3 == selectedValue3);
+
+            // Limpiar el tercer select
+            select4.innerHTML = '<option value="">Seleccione una opción</option>';
+
+            // Rellenar el tercer select con las opciones filtradas
+            filteredData2.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.text = item.Arbol_2; // Ajusta el texto según tu estructura de datos
+                select4.appendChild(option);
+            });
+        });
+    </script>
+
+{%endblock%}

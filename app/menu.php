@@ -36,7 +36,7 @@ return [
 
 	['text' => 'Gestion Pichincha', 'link' => '/producto/indexPichincha', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
 
-	['text' => 'Gestion General', 'link' => '/producto/indexPrueba', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
+	['text' => 'Gestion General', 'link' => '/producto/indexCedente', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
 
 	['text' => 'Seguimientos', 'link' => '/producto', 'roles' => 'producto.lista', 'icon' => 'side-menu__icon fa fa-search'],
 

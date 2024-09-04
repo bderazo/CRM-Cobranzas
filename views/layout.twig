@@ -228,7 +228,7 @@
     .then(response => response.text()) // Usar text() para ver la respuesta cruda
     .then(data => {
         try {
-        const jsonData = JSON.parse(data);
+        const jsonData = JSON.parse(data);  
         if (jsonData.id) {
             window.location.href = `/global/producto/verSeguimientosDiners?id=${jsonData.id}`;
         } else if (jsonData.error) {

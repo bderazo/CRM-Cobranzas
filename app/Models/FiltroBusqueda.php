@@ -54,7 +54,17 @@ class FiltroBusqueda extends Model
 		$filtro = json_decode($lista['filtros'], true);
 		return $filtro;
 	}
-
+	
+	static function obtenerTodosLosDatosDeMiTabla() {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+	
+		// Seleccionamos todos los campos de la tabla mi_tabla
+		$q = $db->from('mi_tabla');
+      
+		// Ejecutamos la consulta y retornamos los resultados
+		return $q->fetchAll();
+	}
 	static function saveModuloUsuario($modulo, $usuario_id, $filtros, $tipo = 'web')
 	{
 		$pdo = self::query()->getConnection()->getPdo();

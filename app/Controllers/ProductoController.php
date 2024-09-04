@@ -49,19 +49,33 @@ class ProductoController extends BaseController
     {
         \Breadcrumbs::add('', 'Productos y Seguimientos');
     }
-    public function indexPrueba() {
+    function indexPrueba()
+    {
         \WebSecurity::secure('producto.lista_diners');
         \Breadcrumbs::active('Gestion');
         #$data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'));
-        
+
         return $this->render('indexPrueba');
     }
-    public function indexCednete() {
+    // public function indexCedente()
+    // {
+    //     \WebSecurity::secure('producto.lista_diners');
+    //     \Breadcrumbs::active('Gestion');
+    //     $params = $this->request->getParsedBody();
+    //     $arbolCedente = FiltroBusqueda::obtenerTodosLosDatosDeMiTabla();
+    //     $data['arbol'] = $arbolCedente;
+
+
+    //     return $this->render('indexPrueba',$data);
+    // }
+    function indexCedente() {
         \WebSecurity::secure('producto.lista_diners');
-        \Breadcrumbs::active('Gestion');
-        #$data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'));
+        \Breadcrumbs::active('SIGUIMIENTOS');
+        $arbolCedente = FiltroBusqueda::obtenerTodosLosDatosDeMiTabla();
+        $data['arbol'] = $arbolCedente;
+
         
-        return $this->render('indexPrueba');
+        return $this->render('indexCedente',$data);
     }
     
     function indexDiners()
@@ -903,6 +917,7 @@ class ProductoController extends BaseController
         $data['modelArr'] = $model;
         $data['permisoModificar'] = $this->permisos->hasRole('producto.modificar');
         return $this->render('editar', $data);
+
     }
 
     function guardarSeguimiento($json)
@@ -990,7 +1005,7 @@ class ProductoController extends BaseController
         $producto_obj->estado = 'gestionado';
         $producto_obj->save();
 
-        
+
 
         return $this->redirectToAction('indexPichincha');
     }
