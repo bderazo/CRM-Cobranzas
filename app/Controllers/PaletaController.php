@@ -93,6 +93,7 @@ class PaletaController extends BaseController
 			$paleta_arbol = [];
 			$paleta_motivo_no_pago = [];
 			$es_nuevo = true;
+			$arbolCedente = FiltroBusqueda::obtenerTodosLosDatosDeMiTabla();
 		} else {
 			$model = Paleta::porId($id);
 			\Breadcrumbs::active('Editar Paleta');
@@ -100,6 +101,7 @@ class PaletaController extends BaseController
 			$paleta_arbol = PaletaArbol::porPaleta($model->id);
 			$paleta_motivo_no_pago = PaletaMotivoNoPago::porPaleta($model->id);
 			$es_nuevo = false;
+			$arbolCedente = FiltroBusqueda::obtenerTodosLosDatosDeMiTabla();
 		}
 		$data['paleta_motivo_no_pago'] = json_encode($paleta_motivo_no_pago);
 		$data['paleta_arbol'] = json_encode($paleta_arbol);
@@ -110,6 +112,9 @@ class PaletaController extends BaseController
 		$data['es_nuevo'] = $es_nuevo;
 		$data['permisoModificar'] = $this->permisos->hasRole('paleta.modificar');
 		$data['cargar_archivos'] = $this->permisos->hasRole('paleta.cargar_archivos');
+		$data['arbol'] = $arbolCedente;
+		$data['id'] = $id;
+		// echo json_encode($arbolCedente);
 		return $this->render('editar', $data);
 	}
 
@@ -285,6 +290,31 @@ class PaletaController extends BaseController
 			$paleta[] = $l;
 		}
 		return $this->json(compact('paleta'));
+	}
+	public function cargar_arbol()
+	{
+		// Recibir los datos del formulario
+		$tipo_arbol = $_POST['tipo_arbol'];
+		$id_model = $_POST['id_model'];
+
+		if (!empty($tipo_arbol)) {
+			// Lógica para cargar el árbol seleccionado
+		} else {
+			// Mostrar un mensaje de error si no se seleccionó ningún árbol
+		}
+	}
+
+	public function asignar_arbol($cedente, $id)
+	{
+		if (!empty($cedente)) {
+			$arbolCedente = FiltroBusqueda::actualizarArbol($cedente, $id);
+			echo json_encode($arbolCedente);
+			return $this->redirectToAction('editar', ['id' => $id]);
+			// Redireccionar o mostrar un mensaje de éxito
+			return;
+		} else {
+			return $this->redirectToAction('editar', ['id' => $id]);
+		}
 	}
 }
 

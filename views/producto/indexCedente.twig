@@ -13,7 +13,7 @@
                     <select id="miSelect">
                         <option value="">Seleccione una opción</option>
                         {% for item in arbol %}
-                        {% if item.Arbol_3 == 0 %}
+                        {% if item.Arbol_3 == 0 %} 
                             <option value="{{ item.id }}">{{ item.Arbol_1 }}</option>
                         {% endif %}
                         {% endfor %}

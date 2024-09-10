@@ -34,7 +34,7 @@ return [
 
 	['text' => 'Gestion Diners', 'link' => '/producto/indexDiners', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
 
-	['text' => 'Gestion Pichincha', 'link' => '/producto/indexPichincha', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
+	['text' => 'Gestion Cedentes', 'link' => '/producto/indexPichincha', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
 
 	['text' => 'Gestion General', 'link' => '/producto/indexCedente', 'roles' => 'producto.lista_diners', 'icon' => 'side-menu__icon fa fa-search'],
 
@@ -49,7 +49,7 @@ return [
 	 [
 		['text' => 'Aplicativo Diners','link' => '/cargarArchivo/aplicativoDiners','roles' => 'cargar_archivos.aplicativo_diners','icon' => 'fa fa-file-excel-o','description' => 'Datos del aplicativo Diners'],
 		['text' => 'Saldos Diners','link' => '/cargarArchivo/saldosDiners','roles' => 'cargar_archivos.saldos_diners','icon' => 'fa fa-file-excel-o','description' => 'Datos de los saldos diarios de Diners'],
-		['text' => 'Clientes Pichincha','link' => '/cargarArchivo/clientesPichincha','roles' => 'cargar_archivos.clientesPichincha','icon' => 'fa fa-file-excel-o','description' => 'Carga de datos de clientes Pichincha'],
+		['text' => 'Clientes','link' => '/cargarArchivo/clientesPichincha','roles' => 'cargar_archivos.clientesPichincha','icon' => 'fa fa-file-excel-o','description' => 'Carga de datos de clientes Pichincha'],
 	],
 	
 	],

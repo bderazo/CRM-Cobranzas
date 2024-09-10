@@ -68,16 +68,17 @@ class ProductoController extends BaseController
 
     //     return $this->render('indexPrueba',$data);
     // }
-    function indexCedente() {
+    function indexCedente()
+    {
         \WebSecurity::secure('producto.lista_diners');
         \Breadcrumbs::active('SIGUIMIENTOS');
         $arbolCedente = FiltroBusqueda::obtenerTodosLosDatosDeMiTabla();
         $data['arbol'] = $arbolCedente;
 
-        
-        return $this->render('indexCedente',$data);
+
+        return $this->render('indexCedente', $data);
     }
-    
+
     function indexDiners()
     {
         \WebSecurity::secure('producto.lista_diners');
@@ -901,9 +902,11 @@ class ProductoController extends BaseController
         $producto_campos = ProductoCampos::porProductoId($model->id);
 
         $seguimiento = new ViewProductoSeguimiento();
-        $seguimiento->observaciones = 'PICHINCHA ' . date("Y") . date("m") . date("d") . '- ';
+        $seguimiento->observaciones = $institucion->nombre . ' ' . date("Y") . date("m") . date("d") . '- ';
         $seguimiento->fecha_ingreso = date("Y-m-d H:i:s");
+        $arbol = FiltroBusqueda::obtenerDatosPorIdDeMiTabla($institucion->paleta_id);
 
+        $data['arbol'] = $arbol;
         $data['paleta'] = $paleta;
         $data['producto_campos'] = $producto_campos;
         $data['seguimiento'] = json_encode($seguimiento);
@@ -922,6 +925,7 @@ class ProductoController extends BaseController
 
     function guardarSeguimiento($json)
     {
+        // echo $json;
         $id = 0;
         if (isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];
@@ -952,30 +956,60 @@ class ProductoController extends BaseController
             $con->fecha_ingreso = date("Y-m-d H:i:s");
             $con->origen = 'manual_web';
         }
-        $con->nivel_1_id = $seguimiento['nivel_1_id'];
-        $paleta_arbol = PaletaArbol::porId($seguimiento['nivel_1_id']);
-        $con->nivel_1_texto = $paleta_arbol['valor'];
-        if (isset($seguimiento['nivel_2_id'])) {
+        $arbol = FiltroBusqueda::obtenerDatosPorIdDeMiTabla($institucion->paleta_id);
+        // $con->nivel_1_id = $seguimiento['nivel_1_id'];
+        // $con->nivel_1_texto = $arbol[$seguimiento['nivel_1_id']]["Arbol_1"];
+        // $con->nivel_2_id = $seguimiento['nivel_2_id'];
+        // $con->nivel_2_texto = $arbol[$seguimiento['nivel_2_id']]["Arbol_2"];
+        // $con->nivel_3_id = $seguimiento['nivel_3_id'];
+        // $con->nivel_3_texto = $arbol[$seguimiento['nivel_3_id']]["Arbol_2"];
+        // $con->nivel_4_id = $seguimiento['nivel_4_id'];
+        // $con->nivel_4_texto = $arbol[$seguimiento['nivel_4_id']]["Arbol_2"];
+
+        // Buscar el valor correspondiente por el 'nivel_1_id'
+        $nivel_1 = array_filter($arbol, function ($item) use ($seguimiento) {
+            return $item['id'] == $seguimiento['nivel_1_id'];
+        });
+
+        // Si se encuentra el valor, se asignan las propiedades
+        if (!empty($nivel_1)) {
+            $con->nivel_1_id = $seguimiento['nivel_1_id'];
+            $con->nivel_1_texto = current($nivel_1)["Arbol_1"];
+        }
+
+        // Repetir el mismo proceso para los otros niveles
+        $nivel_2 = array_filter($arbol, function ($item) use ($seguimiento) {
+            return $item['id'] == $seguimiento['nivel_2_id'];
+        });
+
+        if (!empty($nivel_2)) {
             $con->nivel_2_id = $seguimiento['nivel_2_id'];
-            $paleta_arbol = PaletaArbol::porId($seguimiento['nivel_2_id']);
-            $con->nivel_2_texto = $paleta_arbol['valor'];
+            $con->nivel_2_texto = current($nivel_2)["Arbol_2"];
         }
-        if (isset($seguimiento['nivel_3_id'])) {
+
+        $nivel_3 = array_filter($arbol, function ($item) use ($seguimiento) {
+            return $item['id'] == $seguimiento['nivel_3_id'];
+        });
+
+        if (!empty($nivel_3)) {
             $con->nivel_3_id = $seguimiento['nivel_3_id'];
-            $paleta_arbol = PaletaArbol::porId($seguimiento['nivel_3_id']);
-            $con->nivel_3_texto = $paleta_arbol['valor'];
+            $con->nivel_3_texto = current($nivel_3)["Arbol_2"];
         }
-        if (isset($seguimiento['nivel_4_id'])) {
+
+        $nivel_4 = array_filter($arbol, function ($item) use ($seguimiento) {
+            return $item['id'] == $seguimiento['nivel_4_id'];
+        });
+
+        if (!empty($nivel_4)) {
             $con->nivel_4_id = $seguimiento['nivel_4_id'];
-            $paleta_arbol = PaletaArbol::porId($seguimiento['nivel_4_id']);
-            $con->nivel_4_texto = $paleta_arbol['valor'];
+            $con->nivel_4_texto = current($nivel_4)["Arbol_2"];
         }
-        if (isset($seguimiento['fecha_compromiso_pago'])) {
-            $con->fecha_compromiso_pago = $seguimiento['fecha_compromiso_pago'];
-        }
-        if (isset($seguimiento['valor_comprometido'])) {
-            $con->valor_comprometido = $seguimiento['valor_comprometido'];
-        }
+
+        $con->fecha_compromiso_pago = $seguimiento['fecha_compromiso_pago'];
+        $con->valor_comprometido = $seguimiento['valor_comprometido'];
+
+        // echo $seguimiento['nivel_2_id'];
+
         //MOTIVOS DE NO PAGO
         if (isset($seguimiento['nivel_1_motivo_no_pago_id'])) {
             $con->nivel_1_motivo_no_pago_id = $seguimiento['nivel_1_motivo_no_pago_id'];
@@ -1006,7 +1040,7 @@ class ProductoController extends BaseController
         $producto_obj->save();
 
 
-
+        // return;
         return $this->redirectToAction('indexPichincha');
     }
 

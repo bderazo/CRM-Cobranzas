@@ -65,6 +65,30 @@ class FiltroBusqueda extends Model
 		// Ejecutamos la consulta y retornamos los resultados
 		return $q->fetchAll();
 	}
+
+	static function obtenerDatosPorIdDeMiTabla($id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+	
+		// Seleccionamos todos los campos de la tabla mi_tabla donde Arbol_5 sea igual a $id
+		$q = $db->from('mi_tabla')
+			   ->where('Arbol_5 = ?', $id);
+	
+		// Ejecutamos la consulta y retornamos los resultados
+		return $q->fetchAll();
+	}
+	
+	static function actualizarArbol($cedente, $id) {
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+	
+		// Actualizamos los registros donde Arbol_4 sea igual a $cedente
+		$db->update('mi_tabla')
+		   ->set(['Arbol_5' => $id])
+		   ->where('Arbol_4 = ?', $cedente)
+		   ->execute();
+	}
+
 	static function saveModuloUsuario($modulo, $usuario_id, $filtros, $tipo = 'web')
 	{
 		$pdo = self::query()->getConnection()->getPdo();
