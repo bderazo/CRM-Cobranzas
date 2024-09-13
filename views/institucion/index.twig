@@ -1,14 +1,19 @@
 {% extends layoutApp %}
 {% block content %}
 	<form method="post" id="filtro" class="form-horizontal">
-		<div class="col-md-12 col-xl-12">
-			<div class="card">
-				<div class="card-header">
+		<!--div class="col-md-12 col-xl-12"-->
+		<div class="">
+			<!--div class="card"-->
+			<div class="">
+				<div class="">
 					<h4 class="card-title">Filtros de Búsqueda</h4>
 				</div>
-				<div id="app">
-					<div class="card-body">
-						<div class=" row mb-4">
+				<!--<div id="app"-->
+				<div id="">
+					<!--div class="card-body"-->
+					<div class="">
+						<!--div class=" row mb-4"-->
+						<div class="">
 							<label for="inputName" class="col-md-2 form-label">Nombre</label>
 							<div class="col-md-4">
 								<input type="text" class="form-control" name="nombre" id="nombre" value="{{ filtros.nombre }}"/>
@@ -19,7 +24,7 @@
 								<input type="text" class="form-control" name="ruc" id="ruc" value="{{ filtros.ruc }}"/>
 							</div>
 						</div>
-
+							<br>
 						<div class=" row mb-4">
 							<label for="inputName" class="col-md-2 form-label">Paleta</label>
 							<div class="col-md-4">
@@ -44,23 +49,31 @@
 
 						<div class="mb-0 mt-4 ">
 							<div class="col-md-12">
-								<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
-								<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
-								<a href="{{ root }}/institucion/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a>
+								<!--button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Buscar</button-->
+								<button type="submit" class="btn btn-secondary"><i class=""></i> Buscar</button>
+								<!--button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button-->
+								<button class="btn btn-secondary" onclick="todos()" type="button"><i class=""></i> Ver todos</button>
+								<!--a href="{{ root }}/institucion/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear</a-->
+								<a href="{{ root }}/institucion/crear" class="btn btn-primary"><i class=""></i> Crear</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	<br>
+	<br>
+	<br>	
 	</form>
 
+
+	<br>
 	<div class="col-md-12 col-xl-12">
 		<div class="card">
 			<div class="card-header">
 				<h4 class="card-title">Lista de Cedentes</h4>
 			</div>
-			<div class="card-body">
+			<div class="">
 				<div id="lista"></div>
 			</div>
 		</div>
@@ -68,7 +81,7 @@
 
 	<!-- MODAL -->
 	<div class="modal fade" id="modalPaleta" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title"><strong>Paletas</strong></h5>

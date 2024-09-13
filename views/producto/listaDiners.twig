@@ -19,22 +19,13 @@
 			<th>Código operación</th>
 			<th>Estado</th>
 			<th>Asignado</th>
-			<th>Último seguimiento</th>
+			<th>Acitividad</th>
 		</tr>
 		</thead>
 		<tbody>
 		{% for l in lista %}
 			<tr {% if l.estado == 'asignado_diners' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_usuario' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado_diners' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
-				<td>
-					{% if l.estado != 'inactivo' %}
-					<a href="{{ root }}/producto/editarDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
-						<i class="fa fa-plus"></i>
-					</a>
-					{% endif %}
-					<a href="{{ root }}/producto/verSeguimientosDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
-						<i class="fa fa-eye"></i>
-					</a>
-				</td>
+				
 				<td>{{ l.cliente_nombres }}</td>
 				<td>{{ l.producto }} </td>
 				<td>{{ l.estado|upper }} </td>
@@ -68,6 +59,16 @@
 						{% endif %}
 						<strong>Usuario: </strong><br/>{{ l.ultimo_seguimiento.usuario }}
 					{% endif %}
+				</td>
+				<td>
+					{% if l.estado != 'inactivo' %}
+					<a href="{{ root }}/producto/editarDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
+						<i class=""></i>Gestionar
+					</a>
+					{% endif %}
+					<a href="{{ root }}/producto/verSeguimientosDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
+						<i class=""></i>Histórico
+					</a>
 				</td>
 			</tr>
 		{% endfor %}

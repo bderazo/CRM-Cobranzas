@@ -3,11 +3,11 @@
     <div id="app">
         <form method="POST" action="{{ root }}/producto/guardarSeguimientoDiners" id="form-edit-seguimiento"
               class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
-            <div class="card">
-                <div class="card-header">
+            <div class="">
+                <div class="">
                     <h4 class="card-title">CLIENTE</h4>
                 </div>
-                <div class="card-body">
+                <div class="">
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">Nombres</label>
                         <div class="col-md-4 col-informacion">
@@ -43,7 +43,7 @@
                             <table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
                                 <thead>
                                 <tr>
-                                    <th style="font-size: 10px;">MARCA</th>
+                                    <!--th style="font-size: 10px;">MARCA</th>
                                     <th style="font-size: 10px;">CICLO</th>
                                     <th style="font-size: 10px;">MÍNIMO A PAGAR</th>
                                     <th style="font-size: 10px;">EJECUTIVO ACTUAL A CARGO DE CUENTA</th>
@@ -54,7 +54,7 @@
                                     <th style="font-size: 10px;">DIFERIDOS FACTURADOS</th>
                                     <th style="font-size: 10px;">SALDO ACTUAL FACTURADO</th>
                                     <th style="font-size: 10px;">FECHA MÁXIMA PAGO</th>
-                                    <th style="font-size: 10px;">RECUPERADO</th>
+                                    <th style="font-size: 10px;">RECUPERADO</th-->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -119,201 +119,193 @@
                             </table>
                         </div>
                     </div>
+                    
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="border p-3"> <!-- Añade un borde y padding para el cuadro -->
+            <label for="inputName" class="form-label fw-bold fs-4">Teléfonos</label>
+            <table class="table">
+                <tr>
+                    <td style="background-color: #CCFFCC; width: 20px; color: white; border: 1px solid white;"></td>
+                    <td style="border: 1px solid white">Número Principal</td>
+                </tr>
+            </table>
+            <table class="table border table-bordered table-sm mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;"></th>
+                        <th style="width: 10%;">Marcación / Teléfono</th>
+                        <th style="width: 10%;">Descripción</th>
+                        <th style="width: 10%;">Origen</th>
+                        <th style="width: 10%;">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="t in telefono">
+                        <td style="text-align: center; vertical-align: middle;">
+                            <label class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input required" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
+                                <template v-if="t.bandera == 1">
+                                    <span style="background-color: #CCFFCC;" class="custom-control-label"></span>
+                                </template>
+                                <template v-else>
+                                    <span class="custom-control-label"></span>
+                                </template>
+                            </label>
+                        </td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            <template v-if="t.telefono_link_wh == ''">
+                                <template v-if="t.bandera == 1">
+                                    <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                </template>
+                                <template v-else>
+                                    <span class="custom-control-label" v-html="t.telefono"></span>
+                                </template>
+                            </template>
+                            <template v-else>
+                                <template v-if="t.bandera == 1">
+                                    <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
+                                    <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
+                                        <img src="{{ root }}/img/whatsapp_logo.png" alt="LINK WHATSAPP">
+                                    </a>
+                                </template>
+                                <template v-else>
+                                    <span class="custom-control-label" v-html="t.telefono"></span>
+                                    <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
+                                       <img src="{{ root }}/img/whatsapp_logo.png" alt="LINK WHATSAPP">
+                                    </a>
+                                </template>
+                            </template>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.descripcion"></span>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.origen"></span>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <template v-if="t.fecha_modificacion_fecha == t.fecha_hoy">
+                                <span class="custom-control-label" style="background-color: #CCFFCC;">ACTUAL</span>
+                            </template>
+                            <template v-else>
+                                HISTÓRICO (<span class="custom-control-label" v-html="t.fecha_modificacion_fecha"></span>)
+                            </template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                    <div class=" row mb-4">
-                        <label for="inputName" class="col-md-2 form-label">Teléfonos</label>
-                        <div class="col-md-10">
-                            <table>
-                                <tr>
-                                    <td style="background-color: #CCFFCC; width: 20px; color: white; border: 1px solid white;"></td>
-                                    <td style="border: 1px solid white;">Número Principal</td>
-                                </tr>
-                            </table>
-                            <table class="table border table-bordered table-sm mb-0">
-                                <thead>
-                                <tr>
-                                    <th style="width: 10%;"></th>
-                                    <th style="width: 30%;">Marcación / Teléfono</th>
-                                    <th style="width: 30%;">Descripción</th>
-                                    <th style="width: 30%;">Origen</th>
-                                    <th style="width: 30%;">Observaciones</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="t in telefono">
-                                    <td style="text-align: center; vertical-align: middle;">
-                                        <label class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input required" name="example-radios" v-model="seguimiento.telefono_id" :value="t.id">
-                                            <template v-if="t.bandera == 1">
-                                                <span style="background-color: #CCFFCC;" class="custom-control-label"></span>
-                                            </template>
-                                            <template v-else>
-                                                <span class="custom-control-label"></span>
-                                            </template>
-                                        </label>
-                                    </td>
-                                    <td style="text-align: center; vertical-align: middle;">
-                                        <template v-if="t.telefono_link_wh == ''">
-                                            <template v-if="t.bandera == 1">
-                                                <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
-                                            </template>
-                                            <template v-else>
-                                                <span class="custom-control-label" v-html="t.telefono"></span>
-                                            </template>
-                                        </template>
-                                        <template v-else>
-                                            <template v-if="t.bandera == 1">
-                                                <span style="background-color: #CCFFCC;" class="custom-control-label" v-html="t.telefono"></span>
-                                                <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
-                                                    <img src="{{ root }}/img/whatsapp_logo.png" alt="LINK WHATSAPP">
-                                                </a>
-                                            </template>
-                                            <template v-else>
-                                                <span class="custom-control-label" v-html="t.telefono"></span>
-                                                <a :href="t.telefono_link_wh" target="_blank" title="LINK WHATSAPP">
-                                                   <img src="{{ root }}/img/whatsapp_logo.png" alt="LINK WHATSAPP">
-                                                </a>
-                                            </template>
-                                        </template>
-                                    </td>
-                                    <td style="vertical-align: middle;">
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.descripcion"></span>
-                                    </td>
-                                    <td style="vertical-align: middle;">
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="t.origen"></span>
-                                    </td>
-                                    <td style="vertical-align: middle;">
-                                        <template v-if="t.fecha_modificacion_fecha == t.fecha_hoy">
-                                            <span class="custom-control-label" style="background-color: #CCFFCC;">ACTUAL</span>
-                                        </template>
-                                        <template v-else>
-                                            HISTÓRICO (<span class="custom-control-label" v-html="t.fecha_modificacion_fecha"></span>)
-                                        </template>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+    <div class="col-md-6">
+        <div class="border p-3"> <!-- Añade un borde y padding para el cuadro -->
+            <label for="inputName" class="form-label fw-bold fs-4">Dirección</label>
+            <table class="table">
+                <tr>
+                    <td style="background-color: #CCFFCC; width: 20px; color: white; border: 1px solid white;"></td>
+                    <td style="border: 1px solid white;">Dirección Principal</td>
+                </tr>
+            </table>
+            <table class="table border table-bordered table-sm mb-0">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Ciudad</th>
+                        <th>Dirección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="d in direccion">
+                        <td>
+                            <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="d.tipo"></span>
+                        </td>
+                        <td>
+                            <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="d.ciudad"></span>
+                        </td>
+                        <td>
+                            <span style="text-transform: uppercase;" class="form-control-plaintext" v-html="d.direccion"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                    <div class=" row mb-4">
-                        <label for="inputName" class="col-md-2 form-label">Direcciones</label>
-                        <div class="col-md-10">
-                            <table>
-                                <tr>
-                                    <td style="background-color: #CCFFCC; width: 20px; color: white; border: 1px solid white;"></td>
-                                    <td style="border: 1px solid white;">Dirección Princiapl</td>
-                                </tr>
-                            </table>
-                            <table class="table border table-bordered table-sm mb-0">
-                                <thead>
-                                <tr>
-                                    <th>Tipo</th>
-                                    <th>Ciudad</th>
-                                    <th>Dirección</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="d in direccion">
-                                    <td>
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext"
-                                              v-html="d.tipo"></span>
-                                    </td>
-                                    <td>
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext"
-                                              v-html="d.ciudad"></span>
-                                    </td>
-                                    <td>
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext"
-                                              v-html="d.direccion"></span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                  <div class="row mb-4">
+    <div class="col-md-6">
+        <div class="border p-3"> <!-- Añade un borde y padding para el cuadro -->
+            <label for="inputName" class="form-label fw-bold fs-4">Mails</label>
+            <table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Email</th>
+                        <th>Origen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="e in email">
+                        <td>
+                            <span class="form-control-plaintext" v-html="e.tipo"></span>
+                        </td>
+                        <td>
+                            <span class="form-control-plaintext" v-html="e.descripcion"></span>
+                        </td>
+                        <td>
+                            <span class="form-control-plaintext" v-html="e.email"></span>
+                        </td>
+                        <td>
+                            <span class="form-control-plaintext" v-html="e.origen"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                    <div class=" row mb-4">
-                        <label for="inputName" class="col-md-2 form-label">Emails</label>
-                        <div class="col-md-10">
-                            <table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
-                                <thead>
-                                <tr>
-                                    <th>Tipo</th>
-                                    <th>Descripción</th>
-                                    <th>Email</th>
-                                    <th>Origen</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="e in email">
-                                    <td>
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext"
-                                              v-html="e.tipo"></span>
-                                    </td>
-                                    <td>
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext"
-                                              v-html="e.descripcion"></span>
-                                    </td>
-                                    <td>
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext"
-                                              v-html="e.email"></span>
-                                    </td>
-                                    <td>
-                                        <span style="text-transform: uppercase;" class="form-control-plaintext"
-                                              v-html="e.origen"></span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+    <div class="col-md-6">
+        <div class="border p-3"> <!-- Añade un borde y padding para el cuadro -->
+           <label for="inputName" class="form-label fw-bold fs-4">Referencias</label>
+            <table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Ciudad</th>
+                        <th>Dirección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="r in referencia">
+                        <td>
+                            <input type="text" class="form-control-plaintext" readonly v-model="r.tipo">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control-plaintext" readonly v-model="r.descripcion">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control-plaintext" readonly v-model="r.nombre">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control-plaintext" readonly v-model="r.telefono">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control-plaintext" readonly v-model="r.ciudad">
+                        </td>
+                        <td>
+                            <textarea rows="3" class="form-control-plaintext" readonly v-model="r.direccion" placeholder="Dirección"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                    <div class=" row mb-4">
-                        <label for="inputName" class="col-md-2 form-label">Referencias</label>
-                        <div class="col-md-10">
-                            <table class="table border text-nowrap text-md-nowrap table-bordered table-sm mb-0">
-                                <thead>
-                                <tr>
-                                    <th>Tipo</th>
-                                    <th>Descripción</th>
-                                    <th>Nombre</th>
-                                    <th>Teléfono</th>
-                                    <th>Ciudad</th>
-                                    <th>Dirección</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="r in referencia">
-                                    <td>
-                                        <input type="text" style="text-transform: uppercase;" readonly
-                                               class="form-control-plaintext" v-model="r.tipo">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="text-transform: uppercase;" readonly
-                                               class="form-control-plaintext" v-model="r.descripcion">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="text-transform: uppercase;" readonly
-                                               class="form-control-plaintext" v-model="r.nombre">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="text-transform: uppercase;" readonly
-                                               class="form-control-plaintext" v-model="r.telefono">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="text-transform: uppercase;" readonly
-                                               class="form-control-plaintext" v-model="r.ciudad">
-                                    </td>
-                                    <td>
-											<textarea rows="3" v-model="r.direccion" class="form-control-plaintext"
-                                                      readonly placeholder="Dirección" v-autoname></textarea>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
 
                     <div class="mb-0 mt-4 ">
                         <div class="col-md-12">
@@ -323,11 +315,11 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">SEGUIMIENTO</h4>
+            <div class="">
+                <div class="">
+                    <h4 class="card-title">Gestión</h4>
                 </div>
-                <div class="card-body">
+                <div class="">
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">{{ paleta.titulo_nivel1 }}</label>
                         <div class="col-md-4 col-informacion">
@@ -1071,11 +1063,11 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
+            <div class="">
+                <div class="">
                     <h4 class="card-title">APLICATIVO TARJETAS</h4>
                 </div>
-                <div class="card-body">
+                <div class="">
                     <div class=" row mb-4">
                         <label for="inputName" class="col-md-2 form-label">UNIFICACIÓN DEUDA</label>
                         <div class="col-md-4 col-informacion">
@@ -1109,7 +1101,7 @@
 
                     <div class=" row mb-4">
                         <div class="table-responsive" style="scrollbar-color: red yellow;">
-                            <table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
+                            <table class="" style="font-size: px; width: 800px;">
                                 <thead>
                                 <tr>
                                     <template v-if="aplicativo_diners_tarjeta_diners.length != 0">
@@ -1226,7 +1218,7 @@
                                             <br/>
                                             <table>
                                                 <tbody>
-                                                <tr>
+                                                <!--tr>
                                                     <td style="width: 10%;"><strong>CAMPAÑA</strong></td>
                                                     <td style="width: 90%;" colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_diners.campana"></span>
@@ -1300,7 +1292,7 @@
                                                     <td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_diners.motivo_no_pago_anterior"></span>
-                                                    </td>
+                                                    </td-->
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
@@ -1537,7 +1529,7 @@
                                             <table>
                                                 <tbody>
                                                 <tr>
-                                                    <td colspan="4"
+                                                    <!--td colspan="4"  Desde aqui son los calculos 
                                                         style="text-align: center; background-color: #0066A8; color: white;">
                                                         <strong>VALORES POR FACTURAR</strong></td>
                                                 </tr>
@@ -1703,7 +1695,7 @@
                                                     <td><strong>VALOR CUOTA MENSUAL</strong></td>
                                                     <td>
                                                         <span v-html="aplicativo_diners_tarjeta_diners.valor_cuota_mensual"></span>
-                                                    </td>
+                                                    </td-->
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -1800,7 +1792,7 @@
                                             <table>
                                                 <tbody>
                                                 <tr>
-                                                    <td style="width: 10%;"><strong>CAMPAÑA</strong></td>
+                                                    <!--td style="width: 10%;"><strong>CAMPAÑA</strong></td>
                                                     <td style="width: 90%;" colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_interdin.campana"></span>
                                                     </td>
@@ -1874,7 +1866,7 @@
                                                     <td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_interdin.motivo_no_pago_anterior"></span>
-                                                    </td>
+                                                    </td-->
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
@@ -2111,7 +2103,7 @@
                                             <table>
                                                 <tbody>
                                                 <tr>
-                                                    <td colspan="4"
+                                                    <!--td colspan="4"
                                                         style="text-align: center; background-color: #404040; color: white;">
                                                         <strong>VALORES POR FACTURAR</strong></td>
                                                 </tr>
@@ -2266,7 +2258,7 @@
                                                     <td><strong>VALOR CUOTA MENSUAL</strong></td>
                                                     <td>
                                                         <span v-html="aplicativo_diners_tarjeta_interdin.valor_cuota_mensual"></span>
-                                                    </td>
+                                                    </td-->
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -2362,8 +2354,8 @@
                                             <br/>
                                             <table>
                                                 <tbody>
-                                                <tr>
-                                                    <td style="width: 10%;"><strong>CAMPAÑA</strong></td>
+                                                <!--tr>
+                                                    <!--td style="width: 10%;"><strong>CAMPAÑA</strong></td>
                                                     <td style="width: 90%;" colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_discover.campana"></span>
                                                     </td>
@@ -2437,7 +2429,7 @@
                                                     <td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_discover.motivo_no_pago_anterior"></span>
-                                                    </td>
+                                                    </td-->
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
@@ -2674,7 +2666,7 @@
                                             <table>
                                                 <tbody>
                                                 <tr>
-                                                    <td colspan="4"
+                                                    <!--td colspan="4"
                                                         style="text-align: center; background-color: #E66929; color: white;">
                                                         <strong>VALORES POR FACTURAR</strong></td>
                                                 </tr>
@@ -2829,7 +2821,7 @@
                                                     <td><strong>VALOR CUOTA MENSUAL</strong></td>
                                                     <td>
                                                         <span v-html="aplicativo_diners_tarjeta_discover.valor_cuota_mensual"></span>
-                                                    </td>
+                                                    </td-->
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -2926,7 +2918,7 @@
                                             <table>
                                                 <tbody>
                                                 <tr>
-                                                    <td style="width: 10%;"><strong>CAMPAÑA</strong></td>
+                                                    <!--td style="width: 10%;"><strong>CAMPAÑA</strong></td>
                                                     <td style="width: 90%;" colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_mastercard.campana"></span>
                                                     </td>
@@ -3000,7 +2992,7 @@
                                                     <td><strong>MOTIVO DE NO PAGO ANTERIOR</strong></td>
                                                     <td colspan="3"><span
                                                                 v-html="aplicativo_diners_tarjeta_mastercard.motivo_no_pago_anterior"></span>
-                                                    </td>
+                                                    </td-->
                                                 </tr>
                                                 <tr>
                                                     <td><strong>FINANCIAMIENTO VIGENTE</strong></td>
@@ -3237,7 +3229,7 @@
                                             <table>
                                                 <tbody>
                                                 <tr>
-                                                    <td colspan="4"
+                                                    <!--td colspan="4"
                                                         style="text-align: center; background-color: #A4B706; color: white;">
                                                         <strong>VALORES POR FACTURAR</strong></td>
                                                 </tr>
@@ -3390,7 +3382,7 @@
                                                 </tr>
                                                 <tr style="background-color: #A4B706; color: white;">
                                                     <td><strong>VALOR CUOTA MENSUAL</strong></td>
-                                                    <td>
+                                                    <td-->
                                                         <span v-html="aplicativo_diners_tarjeta_mastercard.valor_cuota_mensual"></span>
                                                     </td>
                                                 </tr>

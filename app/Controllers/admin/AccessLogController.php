@@ -17,7 +17,7 @@ class AccessLogController extends BaseController {
 	
 	function index() {
 		\WebSecurity::secure('admin');
-		\Breadcrumbs::active('Log de Acceso');
+		\Breadcrumbs::active('Historial de Acceso');
 		return $this->render('index');
 	}
 	

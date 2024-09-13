@@ -1,11 +1,11 @@
-<div class="card">
-	<div class="card-header">
+<div class="">
+	<div class="">
 		<h4 class="card-title">Filtros de Búsqueda</h4>
 	</div>
-	<div class="card-body">
+	<div class="">
 		<form id="filtros">
 			<div class="row ">
-				<div class="col-sm-3">
+				<!--div class="col-sm-3">
 					<b>Canal</b> <br>
 					<div class="input-group">
 						<select class="form-control select2" name="canal_usuario[]" id="canal_usuario" multiple>
@@ -13,9 +13,9 @@
 							<option v-for="(v,k) in canal_usuario" v-html="v" :value="k"></option>
 						</select>
 					</div>
-				</div>
+				</div-->
 
-				<div class="col-sm-3">
+				<!--div class="col-sm-3">
 					<b>Campaña con ECE</b> <br>
 					<div class="input-group">
 						<select class="form-control select2" name="campana_ece[]" id="campana_ece" multiple>
@@ -23,9 +23,9 @@
 							<option v-for="(v,k) in campana_ece" v-html="v" :value="k"></option>
 						</select>
 					</div>
-				</div>
+				</div-->
 
-				<div class="col-sm-3">
+				<!--div class="col-sm-3">
 					<b>Campaña usuario</b> <br>
 					<div class="input-group">
 						<select class="form-control select2" name="campana_usuario[]" id="campana_usuario" multiple>
@@ -33,9 +33,9 @@
 							<option v-for="(v,k) in campana_usuario" v-html="v" :value="k"></option>
 						</select>
 					</div>
-				</div>
+				</div-->
 
-				<div class="col-sm-3">
+				<!--div class="col-sm-3">
 					<b>Zona</b> <br>
 					<div class="input-group">
 						<select class="form-control select2" name="plaza_usuario[]" id="plaza_usuario" multiple>
@@ -43,9 +43,9 @@
 							<option v-for="(v,k) in plaza_usuario" v-html="v" :value="k"></option>
 						</select>
 					</div>
-				</div>
+				</div-->
 
-				<div class="col-sm-3">
+				<!--div class="col-sm-3">
 					<b>Ciclo</b> <br>
 					<div class="input-group">
 						<select class="form-control select2" name="ciclo[]" id="ciclo" multiple>
@@ -53,7 +53,7 @@
 							<option v-for="(v,k) in ciclo_asignacion" v-html="v" :value="k"></option>
 						</select>
 					</div>
-				</div>
+				</div-->
 
 				<div class="col-sm-3">
 					<b>Fecha Inicio</b> <br>
@@ -84,8 +84,8 @@
 		</form>
 	</div>
 	<div class="card-footer">
-		<button id="btnFiltro" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
-		<button id="btnTodos" class="btn btn-success"><i class="fa fa-eraser"></i> Limpiar filtros</button>
+		<button id="btnFiltro" class="btn btn-success"><i class=""></i>Buscar</button>
+		<button id="btnTodos" class="btn btn-success"><i class=""></i>Quitar Busqueda</button>
 		{% include "reportes/loader.twig" %}
 		<script>
             var appFiltros = new Vue({

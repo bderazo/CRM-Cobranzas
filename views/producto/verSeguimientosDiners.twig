@@ -1,162 +1,60 @@
 {% extends 'layout.twig' %}
+
 {% block content %}
-	<div id="app">
-		<div class="col-md-12 col-xl-12">
+<div id="app">
+    <form method="POST" action="{{ root }}/producto/guardarSeguimientoDiners" id="form-edit-seguimiento"
+          class="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+        <div class="col-md-12 col-xl-12">
+            <div class="">
+                <div class="-">
+                    <h4 class="card-title">CLIENTE</h4>
+                </div>
+                <div class="">
+                    <div class="row mb-4">
+                        <label for="inputName" class="col-md-2 form-label">Nombres</label>
+                        <div class="col-md-4 col-informacion">
+                            <h3 style="font-weight: bold;">
+                                <span class="form-control-plaintext">{{ cliente.nombres }}</span>
+                            </h3>
+                        </div>
 
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">CLIENTE</h4>
-				</div>
-				<div class="card-body">
-					<div class=" row mb-4">
-						<label for="inputName" class="col-md-2 form-label">Nombres</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="cliente.nombres">
-						</div>
+                        <label for="inputName" class="col-md-2 form-label">Cédula</label>
+                        <div class="col-md-4 col-informacion">
+                            <h3 style="font-weight: bold;">
+                                <span class="form-control-plaintext">{{ cliente.cedula }}</span>
+                            </h3>
+                        </div>
+                    </div>
 
-						<label for="inputName" class="col-md-2 form-label">Cédula</label>
-						<div class="col-md-4 col-informacion">
-							<input type="text" readonly class="form-control-plaintext" v-model="cliente.cedula">
-						</div>
-					</div>
-				</div>
-			</div>
+                    <!-- Imprime todo el objeto cliente en un formato JSON -->
+                    <div class="row mb-4">
+                        <label for="inputName" class="col-md-12 form-label">Toda la Información del Cliente</label>
+                        <div class="col-md-12">
+                            <pre>{{ cliente|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                        </div>
+                    </div>
 
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">SEGUIMIENTOS</h4>
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table border table-striped table-bordered table-sm mb-0" style="font-size: 12px;">
-							<thead>
-							<tr>
-								<th>Seguimiento</th>
-								<th>Observaciones</th>
-								<th>Fecha Gestión</th>
-								<th>Tarjetas Gestionadas</th>
-								<th></th>
-							</tr>
-							</thead>
-							<tbody>
-							{% for seg in seguimientos %}
-								<tr>
-									<td style="width: 35%;">
-										{% if seg.nivel1 != '' %}
-											<strong>{{ paleta.titulo_nivel1 }}: </strong><br/> {{ seg.nivel1 }}<br/><br/>
-										{% endif %}
-										{% if seg.nivel2 != '' %}
-											<strong>{{ paleta.titulo_nivel2 }}: </strong><br/> {{ seg.nivel2 }}<br/><br/>
-										{% endif %}
-										{% if seg.nivel3 != '' %}
-											<strong>{{ paleta.titulo_nivel3 }}: </strong><br/> {{ seg.nivel3 }}<br/><br/>
-										{% endif %}
-										{% if seg.nivel4 != '' %}
-											<strong>{{ paleta.titulo_nivel4 }}: </strong><br/> {{ seg.nivel4 }}<br/><br/>
-										{% endif %}
-										{% if seg.fecha_compromiso_pago != '' %}
-											<strong>FECHA COMPROMISO DE PAGO: </strong><br/> {{ seg.fecha_compromiso_pago }}<br/><br/>
-										{% endif %}
-										{% if seg.valor_comprometido != '' %}
-											<strong>VALOR COMPROMETIDO: </strong><br/> {{ seg.valor_comprometido }}<br/><br/>
-										{% endif %}
-										{% if seg.nivel1_motivo_no_pago != '' %}
-											<strong>{{ paleta.titulo_motivo_no_pago_nivel1 }}: </strong><br/> {{ seg.nivel1_motivo_no_pago }}<br/><br/>
-										{% endif %}
-										{% if seg.nivel2_motivo_no_pago != '' %}
-											<strong>{{ paleta.titulo_motivo_no_pago_nivel2 }}: </strong><br/> {{ seg.nivel2_motivo_no_pago }}<br/><br/>
-										{% endif %}
+                    <div>
+                        <a :href="`${root}/producto/editar?id=${cliente.id}`" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
+                            <i class="">Gestionar</i>
+                        </a>
+                        <a :href="`${root}/producto/verSeguimientos?id=${cliente.id}`" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
+                            <i class="">Historico</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
-										<strong>UNIFICAR DEUDAS: </strong><br/> {{ seg.unificar_deudas|upper }}<br/><br/>
+    <!-- Aquí van los scripts y estilos -->
+    {{ bundle('validate') }}
+    {{ bundle('summer') }}
+    {{ script('js/lodash.js') }}
+    {{ bundle('jasny') }}
 
-										{% if seg.tarjeta_unificar_deudas != '' %}
-											<strong>TARJETA UNIFICADA: </strong><br/> {{ seg.tarjeta_unificar_deudas }}<br/><br/>
-										{% endif %}
-
-										{% for img in seg.imagenes %}
-											<a href="{{ img }}" target="_blank"><img style="width: auto; max-height: 80px; " src="{{ img }}"/></a>
-										{% endfor %}
-										{% if seg.lat != '' %}
-											<br/>
-											<strong>Lat: </strong> {{ seg.lat }}<br/>
-										{% endif %}
-										{% if seg.lat != '' %}
-											<strong>Long: </strong> {{ seg.long }}<br/>
-										{% endif %}
-									</td>
-									<td style="width: 35%;">{{ seg.observaciones }}</td>
-									<td style="width: 10%;">{{ seg.usuario }} <br/><br/> {{ seg.fecha_ingreso }} <br/><br/> <span style="font-weight: bold;">ORIGEN:</span>&nbsp;{{ seg.origen|upper }}</td>
-									<td style="width: 10%;">{{ seg.tarjetas_gestionadas }}</td>
-									<td style="vertical-align: top; text-align: center; width: 10%;">
-										<button class="btn btn-primary" type="button" v-on:click="verAcuerdo({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
-											<i class="fa fa-file-excel-o"></i> ACUERDO
-										</button><br/><br/>
-										{% if puedeEliminar %}
-											{% if seg.fecha_ingreso|date("Y-m-d") == "now"|date("Y-m-d") %}
-												<button class="btn btn-danger-light" type="button" v-on:click="delSeguimiento({{ seg.id }})" style="width: 150px;" title="VER ACUERDO">
-													<i class="fa fa-trash-o"></i> ELIMINAR
-												</button><br/><br/>
-											{% endif %}
-										{% endif %}
-{#										<button class="btn btn-success" type="button" v-on:click="descargarNegociacionManual({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN MANUAL">#}
-{#											<i class="fa fa-download"></i> MANUAL#}
-{#										</button>#}
-{#										<button class="btn btn-info" type="button" v-on:click="descargarNegociacionAutomatica({{ seg.id }})" style="width: 150px;" title="DESCARGAR NEGOCIACIÓN AUTOMÁTICA">#}
-{#											<i class="fa fa-download"></i> AUTOMÁTICA#}
-{#										</button>#}
-									</td>
-								</tr>
-							{% endfor %}
-							</tbody>
-						</table>
-					</div>
-
-					{% if mostrar_mapa %}
-					<table class="list view" style="display: table;" border="1" cellpadding="0" cellspacing="1" width="100%">
-						<tr>
-							<td width="100%" align="center">
-								<div id="map"></div>
-							</td>
-						</tr>
-					</table>
-					{% endif %}
-
-				</div>
-			</div>
-
-
-		</div>
-	</div>
-
-	<form id="delSeguimientoForm" method="POST" action="{{ root }}/producto/delSeguimiento">
-		<input type="hidden" id="jsonDelSeguimiento" name="jsonDelSeguimiento"/>
-	</form>
-
-	<!-- MODAL -->
-	<div class="modal fade" id="modalAcuerdo" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-xl" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title"><strong>Acuerdos</strong></h5>
-					<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div id="acuerdoContent"></div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	{{ bundle('validate') }}
-	{{ bundle('summer') }}
-	{{ script('js/lodash.js') }}
-	{{ bundle('jasny') }}
-	<script>
+    <script>
         var app = new Vue({
             el: '#app',
             data: {
@@ -166,7 +64,8 @@
                 referencia: {{ referencia|raw }},
                 cliente: {{ cliente|raw }},
                 aplicativo_diners: {{ aplicativo_diners|raw }},
-				seguimientos_json: {{ seguimientos_json|raw }},
+                seguimientos_json: {{ seguimientos_json|raw }},
+                root: '{{ root }}' // Asegúrate de definir la variable root aquí
             },
             watch: {},
             computed: {},
@@ -192,93 +91,93 @@
                     $('#delSeguimientoForm').submit();
                 },
 
-				initMap: function () {
-					var self = this;
+                initMap: function () {
+                    var self = this;
 
-					var data = self.seguimientos_json;
+                    var data = self.seguimientos_json;
 
-					var map = new google.maps.Map(document.getElementById('map'), {
-						center: new google.maps.LatLng(-0.16465681036593569, -78.48735624085649),
-						zoom: 7
-					});
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        center: new google.maps.LatLng(-0.16465681036593569, -78.48735624085649),
+                        zoom: 7
+                    });
 
-					for (var i = 0; i < data.length; i++) {
-						if(data[i]['origen'] == 'movil') {
-							var obj = data[i];
-							self.addWeatherMarker(obj, map);
-						}
-					}
-				},
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i]['origen'] == 'movil') {
+                            var obj = data[i];
+                            self.addWeatherMarker(obj, map);
+                        }
+                    }
+                },
 
-				addWeatherMarker: function (obj, map) {
-					var infoWindow = new google.maps.InfoWindow;
-					// var id = obj.id;
-					var campana = obj.nivel_1_texto + ' -> ' + obj.nivel_2_texto;
-					var fecha_visita = obj.observaciones;
-					var lugar_visita = obj.fecha_ingreso;
-					var asesor = obj.usuario;
-					var point = new google.maps.LatLng(
-							parseFloat(obj.lat),
-							parseFloat(obj.long));
+                addWeatherMarker: function (obj, map) {
+                    var infoWindow = new google.maps.InfoWindow;
+                    var campana = obj.nivel_1_texto + ' -> ' + obj.nivel_2_texto;
+                    var fecha_visita = obj.observaciones;
+                    var lugar_visita = obj.fecha_ingreso;
+                    var asesor = obj.usuario;
+                    var point = new google.maps.LatLng(
+                        parseFloat(obj.lat),
+                        parseFloat(obj.long)
+                    );
 
-					var infowincontent = document.createElement('div');
+                    var infowincontent = document.createElement('div');
+                    var strong = document.createElement('strong');
+                    strong.textContent = campana;
+                    infowincontent.appendChild(strong);
 
-					var strong = document.createElement('strong');
-					strong.textContent = campana;
-					infowincontent.appendChild(strong);
+                    infowincontent.appendChild(document.createElement('br'));
 
-					infowincontent.appendChild(document.createElement('br'));
+                    var text = document.createElement('text');
+                    text.textContent = "OBSERVACIONES: " + fecha_visita;
+                    infowincontent.appendChild(text);
 
-					var text = document.createElement('text');
-					text.textContent = "OBSERVACIONES: " + fecha_visita;
-					infowincontent.appendChild(text);
+                    infowincontent.appendChild(document.createElement('br'));
 
-					infowincontent.appendChild(document.createElement('br'));
+                    var text = document.createElement('text');
+                    text.textContent = "FECHA: " + lugar_visita;
+                    infowincontent.appendChild(text);
 
-					var text = document.createElement('text');
-					text.textContent = "FECHA: " + lugar_visita;
-					infowincontent.appendChild(text);
+                    infowincontent.appendChild(document.createElement('br'));
 
-					infowincontent.appendChild(document.createElement('br'));
+                    var text = document.createElement('text');
+                    text.textContent = "GESTOR: " + asesor;
+                    infowincontent.appendChild(text);
 
-					var text = document.createElement('text');
-					text.textContent = "GESTOR: " + asesor;
-					infowincontent.appendChild(text);
-
-					var marker = new google.maps.Marker({
-						map: map,
-						position: point,
-					});
-					marker.addListener('click', function () {
-						infoWindow.setContent(infowincontent);
-						infoWindow.open(map, marker);
-					});
-				},
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: point,
+                    });
+                    marker.addListener('click', function () {
+                        infoWindow.setContent(infowincontent);
+                        infoWindow.open(map, marker);
+                    });
+                },
             },
             mounted: function () {
                 var self = this;
-				$(document).ready(function () {
-					self.initMap();
-				});
+				console.log('Información del cliente:', this.cliente); 
+                $(document).ready(function () {
+                    self.initMap();
+                });
             }
         });
-	</script>
-	<style>
+    </script>
+
+    <style>
         table, th, td {
             border: 1px solid;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
         }
-	</style>
-	<style>
-		#map {
-			height: 600px;
-			width: 800px;
-		}
-	</style>
+    </style>
 
-	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_zHT3Yhw50hNcialiMb60ZtIJ9EwR3wg">
+    <style>
+        #map {
+            height: 600px;
+            width: 800px;
+        }
+    </style>
+
 {% endblock %}

@@ -9,7 +9,20 @@
     {{ bundle('extraPlugins') }}
     {{ bundle('jqueryui') }}
 </head>
-<body class="app sidebar-mini ltr light-mode">
+  <style>
+        /* Sidebar colapsado por defecto */
+        .app-sidebar {
+            width: 0;
+            overflow: hidden;
+            transition: width 0.3s ease;
+        }
+
+        /* Sidebar expandido */
+        .app-sidebar.active {
+            width: 250px; /* Ajusta el tamaño según tu diseño */
+        }
+    </style>
+<body class="app sidebar-mini light-mode ">
 <!-- GLOABAL LOADER -->
 <div id="global-loader">
     <img src="{{ root }}/template/images/loader.svg" class="loader-img" alt="Loader"/>
@@ -26,7 +39,15 @@
                 <div class="d-flex">
                     <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"href="javascript:void(0)"></a>
 
-                   
+                   <form action="#" method="get" class="ms-3">
+                                        <div class="input-group">
+                                            
+                                           <button class="btn btn-primary" type="submit">Mi asignación</button>
+
+                                            <i class=""></i>
+                                            </button>
+                                        </div>
+                                    </form>
 
                     <!-- LOGO -->
                     <div class="main-header-center ms-3 d-none d-lg-block">
@@ -39,20 +60,15 @@
 
                             
                                 <div class="d-flex order-lg-2">
-
-                                    <form action="#" method="get" class="ms-3">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Buscar por cédula" name="cedula">
-                                            <button class="btn btn-primary" type="submit">
-                                            <i class="fa fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                     <form action="#" method="get" class="ms-3">
-                                        <small style="color: black;">{{ user.nombres }}
-                                                        &nbsp;{{ user.apellidos }}</small>
-                                    </form>
-                                    
+                                         <form id="search-form" class="ms-3">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Buscar por cédula" name="cedula" id="cedula">
+        <button class="btn btn-primary" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+</form>
+<small style="color: black;">{{ user.nombres }} &nbsp;{{ user.apellidos }}</small>
                                   
 
                                     <!--{% if alertasTop %}
@@ -62,7 +78,7 @@
 
                                     
 
-                                    <div class="dropdown d-flex profile-1">
+                                    <div class="">
                                         <a href="javascript:void(0)" data-bs-toggle="dropdown"
                                            class="nav-link leading-none d-flex">
                                             <img src="{{ root }}/template_ok/images/users/21.png" alt="profile-user"
@@ -220,36 +236,27 @@
 {{ bundle('template') }}
 
 <script>
-  document.querySelector('form').addEventListener('submit', function(event) {
+document.getElementById('search-form').addEventListener('submit', function(event) {
     event.preventDefault();
-    const cedula = document.querySelector('input[name="cedula"]').value;
+    const cedula = document.getElementById('cedula').value;
 
-    fetch('{{ root }}/api/cliente/buscar_por_cedula?cedula=' + cedula)
-    .then(response => response.text()) // Usar text() para ver la respuesta cruda
-    .then(data => {
-        try {
-        const jsonData = JSON.parse(data);  
-        if (jsonData.id) {
-            window.location.href = `/global/producto/verSeguimientosDiners?id=${jsonData.id}`;
-        } else if (jsonData.error) {
-            alert('Cédula no encontrada.');
-        } else {
-            console.error('Error al buscar el ID:', jsonData);
+    fetch('{{ root }}/api/cliente/buscar_por_cedula?cedula=' + encodeURIComponent(cedula))
+        .then(response => response.json()) // Cambia a json() para obtener la respuesta en formato JSON
+        .then(data => {
+            if (data.id) {
+                window.location.href = `/global/producto/verSeguimientosDiners?id=${data.id}`;
+            } else if (data.error) {
+                alert(data.error); // Muestra el mensaje de error devuelto por la API
+            } else {
+                console.error('Error al buscar el ID:', data);
+                alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
+            }
+        })
+        .catch(error => {
+            console.error('Error al buscar el ID:', error);
             alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
-        }
-        } catch (e) {
-        console.error('Error al analizar el JSON:', e);
-        console.error('Respuesta recibida:', data);
-        alert('Respuesta inesperada del servidor.');
-        }
-    })
-    .catch(error => {
-        console.error('Error al buscar el ID:', error);
-        alert('Error al buscar el ID. Por favor, inténtalo nuevamente.');
-    });
-
-
-  });
+        });
+});
 </script>
 
 

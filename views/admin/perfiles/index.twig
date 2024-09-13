@@ -2,11 +2,14 @@
 
 {% block content %}
 	<div class="col-md-12 col-xl-12">
-		<div class="card">
-			<div class="card-header">
+		<!--div class="card"-->
+		<div class="">
+			<!--div class="card-header"-->
+			<div class="">
 				<h4 class="card-title">Perfiles</h4>
 			</div>
-			<div class="card-body">
+			<!--div class="card-body"-->
+			<div class="">
 				<form method="post" id="filtro" class="form-horizontal">
 					<div class="row mb-4">
 						<label for="inputName" class="col-md-2 form-label">Nombre</label>
@@ -22,26 +25,32 @@
 
 					<div class="mb-0 mt-4 ">
 						<div class="col-md-12">
-							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i>
-								Filtrar
+							<button type="submit" class="btn btn-secondary"><i class=""></i> 
+							<!--glyphicon glyphicon-search--> 
+								Buscar
 							</button>
-							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i>
+							<button class="btn btn-secondary" onclick="todos()" type="button"><i class=""></i>
 								Ver todos
 							</button>
-							<a href="{{ root }}/admin/perfiles/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear perfil</a>
+							<a href="{{ root }}/admin/perfiles/crear" class="btn btn-primary"><i class=""></i> Crear perfil</a>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
-	</div>
+		<br>
+	<br>
+	<br>
 
+	</div>
+	
 	<div class="col-md-12 col-xl-12">
-		<div class="card">
+		<div class="">
 			<div class="card-header">
 				<h4 class="card-title">Lista de perfiles</h4>
 			</div>
-			<div class="card-body">
+			<!--div class="card-body"-->
+			<div class="">
 				<div id="lista"></div>
 			</div>
 		</div>

@@ -60097,7 +60097,7 @@ ul {
     left: 0;
     color: #282f53;
     z-index: 99;
-    background: #c9cada;
+    /* background: #c9cada; */
     -webkit-box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     -webkit-transition: left 450ms ease, width 450ms ease;
@@ -60107,7 +60107,7 @@ ul {
 }
 
 .app-sidebar::-webkit-scrollbar {
-    width: 6px;
+    width: 0;
 }
 
 .app-sidebar::-webkit-scrollbar-thumb {
@@ -60434,7 +60434,7 @@ ul {
     }
 
     .sidebar-mini.sidenav-toggled .app-sidebar:hover {
-        overflow: visible;
+        overflow: hidden;
     }
 
     .sidebar-mini.sidenav-toggled .slide-menu {

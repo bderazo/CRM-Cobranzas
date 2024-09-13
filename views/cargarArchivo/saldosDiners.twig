@@ -2,12 +2,12 @@
 {% block content %}
 	<div id="app">
 		<div class="col-md-12 col-xl-12">
-			<form method="POST" id="form-edit" class="form-horizontal">
-				<div class="card">
-					<div class="card-header">
+			<form method="POST" id="form-edit" class="form-horizontal" enctype="multipart/form-data">>
+				<div class="">
+					<div class="">
 						<h4 class="card-title">Ingresar archivo</h4>
 					</div>
-					<div class="card-body">
+					<div class="">
 						<fieldset id="campos">
 							<div class=" row mb-4">
 								<label for="inputName" class="col-md-2 form-label">Archivo *</label>
@@ -41,14 +41,16 @@
 							</div>
 						</fieldset>
 					</div>
+					<br>
+					<br>
 				</div>
 			</form>
 
-			<div class="card">
-				<div class="card-header">
+			<div class="">
+				<div class="">
 					<h4 class="card-title">Resultado</h4>
 				</div>
-				<div class="card-body">
+				<div class="">
 					<div class="ibox-content" id="resultado">
 					</div>
 				</div>
@@ -98,8 +100,10 @@
                                 resDiv.html(data);
                                 form[0].reset();
                             },
-                            error: function () {
-                                campos.removeAttr('disabled');
+                            error: function (xhr, status, error) {
+        // Agrega este bloque para ver el error que te devuelve el servidor
+        console.log(xhr.responseText); // Ver el error devuelto por el servidor
+        campos.removeAttr('disabled');
                             }
                         });
                         return false;

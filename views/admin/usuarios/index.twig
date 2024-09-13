@@ -2,11 +2,13 @@
 
 {% block content %}
 	<div class="col-md-12 col-xl-12">
-		<div class="card">
-			<div class="card-header">
+		<div class="">
+			<!--div class="card-header"-->
+			<div class="">
 				<h4 class="card-title">Filtros de Búsqueda</h4>
 			</div>
-			<div class="card-body">
+			<!--div class="card-body"-->
+			<div class="">
 				<form method="post" id="filtro" class="form-horizontal">
 					<div class=" row mb-6">
 						<label for="inputName" class="col-sm-2 form-label">Username</label>
@@ -14,7 +16,7 @@
 							{{ text_field_tag("username", model.username, {class:'form-control', placeholder:'Username'}) }}
 						</div>
 
-						<label for="inputName" class="col-sm-2 form-label">Perfil</label>
+						<!--label for="inputName" class="col-sm-2 form-label">Perfil</label>
 						<div class="col-sm-2">
 							{{ select_tag('perfil', perfiles, model.perfil, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
 						</div>
@@ -22,7 +24,7 @@
 						<label for="inputName" class="col-sm-2 form-label">Institución</label>
 						<div class="col-sm-2">
 							{{ select_tag('institucion', instituciones, model.institucion, {key:'id',value:'nombre', prompt:'', class:'form-control form-select'} ) }}
-						</div>
+						</div-->
 					</div>
 
 					<!--<div class=" row mb-6">
@@ -86,9 +88,9 @@
 
 					<div class="mb-0 mt-4 ">
 						<div class="col-md-12">
-							<button type="submit" class="btn btn-secondary"><i class="glyphicon glyphicon-search"></i> Filtrar</button>
-							<button class="btn btn-secondary" onclick="todos()" type="button"><i class="fa fa-eye"></i> Ver todos</button>
-							<a href="{{ root }}/admin/usuarios/crear" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear usuario</a>
+							<button type="submit" class="btn btn-secondary"><i class=""></i> Buscar</button>
+							<button class="btn btn-secondary" onclick="todos()" type="button"><i class=""></i> Ver todos</button>
+							<a href="{{ root }}/admin/usuarios/crear" class="btn btn-primary"><i class=""></i> Crear usuario</a>
 						</div>
 					</div>
 
@@ -98,14 +100,17 @@
 				</form>
 			</div>
 		</div>
-	</div>
+		<br>
+	<br>
 
+	</div>
+	
 	<div class="col-md-12 col-xl-12">
-		<div class="card">
+		<div class="">
 			<div class="card-header">
 				<h4 class="card-title">Lista de usuarios</h4>
 			</div>
-			<div class="card-body">
+			<div class="">
 				<div id="lista"></div>
 			</div>
 		</div>

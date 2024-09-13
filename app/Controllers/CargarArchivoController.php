@@ -127,18 +127,30 @@ class CargarArchivoController extends BaseController
 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
 		return $this->render('saldosDiners', $data);
 	}
-
 	function cargarSaldosDiners()
 	{
 		$post = $this->request->getParsedBody();
-		// try catch, etc.
 		$files = $this->request->getUploadedFiles();
+	
+		// Verificar si el archivo está presente
 		if (empty($files['archivo'])) {
 			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
 		}
+	
 		/** @var UploadedFile $archivo */
 		$archivo = $files['archivo'];
-		// mas checks que sea xlsx, etc, tamaño, etc.
+	
+		// Verificar que sea un archivo Excel (.xlsx)
+		if ($archivo->getClientMediaType() !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+			return $this->render('reporte', ['errorGeneral' => 'El archivo debe ser un archivo Excel (.xlsx)!']);
+		}
+	
+		// Verificar el tamaño del archivo (ejemplo: máximo 5 MB)
+		if ($archivo->getSize() > 20 * 1024 * 1024) { // 20 MB
+			return $this->render('reporte', ['errorGeneral' => 'El archivo es demasiado grande!']);
+		}
+	
+		
 		$fileInfo = [
 			'size' => $archivo->getSize(),
 			'name' => $archivo->getClientFilename(),
@@ -148,31 +160,100 @@ class CargarArchivoController extends BaseController
 		];
 		$cargador = new CargadorSaldosDinersExcel($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);
+	
+		// Manejo de errores del sistema al cargar
 		$data['reporte'] = $rep;
-		if ($rep['errorSistema'])
+		if ($rep['errorSistema']) {
 			$data['errorGeneral'] = $rep['errorSistema'];
+		}
+	
 		return $this->render('reporte', $data);
 	}
+	//  function cargarSaldosDiners()
+	//  {
+	//  	$post = $this->request->getParsedBody();
+	//  	// try catch, etc.
+	//  	$files = $this->request->getUploadedFiles();
+	//  	if (empty($files['archivo'])) {
+	//  		return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+	//  	}
+	//  	/** @var UploadedFile $archivo */
+	//  	$archivo = $files['archivo'];
+	//  	// mas checks que sea xlsx, etc, tamaño, etc.
+	//  	$fileInfo = [
+	//  		'size' => $archivo->getSize(),
+	//  		'name' => $archivo->getClientFilename(),
+	//  		'mime' => $archivo->getClientMediaType(),
+	//  		'observaciones' => @$post['observaciones'],
+	//  		'fecha' => @$post['fecha'],
+	//  	];
+	//  	$cargador = new CargadorSaldosDinersExcel($this->get('pdo'));
+	//  	$rep = $cargador->cargar($archivo->file, $fileInfo);
+	//  	$data['reporte'] = $rep;
+	//  	if ($rep['errorSistema'])
+	//  		$data['errorGeneral'] = $rep['errorSistema'];
+	//  	return $this->render('reporte', $data);
+	//  }
+// 	function cargarSaldosDiners()
+// {
+//     $post = $this->request->getParsedBody();
+//     $files = $this->request->getUploadedFiles();
 
-	/*-----------------------------------------------------------------*/
+//     if (empty($files['archivo'])) {
+//         return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+//     }
 
-	function asignacionesDiners()
-	{
-		\WebSecurity::secure('cargar_archivos.asignaciones_diners');
-		\Breadcrumbs::active('Asignaciones Diners');
+//     /** @var UploadedFile $archivo */
+//     $archivo = $files['archivo'];
 
-		$catalogos = [
-			'ciudades' => Catalogo::ciudades(),
-		];
+//     // Verificar si el archivo se subió sin errores
+//     if ($archivo->getError() !== UPLOAD_ERR_OK) {
+//         return $this->render('reporte', ['errorGeneral' => 'Error al cargar el archivo.']);
+//     }
 
-		$carga_archivo = new ViewCargaArchivo();
-		$carga_archivo->total_registros = 0;
-		$carga_archivo->total_errores = 0;
+//     // Guardar el archivo temporalmente
+//     $tempFilePath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $archivo->getClientFilename();
+//     $archivo->moveTo($tempFilePath);
 
-		$data['carga_archivo'] = json_encode($carga_archivo);
-		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
-		return $this->render('asignacionesDiners', $data);
-	}
+//     $fileInfo = [
+//         'size' => $archivo->getSize(),
+//         'name' => $archivo->getClientFilename(),
+//         'mime' => $archivo->getClientMediaType(),
+//         'observaciones' => isset($post['observaciones']) ? $post['observaciones'] : null,
+//         'fecha' => isset($post['fecha']) ? $post['fecha'] : null,
+//     ];
+
+//     try {
+//         $cargador = new CargadorSaldosDinersExcel($this->get('pdo'));
+//         $rep = $cargador->cargar($tempFilePath, $fileInfo);
+//         $data['reporte'] = $rep;
+
+//         if (isset($rep['errorSistema'])) {
+//             $data['errorGeneral'] = $rep['errorSistema'];
+//         }
+//     } catch (\Exception $e) {
+//         return $this->render('reporte', ['errorGeneral' => 'Ocurrió un error al procesar el archivo.']);
+//     }
+
+//     return $this->render('reporte', $data);
+// }
+// 	function asignacionesDiners()
+// 	{
+// 		\WebSecurity::secure('cargar_archivos.asignaciones_diners');
+// 		\Breadcrumbs::active('Asignaciones Diners');
+
+// 		$catalogos = [
+// 			'ciudades' => Catalogo::ciudades(),
+// 		];
+
+// 		$carga_archivo = new ViewCargaArchivo();
+// 		$carga_archivo->total_registros = 0;
+// 		$carga_archivo->total_errores = 0;
+
+// 		$data['carga_archivo'] = json_encode($carga_archivo);
+// 		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+// 		return $this->render('asignacionesDiners', $data);
+// 	}
 
 	function cargarAsignacionesDiners()
 	{

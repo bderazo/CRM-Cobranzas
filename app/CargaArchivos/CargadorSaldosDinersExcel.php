@@ -92,21 +92,10 @@ class CargadorSaldosDinersExcel
                     }
                 }
 
-                //PROCESO DE SALDOS
-                //MAPEAR LOS CAMPOS PARA GUARDAR COMO CLAVE VALOR
-//                $cont = 0;
-//                $data_campos = [];
-//                for ($i = 11; $i <= $ultima_posicion_columna; $i++) {
-//                    if (isset($values[$i])) {
-//                        $data_campos[$cabecera[$cont]] = $values[$i];
-//                    }
-//                    $cont++;
-//                }
-                //CREAR SALDOS
+              
                 $saldos = new AplicativoDinersSaldos();
                 $saldos->cliente_id = $cliente_id;
                 $saldos->fecha = @$extraInfo['fecha'];
-//                $saldos->campos = json_encode($data_campos, JSON_PRETTY_PRINT);
                 $saldos->campos = json_encode([], JSON_PRETTY_PRINT);
                 $saldos->fecha_ingreso = date("Y-m-d H:i:s");
                 $saldos->usuario_ingreso = \WebSecurity::getUserData('id');

@@ -1,85 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="CRM">
-	<meta name="author" content="David Erazo">
-	<meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="CRM">
+    <meta name="author" content="David Erazo">
+    <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
 
+    <title>CRM</title>
+    <link rel="icon" type="image/png" href="{{ root }}/favicon.png">
 
-	<title>CRM</title>
-	<link rel="icon" type="image/png" href="{{ root }}/favicon.png">
+    {{ bundle('site') }}
+    {{ bundle('validate') }}
 
-	{{ bundle('site') }}
-	{{ bundle('validate') }}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container-login100 {
+            width: 100%;
+            max-width: 400px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .login100-form-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .wrap-input100 {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input100 {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .input-group-text {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .container-login100-form-btn {
+            text-align: center;
+        }
+
+        .login100-form-btn {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login100-form-btn:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 
-<body class="inicio-img">
+<body>
 
-<div class="">
-
-	<div id="global-loader">
-		<img src="{{ root }}/template/images/loader.svg" class="loader-img" alt="Loader"/>
-	</div>
-	
-	
-	<div class="page">
-		<div class="">
-		
-			
-
-			<div class="container-login100">
-				<div class="wrap-login100 ">
-					<form class="login100-form validate-form" action="{{ root }}/login" method="post" id="frmlogin">
-						<input type="hidden" name="redirect" value="{{ redirect }}"/>
-						<span class="login100-form-title pb-5">Inicia Sesión en nuestro sistema</span>
-						<div class="panel panel-primary">
-							<div class="tab-menu-heading">
-								<div class="tabs-menu1">
-									<!-- Tabs -->
-								</div>
-							</div>
-							<div class="panel-body tabs-menu-body p-0 pt-5">
-								<div class="tab-content">
-									<div class="wrap-input100 validate-input input-group" data-bs-validate="Valid email is required: ex@abc.xyz">
-										
-										<input type="text" class="input100 border-start-0 form-control ms-0" placeholder="Usuario" required=""
-											   value="{{ username }}" name="username" id="username">
-											   <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-											<i class="zmdi zmdi-account text-muted" aria-hidden="true"></i>
-										</a>
-									</div>
-									<div class="wrap-input100 validate-input input-group" id="Password-toggle">
-										
-										<input type="password" class="input100 border-start-0 form-control ms-0" placeholder="Contraseña" required=""
-											   name="password">
-
-											   <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-											<i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
-										</a>
-									</div>
-									<div class="container-login100-form-btn">
-										<button type="submit" class="login100-form-btn btn-danger">Ingresar</button>
-									</div>
-									
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-			<!-- CONTAINER CLOSED -->
-		</div>
-	</div>
-	<!-- End PAGE -->
+<div class="container-login100">
+    <div class="wrap-login100">
+        <form class="login100-form validate-form" action="{{ root }}/login" method="post" id="frmlogin">
+            <input type="hidden" name="redirect" value="{{ redirect }}"/>
+            <span class="login100-form-title">Inicia Sesión </span>
+            <div class="wrap-input100 validate-input input-group">
+                <input type="text" class="input100" placeholder="Usuario" required="" value="{{ username }}" name="username" id="username">
+                <a href="javascript:void(0)" class="input-group-text">
+                    <i class="zmdi zmdi-account" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="wrap-input100 validate-input input-group" id="Password-toggle">
+                <input type="password" class="input100" placeholder="Contraseña" required="" name="password">
+                <a href="javascript:void(0)" class="input-group-text">
+                    <i class="zmdi zmdi-eye" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="container-login100-form-btn">
+                <button type="submit" class="login100-form-btn">Ingresar</button>
+            </div>
+        </form>
+    </div>
 </div>
-<!-- BACKGROUND-IMAGE CLOSED -->
 
 <script>
-	$('#frmlogin').validate();
-	$('#username').focus();
+    $('#frmlogin').validate();
+    $('#username').focus();
 </script>
 {{ bundle('template') }}
 </body>
