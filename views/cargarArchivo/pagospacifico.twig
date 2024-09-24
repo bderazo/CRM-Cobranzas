@@ -1,0 +1,109 @@
+{% extends 'layout.twig' %}
+{% block content %}
+	<div id="app">
+		<div class="col-md-12 col-xl-12">
+			<form method="POST" id="form-edit" class="">
+				<div class="">
+					<div class="">
+						<h4 class="card-title">Ingresar arhivo de Pagos Pácifico</h4>
+					</div>
+					<div class="">
+						<p style="text-align: justify;">
+							Permite la carga del archivo con los datos completos de los clientes de un cedente para realizar el seguimiento respectivo,
+							los datos cargados serán asignados al estado "ASIGNADO".
+						</p>
+						<fieldset id="campos">
+							
+							<div class=" row mb-2">
+								<label for="inputName" class="col-md-2 form-label">Archivo *</label>
+								<div class="col-md-4 col-informacion">
+									<input class="form-control" type="file" name="archivo" id="archivo" required>
+								</div>
+							</div>
+
+							<!--<div class=" row mb-4">
+								<label for="inputName" class="col-md-2 form-label">Observaciones</label>
+								<div class="col-md-8 col-informacion">
+									<textarea rows="3" name="observaciones" id="observaciones"
+									          class="form-control form-control-sm"
+									          placeholder="Observaciones"></textarea>
+								</div>
+							</div>-->
+
+							<div class="mb-0 mt-4 ">
+								<div class="col-md-12">
+									<button class="btn btn-primary" type="submit" id="btnGuardar" name="btnGuardar">
+										<i class="fa fa-upload" aria-hidden="true"></i> Cargar Archivo
+									</button>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</form>
+
+			<div class="">
+				<div class="">
+					<h4 class="card-title">Resultado</h4>
+				</div>
+					<div class="">
+					<div class="ibox-content" id="resultado">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ bundle('validate') }}
+	{{ bundle('summer') }}
+	{{ script('js/lodash.js') }}
+	{{ bundle('jasny') }}
+	<script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+            },
+            watch: {},
+            computed: {},
+            methods: {
+            },
+            mounted: function () {
+                var self = this;
+                var form = $('#form-edit');
+                var campos = $('#campos');
+                var resDiv = $('#resultado');
+
+                $('#form-edit').validate({
+                    onfocusout: false,
+                    onkeyup: false,
+                    onclick: false,
+                    submitHandler: function (f) {
+                        var url = '{{ root }}/cargarArchivo/cargarpagospacifico';
+                        var formData = new FormData(form[0]);
+                        campos.prop('disabled', 'disabled');
+                        resDiv.html('');
+                        $.ajax({
+                            url: url,
+                            data: formData,
+                            type: 'POST',
+                            // THIS MUST BE DONE FOR FILE UPLOADING
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                campos.removeAttr('disabled');
+                                // aca formatear los resultados
+                                //resDiv.html('<pre>' + data + '</pre>');
+                                resDiv.html(data);
+                                form[0].reset();
+                            },
+                            error: function () {
+                                campos.removeAttr('disabled');
+                            }
+                        });
+                        return false;
+                    }
+                });
+            }
+        });
+	</script>
+{% endblock %}

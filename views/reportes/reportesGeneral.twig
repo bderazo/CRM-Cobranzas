@@ -1,0 +1,64 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <div id="app">
+        <form id="fechaForm" @submit.prevent="consultar">
+            <label for="fecha_inicio">Fecha de Inicio Prueba:</label>
+            <input type="date" id="fecha_inicio" v-model="filtros.fecha_inicio" required>
+
+            <label for="fecha_fin">Fecha de Fin:</label>
+            <input type="date" id="fecha_fin" v-model="filtros.fecha_fin" required>
+
+            <button type="submit">Generar Reporte</button>
+
+            <!--{{ user.nombres }}-->
+        </form>      
+
+        <!-- Loader -->
+        <div id="loader" style="display: none;">Cargando...</div>
+
+        <!-- Aquí se cargará la lista de resultados -->
+        <div id="listaResultados"></div>
+    </div>
+
+    {{ bundle('validate') }}
+    {{ bundle('boot_select') }}
+    {{ script('js/jquery.serialize-object.min.js') }}
+    {{ bundle('select2') }}
+
+    <script>
+        function toggleLoader(show) {
+            var loader = document.getElementById('loader');
+            loader.style.display = show ? 'block' : 'none';
+        }
+
+        new Vue({
+            el: '#app',
+            data: {
+                filtros: {
+                    fecha_inicio: '',
+                    fecha_fin: ''
+                }
+            },
+            methods: {
+                consultar: function () {
+                    const self = this;
+                    toggleLoader(true); // Mostrar el loader
+
+                    // Realizar la solicitud POST al servidor
+                    $.post('{{ root }}/reportes/reportesGeneral1', { 
+                        fecha_inicio: self.filtros.fecha_inicio, 
+                        fecha_fin: self.filtros.fecha_fin 
+                    }, function (html) {
+                        toggleLoader(false); // Ocultar el loader
+                        $('#listaResultados').html(html); // Cargar la respuesta HTML en el div #listaResultados
+                    }).fail(function(xhr, status, error) {
+                        toggleLoader(false); // Ocultar el loader en caso de error
+                        console.error(error);
+                    });
+                }
+            }
+        });
+    </script>
+{% endblock %}

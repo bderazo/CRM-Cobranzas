@@ -90,6 +90,17 @@ class ProductoController extends BaseController
         $data['listas'] = $listas;
         return $this->render('indexDiners', $data);
     }
+    function indexAsignacion()
+    {
+        \WebSecurity::secure('producto.lista_diners');
+        \Breadcrumbs::active('Seguimiento Diners');
+        $data['filtros'] = FiltroBusqueda::porModuloUsuario('ProductoDiners', \WebSecurity::getUserData('id'));
+        $cat = new CatalogoProducto(true);
+        $listas = $cat->getCatalogo();
+        $listas['paleta_nivel_1'] = PaletaArbol::getNivel1(1);
+        $data['listas'] = $listas;
+        return $this->render('indexAsignacion', $data);
+    }
 
     function indexPichincha()
     {
@@ -197,7 +208,30 @@ class ProductoController extends BaseController
         $data['pag'] = $pag;
         return $this->render('lista', $data);
     }
-
+    function listaAsignacion($page)
+    {
+        \WebSecurity::secure('producto.lista');
+        $params = $this->request->getParsedBody();
+        $saveFiltros = FiltroBusqueda::saveModuloUsuario('Producto', \WebSecurity::getUserData('id'), $params);
+        $esAdmin = $this->permisos->hasRole('admin');
+        $config = $this->get('config');
+        $lista = Producto::buscar($params, 'cliente.nombres', $page, 20, $config, $esAdmin);
+        $pag = new Paginator($lista->total(), 20, $page, "javascript:cargar((:num));");
+        $retorno = [];
+        $seguimiento_ultimos_todos = ProductoSeguimiento::getUltimoSeguimientoPorProductoTodos();
+        foreach ($lista as $listas) {
+            if (isset($seguimiento_ultimos_todos[$listas['id']])) {
+                $listas['ultimo_seguimiento'] = $seguimiento_ultimos_todos[$listas['id']];
+            } else {
+                $listas['ultimo_seguimiento'] = [];
+            }
+            $retorno[] = $listas;
+        }
+        //		printDie($retorno);
+        $data['lista'] = $retorno;
+        $data['pag'] = $pag;
+        return $this->render('lista', $data);
+    }
     function editar($id)
     {
         \WebSecurity::secure('producto.lista');

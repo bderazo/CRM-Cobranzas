@@ -9,20 +9,7 @@
     {{ bundle('extraPlugins') }}
     {{ bundle('jqueryui') }}
 </head>
-  <style>
-        /* Sidebar colapsado por defecto */
-        .app-sidebar {
-            width: 0;
-            overflow: hidden;
-            transition: width 0.3s ease;
-        }
-
-        /* Sidebar expandido */
-        .app-sidebar.active {
-            width: 250px; /* Ajusta el tamaño según tu diseño */
-        }
-    </style>
-<body class="app sidebar-mini light-mode ">
+ <body class="app sidebar-mini ltr light-mode">
 <!-- GLOABAL LOADER -->
 <div id="global-loader">
     <img src="{{ root }}/template/images/loader.svg" class="loader-img" alt="Loader"/>
@@ -37,17 +24,13 @@
         <div class="app-header header sticky">
             <div class="container-fluid main-container">
                 <div class="d-flex">
-                    <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"href="javascript:void(0)"></a>
-
-                   <form action="#" method="get" class="ms-3">
-                                        <div class="input-group">
-                                            
-                                           <button class="btn btn-primary" type="submit">Mi asignación</button>
-
-                                            <i class=""></i>
-                                            </button>
-                                        </div>
-                                    </form>
+                    <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"
+                       href="javascript:void(0)"></a>
+                           <div class="input-group">
+                                <button class="btn btn-primary" type="submit">Mi asignación</button>
+                                <i class=""></i>
+                            </div>
+                        </form>
 
                     <!-- LOGO -->
                     <div class="main-header-center ms-3 d-none d-lg-block">
@@ -61,13 +44,13 @@
                             
                                 <div class="d-flex order-lg-2">
                                          <form id="search-form" class="ms-3">
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Buscar por cédula" name="cedula" id="cedula">
-        <button class="btn btn-primary" type="submit">
-            <i class="fa fa-search"></i>
-        </button>
-    </div>
-</form>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Buscar por cédula" name="cedula" id="cedula">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </form>
 <small style="color: black;">{{ user.nombres }} &nbsp;{{ user.apellidos }}</small>
                                   
 
@@ -116,14 +99,14 @@
             <div class="app-sidebar">
                 <div class="side-header" >
                     <a class="header-brand1" href="{{ root }}">
-                        <img src="{{ root }}/template_ok/images/brand/logo.png" class="header-brand-img desktop-logo"
-                             alt="logo">
-                        <img src="{{ root }}/template_ok/images/brand/logo-1.png" class="header-brand-img toggle-logo"
-                             alt="logo">
-                        <img src="{{ root }}/template_ok/images/brand/logo-2.png" class="header-brand-img light-logo"
-                             alt="logo">
-                        <img src="{{ root }}/template_ok/images/brand/logo-3.png" class="header-brand-img light-logo1"
-                             alt="logo">
+                        <img src="{{ root }}/1.png" class="header-brand-img desktop-logo"
+                              alt="logo" style="width: 150px; height: auto;">
+                        <img src="{{ root }}/1.png" class="header-brand-img toggle-logo"
+                             alt="logo" style="width: 150px; height: auto;">
+                        <img src="{{ root }}/1.png" class="header-brand-img light-logo"
+                             alt="logo" style="width: 150px; height: auto;">
+                        <img src="{{ root }}/1.png" class="header-brand-img light-logo1"
+                             alt="logo" style="width: 150px; height: auto;">
                     </a>
                     <!-- LOGO -->
                 </div>

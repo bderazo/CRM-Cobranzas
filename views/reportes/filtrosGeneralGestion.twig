@@ -1,0 +1,57 @@
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Filtros de Búsqueda</h4>
+    </div>
+    <div class="card-body">
+        <form id="filtros">
+            <div class="row">
+                <!-- Otros campos ya existentes -->
+
+                <div class="col-sm-3">
+                    <b>Fecha de Inicio</b> <br>
+                    <div class="input-group">
+                        <input type="text" class="form-control fecha" name="fecha_inicio" id="fecha_inicio">
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <b>Fecha de Fin</b> <br>
+                    <div class="input-group">
+                        <input type="text" class="form-control fecha" name="fecha_fin" id="fecha_fin">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
+        <button id="btnFiltro" class="btn btn-success"><i class=""></i> Filtrar</button>
+        <button id="btnTodos" class="btn btn-success"><i class=""></i> Limpiar filtros</button>
+        {% include "reportes/loader.twig" %}
+        <script>
+            var appFiltros = new Vue({
+                el: '#filtros',
+                data: {
+                    canal_usuario: {{ canal_usuario|raw }},
+                    plaza_usuario: {{ plaza_usuario|raw }},
+                    horas: {{ horas|raw }},
+                    minutos: {{ minutos|raw }},
+                    campana_asignacion: {{ campana_asignacion|raw }},
+                    campana_ece: {{ campana_ece|raw }},
+                    campana_usuario: {{ campana_usuario|raw }},
+                    marca: {{ marca|raw }},
+                    ciclo_asignacion: {{ ciclo_asignacion|raw }},
+                },
+                methods: {},
+            });
+
+            $(function () {
+                $("#fecha_inicio").val('');
+                $("#fecha_fin").val('');
+                $('.fecha').datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    showButtonPanel: true
+                });
+            });
+        </script>
+    </div>
+</div>

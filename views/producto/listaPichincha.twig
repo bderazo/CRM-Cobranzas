@@ -23,16 +23,7 @@
 		<tbody>
 		{% for l in lista %}
 			<tr {% if l.estado == 'asignado_diners' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}>
-				<td>
-					{% if l.estado != 'inactivo' %}
-					<a href="{{ root }}/producto/editarPichincha?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
-						<i class="fa fa-plus"></i>
-					</a>
-					{% endif %}
-					<a href="{{ root }}/producto/verSeguimientosDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
-						<i class="fa fa-eye"></i>
-					</a>
-				</td>
+				
 				<td>{{ l.cliente_nombres }}</td>
 				<td>{{ l.producto }} </td>
 				<td>{{ l.estado|upper }} </td>
@@ -66,6 +57,16 @@
 						{% endif %}
 						<strong>Usuario: </strong><br/>{{ l.ultimo_seguimiento.usuario }}
 					{% endif %}
+				</td>
+				<td>
+					{% if l.estado != 'inactivo' %}
+					<a href="{{ root }}/producto/editarPichincha?id={{ l.id }}" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
+						<i class="">Gestionar</i>
+					</a>
+					{% endif %}
+					<a href="{{ root }}/producto/verSeguimientosDiners?id={{ l.id }}" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
+						<i class="">Gestionar</i>
+					</a>
 				</td>
 			</tr>
 		{% endfor %}

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="CRM">
-    <meta name="author" content="David Erazo">
-    <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
+	<meta charset="UTF-8">
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="CRM">
+	<meta name="author" content="David Erazo">
+	<meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
 
-    <title>CRM</title>
-    <link rel="icon" type="image/png" href="{{ root }}/favicon.png">
+    
+	<title>CRM</title>
+	<link rel="icon" type="image/png" href="{{ root }}/favicon.ico">
 
-    {{ bundle('site') }}
-    {{ bundle('validate') }}
-
-    <style>
+	{{ bundle('site') }}
+	{{ bundle('validate') }}
+      <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f2f2f2;
+            background: url('{{ root }}/fondoprincipal.jpg') no-repeat center center fixed;
+            background-size: cover; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -86,37 +87,84 @@
             background: #0056b3;
         }
     </style>
+
 </head>
 
-<body>
+<body class="app sidebar-mini ltr login-img">
+<!-- BACKGROUND-IMAGE -->
+<div class="">
+	<!-- GLOABAL LOADER -->
+	
+	<!-- /GLOABAL LOADER -->
+	<!-- PAGE -->
+	<div class="page">
+		<div class="">
+			<!-- CONTAINER OPEN -->
+			<div class="col col-login mx-auto mt-7">
+				<div class="text-center">
+				</div>
+			</div>
 
-<div class="container-login100">
-    <div class="wrap-login100">
-        <form class="login100-form validate-form" action="{{ root }}/login" method="post" id="frmlogin">
-            <input type="hidden" name="redirect" value="{{ redirect }}"/>
-            <span class="login100-form-title">Inicia Sesión </span>
-            <div class="wrap-input100 validate-input input-group">
-                <input type="text" class="input100" placeholder="Usuario" required="" value="{{ username }}" name="username" id="username">
-                <a href="javascript:void(0)" class="input-group-text">
-                    <i class="zmdi zmdi-account" aria-hidden="true"></i>
-                </a>
-            </div>
-            <div class="wrap-input100 validate-input input-group" id="Password-toggle">
-                <input type="password" class="input100" placeholder="Contraseña" required="" name="password">
-                <a href="javascript:void(0)" class="input-group-text">
-                    <i class="zmdi zmdi-eye" aria-hidden="true"></i>
-                </a>
-            </div>
-            <div class="container-login100-form-btn">
-                <button type="submit" class="login100-form-btn">Ingresar</button>
-            </div>
-        </form>
-    </div>
+			<div class="container-login100">
+				<div class="wrap-login100 p-6">
+                <div style="text-align: center;">
+            <img src="{{ root }}/1.png" alt="Logo" style="max-width: 100px;">
+        </div>
+					<form class="login100-form validate-form" action="{{ root }}/login" method="post" id="frmlogin">
+						<input type="hidden" name="redirect" value="{{ redirect }}"/>
+						<span class="login100-form-title pb-5">Ingreso al sistema Global</span>
+						<div class="panel panel-primary">
+							<div class="tab-menu-heading">
+								<div class="tabs-menu1">
+									<!-- Tabs -->
+								</div>
+							</div>
+							<div class="panel-body tabs-menu-body p-0 pt-5">
+								<div class="tab-content">
+									<div class="wrap-input100 validate-input input-group" data-bs-validate="Valid email is required:">
+										<a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+											<i class="zmdi zmdi-account text-muted" aria-hidden="true"></i>
+										</a>
+										<input type="text" class="input100 border-start-0 form-control ms-0" placeholder="Usuario" required=""
+											   value="{{ username }}" name="username" id="username">
+									</div>
+									<div class="wrap-input100 validate-input input-group" id="Password-toggle">
+										<a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+											<i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
+										</a>
+										<input type="password" class="input100 border-start-0 form-control ms-0" placeholder="Contraseña" required=""
+											   name="password">
+									</div>
+									<div class="container-login100-form-btn">
+										<button type="submit" class="login100-form-btn btn-primary">Ingresar</button>
+									</div>
+									{% if error %}
+										<div class="error">
+											<div class="alert alert-danger" role="alert">
+												{# <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> #}
+												<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+												{{ error }}
+											</div>
+										</div>
+									{% endif %}
+
+									
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- CONTAINER CLOSED -->
+		</div>
+	</div>
+	<!-- End PAGE -->
 </div>
+<!-- BACKGROUND-IMAGE CLOSED -->
 
 <script>
-    $('#frmlogin').validate();
-    $('#username').focus();
+	$('#frmlogin').validate();
+	$('#username').focus();
 </script>
 {{ bundle('template') }}
 </body>

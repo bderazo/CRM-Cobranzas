@@ -55,6 +55,7 @@ return [
 		['text' => 'Aplicativo Diners','link' => '/cargarArchivo/aplicativoDiners','roles' => 'cargar_archivos.aplicativo_diners','description' => 'Datos del aplicativo Diners'],
 		['text' => 'Saldos Diners','link' => '/cargarArchivo/saldosDiners','roles' => 'cargar_archivos.saldos_diners','description' => 'Datos de los saldos diarios de Diners'],
 		['text' => 'Clientes','link' => '/cargarArchivo/clientesPichincha','roles' => 'cargar_archivos.clientesPichincha','description' => 'Carga de datos de clientes Pichincha'],
+		['text' => 'Pagos Pacifico','link' => '/cargarArchivo/pagosPacifico','roles' => 'cargar_archivos.pagosPacifico','description' => 'Carga Pagos Pacifico'],
 	],
 	
 	],
@@ -67,6 +68,7 @@ return [
 		['text' => 'Base De Carga','link' => '/reportes/baseCarga','roles' => 'reportes.base_carga','description' => 'Base de carga'],
 		['text' => 'General','link' => '/reportes/general','roles' => 'reportes.general','icon' => 'fa fa-phone','description' => 'Resultado de gestión por cliente'],
 		['text' => 'Gestion Pichicha','link' => '/reportes/baseReportePichincha','roles' => 'reportes.base_saldos_campo','icon' => 'fa fa-road','description' => 'Gestion pichincha'],
+		['text' => 'Gestion Pacifico','link' => '/reportes/baseReporteGeneral','roles' => 'reportes.base_saldos_campo','icon' => 'fa fa-road','description' => 'Gestion pichincha'],
 	],
 
 	],
