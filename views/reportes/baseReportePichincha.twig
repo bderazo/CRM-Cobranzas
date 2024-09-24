@@ -1,146 +1,38 @@
 {% extends 'layout.twig' %}
+
 {% block content %}
-	{% include "reportes/filtrosBaseSaldosCampo.twig" %}
-	<div id="app">
+    {{ bundle('validate') }}
+    {{ bundle('boot_select') }}
+    {{ script('js/jquery.serialize-object.min.js') }}
+    {{ bundle('select2') }}
 
-	</div>
+    <form id="fechaForm" method="post">
+        <label for="fecha_inicio">Fecha de Inicio:</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" required>
 
-	<form id="exportForm" method="POST" action="{{ root }}/reportes/baseReportePichincha">
-		<input type="hidden" id="json" name="json"/>
-	</form>
+        <label for="fecha_fin">Fecha de Fin:</label>
+        <input type="date" id="fecha_fin" name="fecha_fin" required>
 
-	{# <script src="http://d3js.org/d3.v3.min.js"></script> #}
-	{{ bundle('validate') }}
-	{{ bundle('boot_select') }}
-	{{ script('js/jquery.serialize-object.min.js') }}
-	{{ bundle('select2') }}
+        <button type="submit">Generar Reporte</button>
+    </form>
 
-	<script type="text/javascript">
-        var app = new Vue({
-            el: '#app',
-            data: {
-                datos: [],
-                total: [],
-                data_resumen_domicilio: [],
-                data_resumen_telefonia: [],
-            },
-            watch: {},
-            computed: {},
-            methods: {
-                consultar: function (fecha) {
-                    var form = $('#filtros');
-                    var self = this;
-                    var data = form.serializeArray();
-                    data.push({ name: 'fecha', value: fecha });
-                    toggleLoader();
-                    $.post('{{ root }}/reportes/baseReportePichincha', data, function (res) {
-                        toggleLoader();
-                        self.datos = res['data'];
-                        self.total = res['total'];
-                    })
-                },
-            },
-            mounted: function () {
-                var form = $('#filtros');
-                var self = this;
-                $('#btnExportar').click(function () {
-                    var data = {
-                        datos: self.datos,
-                        filtros: form.serializeArray()
-                    };
-                    $('#json').val(JSON.stringify(data));
-                    $('#exportForm').submit();
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fechaForm').on('submit', function(e) {
+                e.preventDefault(); // Evita que el formulario se envíe de manera tradicional
+
+                // Serializar los datos del formulario
+                var formData = $(this).serialize();
+
+                // Enviar datos al controlador usando AJAX
+                $.post('{{ root }}/reportes/reportesGeneral', formData, function(res) {
+                    // Manejar la respuesta del servidor
+                    console.log(res);
+                }).fail(function(xhr, status, error) {
+                    // Manejar errores
+                    console.error(error);
                 });
-
-                $(document).ready(function () {
-                    $('#btnFiltroTxt').click(function () {
-                        var data = {
-                            datos: self.datos,
-                            filtros: form.serializeArray(),
-                            formato: 'txt'
-                        };
-                        $('#json').val(JSON.stringify(data));
-                        $('#exportForm').submit();
-                    });
-                    $('#btnFiltroExcel').click(function () {
-                        var data = {
-                            datos: self.datos,
-                            filtros: form.serializeArray(),
-                            formato: 'excel'
-                        };
-                        $('#json').val(JSON.stringify(data));
-                        $('#exportForm').submit();
-                    });
-                    $('#btnTodos').click(function () {
-                        form[0].reset();
-                        $("#plaza_usuario").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#canal_usuario").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#hora_inicio").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#minuto_inicio").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#hora_fin").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#minuto_fin").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#campana").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#campana_ece").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#campana_usuario").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#resultado").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#accion").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#descripcion").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#motivo_no_pago").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#descripcion_no_pago").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        $("#gestor").select2({
-                            theme: "classic",
-                            initSelection: function(element, callback) {}
-                        });
-                        // self.consultar();
-                    });
-                    $('.select2').select2({
-                        theme: "classic"
-                    });
-                    // self.consultar();
-                });
-            }
+            });
         });
-	</script>
+    </script>
 {% endblock %}

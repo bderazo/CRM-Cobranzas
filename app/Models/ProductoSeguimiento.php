@@ -304,8 +304,27 @@ class ProductoSeguimiento extends Model
         }
         return $results;
     }
-
-
+    static function getHomeSeguimientosGeneral($usuario_id, $fechaInicio, $fechaFin)
+    {
+        $pdo = self::query()->getConnection()->getPdo();
+        $db = new \FluentPDO($pdo);
+    
+        // Usar la construcción de SQL directamente con parámetros
+        $q = $db->from('producto_seguimiento ps')
+            ->innerJoin('cliente c', 'ps.id = c.id')
+            ->where('ps.eliminado', 0)
+            ->where('ps.usuario_ingreso', $usuario_id)
+            ->where('ps.fecha_ingreso BETWEEN ? AND ?', $fechaInicio, $fechaFin)
+            ->select('ps.id AS producto_id, ps.canal, c.id AS cliente_id, c.nombres');
+    
+        $results = $q->fetchAll();
+    
+        if (empty($results)) {
+            return [];
+        }
+        return $results;
+    }
+    
     function formatInterval(\DateInterval $dt)
     {
         $format = function ($num, $unidad) {

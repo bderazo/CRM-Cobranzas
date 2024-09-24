@@ -65,14 +65,30 @@ class FiltroBusqueda extends Model
 		// Ejecutamos la consulta y retornamos los resultados
 		return $q->fetchAll();
 	}
-
-	static function obtenerDatosPorIdDeMiTabla($id) {
+	static function obtenerDatosDeReporte($fechaInicio, $fechaFin) {
+		// Validar las fechas con el formato 'd/m/Y'
+		//echo "Fecha de Inicio: " . $fechaInicio . "<br>";
+		//echo "Fecha de Fin: " . $fechaFin . "<br>";
+		
+	
+		// Obtener el PDO a través de FluentPDO
+		$pdo = self::query()->getConnection()->getPdo();
+		$db = new \FluentPDO($pdo);
+	
+		// Preparar la consulta SQL con las fechas
+		$query = $db->from('producto_seguimiento ps')
+					->where('ps.fecha_ingreso BETWEEN ? AND ?', $fechaInicio, $fechaFin);
+	
+		return $query->fetchAll();
+		
+	
+	}	static function obtenerDatosPorIdDeMiTabla($id) {
 		$pdo = self::query()->getConnection()->getPdo();
 		$db = new \FluentPDO($pdo);
 	
 		// Seleccionamos todos los campos de la tabla mi_tabla donde Arbol_5 sea igual a $id
-		$q = $db->from('mi_tabla')
-			   ->where('Arbol_5 = ?', $id);
+		$q = $db->from('producto_seguimiento')
+         ->whereBetween('fecha_ingreso', ['2024-01-01', '2024-09-31']);
 	
 		// Ejecutamos la consulta y retornamos los resultados
 		return $q->fetchAll();

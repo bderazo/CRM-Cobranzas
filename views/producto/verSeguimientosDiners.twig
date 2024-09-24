@@ -14,39 +14,38 @@
                         <label for="inputName" class="col-md-2 form-label">Nombres</label>
                         <div class="col-md-4 col-informacion">
                             <h3 style="font-weight: bold;">
-                                <span class="form-control-plaintext">{{ cliente.nombres }}</span>
+                                <span class="form-control-plaintext" v-html="cliente.nombres"></span>
                             </h3>
                         </div>
 
                         <label for="inputName" class="col-md-2 form-label">Cédula</label>
                         <div class="col-md-4 col-informacion">
                             <h3 style="font-weight: bold;">
-                                <span class="form-control-plaintext">{{ cliente.cedula }}</span>
+                                <span class="form-control-plaintext" v-html="cliente.cedula"></span>
                             </h3>
                         </div>
                     </div>
 
-                    <!-- Imprime todo el objeto cliente en un formato JSON -->
-                    <div class="row mb-4">
-                        <label for="inputName" class="col-md-12 form-label">Toda la Información del Cliente</label>
-                        <div class="col-md-12">
-                            <pre>{{ cliente|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-                        </div>
-                    </div>
-
                     <div>
+                        <!-- Enlace para editar producto -->
                         <a :href="`${root}/producto/editar?id=${cliente.id}`" target="_self" class="btn btn-icon btn-info" title="Ingresar Seguimiento">
                             <i class="">Gestionar</i>
                         </a>
-                        <a :href="`${root}/producto/verSeguimientos?id=${cliente.id}`" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
-                            <i class="">Historico</i>
+                        <!-- Enlace para ver seguimientos -->
+                        <-!--a :href="`${root}/producto/verSeguimientos?id=${cliente.id}`" target="_self" class="btn btn-icon btn-success" title="Ver Seguimiento">
+                            <i class="">Historico</i-->
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-</div>
+    <!--s="row mb-4">
+                        <label for="inputName" class="col-md-12 form-label">Toda la Información del Cliente</label>
+                        <div class="col-md-12">
+                            <pre>{{ cliente|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                        </div>
+                    </div-->
 
     <!-- Aquí van los scripts y estilos -->
     {{ bundle('validate') }}
@@ -155,7 +154,6 @@
             },
             mounted: function () {
                 var self = this;
-				console.log('Información del cliente:', this.cliente); 
                 $(document).ready(function () {
                     self.initMap();
                 });

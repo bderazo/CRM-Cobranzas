@@ -5,6 +5,7 @@ namespace Controllers;
 use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
 use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
+use CargaArchivos\CargaArchivoPagos;
 use CargaArchivos\CargadorClientesPichinchaExcel;
 use CargaArchivos\CargadorGestionesNoContestadasExcel;
 use CargaArchivos\CargadorGestionesExcel;
@@ -12,6 +13,7 @@ use CargaArchivos\CargadorClientesExcel;
 use CargaArchivos\CargadorFocalizacionExcel;
 use CargaArchivos\CargadorProductosExcel;
 use CargaArchivos\CargadorSaldosDinersExcel;
+use CargaArchivos\CargadorPagosPacifico;
 use Catalogos\CatalogoCliente;
 use General\GeneralHelper;
 use General\Validacion\Utilidades;
@@ -482,6 +484,25 @@ class CargarArchivoController extends BaseController
 		$data['instituciones'] = $instituciones;
 		return $this->render('clientesPichincha', $data);
 	}
+	function pagosPacifico()
+	{
+		\WebSecurity::secure('cargar_archivos.clientesPichincha');
+		\Breadcrumbs::active('Pagos Pacífico');
+
+		$catalogos = [
+			'ciudades' => Catalogo::ciudades(),
+		];
+
+		$carga_archivo = new ViewCargaArchivo();
+		$carga_archivo->total_registros = 0;
+		$carga_archivo->total_errores = 0;
+		$instituciones = Institucion::all();
+
+		$data['carga_archivo'] = json_encode($carga_archivo);
+		$data['catalogos'] = json_encode($catalogos, JSON_PRETTY_PRINT);
+		$data['instituciones'] = $instituciones;
+		return $this->render('pagospacifico', $data);
+	}
 
 	function cargarClientesPichincha()
 	{
@@ -503,6 +524,31 @@ class CargarArchivoController extends BaseController
 			'institucion_id' => @$post['institucion_id'],
 		];
 		$cargador = new CargadorClientesPichinchaExcel($this->get('pdo'));
+		$rep = $cargador->cargar($archivo->file, $fileInfo);
+		$data['reporte'] = $rep;
+		if ($rep['errorSistema'])
+			$data['errorGeneral'] = $rep['errorSistema'];
+		return $this->render('reporte', $data);
+	}
+	function cargarpagospacifico()
+	{
+		$post = $this->request->getParsedBody();
+		//print('HOLA');
+		// try catch, etc.
+		$files = $this->request->getUploadedFiles();
+		if (empty($files['archivo'])) {
+			return $this->render('reporte', ['errorGeneral' => 'No se encontró ningún archivo que procesar!']);
+		}
+		/** @var UploadedFile $archivo */
+		$archivo = $files['archivo'];
+		// mas checks que sea xlsx, etc, tamaño, etc.
+		$fileInfo = [
+			'size' => $archivo->getSize(),
+			'name' => $archivo->getClientFilename(),
+			'mime' => $archivo->getClientMediaType()
+			
+		];
+		$cargador = new CargadorPagosPacifico($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);
 		$data['reporte'] = $rep;
 		if ($rep['errorSistema'])

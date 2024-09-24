@@ -1,0 +1,43 @@
+
+<div class="table-responsive">
+	<table>
+		<tr>
+			<td style="background-color: #87CEFA; width: 20px; color: white; border: 1px solid white;"></td>
+			<td style="padding-right: 20px;">No Asignado</td>
+			<td style="background-color: #FFFFCC; width: 20px; color: white; border: 1px solid white;"></td>
+			<td style="padding-right: 20px;">Asignado Usuario</td>
+			<td style="background-color: #F8F8F8; width: 20px; color: white; border: 1px solid white;"></td>
+			<td style="padding-right: 20px;">Gestionado</td>
+		</tr>
+	</table>
+	
+	<table class="table border table-striped table-bordered table-sm mb-0">
+		<thead>
+		<tr>
+			<th style="width: 90px;"></th>
+			<th>Institución</th>
+			<th>Cliente</th>
+			<th>Código operación</th>
+			
+		</tr>
+		</thead>
+		
+		<tbody>
+		{% for l in repo %}
+			<!--tr {% if l.estado == 'asignado_diners' %} style="background-color: #CCFFCC;" {% elseif l.estado == 'asignado_usuario' %} style="background-color: #FFFFCC;" {% elseif l.estado == 'gestionado' %} style="background-color: #F8F8F8;" {% elseif l.estado == 'no_asignado' %} style="background-color: #87CEFA;" {% endif %}-->
+			<tr>
+				<td>
+					
+				</td>
+				<td>{{ l.institucion_id }}</td>
+				<td>{{ l.cliente_id }}</td>
+				
+				<td style="text-align: center;">3</td>
+				
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<br/>

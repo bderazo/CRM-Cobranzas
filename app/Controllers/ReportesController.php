@@ -22,9 +22,11 @@ use Reportes\Desperdicio\BodegaDesperdicio;
 use Reportes\Diners\BaseCarga;
 use Reportes\Diners\BaseGeneral;
 use Reportes\Diners\BaseReportePichincha;
+use Reportes\Diners\BaseReporteGeneral;
 use Reportes\Diners\BaseSaldosCampo;
 use Reportes\Diners\CampoTelefonia;
 use Reportes\Diners\Contactabilidad;
+use Models\FiltroBusqueda;
 use Reportes\Diners\General;
 use Reportes\Diners\GeneralCampo;
 use Reportes\Diners\Geolocalizacion;
@@ -2929,6 +2931,17 @@ class ReportesController extends BaseController
         $data['titulo'] = $titulo;
         return $this->render('negociacionesAutomatica', $data);
     }
+    function baseReporteGeneral()
+    {
+        \WebSecurity::secure('reportes.negociaciones_automatica');
+        $config = $this->get('config');
+        
+        $titulo = 'Reporte de Gestiones General';
+        \Breadcrumbs::active($titulo);
+        $data = $this->paramsBasico();
+        $data['titulo'] = $titulo;
+        return $this->render('reportesGeneral', $data);
+    }
 
     function exportNegociacionesAutomatica($json)
     {
@@ -3727,8 +3740,45 @@ class ReportesController extends BaseController
         $data['lista'] = [];
         return $this->render('baseReportePichincha', $data);
     }
+    function reportesGeneral()
+    {
+        \WebSecurity::secure('reportes.base_saldos_campo');
 
+        // Obtener datos del formulario directamente desde $_POST
+      
 
+        // Crear una respuesta JSON
+        $result = [
+            'success' => true,
+            'message' => 'Fechas recibidas correctamente',
+           
+        ];
+        return $this->render('reportesGeneral', $result);
+        // Devolver la respuesta JSON directamente
+       
+      
+        
+    }
+    function reportesGeneral1()
+    {
+        \WebSecurity::secure('producto.lista_diners');
+        \Breadcrumbs::active('SIGUIMIENTOS');
+    
+        // Capturar las fechas directamente desde el POST
+        $fechaInicio = $_POST['fecha_inicio'] ?? '';
+        $fechaFin = $_POST['fecha_fin'] ?? '';
+    
+        // Imprimir las fechas para verificar si llegaron correctamente
+        //echo "Fecha de Inicio: " . $fechaInicio . "<br>";
+        //echo "Fecha de Fin: " . $fechaFin . "<br>";
+    
+        // Instanciar FiltroBusqueda y ejecutar la consulta con las fechas
+        $datos = FiltroBusqueda::obtenerDatosDeReporte($fechaInicio, $fechaFin);
+        $data['repo'] = $datos;
+    
+        // Devolver la vista con los datos
+        return $this->render('listageneral', $data);
+    }
     protected function exportSimple($data, $nombre, $archivo)
     {
         $export = new ExcelDatasetExport();

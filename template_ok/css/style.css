@@ -60001,7 +60001,7 @@ ul {
     display: flex;
     z-index: 9999 !important;
     border-bottom: 1px solid #e9edf4;
-    background: #c9cada;
+    background: #8e92a9;
     transition: padding-left 0.3s ease;
 }
 
@@ -60095,9 +60095,9 @@ ul {
     top: 0;
     bottom: 0;
     left: 0;
-    color: #282f53;
+    color: #;
     z-index: 99;
-    /* background: #c9cada; */
+    background: #8e92a9;
     -webkit-box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     box-shadow: 0 8px 24px rgba(168, 180, 208, 0.1);
     -webkit-transition: left 450ms ease, width 450ms ease;
@@ -60107,7 +60107,7 @@ ul {
 }
 
 .app-sidebar::-webkit-scrollbar {
-    width: 0;
+    width: 6px;
 }
 
 .app-sidebar::-webkit-scrollbar-thumb {
@@ -60434,7 +60434,7 @@ ul {
     }
 
     .sidebar-mini.sidenav-toggled .app-sidebar:hover {
-        overflow: hidden;
+        overflow: visible;
     }
 
     .sidebar-mini.sidenav-toggled .slide-menu {
