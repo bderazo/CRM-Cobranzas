@@ -48,11 +48,21 @@ class BaseReportePichincha
         $telefonos = ProductoSeguimiento::getTelefonos();
 
         $seguimientosFiltrados = [];
+
+        // Esta parte es para filtrar por cedente
+
+        // foreach ($seguimientos as $seguimiento) {
+        //     if (strpos($seguimiento['observaciones'], 'PICHINCHA') !== false) {
+        //         $seguimientosFiltrados[] = $seguimiento;
+        //     }
+        // }
+        
         foreach ($seguimientos as $seguimiento) {
-            if (strpos($seguimiento['observaciones'], 'PICHINCHA') !== false) {
+            if (!empty($seguimiento['observaciones'])) {
                 $seguimientosFiltrados[] = $seguimiento;
             }
         }
+        
         $lista = $seguimientosFiltrados;
 
         $data = [];
