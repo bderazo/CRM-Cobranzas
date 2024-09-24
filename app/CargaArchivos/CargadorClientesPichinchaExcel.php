@@ -46,6 +46,7 @@ class CargadorClientesPichinchaExcel
 			'idcarga' => null,
 			'tiempo_ejecucion' => 0,
 		];
+		// echo "MensajeÑ \n + $nombreArchivo + $extraInfo";
 
 		$hoy = new \DateTime();
 		$hoytxt = $hoy->format('Y-m-d H:i:s');
@@ -84,10 +85,14 @@ class CargadorClientesPichinchaExcel
 					continue;
 
 				$cliente_id = 0;
+				$cliente_cedula = '';
 				foreach ($clientes_todos as $cl) {
-					$existe_cedula = array_search(trim($values[0]), $cl);
+					$existe_cedula = array_search(trim($values[2]), $cl);
+
 					if ($existe_cedula) {
 						$cliente_id = $cl['id'];
+						echo "Mensaje en la consola del servidor\n + $cliente_id";
+
 						break;
 					}
 				}
@@ -109,6 +114,7 @@ class CargadorClientesPichinchaExcel
 					$cliente->eliminado = 0;
 					$cliente->save();
 					$cliente_id = $cliente->id;
+					// print_r($cliente);
 				} else {
 					$cliente = Cliente::porId($cliente_id);
 					if ($values[1] != '') {
@@ -138,13 +144,14 @@ class CargadorClientesPichinchaExcel
 				if ($values[8] != '') {
 					$telefono_arr = explode(";", $values[8]);
 					foreach ($telefono_arr as $telefono_txt) {
-
 						$telefono_id = 0;
-						foreach ($telefonos_todos as $tel) {
-							$existe = array_search(trim($telefono_txt), $tel);
-							if ($existe) {
-								$telefono_id = $tel['id'];
-								break;
+						if(isset($telefonos_todos[$cliente_id])) {
+							foreach ($telefonos_todos[$cliente_id] as $tel) {
+								$existe = array_search(trim($telefono_txt), $tel);
+								if ($existe) {
+									$telefono_id = $tel['id'];
+									break;
+								}
 							}
 						}
 						if ($telefono_id == 0) {

@@ -8,7 +8,7 @@ use Illuminate\Database\Query\Builder;
 /**
  * @package Models
  *
- * @property integer $id
+ * @property integer id
  * @property string apellidos
  * @property string nombres
  * @property string cedula
@@ -30,7 +30,6 @@ use Illuminate\Database\Query\Builder;
  */
 class Cliente extends Model
 {
-
 	protected $table = 'cliente';
 	const CREATED_AT = 'fecha_ingreso';
 	const UPDATED_AT = 'fecha_modificacion';
@@ -38,6 +37,7 @@ class Cliente extends Model
 	public $timestamps = false;
 
 	/**
+	 * @param $id
 	 * @param $post
 	 * @param string $order
 	 * @param null $pagina
