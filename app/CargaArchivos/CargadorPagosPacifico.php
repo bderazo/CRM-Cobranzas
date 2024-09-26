@@ -39,6 +39,7 @@ class CargadorPagosPacifico
 		$pdo = $this->pdo;
 		$pdo->beginTransaction();
 		try {
+			print_r($it);
 			foreach ($it as $rowIndex => $values) {
 				if ($rowIndex === 0 || empty($values[0])) {
 					continue; // Saltar la fila de encabezado y filas vacías
