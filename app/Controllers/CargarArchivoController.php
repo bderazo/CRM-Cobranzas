@@ -6,7 +6,8 @@ use CargaArchivos\CargadorAplicativoDinersExcel;
 use CargaArchivos\CargadorAsignacionesDinersExcel;
 use CargaArchivos\CargadorAsignacionesGestorDinersExcel;
 use CargaArchivos\CargaArchivoPagos;
-use CargaArchivos\CargadorClientesPichinchaExcel;
+use CargaArchivos\CargadorClientesPacificoExcel;
+// use CargaArchivos\CargadorClientesPichinchaExcel;
 use CargaArchivos\CargadorGestionesNoContestadasExcel;
 use CargaArchivos\CargadorGestionesExcel;
 use CargaArchivos\CargadorClientesExcel;
@@ -544,7 +545,7 @@ class CargarArchivoController extends BaseController
 			'observaciones' => @$post['observaciones'],
 			'institucion_id' => @$post['institucion_id'],
 		];
-		$cargador = new CargadorClientesPichinchaExcel($this->get('pdo'));
+		$cargador = new CargadorClientesPacificoExcel($this->get('pdo'));
 		$rep = $cargador->cargar($archivo->file, $fileInfo);
 		$data['reporte'] = $rep;
 		if ($rep['errorSistema'])

@@ -74,7 +74,6 @@ class CargadorClientesPacificoExcel
 			$db = new \FluentPDO($pdo);
 			$productos_todos = Producto::porInstitucioVerificar(@$extraInfo['institucion_id']);
 			$clientes_todos = Cliente::getTodos();
-			$producto_camos_todos = ProductoCampos::getTodos();
 			$telefonos_todos = Telefono::getTodos();
 			$direccion_todos = Direccion::getTodos();
 			$email_todos = Email::getTodos();
@@ -89,7 +88,7 @@ class CargadorClientesPacificoExcel
 				$cliente_id = 0;
 				$cliente_cedula = '';
 				foreach ($clientes_todos as $cl) {
-					$existe_cedula = array_search(trim($values[2]), $cl);
+					$existe_cedula = array_search(trim($values[7]), $cl);
 
 					if ($existe_cedula) {
 						$cliente_id = $cl['id'];
@@ -100,7 +99,7 @@ class CargadorClientesPacificoExcel
 				}
 				if ($cliente_id == 0) {
 					$cliente = new Cliente();
-					$cliente->apellidos = trim($values[3]); //Cifcod
+					$cliente->apellidos = trim($values[2]); //numero de tarjeta
 					$cliente->nombres = trim($values[6]); //nombre
 					$cliente->cedula = trim($values[7]); //cedula
 					// $cliente->sexo = 'M';
@@ -121,39 +120,50 @@ class CargadorClientesPacificoExcel
 
 					$cliente->save();
 					$cliente_id = $cliente->id;
+					$apellidos = $cliente->apellidos;
 					// print_r($cliente);
 				} else {
 					$cliente = Cliente::porId($cliente_id);
-					if ($values[1] != '') {
-						$cliente->nombres = trim($values[1]);
+					if ($values[2] != "") {
+						$cliente->apellidos = trim($values[2]); ////numero de tarjeta
 					}
-					if ($values[2] != '') {
-						$cliente->cedula = trim($values[2]);
+					if ($values[4] != "") {
+						$cliente->profesion_id = trim($values[4]); //tipo de cartera
 					}
-					if ($values[3] != '') {
-						$cliente->profesion_id = trim($values[3]);
+					if ($values[5] != "") {
+						$cliente->experiencia_crediticia = trim($values[5]); //motivo
 					}
-					if ($values[4] != '') {
-						$cliente->tipo_referencia_id = trim($values[4]);
+					if ($values[6] != "") {
+						$cliente->nombres = trim($values[6]); //nombre
 					}
-					if ($values[5] != '') {
-						$cliente->zona = trim($values[5]);
+					if ($values[13] != "") {
+						$cliente->lugar_trabajo = trim($values[13]); //ciudad domicilio
+						$cliente->ciudad = trim($values[13]); //ciudad domicilio
 					}
-					if ($values[7] != '') {
-						$cliente->ciudad = trim($values[7]);
+					if ($values[16] != "") {
+						$cliente->zona = trim($values[16]); //seguro desgravamen
+					}
+					if ($values[17] != "") {
+						$cliente->usuario_asignado = trim($values[17]); //codigo gestor
 					}
 					$cliente->fecha_modificacion = date("Y-m-d H:i:s");
 					$cliente->usuario_modificacion = \WebSecurity::getUserData('id');
 					$cliente->save();
 				}
 
-				$producto_id = 0;
-				if (isset($productos_todos[$cliente_id])) {
-					$producto_id = $productos_todos[$cliente_id]['id'];
-				}
-				// campana / cliente_id
-				if ($producto_id == 0) {
-					if ($values[0] == 'CARTERA VENDIDA PY TDC') {
+				$producto_arr = explode(";", $values[2]);
+				foreach ($producto_arr as $producto_txt) {
+					$producto_id = 0;
+					if (isset($productos_todos[$cliente_id])) {
+						foreach ($productos_todos[$cliente_id] as $prod) {
+							$existe = array_search(trim($producto_txt), $prod);
+							if ($existe) {
+								$producto_id = $prod['id'];
+								break;
+							}
+						}
+					}
+					if ($producto_id == 0) {
 						$producto = new Producto();
 						$producto->institucion_id = @$extraInfo['institucion_id'];
 						$producto->cliente_id = $cliente_id;
@@ -164,77 +174,45 @@ class CargadorClientesPacificoExcel
 						$producto->estado = 'asignado';
 
 						$producto->fecha_gestionar = trim($values[0]); // fecha asignacion
-						$producto->fecha_ingreso = date("Y-m-d H:i:s"); 
+						$producto->fecha_ingreso = date("Y-m-d H:i:s");
 
 						$producto->fecha_modificacion = date("Y-m-d H:i:s");
 						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
 						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-						
+
 						$producto->usuario_asignado = trim($values[17]); //codigo gestor
 
 						$producto->eliminado = 0;
 
 						$producto->save();
 						$producto_id = $producto->id;
+
+						$producto_campos = new ProductoCampos();
+						$producto_campos->producto_id = $producto_id;
+
+						$producto_campos->campo = trim($values[8]);
+						$producto_campos->valor = trim($values[9]);
+
+						$producto_campos->fecha_ingreso = date("Y-m-d H:i:s");
+						$producto_campos->fecha_modificacion = date("Y-m-d H:i:s");
+						$producto_campos->usuario_ingreso = \WebSecurity::getUserData('id');
+						$producto_campos->usuario_modificacion = \WebSecurity::getUserData('id');
+						$producto_campos->eliminado = 0;
+						$producto_campos->save();
+
+
 						$productos_procesados[] = $producto_id;
-					} elseif ($values[0] == 'CARTERA VENDIDA PY CONSUMO') {
-						$producto = new Producto();
-						$producto->institucion_id = @$extraInfo['institucion_id'];
-						$producto->cliente_id = $cliente_id;
-						$producto->producto = 'CARTERA VENDIDA PY CONSUMO';
-						$producto->fecha_ingreso = date("Y-m-d H:i:s");
-						$producto->usuario_ingreso = \WebSecurity::getUserData('id');
-						$producto->eliminado = 0;
-						$producto->estado = 'asignado';
-						$producto->fecha_modificacion = date("Y-m-d H:i:s");
-						$producto->usuario_modificacion = \WebSecurity::getUserData('id');
-						$producto->usuario_asignado = 0;
-						$producto->save();
-						$producto_id = $producto->id;
+					} else {
+						$set = [
+							'estado' => 'asignado',
+							'fecha_modificacion' => date("Y-m-d H:i:s"),
+							'usuario_modificacion' => \WebSecurity::getUserData('id'),
+							'usuario_asignado' => trim($values[17]), //codigo gestor,
+							'fecha_gestionar' => trim($values[0]), // fecha asignacion,
+						];
+						$query = $db->update('producto')->set($set)->where('id',$producto_id)->execute();
 						$productos_procesados[] = $producto_id;
 					}
-				} else {
-					$set = [
-						'estado' => 'asignado_' . $institucion->nombre,
-						'fecha_modificacion' => date("Y-m-d H:i:s"),
-						'usuario_modificacion' => \WebSecurity::getUserData('id'),
-						'usuario_asignado' => 0,
-						'fecha_gestionar' => null,
-					];
-					$query = $db->update('producto')->set($set)->where('id', $producto_id)->execute();
-					$productos_procesados[] = $producto_id;
-				}
-
-				//PROCESO DE PRODUCTO_CAMPOS
-				if ($values[8] != '') {
-					$producto_campos_arr = explode(";", $values[8]);
-					foreach ($producto_campos_arr as $producto_campos_txt) {
-						$producto_campos_id = 0;
-						if (isset($producto_camos_todos[$producto_id])) {
-							foreach ($producto_camos_todos[$producto_id] as $pc) {
-								$existe = array_search(trim($producto_campos_txt), $pc);
-								if ($existe) {
-									$producto_campos_id = $pc['id'];
-									break;
-								}
-							}
-						}
-						if ($producto_campos_id == 0) {
-							$producto_campos = new ProductoCampos();
-							$producto_campos->producto_id = $producto_id;
-
-							$producto_campos->campo = trim($values[8]);
-							$producto_campos->valor = trim($values[9]);
-
-							$producto_campos->fecha_ingreso = date("Y-m-d H:i:s");
-							$producto_campos->fecha_modificacion = date("Y-m-d H:i:s");
-							$producto_campos->usuario_ingreso = \WebSecurity::getUserData('id');
-							$producto_campos->usuario_modificacion = \WebSecurity::getUserData('id');
-							$producto_campos->eliminado = 0;
-							$producto_campos->save();
-						}
-					}
-					
 				}
 
 				//PROCESO DE EMAILS
@@ -275,7 +253,7 @@ class CargadorClientesPacificoExcel
 					$telefono_arr = explode(";", $values[10]);
 					foreach ($telefono_arr as $telefono_txt) {
 						$telefono_id = 0;
-						if(isset($telefonos_todos[$cliente_id])) {
+						if (isset($telefonos_todos[$cliente_id])) {
 							foreach ($telefonos_todos[$cliente_id] as $tel) {
 								$existe = array_search(trim($telefono_txt), $tel);
 								if ($existe) {
@@ -307,7 +285,7 @@ class CargadorClientesPacificoExcel
 					$telefono_arr = explode(";", $values[11]);
 					foreach ($telefono_arr as $telefono_txt) {
 						$telefono_id = 0;
-						if(isset($telefonos_todos[$cliente_id])) {
+						if (isset($telefonos_todos[$cliente_id])) {
 							foreach ($telefonos_todos[$cliente_id] as $tel) {
 								$existe = array_search(trim($telefono_txt), $tel);
 								if ($existe) {
@@ -339,7 +317,7 @@ class CargadorClientesPacificoExcel
 					$telefono_arr = explode(";", $values[12]);
 					foreach ($telefono_arr as $telefono_txt) {
 						$telefono_id = 0;
-						if(isset($telefonos_todos[$cliente_id])) {
+						if (isset($telefonos_todos[$cliente_id])) {
 							foreach ($telefonos_todos[$cliente_id] as $tel) {
 								$existe = array_search(trim($telefono_txt), $tel);
 								if ($existe) {
